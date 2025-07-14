@@ -3,7 +3,7 @@ layout: default
 title: Welcome
 ---
 
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/main.css">
 
 # Hello!
 
