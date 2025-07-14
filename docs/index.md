@@ -7,5 +7,5 @@ title: Welcome
 
 # Hello!
 
-Testing my site.
+Testing my site and styles.
 
