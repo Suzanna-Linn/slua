@@ -1,3 +1,8 @@
-title: My Jekyll Site
-description: A site powered by Jekyll and GitHub Pages
+title: Testing SLua site
+description: A site for SLua documentation
 theme: minima
+minima:
+  include_custom_css: true
+sass:
+  style: compressed
+  
