@@ -7,5 +7,5 @@ title: Welcome
 
 # Hello!
 
-Testing my site hosted on GitHub Pages.
+Testing my site.
 
