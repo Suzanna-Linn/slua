@@ -7,5 +7,5 @@ title: Welcome
 
 # Hello!
 
-This is my Jekyll site hosted on GitHub Pages.
+Testing my site hosted on GitHub Pages.
 
