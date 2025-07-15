@@ -1,9 +1,4 @@
----
-title: Home Test
-nav_order: 1
----
-
-<link rel="stylesheet" href="/assets/main.css">
+<link rel="stylesheet" href="/assets/style.css">
 
 # Hello!
 
