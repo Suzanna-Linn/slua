@@ -1,1 +1,1 @@
-SLua doucmentation
+SLua documentation
