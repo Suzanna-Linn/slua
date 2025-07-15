@@ -1,6 +1,6 @@
 ---
 title: Home Test
-layout: default
+nav_order: 1
 ---
 
 <link rel="stylesheet" href="/assets/main.css">
