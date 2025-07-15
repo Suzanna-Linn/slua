@@ -1,8 +1,3 @@
----
-title: History
-nav_order: 2
----
-
 ## History
 
 Currently, we only have LSL, but soon we’ll have two options: LSL and Lua.
