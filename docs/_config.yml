@@ -3,11 +3,6 @@ description: A site for SLua documentation
 emote_theme: just-the-docs/just-the-docs
 just_the_docs:
   custom_css: assets/css/main.scss
-just_the_docs:
-  nav:
-    - title: Home
-      url: /
-    - title: History
-      url: /history/
+  nav_enabled: true
 sass:
   style: compressed
