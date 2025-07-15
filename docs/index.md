@@ -1,6 +1,5 @@
 ---
 title: Home Test
-nav_order: 1
 layout: default
 ---
 
