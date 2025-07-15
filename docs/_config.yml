@@ -1,8 +1,7 @@
 title: Testing SLua site
 description: A site for SLua documentation
 emote_theme: just-the-docs/just-the-docs
-just-the-docs:
-  include_custom_css: true
+just_the_docs:
+  custom_css: assets/css/main.scss
 sass:
   style: compressed
-  
