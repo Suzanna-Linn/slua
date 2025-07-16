@@ -1,3 +1,7 @@
+---
+layout: default
+title: History
+---
 ## History
 
 Currently, we only have LSL, but soon we’ll have two options: LSL and Lua.
