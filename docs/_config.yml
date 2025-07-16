@@ -1,2 +1,4 @@
 title: SLua
 description: A site for SLua documentation
+markdown: kramdown
+highlighter: none
