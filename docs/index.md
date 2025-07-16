@@ -11,6 +11,7 @@ This is a test of Prism.js with Lua, line numbers, and a copy button.
 function greet(name)
   print("Hello, " .. name)
 end
-```{:.language-lua .line-numbers}
+```
+{:.language-lua .line-numbers}
 
 End of testing
