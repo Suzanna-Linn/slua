@@ -13,4 +13,4 @@ function greet(name)
 end
 ```
 
-End of test
+End of testing
