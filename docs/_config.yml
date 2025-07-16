@@ -2,3 +2,7 @@ title: SLua
 description: A site for SLua documentation
 markdown: kramdown
 highlighter: none
+
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
