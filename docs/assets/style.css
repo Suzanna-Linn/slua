@@ -39,9 +39,19 @@ body {
 
 .content {
   margin-left: 220px;
-  padding: 2rem;
+  padding: 10rem;
   max-width: 900px;
   flex: 1;
+}
+
+h3, h4, h5, h6 {
+  margin-top: 2.5em; /* space before each heading */
+  margin-bottom: 0.5em; /* optional: a little space after */
+}
+
+p {
+  margin-bottom: 1.2em; /* adds vertical space after each paragraph */
+  text-align: justify;
 }
 
 pre.line-numbers {
