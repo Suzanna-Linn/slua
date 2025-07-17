@@ -50,8 +50,17 @@ h3, h4, h5, h6 {
 }
 
 p {
-  margin-bottom: 1.2em; /* adds vertical space after each paragraph */
+  margin-bottom: 2em; /* adds vertical space after each paragraph */
   text-align: justify;
+}
+
+p + ul, p + ol {
+  margin-top: -2em;  /* cancels the p's bottom margin */
+}
+
+/* Add space after lists */
+ul, ol {
+  margin-bottom: 2em;
 }
 
 pre.line-numbers {
