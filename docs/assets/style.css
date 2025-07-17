@@ -39,7 +39,7 @@ body {
 
 .content {
   margin-left: 220px;
-  padding: 10rem;
+  padding: 1rem 1rem 1 rem 5rem;
   max-width: 900px;
   flex: 1;
 }
