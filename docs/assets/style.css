@@ -55,7 +55,7 @@ p {
 }
 
 p + ul, p + ol {
-  margin-top: -2em;  /* cancels the p's bottom margin */
+  margin-top: -1.5em;  /* cancels the p's bottom margin */
 }
 
 /* Add space after lists */
