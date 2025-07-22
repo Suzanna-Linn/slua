@@ -7,7 +7,7 @@ title: Home
 
 This is a test of Prism.js with Lua, line numbers, and a copy button.
 
-```lua
+```slua
 function greet(name)
   print("Hello, " .. name)
 end
