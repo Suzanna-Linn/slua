@@ -84,6 +84,7 @@ Prism.languages.slua = {
     },
     'function': /(?!\d)\w+(?=\s*(?:[({]))/,
     'constant': /\b[A-Z_][A-Z0-9_]*\b/,
+    'variable': /\b[a-zA-Z_]\w*\b/,
     'operator': [
         /[-+*%^&|#]|\/\/?|<[<=]?|>[>=]?|[=~]=?/,
         {
