@@ -12,6 +12,6 @@ function greet(name)
   print("Hello, " .. name)
 end
 ```
-{:.language-lua .line-numbers}
+{:.language-slua .line-numbers}
 
 End of testing
