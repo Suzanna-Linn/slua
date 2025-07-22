@@ -58,6 +58,7 @@
               const newTheme = dayTheme.disabled ? 'day' : 'night'
               applyTheme(newTheme);
               localStorage.setItem('slua-lsl-theme', newTheme);
+              button.blur(); 
           });
           button.className = 'toolbar-item';
           return button;
