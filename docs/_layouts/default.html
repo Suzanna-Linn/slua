@@ -40,31 +40,27 @@
   (function() {
       const dayTheme = document.getElementById('theme-day');
       const nightTheme = document.getElementById('theme-night');
-      const themeToggleButton = document.createElement('button');
-      const preferredTheme = localStorage.getItem('slua-lsl-theme');
       function applyTheme(theme) {
           if (theme === 'night') {
               dayTheme.disabled = true;
               nightTheme.disabled = false;
-              themeToggleButton.textContent = '🌞 Day mode';
+              themeToggleButton.innerHTML = '<span>🌞 Day mode</span>';
           } else {
               dayTheme.disabled = false;
               nightTheme.disabled = true;
-              themeToggleButton.textContent = '🌙 Night mode';
+              themeToggleButton.innerHTML = '<span>🌙 Night mode</span>';
           }
       }
-      if (preferredTheme) {
-          applyTheme(preferredTheme);
-      } else {
-          applyTheme('day');
-      }
       Prism.plugins.toolbar.registerButton('theme-switch', function(env) {
+          const themeToggleButton = document.createElement('button');
+          themeToggleButton.classList.add('copy-to-clipboard-button');
+          themeToggleButton.setAttribute('type', 'button');
+          applyTheme(localStorage.getItem('prism-theme') || 'day', themeToggleButton);
           themeToggleButton.addEventListener('click', function () {
               const newTheme = dayTheme.disabled ? 'day' : 'night'
               applyTheme(newTheme);
               localStorage.setItem('slua-lsl-theme', newTheme);
           });
-  
           return themeToggleButton;
       });
   })();
