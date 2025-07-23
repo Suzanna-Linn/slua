@@ -13,7 +13,7 @@
               button.textContent  = '🌙 Night mode';
           }
       }
-      applyTheme(localStorage.getItem('slua-lsl-theme') || 'day');
+      applyTheme(localStorage.getItem('slua-lsl-theme') || document.getElementById("theme").value || 'day');
       Prism.plugins.toolbar.registerButton('theme-switch', function(env) {
           button.addEventListener('click', function () {
               const newTheme = dayTheme.disabled ? 'day' : 'night'
