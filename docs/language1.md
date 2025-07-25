@@ -1,8 +1,8 @@
-
 ---
 layout: default
 title: "The language: Lua compared to LSL"
 ---
+
 ## The language: Lua compared to LSL
 Standard Lua and Luau have some differences. Most of the next code runs in both of them.
 I'm using "Luau" at the end of the comment in the first line for Luau only code.
