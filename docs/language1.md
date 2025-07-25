@@ -5,10 +5,15 @@ title: The language: Lua compared to LSL
 ## The language: Lua compared to LSL
 Standard Lua and Luau have some differences. Most of the next code runs in both of them.
 I'm using "Luau" at the end of the comment in the first line for Luau only code.
-I'm using "Slua" for presumed LuaSL only code.
+I'm using "Slua" for SLua only code.
 
 
 ### Types and variables
+
+|  |  |
+
+
+
 {| {{KBtable}}
 |
 <syntaxhighlight lang="lua" line copy>
@@ -615,5 +620,5 @@ We are not looking at events or states, because we don't know yet how they are i
 
 Luau has events, but not states. This is not a problem because Luau events are very flexible and can be used in a "states-like" way.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTk2NjQ3NDg4MCwxODM3MTA3MDUzXX0=
+eyJoaXN0b3J5IjpbMTYyMTk1MzAwMSwxODM3MTA3MDUzXX0=
 -->
