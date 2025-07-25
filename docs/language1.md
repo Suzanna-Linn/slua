@@ -318,6 +318,7 @@ fruits = { "Apple", "Banana", "Cherry", "Orange" }
 
 for index, fruit in ipairs( fruits ) do
     print( "Fruit "..index..": "..fruit )
+    
     -- Fruit 1: Apple
     -- Fruit 2: Banana
     -- Fruit 3: Cherry
@@ -347,7 +348,8 @@ integer i;
 list fruits = [ "Apple", "Banana", "Cherry", "Orange" ];
 
 for ( i = 0; i < llGetListLength( fruits ); i++ ) {
-    llSay(0, "Fruit " + (string)i + ": " + llList2String( fruits, i ) );
+    llSay(0, "Fruit " + (string)i + ": " + 
+        llList2String( fruits, i ) );
     // Fruit 1: Apple
     // Fruit 2: Banana
     // Fruit 3: Cherry
@@ -419,6 +421,7 @@ fruitQuantity = {
 
 for fruit, quantity in pairs(fruitQuantity) do
     print(fruit..": ".. quantity)
+    
     -- Cherry: 20
     -- Orange: 15
     -- Banana: 30
@@ -454,7 +457,8 @@ llLinksetDataWrite( "Orange", "15" );
 list fruitQuantity = llLinksetDataListKeys( 0, 0 );
 
 for ( i=0; i < llGetListLength( fruitQuantity ); i++ ) {
-    llSay(0, llList2String( fruitQuantity, i ) + ": " + llLinksetDataRead( llList2String( fruitQuantity, i ) ) );
+    llSay(0, llList2String( fruitQuantity, i ) + ": " +
+        llLinksetDataRead( llList2String( fruitQuantity, i ) ) );
     // Apple: 50
     // Banana: 30
     // Cherry: 20
