@@ -134,7 +134,7 @@ pre.line-numbers {
 
 /* Tables for code comparison with minimal column widths and horizontal scroll */
 .content table {
-  width: auto;              /* natural width based on content */
+  width: 100%;              /* natural width based on content */
   table-layout: auto;       /* natural column sizing */
   border-collapse: collapse;
   margin-bottom: 2rem;
