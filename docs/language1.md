@@ -1,3 +1,4 @@
+
 ---
 layout: default
 title: "The language: Lua compared to LSL"
@@ -63,5 +64,5 @@ Their type depends on what value we assign to them.
 
 We can see it in lines 8-11. The function "type" returns the name of the type and "print" outputs it to the console. I have added the text printed as a comment.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTIxMzcwMjE1Nl19
+eyJoaXN0b3J5IjpbMTMyODI4NTExNF19
 -->
