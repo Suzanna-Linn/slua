@@ -132,30 +132,18 @@ pre.line-numbers {
   color: #8fa1c7;
 }
 
-/* Tables for code comparison with minimal column widths and horizontal scroll */
 .content table {
-  width: 100%;              /* natural width based on content */
-  table-layout: auto;       /* natural column sizing */
-  border-collapse: collapse;
-  margin-bottom: 2rem;
-  max-width: 100%;          /* don’t overflow container */
-  overflow-x: auto;         /* enable horizontal scroll */
-  display: block;           /* needed for horizontal scroll */
+  width: 100%;
+  border-collapse: collapse; 
 }
 
-.content table td {
-  vertical-align: top;
-  padding-right: 1rem;
-  white-space: nowrap;      /* prevent wrapping, expand width */
+.content th, 
+.content td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
 }
 
-.content table td pre {
-  white-space: pre;         /* keep code formatting, no wrapping */
-  overflow-x: auto;         /* scroll if code too wide */
-  max-width: none;
-}
-
-/* Theme toggle button */
 .theme-toggle {
   margin-top: auto;
   margin-bottom: 0.5rem;
