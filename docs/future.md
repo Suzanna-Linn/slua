@@ -11,7 +11,7 @@ Let's look at some questions that we could have in mind about the future...
 
 ### When will SLua be available on the main grid?
 
-'''The release date is still unknown.'''
+**The release date is still unknown.**
 
 SLua is currently in its alpha stage on the beta grid.
 
@@ -22,7 +22,7 @@ Once SLua reaches a stable state, it will move to a beta version, still on the b
 
 ### Will LSL scripts benefit from being compiled to VM Luau instead of VM Mono?
 
-'''Yes.'''
+**Yes.**
 
 Luau optimizes the code better than LSL, improving execution time and reducing memory usage, and also uses less memory to store the strings.
 
@@ -31,21 +31,21 @@ The LSL scripts will run faster and we will have more free memory.
 
 ### Will SLua scripts have more memory?
 
-'''Not for the moment.'''
+**Not for the moment.**
 
 Scripts will stay at 64k, but Luau’s efficiency means we can achieve more within the same memory constraints.
 
 
 ### Will LSL continue to exist?
 
-'''Yes.'''
+**Yes.**
 
 For many years, perhaps forever.
 
 
 ### Will LSL receive updates with new functions?
 
-'''Yes... with a very big "but".'''
+**Yes... with a very big "but".**
 
 New functions will be added to both languages.
 
@@ -58,7 +58,7 @@ The functions with data types compatible with LSL will be added, the others will
 
 ### Will there be any way to use the functions not added in LSL?
 
-'''In some cases... but not easily.'''
+**In some cases... but not easily.**
 
 A script can be written in only one language. But in the same object we can have scripts in LSL and scripts in SLua.
 
@@ -67,21 +67,21 @@ A LSL script could send data using linked messages to a SLua script that calls t
 
 ### Will there be a translator or transpiler to convert LSL source code into SLua source code?
 
-'''Likely.'''
+**Likely.**
 
 It seems that Lindens have some plans about it, or it could be added by other viewers. And if it is not there, several people, including me, will be working on it.
 
 
 ### Will we have to move to SLua?
 
-'''No.'''
+**No.**
 
 If you feel that you need more functionalities, you will move to SLua. If you are comfortable in LSL, you can choose to stay in LSL.
 
 
 ### Should we stop learning LSL and wait for SLua?
 
-'''No.'''
+**No.**
 
 If you are at an intermediate level, you are learning ll functions. They will be exactly the same in SLua. It's a knowledge useful 100%.
 
@@ -90,14 +90,14 @@ If you are a beginner, you are mostly learning programming skills. Also useful 1
 
 ### Will SLua be updated to the new versions of Luau?
 
-'''Yes.'''
+**Yes.**
 
 Luau is designed to be embbeded easily and the changes required for the SL platform can be added to a new version of Luau with moderate difficulty.
 
 
 ### Will LSL scripts compiled in VM Mono be automatically recompiled to VM Luau?
 
-'''No.'''
+**No.**
 
 Existing scripts compiled in Mono will remain as they are. To recompile them to Luau, we will need to manually open and save the scripts again.
 
@@ -106,6 +106,6 @@ In the long run, Mono will be phased out, at which point all scripts, including 
 
 ### Will there be an option to choose between compiling to VM Luau or to VM Mono?
 
-'''Yes.'''
+**Yes.**
 
 But only for a limited time. In the long term, Mono will eventually be phased out.
