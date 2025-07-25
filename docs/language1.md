@@ -12,12 +12,8 @@ I'm using "Slua" for SLua only code.
 
 <table>
   <tr>
-    <th>SLua</th>
-    <th>LSL</th>
-  </tr>
-  <tr>
     <td>
-      <pre><code class="language-slua line-numbers">
+      <pre class="language-slua line-numbers" data-start=1><code class="language-slua">
 -- types and variables (Lua)
 
 isOn = true
@@ -35,11 +31,10 @@ print( type( myMessage ) )  -- number
 
 myMessage = tostring( myCounter )
 print( type( myMessage ) )  -- string
-
       </code></pre>
     </td>
     <td>
-      <pre><code class="language-lsl line-numbers">
+      <pre class="language-lsl line-numbers" data-start=0><code class="language-lsl">
 // types and variables (LSL)
 
 integer isOn = TRUE;
