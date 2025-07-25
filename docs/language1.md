@@ -29,39 +29,7 @@ print( type( myMessage ) )  -- number
 myMessage = tostring( myCounter )
 print( type( myMessage ) )  -- string
 ```
-{:.language-slua .line-numbers} | ```slua
-function greet(name)
-  print("Hello, " .. name)
-end
-```
-{:.language-slua .line-numbers} |
-|---------|---------|
-
-
-
-{| {{KBtable}}
-|
-<syntaxhighlight lang="lua" line copy>
--- types and variables (Lua)
-
-isOn = true
-myCounter = 10
-myValue = 3.75
-myMessage = "Hello"
-
-print( type( isOn ) )       -- boolean
-print( type( myCounter ) )  -- number
-print( type( myValue ) )    -- number
-print( type( myMessage ) )  -- string
-
-myMessage = myCounter
-print( type( myMessage ) )  -- number
-
-myMessage = tostring( myCounter )
-print( type( myMessage ) )  -- string
-</syntaxhighlight>
-|
-<syntaxhighlight lang="lsl2" line>
+{:.language-slua .line-numbers} | ```lsl
 // types and variables (LSL)
 
 integer isOn = TRUE;
@@ -79,8 +47,10 @@ string myMessage = "Hello";
 
 myMessage = (string)myCounter;
 //
-</syntaxhighlight>
-|}
+```
+{:.language-lsl .line-numbers} |
+|---------|---------|
+
 Comments use -- instead of //
 
 The semicolon at the end of the lines is optional and very rarely used.
@@ -645,6 +615,6 @@ We are not looking at events or states, because we don't know yet how they are i
 
 Luau has events, but not states. This is not a problem because Luau events are very flexible and can be used in a "states-like" way.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYzNTg1OTM5MiwxNjIxOTUzMDAxLDE4Mz
+eyJoaXN0b3J5IjpbMjE0NTQ3OTEwNCwxNjIxOTUzMDAxLDE4Mz
 cxMDcwNTNdfQ==
 -->
