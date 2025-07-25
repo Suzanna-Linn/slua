@@ -87,8 +87,9 @@ body {
 
 .content {
   margin-left: 220px;
-  padding: 1rem 1rem 1rem 5rem;
+  padding: 2rem 2rem 2rem 5rem;
   flex: 1;
+  max-width: 900px;
 }
 
 /* Headers in Linden blue */
