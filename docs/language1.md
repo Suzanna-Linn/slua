@@ -13,7 +13,7 @@ I'm using "Slua" for SLua only code.
 <table>
   <tr>
     <td>
-      <pre class="language-slua line-numbers"><code class="language-slua">-- types and variables (Lua)                     .
+      <pre class="language-slua line-numbers"><code class="language-slua">-- types and variables (Lua)
 
 isOn = true
 myCounter = 10
@@ -32,7 +32,7 @@ myMessage = tostring( myCounter )
 print( type( myMessage ) )  -- string</code></pre>
     </td>
     <td>
-      <pre class="language-lsl"><code class="language-lsl">// types and variables (LSL)                     .
+      <pre class="language-lsl"><code class="language-lsl">// types and variables (LSL)
 
 integer isOn = TRUE;
 integer myCounter = 10;
