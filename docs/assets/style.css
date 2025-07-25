@@ -154,6 +154,7 @@ pre.line-numbers {
   outline: none;
 }
 
-.content p {
+.content p,
+.content li {
   max-width: 900px;
 }
