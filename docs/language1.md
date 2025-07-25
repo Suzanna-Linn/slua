@@ -143,7 +143,7 @@ There is an exponentiation operator, ^.
 
 The unequality operator is ~= instead of !=.
 
-&&, ||, ! are "and", "or", "not". The "and" and "or" operators only evaluate the second operand if necessary: operB is not evaluated if operA is false in "operA and operB" or if operA is true in "operA or operB".
+&&, \|\|, ! are "and", "or", "not". The "and" and "or" operators only evaluate the second operand if necessary: operB is not evaluated if operA is false in "operA and operB" or if operA is true in "operA or operB".
 
 The concatenation operator is .. instead of +. Because of the changing types of the variables, it needs to be clear what operation we want to do.
 
