@@ -252,6 +252,7 @@ if result ~= nil then
     print( "Factorial of "..number.." is "..result )  -- Factorial of 5 is 120
 else
     print( number.." is not valid")
+end
 </code></pre>
 </td><td>
 <pre class="language-lsl"><code class="language-lsl">// Functions (LSL)
