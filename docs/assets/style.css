@@ -29,7 +29,7 @@ body {
 }
 
 .sidebar h2 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: #3399FF;
   margin-top: 0;
   font-weight: 600;
@@ -37,14 +37,14 @@ body {
 
 .sidebar a {
   display: block;
-  padding: 0.4em 0.7em;
-  margin: 0.3em 0;
+  padding: 0.3em 0.3em;
+  margin: 0.5em 0;
   background: #a9c4f9;
   color: #08377c;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   line-height: 1.4;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
