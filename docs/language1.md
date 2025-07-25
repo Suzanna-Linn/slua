@@ -10,7 +10,31 @@ I'm using "Slua" for SLua only code.
 
 ### Types and variables
 
-| Value 1 | Value 2 |
+| ```slua
+-- types and variables (Lua)
+
+isOn = true
+myCounter = 10
+myValue = 3.75
+myMessage = "Hello"
+
+print( type( isOn ) )       -- boolean
+print( type( myCounter ) )  -- number
+print( type( myValue ) )    -- number
+print( type( myMessage ) )  -- string
+
+myMessage = myCounter
+print( type( myMessage ) )  -- number
+
+myMessage = tostring( myCounter )
+print( type( myMessage ) )  -- string
+```
+{:.language-slua .line-numbers} | ```slua
+function greet(name)
+  print("Hello, " .. name)
+end
+```
+{:.language-slua .line-numbers} |
 |---------|---------|
 
 
@@ -621,6 +645,6 @@ We are not looking at events or states, because we don't know yet how they are i
 
 Luau has events, but not states. This is not a problem because Luau events are very flexible and can be used in a "states-like" way.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTgzMjQyMTM4NiwxNjIxOTUzMDAxLDE4Mz
+eyJoaXN0b3J5IjpbMTYzNTg1OTM5MiwxNjIxOTUzMDAxLDE4Mz
 cxMDcwNTNdfQ==
 -->
