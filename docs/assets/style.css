@@ -105,6 +105,10 @@ p {
   text-align: justify;
 }
 
+li {
+  text-align: justify;
+}
+
 p + ul, p + ol {
   margin-top: -1.5em;
 }
