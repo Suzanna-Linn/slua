@@ -1,3 +1,7 @@
+---
+layout: default
+title: "Future"
+---
 ## Future
 
 What the future holds for scripting in SL?
