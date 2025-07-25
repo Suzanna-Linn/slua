@@ -86,10 +86,10 @@ body {
 }
 
 .content {
+  width: 100%;
   margin-left: 220px;
   padding: 2rem 2rem 2rem 5rem;
   flex: 1;
-  max-width: 900px;
 }
 
 /* Headers in Linden blue */
@@ -130,18 +130,6 @@ pre.line-numbers {
 .token.comment {
   font-style: italic;
   color: #8fa1c7;
-}
-
-.content table {
-  width: 100%;
-  border-collapse: collapse; 
-}
-
-.content th, 
-.content td {
-  border: 1px solid #ccc;
-  padding: 12px;
-  text-align: left;
 }
 
 .theme-toggle {
