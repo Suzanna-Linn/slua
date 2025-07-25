@@ -597,3 +597,6 @@ Of course, the if... elseif chain also works in Lua, but using a table is more e
 We are not looking at events or states, because we don't know yet how they are implemented in LuaSL.
 
 Luau has events, but not states. This is not a problem because Luau events are very flexible and can be used in a "states-like" way.
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMjAxOTYxODE1XX0=
+-->
