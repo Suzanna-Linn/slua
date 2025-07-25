@@ -5,7 +5,7 @@ title: The language: Lua compared to LSL
 ## The language: Lua compared to LSL
 Standard Lua and Luau have some differences. Most of the next code runs in both of them.
 I'm using "Luau" at the end of the comment in the first line for Luau only code.
-I'm using "LuaSL" for presumed LuaSL only code.
+I'm using "Slua" for presumed LuaSL only code.
 
 
 ### Types and variables
@@ -161,7 +161,7 @@ The increment and decrement operators, ++ and --, doesn't exist.
 The compound operators, += and so on, doesn't exist in standard Lua, but they exist in Luau, so LuaSL will also have them: +=, -=, *=, /=, //=, %=, ^=.
 
 
-== If, while, for, repeat ==
+###  If, while, for, repeat
 {| {{KBtable}}
 |
 <syntaxhighlight lang="lua" line copy>
@@ -233,7 +233,7 @@ The "for" in lines 20-22 is one of the types of "for", we will see the other one
 We can't use an assignment in a condition. In Lua, assignments are statements, not expressions. In case that we write a  =  instead of a  ==  in a condition, we will get an error when compiling.
 
 
-== Functions, ll functions ==
+### Functions, ll functions
 {| {{KBtable}}
 |
 <syntaxhighlight lang="lua" line copy>
@@ -321,7 +321,7 @@ llSetPos(llGetPos() + <0, 0, 1>);
 This is how LL functions will look in LuaSL. We will have all the LL functions (including LinksetData, Experiences, all) with the same parameters and constants and the difference will be calling them with a "." between "ll" and the name of the function.
 
 
-== Tables as lists ==
+### Tables as lists
 {| {{KBtable}}
 |
 <syntaxhighlight lang="lua" line copy>
@@ -420,7 +420,7 @@ llSay( 0, llListFindList( fruits, ["Orange"] ) )  // 3
 Lua doesn't have a function to find an element in the array table, but Luau has and also LuaSL will.
 
 
-== Tables as (key, value) pairs (like the linkset data) ==
+### Tables as (key, value) pairs (like the linkset data)
 {| {{KBtable}}
 |
 <syntaxhighlight lang="lua" line copy>
@@ -511,7 +511,7 @@ And alternative way is with tablename.key, lines 28-34.
 
 
 
-== Tables of functions instead of if...elseif chain ==
+### Tables of functions instead of if...elseif chain
 {| {{KBtable}}
 |
 <syntaxhighlight lang="lua" line copy>
@@ -609,11 +609,11 @@ In line 30 we check if the option exists and we call the function, adding the pa
 Of course, the if... elseif chain also works in Lua, but using a table is more efficient and the code is more clear.
 
 
-== Events and states ==
+### Events and states
 
 We are not looking at events or states, because we don't know yet how they are implemented in LuaSL.
 
 Luau has events, but not states. This is not a problem because Luau events are very flexible and can be used in a "states-like" way.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjY5NTE2MDE4LDE4MzcxMDcwNTNdfQ==
+eyJoaXN0b3J5IjpbLTk2NjQ3NDg4MCwxODM3MTA3MDUzXX0=
 -->
