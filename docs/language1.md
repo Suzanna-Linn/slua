@@ -152,3 +152,444 @@ The # returns the length of a string.
 The increment and decrement operators, ++ and --, doesn't exist.
 
 The compound operators, += and so on, doesn't exist in standard Lua, but they exist in Luau, so LuaSL will also have them: +=, -=, *=, /=, //=, %=, ^=.
+
+### If, while, for, repeat 
+
+<table><tr><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- If, while, for, repeat (Lua)
+
+counter = 3
+
+
+if counter == 1 then
+
+elseif counter == 2 then
+
+else
+
+end
+
+
+while counter > 0 do
+    counter = counter - 1
+end
+
+
+for i = 0, 10, 2 do
+    print( i )  -- 0, 2, 4, 6, 8, 10
+end
+
+
+repeat
+    counter = counter +1
+until counter == 5
+</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// If, while, for, repeat (LSL)
+integer i;
+integer counter = 3;
+
+
+if (counter == 1) {
+
+} else if (counter == 2) {
+
+} else {
+
+}
+
+
+while (counter > 0) {
+    counter--;
+}
+
+
+for ( i = 0; i < 11; i+=2 ) {
+    llSay(0, (string)i );  // 0, 2, 4, 6, 8, 10
+}
+
+
+do
+    counter++;
+while (counter < 5);
+</code></pre>
+</td></tr></table>
+
+There are the same blocks if, while and for. And a repeat..until instead of do...while ("repeat..until not" is the same as "do...while").
+
+The { and } are not used here (they are used for tables as we will see later). Instead there are keywords: "then" or "do", and "end".
+
+The "for" in lines 20-22 is one of the types of "for", we will see the other one later. Its three values are start, end and step.
+
+We can't use an assignment in a condition. In Lua, assignments are statements, not expressions. In case that we write a  =  instead of a  ==  in a condition, we will get an error when compiling.
+
+### Functions, ll functions
+
+<table><tr><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- Functions (Lua)
+
+function average( a, b )
+    return ( a + b ) / 2
+end
+
+print( average( 15, 5 ) )  -- 10
+
+
+function factorial( n )
+    if n < 0 then
+        return nil
+    elseif n == 0 then
+        return 1
+    else
+        return n * factorial( n - 1 )
+    end
+end
+
+number = 5
+result = factorial( number )
+
+if result ~= nil then 
+    print( "Factorial of "..number.." is "..result )  -- Factorial of 5 is 120
+else
+    print( number.." is not valid")
+</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// Functions (LSL)
+
+float average( float a, float b ) {
+    return ( a + b ) / 2;
+}
+
+llSay(0, (string)average( 15, 5 ) );  // 10
+
+
+integer factorial( integer n ) {
+    if (n < 0) {
+        return -1;
+    } else if (n == 0) {
+        return 1;
+    } else {
+        return n * factorial( n - 1 );
+    }
+}
+
+integer number = 5;
+integer result = factorial( number );
+
+if (result != -1) {
+    llSay(0, "Factorial of " + (string)number + " is " + (string)result );  // Factorial of 5 is 120
+} else {
+    llSay(0, (string)number + " is not valid" );
+}
+</code></pre>
+</td></tr></table>
+
+The functions use the keyword "function" and, of course, no types for the parameters or the return value.
+
+Here we have two example functions, lines 2-7 and lines 10-27.
+
+In line 12 we return "nil" instead of "-1". The value "nil" means that the variable has no value, it's empty. We use it again in line 23.
+
+In line 24 we don't need to typecast the number to a string. It's done automatically.
+
+<table><tr><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- LL functions (SLua)
+
+ll.Say(0, “hi!”)
+ll.SetPos(ll.GetPos() + vector(0, 0, 1))
+</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// LL functions (LSL)
+
+llSay(0, “hi!”);
+llSetPos(llGetPos() + <0, 0, 1>);
+</code></pre>
+</td></tr></table>
+
+This is how LL functions look in SLua. We have all the LL functions (including LinksetData, Experiences, all) with the same parameters and constants and the difference is calling them with a "." between "ll" and the name of the function.
+
+### Tables as lists 
+
+<table><tr><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- tables as lists (Lua)
+
+fruits = { "Apple", "Banana", "Cherry", "Orange" }
+
+for index, fruit in ipairs( fruits ) do
+    print( "Fruit "..index..": "..fruit )
+    -- Fruit 1: Apple
+    -- Fruit 2: Banana
+    -- Fruit 3: Cherry
+    -- Fruit 4: Orange
+end
+
+print ( #fruits )  -- 4
+
+fruits[3] = "Melon"
+print( fruits[3] )  -- Melon
+
+table.insert( fruits, "Lemon" )
+-- Apple, Banana, Melon, Orange, Lemon
+
+table.insert( fruits, 2, "Pear" )
+-- Apple, Pear, Banana, Melon, Orange, Lemon
+
+table.remove( fruits )
+-- Apple, Pear, Banana, Melon, Orange
+
+table.remove( fruits, 2 )
+-- Apple, Banana, Melon, Orange
+</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// tables as lists (LSL)
+integer i;
+list fruits = [ "Apple", "Banana", "Cherry", "Orange" ];
+
+for ( i = 0; i < llGetListLength( fruits ); i++ ) {
+    llSay(0, "Fruit " + (string)i + ": " + llList2String( fruits, i ) );
+    // Fruit 1: Apple
+    // Fruit 2: Banana
+    // Fruit 3: Cherry
+    // Fruit 4: Orange
+}
+
+llSay(0, (string)llGetListLength( fruits ) );  // 4
+
+fruits = llListReplaceList( fruits, ["Melon"] ,2 ,2) ;
+llSay( 0, llList2String( fruits, 2 ) );
+
+fruits += "Lemon";
+// Apple, Banana, Melon, Orange, Lemon
+
+fruits = llListInsertList( fruits, ["Pear"], 1 );
+// Apple, Pear, Banana, Melon, Orange, Lemon
+
+fruits = llDeleteSubList( fruits, -1, -1 );
+// Apple, Pear, Banana, Melon, Orange
+
+fruits = llDeleteSubList( fruits, 1, 1 );
+// Apple, Banana, Melon, Orange
+</code></pre>
+</td></tr></table>
+
+The tables are the most important data structure in Lua.
+
+Here we have an example of a table used as an array, in the same way as LSL lists.
+
+{ and } are used instead of [ and ] to initialize it.
+
+In line 5 there is the other type of "for", the "for...in".
+
+"ipairs" is a system function that iterates on all the values of an array table. It returns two values, stored in "index" and "fruits". We will see in a while that functions can return several values.
+
+The arrays start from 1, not 0, as we can see in the results in lines 7-10. Also the first character in a string has the position 1 instead of 0. All the Lua fuctions that work on array tables or string assume that they start at 1.
+
+The operator #, that we have seen previously returning the length of a string, also returns the number of elements in an array table.
+
+We read and write values in the array using [ and ] with the index.
+
+There are functions to insert and remove from the end or at any index. Unlike LSL these functions don't return a value but work on the same table passed as parameter.
+
+<table><tr><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- tables as lists (Luau)
+
+print( table.find( fruits, "Orange" ) )  -- 4
+</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// tables as lists (LSL)
+
+llSay( 0, llListFindList( fruits, ["Orange"] ) )  // 3
+</code></pre>
+</td></tr></table>
+
+Lua doesn't have a function to find an element in the array table, but Luau has and also SLua.
+
+### Tables as (key, value) pairs (like the linkset data)
+
+<table><tr><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- Tables as (key, value) pairs (Lua)
+
+fruitQuantity = {
+    Apple = 50,
+    Banana = 30,
+    Cherry = 20,
+    Orange = 15
+}
+
+for fruit, quantity in pairs(fruitQuantity) do
+    print(fruit..": ".. quantity)
+    -- Cherry: 20
+    -- Orange: 15
+    -- Banana: 30
+    -- Apple: 50
+end
+
+
+fruitQuantity[ "Lemon" ] = 2
+-- Apple, Banana, Melon, Orange, Lemon
+
+print( fruitQuantity[ "Lemon" ] )  -- 2
+
+fruitQuantity[ "Lemon" ] = nil
+-- Apple, Banana, Melon, Orange
+
+
+fruitQuantity.Pear = 1
+-- Apple, Banana, Melon, Orange, Pear
+
+print( fruitQuantity.Pear )  -- 1
+
+fruitQuantity.Pear = nil
+-- Apple, Banana, Melon, Orange
+</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// Tables as (key, value) pairs (like the linkset data) (LSL)
+integer i;
+
+llLinksetDataWrite( "Apple", "50" );
+llLinksetDataWrite( "Banana", "30" );
+llLinksetDataWrite( "Cherry", "20" );
+llLinksetDataWrite( "Orange", "15" );
+list fruitQuantity = llLinksetDataListKeys( 0, 0 );
+
+for ( i=0; i < llGetListLength( fruitQuantity ); i++ ) {
+    llSay(0, llList2String( fruitQuantity, i ) + ": " + llLinksetDataRead( llList2String( fruitQuantity, i ) ) );
+    // Apple: 50
+    // Banana: 30
+    // Cherry: 20
+    // Orange: 15
+}
+
+
+llLinksetDataWrite( "Lemon", "2" );
+// Apple, Banana, Melon, Orange, Lemon
+
+llSay( 0, llLinksetDataRead( "Lemon" ) );  // 2
+
+llLinksetDataDelete( "Lemon" );
+// Apple, Banana, Melon, Orange
+
+
+
+
+
+
+
+
+//
+</code></pre>
+</td></tr></table>
+
+Tables can also be used as dictionaries (pairs of key-value). In the example we are comparing it to the linkset data, which is a different thing, but has the same data structure.
+
+In lines 3-8 we are filling the table with pairs of keys and values.
+
+In the "for", line 10, we use "pairs" instead of "ipairs". "ipairs" is optimized for array tables and only works with them.
+
+We see that the fruits are printed in a random order. This happens because tables are implemented as hash tables. It is more efficient, but it results in an undefined order when iterating over the elements. We will see later how to sort them.
+
+We read and write values in the array using [ and ] with the key. We delete a key-value by assigning the key to nil.
+
+And alternative way is with tablename.key, lines 28-34.
+
+### Tables of functions instead of if...elseif chain 
+
+<table><tr><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- Tables of functions instead of if...elseif chain (Lua)
+
+-- some random functions
+function sayInfo()
+    print("info");
+end
+function giveObject()
+    print("object");
+end
+function giveLink()
+    print("link");
+end
+function sayAgentProfileLink()
+    print("agent");
+end
+function sayGroupProfileLink()
+    print("group");
+end
+
+-- main function
+function action(option)
+    local tableOptions = {
+        info = sayInfo,
+        give = giveObject,
+        link = giftLink,
+        agent = sayAgentProfileLink,
+        group = sayGroupProfileLink
+    }
+
+    if tableOptions[option] then
+        tableOptions[option]();
+    else
+        print("the option "..option.." doesn't exist");
+    end
+end
+
+action("info");   -- info
+action("agent");  -- agent
+action("wrong");  -- the action wrong doesn't exist
+</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// Tables of functions instead of if...else if chain (LSL)
+
+// some random functions
+sayInfo() {
+    llSay(0,"info");
+}
+giveObject() {
+    llSay(0,"object");
+}
+giveLink() {
+    llSay(0,"link");
+}
+sayAgentProfileLink() {
+    llSay(0,"agent");
+}
+sayGroupProfileLink() {
+    llSay(0,"group");
+}
+
+// main function
+action(string option) {
+    if (option=="info") {
+        sayInfo();
+    } else if (option=="give") {
+        giveObject();
+    } else if (option=="link") {
+        giveLink();
+    } else if (option=="agent") {
+        sayAgentProfileLink();
+    } else if (option=="group") {
+        sayGroupProfileLink();
+    } else {
+        llSay(0,"the option "+option+" doesn't exist");
+    }
+}
+
+action("info");   // info
+action("agent");  // agent
+action("wrong");  // the action wrong doesn't exist
+</code></pre>
+</td></tr></table>
+
+Tables can contain functions. In this example we are replacing a long sequence of if...else if with a table of functions.
+
+In lines 22-28 we create the table, with the name of the option as the key, and the function (without parentheses) as the value.
+
+"local", in line 22, means that the table is a local variable of the function, without "local" it would be a global variable.
+
+In line 30 we check if the option exists and we call the function, adding the parentheses.
+
+Of course, the if... elseif chain also works in Lua, but using a table is more efficient and the code is more clear.
+
+### Events and states
+
+We are not looking at events or states, because we don't know yet how they are implemented in LuaSL.
+
+Luau has events, but not states. This is not a problem because Luau events are very flexible and can be used in a "states-like" way.
