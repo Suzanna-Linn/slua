@@ -78,12 +78,6 @@ body {
   padding: 0;
 }
 
-.sidebar-inner {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .content {
   margin-left: 220px;
   padding: 1rem 1rem 1rem 5rem;
@@ -133,7 +127,6 @@ pre.line-numbers {
 
 .theme-toggle {
   margin-top: auto;
-  margin-bottom: 0.5rem;
   padding: 0.6em 1em;
   font-size: 1.05rem;
   background: #f0f4ff;               /* lighter background */
