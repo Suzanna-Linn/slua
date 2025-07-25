@@ -12,7 +12,6 @@ body {
   min-height: 100vh;
 }
 
-/* Sidebar with light blue background */
 .sidebar {
   width: 220px;
   background: #d6e5fb;
@@ -36,11 +35,10 @@ body {
   font-weight: 600;
 }
 
-/* Visual link buttons in soft blues */
 .sidebar a {
   display: block;
-  padding: 0.7em 1em;
-  margin: 0.5em 0;
+  padding: 0.4em 0.7em;
+  margin: 0.3em 0;
   background: #a9c4f9;
   color: #08377c;
   border-radius: 8px;
