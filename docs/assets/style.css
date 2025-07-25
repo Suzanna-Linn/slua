@@ -1,75 +1,23 @@
-/* === Base and Typography === */
 body {
   margin: 0;
-  font-family: "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
-  font-size: 1rem;
-  line-height: 1.7;
+  font-family: system-ui, sans-serif;
   background: #fafafa;
   color: #333;
 }
 
-/* Headings */
-h1, h2, h3 {
-  font-family: "Georgia", serif;
-  font-weight: 600;
-  color: #222;
-  letter-spacing: -0.5px;
-  margin-top: 2.5em;
-  margin-bottom: 0.5em;
-}
-
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 0.3em;
-}
-
-h2 {
-  font-size: 1.6rem;
-  margin-top: 2em;
-  margin-bottom: 0.3em;
-  color: #444;
-}
-
-h3, h4, h5, h6 {
-  margin-top: 2.5em; /* space before each heading */
-  margin-bottom: 0.5em; /* optional: a little space after */
-}
-
-/* Paragraphs */
-p {
-  margin-bottom: 2em; /* adds vertical space after each paragraph */
-  text-align: justify;
-}
-
-/* Remove extra space between paragraph and list */
-p + ul, p + ol {
-  margin-top: -1.5em;  /* cancels the p's bottom margin */
-}
-
-/* Add space after lists */
-ul, ol {
-  margin-bottom: 2em;
-}
-
-/* === Layout === */
 .container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
-  background: linear-gradient(to bottom, #2e2e3a, #1e1e2a);
+  background: #2c2f33;
   color: #eee;
   padding: 1rem;
   position: fixed;
   height: 100vh;
   overflow-y: auto;
-  border-right: 1px solid #444;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
 .sidebar h2 {
@@ -82,71 +30,44 @@ ul, ol {
   color: #ccc;
   text-decoration: none;
   display: block;
-  padding: 0.4em 0.5em;
-  border-radius: 4px;
-  transition: background 0.2s ease;
+  padding: 0.3em 0;
 }
 
 .sidebar a:hover {
-  background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
-/* Main content */
 .content {
   margin-left: 220px;
-  padding: 3rem 2rem 3rem 5rem;
+  padding: 1rem 1rem 1rem 5rem;
   max-width: 900px;
   flex: 1;
-  background: #fff;
-  box-shadow: -1px 0 2px rgba(0, 0, 0, 0.05);
 }
 
-/* === Code Styling === */
-pre, code {
-  font-family: "Fira Code", "Courier New", monospace;
-  font-size: 0.95rem;
-  background: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+h3, h4, h5, h6 {
+  margin-top: 2.5em; /* space before each heading */
+  margin-bottom: 0.5em; /* optional: a little space after */
+}
+
+p {
+  margin-bottom: 2em; /* adds vertical space after each paragraph */
+  text-align: justify;
+}
+
+p + ul, p + ol {
+  margin-top: -1.5em;  /* cancels the p's bottom margin */
+}
+
+/* Add space after lists */
+ul, ol {
+  margin-bottom: 2em;
 }
 
 pre.line-numbers {
-  padding: 1em 1em 1em 3.8em; /* space for line numbers */
-  margin-bottom: 2em;
+  padding-left: 3.8em; /* ensures line numbers align */
 }
 
-/* Prism token for comments */
 .token.comment {
   font-style: italic;
   color: #6a737d;
-}
-
-/* === Links inside content === */
-.content a {
-  color: #0066cc;
-  text-decoration: underline;
-  transition: color 0.2s ease;
-}
-
-.content a:hover {
-  color: #004799;
-}
-
-/* === Optional Table Styling === */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2em;
-  font-size: 0.95rem;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 0.5em 1em;
-  text-align: left;
-}
-
-th {
-  background: #f0f0f0;
 }
