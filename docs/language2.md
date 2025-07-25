@@ -795,15 +795,10 @@ In case of error, the second parameter is the description of the error.
 System functions are grouped in libraries, and called as LibraryName.FunctionName, except the functions in the basic library that doesn't need a library name.
 
 We have seen several basic functions, like: print, type, tostring, pairs, select, setmetatable,... Other libraries are:
-
 - table: tables manipulation
-
 - math: mathematical operations
-
 - string: string manipulation
-    
 - os: date and time functions
-
 - bit32: bitwise operations on integers. Standard Lua has bitwise operators, but not Luau. So probably we will use this library instead of operators.
 
 Standard Lua has more libraries and can use externally developed ones. Luau, for security reasons, is restricted to its own libraries.
