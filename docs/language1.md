@@ -10,7 +10,14 @@ I'm using "Slua" for SLua only code.
 
 ### Types and variables
 
-| ```slua
+<table>
+  <tr>
+    <th>SLua</th>
+    <th>LSL</th>
+  </tr>
+  <tr>
+    <td>
+      <pre><code class="language-slua line-numbers">
 -- types and variables (Lua)
 
 isOn = true
@@ -28,8 +35,11 @@ print( type( myMessage ) )  -- number
 
 myMessage = tostring( myCounter )
 print( type( myMessage ) )  -- string
-```
-{:.language-slua .line-numbers} | ```lsl
+
+      </code></pre>
+    </td>
+    <td>
+      <pre><code class="language-lsl line-numbers">
 // types and variables (LSL)
 
 integer isOn = TRUE;
@@ -47,9 +57,10 @@ string myMessage = "Hello";
 
 myMessage = (string)myCounter;
 //
-```
-{:.language-lsl .line-numbers} |
-|---------|---------|
+      </code></pre>
+    </td>
+  </tr>
+</table>
 
 Comments use -- instead of //
 
