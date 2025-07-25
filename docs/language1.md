@@ -10,7 +10,8 @@ I'm using "Slua" for SLua only code.
 
 ### Types and variables
 
-|  |  |
+| Value 1 | Value 2 |
+|---------|---------|
 
 
 
@@ -620,5 +621,6 @@ We are not looking at events or states, because we don't know yet how they are i
 
 Luau has events, but not states. This is not a problem because Luau events are very flexible and can be used in a "states-like" way.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYyMTk1MzAwMSwxODM3MTA3MDUzXX0=
+eyJoaXN0b3J5IjpbMTgzMjQyMTM4NiwxNjIxOTUzMDAxLDE4Mz
+cxMDcwNTNdfQ==
 -->
