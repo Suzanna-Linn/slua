@@ -15,18 +15,7 @@
   <link href="/slua/assets/style.css" rel="stylesheet" />
 </head>
 <body>
-  <div class="container">
-    <aside class="sidebar">
-      {% include sidebar.html %}
-    </aside>
-    
-    <main class="content">
-      <article>
-        {{ content }}
-      </article>
-    </main>
-  </div>
-
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 
   <script src="/slua/assets/language-slua.js"></script>
@@ -38,5 +27,17 @@
 
   <script src="/slua/assets/theme switch button.js"></script>
 
+  <div class="container">
+    <aside class="sidebar">
+      {% include sidebar.html %}
+    </aside>
+    
+    <main class="content">
+      <article>
+        {{ content }}
+      </article>
+    </main>
+  </div>
+  
 </body>
 </html>
