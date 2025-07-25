@@ -523,7 +523,7 @@ function action(option)
     local tableOptions = {
         info = sayInfo,
         give = giveObject,
-        link = giftLink,
+        link = giveLink,
         agent = sayAgentProfileLink,
         group = sayGroupProfileLink
     }
