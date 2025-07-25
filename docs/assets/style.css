@@ -15,7 +15,7 @@ body {
 /* Sidebar with light blue background */
 .sidebar {
   width: 220px;
-  background: #d6e5fb;        /* soft light blue */
+  background: #d6e5fb;
   color: #1a2a4f;
   padding: 1rem;
   position: fixed;
@@ -26,11 +26,12 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.1rem;
   line-height: 1.5;
+  box-sizing: border-box;
 }
 
 .sidebar h2 {
   font-size: 1.3rem;
-  color: #3399FF;             /* Linden blue */
+  color: #3399FF;
   margin-top: 0;
   font-weight: 600;
 }
@@ -40,8 +41,8 @@ body {
   display: block;
   padding: 0.7em 1em;
   margin: 0.5em 0;
-  background: #a9c4f9;        /* soft medium-light blue */
-  color: #08377c;             /* dark muted blue text */
+  background: #a9c4f9;
+  color: #08377c;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
@@ -54,14 +55,14 @@ body {
 
 .sidebar a:hover,
 .sidebar a:focus {
-  background: #7eaef9;        /* deeper hover blue */
+  background: #7eaef9;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
   outline: none;
 }
 
 .sidebar a.active {
-  background: #5e95f5;        /* more saturated for active */
+  background: #5e95f5;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   color: #fff;
   cursor: default;
@@ -78,16 +79,21 @@ body {
   padding: 0;
 }
 
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 2rem);
+}
+
 .content {
   margin-left: 220px;
   padding: 1rem 1rem 1rem 5rem;
-  max-width: 900px;
   flex: 1;
 }
 
 /* Headers in Linden blue */
 h1, h2, h3, h4, h5, h6 {
-  color: #3399FF;             /* Linden blue */
+  color: #3399FF;
   margin-top: 2.5em;
   margin-bottom: 0.5em;
   font-weight: 700;
@@ -125,13 +131,38 @@ pre.line-numbers {
   color: #8fa1c7;
 }
 
+/* Tables for code comparison with minimal column widths and horizontal scroll */
+.content table {
+  width: auto;              /* natural width based on content */
+  table-layout: auto;       /* natural column sizing */
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  max-width: 100%;          /* don’t overflow container */
+  overflow-x: auto;         /* enable horizontal scroll */
+  display: block;           /* needed for horizontal scroll */
+}
+
+.content table td {
+  vertical-align: top;
+  padding-right: 1rem;
+  white-space: nowrap;      /* prevent wrapping, expand width */
+}
+
+.content table td pre {
+  white-space: pre;         /* keep code formatting, no wrapping */
+  overflow-x: auto;         /* scroll if code too wide */
+  max-width: none;
+}
+
+/* Theme toggle button */
 .theme-toggle {
   margin-top: auto;
+  margin-bottom: 0.5rem;
   padding: 0.6em 1em;
   font-size: 1.05rem;
-  background: #f0f4ff;               /* lighter background */
-  color: #1a2a4f;                    /* same text as sidebar */
-  border: 2px dashed #5e95f5;        /* different border style for distinction */
+  background: #f0f4ff;
+  color: #1a2a4f;
+  border: 2px dashed #5e95f5;
   border-radius: 8px;
   text-align: center;
   font-weight: 600;
@@ -141,14 +172,7 @@ pre.line-numbers {
 
 .theme-toggle:hover,
 .theme-toggle:focus {
-  background: #dbe8ff;              /* hover effect */
+  background: #dbe8ff;
   transform: translateY(-2px);
   outline: none;
-}
-
-.content table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
 }
