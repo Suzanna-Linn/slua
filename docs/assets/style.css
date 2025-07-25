@@ -1,8 +1,10 @@
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: #fafafa;
   color: #333;
+  font-size: 18px;           /* slightly bigger base font */
+  line-height: 1.6;          /* improves readability */
 }
 
 .container {
@@ -12,62 +14,98 @@ body {
 
 .sidebar {
   width: 220px;
-  background: #2c2f33;
-  color: #eee;
+  background: #3b5998;       /* medium blue */
+  color: #e3eafc;            /* light blue-gray text */
   padding: 1rem;
   position: fixed;
   height: 100vh;
   overflow-y: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;         /* ~19.8px */
+  line-height: 1.5;
 }
 
 .sidebar h2 {
-  font-size: 1.2rem;
-  color: #fff;
+  font-size: 1.3rem;
+  color: #cdd9f9;            /* lighter blue */
   margin-top: 0;
+  font-weight: 600;
 }
 
 .sidebar a {
-  color: #ccc;
-  text-decoration: none;
   display: block;
-  padding: 0.3em 0;
+  padding: 0.7em 1em;
+  margin: 0.5em 0;
+  background: #5068c8;       /* medium blue */
+  color: #e3eafc;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.15rem;        /* ~20.7px */
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+  user-select: none;
 }
 
-.sidebar a:hover {
-  color: #fff;
+.sidebar a:hover,
+.sidebar a:focus {
+  background: #3b4999;       /* darker blue on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.sidebar a.active {
+  background: #2a3f85;       /* even darker blue for active */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  cursor: default;
 }
 
 .content {
   margin-left: 220px;
-  padding: 1rem 1rem 1rem 5rem;
+  padding: 1rem 1rem 1rem 2rem;
   max-width: 900px;
   flex: 1;
 }
 
-h3, h4, h5, h6 {
-  margin-top: 2.5em; /* space before each heading */
-  margin-bottom: 0.5em; /* optional: a little space after */
+h1, h2, h3, h4, h5, h6 {
+  color: #2a3f85;            /* dark blue */
+  margin-top: 2.5em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
 }
 
 p {
-  margin-bottom: 2em; /* adds vertical space after each paragraph */
+  margin-bottom: 2em;
   text-align: justify;
 }
 
 p + ul, p + ol {
-  margin-top: -1.5em;  /* cancels the p's bottom margin */
+  margin-top: -1.5em;        /* cancel p bottom margin before list */
 }
 
-/* Add space after lists */
 ul, ol {
   margin-bottom: 2em;
 }
 
+pre {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: 'Source Code Pro', monospace, monospace;
+  font-size: 0.9rem;
+}
+
 pre.line-numbers {
-  padding-left: 3.8em; /* ensures line numbers align */
+  padding-left: 3.8em;
 }
 
 .token.comment {
   font-style: italic;
-  color: #6a737d;
+  color: #8fa1c7;            /* bluish-gray */
 }
