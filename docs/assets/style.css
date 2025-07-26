@@ -161,12 +161,34 @@ pre.line-numbers {
   max-width: 900px;
 }
 
-#sidebar ul {
+.sidebar .sublist {
+  margin: 0.3rem 0 0.8rem 1.2rem;
+  padding-left: 0.5rem;
   list-style: none;
-  padding-left: 0;
+  font-size: 0.85rem;
+  color: #0c254c;
+  border-left: 2px solid #5e95f5;
+  line-height: 1.3;
 }
 
-#sidebar .sublist {
-  margin-left: 1rem;
-  font-size: 0.9em;
+.sidebar .sublist li {
+  margin: 0.2rem 0;
+}
+
+.sidebar .sublist a {
+  display: block;
+  padding: 0.2em 0.4em;
+  margin: 0;
+  background: transparent;
+  color: #1c3e70;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar .sublist a:hover {
+  background-color: #cce1ff;
+  color: #000d2b;
 }
