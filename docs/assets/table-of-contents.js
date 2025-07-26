@@ -16,7 +16,7 @@
   
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = html;
-      const headers = tempDiv.querySelectorAll('h2, h3');
+      const headers = tempDiv.querySelectorAll('h3, h4');
   
       if (headers.length > 0) {
         const sublist = document.createElement('ul');
