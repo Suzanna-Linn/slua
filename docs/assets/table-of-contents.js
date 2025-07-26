@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (linkPath === currentPath) {
       // This is the active page link — add sublist
-      const headers = document.querySelectorAll('main.content article h2, h3');
+      const headers = document.querySelectorAll('main.content article h3, h4');
 
       if (headers.length > 0) {
         const sublist = document.createElement('ul');
