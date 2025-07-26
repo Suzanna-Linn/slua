@@ -13,7 +13,7 @@
       document.querySelectorAll('.sublist').forEach(ul => ul.remove());
   
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
+      tempDiv.innerHTML = content;
       const headers = tempDiv.querySelectorAll('h3, h4');
   
       if (headers.length > 0) {
