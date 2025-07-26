@@ -6,14 +6,15 @@
       const url = this.getAttribute('href');
       const content = document.getElementById('content');
   
-
+      const response = await fetch(url);
+      const html = await response.text();
   
       window.scrollTo(0, 0);
   
       document.querySelectorAll('.sublist').forEach(ul => ul.remove());
   
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = content;
+      tempDiv.innerHTML = html;
       const headers = tempDiv.querySelectorAll('h3, h4');
   
       if (headers.length > 0) {
