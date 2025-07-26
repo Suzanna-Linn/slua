@@ -1,4 +1,3 @@
-<script>
 document.querySelectorAll('.page-link').forEach(link => {
   link.addEventListener('click', async function (e) {
     e.preventDefault();
@@ -39,4 +38,3 @@ document.querySelectorAll('.page-link').forEach(link => {
     }
   });
 });
-</script>
