@@ -1,31 +1,24 @@
-(function () {
-  document.querySelectorAll('.page-link').forEach(link => {
-    link.addEventListener('click', async function (e) {
-      e.preventDefault();
-  
-      const url = this.getAttribute('href');
-      const content = document.getElementById('content');
-  
-      const response = await fetch(url);
-      const html = await response.text();
-  
-      window.scrollTo(0, 0);
-  
-      document.querySelectorAll('.sublist').forEach(ul => ul.remove());
-  
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      const headers = tempDiv.querySelectorAll('h3, h4');
-  
+document.addEventListener('DOMContentLoaded', function () {
+  const sidebarLinks = document.querySelectorAll('.page-link');
+  const currentPath = window.location.pathname;
+
+  sidebarLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    const linkPath = new URL(href, window.location.origin).pathname;
+
+    if (linkPath === currentPath) {
+      // This is the active page link — add sublist
+      const headers = document.querySelectorAll('main.content article h2, h3');
+
       if (headers.length > 0) {
         const sublist = document.createElement('ul');
         sublist.classList.add('sublist');
-  
+
         headers.forEach(header => {
           if (!header.id) {
             header.id = header.textContent.toLowerCase().replace(/\s+/g, '-');
           }
-  
+
           const li = document.createElement('li');
           const a = document.createElement('a');
           a.href = `#${header.id}`;
@@ -33,9 +26,9 @@
           li.appendChild(a);
           sublist.appendChild(li);
         });
-  
-        this.parentElement.appendChild(sublist);
+
+        link.parentElement.appendChild(sublist);
       }
-    });
+    }
   });
-})();
+});
