@@ -6,9 +6,7 @@
       const url = this.getAttribute('href');
       const content = document.getElementById('content');
   
-      const response = await fetch(url);
-      const html = await response.text();
-      content.innerHTML = html;
+
   
       window.scrollTo(0, 0);
   
