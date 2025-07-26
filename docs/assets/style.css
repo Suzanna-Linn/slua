@@ -160,3 +160,13 @@ pre.line-numbers {
 .content li {
   max-width: 900px;
 }
+
+#sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#sidebar .sublist {
+  margin-left: 1rem;
+  font-size: 0.9em;
+}
