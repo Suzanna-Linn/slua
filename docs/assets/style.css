@@ -88,6 +88,7 @@ body {
   font-size: 1.8em;
   font-weight: bold;
   font-style: italic;
+  text-align: center;
   margin-bottom: 20px;
 }
 
@@ -146,10 +147,10 @@ pre.line-numbers {
   margin-top: auto;
   margin-bottom: 0.5rem;
   padding: 0.6em 1em;
-  font-size: 1rem;
+  font-size: 0.9rem;
   background: #f0f4ff;
   color: #1a2a4f;
-  border: 2px dashed #5e95f5;
+  border: 2px #5e95f5;
   border-radius: 8px;
   text-align: center;
   font-weight: 600;
