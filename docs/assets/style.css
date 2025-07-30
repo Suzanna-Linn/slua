@@ -83,6 +83,12 @@ body {
   min-height: calc(100vh - 2rem);
 }
 
+.title {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 .content {
   width: 100%;
   margin-left: 220px;
