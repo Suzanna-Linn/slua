@@ -144,10 +144,11 @@ pre.line-numbers {
 }
 
 .theme-toggle {
+  color: #3399FF;
   margin-top: auto;
   margin-bottom: 0.5rem;
   padding: 0.6em 1em;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   background: #f0f4ff;
   color: #1a2a4f;
   border: 2px #5e95f5;
