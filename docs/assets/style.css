@@ -175,7 +175,7 @@ pre.line-numbers {
 }
 
 .sidebar .sublist {
-  margin: 0.3rem 0 0.8rem 1.2rem;
+  margin: 0.3rem 0 0.8rem 0.6rem;
   padding-left: 0.5rem;
   list-style: none;
   font-size: 0.85rem;
@@ -205,5 +205,5 @@ pre.line-numbers {
 
 .sidebar .sublist a:hover {
   background-color: #cce1ff;
-  color: #000d2b;
+  color: #08377c;
 }
