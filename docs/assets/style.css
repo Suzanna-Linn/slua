@@ -165,9 +165,12 @@ pre.line-numbers {
   outline: none;
 }
 
-.content p,
-.content li {
+.content p {
   max-width: 900px;
+}
+
+.content li {
+  max-width: 860px;
 }
 
 .sidebar .sublist {
