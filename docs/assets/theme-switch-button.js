@@ -8,7 +8,7 @@
   if (savedTheme === 'night') {
     dayTheme.disabled = true;
     nightTheme.disabled = false;
-    button.textContent = 'Script theme to light';
+    button.textContent = 'Light script theme';
   }
 
   button.addEventListener('click', function () {
@@ -19,13 +19,13 @@
       dayTheme.disabled = false;
       nightTheme.disabled = true;
       localStorage.setItem('theme', 'day');
-      button.textContent = 'Script theme to dark';
+      button.textContent = 'Dark script theme';
     } else {
       // Switch to night
       dayTheme.disabled = true;
       nightTheme.disabled = false;
       localStorage.setItem('theme', 'night');
-      button.textContent = 'Script theme to light';
+      button.textContent = 'Light script theme';
     }
 
     // Remove focus from button
