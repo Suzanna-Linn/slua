@@ -179,7 +179,7 @@ pre.line-numbers {
   padding-left: 0;
   list-style: none;
 }
-.sidebar ul li ul.submenu a {
+.sidebar ul li ul.submenu > li > a {
   display: block;
   padding: 0.35em 0.6em;
   margin: 0.25em 0;
@@ -193,14 +193,14 @@ pre.line-numbers {
   transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
   user-select: none;
 }
-.sidebar ul li ul.submenu a:hover,
-.sidebar ul li ul.submenu a:focus {
+.sidebar ul li ul.submenu > li > a:hover,
+.sidebar ul li ul.submenu > li > a:focus {
   background: #a4c0fa;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
   transform: translateY(-1.5px);
   outline: none;
 }
-.sidebar ul li ul.submenu a.active {
+.sidebar ul li ul.submenu > li > a.active {
   background: #7c9ef9;
   color: #fff;
   cursor: default;
