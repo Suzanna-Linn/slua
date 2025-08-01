@@ -174,6 +174,43 @@ pre.line-numbers {
   max-width: 860px;
 }
 
+.sidebar ul li ul.submenu {
+  margin-left: 1em
+  padding-left: 0;
+  list-style: none;
+}
+.sidebar ul li ul.submenu a {
+  display: block;
+  padding: 0.35em 0.6em;
+  margin: 0.25em 0;
+  background: #c7d8fb;
+  color: #08448c;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+  user-select: none;
+}
+.sidebar ul li ul.submenu a:hover,
+.sidebar ul li ul.submenu a:focus {
+  background: #a4c0fa;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1.5px);
+  outline: none;
+}
+.sidebar ul li ul.submenu a.active {
+  background: #7c9ef9;
+  color: #fff;
+  cursor: default;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+.sidebar ul li ul.submenu li {
+  margin: 0;
+  padding: 0;
+}
+
 .sidebar .sublist {
   margin: 0.3rem 0 0.8rem 0.6rem;
   padding-left: 0.5rem;
