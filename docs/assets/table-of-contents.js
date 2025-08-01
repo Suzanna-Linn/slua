@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
   const sidebarLinks = document.querySelectorAll('.page-link');
   const currentPath = window.location.pathname;
-  
-  if (currentPath.startsWith('/slua/moving')) {
-    const submenu = document.querySelector('.submenu');
-    if (submenu) {
+
+  const submenu = document.querySelector('.submenu');
+  if (submenu) {
+    if (currentPath.startsWith('/slua/moving')) {
       submenu.style.display = 'block';
+      if (currentPath == '/slua/moving') return;
+    else
+      submenu.style.display = 'none';      
     }
-    if (currentPath == '/slua/moving') return;
   }
 
   sidebarLinks.forEach(link => {
