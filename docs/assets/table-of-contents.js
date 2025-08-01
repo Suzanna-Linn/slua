@@ -15,14 +15,22 @@ document.addEventListener('DOMContentLoaded', function () {
         sublist.classList.add('sublist');
 
         headers.forEach(header => {
-          if (!header.id) {
-            header.id = header.textContent.toLowerCase().replace(/\s+/g, '-');
-          }
-
           const li = document.createElement('li');
           const a = document.createElement('a');
-          a.href = `#${header.id}`;
-          a.textContent = header.textContent;
+
+          const innerLink = header.querySelector('a');
+
+          if (innerLink && innerLink.getAttribute('href')) {
+            a.href = innerLink.getAttribute('href');
+            a.textContent = innerLink.textContent;
+          } else {
+            if (!header.id) {
+              header.id = header.textContent.toLowerCase().replace(/\s+/g, '-');
+            }
+            a.href = `#${header.id}`;
+            a.textContent = header.textContent;
+          }
+
           li.appendChild(a);
           sublist.appendChild(li);
         });
