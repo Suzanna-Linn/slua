@@ -69,4 +69,4 @@ with all the functions coming from LSL (523 functions, currently).
 
 The functions have the same name, without the "ll" at the start (because "ll" is now the name of the library).
 
-So <code class="language-lsl">llSay</code> becomes the function <code class="language-slua">Say</code> in the library <code class="language-slua">ll</code> and is used as <code class="language-slua">ll.Say</code>.
+So <code class="language-lsl">llSay()</code> becomes the function <code class="language-slua">Say()</code> in the library <code class="language-slua">ll</code> and is used as <code class="language-slua">ll.Say()</code>.
