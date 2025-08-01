@@ -2,7 +2,9 @@
 
 These are the steps to follow before starting to script in SLua:
 
-* Install the "Second Life Project Lua Editor" viewer, from: <https://releasenotes.secondlife.com/viewer.html>. This is a different viewer, with a different icon, than the "Second Life Viewer". We can keep our usual viewer for the main grid and use this one for the beta grid.
+* Install the "Second Life Project Lua Editor" viewer, from:  
+  <https://releasenotes.secondlife.com/viewer.html>  
+  This is a different viewer, with a different icon, than the "Second Life Viewer". We can keep our usual viewer for the main grid and use this one for the beta grid.
 
 * Access the Beta Grid (Aditi), explained in:  
   <https://lindenlab.freshdesk.com/support/solutions/articles/31000156725-accessing-aditi>
