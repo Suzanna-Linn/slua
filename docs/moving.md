@@ -6,9 +6,9 @@ In this section, we will learn how to rewrite our LSL scripts in SLua through a 
 To follow this section effectively, a basic understanding of Lua is required, as covered in the previous two sections.
 
 
-### [Using SLua in the beta grid](/slua/links)
+### [Using SLua in the beta grid](/slua/moving-using)
 
-### [Libraries](/slua/links)
+### [Libraries](/slua/moving-libraries)
 
 ### [Datatypes](/slua/links)
 
