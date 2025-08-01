@@ -10,15 +10,13 @@ SLua has added all the LL constants (1002 constants, currently).
 
 The global variables and functions created by the script will also be in this table.
 
-
--- list of global functions (SLua)
+<pre class="language-slua line-numbers"><code class="language-slua">-- list of global functions (SLua)
 
 for key, value in pairs(_G) do
-    if type(value) ### "function" then
+    if type(value) == "function" then
         ll.OwnerSay(key)
     end
-end
-
+end</code></pre>
 
 There are 22 functions that come from Luau, they are documented in https://luau.org/library:
 
@@ -49,15 +47,13 @@ We will see them in the Datatypes section below.
 
 The libraries are in the global namespace as tables.
 
-
--- list of global tables (SLua)
+<pre class="language-slua line-numbers"><code class="language-slua">-- list of global tables (SLua)
 
 for key, value in pairs(_G) do
-    if type(value) ### "table" then
+    if type(value) == "table" then
         ll.OwnerSay(key)
     end
-end
-
+end</code></pre>
 
 There are 10 libraries that come from Luau, with all the same functions, documented in https://luau.org/library:
 
@@ -73,5 +69,4 @@ with all the functions coming from LSL (523 functions, currently).
 
 The functions have the same name, without the "ll" at the start (because "ll" is now the name of the library).
 
-So <code>llSay</code> becomes the function <code>Say</code> in the library <code>ll</code> and is used as <code>ll.Say</code>.
-
+So <code class="language-lsl">llSay</code> becomes the function <code class="language-lua">Say</code> in the library <code class="language-lua">ll</code> and is used as <code class="language-lua">ll.Say</code>.
