@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (currentPath.startsWith('/slua/moving')) {
       submenu.style.display = 'block';
       if (currentPath == '/slua/moving') return;
-    else
+    } else {
       submenu.style.display = 'none';      
     }
   }
