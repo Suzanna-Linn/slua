@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (submenu) {
       submenu.style.display = 'block';
     }
+    if (currentPath == '/slua/moving') return;
   }
 
   sidebarLinks.forEach(link => {
