@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
   const sidebarLinks = document.querySelectorAll('.page-link');
   const currentPath = window.location.pathname;
+  
+  if (currentPath.startsWith('/slua/moving')) {
+    const submenu = document.querySelector('.submenu');
+    if (submenu) {
+      submenu.style.display = 'block';
+    }
+  }
 
   sidebarLinks.forEach(link => {
     const href = link.getAttribute('href');
@@ -17,19 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
         headers.forEach(header => {
           const li = document.createElement('li');
           const a = document.createElement('a');
-
-          const innerLink = header.querySelector('a');
-
-          if (innerLink && innerLink.getAttribute('href')) {
-            a.href = innerLink.getAttribute('href');
-            a.textContent = innerLink.textContent;
-          } else {
-            if (!header.id) {
-              header.id = header.textContent.toLowerCase().replace(/\s+/g, '-');
-            }
-            a.href = `#${header.id}`;
-            a.textContent = header.textContent;
+          
+          if (!header.id) {
+            header.id = header.textContent.toLowerCase().replace(/\s+/g, '-');
           }
+          a.href = `#${header.id}`;
+          a.textContent = header.textContent;
 
           li.appendChild(a);
           sublist.appendChild(li);
