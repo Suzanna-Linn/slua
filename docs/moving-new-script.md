@@ -18,7 +18,7 @@ default
 
 //</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- the "New Script" (SLua - LSL style)
+<pre class="language-slua"><code class="language-slua">-- the "New Script" (SLua - LSL style)
 
 
 
@@ -35,7 +35,7 @@ end
 
 state_entry()</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- the "New Script" (SLua - Lua style)
+<pre class="language-slua"><code class="language-slua">-- the "New Script" (SLua - Lua style)
 
 
 
@@ -54,8 +54,8 @@ ll.Say(0, "Hello, Avatar!")</code></pre>
 </td></tr></table>
 
 
-SLua doesn't have states and there are no events <code class="language-lsl">state_entry</code> or <code class="language-lsl">state_exit</code>.
+SLua doesn't have states and there are no events <code class="language-lsl">state_entry()</code> or <code class="language-lsl">state_exit()</code>.
 
-To keep the LSL structure, we can write a function with name <code class="language-slua">state_entry</code> (it's not an event, just a function) and call it from the top-level code (LSL-style script, line  16).
+To keep the LSL structure, we can write a function with name <code class="language-slua">state_entry()</code> (it's not an event, just a function) and call it from the top-level code (LSL-style script, last line).
 
-Or move the code in the LSL <code class="language-lsl">state_entry</code> to the top-level code (Lua-style script, line  16).
+Or move the code in the LSL <code class="language-lsl">state_entry()</code> to the top-level code (Lua-style script, last line).
