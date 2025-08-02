@@ -2,13 +2,13 @@
 
 ### LSL integer
 
-Used as a boolean value, with contants <code class="language-lsl>TRUE</code> and <code class="language-lsl>FALSE</code> is a SLua type boolean, with values <code class="language-slua>true</code> and <code class="language-slua>false</code>.
+Used as a boolean value, with contants <code class="language-lsl">TRUE</code> and <code class="language-lsl">FALSE</code> is a SLua type boolean, with values <code class="language-slua">true</code> and <code class="language-slua">false</code>.
 
 Used as an integer is a SLua type number (which has integer and float values all in the same datatype).
 
 SLua adds the type integer, which is the same than the LSL integer, because some LL functions that use lists as parameters need the integers to be of type integer, not number.
 
-* We get an integer value using <code class="language-slua>myInt = integer(42)</code>.
+* We get an integer value using <code class="language-slua">myInt = integer(42)</code>.
 
 * Use always the type number for any number, use the type integer only when it is necessary for the LL functions.
 
