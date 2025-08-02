@@ -36,7 +36,7 @@ end
 
 There aren't states in Slua.
 
-The events <code class="language-lsl">state_entry</code> and <code class="language-lsl">state_exit</code> doesn't exist.
+The events <code class="language-lsl">state_entry()</code> and <code class="language-lsl">state_exit()</code> doesn't exist.
 
 The script executes the code that is at the top level, out of the functions.
 
