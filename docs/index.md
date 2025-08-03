@@ -22,12 +22,12 @@ If you have any questions, suggestions, or feedback about SLua scripting, feel f
 
 <form id="contact-form">
   <label for="username">Your username in SecondLife:</label><br />
-  <input type="text" id="username" name="username" required style="width: 100%; max-width: 300px;" /><br /><br />
+  <input type="text" id="username" name="username" required style="width: 100%; max-width: 400px;" /><br /><br />
 
   <label for="message">Your message:</label><br />
-  <textarea id="message" name="message" rows="8" required style="width: 100%; max-width: 600px;"></textarea><br /><br />
+  <textarea id="message" name="message" rows="8" required style="width: 100%; max-width: 800px;"></textarea><br /><br />
 
-  <button type="submit">Send</button>
+  <button type="submit" style = "padding: 0.35em 0.6em; background: #c7d8fb; color: #08448c; font-weight: 600; border-radius: 6px;">Send</button>
 </form>
 
 <div id="response" style="margin-top: 1em;"></div>
