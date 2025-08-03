@@ -27,7 +27,7 @@ If you have any questions, suggestions, or feedback about SLua scripting, feel f
   <label for="message">Your message:</label><br />
   <textarea id="message" name="message" rows="8" required style="width: 100%; max-width: 800px;"></textarea><br /><br />
 
-  <button type="submit">Send</button>
+  <button type="submit" class="button">Send</button>
 </form>
 
 <div id="response" style="margin-top: 1em;"></div>
