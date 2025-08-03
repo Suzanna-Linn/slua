@@ -41,9 +41,15 @@ document.addEventListener('DOMContentLoaded', function () {
         link.parentElement.appendChild(sublist);
       }
 
-      const activeElement = link.closest('li');
-      if (activeElement) {
-        activeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      let elementToScroll = null;
+      const parentSubMenu = link.closest('ul.submenu');
+      if (parentSubMenu) {
+        elementToScroll = parentSubMenu.closest('li.has-submenu');
+      } else {
+        elementToScroll = parentLi;
+      }
+      if (elementToScroll) {
+        elementToScroll.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
     }
   });
