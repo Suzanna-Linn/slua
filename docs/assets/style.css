@@ -181,10 +181,13 @@ pre.line-numbers {
 }
 
 .sidebar ul li ul.submenu {
+  display: none;
   margin-left: 1em;
   padding-left: 0;
   list-style: none;
-  display: none;
+}
+.sidebar li.has-submenu.open > ul.submenu {
+  display: block;
 }
 .sidebar ul li ul.submenu > li > a {
   display: block;
@@ -216,9 +219,6 @@ pre.line-numbers {
 .sidebar ul li ul.submenu li {
   margin: 0;
   padding: 0;
-}
-.has-submenu.open .sidebar ul li ul.submenu {
-  display: block;
 }
 
 .sidebar .sublist {
