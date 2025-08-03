@@ -6,26 +6,26 @@ In this section, we will learn how to rewrite our LSL scripts in SLua through a 
 To follow this section effectively, a basic understanding of Lua is required, as covered in the previous two sections.
 
 
-### [Using SLua in the beta grid](/slua/moving-using)
+[Using SLua in the beta grid](/slua/moving-using)
 
-### [Libraries](/slua/moving-libraries)
+[Libraries](/slua/moving-libraries)
 
-### [Datatypes](/slua/links)
+[Datatypes](/slua/links)
 
-### [Events](/slua/links)
+[Events](/slua/links)
 
-### [The New Script](/slua/links)
+[The New Script](/slua/links)
 
-### [Operators](/slua/links)
+[Operators](/slua/links)
 
-### [Functions](/slua/links)
+[Functions](/slua/links)
 
-### [Expressions](/slua/links)
+[Expressions](/slua/links)
 
-### [If](/slua/links)
+[If](/slua/links)
 
-### [Loops](/slua/links)
+[Loops](/slua/links)
 
-### [Strings](/slua/links)
+[Strings](/slua/links)
 
-### [Lists](/slua/links)
+[Lists](/slua/links)
