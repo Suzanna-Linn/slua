@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       
       if (elementToScroll) {
-        elementToScroll.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        elementToScroll.scrollIntoView({ behavior: 'smooth', block: 'start' });  // start, nearest
       }
     }
   });
