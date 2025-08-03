@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
   const sidebarLinks = document.querySelectorAll('.page-link');
   const currentPath = window.location.pathname;
+  const menuItems = document.querySelectorAll('.has-submenu');
 
-  const submenu = document.querySelector('.submenu');
-  if (submenu) {
-    if (currentPath.startsWith('/slua/moving')) {
-      submenu.style.display = 'block';
-      if (currentPath == '/slua/moving') return;
+  menuItems.forEach(menuItem => {
+    const path = menuItem.getAttribute('data-path');
+    if (currentPath.startsWith(path)) {
+      menuItem.classList.add('open');
     } else {
-      submenu.style.display = 'none';      
+      menuItem.classList.remove('open');
     }
-  }
+  });
 
   sidebarLinks.forEach(link => {
     const href = link.getAttribute('href');
