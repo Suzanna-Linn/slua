@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const sidebarLinks = document.querySelectorAll('.page-link');
   const currentPath = window.location.pathname;
   const menuItems = document.querySelectorAll('.has-submenu');
+  const sidebar = document.querySelector('aside.sidebar');
 
   menuItems.forEach(menuItem => {
     const path = menuItem.getAttribute('data-path');
@@ -54,4 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
+
+  if (sidebar) {
+    sidebar.classList.add('loaded');
+  }  
 });
