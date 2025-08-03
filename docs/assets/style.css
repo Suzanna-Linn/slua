@@ -26,6 +26,12 @@ body {
   font-size: 1.1rem;
   line-height: 1.5;
   box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+
+.sidebar.loaded {
+  opacity: 1;
 }
 
 .sidebar h2 {
