@@ -17,3 +17,46 @@ In these pages, I am compiling information about Lua and SLua (the version of Lu
 If LSL is your main scripting language and you want to expand your programming skills beyond SL, learning Lua is a great next step. Lua introduces powerful features and modern programming concepts that will broaden your knowledge and make it easier to transition to modern, in-demand languages like C#, Python, and JavaScript.
 
 ## Contact me
+
+If you have any questions, suggestions, or feedback about SLua scripting, feel free to reach out! Just fill in the form below:
+
+<form id="contact-form">
+  <label for="username">Your username in SecondLife:</label><br />
+  <input type="text" id="username" name="username" required /><br /><br />
+
+  <label for="message">Your message:</label><br />
+  <textarea id="message" name="message" rows="8" required></textarea><br /><br />
+
+  <button type="submit">Send</button>
+</form>
+
+<div id="response" style="margin-top: 1em;"></div>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const url = 'https://script.google.com/macros/s/AKfycbyHcSCjjt3mZjTwWEBe__dQPynkChSThF7qzAcj8a4S1sU7QUDP2abIlTZkvW_6Gbrt/exec';
+
+  const formData = new URLSearchParams();
+  formData.append('Action', 'send mail');
+  formData.append('Subject', 'SLua webpage: ' + document.getElementById('username').value.trim());
+  formData.append('Html', document.getElementById('message').value.trim());
+  formData.append('Body', document.getElementById('message').value.trim());
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: formData.toString()
+  })
+  .then(() => {
+    document.getElementById('response').innerText = 'Thank you! Your message has been sent.';
+    document.getElementById('contact-form').reset();
+  })
+  .catch(() => {
+    document.getElementById('response').innerText = 'Oops! Something went wrong. Please try again later.';
+  });
+});
+</script>
