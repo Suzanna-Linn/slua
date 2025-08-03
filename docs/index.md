@@ -4,11 +4,9 @@ title: Home
 ---
 ## Welcome to Suzanna's SLua guide!
 
-### About me
-
 Hi, I'm Suzanna, a teacher of scripting in SecondLife, and a programmer in real life.
 
-### Introducing Lua: The New Scripting Language for SL.
+## Introducing Lua: The New Scripting Language for SL.
 
 Lua for SL (SLua) has arrived to the Beta grid. I'm adding a new section "Moving from LSL to SLua" explaining how to rewrite our LSL scripts in SLua.
 
@@ -18,4 +16,4 @@ In these pages, I am compiling information about Lua and SLua (the version of Lu
 
 If LSL is your main scripting language and you want to expand your programming skills beyond SL, learning Lua is a great next step. Lua introduces powerful features and modern programming concepts that will broaden your knowledge and make it easier to transition to modern, in-demand languages like C#, Python, and JavaScript.
 
-### Contact me
+## Contact me
