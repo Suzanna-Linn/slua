@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const linkPath = new URL(href, window.location.origin).pathname;
 
     if (linkPath === currentPath) {
-      // This is the active page link — add sublist
       const headers = document.querySelectorAll('main.content article h3, h4');
 
       if (headers.length > 0) {
@@ -43,11 +42,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
       let elementToScroll = null;
       const parentSubMenu = link.closest('ul.submenu');
+      
       if (parentSubMenu) {
         elementToScroll = parentSubMenu.closest('li.has-submenu');
       } else {
-        elementToScroll = parentLi;
+        elementToScroll = link.closest('li');
       }
+      
       if (elementToScroll) {
         elementToScroll.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
