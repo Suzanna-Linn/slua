@@ -40,6 +40,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         link.parentElement.appendChild(sublist);
       }
+
+      const activeElement = link.closest('li');
+      if (activeElement) {
+        activeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
   });
 });
