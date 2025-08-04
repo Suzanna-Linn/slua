@@ -1,23 +1,7 @@
 ## Transpiler
 
 <div id="transpiled-container" style="display: none; margin-top: 1em;">
-<pre class="language-slua line-numbers"><code class="language-slua" id="transpiled-output">-- types and variables (Lua)
-
-isOn = true
-myCounter = 10
-myValue = 3.75
-myMessage = "Hello"
-
-print( type( isOn ) )       -- boolean
-print( type( myCounter ) )  -- number
-print( type( myValue ) )    -- number
-print( type( myMessage ) )  -- string
-
-myMessage = myCounter
-print( type( myMessage ) )  -- number
-
-myMessage = tostring( myCounter )
-print( type( myMessage ) )  -- string</code></pre>
+<pre class="language-slua line-numbers"><code class="language-slua" id="transpiled-output"></code></pre>
 </div>
 
 <form id="transpiler-form" autocomplete="off">
