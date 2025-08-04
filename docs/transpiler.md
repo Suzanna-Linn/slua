@@ -1,10 +1,7 @@
 ## Transpiler
 
-### test
-
-<div id="transpiled-container">
-  <pre class="language-slua line-numbers">
-    <code class="language-slua" id="transpiled-output">-- types and variables (Lua)
+<div id="transpiled-container style="display: none; margin-top: 1em;">
+<pre class="language-slua line-numbers"><code class="language-slua" id="transpiled-output">-- types and variables (Lua)
 
 isOn = true
 myCounter = 10
@@ -20,8 +17,7 @@ myMessage = myCounter
 print( type( myMessage ) )  -- number
 
 myMessage = tostring( myCounter )
-print( type( myMessage ) )  -- string</code>
-  </pre>
+print( type( myMessage ) )  -- string</code></pre>
 </div>
 
 <form id="transpiler-form" autocomplete="off">
@@ -42,7 +38,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   const responseDiv = document.getElementById('response');
   const outputCode = document.getElementById('transpiled-output');
 
-  // transpiledDiv.style.display = 'none';
+  transpiledDiv.style.display = 'none';
   responseDiv.innerText = 'Transpiling... please wait.';
   outputCode.textContent = '';
 
@@ -67,7 +63,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
     } else {
       responseDiv.innerText = 'The SLua script is ready.';
       outputCode.textContent = text.trim();
-      // transpiledDiv.style.display = 'block';
+      transpiledDiv.style.display = 'block';
       Prism.highlightElement(outputCode);
     }
   })
