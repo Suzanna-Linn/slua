@@ -1,6 +1,6 @@
 ## Transpiler
 
-<div id="transpiled-container style="display: none; margin-top: 1em;">
+<div id="transpiled-container" style="display: none; margin-top: 1em;">
 <pre class="language-slua line-numbers"><code class="language-slua" id="transpiled-output">-- types and variables (Lua)
 
 isOn = true
