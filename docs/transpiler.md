@@ -43,10 +43,15 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   })
   .then(response => response.text())
   .then(text => {
-    responseDiv.innerText = 'The SLua script is ready.';
-    outputCode.textContent = text.trim();
-    transpiledDiv.style.display = 'block';
-    Prism.highlightElement(outputCode);
+    if (text.startsWith('|')) {
+      responseDiv.innerText = text.slice(1).trim();
+      outputCode.textContent = '';
+    } else {
+      responseDiv.innerText = 'The SLua script is ready.';
+      outputCode.textContent = text.trim();
+      transpiledDiv.style.display = 'block';
+      Prism.highlightElement(outputCode);
+    }
   })
   .catch(error => {
     responseDiv.innerText = error.message;
