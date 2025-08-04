@@ -1,8 +1,10 @@
 ## Transpiler
 
-<pre class="language-slua line-numbers">
-  <code class="language-slua" id="transpiled-output"></code>
-</pre>
+<div id="transpiled-container" style="display: none; margin-top: 1em;">
+  <pre class="language-slua line-numbers">
+    <code class="language-slua" id="transpiled-output"></code>
+  </pre>
+</div>
 
 <form id="transpiler-form" autocomplete="off">
   <label for="script">LSL script:</label><br />
@@ -18,9 +20,11 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   e.preventDefault();
 
   const scriptText = document.getElementById('script').value.trim();
+  const transpiledDiv = document.getElementById('transpiled-container')
   const responseDiv = document.getElementById('response');
   const outputCode = document.getElementById('transpiled-output');
 
+  transpiledDiv.style.display = 'none';
   responseDiv.innerText = 'Transpiling... please wait.';
   outputCode.textContent = '';
 
@@ -41,6 +45,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   .then(text => {
     responseDiv.innerText = 'The SLua script is ready.';
     outputCode.textContent = text.trim();
+    transpiledDiv.style.display = 'block';
     Prism.highlightElement(outputCode);
   })
   .catch(error => {
@@ -53,5 +58,6 @@ document.getElementById('clear-button').addEventListener('click', function() {
   document.getElementById('script').value = '';
   document.getElementById('response').innerText = '';
   document.getElementById('transpiled-output').textContent = '';
+  document.getElementById('transpiled-container').style.display = 'none';
 });
 </script>
