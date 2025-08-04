@@ -1,8 +1,12 @@
 ## Transpiler
 
-<div id="transpiled-container"> // style="display: none; margin-top: 1em;">
+// style="display: none; margin-top: 1em;">
+
+<div id="transpiled-container">
   <pre class="language-slua line-numbers">
-    <code class="language-slua" id="transpiled-output"></code>
+    <code class="language-slua" id="transpiled-output">local slEvents = { ["state_entry"]=0, ["touch_start"]=0 }
+local slFunctions = { ["llSay"]=0, ["llGiveInventory"]=0 }
+local slConstants = { ["TRUE"]=1, ["FALSE"]=1, ["NULL_KEY"]=4 }</code>
   </pre>
 </div>
 
