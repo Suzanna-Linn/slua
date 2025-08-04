@@ -1,6 +1,6 @@
 ## Transpiler
 
-<div id="transpiled-container" style="display: none; margin-top: 1em;">
+<div id="transpiled-container"> // style="display: none; margin-top: 1em;">
   <pre class="language-slua line-numbers">
     <code class="language-slua" id="transpiled-output"></code>
   </pre>
@@ -24,7 +24,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   const responseDiv = document.getElementById('response');
   const outputCode = document.getElementById('transpiled-output');
 
-  transpiledDiv.style.display = 'none';
+  // transpiledDiv.style.display = 'none';
   responseDiv.innerText = 'Transpiling... please wait.';
   outputCode.textContent = '';
 
@@ -49,7 +49,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
     } else {
       responseDiv.innerText = 'The SLua script is ready.';
       outputCode.textContent = text.trim();
-      transpiledDiv.style.display = 'block';
+      // transpiledDiv.style.display = 'block';
       Prism.highlightElement(outputCode);
     }
   })
