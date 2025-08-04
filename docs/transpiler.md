@@ -4,9 +4,23 @@
 
 <div id="transpiled-container">
   <pre class="language-slua line-numbers">
-    <code class="language-slua" id="transpiled-output">local slEvents = { ["state_entry"]=0, ["touch_start"]=0 }
-local slFunctions = { ["llSay"]=0, ["llGiveInventory"]=0 }
-local slConstants = { ["TRUE"]=1, ["FALSE"]=1, ["NULL_KEY"]=4 }</code>
+    <code class="language-slua" id="transpiled-output">-- types and variables (Lua)
+
+isOn = true
+myCounter = 10
+myValue = 3.75
+myMessage = "Hello"
+
+print( type( isOn ) )       -- boolean
+print( type( myCounter ) )  -- number
+print( type( myValue ) )    -- number
+print( type( myMessage ) )  -- string
+
+myMessage = myCounter
+print( type( myMessage ) )  -- number
+
+myMessage = tostring( myCounter )
+print( type( myMessage ) )  -- string</code>
   </pre>
 </div>
 
