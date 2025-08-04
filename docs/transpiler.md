@@ -28,7 +28,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   responseDiv.innerText = 'Transpiling... please wait.';
   outputCode.textContent = '';
 
-  const url = 'https://script.google.com/macros/s/AKfycbyHcSCjjt3mZjTwWEBe__dQPynkChSThF7qzAcj8a4S1sU7QUDP2abIlTZkvW_6Gbrt/exec';
+  const url = 'https://script.google.com/macros/s/AKfycbzQ_rwXsMwF6LpVOWtclK0Mk8avcuyuCFffUtYc44x_F2EzYwUHuS9gfQq4XMumHVJ3/exec';
 
   const formData = new URLSearchParams();
   formData.append('Action', 'transpiler');
