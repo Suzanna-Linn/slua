@@ -1,1 +1,57 @@
 ## Transpiler
+
+<pre class="language-slua line-numbers">
+  <code class="language-slua" id="transpiled-output"></code>
+</pre>
+
+<form id="transpiler-form" autocomplete="off">
+  <label for="script">LSL script:</label><br />
+  <textarea id="script" name="script" rows="20" required style="width: 100%; white-space: pre-wrap; word-break: break-word;"></textarea><br /><br />
+  <button type="submit" class="button">Send</button>
+  <button type="button" id="clear-button" class="button">Clear</button>
+</form>
+
+<div id="response" style="margin-top: 1em;"></div>
+
+<script>
+document.getElementById('transpiler-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const scriptText = document.getElementById('script').value.trim();
+  const responseDiv = document.getElementById('response');
+  const outputCode = document.getElementById('transpiled-output');
+
+  responseDiv.innerText = 'Transpiling... please wait.';
+  outputCode.textContent = '';
+
+  const url = 'https://script.google.com/macros/s/AKfycbyHcSCjjt3mZjTwWEBe__dQPynkChSThF7qzAcj8a4S1sU7QUDP2abIlTZkvW_6Gbrt/exec';
+
+  const formData = new URLSearchParams();
+  formData.append('Action', 'transpiler');
+  formData.append('Script', scriptText);
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: formData.toString()
+  })
+  .then(response => response.text())
+  .then(text => {
+    responseDiv.innerText = 'The SLua script is ready.';
+    outputCode.textContent = text.trim();
+    Prism.highlightElement(outputCode);
+  })
+  .catch(error => {
+    responseDiv.innerText = error.message;
+    outputCode.textContent = '';
+  });
+});
+
+document.getElementById('clear-button').addEventListener('click', function() {
+  document.getElementById('script').value = '';
+  document.getElementById('response').innerText = '';
+  document.getElementById('transpiled-output').textContent = '';
+});
+</script>
