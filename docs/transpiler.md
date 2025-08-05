@@ -7,11 +7,12 @@
 <form id="transpiler-form" autocomplete="off">
   <label for="script">LSL script:</label><br />
   <textarea id="script" name="script" rows="20" required style="width: 100%; white-space: pre-wrap; word-break: break-word;"></textarea><br /><br />
-  <button type="submit" class="button">Send</button>
+  <button type="submit" class="button">Transpile</button>
   <button type="button" id="clear-button" class="button">Clear</button>
 </form>
-
 <div id="response" style="margin-top: 1em;"></div>
+
+
 
 <script>
 document.getElementById('transpiler-form').addEventListener('submit', function(e) {
