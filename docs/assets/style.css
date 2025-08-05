@@ -291,3 +291,20 @@ pre.line-numbers {
   transform: translateY(1px);
   color: #fff;
 }
+
+button:disabled,
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: #ccc;
+  color: #666;
+  box-shadow: none;
+}
+
+button:disabled:hover,
+button[disabled]:hover {
+  background-color: #ccc;
+  color: #666;
+  box-shadow: none;
+}
