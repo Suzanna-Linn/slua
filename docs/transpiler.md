@@ -1,5 +1,7 @@
 ## Transpiler
 
+### Transpile a LSL script to SLua
+
 <div id="transpiled-container" style="display: none; margin-top: 1em;">
 <pre class="language-slua line-numbers"><code class="language-slua" id="transpiled-output"></code></pre>
 </div>
@@ -11,6 +13,15 @@
   <button type="button" id="clear-button" class="button">Clear</button>
 </form>
 <div id="response" style="margin-top: 1em;"></div>
+
+### Report issues
+
+If the transpiler didn’t work correctly, you can report the issue below. There are two common cases:
+* Transpiler error: You receive an error message and no SLua script is returned.
+* Script issue: You receive a SLua script, but it doesn't work properly when tested in Second Life.
+
+Make sure your LSL script is still in the box above, it will be sent as a file attachment to help understand the issue. You can also add a comment describing what is wrong.
+Your Second Life username is optional, but feel free to include it if you'd like a follow-up. Thank you for helping improve the SLua transpiler!
 
 <form id="issue-form">
   <label for="username">Your username in SecondLife (optional):</label><br />
@@ -76,13 +87,23 @@ document.getElementById('clear-button').addEventListener('click', function() {
 });
 
 document.getElementById('issue-button').addEventListener('click', function(e) {
+  const scriptText = document.getElementById('script').value.trim();
+  const username = document.getElementById('username').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const responseDiv = document.getElementById('response-issue');
+  
+  if (!scriptText) {
+    responseDiv.innerText = 'Please include the LSL script before reporting an issue.';
+    return;
+  }
 
   const url = 'https://script.google.com/macros/s/AKfycbzQ_rwXsMwF6LpVOWtclK0Mk8avcuyuCFffUtYc44x_F2EzYwUHuS9gfQq4XMumHVJ3/exec';
   const formData = new URLSearchParams();
   formData.append('Action', 'send mail');
-  formData.append('Subject', 'Transpiler issue: ' + document.getElementById('username').value.trim());
-  formData.append('Html', document.getElementById('message').value.trim());
-  formData.append('Body', document.getElementById('message').value.trim());
+  formData.append('Subject', 'Transpiler issue: ' + (username || '(No username)'));
+  formData.append('Html', message || '(No message)');
+  formData.append('Body', message || '(No message)');
+  formData.append('Attachment', scriptText);
 
   fetch(url, {
     method: 'POST',
