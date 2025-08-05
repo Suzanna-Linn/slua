@@ -12,6 +12,16 @@
 </form>
 <div id="response" style="margin-top: 1em;"></div>
 
+<form id="issue-form">
+  <label for="username">Your username in SecondLife (optional):</label><br />
+  <input type="text" id="username" name="username" style="width: 100%; max-width: 400px;" /><br /><br />
+
+  <label for="message">Issue (optional):</label><br />
+  <textarea id="message" name="message" rows="8" style="width: 100%; max-width: 800px;"></textarea><br /><br />
+
+  <button type="button" id="issue-button" class="button">Report issue</button>
+</form>
+<div id="response-issue" style="margin-top: 1em;"></div>
 
 
 <script>
@@ -63,5 +73,30 @@ document.getElementById('clear-button').addEventListener('click', function() {
   document.getElementById('response').innerText = '';
   document.getElementById('transpiled-output').textContent = '';
   document.getElementById('transpiled-container').style.display = 'none';
+});
+
+document.getElementById('issue-button').addEventListener('click', function(e) {
+
+  const url = 'https://script.google.com/macros/s/AKfycbzQ_rwXsMwF6LpVOWtclK0Mk8avcuyuCFffUtYc44x_F2EzYwUHuS9gfQq4XMumHVJ3/exec';
+  const formData = new URLSearchParams();
+  formData.append('Action', 'send mail');
+  formData.append('Subject', 'Transpiler issue: ' + document.getElementById('username').value.trim());
+  formData.append('Html', document.getElementById('message').value.trim());
+  formData.append('Body', document.getElementById('message').value.trim());
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: formData.toString()
+  })
+  .then(() => {
+    document.getElementById('response-issue').innerText = 'Thank you! Your issue report has been sent.';
+    document.getElementById('issue-form').reset();
+  })
+  .catch(() => {
+    document.getElementById('response-issue').innerText = 'Oops! Something went wrong. Please try again later.';
+  });
 });
 </script>
