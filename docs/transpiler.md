@@ -9,7 +9,7 @@
 <form id="transpiler-form" autocomplete="off">
   <label for="script">LSL script:</label><br />
   <textarea id="script" name="script" rows="20" required style="width: 100%; white-space: pre-wrap; word-break: break-word;"></textarea><br /><br />
-  <button type="submit" class="button">Transpile</button>
+  <button type="submit" id="submit-button" class="button">Transpile</button>
   <button type="button" id="clear-button" class="button">Clear</button>
 </form>
 <div id="response" style="margin-top: 1em;"></div>
@@ -21,7 +21,10 @@ If the transpiler didn’t work correctly, you can report the issue below. There
 * Script issue: You receive a SLua script, but it doesn't work properly when tested in Second Life.
 
 Make sure your LSL script is still in the box above, it will be sent as a file attachment to help understand the issue. You can also add a comment describing what is wrong.
-Your Second Life username is optional, but feel free to include it if you'd like a follow-up. Thank you for helping improve the SLua transpiler!
+
+Your Second Life username is optional, but feel free to include it if you'd like a follow-up.
+
+Thank you for helping improve the SLua transpiler!
 
 <form id="issue-form">
   <label for="username">Your username in SecondLife (optional):</label><br />
@@ -43,8 +46,10 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   const transpiledDiv = document.getElementById('transpiled-container')
   const responseDiv = document.getElementById('response');
   const outputCode = document.getElementById('transpiled-output');
+  const button = document.getElementById('submit-button');
 
   transpiledDiv.style.display = 'none';
+  button.disabled = true;
   responseDiv.innerText = 'Transpiling... please wait.';
   outputCode.textContent = '';
 
@@ -65,9 +70,11 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   .then(text => {
     if (text.startsWith('|')) {
       responseDiv.innerText = text.slice(1).trim();
+      button.disabled = false;
       outputCode.textContent = '';
     } else {
       responseDiv.innerText = 'The SLua script is ready.';
+      button.disabled = false;
       outputCode.textContent = text.trim();
       transpiledDiv.style.display = 'block';
       Prism.highlightElement(outputCode);
@@ -75,6 +82,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   })
   .catch(error => {
     responseDiv.innerText = error.message;
+    button.disabled = false;
     outputCode.textContent = '';
   });
 });
@@ -91,12 +99,16 @@ document.getElementById('issue-button').addEventListener('click', function(e) {
   const username = document.getElementById('username').value.trim();
   const message = document.getElementById('message').value.trim();
   const responseDiv = document.getElementById('response-issue');
+  const button = document.getElementById('issue-button');
   
   if (!scriptText) {
     responseDiv.innerText = 'Please include the LSL script before reporting an issue.';
     return;
   }
 
+  button.disabled = true;
+  responseDiv.innerText = 'Reporting... please wait.';
+  
   const url = 'https://script.google.com/macros/s/AKfycbzQ_rwXsMwF6LpVOWtclK0Mk8avcuyuCFffUtYc44x_F2EzYwUHuS9gfQq4XMumHVJ3/exec';
   const formData = new URLSearchParams();
   formData.append('Action', 'send mail');
@@ -113,11 +125,13 @@ document.getElementById('issue-button').addEventListener('click', function(e) {
     body: formData.toString()
   })
   .then(() => {
-    document.getElementById('response-issue').innerText = 'Thank you! Your issue report has been sent.';
+    responseDiv.innerText = 'Thank you! Your issue report has been sent.';
     document.getElementById('issue-form').reset();
+    button.disabled = false;
   })
   .catch(() => {
-    document.getElementById('response-issue').innerText = 'Oops! Something went wrong. Please try again later.';
+    responseDiv.innerText = 'Oops! Something went wrong. Please try again later.';
+    button.disabled = false;
   });
 });
 </script>
