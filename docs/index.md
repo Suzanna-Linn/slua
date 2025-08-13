@@ -36,7 +36,7 @@ If you have any questions, suggestions, or feedback about SLua scripting, feel f
 document.getElementById('contact-form').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const url = 'https://script.google.com/macros/s/AKfycbzQ_rwXsMwF6LpVOWtclK0Mk8avcuyuCFffUtYc44x_F2EzYwUHuS9gfQq4XMumHVJ3/exec';
+  const url = 'https://script.google.com/macros/s/AKfycbyOhWuS6bwvQC5LIbcoYEHpZ5iaYwqrHRA6tzXoS9eP74SdMV9VdzHwhed_toLCphE5/exec';
 
   const formData = new URLSearchParams();
   formData.append('Action', 'send mail');
