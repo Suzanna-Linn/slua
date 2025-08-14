@@ -54,24 +54,19 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   outputCode.textContent = '';
 
   const url = 'https://script.google.com/macros/s/AKfycbyOhWuS6bwvQC5LIbcoYEHpZ5iaYwqrHRA6tzXoS9eP74SdMV9VdzHwhed_toLCphE5/exec';
-
-  const data = {
-    Action: 'transpiler',
-    Script: scriptText 
-  };
+  const formData = new URLSearchParams();
+  formData.append('Action', 'transpiler');
+  formData.append('Script', scriptText);
 
   fetch(url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: JSON.stringify(data) 
+    body: formData.toString()
   })
   .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
+    return response.text();
   })
   .then(text => {
     if (text.startsWith('|')) {
