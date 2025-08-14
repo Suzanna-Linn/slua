@@ -55,15 +55,24 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
 
   const url = 'https://script.google.com/macros/s/AKfycbyOhWuS6bwvQC5LIbcoYEHpZ5iaYwqrHRA6tzXoS9eP74SdMV9VdzHwhed_toLCphE5/exec';
 
-  const formData = new FormData();
-  formData.append('Action', 'transpiler');
-  formData.append('Script', scriptText);
+  const data = {
+    Action: 'transpiler',
+    Script: scriptText 
+  };
 
   fetch(url, {
     method: 'POST',
-    body: formData.toString()
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data) 
   })
-  .then(response => response.text())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
   .then(text => {
     if (text.startsWith('|')) {
       responseDiv.innerText = text.slice(1).trim();
