@@ -55,15 +55,12 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
 
   const url = 'https://script.google.com/macros/s/AKfycbyOhWuS6bwvQC5LIbcoYEHpZ5iaYwqrHRA6tzXoS9eP74SdMV9VdzHwhed_toLCphE5/exec';
 
-  const formData = new URLSearchParams();
+  const formData = new FormData();
   formData.append('Action', 'transpiler');
   formData.append('Script', scriptText);
 
   fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
     body: formData.toString()
   })
   .then(response => response.text())
