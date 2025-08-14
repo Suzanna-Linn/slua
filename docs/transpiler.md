@@ -63,7 +63,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   fetch(url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'text/plain'
+      'Content-Type': 'multipart/form-data'
     },
     body: JSON.stringify(data) 
   })
