@@ -69,7 +69,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
     responseDiv.innerText = 'returning';
     return "hello world";
     // response.text())
-  ])
+  })
   .then(text => {
     if (text.startsWith('|')) {
       responseDiv.innerText = text.slice(1).trim();
