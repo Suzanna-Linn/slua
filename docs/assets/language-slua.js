@@ -95,9 +95,9 @@ Prism.languages.slua = {
     ],
     'punctuation': /[\[\](){},;]|\.+|:+/
 };
-Prism.languages.insertBefore('slua', 'number', {
+Prism.languages.insertBefore('slua', 'string', {
     'template-string': {
-        pattern: /`(?:\\[\s\S]|\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|[^\\`])*`/,
+        pattern: /`[^\\`{\r\n}]*(?:(?:\\.|{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+})[^\\`{\r\n}]*)*`/,
         greedy: true,
         inside: {
             'template-punctuation': {
@@ -113,6 +113,10 @@ Prism.languages.insertBefore('slua', 'number', {
                     },
                     rest: Prism.languages.slua
                 }
+            },
+            'escape': {
+                /\\./,
+                alias: 'string'
             },
             'string': /[\s\S]+/
         }
