@@ -67,9 +67,9 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   })
   .then(response => response.text())
   .then(text => {
-    responseDiv.innerText = 'returning';
-    if (false) { // if (text.startsWith('|')) {
-      responseDiv.innerText = text.slice(1).trim();
+    if (text.startsWith('|')) {
+      responseDiv.innerText = 'returning';
+      // responseDiv.innerText = text.slice(1).trim();
       button.disabled = false;
       outputCode.textContent = '';
     } else {
