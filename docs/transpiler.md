@@ -65,7 +65,10 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
     },
     body: formData.toString()
   })
-  .then(response => response.text())
+  .then(response => {
+    responseDiv.innerText = 'returning';
+    response.text())
+  ]
   .then(text => {
     if (text.startsWith('|')) {
       responseDiv.innerText = text.slice(1).trim();
