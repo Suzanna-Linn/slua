@@ -66,9 +66,10 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
     body: formData.toString()
   })
   .then(response => {
-    responseDiv.innerText = 'returning';
-    return "hello world";
-    // response.text())
+    responseDiv.innerText = 'returning 1';
+    const res = response.text());
+    responseDiv.innerText = 'returning 2';
+    return res;
   })
   .then(text => {
     if (text.startsWith('|')) {
