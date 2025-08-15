@@ -76,7 +76,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
       button.disabled = false;
       outputCode.textContent = text.trim();
       transpiledDiv.style.display = 'block';
-      // Prism.highlightElement(outputCode);
+      Prism.highlightElement(outputCode);
     }
   })
   .catch(error => {
