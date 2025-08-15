@@ -115,7 +115,7 @@ Prism.languages.insertBefore('slua', 'string', {
                 }
             },
             'escape': {
-                /\\./,
+                pattern: /\\./,
                 alias: 'string'
             },
             'string': /[\s\S]+/
