@@ -37,6 +37,55 @@ Your Second Life username is optional, but feel free to include it if you'd like
 
 Thank you for helping improve the SLua transpiler!
 
+### What it does and what it does not
+
+What it does:
+- changes syntax, keywords and operators
+- defines all variables as local and initializes them with their default value (if they weren't in LSL)
+- typecasts between number and boolean and between string and uuid
+  - tries to identify which LSL integer variables are used as boolean
+  - replaces TRUE/FALSE with true/false or 1/0
+- generates a numeric loop for when the pattern is clear enough, otherwise, it generates a loop while
+- replaces assignation to vector/rotation components with a new vector/rotation
+- replaces assignations in expressions with inline functions
+- replaces llGetListLength with the # length operator
+- replaces multiline strings with [[ ]] strings.
+- adds a line (before the first function) declaring any functions that are defined after they are used
+- renames variables that are SLua keywords (by adding _t at the end)
+- renames state_entry() in the default state to initialize() and calls it at the end
+
+What it does not (but will do, if possible, when we have the definitive version of SLua events)
+- states
+  - events in states other than default are renamed adding the state name and _ at the start
+  - the command   state name_of_state;   is replaced with   state = "name_of_state"
+
+What it does not (but could do, if I receive requests for it)
+- add type annotations for type-checking and linting, useful when we have the Luau analyzer in SLua
+- change LL math functions to the math library
+- change LL string functions to the string library, but they don't work with Unicode
+- change LL list functions to the table library when possible
+- loop for
+  - check for more cases that can be converted to a numeric for
+  - in a numeric loop for:
+    - check that the variables used in the for are not modified inside the loop
+    - check that the index variable is not used after the loop
+    - remove the declaration of the index variable
+- change "jump" to "break" or "continue" when possible
+- change "else if" to "elseif" when possible
+- preserve the formatting of lists declarations, when they are written in several lines or tabbed
+
+What it does not (and probably will not, since these are very uncommon situations)
+- side effects in the right operand of "and" and "or"
+  - LSL always evaluates the right operand, SLua only when necessary
+- side effects in assignations and functions in an expression
+  - LSL evaluates variables and functions from right to left, SLua from left to right
+
+What it does not (and will not, since it would require redesigning the code)
+- jump (except when it can be replaced with break or continue)
+  - the command   jump label;  is replaced with   jump = "jump label"
+  - the label   @name_of_label;   is replaced with   jump = "@name_of_label"
+
+
 <form id="issue-form">
   <label for="username">Your username in SecondLife (optional):</label><br />
   <input type="text" id="username" name="username" style="width: 100%; max-width: 400px;" /><br /><br />
@@ -146,50 +195,3 @@ document.getElementById('issue-button').addEventListener('click', function(e) {
 });
 </script>
 
-### What it does and what it does not
-
-What it does:
-- changes syntax, keywords and operators
-- defines all variables as local and initializes them with their default value (if they weren't in LSL)
-- typecasts between number and boolean and between string and uuid
--- tries to identify which LSL integer variables are used as boolean
--- replaces TRUE/FALSE with true/false or 1/0
-- generates a numeric loop for when the pattern is clear enough, otherwise, it generates a loop while
-- replaces assignation to vector/rotation components with a new vector/rotation
-- replaces assignations in expressions with inline functions
-- replaces llGetListLength with the # length operator
-- replaces multiline strings with [[ ]] strings.
-- adds a line (before the first function) declaring any functions that are defined after they are used
-- renames variables that are SLua keywords (by adding _t at the end)
-- renames state_entry() in the default state to initialize() and calls it at the end
-
-What it does not (but will do, if possible, when we have the definitive version of SLua events)
-- states
--- events in states other than default are renamed adding the state name and _ at the start
--- the command   state name_of_state;   is replaced with   state = "name_of_state"
-
-What it does not (but could do, if I receive requests for it)
-- add type annotations for type-checking and linting, useful when we have the Luau analyzer in SLua
-- change LL math functions to the math library
-- change LL string functions to the string library, but they don't work with Unicode
-- change LL list functions to the table library when possible
-- loop for
--- check for more cases that can be converted to a numeric for
--- in a numeric loop for:
---- check that the variables used in the for are not modified inside the loop
---- check that the index variable is not used after the loop
---- remove the declaration of the index variable
-- change "jump" to "break" or "continue" when possible
-- change "else if" to "elseif" when possible
-- preserve the formatting of lists declarations, when they are written in several lines or tabbed
-
-What it does not (and probably will not, since these are very uncommon situations)
-- side effects in the right operand of "and" and "or"
--- LSL always evaluates the right operand, SLua only when necessary
-- side effects in assignations and functions in an expression
--- LSL evaluates variables and functions from right to left, SLua from left to right
-
-What it does not (and will not, since it would require redesigning the code)
-- jump (except when it can be replaced with break or continue)
--- the command   jump label;  is replaced with   jump = "jump label"
--- the label   @name_of_label;   is replaced with   jump = "@name_of_label"
