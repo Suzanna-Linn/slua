@@ -2,14 +2,14 @@
 
 ### Transpile a LSL script to SLua
 
-This tool converts your LSL scripts into SLua. Paste your LSL script into the script box and click on "Transpile" to  generate the equivalent SLua code.
+This tool converts your LSL scripts into SLua. Paste your LSL script into the script box and click on "Transpile".
 - it needs scripts that compile without error in LSL (it doesn't check syntax)
 - it works with LSL scripts only, without preprocessor commands
 - it doesn't work with states or jump
 
-Its intention is to provide a script that can be compiled and executed in SLua, but it still will need improvements, especially about structuring the data into SLua tables
-It's a work in progress, you can report issues and suggestions below
-There are more details at the end of the page [What it does and what it does not](#what-it-does-and-what-it-does-not)
+Its intention is to provide a script that can be compiled and executed in SLua, but it still will need improvements, especially about structuring the data into SLua tables.
+It's a work in progress, you can report issues and suggestions below.
+There are more details at the end of the page [What it does and what it does not](#what-it-does-and-what-it-does-not).
 
 The scripts are processed internally and not stored or shared. I will only see the script if you click on "Report issue".
 
