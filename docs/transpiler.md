@@ -61,7 +61,7 @@ What it does:
 - replaces assignations in expressions with inline functions
 - replaces llGetListLength with the # length operator
 - replaces multiline strings with [[ ]] strings.
-- adds a line (before the first function) declaring any functions that are defined after they are used
+- adds a line (before the first function) declaring the functions that are defined after they are used
 - renames variables that are SLua keywords (by adding _t at the end)
 - renames state_entry() in the default state to initialize() and calls it at the end
 
