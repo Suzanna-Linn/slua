@@ -25,6 +25,8 @@ The scripts are processed internally and not stored or shared. I will only see t
 </form>
 <div id="response" style="margin-top: 1em;"></div>
 
+On the resulting SLua script, hover your mouse on its top right and click "copy" to copy the script to your clipboard.
+
 ### Report issues
 
 If the transpiler didn’t work correctly, you can report the issue below. There are two common cases:
