@@ -37,6 +37,17 @@ Your Second Life username is optional, but feel free to include it if you'd like
 
 Thank you for helping improve the SLua transpiler!
 
+<form id="issue-form">
+  <label for="username">Your username in SecondLife (optional):</label><br />
+  <input type="text" id="username" name="username" style="width: 100%; max-width: 400px;" /><br /><br />
+
+  <label for="message">Issue (optional):</label><br />
+  <textarea id="message" name="message" rows="8" style="width: 100%; max-width: 800px;"></textarea><br /><br />
+
+  <button type="button" id="issue-button" class="button">Report issue</button>
+</form>
+<div id="response-issue" style="margin-top: 1em;"></div>
+
 ### What it does and what it does not
 
 What it does:
@@ -84,19 +95,6 @@ What it does not (and will not, since it would require redesigning the code)
 - jump (except when it can be replaced with break or continue)
   - the command   jump label;  is replaced with   jump = "jump label"
   - the label   @name_of_label;   is replaced with   jump = "@name_of_label"
-
-
-<form id="issue-form">
-  <label for="username">Your username in SecondLife (optional):</label><br />
-  <input type="text" id="username" name="username" style="width: 100%; max-width: 400px;" /><br /><br />
-
-  <label for="message">Issue (optional):</label><br />
-  <textarea id="message" name="message" rows="8" style="width: 100%; max-width: 800px;"></textarea><br /><br />
-
-  <button type="button" id="issue-button" class="button">Report issue</button>
-</form>
-<div id="response-issue" style="margin-top: 1em;"></div>
-
 
 <script>
 document.getElementById('transpiler-form').addEventListener('submit', function(e) {
