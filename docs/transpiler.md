@@ -113,7 +113,7 @@ document.getElementById('transpiler-form').addEventListener('submit', function(e
   responseDiv.innerText = 'Transpiling... please wait some seconds.';
   outputCode.textContent = '';
 
-  const url = 'https://script.google.com/macros/s/AKfycbyOhWuS6bwvQC5LIbcoYEHpZ5iaYwqrHRA6tzXoS9eP74SdMV9VdzHwhed_toLCphE5/exec';
+  const url = 'https://script.google.com/macros/s/AKfycbzWVwgYOTSqZW-uc_1ND_DVY7rQV3R33bykutdGJjBmp6nAI6ks5-bsyyhBOq_b-ipn/exec';
   const formData = new URLSearchParams();
   formData.append('Action', 'transpiler');
   formData.append('Script', scriptText);
@@ -168,7 +168,7 @@ document.getElementById('issue-button').addEventListener('click', function(e) {
   button.disabled = true;
   responseDiv.innerText = 'Reporting... please wait.';
   
-  const url = 'https://script.google.com/macros/s/AKfycbzQ_rwXsMwF6LpVOWtclK0Mk8avcuyuCFffUtYc44x_F2EzYwUHuS9gfQq4XMumHVJ3/exec';
+  const url = 'https://script.google.com/macros/s/AKfycbzWVwgYOTSqZW-uc_1ND_DVY7rQV3R33bykutdGJjBmp6nAI6ks5-bsyyhBOq_b-ipn/exec';
   const formData = new URLSearchParams();
   formData.append('Action', 'send mail');
   formData.append('Subject', 'Transpiler issue: ' + (username || '(No username)'));
