@@ -20,8 +20,6 @@ To follow this section effectively, a basic understanding of Lua is required, as
 
 [Functions](/slua/moving-functions)
 
-[Expressions](/slua/moving-expressions)
-
 [If](/slua/moving-if)
 
 [Loops](/slua/moving-loops)
