@@ -10,22 +10,22 @@ To follow this section effectively, a basic understanding of Lua is required, as
 
 [Libraries](/slua/moving-libraries)
 
-[Datatypes](/slua/links)
+[Datatypes](/slua/moving-datatypes)
 
-[Events](/slua/links)
+[Events](/slua/moving-events)
 
-[The New Script](/slua/links)
+[The New Script](/slua/moving-new-script)
 
-[Operators](/slua/links)
+[Operators](/slua/moving-operators)
 
-[Functions](/slua/links)
+[Functions](/slua/moving-functions)
 
-[Expressions](/slua/links)
+[Expressions](/slua/moving-expressions)
 
-[If](/slua/links)
+[If](/slua/moving-if)
 
-[Loops](/slua/links)
+[Loops](/slua/moving-loops)
 
-[Strings](/slua/links)
+[Strings](/slua/moving-strings)
 
-[Lists](/slua/links)
+[Lists](/slua/moving-lists)
