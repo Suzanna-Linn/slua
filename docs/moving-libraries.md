@@ -2,7 +2,7 @@
 
 ### Global namespace
 
-The global namespace is a table with the name "_G". It contains the global functions and libraries. Each library is a table with its functions.
+The global namespace is a table with the name "_G". It contains the global functions and libraries. Each library is a table with its functions.  
 SLua has added all the LL constants (1010 constants, currently) to the global namespace.
 
 <pre class="language-slua"><code class="language-slua">-- list of global functions (SLua)
@@ -51,7 +51,7 @@ There are 10 libraries that come from Luau, with all their Luau functions, also 
 SLua has added:
 - ll : with all the functions coming from LSL (525 functions, currently).
 
-The functions have the same name, without the "ll" at the start (because "ll" is now the name of the library).
+The functions have the same name, without the "ll" at the start (because "ll" is now the name of the library).  
 So <code class="language-lsl">llSay()</code> becomes the function <code class="language-slua">Say()</code> in the library <code class="language-slua">ll</code> and is used as <code class="language-slua">ll.Say()</code>.
 
 New functions that will be added to SLua in the future will be in other libraries, we already have two new libraries:
