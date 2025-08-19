@@ -25,4 +25,4 @@ These are the steps to follow before starting to script in SLua:
   - Some errors are not detected when compiling, we will get them in an error window, which sometimes opens behind the editor window. If the script does nothing after compiling, move the editor window to check.
   - SLua counts script lines starting with 1, while the editor still shows a line nubmered 0. We must always subtract 1 from the error line number to find it in the editor.
   - Coloring and highlighting do not work perfectly.
-  - Highlighting is much slower than in LSL. We can disable it with the debug setting **ScriptEditorDisableSyntaxHighlight** if editing large scripts becomes too slow.
+  - Highlighting is much slower than in LSL. If editing large scripts becomes too slow we can disable it with the debug setting **ScriptEditorDisableSyntaxHighlight**.
