@@ -64,13 +64,13 @@ New functions that will be added to SLua in the future will be in other librarie
   
 ### Expected SLua improvements
 
-#### require / include:
+#### require / include
 
 It's expected before the final version. It seems that it will be some kind of include, similar to what Firestorm does in LSL, copying source code from other scripts or files. Probably not like require() in Luau/Roblox, that executes compiled code from another script that returns a value, usually a table of functions.
 
 The canny is: [Require canny](https://feedback.secondlife.com/slua-alpha/p/a-require-function-to-load-and-execute-other-scripts).
 
-#### type-checking and linting:
+#### type-checking and linting
 
 Type checking automatically infers types from the values assigned to variables or manually by adding type annotations. These annotations can define types, combinations of types, or subtypes. There are directives that allow to control the level of type checking in each script, ranging from none to stricter than LSL.
 
