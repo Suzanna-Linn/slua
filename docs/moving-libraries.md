@@ -14,7 +14,7 @@ for key, value in pairs(_G) do
 end</code></pre>
 
 There are 22 functions that come from Luau, they are documented in [Standard Luau Libraries](https://luau.org/library):
-- type, typeof, tonumber, tostring
+- tonumber, tostring, type, typeof
 - ipairs, pairs, next, select
 - getmetatable, setmetatable
 - rawget, rawset, rawequal, rawlen
