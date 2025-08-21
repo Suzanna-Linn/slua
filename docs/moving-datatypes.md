@@ -148,7 +148,7 @@ SLua adds the type integer. It exists only for compatibility reasons with a few 
 The uses of "integer" are:
 - Typecasting in LSL-style
   - <code class="language-slua">integer("123abc") -- > 123</code> or <code class="language-slua">integer("aaa") -- > 0</code>
-    -tonumber() returns nil in both cases.
+    - tonumber() returns nil in both cases.
 	- same as <code class="language-slua">string.match( "123abc", "^%s*([-+]?%d+)" ) or 0</code>
   - <code class="language-slua">integer(myBool) -- > 1 or 0</code>
 	- same as <code class="language-slua">if myBool then 1 else 0</code>
@@ -167,8 +167,8 @@ The uses of "integer" are:
       - <code class="language-slua">myNum = tonumber("123") -- > 123</code> or <code class="language-slua">myNum = tonumber("1.75") -- > 1.75</code>
 	  - but <code class="language-slua">tonumber("123abc") --> nil</code>
     - if the string starts with an integer:
-      - <code class="language-slua">myNum = integer("123abc") -- > 123</code>
-	  - but <code class="language-slua">integer("1.75abc") -- > 1</code> and <code class="language-slua">integer("abc") -- > 0</code>
+      - <code class="language-slua">myNum = integer("123abc") -- > 123</code> or <code class="language-slua">integer("abc") -- > 0</code>
+	  - but <code class="language-slua">integer("1.75abc") -- > 1</code>
   - from integer: <code class="language-slua">myNum = tonumber(integer(42)) -- > 42</code>
 
 - to integer
