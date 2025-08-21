@@ -2,8 +2,8 @@
 
 ### Division
 
-There are two division operators: / and //.
-The / is the decimal division. The // is the integer division.
+There are two division operators: / and //.  
+The / is the decimal division. The // is the integer division.  
 If in LSL we are dividing two integers, in Slua we use //, otherwise we use /.
 
 <table><tr><td>
@@ -26,7 +26,7 @@ ll.OwnerSay(tostring(total / people))   -- > 1.4285714285714286</code></pre>
 
 ### Exponentiation
 
-In Lua, the ^ is the exponentiation operator.
+In Lua, the ^ is the exponentiation operator.  
 We can use ^ instead of the function ll.Pow()
 
 <table><tr><td>
@@ -65,7 +65,7 @@ end</code></pre>
 
 ### Increment / decrement
 
-In Lua ++ and -- don't exist.
+In Lua ++ and -- don't exist.  
 We need to add or subtract one.
 
 <table><tr><td>
@@ -108,7 +108,7 @@ ll.OwnerSay(greet1.." "..greet2)  -- > hello world</code></pre>
 
 ### And / Or / Not
 
-The logical operators are "and", "or", "not" instead of &&, \|\|, !
+The logical operators are "and", "or", "not" instead of &&, \|\|, !  
 In SLua "and" has higher precedence than "or". In LSL, && and \|\| have the same precendence
 
 <table><tr><td>
