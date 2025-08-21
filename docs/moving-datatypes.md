@@ -6,44 +6,16 @@ Used as a boolean value, with contants <code class="language-lsl">TRUE</code> an
 
 Used as an integer is a SLua type number (which has integer and float values all in the same datatype).
 
-SLua adds the type integer, which is the same than the LSL integer, because some LL functions that use lists as parameters need the integers to be of type integer, not number.
-
-* We get an integer value using <code class="language-slua">myInt = integer(42)</code>.
-
-* Use always the type number for any number, use the type integer only when it is necessary for the LL functions.
-
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// integers (LSL)
 
 integer isOk = TRUE;
 integer count = 0;
-integer face = 0;
-
-
-
-llSetPrimitiveParams([PRIM_GLOW, face, 1]);
-
-
-
-
-
-llOwnerSay("glowed!");</code></pre>
 </td><td>
 <pre class="language-slua line-numbers"><code class="language-slua">-- integers (SLua)
 
 local isOk = true
 local count = 0
-local face = integer(0)
-
--- there is no type list, LL functions use tables instead of lists
--- tables are enclosed in { and }, instead of [ and ]
-ll.SetPrimitiveParams({PRIM_GLOW, face, 1})
-
--- when a function is called with only one table literal the parentheses can be omitted
-ll.SetPrimitiveParams{PRIM_GLOW, face, 1}
-
--- same with only one string literal
-ll.OwnerSay "glowed!"  -- instead of ll.OwnerSay("glowed!")</code></pre>
 </td></tr></table>
 
 ### LSL float
@@ -77,8 +49,7 @@ local message = "hello"</code></pre>
 ### LSL key
 
 SLua adds the type uuid, which is the same than the LSL key.The change of name is to avoid confusion with the key of a table.
-
-* We get an uuid using <code class="language-slua">myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
+- We get an uuid using <code class="language-slua">myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// keys (LSL)
@@ -92,13 +63,10 @@ local myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code></pre>
 
 ### LSL vector
 
-It is a SLua type vector. It uses the library vector.
-
-* We get a vector using <code class="language-slua">myVec = vector(50, 50, 0)</code>.
-
-* It's not possible to assign a value to a coordinate. We need to create a new vector.
-
-* We can get a coordinate from the return value of a function, not only from a variable.
+It is a SLua type vector. It uses the Luau library vector.
+- We get a vector using <code class="language-slua">myVec = vector(50, 50, 0)</code>.
+- It's not possible to assign a value to a component. We need to create a new vector.
+- We can get a component from the return value of a function, not only from a variable.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// vectors (LSL)
@@ -107,14 +75,14 @@ vector myVec = <50, 50, 0>;
 
 myVec.z = 20;
 
-vector pos = llGetPos();  // we need a variable before reading the coordinate
+vector pos = llGetPos();  // we need a variable before reading the component
 float posZ = pos.z;</code></pre>
 </td><td>
 <pre class="language-slua line-numbers"><code class="language-slua">-- vectors (SLua)
 
 local myVec = vector(50, 50, 0)
 
-myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a coordinate
+myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a component
 
 
 local posZ = ll.GetPos().z </code></pre>
@@ -123,14 +91,10 @@ local posZ = ll.GetPos().z </code></pre>
 ### LSL rotation
 
 SLua adds the types rotation and quaternion. They are synonims, internally they are the same datatype quaternion.
-
-* We get a rotation using <code class="language-slua">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-slua">myRot = quaternion(1, 1, 1, 0)</code>.
-
-* It's not possible to assign a value to a coordinate. We need to create a new rotation.
-
-* We can get a coordinate from the return value of a function, not only from a variable.
-
-* Vectors can use uppercase coordinates (X, Y, Z) but rotations can't. Use always lowercase coordinates.
+- We get a rotation using <code class="language-slua">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-slua">myRot = quaternion(1, 1, 1, 0)</code>.
+- It's not possible to assign a value to a component. We need to create a new rotation.
+- We can get a component from the return value of a function, not only from a variable.
+- Vectors can use uppercase components (X, Y, Z) but rotations can't. Let's use always lowercase components.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// rotations (LSL)
@@ -140,7 +104,7 @@ quaternion myRot2 = <2, 2, 2, 0>;
 
 myRot.s = -myRot.s;
 
-rotation rot = llGetRot();  // we need a variable before reading the coordinate
+rotation rot = llGetRot();  // we need a variable before reading the component
 float rotS = rot.s;</code></pre>
 </td><td>
 <pre class="language-slua line-numbers"><code class="language-slua">-- rotations (SLua)
@@ -148,7 +112,7 @@ float rotS = rot.s;</code></pre>
 local myRot = rotation(1, 1, 1, 0)
 local myRot2 = quaternion(2, 2, 2, 0)
 
-myRot = vector(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a value to a coordinate
+myRot = vector(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a value to a component
 
 
 local rotS = ll.GetRot().s</code></pre>
@@ -172,35 +136,51 @@ local fruits = {"apple", "banana", "orange"}
 -- tables are enclosed in { and }, instead of [ and ]</code></pre>
 </td></tr></table>
 
+### The SLua datatype integer
+
+SLua adds the type integer. It exists only for compatibility reasons with a few LL functions.
+
+<pre class="language-slua line-numbers"><code class="language-slua">-- type integer (SLua)
+
+	local myInt = integer(42)    -- don't use this type unless there is a good reason
+</code></pre>
+
+The uses of "integer" are:
+- Typecasting in LSL-style
+  - <pre class="language-slua"><code class="language-slua">integer("123abc") -- > 123</code></pre>, <pre class="language-slua"><code class="language-slua">integer("aaa") -- > 0</code></pre>, tonumber() returns nil in both cases.
+	   - same as <pre class="language-slua"><code class="language-slua">string.match( "123abc", "^%s*([-+]?%d+)" ) or 0</code></pre>
+  - <pre class="language-slua"><code class="language-slua">integer(myBool) -- > 1 or 0</code></pre>
+	   - same as <pre class="language-slua"><code class="language-slua">if myBool then 1 else 0</code></pre>
+- ll.List2Integer() returns type integer.
+- ll.DumpList2String() and ll.List2CSV() print type number always with six decimals and type integer without decimals
+- the bit32 library functions return type integer when all the parameters have type integer.
+
 ### Typecasting
 
-* to boolean
-  * from number or integer: <code class="language-slua">myBool = (myNum ~= 0)</code>
+- to boolean
+  - from number or integer: <code class="language-slua">myBool = (myNum ~= 0)</code>
 
-* to number
-  * from string:
-    * if the string is fully numeric: <code class="language-slua">myNum = tonumber("123")</code> or <code class="language-slua">myNum = tonumber("1.75")</code>, but <code class="language-slua">tonumber("123abc")</code> gets <code class="language-slua">nil</code>
-    * if the string starts with an integer: <code class="language-slua">myNum = integer("123abc")</code>, but <code class="language-slua">integer("1.75abc")</code> gets <code class="language-slua">1</code>, <code class="language-slua">integer("abc")</code> gets <code class="language-slua">0</code>
-  * from integer: <code class="language-slua">myNum = tonumber(integer(42))</code>
+- to number
+  - from string:
+    - if the string is fully numeric: <code class="language-slua">myNum = tonumber("123")</code> or <code class="language-slua">myNum = tonumber("1.75")</code>, but <code class="language-slua">tonumber("123abc")</code> gets <code class="language-slua">nil</code>
+    - if the string starts with an integer: <code class="language-slua">myNum = integer("123abc")</code>, but <code class="language-slua">integer("1.75abc")</code> gets <code class="language-slua">1</code>, <code class="language-slua">integer("abc")</code> gets <code class="language-slua">0</code>
+  - from integer: <code class="language-slua">myNum = tonumber(integer(42))</code>
 
-* to integer
-  * from boolean: <code class="language-slua">myInt = integer(true)</code> gets <code class="language-slua">1</code>, <code class="language-slua">myNum = integer(false)</code> gets <code class="language-slua">0</code>
-  * from number: <code class="language-slua">myInt = integer(1.75)</code> gets <code class="language-slua">1</code>
-  * from string: <code class="language-slua">myInt = integer("123abc")</code> gets <code class="language-slua">123</code>
+- to integer
+  - from boolean: <code class="language-slua">myInt = integer(true)</code> gets <code class="language-slua">1</code>, <code class="language-slua">myNum = integer(false)</code> gets <code class="language-slua">0</code>
+  - from number: <code class="language-slua">myInt = integer(1.75)</code> gets <code class="language-slua">1</code>
+  - from string: <code class="language-slua">myInt = integer("123abc")</code> gets <code class="language-slua">123</code>
 
-* to string
-  * from any type: <code class="language-slua">myStr = tostring(myVar)</code>
+- to string
+  - from any type: <code class="language-slua">myStr = tostring(myVar)</code>
 
-* to uuid
-  * from string: <code class="language-slua">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>
+- to uuid
+  - from string: <code class="language-slua">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>
 
-* to vector
-  * from string: <code class="language-slua">myVec = tovector("<50,50,20>")</code>
+- to vector
+  - from string: <code class="language-slua">myVec = tovector("<50,50,20>")</code>
 
-* to rotation/quaternion 
-  * from string: <code class="language-slua">myRot = torotation("<1,1,1,0>")</code> or <code class="language-slua">myRot = toquaternion("<1,1,1,0>")</code>
-
+- to rotation/quaternion 
+  - from string: <code class="language-slua">myRot = torotation("<1,1,1,0>")</code> or <code class="language-slua">myRot = toquaternion("<1,1,1,0>")</code>
 
 The types integer and uuid haven't got a "to" function because they already use or can use a string to create the value.
-
-We need to typecast from booleans and to booleans because the LL functions use numeric TRUE/FALSE as parameters and return value.
