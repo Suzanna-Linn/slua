@@ -185,7 +185,7 @@ The uses of "integer" are:
     - <code class="language-slua">myRot = torotation("<1, 1, 1, 0>")</code>
 	- <code class="language-slua">myRot = toquaternion("<1, 1, 1, 0>")</code>
 
- - to integer
+- to integer
   - from boolean: <code class="language-slua">myInt = integer(isOk) -- > myInt will be 1 or 0</code>
   - from number: <code class="language-slua">myInt = integer(1.75)</code>
   - from string: <code class="language-slua">myInt = integer("123abc")</code>
