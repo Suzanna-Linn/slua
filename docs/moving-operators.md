@@ -27,7 +27,7 @@ ll.OwnerSay(tostring(total / people))   -- > 1.4285714285714286</code></pre>
 ### Exponentiation
 
 In Lua, the ^ is the exponentiation operator.  
-We can use ^ instead of the function ll.Pow()
+We can use ^ instead of the function ll.Pow().
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// exponentiation (LSL)
@@ -108,8 +108,8 @@ ll.OwnerSay(greet1.." "..greet2)  -- > hello world</code></pre>
 
 ### And / Or / Not
 
-The logical operators are "and", "or", "not" instead of &&, \|\|, !  
-In SLua "and" has higher precedence than "or". In LSL, && and \|\| have the same precendence
+The logical operators are "and", "or", "not" instead of &&, \|\|, !.  
+In SLua "and" has higher precedence than "or". In LSL, && and \|\| have the same precendence.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// logical operators (LSL)
@@ -134,13 +134,13 @@ end</code></pre>
 </td></tr></table>
 
 In LSL both operators are always evaluated.  
-In SLua, sometimes only the left operator is evaluated:
+In SLua sometimes only the left operator is evaluated:
 - with "and", if the left operator is false, the result is false, and the right operator is not evaluated
 - with "or", if the left operator is true, the result is true, and the right operator is not evaluated
 
 We can do:
 - <code class="language-slua">if people > 0 and total / people > 10 then</code>
-- If people is 0 the right operator ( total / people ) is not evaluated, and we don't divide by zero
+  - If people is 0 the right operator ( total / people ) is not evaluated, and we don't divide by zero
 
 We can use them as value selectors:
 - <code class="language-slua">result = optionA and optionB</code>
@@ -293,7 +293,7 @@ In logical operations, "nan" behaves like any other non-boolean value. Lua treat
 We can check for these extreme numbers with:
 <pre class="language-slua"><code class="language-slua">if x ~= x or x == math.huge or x == -math.huge then
     -- do something with this extreme number
-end</code></pre>pre>
+end</code></pre>
 
 ### Integer division and modulo
 
