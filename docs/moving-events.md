@@ -1,6 +1,16 @@
 ## Events and States
 
-### Events
+### Events (future)
+
+A new more powerful way to handle events is expected before the beta version.
+
+There will be a LL library with functions to add and remove event handlers with callback functions.
+
+There are comments about the possible format in this links:
+https://github.com/secondlife/issues/pull/3
+https://feedback.secondlife.com/slua-alpha/p/events-in-slua
+
+### Events (currently)
 
 Events are writen as global functions (without the <code class="language-slua">local</code> keyword).
 
@@ -31,6 +41,68 @@ function listen(channel, name, id, message)
 end
 --</code></pre>
 </td></tr></table>
+
+### The "New Script"
+
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">// the "New Script" (LSL)
+
+default
+{
+    state_entry()
+    {
+        llSay(0, "Hello, Avatar!");
+    }
+
+    touch_start(integer total_number)
+    {
+        llSay(0, "Touched.");
+    }
+}
+
+//</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">-- the "New Script" (SLua - LSL style)
+
+
+
+function state_entry()
+    ll.Say(0, "Hello, Avatar!")
+end
+
+
+function touch_start(total_number)
+   ll.Say(0, "Touched.")
+end
+
+
+
+state_entry()</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">-- the "New Script" (SLua - Lua style)
+
+
+
+
+
+
+
+
+function touch_start(total_number)
+   ll.Say(0, "Touched.")
+end
+
+
+
+ll.Say(0, "Hello, Avatar!")</code></pre>
+</td></tr></table>
+
+
+SLua doesn't have states and there are no events <code class="language-lsl">state_entry()</code> or <code class="language-lsl">state_exit()</code>.
+
+To keep the LSL structure, we can write a function with name <code class="language-slua">state_entry()</code> (it's not an event, just a function) and call it from the top-level code (LSL-style script, last line).
+
+Or move the code in the LSL <code class="language-lsl">state_entry()</code> to the top-level code (Lua-style script, last line).
 
 ### States
 
