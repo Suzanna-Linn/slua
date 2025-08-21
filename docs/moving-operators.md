@@ -185,3 +185,38 @@ Or with bit32.btest() that does a bitwise and, returning true if the resulting v
 
 ### Integer division and modulo
 
+LSL and SLua behaves different in the integer division and the modulo division when one, and only one, of the operands is negative.
+
+The integer division in LSL:
+	<code class="language-lsl">llOwnerSay((string)(-7 / 4));  // -->   -1</code>
+	<code class="language-lsl">llOwnerSay((string)(7 / -4));  // -->   -1</code>
+
+And in SLua:
+	<code class="language-slua">print(-7 // 4)  -- >   -2</code>
+	<code class="language-slua">print(7 // -4)  -- >   -2</code>
+
+In LSL, integer division always truncates toward zero. This means that the result of dividing two integers is the whole number part of the result, with any fractional portion discarded, and the sign of the result follows the sign of the numerator.
+
+In SLua, integer division using the // operator rounds down toward negative infinity. This is known as floor division. It always returns the largest integer less than or equal to the result of the division.
+
+To simulate LSL behaviour we can use this:
+	<code class="language-slua">function divLSL(a, b)
+		return if a * b < 0 then math.ceil(a / b) else math.floor(a / b)
+	end</code>
+
+The modulo division in LSL:
+	<code class="language-lsl">llOwnerSay((string)(-7 % 4));  // -->   -3</code>
+	<code class="language-lsl">llOwnerSay((string)(7 % -4));  // -->   3</code>
+
+And in SLua:
+	<code class="language-slua">print(-7 % 4)  -- >   1</code>
+	<code class="language-slua">print(7 % -4)  -- >   -1</code>
+
+In LSL, the modulo operator (%) returns the remainder after division, and its result always carries the same sign as the numerator. This is known as truncating remainder, and it matches the way LSL performs integer division, both operations are consistent in that they truncate toward zero.
+
+In SLua, the % operator performs true modulo, which means the result always has the same sign as the divisor. Lua defines this operation mathematically as the difference between the dividend and the product of the divisor and the floor of the division result. This ensures that the result is always non-negative if the divisor is positive, and always non-positive if the divisor is negative.
+
+To simulate LSL behaviour we can use this:
+	<code class="language-slua">function modLSL(a, b)
+		return a % b - if a * b < 0 and a % b ~= 0 then b else 0
+	end</code>
