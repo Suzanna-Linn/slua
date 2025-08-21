@@ -187,6 +187,28 @@ In SLua:
 Or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
 - <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) then</code>
 
+### Vectors
+
+The SLua datatype vector internally uses a Luau datatype vector and inherits some functions from Luau. We can't use the :method notation, we have to call them on vector:
+- vector.magnitude( myVec ) : returns a number, same as ll.VecMag().
+- vector.normalize( myVec ) : returns a vector, same as ll.VecNorm().
+- vector.dot( myVec1, myVec2 ) : the dot product, returns a number, same as myVec1 * myVec2 in LSL (not in SLua).
+- vector.cross( myVec1, myVec2 ) : the cross product, returns a vector, same as myVec1 % myVec2 in LSL and SLua.
+- vector.angle( myVec1, myVec2 ) : returns a number, the angle between the two vectors.
+
+##### myVec1 * myVec2
+
+In LSL is the dot product, in SLua multiplies the components:
+- <code class="language-slua">print( vector( 3, 4, 5) * vector ( 10, 10, 10 ) )  -- > < 30, 40, 50 ></code>
+
+In LSL this:
+- <code class="language-lsl">float dotProduct = myVec1 * myVec2;  // LSL</code>  
+is this in SLua:
+<code class="language-slua">local dotProduct = vector.dot(myVec1, myVec2)  -- SLua</code>
+
+SLua has also added the division, that divides the components, and doesn't exist in LSL:
+-- <code class="language-slua">print( vector( 12, 6, 3) / vector ( 3, 2, 1 ) )  -- > < 4, 3, 3 ></code>
+
 ### Infinity and NaN
 
 Lua has some "extreme" values in the datatype number.
