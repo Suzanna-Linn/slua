@@ -244,7 +244,7 @@ Or dividing by 0:
 Or casting from a string:
 - <code class="language-slua">local big = tonumber( "inf" )</code>
 
-We test for infinity with
+We test for infinity with:
 - <code class="language-slua">if x == math.huge then print("x is infinity!") end</code>
 - <code class="language-slua">if y == -math.huge then print("y is negative infinity!") end</code>
 
