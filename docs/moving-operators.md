@@ -3,9 +3,7 @@
 ### Division
 
 There are two division operators: / and //.
-
 The / is the decimal division. The // is the integer division.
-
 If in LSL we are dividing two integers, in Slua we use //, otherwise we use /.
 
 <table><tr><td>
@@ -29,7 +27,6 @@ ll.OwnerSay(tostring(total / people))   -- > 1.4285714285714286</code></pre>
 ### Exponentiation
 
 In Lua, the ^ is the exponentiation operator.
-
 We can use ^ instead of the function ll.Pow()
 
 <table><tr><td>
@@ -69,7 +66,6 @@ end</code></pre>
 ### Increment / decrement
 
 In Lua ++ and -- don't exist.
-
 We need to add or subtract one.
 
 <table><tr><td>
@@ -113,7 +109,6 @@ ll.OwnerSay(greet1.." "..greet2)  -- > hello world</code></pre>
 ### And / Or / Not
 
 The logical operators are "and", "or", "not" instead of &&, \|\|, !
-
 In SLua "and" has higher precedence than "or". In LSL, && and \|\| have the same precendence
 
 <table><tr><td>
@@ -138,10 +133,11 @@ if (value < 0 or value > 25) and not isDone then
 end</code></pre>
 </td></tr></table>
 
-In LSL both operators are always evaluated.
-In SLua, the left operator is evaluated:
+In LSL both operators are always evaluated.  
+In SLua, sometimes only the left operator is evaluated:
 - with "and", if the left operator is false, the result is false, and the right operator is not evaluated
 - with "or", if the left operator is true, the result is true, and the right operator is not evaluated
+
 We can do:
 - <code class="language-slua">if people > 0 and total / people > 10 then</code>
 - If people is 0 the right operator ( total / people ) is not evaluated, and we don't divide by zero
@@ -175,17 +171,17 @@ We have the library bit32, with functions for bitwise operations:
 -  ~ : bit32.bnot()
 -  ^ : bit32.bxor()
 -  << : bit32.lshift()
--  \>\> : bit32.arshift()
+-  \>\> : bit32.arshift()  
 band, bor and bnot can take any quantity of operators.
 
 In LSL:
-- <code class="language-lsl">if (change & (CHANGED_OWNER | CHANGED_INVENTORY | CHANGED_REGION )) {</code>
+- <code class="language-lsl">if (change & (CHANGED_OWNER | CHANGED_INVENTORY )) {</code>
 
 In SLua:
-- <code class="language-slua">if bit32.band(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) ~= 0 then</code>
+- <code class="language-slua">if bit32.band(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) ~= 0 then</code>
 
 Or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
-- <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) then</code>
+- <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then</code>
 
 ### Comparing string and uuid
 
@@ -210,7 +206,7 @@ In SLua it must be:
 The SLua datatype vector internally uses a Luau datatype vector and inherits some functions from Luau. We can't use the :method notation, we have to call them on vector:
 - vector.magnitude( myVec ) : returns a number, same as ll.VecMag().
 - vector.normalize( myVec ) : returns a vector, same as ll.VecNorm().
-- vector.dot( myVec1, myVec2 ) : the dot product, returns a number, same as myVec1 * myVec2 in LSL (not in SLua).
+- vector.dot( myVec1, myVec2 ) : the dot product, returns a number, same as myVec1 * myVec2 in LSL (but not in SLua).
 - vector.cross( myVec1, myVec2 ) : the cross product, returns a vector, same as myVec1 % myVec2 in LSL and SLua.
 - vector.angle( myVec1, myVec2 ) : returns a number, the angle between the two vectors.
 
@@ -222,10 +218,10 @@ In LSL is the dot product, in SLua multiplies the components:
 In LSL this:
 - <code class="language-lsl">float dotProduct = myVec1 * myVec2;  // LSL</code>  
 is this in SLua:
-<code class="language-slua">local dotProduct = vector.dot(myVec1, myVec2)  -- SLua</code>
+- <code class="language-slua">local dotProduct = vector.dot(myVec1, myVec2)  -- SLua</code>
 
 SLua has also added the division, that divides the components, and doesn't exist in LSL:
--- <code class="language-slua">print( vector( 12, 6, 3) / vector ( 3, 2, 1 ) )  -- > < 4, 3, 3 ></code>
+- <code class="language-slua">print( vector( 12, 6, 3) / vector ( 3, 2, 1 ) )  -- > < 4, 3, 3 ></code>
 
 ### Infinity and NaN
 
@@ -295,13 +291,15 @@ In logical operations, "nan" behaves like any other non-boolean value. Lua treat
 "inf", "-inf" and "nan" avoid crashes when trying impossible math operations.
 
 We can check for these extreme numbers with:
-<code class="language-slua">if x ~= x or x == math.huge or x == -math.huge then
+<pre class="language-slua"><code class="language-slua">if x ~= x or x == math.huge or x == -math.huge then
     -- do something with this extreme number
-end</code>
+end</code></pre>pre>
 
 ### Integer division and modulo
 
 LSL and SLua behaves different in the integer division and the modulo division when one, and only one, of the operands is negative.
+
+##### Integer divison
 
 The integer division in LSL:
 - <code class="language-lsl">llOwnerSay((string)(-7 / 4));  // -->   -1</code>
@@ -319,6 +317,8 @@ To simulate LSL behaviour we can use this:
 <pre class="language-slua"><code class="language-slua">function divLSL(a, b)
 	return if a * b < 0 then math.ceil(a / b) else math.floor(a / b)
 end</code></pre>
+
+##### Modulo
 
 The modulo division in LSL:
 - <code class="language-lsl">llOwnerSay((string)(-7 % 4));  // -->   -3</code>
