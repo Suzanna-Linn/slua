@@ -147,10 +147,10 @@ SLua adds the type integer. It exists only for compatibility reasons with a few 
 
 The uses of "integer" are:
 - Typecasting in LSL-style
-  - <pre class="language-slua"><code class="language-slua">integer("123abc") -- > 123</code></pre>, <pre class="language-slua"><code class="language-slua">integer("aaa") -- > 0</code></pre>, tonumber() returns nil in both cases.
-	   - same as <pre class="language-slua"><code class="language-slua">string.match( "123abc", "^%s*([-+]?%d+)" ) or 0</code></pre>
-  - <pre class="language-slua"><code class="language-slua">integer(myBool) -- > 1 or 0</code></pre>
-	   - same as <pre class="language-slua"><code class="language-slua">if myBool then 1 else 0</code></pre>
+  - <code class="language-slua">integer("123abc") -- > 123</code>, <code class="language-slua">integer("aaa") -- > 0</code>, tonumber() returns nil in both cases.
+	   - same as <code class="language-slua">string.match( "123abc", "^%s*([-+]?%d+)" ) or 0</code>
+  - <code class="language-slua">integer(myBool) -- > 1 or 0</code>
+	   - same as <code class="language-slua">if myBool then 1 else 0</code>
 - ll.List2Integer() returns type integer.
 - ll.DumpList2String() and ll.List2CSV() print type number always with six decimals and type integer without decimals
 - the bit32 library functions return type integer when all the parameters have type integer.
@@ -162,14 +162,16 @@ The uses of "integer" are:
 
 - to number
   - from string:
-    - if the string is fully numeric: <code class="language-slua">myNum = tonumber("123")</code> or <code class="language-slua">myNum = tonumber("1.75")</code>, but <code class="language-slua">tonumber("123abc")</code> gets <code class="language-slua">nil</code>
-    - if the string starts with an integer: <code class="language-slua">myNum = integer("123abc")</code>, but <code class="language-slua">integer("1.75abc")</code> gets <code class="language-slua">1</code>, <code class="language-slua">integer("abc")</code> gets <code class="language-slua">0</code>
-  - from integer: <code class="language-slua">myNum = tonumber(integer(42))</code>
+    - if the string is fully numeric: <code class="language-slua">myNum = tonumber("123") -- > 123</code> or <code class="language-slua">myNum = tonumber("1.75") -- > 1.75</code>
+	  - but <code class="language-slua">tonumber("123abc") --> nil</code>
+    - if the string starts with an integer: <code class="language-slua">myNum = integer("123abc") -- > 123</code>
+	  - but <code class="language-slua">integer("1.75abc") -- > 1</code> and <code class="language-slua">integer("abc") -- > 0</code>
+  - from integer: <code class="language-slua">myNum = tonumber(integer(42)) -- > 42</code>
 
 - to integer
-  - from boolean: <code class="language-slua">myInt = integer(true)</code> gets <code class="language-slua">1</code>, <code class="language-slua">myNum = integer(false)</code> gets <code class="language-slua">0</code>
-  - from number: <code class="language-slua">myInt = integer(1.75)</code> gets <code class="language-slua">1</code>
-  - from string: <code class="language-slua">myInt = integer("123abc")</code> gets <code class="language-slua">123</code>
+  - from boolean: <code class="language-slua">myInt = integer(true)</code> and <code class="language-slua">myNum = integer(false)</code>
+  - from number: <code class="language-slua">myInt = integer(1.75)</code>
+  - from string: <code class="language-slua">myInt = integer("123abc")</code>
 
 - to string
   - from any type: <code class="language-slua">myStr = tostring(myVar)</code>
@@ -178,9 +180,9 @@ The uses of "integer" are:
   - from string: <code class="language-slua">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>
 
 - to vector
-  - from string: <code class="language-slua">myVec = tovector("<50,50,20>")</code>
+  - from string: <code class="language-slua">myVec = tovector("<50, 50, 20>")</code>
 
 - to rotation/quaternion 
-  - from string: <code class="language-slua">myRot = torotation("<1,1,1,0>")</code> or <code class="language-slua">myRot = toquaternion("<1,1,1,0>")</code>
+  - from string: <code class="language-slua">myRot = torotation("<1, 1, 1, 0>")</code> or <code class="language-slua">myRot = toquaternion("<1, 1, 1, 0>")</code>
 
 The types integer and uuid haven't got a "to" function because they already use or can use a string to create the value.
