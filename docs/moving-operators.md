@@ -112,15 +112,16 @@ ll.OwnerSay(greet1.." "..greet2)  -- > hello world</code></pre>
 
 ### And / Or / Not
 
-The logical operators are "and", "or", "not" instead of &&, ||, !
+The logical operators are "and", "or", "not" instead of &&, \|\|, !
 
-In SLua "and" has higher precedence than "or". In LSL, && and || have the same precendence
+In SLua "and" has higher precedence than "or". In LSL, && and \|\| have the same precendence
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// logical operators (LSL)
 
 integer isDone = FALSE;
 integer value = 50;
+
 
 if ( value < 0 || value > 25 && !isDone ) {
     // do something
@@ -131,7 +132,8 @@ if ( value < 0 || value > 25 && !isDone ) {
 local isDone = false
 local value = 50
 
-if (value < 0 or value > 25) and not isDone then  -- and has higher precedence than or
+  -- and has higher precedence than or
+if (value < 0 or value > 25) and not isDone then
     -- do something
 end</code></pre>
 </td></tr></table>
@@ -146,9 +148,9 @@ We can do:
 
 We can use them as value selectors:
 - <code class="language-slua">result = optionA and optionB</code>
-  - same as <code class="language-slua">result = if option A then optionB else option A</code>
+  - same as <code class="language-slua">result = if optionA then optionB else option A</code>
 - <code class="language-slua">result = optionA or optionB</code>
-  - same as <code class="language-slua">result = if option A then optionA else option B</code>
+  - same as <code class="language-slua">result = if optionA then optionA else option B</code>
 
 To set a default value in case that a variable is nil:
 - <code class="language-slua">total = total or 0</code>
@@ -157,7 +159,7 @@ To set a default value in case that a variable is nil:
 
 As a ternary operator:
 - <code class="language-slua">text = count == 1 and "1 item" or count .. " items"</code>
-  - same as <code class="language-slua">if count == 1 then "1 item" else count .. " items"</code>
+  - same as <code class="language-slua">text = if count == 1 then "1 item" else count .. " items"</code>
 
 To call a function on a condition:
 - <code class="language-slua">isReady and start()</code>
@@ -165,21 +167,23 @@ To call a function on a condition:
 
 ### Bitwise operations
 
-The bitwise operators &, |, ~, ^, <<, >> don't exist in SLua.
+The bitwise operators &, \|, ~, ^, <<, >> don't exist in SLua.
 
 We have the library bit32, with functions for bitwise operations:
 -  & : bit32.band()
--  | : bit32.bor()
+-  \| : bit32.bor()
 -  ~ : bit32.bnot()
 -  ^ : bit32.bxor()
 -  << : bit32.lshift()
--  >> : bit32.arshift()
+-  \>\> : bit32.arshift()
 band, bor and bnot can take any quantity of operators.
 
 In LSL:
 - <code class="language-lsl">if (change & (CHANGED_OWNER | CHANGED_INVENTORY | CHANGED_REGION )) {</code>
+
 In SLua:
 - <code class="language-slua">if bit32.band(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) ~= 0 then</code>
+
 Or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
 - <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) then</code>
 
@@ -194,17 +198,15 @@ Lua has "inf" and "-inf" to represent positive and negative infinity, and the co
 - <code class="language-slua">print( -math.huge )  --> -inf</code>
 
 We can get an infinite number with math.huge:
-- <code class="language-slua">local big = math.huge
-- print( big )  -->   inf</code>
+<pre class="language-slua"><code class="language-slua">local big = math.huge
+print( big )  -->   inf</code></pre>
 
 Or dividing by 0:
 - <code class="language-slua">print( 1 / 0 )   --> inf</code>
 - <code class="language-slua">print( -1 / 0 )  --> -inf</code>
 
-Or casting a string:
+Or casting from a string:
 - <code class="language-slua">local big = tonumber( "inf" )</code>
-
-Division by zero doesn't crash the script in Lua. It gives "inf", "-inf", or "nan".
 
 We test for infinity with
 - <code class="language-slua">if x == math.huge then print("x is infinity!") end</code>
@@ -213,18 +215,18 @@ We test for infinity with
 We can do operations with infinity, in the way that mathematical infinities work.
 
 We can use math.huge for initial values instead of 999999999:
-	<code class="language-slua">local minimum = math.huge
-	if quantity < minimum then
-    		minimum = quantity
-	end</code>
+<pre class="language-slua"><code class="language-slua">local minimum = math.huge
+if quantity < minimum then
+    minimum = quantity
+end</code></pre>
+
+Division by zero doesn't crash the script in Lua. It gives "inf", "-inf", or "nan".
 
 ##### NaN
 
 "nan" stands for "Not a Number". It’s a special value that represents an undefined or unrepresentable result in math operations.
 
-We can get "nan" when math goes wrong in a way that doesn’t crash the script, but also doesn’t produce a meaningful number.
-
-For example:
+We can get "nan" when math goes wrong in a way that doesn’t crash the script, but also doesn’t produce a meaningful number:
 - <code class="language-slua">print(0/0)  --> nan (undefined division)</code>
 - <code class="language-slua">print( math.huge - math.huge )  --> nan (infinity minus infinity)</code>
 - <code class="language-slua">print( math.sqrt( -1 ) )  --> nan (square root of a negative number)</code>
@@ -238,59 +240,59 @@ Comparing "nan" with any number by >, < or == always returns false.
 "nan" is not considered greater, smaller, or equal to any number, it's “outside” the usual numeric order.
 
 It's false even compared to itself:
-	<code class="language-slua">x = 0 / 0
-	print( x == x )  -->  false</code>
+<pre class="language-slua"><code class="language-slua">x = 0 / 0
+print( x == x )  -->  false</code></pre>
 
 This is the only case that a variable is not equal to itself.
 
 So we can check for "nan" with:
-	<code class="language-slua">function isNaN(x)
-    	return x ~= x
-	end</code>
+<pre class="language-slua"><code class="language-slua">function isNaN(x)
+    return x ~= x
+end</code></pre>
 
 In logical operations, "nan" behaves like any other non-boolean value. Lua treats all non-nil, non-false values as truthy, so "nan" counts as truthy.
 
 "inf", "-inf" and "nan" avoid crashes when trying impossible math operations.
 
 We can check for these extreme numbers with:
-	<code class="language-slua">if x ~= x or x == math.huge or x == -math.huge then
-    	-- do something with that extreme number
-	end</code>
+<code class="language-slua">if x ~= x or x == math.huge or x == -math.huge then
+    -- do something with this extreme number
+end</code>
 
 ### Integer division and modulo
 
 LSL and SLua behaves different in the integer division and the modulo division when one, and only one, of the operands is negative.
 
 The integer division in LSL:
-	<code class="language-lsl">llOwnerSay((string)(-7 / 4));  // -->   -1</code>
-	<code class="language-lsl">llOwnerSay((string)(7 / -4));  // -->   -1</code>
+- <code class="language-lsl">llOwnerSay((string)(-7 / 4));  // -->   -1</code>
+- <code class="language-lsl">llOwnerSay((string)(7 / -4));  // -->   -1</code>
 
 And in SLua:
-	<code class="language-slua">print(-7 // 4)  -- >   -2</code>
-	<code class="language-slua">print(7 // -4)  -- >   -2</code>
+- <code class="language-slua">print(-7 // 4)  -- >   -2</code>
+- <code class="language-slua">print(7 // -4)  -- >   -2</code>
 
 In LSL, integer division always truncates toward zero. This means that the result of dividing two integers is the whole number part of the result, with any fractional portion discarded, and the sign of the result follows the sign of the numerator.
 
 In SLua, integer division using the // operator rounds down toward negative infinity. This is known as floor division. It always returns the largest integer less than or equal to the result of the division.
 
 To simulate LSL behaviour we can use this:
-	<code class="language-slua">function divLSL(a, b)
-		return if a * b < 0 then math.ceil(a / b) else math.floor(a / b)
-	end</code>
+<pre class="language-slua"><code class="language-slua">function divLSL(a, b)
+	return if a * b < 0 then math.ceil(a / b) else math.floor(a / b)
+end</code></pre>
 
 The modulo division in LSL:
-	<code class="language-lsl">llOwnerSay((string)(-7 % 4));  // -->   -3</code>
-	<code class="language-lsl">llOwnerSay((string)(7 % -4));  // -->   3</code>
+- <code class="language-lsl">llOwnerSay((string)(-7 % 4));  // -->   -3</code>
+- <code class="language-lsl">llOwnerSay((string)(7 % -4));  // -->   3</code>
 
 And in SLua:
-	<code class="language-slua">print(-7 % 4)  -- >   1</code>
-	<code class="language-slua">print(7 % -4)  -- >   -1</code>
+- <code class="language-slua">print(-7 % 4)  -- >   1</code>
+- <code class="language-slua">print(7 % -4)  -- >   -1</code>
 
 In LSL, the modulo operator (%) returns the remainder after division, and its result always carries the same sign as the numerator. This is known as truncating remainder, and it matches the way LSL performs integer division, both operations are consistent in that they truncate toward zero.
 
 In SLua, the % operator performs true modulo, which means the result always has the same sign as the divisor. Lua defines this operation mathematically as the difference between the dividend and the product of the divisor and the floor of the division result. This ensures that the result is always non-negative if the divisor is positive, and always non-positive if the divisor is negative.
 
 To simulate LSL behaviour we can use this:
-	<code class="language-slua">function modLSL(a, b)
-		return a % b - if a * b < 0 and a % b ~= 0 then b else 0
-	end</code>
+<pre class="language-slua"><code class="language-slua">function modLSL(a, b)
+	return a % b - if a * b < 0 and a % b ~= 0 then b else 0
+end</code></pre>
