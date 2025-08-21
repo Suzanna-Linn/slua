@@ -183,6 +183,80 @@ In SLua:
 Or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
 - <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) then</code>
 
+### Infinity and NaN
+
+Lua has some "extreme" values in the datatype number.
+
+##### Infinity
+
+Lua has "inf" and "-inf" to represent positive and negative infinity, and the constant math.huge:
+- <code class="language-slua">print( math.huge )   --> inf</code>
+- <code class="language-slua">print( -math.huge )  --> -inf</code>
+
+We can get an infinite number with math.huge:
+- <code class="language-slua">local big = math.huge
+- print( big )  -->   inf</code>
+
+Or dividing by 0:
+- <code class="language-slua">print( 1 / 0 )   --> inf</code>
+- <code class="language-slua">print( -1 / 0 )  --> -inf</code>
+
+Or casting a string:
+- <code class="language-slua">local big = tonumber( "inf" )</code>
+
+Division by zero doesn't crash the script in Lua. It gives "inf", "-inf", or "nan".
+
+We test for infinity with
+- <code class="language-slua">if x == math.huge then print("x is infinity!") end</code>
+- <code class="language-slua">if y == -math.huge then print("y is negative infinity!") end</code>
+
+We can do operations with infinity, in the way that mathematical infinities work.
+
+We can use math.huge for initial values instead of 999999999:
+	<code class="language-slua">local minimum = math.huge
+	if quantity < minimum then
+    		minimum = quantity
+	end</code>
+
+##### NaN
+
+"nan" stands for "Not a Number". It’s a special value that represents an undefined or unrepresentable result in math operations.
+
+We can get "nan" when math goes wrong in a way that doesn’t crash the script, but also doesn’t produce a meaningful number.
+
+For example:
+- <code class="language-slua">print(0/0)  --> nan (undefined division)</code>
+- <code class="language-slua">print( math.huge - math.huge )  --> nan (infinity minus infinity)</code>
+- <code class="language-slua">print( math.sqrt( -1 ) )  --> nan (square root of a negative number)</code>
+
+Arithmetic operations including a "nan" always result in "nan". If any operand is "nan", the whole expression becomes "nan".
+
+"nan" propagates through math operations, because once a value is undefined, any further calculation remains undefined.
+
+Comparing "nan" with any number by >, < or == always returns false.
+
+"nan" is not considered greater, smaller, or equal to any number, it's “outside” the usual numeric order.
+
+It's false even compared to itself:
+	<code class="language-slua">x = 0 / 0
+	print( x == x )  -->  false</code>
+
+This is the only case that a variable is not equal to itself.
+
+So we can check for "nan" with:
+	<code class="language-slua">function isNaN(x)
+    	return x ~= x
+	end</code>
+
+In logical operations, "nan" behaves like any other non-boolean value. Lua treats all non-nil, non-false values as truthy, so "nan" counts as truthy.
+
+"inf", "-inf" and "nan" avoid crashes when trying impossible math operations.
+
+We can check for these extreme numbers with:
+	<code class="language-slua">if x ~= x or x == math.huge or x == -math.huge then
+    	-- do something with that extreme number
+	end</code>
+
 ### Integer division and modulo
 
 LSL and SLua behaves different in the integer division and the modulo division when one, and only one, of the operands is negative.
