@@ -7,8 +7,8 @@ A new more powerful way to handle events is expected before the beta version.
 There will be a LL library with functions to add and remove event handlers with callback functions.
 
 There is a proposal about the format in these links:
-- [https://github.com/secondlife/issues/pull/3]
-- [https://feedback.secondlife.com/slua-alpha/p/events-in-slua]
+- [SLua event handling proposal](https://github.com/secondlife/issues/pull/3)
+- [canny: events in SLua](https://feedback.secondlife.com/slua-alpha/p/events-in-slua)
 
 ### Events (currently)
 
