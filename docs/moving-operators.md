@@ -112,6 +112,56 @@ ll.OwnerSay(greet1.." "..greet2)  -- > hello world</code></pre>
 
 ### And / Or / Not
 
+The logical operators are "and", "or", "not" instead of &&, ||, !
+
+In SLua "and" has higher precedence than "or". In LSL, && and || have the same precendence
+
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">// logical operators (LSL)
+
+integer isDone = FALSE;
+integer value = 50;
+
+if ( value < 0 || value > 25 && !isDone ) {
+    // do something
+}</code></pre>
+</td><td>
+<pre class="language-slua line-numbers"><code class="language-slua">-- logical operators (SLua)
+
+local isDone = false
+local value = 50
+
+if (value < 0 or value > 25) and not isDone then  -- and has higher precedence than or
+    -- do something
+end</code></pre>
+</td></tr></table>
+
+In LSL both operators are always evaluated.
+In SLua, the left operator is evaluated:
+- with "and", if the left operator is false, the result is false, and the right operator is not evaluated
+- with "or", if the left operator is true, the result is true, and the right operator is not evaluated
+We can do:
+- <code class="language-slua">if people > 0 and total / people > 10 then</code>
+- If people is 0 the right operator ( total / people ) is not evaluated, and we don't divide by zero
+
+We can use them as value selectors:
+- <code class="language-slua">result = optionA and optionB</code>
+  - same as <code class="language-slua">result = if option A then optionB else option A</code>
+- <code class="language-slua">result = optionA or optionB</code>
+  - same as <code class="language-slua">result = if option A then optionA else option B</code>
+
+To set a default value in case that a variable is nil:
+- <code class="language-slua">total = total or 0</code>
+- except with boolean variables with a default value of true, in this case it must be:
+  - <code class="language-slua">total = total ~= nil or true</code>
+
+As a ternary operator:
+- <code class="language-slua">text = count == 1 and "1 item" or count .. " items"</code>
+  - same as <code class="language-slua">if count == 1 then "1 item" else count .. " items"</code>
+
+To call a function on a condition:
+- <code class="language-slua">isReady and start()</code>
+  - same as <code class="language-slua">if isReady then start() end</code>
 
 ### Bitwise operations
 
