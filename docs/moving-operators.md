@@ -187,6 +187,24 @@ In SLua:
 Or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
 - <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) then</code>
 
+### Comparing string and uuid
+
+In SLua, when comparing two variables with different types, they are always different, no matter their contents.
+
+In LSL, we can compare strings and keys as if they were the same type.
+
+In LSL this (in an object with blank textures) works:
+- <code class="language-slua">if ( llGetTexture(0) == BLANK_TEXTURE ) {  -- true</code>  
+but in SLua:
+- <code class="language-slua">if ll.GetTexture(0) == BLANK_TEXTURE then  -- false</code>
+
+Because the LL functions that return a texture can return the name of the texture or its UUID, but they can only have one return type. So they always return a string.
+
+In SLua a variable of type uuid and a variable of type string are always different, even if they have the same text.
+
+In SLua it must be:
+- <code class="language-slua">if uuid( ll.GetTexture(0) ) == BLANK_TEXTURE then  -- false</code>
+
 ### Vectors
 
 The SLua datatype vector internally uses a Luau datatype vector and inherits some functions from Luau. We can't use the :method notation, we have to call them on vector:
