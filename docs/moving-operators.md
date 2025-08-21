@@ -165,5 +165,23 @@ To call a function on a condition:
 
 ### Bitwise operations
 
+The bitwise operators &, |, ~, ^, <<, >> don't exist in SLua.
 
-### The operator #
+We have the library bit32, with functions for bitwise operations:
+-  & : bit32.band()
+-  | : bit32.bor()
+-  ~ : bit32.bnot()
+-  ^ : bit32.bxor()
+-  << : bit32.lshift()
+-  >> : bit32.arshift()
+band, bor and bnot can take any quantity of operators.
+
+In LSL:
+- <code class="language-lsl">if (change & (CHANGED_OWNER | CHANGED_INVENTORY | CHANGED_REGION )) {</code>
+In SLua:
+- <code class="language-slua">if bit32.band(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) ~= 0 then</code>
+Or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
+- <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_REGION)) then</code>
+
+### Integer division and modulo
+
