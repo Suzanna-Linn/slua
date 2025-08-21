@@ -10,12 +10,12 @@ Used as an integer is a SLua type number (which has integer and float values all
 <pre class="language-lsl"><code class="language-lsl">// integers (LSL)
 
 integer isOk = TRUE;
-integer count = 0;
+integer count = 0;</code></pre>
 </td><td>
 <pre class="language-slua line-numbers"><code class="language-slua">-- integers (SLua)
 
 local isOk = true
-local count = 0
+local count = 0</code></pre>
 </td></tr></table>
 
 ### LSL float
