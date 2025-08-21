@@ -171,11 +171,6 @@ The uses of "integer" are:
 	  - but <code class="language-slua">integer("1.75abc") -- > 1</code>
   - from integer: <code class="language-slua">myNum = tonumber(integer(42)) -- > 42</code>
 
-- to integer
-  - from boolean: <code class="language-slua">myInt = integer(isOk) -- > myInt will be 1 or 0</code>
-  - from number: <code class="language-slua">myInt = integer(1.75)</code>
-  - from string: <code class="language-slua">myInt = integer("123abc")</code>
-
 - to string
   - from any type: <code class="language-slua">myStr = tostring(myVar)</code>
 
@@ -190,6 +185,11 @@ The uses of "integer" are:
     - <code class="language-slua">myRot = torotation("<1, 1, 1, 0>")</code>
 	- <code class="language-slua">myRot = toquaternion("<1, 1, 1, 0>")</code>
 
+ - to integer
+  - from boolean: <code class="language-slua">myInt = integer(isOk) -- > myInt will be 1 or 0</code>
+  - from number: <code class="language-slua">myInt = integer(1.75)</code>
+  - from string: <code class="language-slua">myInt = integer("123abc")</code>
+
 The types integer and uuid haven't got a "to" function because they already use or can use a string to create the value.
 
 ### type() and typeof()
@@ -197,17 +197,16 @@ The types integer and uuid haven't got a "to" function because they already use 
 type( myVar ) returns the Lua base type of the variable. All the types added by SLua return "userdata", which is an internal datatype used to define new types in the language itself. We can't use "userdata".
 
 typeof( myVar ) returns the type of the variable, including the new types:
-- typeof( vector( 1, 2, 3 ) ) returns "vector".
-- typeof( uuid( "0f16c0e1-384e-4b5f-b7ce-886dda3bce41" ) ) returns "uuid".
-- typeof ( rotation ( 1, 2, 3, 4) ) returns...
-  - "quaternion", not "rotation".
+- <code class="language-slua">typeof( vector( 1, 2, 3 ) ) -- > vector</code>
+- <code class="language-slua">typeof( uuid( "0f16c0e1-384e-4b5f-b7ce-886dda3bce41" ) ) -- > uuid</code>
+- <code class="language-slua">typeof ( rotation ( 1, 2, 3, 4) ) -- > quaternion</code>
 
 We have the datatypes rotation and quaternion and the functions torotation() and toquaternion() to cast from string, but internally only exists the type quaternion, rotation is just an alias.
 
-<pre class="language-slua">-- typeof() (SLua)
+<pre class="language-slua"><code class="language-slua">-- typeof() (SLua)
 
 if typeof(myVar) == "quaternion" then  -- NOT "rotation", it would never happen!
 	-- do rotations stuff
-end<code class="language-slua"></code></pre>
+end</code></pre>
 
-typeof( ZERO_ROTATION ) returns "quaternion". And there is no constant ZERO_QUATERNION.
+<code class="language-slua">typeof( ZERO_ROTATION ) -- > quaternion</code>. There is no constant ZERO_QUATERNION.
