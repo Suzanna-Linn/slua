@@ -10,22 +10,21 @@ For instance, in LSL:
 In SLua could be:
 - <code class="language-slua">ll.OwnerSay( "Units: " .. tostring(units) .. "   Price: " .. tostring(price) .. "   Amount: " .. tostring(units * price) );</code>
 
-But we can use string interpolation, which is concise and readable:
+Or we can use string interpolation, which is more concise and readable:
 - <code class="language-slua">ll.OwnerSay( `Units: {units}    Price: {price}   Amount: {units * price}` ); </code>
 
-We use backticks (ascii code 96) instead of double quotes. Inside we have text and, between { and }, variables or expressions.
-
+We use backticks (ascii code 96) instead of double quotes. Inside we have text and, between { and }, variables or expressions.  
 The variables and expressions between { and } are evaluated and casted to string. We can use anything that returns a value:
 - <code class="language-slua">ll.OwnerSay( `my name is {ll.GetDisplayName(ll.GetOwner())}` )  -- >   my name is SuzannaLinn</code>
 
 ### String library
 
-With other libraries, we will always use the Lua libraries instead of the LL functions. We will use the table library instead of the LL list functions, and the table math instead of the LL mathematical functions.
+With other libraries, it's better to use the Lua libraries instead of the LL functions, using the table library instead of the LL list functions, and the table math instead of the LL mathematical functions.
 
 But it's not the same with the string library, this is why:
 <pre class="language-slua line-numbers"><code class="language-slua">-- string length (SLua)
 
-local s = "café"    -- it has é with accent
+local s = "café"    -- café has é with accent
 
 print(ll.StringLength(s))  -- 4
 print(#s)  -- 5
@@ -38,30 +37,30 @@ The é with accent is a 2-byte unicode character, so it counts as 2 bytes for th
 The utf8 in the last line is another library. It works with unicode characters but it has very few and limited functions. The LL string functions are much much better than the utf8 library.
 
 The string library doesn't work with unicode because this way the functions can run much faster, not needing to check for unicode characters.  
-If we are sure that our strings doesn't contain unicode we will use the string library, otherwise we will use the LL string functions.
+If the strings doesn't contain unicode the string library is faster, otherwise is better to use the LL string functions.
 
 ### String library functions
 
 string.len(s) or #s : returns the number of characters in the string s (as the number of bytes).
-- LSL : ll.StringLength(s)
+- LL : ll.StringLength(s)
 
 string.lower(s) : returns a lowercase version of the string.
-- LSL : ll.ToLower(s)
+- LL : ll.ToLower(s)
 
 string.upper(s) : returns an uppercase version of the string.
-- LSL : ll.ToUpper(s)
+- LL : ll.ToUpper(s)
 
 string.find(s, pattern [, init [, plain]]) : searches for a pattern in the string and returns the start and end positions. If plain == true, the pattern is treated as a plain string (no pattern matching). Supports negative indices.
-- LSL : ll.SubStringIndex(s, sub), only with a substring, no pattern match, only returns the start position
+- LL : ll.SubStringIndex(s, sub), only with a substring, no pattern match, only returns the start position
 
 string.sub(s, i [, j]) : returns the substring of s from position i to j (inclusive).
-- LSL : ll.GetSubString(s, i, j)
+- LL : ll.GetSubString(s, i, j)
 
-string.split(s, sep) : splits the string into parts using sep as the delimiter. Returns an array.
-- LSL : llParseString2List(s, [sep], [])
+string.split(s, sep) : splits the string into parts using sep as the delimiter. Returns an array table.
+- LL : llParseString2List(s, [sep], [])
 
 string.rep(s, n) : repeats the string s n times:
-- local spaces24 = string.rep(" ", 24)  -- for instance, to get a string of white spaces
+- <code class="language-slua">local spaces24 = string.rep(" ", 24)  -- a string of 24 white spaces</code>
 
 string.reverse(s) : returns the string reversed (characters in reverse order).
 
@@ -79,7 +78,7 @@ end)
 	
 print(result, "Substitutions:", subs)  -- > I have 4 apples and 10 bananas    Substitutions:    2</code></pre>
 
-string.format(fmt, ...) : formats a string with placeholders like in C's printf.
+string.format(fmt, ...) : formats a string with placeholders.
 <pre class="language-slua line-numbers"><code class="language-slua">-- string.format (SLua)
 
 print(string.format("Hello, %s!", "Dufa"))            -- Hello, Dufa!
@@ -116,7 +115,7 @@ end
 -- Output: one  two  three</code></pre>
 
 The string library is the only library where we can use the : (colon) notation to call the methods on variables of type string.
-<pre class="language-slua line-numbers"><code class="language-slua">local s ="--<(Hello World)>--"
+- <pre class="language-slua line-numbers"><code class="language-slua">local s ="--<(Hello World)>--"
 print(string.sub(s, 5, -5))  -- > Hello World
 print(s:sub(5, -5))  -- > Hello World</code></pre>
 
