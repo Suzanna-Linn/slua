@@ -49,7 +49,7 @@ local message = "hello"</code></pre>
 ### LSL key
 
 SLua adds the type uuid, which is the same than the LSL key.The change of name is to avoid confusion with the key of a table.
-- We get an uuid using <code class="language-slua">myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
+- We get a uuid using <code class="language-slua">myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// keys (LSL)
@@ -221,3 +221,5 @@ In SLua, LL constants, function return values, and the elements of lists returne
 For LL function parameters that are integer or float in LSL, SLua accepts both number and integer types.
 - If a number with decimals is passed to a parameter expecting an integer, the decimal part is truncated (not rounded).
 - Many, but not all, of these functions also accept a boolean type, which is internally cast to an integer.
+
+In SLua, LL constants that contain a uuid have type uuid. In LSL they have type string.
