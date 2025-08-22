@@ -74,7 +74,6 @@ local result, subs = string.gsub(input, "%d+", function(number)
 	local n = tonumber(number)
 	return tostring(n * 2)
 end)
-	
 print(result, "Substitutions:", subs)  -- > I have 4 apples and 10 bananas    Substitutions:    2</code></pre>
 
 string.format(fmt, ...) : formats a string with placeholders.
@@ -92,13 +91,11 @@ string.match(s, pattern [, init]) : finds the first match of the pattern in the 
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.match (SLua)
 local text = "My email is user@example.com"
 local email = string.match(text, "[%w%.%-]+@[%w%.%-]+%.%a+")
-
 print(email)  -- Output: user@example.com</code></pre>
 string.match can return only the captured part, the parts of the pattern marked with parentheses.
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.match (SLua)
 local s = "Price: $123.45"
 local dollars, cents = string.match(s, "%$(%d+)%.(%d+)")
-	
 print(dollars, cents)  -- Output: 123  45</code></pre>
 
 string.gmatch(s, pattern) : returns an iterator over all matches of the pattern in the string.
@@ -106,11 +103,9 @@ string.gmatch(s, pattern) : returns an iterator over all matches of the pattern 
 for word in string.gmatch("one two three", "%w+") do
 	print(word)
 end
-
 -- Output: one  two  three</code></pre>
 
 The string library is the only library where we can use the : (colon) notation to call the methods on variables of type string.
 - <pre class="language-slua line-numbers"><code class="language-slua">local s ="--<(Hello World)>--"
 print(string.sub(s, 5, -5))  -- > Hello World
 print(s:sub(5, -5))  -- > Hello World</code></pre>
-
