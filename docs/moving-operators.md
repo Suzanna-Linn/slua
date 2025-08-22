@@ -183,23 +183,34 @@ In SLua:
 Or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
 - <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then</code>
 
+The library bit32 works with 32 bits and SLua numbers are 64 bits. The return values are unsigned numbers:
+- in LSL: <code class="language-lsl">integer val = 0; val = ~val; llOwnerSay((string)val);  // --> -1</code>
+- in SLua: <code class="language-slua">local val = 0 val = bit32.bnot(val) print(val)  -- > 4294967295</code>
+
+To get signed results we can use:
+- <code class="language-slua">local val = 0 val = tonumber(bit32.bnot(integer(val))) print(val)  -- > -1</code>
+- when all the parameters are SLua integers the returned value is also an SLua integer.
+
+
 ### Comparing string and uuid
 
-In SLua, when comparing two variables with different types, they are always different, no matter their contents.
+In SLua, equality checks use strict equality: two variables are considered equal only if they have the same type and the same value.  
+Variables of different types are always different, no matter their contents.
 
 In LSL, we can compare strings and keys as if they were the same type.
 
 In LSL this (in an object with blank textures) works:
-- <code class="language-slua">if ( llGetTexture(0) == BLANK_TEXTURE ) {  -- true</code>  
+- <code class="language-slua">if ( llGetTexture(0) == TEXTURE_BLANK ) {  -- true</code>  
 but in SLua:
-- <code class="language-slua">if ll.GetTexture(0) == BLANK_TEXTURE then  -- false</code>
+- <code class="language-slua">if ll.GetTexture(0) == TEXTURE_BLANK then  -- false</code>
 
 Because the LL functions that return a texture can return the name of the texture or its UUID, but they can only have one return type. So they always return a string.
+And the LL constants that contain an uuid have type uuid.
 
 In SLua a variable of type uuid and a variable of type string are always different, even if they have the same text.
 
 In SLua it must be:
-- <code class="language-slua">if uuid( ll.GetTexture(0) ) == BLANK_TEXTURE then  -- false</code>
+- <code class="language-slua">if uuid( ll.GetTexture(0) ) == TEXTURE_BLANK then  -- false</code>
 
 ### Vectors
 
