@@ -205,7 +205,7 @@ but in SLua:
 - <code class="language-slua">if ll.GetTexture(0) == TEXTURE_BLANK then  -- false</code>
 
 Because the LL functions that return a texture can return the name of the texture or its UUID, but they can only have one return type. So they always return a string.
-And the LL constants that contain an uuid have type uuid.
+And LL constants that contain a uuid have type uuid.
 
 In SLua a variable of type uuid and a variable of type string are always different, even if they have the same text.
 
