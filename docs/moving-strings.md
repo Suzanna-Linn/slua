@@ -69,7 +69,6 @@ Also returns the number of substitutions.
 
 string.gsub can also take a function as the replacement parameter:
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.gsub (SLua)
-
 local input = "I have 2 apples and 5 bananas"
 local result, subs = string.gsub(input, "%d+", function(number)
 	local n = tonumber(number)
@@ -80,7 +79,6 @@ print(result, "Substitutions:", subs)  -- > I have 4 apples and 10 bananas    Su
 
 string.format(fmt, ...) : formats a string with placeholders.
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.format (SLua)
-
 print(string.format("Hello, %s!", "Dufa"))            -- Hello, Dufa!
 print(string.format("Score: %d", 42))                  -- Score: 42
 print(string.format("Pi rounded: %.2f", 3.14159265))   -- Pi rounded: 3.14
@@ -92,14 +90,12 @@ print(string.format("Hex colors: #%02X%02X%02X", 255, 165, 0))       -- Hex colo
 
 string.match(s, pattern [, init]) : finds the first match of the pattern in the string. Returns the matched part.
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.match (SLua)
-
 local text = "My email is user@example.com"
 local email = string.match(text, "[%w%.%-]+@[%w%.%-]+%.%a+")
 
 print(email)  -- Output: user@example.com</code></pre>
 string.match can return only the captured part, the parts of the pattern marked with parentheses.
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.match (SLua)
-	
 local s = "Price: $123.45"
 local dollars, cents = string.match(s, "%$(%d+)%.(%d+)")
 	
@@ -107,7 +103,6 @@ print(dollars, cents)  -- Output: 123  45</code></pre>
 
 string.gmatch(s, pattern) : returns an iterator over all matches of the pattern in the string.
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.gmatch (SLua)
-
 for word in string.gmatch("one two three", "%w+") do
 	print(word)
 end
