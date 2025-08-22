@@ -92,7 +92,8 @@ string.match(s, pattern [, init]) : finds the first match of the pattern in the 
 local text = "My email is user@example.com"
 local email = string.match(text, "[%w%.%-]+@[%w%.%-]+%.%a+")
 print(email)  -- Output: user@example.com</code></pre>
-string.match can return only the captured part, the parts of the pattern marked with parentheses.
+
+string.match can return the captured part only, the parts of the pattern marked with parentheses.
 - <pre class="language-slua line-numbers"><code class="language-slua">-- string.match (SLua)
 local s = "Price: $123.45"
 local dollars, cents = string.match(s, "%$(%d+)%.(%d+)")
