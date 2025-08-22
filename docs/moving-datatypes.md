@@ -2,9 +2,9 @@
 
 ### LSL integer
 
-Used as a boolean value, with contants <code class="language-lsl">TRUE</code> and <code class="language-lsl">FALSE</code> is a SLua type boolean, with values <code class="language-slua">true</code> and <code class="language-slua">false</code>.
+Used as a boolean value, with contants <code class="language-lsl">TRUE</code> and <code class="language-lsl">FALSE</code> is an SLua type boolean, with values <code class="language-slua">true</code> and <code class="language-slua">false</code>.
 
-Used as an integer is a SLua type number (which has integer and float values all in the same datatype).
+Used as an integer is an SLua type number (which has integer and float values all in the same datatype).
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// integers (LSL)
@@ -20,7 +20,7 @@ local count = 0</code></pre>
 
 ### LSL float
 
-It is a SLua type number (floats and integers all go in the datatype number)
+It is an SLua type number (floats and integers all go in the datatype number)
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// floats (LSL)
@@ -34,7 +34,7 @@ local height = 1.65</code></pre>
 
 ### LSL string
 
-It is a SLua type string. We will see about strings in its section below.
+It is an SLua type string. We will see about strings in its section below.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// strings (LSL)
@@ -63,7 +63,7 @@ local myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code></pre>
 
 ### LSL vector
 
-It is a SLua type vector. It uses the Luau library vector.
+It is an SLua type vector. It uses the Luau library vector.
 - We get a vector using <code class="language-slua">myVec = vector(50, 50, 0)</code>.
 - It's not possible to assign a value to a component. We need to create a new vector.
 - We can get a component from the return value of a function, not only from a variable.
@@ -140,6 +140,8 @@ local fruits = {"apple", "banana", "orange"}
 
 SLua adds the type integer. It exists only for compatibility reasons with a few LL functions.
 
+The LSL type integer is an SLua type number (which has integer and float values all in the same datatype). The SLua type integer is only for a few uses that requires it. We can't make operations with a number and an integer, they are different types. Integers must be casted to numbers to operate with numbers.
+
 <pre class="language-slua line-numbers"><code class="language-slua">-- type integer (SLua)
 
 	local myInt = integer(42)    -- don't use this type unless there is a good reason
@@ -210,3 +212,12 @@ if typeof(myVar) == "quaternion" then  -- NOT "rotation", it would never happen!
 end</code></pre>
 
 <code class="language-slua">typeof( ZERO_ROTATION ) -- > quaternion</code>. There is no constant ZERO_QUATERNION.
+
+### Types in LL constants and functions
+
+In SLua, LL constants, function return values, and the elements of lists returned by LL functions have the type number if their LSL type is integer or float.
+- The only exception is ll.List2Integer(), which returns an SLua integer.
+
+For LL function parameters that are integer or float in LSL, SLua accepts both number and integer types.
+- If a number with decimals is passed to a parameter expecting an integer, the decimal part is truncated (not rounded).
+- Many, but not all, of these functions also accept a boolean type, which is internally cast to an integer.
