@@ -83,6 +83,7 @@ What it does not (but could do, if I receive requests for it)
     - check that the variables used in the for are not modified inside the loop
     - check that the index variable is not used after the loop
     - remove the declaration of the index variable
+- use integers with bit32 functions to get signed numbers when they are in arithmetic operations
 - change "jump" to "break" or "continue" when possible
 - change "else if" to "elseif" when possible
 - preserve the formatting of lists declarations, when they are written in several lines or tabbed
