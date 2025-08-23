@@ -17,11 +17,14 @@ The operator # returns the length of an array table:
 This also works:
 - local length = ll.GetListLength(myTab)
 
-We can get a value in the table using [ and ] with the index number:
+To get a value in the table using [ and ] with the index number:
 - local value = myTab[2]    -- > bananas
   - like local value = ll.List2String(myTab,1)    -- > bananas
  
 The functions ll.List2*** also work, but it's better to access the table in the SLua way.
+ 
+To modify a value is also using [ and ] with the index number:
+- myTab[3] = "kiwis"
 
 There is no operator + for tables. To add an element to the end of a table we can get the length of the table and add the next one:
 - myTab[ #myTab + 1 ] = "melons"
@@ -43,32 +46,49 @@ If we use an index out of the range, the value will be inserted with this index,
 To remove the last element in an array table:
 - table.remove( tabFruits )
 
-Again, table.remove, unlike llDeleteSubList, modifies the table and doesn't return the table.
+table.remove, unlike ll.DeleteSubList, modifies the table and doesn't return the table.
 
 To remove any element in the table we have the same function with a second paramenter, the index of the element:
 - table.remove( tabFruits, 3 )
 
-To add one table to another, like   tabFruits = tabFruits + tabExoticFruits, we have:
+To add one table to another:
 - table.move( tabExoticFruits, 1, #tabExoticFruits, #tabFruits + 1, tabFruits )
+  - like tabFruits = tabFruits + tabExoticFruits
 
 In this example table.move() copies the first table (tabExoticFruits) from the index 1 to the index #tabExoticFruits (from start to end), into the second table (tabFruits) starting at #tabFruits + 1 (at the end).
+
+table.move() copies or moves a range of elements from one part of an array table to another part or into a different array table. It's more efficient that copying with a loop and It handles overlapping ranges correctly.
 
 The parameters of table.move() are:
 - table to be copied
 - copy from index (1, from start)
 - copy to index (#table, to the end)
 - index where to insert the copied table (#table + 1, to add after; 0, to add before)
-- table to be copied to
+- table to be copied to (optional, if omitted it copies to the same table)
 
 It returns the modified table in the 5th parameter.
 
 Another example with table.move:
 - local newTab = table.move(myTab, 4, 6, 1, {})
- - like list newTab = llList2List( myTab, 3, 5 )
+ - like list newList = llList2List( myTab, 3, 5 )
+
+table.move to copy two tables into another one:
+- local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.move(myTab1, 1, #myTab1, 1, {}))
+  - like list myList3 = myList1 + myList2
 
 To make a string with the elements of the table:
 - local myStr = table.concat( tabFruits, ", " )
   - like string myStr = llDumpList2String( tabFruits, ", " )
+ 
+But table.concat() only works with the types number and string. Any other type (boolean or any SLua type) throws an error.
+
+To get the largest positive numerical key in the table (array or dictionary):
+- local maxNumKey = table.maxn()
+
+To create a pre-filled array table, optionally filling it with a default value:
+- myTotals = tableCreate( 10, 0 )    --  array from 1 to 10, initialized at 0
+
+It's used for performance and memory optimization when creating large arrays and to initialize to some value.
 
 Tables in SLua are much more efficient than lists in LSL. Tables are a core feature of Lua and they used everywhere for many things. Tables are very optimized by the compiler.  
 It's better to stop using the LL functions for lists and we will use the tables in Lua style.
@@ -82,13 +102,15 @@ To create a dictionary table:
 
 Instead of a list of values, we use keys (the name of the fruit) and values (the quantity of each fruit).
 
-We add a new pair of key value with:
+To add a new pair of key value with:
 - tabFruitsQuantity["Melon"] = 5
 
 Or with:
 - tabFruitsQuantity.Melon = 5
 
 Using one or the other is a matter of preference, internally both are the same.
+
+To modify a value is also assigning a value to it, replacing the previous value.
 
 To get a value from the table we use the key:
 - ll.OwnerSay( tabFruitsQuantity["Melon"] )  -- >  5
@@ -136,6 +158,12 @@ We can make a copy of a table, with the table.clone function:
 Now we have two different tables (with the same values), each one with its reference.
 
 It makes a "shallow" copy, only the elements in the first level of the table are copied. If an element is a table, this "sub-table" is not copied, and the new table has the same reference to the "sub-table".
+
+It's useful in functions that receive tables as parameters, when we want to modify the table in the function, but not the original table outside the function. For instance, when translating LSL code, where the functions always receive a copy of the lists passed as parameters:
+- paramTab = table.clone(paramTab)
+
+table.clone() can be used to add two tables into another one:
+- local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.clone(table1))
 
 ### Comparing tables
 
