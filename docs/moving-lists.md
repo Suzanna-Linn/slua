@@ -1,134 +1,81 @@
 ## Tables
 
-We don't have lists, now we have tables.
+### Array tables
 
-There are two types of tables: array tables and dictionary tables.
-
-array tables are the ones that we use instead of lists. We will use them today, in a next class we will study dictionary tables.
+They are like the LSL lists, but starting with index 1 instead of 0.
 
 Tables use { and } instead of [ and ]:
-	local myTab1 = {}    -- empty table, like   list myTab1 = [];
-	local myTab = { "apples", "bananas", "oranges" }  --  like   list myTab = [ "apples", "bananas", "oranges" ];
+- local myTab1 = {}    -- empty table
+  - like list myTab1 = [];
+- local myTab = { "apples", "bananas", "oranges" }
+  - like list myTab = [ "apples", "bananas", "oranges" ];
 
-The operator # returns the length of a dictionary table:
-	local  length = #myTab    -- like   integer length = llGetListLength(myTab2);
+The operator # returns the length of an array table:
+- local  length = #myTab
+  - like integer length = llGetListLength(myTab2);
 
-This is the same, but longer and slower:
-	local  length = ll.GetListLength(myTab)
+This also works:
+- local length = ll.GetListLength(myTab)
 
 We can get a value in the table using [ and ] with the index number:
-	local value = myTab[2]
+- local value = myTab[2]    -- > bananas
+  - like local value = ll.List2String(myTab,1)    -- > bananas
+ 
+The functions ll.List2*** also work, but it's better to access the table in the SLua way.
 
-But, big but!, array tables start with index 1 and LSL lists start with index 0.
-
-So, this is the same:
-	local value = myTab[2]    -- > bananas
-	local value = ll.List2String(myTab,1)    -- > bananas
-
-There is no operator + for tables. To add an element to the end of a table is:
-	myTab[ #myTab + 1 ] = "melons"    -- like:   myTab = myTab + "melons";
-
-#myTab, the lengh of the table, is 3. We add the index 4, because it starts with index 1.
-
-
-There are two types of tables:
-	array tables: They are like the LSL lists, but starting with index 1 instead of 0. We used them in the practice last week.
-	dictionary tables: They are pairs of key-value, like the linkset data.
-
-Each type has its own syntax to create and modify, and its own functions.
-
-Let's start with the array tables.
-
-To create an empty table:
-	local myTab = {}
-
-And a table with values:
-	local tabFruits = { "Apple", "Banana", "Cherry", "Orange" }
-
-It's the same than LSL lists, but using {} instead of [].
-
-To get the number of elements, the length, of the table, we have the operator #:
-	ll.OwnerSay( "We have " .. tostring(#tabFruits) .. " fruits)
-
-We can use # instead of ll.GetListLength().
-
-# also returns the length of a string:
-	myStr = "Hello world"
-	ll.OwnerSay( tostring( #myStr ) )  -- > 11
-
-But # does NOT work with dictionary tables.
-
-To get an element from the table we use [ and ] with the index of the element, starting with 1:
-	ll.OwnerSay( tabFruits[2] )  -- > Banana
-
-It's the same than:
-	ll.OwnerSay( ll.List2String( tabFruits, 1 ) )  -- > Banana
-
-But will not use the functions ll.List2***, it's better to access the table in the Lua way.
-
-To modify an element from the table, instead of using ll.ListReplaceList():
-	tabFruits[2] =  "Melon"
-	ll.OwnerSay( tabFruits[2] )  -- > Melon
-
-We haven't got a + operator for tables in SLua. We can NOT do   myList = myList + newElement.
-
-
-Now we will study several functions that are in the library table.
-
-In the same way that the library ll has the LL functions, the library table has the table functions.
-
-To add an element to the end of an array table, we can get the length of the table and add the next one:
-	tabFruits[ #tabFruits + 1 ] = "Pear"
+There is no operator + for tables. To add an element to the end of a table we can get the length of the table and add the next one:
+- myTab[ #myTab + 1 ] = "melons"
+  - like myTab = myTab + "melons";
 
 Or also with a function in the library table:
-	table.insert( tabFruits, "Pear" )
+- table.insert( tabFruits, "Pear" )
 
 The function table.insert, unlike ll.ListInsertList, doesn't return a value. It modifies the table that we have sent as parameter. We don't assign a return value to the table.
 
 To insert at the start we use the same function but with 3 parameters. Now the second parameter is the index before which the element will be inserted.:
-	table.insert( tabFruits, 1, "Lemon" )
+- table.insert( tabFruits, 1, "Lemon" )
 
 Or anywhere in the table, the index in the second parameter must be between 1 and #table:
-	table.insert( tabFruits, 3, "Lemon" )
+- table.insert( tabFruits, 3, "Lemon" )
 
 If we use an index out of the range, the value will be inserted with this index, but all the index values in between will not exist. It will not be an array table and the functions for array tables and the operator # will not work.
 
 To remove the last element in an array table:
-	table.remove( tabFruits )
+- table.remove( tabFruits )
 
 Again, table.remove, unlike llDeleteSubList, modifies the table and doesn't return the table.
 
 To remove any element in the table we have the same function with a second paramenter, the index of the element:
-	table.remove( tabFruits, 3 )
+- table.remove( tabFruits, 3 )
 
 To add one table to another, like   tabFruits = tabFruits + tabExoticFruits, we have:
-	table.move( tabExoticFruits, 1, #tabExoticFruits, #tabFruits + 1, tabFruits )
+- table.move( tabExoticFruits, 1, #tabExoticFruits, #tabFruits + 1, tabFruits )
 
-In this example table.move copies the first table (tabExoticFruits) from the index 1 to the index #tabExoticFruits (from start to end), into the second table (tabFruits) starting at #tabFruits + 1 (at the end).
+In this example table.move() copies the first table (tabExoticFruits) from the index 1 to the index #tabExoticFruits (from start to end), into the second table (tabFruits) starting at #tabFruits + 1 (at the end).
 
-The parameters are:
-	- table to be copied
-	- copy from index (1, from start)
-	- copy to index (#table, to the end)
-	- index where to insert the copied table (#table + 1, to add after; 0, to add before)
-	- table to be copied to
+The parameters of table.move() are:
+- table to be copied
+- copy from index (1, from start)
+- copy to index (#table, to the end)
+- index where to insert the copied table (#table + 1, to add after; 0, to add before)
+- table to be copied to
 
-Again, it doesn't return a table, it modifies the table in the 5th parameter.
+It returns the modified table in the 5th parameter.
 
 Another example with table.move:
-	local newTab = ll.List2List( myTab, 3, 5 )
-is:
-	local newTab = {}
-	table.move(myTab, 4, 6, 1, newTab)
+- local newTab = table.move(myTab, 4, 6, 1, {})
+ - like list newTab = llList2List( myTab, 3, 5 )
 
-To make a string with the element of the table, like ll.DumpList2String(), we have:
-	myStr = table.concat( tabFruits, ", " )
+To make a string with the elements of the table:
+- local myStr = table.concat( tabFruits, ", " )
+  - like string myStr = llDumpList2String( tabFruits, ", " )
 
-Tables in SLua are much more efficient than lists in LSL. Tables are a core feature of Lua and they used everywhere for many things. Tables are very optimized by the compiler.
+Tables in SLua are much more efficient than lists in LSL. Tables are a core feature of Lua and they used everywhere for many things. Tables are very optimized by the compiler.  
+It's better to stop using the LL functions for lists and we will use the tables in Lua style.
 
-We will stop using the LL functions for lists and we will use the tables in Lua style.
+### Dictionary tables
 
-Now let's look at the dictionary tables, with pairs of keys and values:
+They are pairs of key-value, like the linkset data.
 
 To create a dictionary table:
 	tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
@@ -136,71 +83,56 @@ To create a dictionary table:
 Instead of a list of values, we use keys (the name of the fruit) and values (the quantity of each fruit).
 
 We add a new pair of key value with:
-	tabFruitsQuantity["Melon"] = 5
+- tabFruitsQuantity["Melon"] = 5
 
 Or with:
-	tabFruitsQuantity.Melon = 5
+- tabFruitsQuantity.Melon = 5
 
 You can use the one that you prefer.
 
 To get a value from the table we use the key:
-	ll.OwnerSay( tabFruitsQuantity["Melon"] )  -- >  5
-or
-	ll.OwnerSay( tabFruitsQuantity.Melon  )  -- >  5
+- ll.OwnerSay( tabFruitsQuantity["Melon"] )  -- >  5
 
-If the key doesn't exist we will get a value of nil:
-	ll.OwnerSay( tabFruitsQuantity["Pumpkin"] )  -- >  nil
+Or
+- ll.OwnerSay( tabFruitsQuantity.Melon  )  -- >  5
+
+If the key doesn't exist it returns a value of nil:
+- ll.OwnerSay( tabFruitsQuantity["Pumpkin"] )  -- >  nil
 
 To remove a pair of key value we set the key to nil:
-	tabFruitsQuantity["Cherry"] = nil
+- tabFruitsQuantity["Cherry"] = nil
+- 
 The key is removed (it's not set to nil) and the memory is cleaned up.
 
-Array tables are a special case of dictionary tables, where the keys are correlative numbers starting with 1.
+Array tables are a special case of dictionary tables, where the keys are consecutive numbers starting with 1.
 
-All the values, in array tables and in dictionary tables, can be anything, including another table.
+All values, in array tables and in dictionary tables, can be anything, including another table. Tables in  tables can also have other tables as values, to make lists of lists of lists...
 
-And the tables in the tables can also have other tables as values, to make lists of lists of lists...
+### Copying tables
 
+In this example:
 
-Let's look at an example. Open the "script test 1 LSL".
+local tab1 = { 10, 20, 30 }
+local tab2 = {}
 
-We make a list (lst1), make a copy of this list (lst2), modify lst1 and, obviously, lst1 is modified and lst2 is not. As it must be.
+tab2 = tab1
+tab1[2] = 15  -- changing a value in tab1
 
-Now let's look at the same example in SLua. Open the "script test 1 SLua".
+ll.OwnerSay(tostring(tab1[2]))  -- > 15  -- ok
+ll.OwnerSay(tostring(tab2[2]))  -- > 15  -- tab2 is also changed!
 
-We do the same, change tab1, and it happens that tab1 is changed (OK) and tab2 is also changed (WTF?!).
+Tables can be a big thing. They are not stored in the variables. Variables store a reference to the table.
 
-To understand what happens, let's look at an example of this behaviour in LSL. Open the "script test 2 LSL".
-
-Here we are doing the same with the lists.
-
-And something similar with the object where the script is in.
-
-We have obj1 with the key of this object, and obj2 empty. And we set the object description to "original description".
-
-We copy obj1 to obj2. And we change the description to "new" description.
-
-Of course, either with obj1 or with obj2 we get the same changed description.
-
-We know well that the variables have the uuid of the object, not the object itself. And that with   obj2 = obj1  we are copying this uuid, not making a new copy of the full object.
-
-And this is what happens with tables in SLua.
-
-Tables can be a big thing. They are not stored in the variables.
-
-We can see tables as "objects" that are "rezzed" in the script memory and that have an "uuid", a reference to the table. This reference is what is stored in the variables.
-
-With   tab2 = tab1  we are copying the reference to the table, not the table. Both variables have the same "uuid" to the only one "object" table.
+tab2 = tab1 copies the reference to the table, not the table itself. Both variables have the same reference to the only one table.
 
 We can make a copy of a table, with the table.clone function:
-	tab2 = table.clone( tab1 )
+- tab2 = table.clone( tab1 )
 
 Now we have two different tables (with the same values), each one with its reference.
 
 It makes a "shallow" copy, only the elements in the first level of the table are copied. If an element is a table, this "sub-table" is not copied, and the new table has the same reference to the "sub-table".
 
-
-Now let's look at comparing tables.
+### Comparing tables
 
 In LSL   myList1 == myList2   doesn't compare the elements of the lists, it compares the length of the lists.
 
