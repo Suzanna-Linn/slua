@@ -88,7 +88,7 @@ We add a new pair of key value with:
 Or with:
 - tabFruitsQuantity.Melon = 5
 
-You can use the one that you prefer.
+Using one or the other is a matter of preference, internally both are the same.
 
 To get a value from the table we use the key:
 - ll.OwnerSay( tabFruitsQuantity["Melon"] )  -- >  5
@@ -107,6 +107,11 @@ The key is removed (it's not set to nil) and the memory is cleaned up.
 Array tables are a special case of dictionary tables, where the keys are consecutive numbers starting with 1.
 
 All values, in array tables and in dictionary tables, can be anything, including another table. Tables in  tables can also have other tables as values, to make lists of lists of lists...
+
+The operator # only works with array tables, not with dictionary tables.
+
+To know if a dictionary table is empty is:
+- next( myTab ) == nil
 
 ### Copying tables
 
@@ -134,267 +139,32 @@ It makes a "shallow" copy, only the elements in the first level of the table are
 
 ### Comparing tables
 
-In LSL   myList1 == myList2   doesn't compare the elements of the lists, it compares the length of the lists.
-
-In SLua   myTab1 == myTab2 doesn't compare the elements of the tables neither, but it compares the references of the tables.
-
-If myTab1 and myTab2 have the same reference to the same "object" table the comparison is true, otherwise is false.
-
-The LSL   myList1 == myList2   translates to the SLua:
-	#myTab1 == #myTab2
-
-And the LSL   myTab == []  to check if the list is empty to the SLua:
-	#myTab == 0
-
-But the operator # only works with array tables, not with dictionary tables.
-
-To know if a dictionary table is empty is:
-	next( myTab ) == nil
-
-
-Let's see how to get it sorted.
-
-As a example we will use a table of farm animals and their products:
-local farmAnimals = {
-    Cow = "Milk",
-    Chicken = "Eggs",
-    Sheep = "Wool",
-    Pig = "Meat",
-    Goat = "Milk",
-    Duck = "Eggs",
-    Horse = "Labor",
-}
-
-With:
-	for animal, product in pairs(farmAnimals) do
-	ll.OwnerSay(animal .. " => " .. product)
-end
-
-We could get, for instance:
-Cow => Milk
-Pig => Meat
-Chicken => Eggs
-Duck => Eggs
-Goat => Milk
-Horse => Labor
-Sheep => Wool
-
-Dictionary tables can't be sorted, only array tables can. So we will make an array table with the keys in the dictionary, the names of the animals, and we will sort this array table.
-
-First the array table with the animals:
-local sortedAnimals = {}
-for animal in pairs(farmAnimals) do
-	table.insert(sortedAnimals, animal)
-end
-
-Then sorting the table:
-	table.sort(sortedAnimals)
-
-And we have got them in alphabetical ascending order, with:
-for _, animal in ipairs(sortedAnimals) do
-	ll.OwnerSay(animal .. " => " .. farmAnimals[animal])
-end
-
-Like this:
-Chicken => Eggs
-Cow => Milk
-Duck => Eggs
-Goat => Milk
-Horse => Labor
-Pig => Meat
-Sheep => Wool
-
-We have a table sortedAnimals with the keys of the table farmAnimals sorted in alphabetical ascending order.
-
-This is the default order of   table.sort   . But we can sort in any order than we want. For instance, by product and then by animal.
-
-table.sort()   has a second parameter, which is a... function. This is something that doesn't exist in LSL, we can't send a function as parameter. But Lua is much more flexible.
-
-table.sort()   will call our function with two parameters (let's call them "a" and "b"), which are two elements in the array list. We have to return a boolean value, true if we want a before b, false if we want b before a.
-
-Since we will only use this function in   table.sort()   we define them as an inline, unnamed function:
-table.sort(sortedAnimals, function(a, b)
-if farmAnimals[a] == farmAnimals[b] then  -- comparing products
-	return a < b  -- if products are equal, sorting by name
-else
-	return farmAnimals[a] < farmAnimals[b]  -- sorting by product
-end
-end)
-
-Saying them:
-for _, animal in sortedAnimals do
-	ll.OwnerSay(animal .. " => " .. farmAnimals[animal])
-end
-
-We get:
-Eggs <= Chicken
-Eggs <= Duck
-Labor <= Horse
-Meat <= Pig
-Milk <= Cow
-Milk <= Goat
-Wool <= Sheep
-
-Have you seen anything different in this last for?
-
-Where is ipairs()?
-
-We studied that the loop for needs ipairs() to read an arrray table and pairs() to read a dictionary table.
-
-This is true for standard Lua. In Luau and SLua is enough with:
-	for k, v in myTab do
-no matter if   myTab   is array or dictionary.
-
-It's important to know how ipairs() and pairs() work because we will see them very often in examples based in standard Lua, but we don't really need to use them.
-
-
-
-COMPARING
-
-When we compare, like   table1 == table2,  SLua is not comparing the contents of the tables. It compares the contents of the variables, which are references. table1 and table2 are equal is they have the same reference.
-
-With:
-	table1 = { 10, 20, 30 }
-	table2 = { 10, 20, 30 }
-	print( table1 == table2 )  -- >  false
-
-With:
-	table1 = { 10, 20, 30 }
-	table2 = table1
-	print( table1 == table2 )  -- >  true
-
-In LSL, when we compare two lists, we don't compare the contents of the lists neither, but the lengths of the lists.
-
-So:
-	if ( list1 == list2 ) {  // LSL, returns 1 or 0
-is:
-	if #table1 == #table2 then  // SLua, returns boolean
-
-Comparing with not equal is a bit more tricky:
-	if ( list1 != list2 ) {  // LSL, returns the difference of length
-if we want a boolean result:
-	if #table1 ~= #table2 then  // SLua, returns boolean
-if we want a number with the difference:
-	local diff = #table1 - #table2   // SLua, returns number
-
-And the LSL alternative of llGetListLength():
-	len = list1 != [];  // LSL, length of the list
-is just:
-	len = #table1  // SLua
-
-
-
-LENGTH OF ARRAYS
-
-Now we are going to see some weird behaviours of the # operator with array tables.
-
-All is perfect and predictable if the table is a nice array with correlative indexes starting with 1.
-
-But if there are missing values (nils) in the array things get interesting.
-
-Let's with this:
-	x = {}
-	for _, v in { 1, 2, 4, 6, 8, 9, 10, 12, 13, 16 } do
-		x[v] = 1
-	end
-
-A bad array missing the indexes 3, 5, 7, 11, 14 and 15.
-
-We can get the length:
-	print(#x)  -- 16
-	print(ll.GetListLength(x))  -- 16
-It looks well with #. The LL function returns the same.
-
-But:
-	for index, value in ipairs(x) do
-		print(index, value)  -- 1 1 / 2 1
-	end
-We only get two pairs of key-values. Ipairs() stops at the first nil at index 3.
-
-Going on:
-	x[4] = "hello"
-
-But:
-	print(table.find(x, "hello"))  -- nil
-Doesn't find the hello. table.find(), like ipairs(), stops at the first nil at index 3.
-
-We insert another value:
-	table.insert(x, "bye")
-	print(x[17])  -- bye
-table.insert() always inserts at #t+1.
-
-But the length that was 16:
-	print(#x)  -- 13
-	print(ll.GetListLength(x))
-After inserting the element 17, now is the length is 13.
-
-We can only trust that #t always exist and #t+1 never exists (always nil)
-
-We remove the element 17:
-	table.remove(x, 17)
-	print(x[17])  -- bye
-But the element it's still there. table.remove() only removes from 1 to #t and ignores calls with other indexes.
-If the element is from 1 to #t, it is deleted and the elements after it until #t are moved one index down. But the elements after #t are not moved.
-
-
-
-LIBRARY TABLE
-
-Now let's look at some table functions that we are not using often, or haven't used.
-
-table.concat() : joins the elements of an array table into a single string, optionally with a separator.
-
-We have used it today in line 197.
-
-Its problem is that only works with the types number and string. Any other type (boolean or any SLua type) throws an error.
-
-This is why we are making another table with tostring() before using table.concat(), in lines 192-198.
-\ WAIT = 10
-table.maxn() : returns the largest positive numerical key in the table (array or dictionary).
-
-We can use it to find the upper index in a sparse array. table.maxn(tab) will be the same or bigger than #tab.
-\ WAIT = 10
-table.move() : copies or moves a range of elements from one part of an array table to another part or into a different array table.
-
-It's more efficient that copying with a loop and It handles overlapping ranges correctly.
-
-The format is:
-	table.move(a, from, to, dest [, b])
-
-The parameters are:
-	a	source table
-	from	starting index in source table
-	to	ending index in source table
-	dest	destination index in the target table
-	b	destination table (optional; if omitted, table a is used)
-
-It returns the destination table.
-\ WAIT = 10
-table.clone() : creates a shallow copy of a table (array or dictionary). That means it copies the table’s top-level keys and values, but does not recursively copy nested tables. If the table has nested tables, only the reference is copied.
-
-We can use it in functions that receive tables as parameters, when we want to modify the table in the function, but not the original table outside the function.
-
-For instance, when translating LSL code, where the functions always received a copy of the lists passed as parameters.
-\ WAIT = 10
-table,create() : creates a pre-filled array table, optionally filling it with a default value.
-
-It's used for performance and memory optimization when creating large arrays and to initialize to some value:
-	myTotals = tableCreate( 10, 0 )    --  array from 1 to 10, initialized at 0
-
-
-
-list3 = list1 + list2
-
-With table.clone() to duplicate the first table and table.move() to add the second table to the duplicated table:
-	table3 = table.move(table2, 1, #table2, #table1 + 1, table.clone(table1))
-
-Or with two table.move(), adding the first table to a new empty table:
-	table3 = table.move(table2, 1, #table2, #table1 + 1, table.move(table1, 1, #table1, 1, {}))
-
-table.clone() is also useful if, inside a function, we are changing a table passed as parameter.
-
-We can start with:
-	paramTab = table.clone(paramTab)
-to avoid changing the external table.
-
-
+In SLua myTab1 == myTab2 doesn't compare the elements of the tables neither, it compares the references of the tables.
+-- Comparing tables (SLua)
+
+local table1 = { 10, 20, 30 }
+local table2 = { 10, 20, 30 }
+print( table1 == table2 )  -- >  false
+
+local table3 = { 10, 20, 30 }
+local table4 = table3
+print( table3 == table4 )  -- >  true
+
+In LSL myList1 == myList2 doesn't compare the elements of the lists meither, it compares the length of the lists.
+
+If myTab1 and myTab2 have a reference to the same table the comparison is true, otherwise is false.
+
+The LSL myList1 == myList2 in SLua is:
+- #myTab1 == #myTab2
+
+And the LSL myTab == [] to check if the list is empty is:
+- #myTab == 0
+
+Comparing with not equal is a bit more tricky, in LSL if ( list1 != list2 ) {   returns the difference of length:
+- to get a boolean result:
+  - if #table1 ~= #table2 then
+- to get a number with the difference:
+  - local diff = #table1 - #table2
+ 
+And the LSL alternative to llGetListLength(), integer len = list1 != [];, is:
+- local len = #table1
