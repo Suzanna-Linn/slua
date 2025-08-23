@@ -5,55 +5,55 @@
 They are like the LSL lists, but starting with index 1 instead of 0.
 
 Tables use { and } instead of [ and ]:
-- local myTab1 = {}    -- empty table
-  - like list myTab1 = [];
-- local myTab = { "apples", "bananas", "oranges" }
-  - like list myTab = [ "apples", "bananas", "oranges" ];
+- <code class="language-slua">local myTab1 = {}    -- empty table</code>
+  - like <code class="language-lsl">list myTab1 = [];</code>
+- <code class="language-slua">local myTab = { "apples", "bananas", "oranges" }</code>
+  - like <code class="language-lsl">list myTab = [ "apples", "bananas", "oranges" ];</code>
 
 The operator # returns the length of an array table:
-- local  length = #myTab
-  - like integer length = llGetListLength(myTab2);
+- <code class="language-slua">local length = #myTab</code>
+  - like <code class="language-lsl">integer length = llGetListLength(myTab2);</code>
 
 This also works:
-- local length = ll.GetListLength(myTab)
+- <code class="language-slua">local length = ll.GetListLength(myTab)</code>
 
 To get a value in the table using [ and ] with the index number:
-- local value = myTab[2]    -- > bananas
-  - like local value = ll.List2String(myTab,1)    -- > bananas
+- <code class="language-slua">local value = myTab[2]    -- > bananas</code>
+  - like <code class="language-lsl">string value = ll.List2String(myTab,1)    -- > bananas</code>
  
 The functions ll.List2*** also work, but it's better to access the table in the SLua way.
  
 To modify a value is also using [ and ] with the index number:
-- myTab[3] = "kiwis"
+- <code class="language-slua">myTab[3] = "kiwis"</code>
 
 There is no operator + for tables. To add an element to the end of a table we can get the length of the table and add the next one:
-- myTab[ #myTab + 1 ] = "melons"
-  - like myTab = myTab + "melons";
+- <code class="language-slua">myTab[ #myTab + 1 ] = "melons"</code>
+  - like <code class="language-lsl">myTab = myTab + "melons";</code>
 
 Or also with a function in the library table:
-- table.insert( tabFruits, "Pear" )
+- <code class="language-slua">table.insert( tabFruits, "Pear" )</code>
 
 The function table.insert, unlike ll.ListInsertList, doesn't return a value. It modifies the table that we have sent as parameter. We don't assign a return value to the table.
 
 To insert at the start we use the same function but with 3 parameters. Now the second parameter is the index before which the element will be inserted.:
-- table.insert( tabFruits, 1, "Lemon" )
+- <code class="language-slua">table.insert( tabFruits, 1, "Lemon" )</code>
 
 Or anywhere in the table, the index in the second parameter must be between 1 and #table:
-- table.insert( tabFruits, 3, "Lemon" )
+- <code class="language-slua">table.insert( tabFruits, 3, "Lemon" )</code>
 
 If we use an index out of the range, the value will be inserted with this index, but all the index values in between will not exist. It will not be an array table and the functions for array tables and the operator # will not work.
 
 To remove the last element in an array table:
-- table.remove( tabFruits )
+- <code class="language-slua">table.remove( tabFruits )</code>
 
 table.remove, unlike ll.DeleteSubList, modifies the table and doesn't return the table.
 
 To remove any element in the table we have the same function with a second paramenter, the index of the element:
-- table.remove( tabFruits, 3 )
+- <code class="language-slua">table.remove( tabFruits, 3 )</code>
 
 To add one table to another:
-- table.move( tabExoticFruits, 1, #tabExoticFruits, #tabFruits + 1, tabFruits )
-  - like tabFruits = tabFruits + tabExoticFruits
+- <code class="language-slua">table.move( tabExoticFruits, 1, #tabExoticFruits, #tabFruits + 1, tabFruits )</code>
+  - like <code class="language-lsl">tabFruits = tabFruits + tabExoticFruits</code>
 
 In this example table.move() copies the first table (tabExoticFruits) from the index 1 to the index #tabExoticFruits (from start to end), into the second table (tabFruits) starting at #tabFruits + 1 (at the end).
 
@@ -69,24 +69,24 @@ The parameters of table.move() are:
 It returns the modified table in the 5th parameter.
 
 Another example with table.move:
-- local newTab = table.move(myTab, 4, 6, 1, {})
- - like list newList = llList2List( myTab, 3, 5 )
+- <code class="language-slua">local newTab = table.move(myTab, 4, 6, 1, {})</code>
+ - like <code class="language-lsl">list newList = llList2List( myTab, 3, 5 )</code>
 
 table.move to copy two tables into another one:
-- local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.move(myTab1, 1, #myTab1, 1, {}))
-  - like list myList3 = myList1 + myList2
+- <code class="language-slua">local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.move(myTab1, 1, #myTab1, 1, {}))</code>
+  - like <code class="language-lsl">list myList3 = myList1 + myList2</code>
 
 To make a string with the elements of the table:
-- local myStr = table.concat( tabFruits, ", " )
-  - like string myStr = llDumpList2String( tabFruits, ", " )
+- <code class="language-slua">local myStr = table.concat( tabFruits, ", " )</code>
+  - like string myStr = llDumpList2String( tabFruits, ", " )</code>
  
 But table.concat() only works with the types number and string. Any other type (boolean or any SLua type) throws an error.
 
 To get the largest positive numerical key in the table (array or dictionary):
-- local maxNumKey = table.maxn()
+- <code class="language-slua">local maxNumKey = table.maxn()</code>
 
 To create a pre-filled array table, optionally filling it with a default value:
-- myTotals = tableCreate( 10, 0 )    --  array from 1 to 10, initialized at 0
+- <code class="language-slua">local myTotals = tableCreate( 10, 0 )  -- array from 1 to 10, initialized at 0</code>
 
 It's used for performance and memory optimization when creating large arrays and to initialize to some value.
 
@@ -98,32 +98,32 @@ It's better to stop using the LL functions for lists and we will use the tables 
 They are pairs of key-value, like the linkset data.
 
 To create a dictionary table:
-	tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
+- <code class="language-slua">local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }</code>
 
 Instead of a list of values, we use keys (the name of the fruit) and values (the quantity of each fruit).
 
 To add a new pair of key value with:
-- tabFruitsQuantity["Melon"] = 5
+- <code class="language-slua">tabFruitsQuantity["Melon"] = 5</code>
 
-Or with:
-- tabFruitsQuantity.Melon = 5
+Or with, only when the key would be a valid identifier:
+- <code class="language-slua">tabFruitsQuantity.Melon = 5</code>
 
 Using one or the other is a matter of preference, internally both are the same.
 
 To modify a value is also assigning a value to it, replacing the previous value.
 
 To get a value from the table we use the key:
-- ll.OwnerSay( tabFruitsQuantity["Melon"] )  -- >  5
+- <code class="language-slua">ll.OwnerSay( tabFruitsQuantity["Melon"] )  -- >  5</code>
 
 Or
-- ll.OwnerSay( tabFruitsQuantity.Melon  )  -- >  5
+- <code class="language-slua">ll.OwnerSay( tabFruitsQuantity.Melon  )  -- >  5</code>
 
 If the key doesn't exist it returns a value of nil:
-- ll.OwnerSay( tabFruitsQuantity["Pumpkin"] )  -- >  nil
+- <code class="language-slua">ll.OwnerSay( tabFruitsQuantity["Pumpkin"] )  -- >  nil</code>
 
 To remove a pair of key value we set the key to nil:
-- tabFruitsQuantity["Cherry"] = nil
-- 
+- <code class="language-slua">tabFruitsQuantity["Cherry"] = nil</code>
+
 The key is removed (it's not set to nil) and the memory is cleaned up.
 
 Array tables are a special case of dictionary tables, where the keys are consecutive numbers starting with 1.
@@ -133,42 +133,41 @@ All values, in array tables and in dictionary tables, can be anything, including
 The operator # only works with array tables, not with dictionary tables.
 
 To know if a dictionary table is empty is:
-- next( myTab ) == nil
+- <code class="language-slua">next( myTab ) == nil</code>
 
 ### Copying tables
 
 In this example:
-
-local tab1 = { 10, 20, 30 }
+<pre class="language-slua"><code class="language-slua">local tab1 = { 10, 20, 30 }
 local tab2 = {}
 
 tab2 = tab1
 tab1[2] = 15  -- changing a value in tab1
 
 ll.OwnerSay(tostring(tab1[2]))  -- > 15  -- ok
-ll.OwnerSay(tostring(tab2[2]))  -- > 15  -- tab2 is also changed!
+ll.OwnerSay(tostring(tab2[2]))  -- > 15  -- tab2 is also changed!</code></pre>
 
 Tables can be a big thing. They are not stored in the variables. Variables store a reference to the table.
 
 tab2 = tab1 copies the reference to the table, not the table itself. Both variables have the same reference to the only one table.
 
 We can make a copy of a table, with the table.clone function:
-- tab2 = table.clone( tab1 )
+- <code class="language-slua">tab2 = table.clone( tab1 )</code>
 
 Now we have two different tables (with the same values), each one with its reference.
 
 It makes a "shallow" copy, only the elements in the first level of the table are copied. If an element is a table, this "sub-table" is not copied, and the new table has the same reference to the "sub-table".
 
 It's useful in functions that receive tables as parameters, when we want to modify the table in the function, but not the original table outside the function. For instance, when translating LSL code, where the functions always receive a copy of the lists passed as parameters:
-- paramTab = table.clone(paramTab)
+- <code class="language-slua">paramTab = table.clone(paramTab)</code>
 
 table.clone() can be used to add two tables into another one:
-- local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.clone(table1))
+- <code class="language-slua">local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.clone(table1))</code>
 
 ### Comparing tables
 
 In SLua myTab1 == myTab2 doesn't compare the elements of the tables neither, it compares the references of the tables.
--- Comparing tables (SLua)
+<pre class="language-slua"><code class="language-slua">-- Comparing tables (SLua)
 
 local table1 = { 10, 20, 30 }
 local table2 = { 10, 20, 30 }
@@ -176,23 +175,23 @@ print( table1 == table2 )  -- >  false
 
 local table3 = { 10, 20, 30 }
 local table4 = table3
-print( table3 == table4 )  -- >  true
+print( table3 == table4 )  -- >  true</code></pre>
 
 In LSL myList1 == myList2 doesn't compare the elements of the lists meither, it compares the length of the lists.
 
 If myTab1 and myTab2 have a reference to the same table the comparison is true, otherwise is false.
 
 The LSL myList1 == myList2 in SLua is:
-- #myTab1 == #myTab2
+- <code class="language-slua">#myTab1 == #myTab2</code>
 
 And the LSL myTab == [] to check if the list is empty is:
-- #myTab == 0
+- <code class="language-slua">#myTab == 0</code>
 
-Comparing with not equal is a bit more tricky, in LSL if ( list1 != list2 ) {   returns the difference of length:
+Comparing with not equal is a bit more tricky, in LSL <code class="language-lsl">if ( list1 != list2 ) {</code>   returns the difference of length:
 - to get a boolean result:
-  - if #table1 ~= #table2 then
+  - <code class="language-slua">if #table1 ~= #table2 then</code>
 - to get a number with the difference:
-  - local diff = #table1 - #table2
+  - <code class="language-slua">local diff = #table1 - #table2</code>
  
-And the LSL alternative to llGetListLength(), integer len = list1 != [];, is:
-- local len = #table1
+And the LSL alternative to llGetListLength(), <code class="language-lsl">integer len = list1 != [];</code>, is:
+- <code class="language-slua">local len = #table1</code>
