@@ -14,7 +14,7 @@ The operator # returns the length of an array table:
 - <code class="language-slua">local length = #myTab</code>
   - like <code class="language-lsl">integer length = llGetListLength(myTab2);</code>
 
-This also works:
+This also works, but is longer and slower:
 - <code class="language-slua">local length = ll.GetListLength(myTab)</code>
 
 To get a value in the table using [ and ] with the index number:
@@ -30,10 +30,10 @@ There is no operator + for tables. To add an element to the end of a table we ca
 - <code class="language-slua">myTab[ #myTab + 1 ] = "melons"</code>
   - like <code class="language-lsl">myTab = myTab + "melons";</code>
 
-Or also with a function in the library table:
+Or with a function in the library table:
 - <code class="language-slua">table.insert( tabFruits, "Pear" )</code>
 
-The function table.insert, unlike ll.ListInsertList, doesn't return a value. It modifies the table that we have sent as parameter. We don't assign a return value to the table.
+The function table.insert(), unlike ll.ListInsertList(), doesn't return a value. It modifies the table that we have sent as parameter. We don't assign the return value to the table.
 
 To insert at the start we use the same function but with 3 parameters. Now the second parameter is the index before which the element will be inserted.:
 - <code class="language-slua">table.insert( tabFruits, 1, "Lemon" )</code>
@@ -46,8 +46,8 @@ If we use an index out of the range, the value will be inserted with this index,
 To remove the last element in an array table:
 - <code class="language-slua">table.remove( tabFruits )</code>
 
-table.remove, unlike ll.DeleteSubList, modifies the table and doesn't return the table.
-
+table.remove(), unlike ll.DeleteSubList(), modifies the table and doesn't return the table. It returns the value of the removed key.
+ 
 To remove any element in the table we have the same function with a second paramenter, the index of the element:
 - <code class="language-slua">table.remove( tabFruits, 3 )</code>
 
@@ -57,22 +57,20 @@ To add one table to another:
 
 In this example table.move() copies the first table (tabExoticFruits) from the index 1 to the index #tabExoticFruits (from start to end), into the second table (tabFruits) starting at #tabFruits + 1 (at the end).
 
-table.move() copies or moves a range of elements from one part of an array table to another part or into a different array table. It's more efficient that copying with a loop and It handles overlapping ranges correctly.
+table.move() copies or moves a range of elements from one part of an array table to another part or into a different array table. It returns the modified table. It's more efficient that copying with a loop and It handles overlapping ranges correctly.
 
 The parameters of table.move() are:
 - table to be copied
 - copy from index (1, from start)
 - copy to index (#table, to the end)
-- index where to insert the copied table (#table + 1, to add after; 0, to add before)
+- index where to insert the copied table (#table + 1, to add after; 1, to add before)
 - table to be copied to (optional, if omitted it copies to the same table)
-
-It returns the modified table in the 5th parameter.
 
 Another example with table.move:
 - <code class="language-slua">local newTab = table.move(myTab, 4, 6, 1, {})</code>
  - like <code class="language-lsl">list newList = llList2List( myTab, 3, 5 )</code>
 
-table.move to copy two tables into another one:
+Use of table.move() to copy two tables into another one:
 - <code class="language-slua">local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.move(myTab1, 1, #myTab1, 1, {}))</code>
   - like <code class="language-lsl">list myList3 = myList1 + myList2</code>
 
@@ -90,8 +88,8 @@ To create a pre-filled array table, optionally filling it with a default value:
 
 It's used for performance and memory optimization when creating large arrays and to initialize to some value.
 
-Tables in SLua are much more efficient than lists in LSL. Tables are a core feature of Lua and they used everywhere for many things. Tables are very optimized by the compiler.  
-It's better to stop using the LL functions for lists and we will use the tables in Lua style.
+Tables in SLua are much more efficient than lists in LSL. Tables are a core feature of Lua and they are used everywhere for many things. Tables are very optimized by the compiler.  
+It's better to stop using the LL lists functions and use the tables in Lua style.
 
 ### Dictionary tables
 
@@ -102,26 +100,26 @@ To create a dictionary table:
 
 Instead of a list of values, we use keys (the name of the fruit) and values (the quantity of each fruit).
 
-To add a new pair of key value with:
+To add a new pair of key value:
 - <code class="language-slua">tabFruitsQuantity["Melon"] = 5</code>
 
-Or with, only when the key would be a valid identifier:
+Or, only when the key would be a valid identifier:
 - <code class="language-slua">tabFruitsQuantity.Melon = 5</code>
 
-Using one or the other is a matter of preference, internally both are the same.
+Using one format or the other is a matter of preference, internally both are the same.
 
 To modify a value is also assigning a value to it, replacing the previous value.
 
-To get a value from the table we use the key:
+To get a value from the table:
 - <code class="language-slua">ll.OwnerSay( tabFruitsQuantity["Melon"] )  -- >  5</code>
 
-Or
+Or:
 - <code class="language-slua">ll.OwnerSay( tabFruitsQuantity.Melon  )  -- >  5</code>
 
 If the key doesn't exist it returns a value of nil:
 - <code class="language-slua">ll.OwnerSay( tabFruitsQuantity["Pumpkin"] )  -- >  nil</code>
 
-To remove a pair of key value we set the key to nil:
+To remove a pair of key value:
 - <code class="language-slua">tabFruitsQuantity["Cherry"] = nil</code>
 
 The key is removed (it's not set to nil) and the memory is cleaned up.
@@ -132,7 +130,7 @@ All values, in array tables and in dictionary tables, can be anything, including
 
 The operator # only works with array tables, not with dictionary tables.
 
-To know if a dictionary table is empty is:
+To know if a dictionary table is empty:
 - <code class="language-slua">next( myTab ) == nil</code>
 
 ### Copying tables
@@ -154,7 +152,7 @@ tab2 = tab1 copies the reference to the table, not the table itself. Both variab
 We can make a copy of a table, with the table.clone function:
 - <code class="language-slua">tab2 = table.clone( tab1 )</code>
 
-Now we have two different tables (with the same values), each one with its reference.
+Now there are two different tables (with the same values), each one with its reference.
 
 It makes a "shallow" copy, only the elements in the first level of the table are copied. If an element is a table, this "sub-table" is not copied, and the new table has the same reference to the "sub-table".
 
@@ -166,7 +164,7 @@ table.clone() can be used to add two tables into another one:
 
 ### Comparing tables
 
-In SLua myTab1 == myTab2 doesn't compare the elements of the tables neither, it compares the references of the tables.
+In SLua myTab1 == myTab2 doesn't compare the elements of the tables, it compares the references of the tables. If myTab1 and myTab2 have a reference to the same table the comparison is true, otherwise is false.
 <pre class="language-slua"><code class="language-slua">-- Comparing tables (SLua)
 
 local table1 = { 10, 20, 30 }
@@ -177,14 +175,12 @@ local table3 = { 10, 20, 30 }
 local table4 = table3
 print( table3 == table4 )  -- >  true</code></pre>
 
-In LSL myList1 == myList2 doesn't compare the elements of the lists meither, it compares the length of the lists.
+In LSL myList1 == myList2 doesn't compare the elements of the lists neither, it compares the length of the lists.
 
-If myTab1 and myTab2 have a reference to the same table the comparison is true, otherwise is false.
-
-The LSL myList1 == myList2 in SLua is:
+The LSL <code class="language-lsl">myList1 == myList2</code> in SLua is:
 - <code class="language-slua">#myTab1 == #myTab2</code>
 
-And the LSL myTab == [] to check if the list is empty is:
+And the LSL <code class="language-lsl">myTab == []</code> to check if the list is empty is:
 - <code class="language-slua">#myTab == 0</code>
 
 Comparing with not equal is a bit more tricky, in LSL <code class="language-lsl">if ( list1 != list2 ) {</code>   returns the difference of length:
