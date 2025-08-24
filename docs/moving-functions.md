@@ -65,11 +65,11 @@ the second value returned is discarded.
 
 And with:
 - <code class="language-slua">tot, avg, lotteryWinner = stats( 3, 28, 8, 45, 14 )</code>
-lotteryWinner gets nil, because there are no more values.
+- lotteryWinner gets nil, because there are no more values.
 
 Assigning several values at once works not only with functions.
 
-It can be used to exchange the values of two variables, without using an intermediate one:
+It can exchange the values of two variables, without using an intermediate one:
 - <code class="language-slua">a, b = b, a</code>
 
 Lua first evaluates all the values on the right, before assigning them to the variables on the left.
@@ -99,9 +99,9 @@ Inline functions are also useful when translating LSL scripts to replace assigna
 
 For instance, in LSL:
 - <code class="language-lsl">if ( people = llGetAgentList( AGENT_LIST_PARCEL, [] ) != [] ) {</code>
-it's assigning the agent list to people and checking if there is people, to do something with them.
+- it's assigning the agent list to people and checking if there is people, to do something with them.
 
-In SLua, assignations are statements, not expressions, and they don't return a value. They can't be used them were a value is expected. It would assign the agent list in people, but there will not be anything to compare with the empty table.
+In SLua, assignations are statements, not expressions, and they don't return a value. They can't be used were a value is expected. It would assign the agent list to people, but there will not be anything to compare with the empty table.
 
 One option is, in SLua:
 - <code class="language-slua">people = ll.GetAgentList( AGENT_LIST_PARCEL, {} ) if #people ~= 0 then</code>
@@ -113,12 +113,9 @@ In the function the table people is assigned in the same way, and its value is r
 
 ### Passing parameters to functions
 
-In general, in programming languages, there are two ways of passing parameters to functions: by value or by reference.
-
-Passing by value means the function gets a copy of the original data. Changes made inside the function do not affect the original value outside.
-
-Passing by reference means the function receives a reference to the original data. Changes to that data do affect the original.
-
+In general, in programming languages, there are two ways of passing parameters to functions: by value or by reference.  
+Passing by value means the function gets a copy of the original data. Changes made inside the function do not affect the original value outside.  
+Passing by reference means the function receives a reference to the original data. Changes to that data do affect the original.  
 In SLua (as in LSL) all the parameters, of any type, are passed by value, the contents of the original variables can't be changed.
 
 For instance:
@@ -132,8 +129,7 @@ print( tabTest[1] )  -- >   a</code></pre>
 
 tabTest is unchanged by the modification in the function.
 
-But some of the data types have a reference as value: table, function and thread (coroutines).
-
+But some of the data types have a reference as value: table, function and thread (coroutines).  
 The value of a variable passed as parameter to a function can't be changed. But the reference can be used to change its contents.
 
 For instance:
@@ -147,4 +143,4 @@ print( tabTest[1] )  -- >   x</code></pre>
 
 Which doesn't happen in LSL, where variables with lists contain the list instead of a reference to it.
 
-But we need to be careful when translating our LSL scripts to SLua, if any of them is modifying lists passed as parameters.
+We need to be careful when translating our LSL scripts to SLua, if any of them is modifying lists passed as parameters.
