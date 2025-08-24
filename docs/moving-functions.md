@@ -65,7 +65,7 @@ the second value returned is discarded.
 
 And with:
 - <code class="language-slua">tot, avg, lotteryWinner = stats( 3, 28, 8, 45, 14 )</code>
-- lotteryWinner gets nil, because there are no more values.
+  - lotteryWinner gets nil, because there are no more values.
 
 Assigning several values at once works not only with functions.
 
@@ -76,8 +76,7 @@ Lua first evaluates all the values on the right, before assigning them to the va
 
 ### Anonymous functions
 
-SLua has anonymous functions (function literals), which can be written inline and used directly as arguments or values.
-
+SLua has anonymous functions (function literals), which can be written inline and used directly as arguments or values.  
 Inline, unnamed functions are useful for short functions that are going to be used only once.
 
 For instance, to get the length of a dictionary table:
@@ -99,7 +98,7 @@ Inline functions are also useful when translating LSL scripts to replace assigna
 
 For instance, in LSL:
 - <code class="language-lsl">if ( people = llGetAgentList( AGENT_LIST_PARCEL, [] ) != [] ) {</code>
-- it's assigning the agent list to people and checking if there is people, to do something with them.
+  - it's assigning the agent list to people and checking if there is people, to do something with them.
 
 In SLua, assignations are statements, not expressions, and they don't return a value. They can't be used were a value is expected. It would assign the agent list to people, but there will not be anything to compare with the empty table.
 
