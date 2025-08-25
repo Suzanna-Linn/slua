@@ -96,7 +96,7 @@ What it does not (and probably will not, since these are very uncommon situation
 
 What it does not (and will not, since it would require redesigning the code)
 - jump (except when it can be replaced with break or continue)
-  - the command <code class="language-lsl">jump label;</code> is replaced with <code class="language-slua">jump = "jump label"</code>
+  - the command <code class="language-lsl">jump name_of_label;</code> is replaced with <code class="language-slua">jump = "jump name_of_label"</code>
   - the label <code class="language-lsl">@name_of_label;</code> is replaced with <code class="language-slua">jump = "@name_of_label"</code>
 
 <script>
