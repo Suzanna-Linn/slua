@@ -1,7 +1,9 @@
 ## Scripts
 
-This section is a growing collection of practical, ready-to-use SLua scripts you can use, adapt, and learn from
+This section is a growing collection of practical, ready-to-use SLua scripts you can use, adapt, and learn from.
+
 The library is organized into subpages by topic, and each script description is marked with a color to indicate its difficulty level, as shown below.
+
 This is a brand-new section, and the collection is just beginning to grow. Be sure to stop by every Sunday to see what new scripts have been added. Happy scripting!
 
 ##### Color-coding example:
