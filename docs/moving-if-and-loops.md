@@ -77,9 +77,11 @@ SLua inline if:
 if (points == 1)
 	pointsText += " point";
 else
-pointsText += " points";</code></pre>
+	pointsText += " points";
+}</code></pre>
 </td><td>
 <pre class="language-slua"><code class="language-slua">
+
 pointsText = "You have " .. tostring(points) .. if points == 1 then " point" else " points"
 
 -- or the same with string interpolation
