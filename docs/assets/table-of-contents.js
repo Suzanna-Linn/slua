@@ -25,17 +25,22 @@ document.addEventListener('DOMContentLoaded', function () {
         sublist.classList.add('sublist');
 
         headers.forEach(header => {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          
-          if (!header.id) {
-            header.id = header.textContent.toLowerCase().replace(/\s+/g, '-');
-          }
-          a.href = `#${header.id}`;
-          a.textContent = header.textContent;
+          const computedStyle = window.getComputedStyle(header);
+          const color = computedStyle.getPropertyValue('color');
 
-          li.appendChild(a);
-          sublist.appendChild(li);
+          if (color !== 'rgb(0, 0, 0)' && color.toLowerCase() !== '#000000') {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            
+            if (!header.id) {
+              header.id = header.textContent.toLowerCase().replace(/\s+/g, '-');
+            }
+            a.href = `#${header.id}`;
+            a.textContent = header.textContent;
+  
+            li.appendChild(a);
+            sublist.appendChild(li);
+          }
         });
 
         link.parentElement.appendChild(sublist);
