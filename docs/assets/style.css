@@ -124,6 +124,10 @@ p {
   text-align: justify;
 }
 
+table {
+  margin-top: -1.5em;
+}
+
 li {
   text-align: justify;
 }
