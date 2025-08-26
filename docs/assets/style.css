@@ -309,43 +309,43 @@ button[disabled]:hover {
   box-shadow: none;
 }
 
-  .script-box {
-    border-left: 8px solid;
-    padding: 12px;
-    margin: 12px 0;
-    border-radius: 6px;
-    background: #f9f9f9;
-  }
-  .script-box h4 {
-    display: inline-block;
-    margin: 0;
-  }
-  .script-box h4::after {
-    display: inline-block;
-    margin-left: 8px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: white;
-  }
-  .beginner { border-color: #4CAF50; }
-  .beginner h4::after {
-    content: "Beginner";
-    background: #4CAF50;
-  }
-  .intermediate { border-color: #2196F3; }
-  .intermediate h4::after {
-    content: "Intermediate";
-    background: #2196F3;
-  }
-  .advanced { border-color: #F44336; }
-  .advanced h4::after {
-    content: "Advanced";
-    background: #F44336;
-  }
-  .expert { border-color: #212121; }
-  .expert h4::after {
-    content: "Expert";
-    background: #212121;
-  }
+.script-box {
+  border-left: 8px solid;
+  padding: 0px 12px;
+  margin: 12px 0;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+.script-box h4 {
+  display: inline-block;
+  margin: 0;
+}
+.script-box h4::after {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+}
+.beginner { border-color: #4CAF50; }
+.beginner h4::after {
+  content: "Beginner";
+  background: #4CAF50;
+}
+.intermediate { border-color: #2196F3; }
+.intermediate h4::after {
+  content: "Intermediate";
+  background: #2196F3;
+}
+.advanced { border-color: #F44336; }
+.advanced h4::after {
+  content: "Advanced";
+  background: #F44336;
+}
+.expert { border-color: #212121; }
+.expert h4::after {
+  content: "Expert";
+  background: #212121;
+}
