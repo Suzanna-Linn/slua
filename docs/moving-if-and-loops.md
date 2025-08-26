@@ -2,31 +2,95 @@
 
 ## If
 
-The "if" condition:
-	if someValue == 0 then
-		-- do something
-	else
-		-- do something else
-	end
-
-There the keywords "then" and "end" instead of { and }.
-
-The condition doesn't need to be inside ( and ).
-
+It uses the keywords "then" and "end" instead of { and }.  
+The condition doesn't need to be inside ( and ).  
 There is a keyword "elsif" instead of "else if".
 
-And there is an inline if:
-	pointsText = "You have " .. tostring(points) .. if points == 1 then " point" else " points"
+Basic if-else:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">if (someValue == 0) {
+	// do something
+} else {
+	// do something else
+}</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">if someValue == 0 then
+	-- do something
+else
+	-- do something else
+end</code></pre>
+</td></tr></table>
 
-The "then" and "else" parts are a value instead of statements. The "else" is mandatory. There is no "end".
+Multiple if-else using the SLua keyword elseif:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">if (option == 1) {
+	// do something
+} else if (option == 2) {
+	// do something else
+} else {
+	// do something other else
+}</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">if option == 1 then
+	-- do something
+elseif option == 2 then
+	-- do something else
+else
+	-- do something other else
+end</code></pre>
+</td></tr></table>
 
-In LSL:
-	pointsText = "You have " + (string)points;
-	if (points == 1) {
-		pointsText += " point";
-	} else {
-		pointsText += " points";
-	}
+Chain of if-else if using a SLua table:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">if (option == "one") {
+	FirstOption()
+} else if (option == "this") {
+	OptionThis()
+} else if (option == "that") {
+	OptionThat()
+} else if (option == "last") {
+	LastOption()
+} else if (option == "") {
+	MissingOption()
+} else  {
+	WhateverElse()
+}</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">local tabOptions = { one = FirstOption,
+                     this = OptionThis,
+                     that = OptionThat,
+                     last = LastOption,
+                     [""] = MissingOption  -- not a valid identifier, must be in []
+                   }
+
+-- if the option exists in tabOptions call it, otherwise call the "else" function
+(tabOptions[option] or WhateverElse)()
+
+--</code></pre>
+</td></tr></table>
+
+SLua inline if:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">pointsText = "You have " + (string)points;
+if (points == 1)
+	pointsText += " point";
+else
+pointsText += " points";</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">
+pointsText = "You have " .. tostring(points) .. if points == 1 then " point" else " points"
+
+// or the same with string interpolation
+pointsText = `You have {points} {if points == 1 then " point" else " points"}</code></pre>
+</td></tr></table>
+The "then" and "else" parts are values or expressions instead of statements. The "else" is mandatory. There is no "end".
+
+
+
+
+
+
+
 
 TRUE and FALSE are LSL constants. They are numbers and have values 1 and 0. In SLua true and false are boolean values.
 
