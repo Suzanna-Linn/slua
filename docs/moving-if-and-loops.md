@@ -1,6 +1,6 @@
 ## If and loops
 
-## If
+### If
 
 It uses the keywords "then" and "end" instead of { and }.  
 The condition doesn't need to be inside ( and ).  
