@@ -34,7 +34,7 @@ local height = 1.65</code></pre>
 
 ### LSL string
 
-It is an SLua type string. We will see about strings in its section below.
+It is an SLua type string.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// strings (LSL)
@@ -45,6 +45,8 @@ string message = "hello";</code></pre>
 
 local message = "hello"</code></pre>
 </td></tr></table>
+
+More about strings here: [Strings](\slua\moving-strings).
 
 ### LSL key
 
@@ -120,7 +122,7 @@ local rotS = ll.GetRot().s</code></pre>
 
 ### LSL list
 
-Lists are tables. We will see about lists in its section below.
+Lists are tables.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// lists (LSL)
@@ -135,6 +137,8 @@ local fruits = {"apple", "banana", "orange"}
 
 -- tables are enclosed in { and }, instead of [ and ]</code></pre>
 </td></tr></table>
+
+More about tables here: [Strings](\slua\moving-lists).
 
 ### The SLua datatype integer
 
