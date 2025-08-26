@@ -1,12 +1,12 @@
 ## Scripts
 
 <div class="script-box beginner">
-  <h5>Beginner Script</h5>
+  <h4>Beginner Script</h4>
   <p>This is a simple example in SLua...</p>
 </div>
 
 <div class="script-box intermediate">
-  <h5>Intermediate Script</h5>
+  <h4>Intermediate Script</h4>
   <p>This one demonstrates more complex logic...</p>
 </div>
 
