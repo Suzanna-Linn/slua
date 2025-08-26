@@ -138,7 +138,7 @@ local fruits = {"apple", "banana", "orange"}
 -- tables are enclosed in { and }, instead of [ and ]</code></pre>
 </td></tr></table>
 
-More about tables here: [Strings](/slua/moving-lists).
+More about tables here: [Tables](/slua/moving-lists).
 
 ### The SLua datatype integer
 
