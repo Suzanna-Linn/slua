@@ -56,16 +56,16 @@ Chain of if-else if using a SLua table:
 	WhateverElse()
 }</code></pre>
 </td><td>
-<pre class="language-slua"><code class="language-slua">local tabOptions = { one = FirstOption,
-                     this = OptionThis,
-                     that = OptionThat,
-                     last = LastOption,
-                     [""] = MissingOption  -- not a valid identifier, must be in []
-                   }
+<pre class="language-slua"><code class="language-slua">local tabOptions = {
+	one = FirstOption,
+    this = OptionThis,
+	that = OptionThat,
+    last = LastOption,
+    [""] = MissingOption  -- "" is not a valid identifier, must be in []
+}
 
 -- if the option exists in tabOptions call it, otherwise call the "else" function
 (tabOptions[option] or WhateverElse)()
-
 
 
 --</code></pre>
