@@ -46,7 +46,7 @@ string message = "hello";</code></pre>
 local message = "hello"</code></pre>
 </td></tr></table>
 
-More about strings here: [Strings](\slua\moving-strings).
+More about strings here: [Strings](/slua/moving-strings).
 
 ### LSL key
 
@@ -138,7 +138,7 @@ local fruits = {"apple", "banana", "orange"}
 -- tables are enclosed in { and }, instead of [ and ]</code></pre>
 </td></tr></table>
 
-More about tables here: [Strings](\slua\moving-lists).
+More about tables here: [Strings](/slua/moving-lists).
 
 ### The SLua datatype integer
 
