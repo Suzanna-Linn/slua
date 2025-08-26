@@ -66,6 +66,8 @@ Chain of if-else if using a SLua table:
 -- if the option exists in tabOptions call it, otherwise call the "else" function
 (tabOptions[option] or WhateverElse)()
 
+
+
 --</code></pre>
 </td></tr></table>
 
