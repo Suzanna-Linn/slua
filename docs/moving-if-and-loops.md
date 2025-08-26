@@ -81,7 +81,7 @@ pointsText += " points";</code></pre>
 pointsText = "You have " .. tostring(points) .. if points == 1 then " point" else " points"
 
 // or the same with string interpolation
-pointsText = `You have {points} {if points == 1 then " point" else " points"}</code></pre>
+pointsText = `You have {points} {if points == 1 then " point" else " points"}`</code></pre>
 </td></tr></table>
 The "then" and "else" parts are values or expressions instead of statements. The "else" is mandatory. There is no "end".
 
