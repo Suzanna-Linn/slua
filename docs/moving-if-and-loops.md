@@ -101,8 +101,7 @@ The only false values in SLua are the boolean false and nil.
 The variables must be compared with the default value of their type.  
 The type uuid has .istruthy that returns true if the variable contains a valid not null uuid.
 <table><tr><td>
-<pre class="language-lsl"><code class="language-lsl">
-if (count) {}
+<pre class="language-lsl"><code class="language-lsl">if (count) {}
 if (message) {}
 if (avatarId) {}
 if (vec) {}
@@ -110,8 +109,7 @@ if (rot) {}
 if (someList) {}
 </code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">
-if count ~= 0 then end
+<pre class="language-slua"><code class="language-slua">if count ~= 0 then end
 if message ~= "" then end
 if avatarId.istruthy then end
 if vec ~= ZERO_VECTOR then end
