@@ -32,7 +32,7 @@ This will open up a myriad of possibilities for creators, from interactive displ
 - **Required:** Access to the Beta Grid  
 - **In-world Locations:**  
   - **Main Grid (Wednesdays):** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)  
-  - **Beta Grid (Fridays):** `secondlife://Aditi/secondlife/SLua%20Yardang/157/8/23`  
+  - **Beta Grid (Fridays):** [SLua Yardang (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/157/8/23)
 
 SLua is the future of scripting in Second Life—and it's already live on the Beta Grid!  
 This series starts from the ground up and is designed to get you comfortable with the new Lua-based scripting system.
@@ -48,7 +48,7 @@ This series starts from the ground up and is designed to get you comfortable wit
 - **Required:** Access to the Beta Grid  
 - **In-world Locations:**  
   - **Main Grid (Mondays):** [Caledon Oxbridge (Main Lecture Hall)](http://maps.secondlife.com/secondlife/Caledon%20Oxbridge/72/140/29)  
-  - **Beta Grid (Thursdays):** `secondlife://Aditi/secondlife/SLua%20Yardang/157/8/23`  
+  - **Beta Grid (Thursdays):** [SLua Yardang (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/157/8/23)
 
 Already scripting in SLua? This advanced series unlocks powerful features and techniques that go far beyond what’s possible with LSL.
 
@@ -62,6 +62,6 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
 - **Required:** Access to the Beta Grid (for SLua)  
 - **In-world Locations:**  
   - **Main Grid:** [Caledon Oxbridge (Main Lecture Hall)](http://maps.secondlife.com/secondlife/Caledon%20Oxbridge/72/140/29)  
-  - **Beta Grid:** `secondlife://Aditi/secondlife/SLua%20Yardang/157/8/23`  
+  - **Beta Grid:** [SLua Yardang (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/157/8/23) 
 
 Come with your questions, practices, and projects to chat about anything scripting related.
