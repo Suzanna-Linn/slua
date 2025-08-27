@@ -90,15 +90,16 @@ pointsText = `You have {points} {if points == 1 then "point" else "points"}`</co
 The "then" and "else" parts are values or expressions instead of statements. The "else" is mandatory. There is no "end".
 
 The LSL constants TRUE and FALSE exist, but they can't be used in the same way. They are numbers and have values 1 and 0. In SLua true and false are boolean values.
-<code class="language-slua">local isOk = FALSE
+<pre class="language-slua"><code class="language-slua">local isOk = FALSE
 if isOk then
 	-- always true
   	print("yes, 0 is true")	
-end</code>
-In SLua, FALSE, with a value of 0, is true.  
+end</code></pre>
+In SLua, FALSE, with a value of 0, is true.    
 The only false values in SLua are the boolean false and nil.
 
-The variables must be compared with the default value of their type. The type uuid has .istruthy that returns true if the variable contains a valid not null uuid.
+The variables must be compared with the default value of their type.  
+The type uuid has .istruthy that returns true if the variable contains a valid not null uuid.
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">
 if (count) {}
