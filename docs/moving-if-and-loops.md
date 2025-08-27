@@ -1,6 +1,6 @@
 ## If and loops
 
-### If
+### if
 
 It uses the keywords "then" and "end" instead of { and }.  
 The condition doesn't need to be inside ( and ).  
@@ -89,52 +89,38 @@ pointsText = `You have {points} {if points == 1 then "point" else "points"}`</co
 </td></tr></table>
 The "then" and "else" parts are values or expressions instead of statements. The "else" is mandatory. There is no "end".
 
-
-
-
-
-
-
-
-TRUE and FALSE are LSL constants. They are numbers and have values 1 and 0. In SLua true and false are boolean values.
-
-We could use TRUE or FALSE in the same way that we use them in LSL, with numbers, except that FALSE, with a value of 0, is true in SLua.
-
+The LSL constants TRUE and FALSE exist, but they can't be used in the same way. They are numbers and have values 1 and 0. In SLua true and false are boolean values.
+<code class="language-slua">local isOk = FALSE
+if isOk then
+	-- always true
+  	print("yes, 0 is true")	
+end</code>
+In SLua, FALSE, with a value of 0, is true.  
 The only false values in SLua are the boolean false and nil.
 
-0 is true, "" is true, a NULL_KEY is true.
+The variables must be compared with the default value of their type. The type uuid has .istruthy that returns true if the variable contains a valid not null uuid.
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">
+if (count) {}
+if (message) {}
+if (avatarId) {}
+if (vec) {}
+if (rot) {}
+if (someList) {}
+</code></pre>
+</td><td>
+<pre class="language-slua line-numbers"><code class="language-slua">
+if count ~= 0 then end
+if message ~= "" then end
+if avatarId.istruthy then end
+if vec ~= ZERO_VECTOR then end
+if rot ~= ZERO_ROTATION then end
+if #someList ~= 0 then end
+</code></pre>
+</td></tr></table>
 
-We can't do something like
-	isOk = FALSE
-	if isOk then
-		-- always true
-	end
-because no matter if isOk is TRUE or FALSE, the condition will be always true.
 
-We would need to do
-	if isOk ~= 0 then
-or with a string
-	if str ~= "" then
-
-Uuid's have the function .istruthy that return true if the variable contains a valid uuid:
-	if avatarId.istruthy then		-- it's the same than in LSL:   if (avatarId) {
-
-## Loops
-
-The loop for is very different in Lua. A way that always work is to change it into a loop while.
-
-In LSL:
-	for ( i = 0; i < 10; i++ ) {
-		// do something
-	}
-
-In SLua:
-	i = 0
-	while i < 10  do
-		-- do something
-		i += 1
-	end
-
+### while
 
 Let's start with the loop while.
 
@@ -196,8 +182,29 @@ This is the good one, in SLua:
 
 
 
-NUMERIC FOR
-´
+
+
+### for
+
+The loop for is very different in Lua. A way that always work is to change it into a loop while.
+
+In LSL:
+	for ( i = 0; i < 10; i++ ) {
+		// do something
+	}
+
+In SLua:
+	i = 0
+	while i < 10  do
+		-- do something
+		i += 1
+	end
+
+
+
+
+### Numeric for
+
 The loop for is very different in Lua. A way that always works is to change it into a loop while.
 
 In LSL:
@@ -362,7 +369,7 @@ The _ (underscore) in the indexes of the loop for is the name of a variable. Var
 Using _ we are meaning that we are not going to use this variable, and the _ is there because we need it as a placeholder. It's a way to make the script more clear.
 
 
-GENERIC FOR (DICTIONARY TABLES)
+### Generic for
 
 Now let's write a dictionary table, for instance:
 local vegetables = {
@@ -398,7 +405,9 @@ It's possible to use our own functions as iterators for the loop for, in the sam
 
 Dictionary tables haven't got a defined key order. It's not the order that we added them, it's not an alphabetical order, no order at all. The keys are stored and accesed in the way that is internally more efficient.
 
+### Generalized for
 
+### repeat
 
 The last loop is repeat...until. It's similar to do...while, in LSL:
 	do {
@@ -415,7 +424,8 @@ So to translate a do...while without changing its condition, it would be, in SLu
 		-- do something
 	until not (condition)
 
-## Expression evaluation
+
+### Expression evaluation
 
 Now this is more weird, and probably we will not find this problem in a real, or secondreal, script. But it's good to know.
 
