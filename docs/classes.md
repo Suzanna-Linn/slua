@@ -4,10 +4,9 @@ I'm excited to announce the launch of three new scripting class series designed 
 
 Whether you're interested in integrating with external tools or diving into the future of scripting with SLua, there's something here for you.  
 
-**Starting on September 8th**  
-For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
+**Starting on September 8th**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
-### 🖥LSL: Web Server and MOAP (6 classes)
+### LSL: Web Server and MOAP (6 classes)
 
 - **Dates:** September 8th – September 24th  
 - **Days:** Mondays and Wednesdays  
