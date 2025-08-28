@@ -359,8 +359,7 @@ if primIndex then
     ll.SetTimerEvent(5)
 else
     ll.OwnerSay(primDesc .. " is not in the table")
-end
-</code></pre>
+end</code></pre>
 </div>
 
 <div class="script-box intermediate">
