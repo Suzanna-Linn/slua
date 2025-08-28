@@ -1,7 +1,7 @@
 ## Floating texts
 
 <div class="script-box beginner">
-### Basic
+<h4>Basic</h4>
 
 A basic floating text with the name of the owner
 <pre class="language-slua"><code class="language-slua">-- basic floating text with a fixed text
