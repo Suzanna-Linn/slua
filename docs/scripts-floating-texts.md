@@ -174,7 +174,7 @@ local MESSAGE_LENGTH = 25  -- characters displayed in the floating text
 -- any long text, with a white space at the end
 local text = "🎃 Beware! This object may be haunted! 👻 Touch if you dare… but don’t say I didn’t warn you! 💀✨. "
 
-local textLength = ll.StringLength(text)  -- not #text, it has unicode
+local textLength = ll.StringLength(text)  -- not #text, the string has unicode
 local textPos = 0  -- index base 0 to use with LL string functions
 
 if textLength < MESSAGE_LENGTH then  -- in case that the text is too short, no scrolling
