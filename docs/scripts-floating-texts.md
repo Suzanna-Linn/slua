@@ -14,7 +14,7 @@ ll.SetText(text, color, alpha)</code></pre>
 
 <div class="script-box beginner">
 <h4>Color change</h4>
-A floating text that changes its color with a timer
+<p>A floating text that changes its color with a timer</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with a fixed text and changing colors
 
 local COLOR = {
@@ -50,7 +50,7 @@ ll.SetTimerEvent(0.5)</code></pre>
 
 <div class="script-box beginner">
 <h4>Text change</h4>
-A floating text that changes colors listens for a new text
+<p>A floating text that changes colors listens for a new text</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with changing text and changing colors
 
 local COLOR = {
@@ -96,7 +96,7 @@ ll.SetTimerEvent(0.5)
 
 <div class="script-box beginner">
 <h4>Text alternance</h4>
-A floating that listens for two text in two channels, alternates the text and changes the colors, with different timings
+<p>A floating that listens for two text in two channels, alternates the text and changes the colors, with different timings</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with double changing text and changing colors
 
 local COLOR = {
@@ -166,7 +166,7 @@ ll.SetTimerEvent(0.5)
 
 <div class="script-box beginner">
 <h4>Horizontal scrolling</h4>
-A floating text that scrolls horizontally from left to right (Halloween ambient)
+<p>A floating text that scrolls horizontally from left to right (Halloween ambient)</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with horizontal scrolling
 
 local MESSAGE_LENGTH = 25  -- characters displayed in the floating text
@@ -207,7 +207,7 @@ ll.SetTimerEvent(0.25)</code></pre>
 
 <div class="script-box beginner">
 <h4>Vertical scrolling</h4>
-A floating text that scrolls vertically from the bottom (Halloween ambient)
+<p>A floating text that scrolls vertically from the bottom (Halloween ambient)</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with vertical scrolling
 
 local MESSAGE_LINES = 5  -- lines displayed in the floating text
@@ -261,11 +261,11 @@ ll.SetTimerEvent(5)</code></pre>
 
 <div class="script-box intermediate">
 <h4>Bicolor</h4>
-A floating text that scrolls using two colors for alternating lines:
-![Bicolor](images/bicolor.jpg "Bicolor")
-Floating text have only one color, and prims only one floating text.  
-We need two identical prims rezzed in the same position, each prim shows half of the lines in one color.  
-The script must be in both prims. It identifies what text and color to display with the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.
+</p>A floating text that scrolls using two colors for alternating lines:</p>
+<img src="images/bicolor.jpg" alt="Bicolor">
+<p>Floating text have only one color, and prims only one floating text.  
+<p>We need two identical prims rezzed in the same position, each prim shows half of the lines in one color.</p>
+<p>The script must be in both prims. It identifies what text and color to display with the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with vertical scroll in two colors
 
 local COLOR = {
@@ -365,9 +365,9 @@ end
 
 <div class="script-box intermediate">
 <h4>Multicolor</h4>
-A floating text with seven colors for the rainbow:
-![Rainbow](images/rainbow.jpg "Rainbow")
-It works like the previous example. Here there are seven identical prims in the same position, with descriptions from "floating 1" to "floating 7". Each prim shows a letter in a different color.
+<p>A floating text with seven colors for the rainbow:</p>
+<img src="images/rainbow.jpg" alt="Rainbow">
+<p>It works like the previous example. Here there are seven identical prims in the same position, with descriptions from "floating 1" to "floating 7". Each prim shows a letter in a different color.</p>
 <pre class="language-slua"><code class="language-slua">-- floating text in rainbow colors
 
 local letters = {
