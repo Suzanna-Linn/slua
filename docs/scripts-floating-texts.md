@@ -266,7 +266,7 @@ ll.SetTimerEvent(5)</code></pre>
 <p>Floating texts have only one color, and prims only one floating text.</p>
 <p>We need two identical prims rezzed in the same position. Each prim shows half of the lines in one color.</p>
 <p>The script must be in both prims. It identifies what text and color to display using the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.</p>
-<pre class="language-slua"><code class="language-slua">-- floating text with vertical scroll in two colors
+<pre class="language-slua"><code class="language-slua">-- floating text with vertical scroll in two colors (by Suzanna Linn, 2025-08-28)
 
 local COLOR = {
     NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
@@ -367,7 +367,7 @@ end</code></pre>
 <p>A floating text with seven colors for the rainbow:</p>
 <img src="images/rainbow.jpg" alt="Rainbow">
 <p>It works like the previous example. Here there are seven identical prims in the same position, with descriptions from "floating 1" to "floating 7". Each prim shows a letter in a different color.</p>
-<pre class="language-slua"><code class="language-slua">-- floating text in rainbow colors
+<pre class="language-slua"><code class="language-slua">-- floating text in rainbow colors (by Suzanna Linn, 2025-08-28)
 
 local letters = {
     ["floating 1"] = { color = vector(1.0, 0.0, 0.0),     text = "R                  "  },  -- red
