@@ -96,7 +96,7 @@ ll.SetTimerEvent(0.5)
 
 <div class="script-box beginner">
 <h4>Text alternance</h4>
-<p>A floating that listens for two text in two channels, alternates the text and changes the colors, with different timings</p>
+<p>A floating text that listens for two texts in two channels, alternates the text and changes the colors, with different timings</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with double changing text and changing colors
 
 local COLOR = {
@@ -166,7 +166,7 @@ ll.SetTimerEvent(0.5)
 
 <div class="script-box beginner">
 <h4>Horizontal scrolling</h4>
-<p>A floating text that scrolls horizontally from left to right (Halloween ambient)</p>
+<p>A floating text that scrolls horizontally from right to left (Halloween ambient)</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with horizontal scrolling
 
 local MESSAGE_LENGTH = 25  -- characters displayed in the floating text
@@ -263,9 +263,9 @@ ll.SetTimerEvent(5)</code></pre>
 <h4>Bicolor</h4>
 <p>A floating text that scrolls using two colors for alternating lines:</p>
 <img src="images/bicolor.jpg" alt="Bicolor">
-<p>Floating text have only one color, and prims only one floating text.</p>
-<p>We need two identical prims rezzed in the same position, each prim shows half of the lines in one color.</p>
-<p>The script must be in both prims. It identifies what text and color to display with the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.</p>
+<p>Floating texts have only one color, and prims only one floating text.</p>
+<p>We need two identical prims rezzed in the same position. Each prim shows half of the lines in one color.</p>
+<p>The script must be in both prims. It identifies what text and color to display using the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with vertical scroll in two colors
 
 local COLOR = {
@@ -389,7 +389,5 @@ if letters[primDesc] then
     ll.SetText(text, color, alpha)
 else
     ll.OwnerSay(primDesc .. " is not in the table")
-end
-
-</code></pre>
+end</code></pre>
 </div>
