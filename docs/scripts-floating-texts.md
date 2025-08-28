@@ -2,8 +2,7 @@
 
 <div class="script-box beginner">
 <h4>Basic</h4>
-
-A basic floating text with the name of the owner
+<p>A basic floating text with the name of the owner</p>
 <pre class="language-slua"><code class="language-slua">-- basic floating text with a fixed text
 
 local text = "I'm owned by " .. ll.GetDisplayName(ll.GetOwner())
