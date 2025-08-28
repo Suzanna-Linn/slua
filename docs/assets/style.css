@@ -316,9 +316,12 @@ button[disabled]:hover {
 .script-box {
   border-left: 8px solid;
   padding: 0px 12px;
-  margin: 12px 0;
+  margin: 24px 0 12px 0;
   border-radius: 6px;
   background: #f9f9f9;
+}
+.script-box p {
+  margin-bottom: 8px;
 }
 .script-box h4 {
   color: black;
