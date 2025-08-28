@@ -261,9 +261,9 @@ ll.SetTimerEvent(5)</code></pre>
 
 <div class="script-box intermediate">
 <h4>Bicolor</h4>
-</p>A floating text that scrolls using two colors for alternating lines:</p>
+<p>A floating text that scrolls using two colors for alternating lines:</p>
 <img src="images/bicolor.jpg" alt="Bicolor">
-<p>Floating text have only one color, and prims only one floating text.  
+<p>Floating text have only one color, and prims only one floating text.</p>
 <p>We need two identical prims rezzed in the same position, each prim shows half of the lines in one color.</p>
 <p>The script must be in both prims. It identifies what text and color to display with the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with vertical scroll in two colors
