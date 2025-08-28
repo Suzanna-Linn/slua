@@ -2,6 +2,7 @@
 
 <div class="script-box beginner">
 ### Basic
+
 A basic floating text with the name of the owner
 <pre class="language-slua"><code class="language-slua">-- basic floating text with a fixed text
 
