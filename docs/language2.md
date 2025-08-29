@@ -813,25 +813,3 @@ for name, entry in pairs(math) do
     print(type(entry),"    ",name)
 end
 </code></pre>
-
-### Modules and packages
-
-A module is a type of script that is not executed on its own, but will be included in another script.
-
-Modules return a table that will be used in the main script. This table can be anything: values and functions, an object, several objects...
-
-Standard Lua also has packages, which have several modules compiled together, but Luau has modules only.
-
-### Debugging
-
-It seems that we will not have debugging in the first SLua version, but it will be added later.
-
-Luau has the possibility to add a debugger to set stop points, watch variables, step on code and inspect variables
-
-### Co-routines
-
-They will be also added later, not in the first version.
-
-It allows that a function can pause itself while waiting for something to happen, and another function can resume it when that happens.
-
-It will be useful for functions that use asynchronous calls or timers, and other advanced interactions.
