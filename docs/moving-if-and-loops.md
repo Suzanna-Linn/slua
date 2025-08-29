@@ -372,3 +372,19 @@ To translate a do...while without changing its condition:
 until not (condition)</code></pre>
 
 ### block
+
+A block to use an inner variable scope:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">integer myVar;
+{
+    integer myVar;
+    // do something
+}</code></pre>
+</td><td>
+<pre class="language-slua line-numbers"><code class="language-slua">local myVar = 0
+do
+    local myVar = 0
+    -- do something
+end</code></pre>
+
+</td></tr></table>
