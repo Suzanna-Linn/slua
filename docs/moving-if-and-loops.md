@@ -352,7 +352,22 @@ Dictionary tables haven't got a defined key order. It's not the order in which t
 
 ### Generic for with generalized iteration
 
-
+This one was a later addition to the previous types of loop for.  
+It loops on a table or a table literal:
+<pre class="language-slua"><code class="language-slua">local rivers = {
+    Nile = 6650,
+    Amazon = 6400,
+    Yangtze = 6300,
+    Mississippi = 6275,
+    Yenisei = 5539,
+    Yellow = 5464
+}
+for name, length in rivers do
+    ll.OwnerSay(`{name} River is about {length} km long.`)
+end</code></pre>
+<pre class="language-slua"><code class="language-slua">for _, val in { 5, 10, 20, 50 } do
+    ll.OwnerSay(`Value {val}`)
+end</code></pre>
 
 ### repeat
 
