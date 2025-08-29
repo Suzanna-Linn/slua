@@ -128,19 +128,19 @@ The condition doesn't need to be inside ( and ).
 	// do something
 }</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">while  condition do
+<pre class="language-slua"><code class="language-slua">while  condition do
 	-- do something
 end</code></pre>
 </td></tr></table>
 
-But... let's look at this in LSL:
+But... let's look at this in LSL:  
 <code class="language-lsl">while (--count) {  // LSL</code>
 
 It has a nice bunch of problems in a short space. There are 3 problems.
 
-First, the decrement -- doesn't exist in Lua (neither the increment ++).
+First problem, the decrement \-\- doesn't exist in Lua (neither the increment ++).
 
-We could try with this, which work the same in LSL:
+We could try with this, which work the same in LSL:  
 <code class="language-slua">while (count = count - 1) {  // LSL</code>
 
 But... second problem:
@@ -166,7 +166,7 @@ The only false values are the boolean false and nil.
 
 We need to get a boolean value, comparing with 0.  
 This is the good one, in SLua:
-<pre class="language-lsl"><code class="language-lsl">-- while (--count) in SLua
+<pre class="language-slua"><code class="language-slua">-- while (--count) in SLua
 
 count = count - 1;
 while count ~= 0 do
