@@ -178,9 +178,12 @@ end</code></pre>
 
 The loop for is very different in SLua. A way that always work is to change it into a loop while:
 <table><tr><td>
-<pre class="language-lsl"><code class="language-lsl">for ( i = 0; i < 10; i++ ) {
+<pre class="language-lsl"><code class="language-lsl">
+for ( i = 0; i < 10; i++ ) {
 	// do something
-}</code></pre>
+}
+
+</code></pre>
 </td><td>
 <pre class="language-slua line-numbers"><code class="language-slua">i = 0
 while i < 10  do
