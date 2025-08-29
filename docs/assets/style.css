@@ -124,7 +124,7 @@ p {
 }
 
 table {
-  margin-top: -2em;
+  margin-top: -1em;
 }
 
 li {
@@ -132,7 +132,7 @@ li {
 }
 
 p + ul, p + ol {
-  margin-top: -1.5em;
+  margin-top: -0.5em;
 }
 
 ul, ol {
