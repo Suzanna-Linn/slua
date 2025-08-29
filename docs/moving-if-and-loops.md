@@ -201,91 +201,99 @@ There are three types of loop for:
 
 ### Numeric for
 
-Let's start with the numeric, its format is, in SLua:
-	for i = start, stop, step do
+<pre class="language-slua"><code class="language-slua">local start, stop, end = 1, 10, 1
+
+for i = start, stop, step do
 -- do something
-	end
+end</code></pre>
 
-To count from 0 to 15 by 3 is, in SLua:
-	for i = 0, 15, 3 do
-		ll.OwnerSay(tostring(i))
-	end
-	-- > 0, 3, 6, 9, 12, 15
+To count from 0 to 15 by 3:
+<pre class="language-slua"><code class="language-slua">for i = 0, 15, 3 do
+	ll.OwnerSay(tostring(i))
+end
 
-The values for start, stop and step can be numbers, or variables, or expressions that return a number.
+-- > 0, 3, 6, 9, 12, 15</code></pre>
 
-The step can be negative. It's optional, it defaults to 1 if we don't write it.
+The values for start, stop and step can be numbers, or variables, or expressions that return a number.  
+The step can be negative. It's optional, it defaults to 1.
 
-Important! start, stop and step are evaluated only once, at the start of the loop. We can't change them inside the for.
+Important! start, stop and step are evaluated only once, at the start of the loop. They can't be changed inside the for.
 
-We can change the index variable, but only for the current loop. It will be replaced in the next loop.
+Trying to change the index variable will only work in the current loop. It will be replaced in the next loop:
+<pre class="language-slua"><code class="language-slua">for i = 1, 3 do
+	ll.OwnerSay("for: " .. tostring(i));
+	i = 2  -- nonsense line that seems to make the loop last forever, but it doesn't
+	ll.OwnerSay("new value: " .. tostring(i));
+end
 
-For instance, in SLua:
-	for i = 1, 3 do
-		ll.OwnerSay("for: " .. tostring(i));
-		i = 2  -- nonsense line that seems to make the loop last forever, but it doesn't
-		ll.OwnerSay("new value: " .. tostring(i));
-	end
-	-- > for 1, new value 2, for 2, new value 2, for 3, new value 2
+-- > for 1, new value 2, for 2, new value 2, for 3, new value 2</code></pre>
 
-Let's see the numeric for with an example, saying the colors of the prim, in LSL:
-	integer totalFaces = llGetNumberOfSides();
-	integer i;
-	for ( i = 0; i < totalFaces; i++) {
-		llOwnerSay("Face: " + (string)i + " color: " + (string)llGetColor(i));
-	}
+An example saying the colors of the prim:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">// prim colors (LSL)
 
-In SLua:
-	for i = 0, ll.GetNumberOfSides() - 1 do
-		ll.OwnerSay(`Face:  {i}  color: {ll.GetColor(i)}`)
-	end
+integer totalFaces = llGetNumberOfSides();
+integer i;
+for ( i = 0; i < totalFaces; i++) {
+	llOwnerSay("Face: " + (string)i + " color: " + (string)llGetColor(i));
+}</code></pre>
+</td><td>
+<pre class="language-slua line-numbers"><code class="language-slua">
+-- prim colors (SLua)
 
-ll.GetNumberOfSides() is called only once, while in LSL we need a variable to store its value and avoid calling it in each loop.
+
+for i = 0, ll.GetNumberOfSides() - 1 do
+	ll.OwnerSay(`Face:  {i}  color: {ll.GetColor(i)}`)
+end</code></pre>
+</td></tr></table>
+
+In SLua ll.GetNumberOfSides() is called only once, in LSL is better to store its value in a variable to avoid calling it in each loop.
 
 But now let's assume that we know for sure that one of the faces is red, and we want to know which face.
+<pre class="language-lsl"><code class="language-lsl">// looking for the red face (LSL)
 
-In LSL:
-	vector RED = <1, 0, 0>;
-	integer i;
-	for ( i = 0; llGetColor(i) != RED; i++) {
-	}
-	llOwnerSay("Face in red is number: " + (string)i);
+vector RED = <1, 0, 0>;
+integer i;
+for ( i = 0; llGetColor(i) != RED; i++) {
+}
+llOwnerSay("Face in red is number: " + (string)i);</code></pre>
 
-No way to rewrite this LSL loop for into a SLua numeric for. But there is an alternative.
-
+No way to rewrite this LSL loop for into a SLua numeric for. But there is an alternative.  
 SLua has a command break to jump out of the loop for.
 
 Let's do a first try with this, in SLua:
-	local RED = vector(1, 0, 0)
-	local i = 0    -- this is wrong
-	for i = 0, ll.GetNumberOfSides() - 1 do    -- going to loop on all the faces
-		if ll.GetColor(i) == RED then
-			break    -- but ending the loop when we find the color, same as LSL
-		end
+<pre class="language-slua"><code class="language-slua">-- looking for the red face (SLua)
+	
+local RED = vector(1, 0, 0)
+local i = 0    -- this is wrong
+for i = 0, ll.GetNumberOfSides() - 1 do    -- going to loop on all the faces
+	if ll.GetColor(i) == RED then
+		break    -- but ending the loop when we find the color, same as LSL
 	end
-	ll.OwnerSay(`Face in red is number: {i}`)    -- this is very WRONG!!!!!!
-	-- > 0 (always 0!!!)
+end
+ll.OwnerSay(`Face in red is number: {i}`)    -- this is very WRONG!!!!!!
+-- > 0 (always 0!!!)</code></pre>
 
-It happens that the index variable in the loop for is automatically declared local to the loop.
-
-The "i" in the "for i = 0" is local to the for. The "local i = 0" is another variable, with the same name.
-
+It happens that the index variable in the loop for is automatically declared local to the loop.  
+The "i" in the "for i = 0" is local to the for. The "local i = 0" is another variable, with the same name.  
 At the end of the loop for, or when it breaks, the "i" in the "for i = 0" goes out of scope. The "i" used in ll.OwnerSay is the "local i = 0", which has been 0 all the time.
 
 This is the good one:
-	local RED = vector(1, 0, 0)
-	local face 
-	for i = 0, ll.GetNumberOfSides() - 1 do    -- going to loop on all the faces
-		if ll.GetColor(i) == RED then
-			face = i
-			break    -- but ending the loop when we find the color, same as LSL
-		end
+<pre class="language-slua"><code class="language-slua">-- looking for the red face (SLua)
+
+local RED = vector(1, 0, 0)
+local face 
+for i = 0, ll.GetNumberOfSides() - 1 do    -- going to loop on all the faces
+	if ll.GetColor(i) == RED then
+		face = i
+		break    -- but ending the loop when we find the color, same as LSL
 	end
-	ll.OwnerSay(`Face in red is number: {face}`) 
+end
+ll.OwnerSay(`Face in red is number: {face}`)</code></pre>
 
-If we want to use the value of the index after the loop for, we need to copy it to another variable.
+To use the value of the index after the loop for, it has to be copied to another variable.
 
-
+### Generic for
 
 Now let's see the generic for. We will use it for tables.
 
@@ -335,9 +343,6 @@ Sometimes we only want the values, not the index. In this case is usual to do, i
 The _ (underscore) in the indexes of the loop for is the name of a variable. Variable names can start with underscore, or can be only an underscore.
 
 Using _ we are meaning that we are not going to use this variable, and the _ is there because we need it as a placeholder. It's a way to make the script more clear.
-
-
-### Generic for
 
 Now let's write a dictionary table, for instance:
 local vegetables = {
