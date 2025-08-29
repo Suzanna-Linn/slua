@@ -235,7 +235,7 @@ An example saying the colors of the prim:
 integer totalFaces = llGetNumberOfSides();
 integer i;
 for ( i = 0; i < totalFaces; i++) {
-	llOwnerSay("Face: "+(string)i+" color: "+(string)llGetColor(i));
+	llOwnerSay("Face: " + (string)i + " color: " + (string)llGetColor(i));
 }</code></pre>
 </td><td>
 <pre class="language-slua"><code class="language-slua">-- prim colors (SLua)
@@ -295,188 +295,80 @@ To use the value of the index after the loop for, it has to be copied to another
 
 ### Generic for
 
-Now let's see the generic for. We will use it for tables.
+It is used with for tables.
 
-First let's write an array table using a numeric for, which is not the best way, in SLua:
-	local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
-	for i = 1, #vegetables do
-		ll.OwnerSay(`index {i} is {vegetables[i]}`)
-	end
+First let's say an array table using a numeric for, which is not the best way:
+local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
+<pre class="language-slua"><code class="language-slua">for i = 1, #vegetables do
+	ll.OwnerSay(`index {i} is {vegetables[i]}`)
+end</code></pre>
 
-Since reading a table is something that we do often, there is a function to do it: ipairs().
+Since reading a table is something that we do often, there is a function to do it: ipairs():
+<pre class="language-slua"><code class="language-slua">local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
+for i, veggie in ipairs(vegetables) do
+	ll.OwnerSay(`index {i} is {veggie}`)
+end</code></pre>
 
-Just ipairs(). We have seen functions like table.insert(), table.clone(),... that are in the library table. But ipairs() is in the global library and it doesn't use a library name.
+The format is: "for", the indexes (i and veggie), "in", and a function, ipairs() with array tables or pairs() with dictionary tables, with the table as parameter.
+ipairs() and pairs() return two values: the key and the value, in this example assigned to i and veggie.
 
-With ipairs() is this, in SLua:
-	local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
-	for i, veggie in ipairs(vegetables) do
-		ll.OwnerSay(`index {i} is {veggie}`)
-	end
+Sometimes we only want the values, not the index. In this case is usual to do:
+<pre class="language-slua"><code class="language-slua">local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
+for _, veggie in ipairs(vegetables) do
+	ll.OwnerSay(veggie)
+end</code></pre>
 
-The format is: "for", the indexes (i and veggie), "in", and a function that returns the keys and values  (in this example ipairs() with a table).
+The _ (underscore) in the variables is the name of a variable. Variable names can start with underscore, or can be only an underscore.  
+Using _ we are meaning that we are not going to use this variable, and the _ is there because we need it as a placeholder.
 
-The strange behaviour here, from a LSL point of view, is... is ipairs() returning two values?
-
-Yes, Lua functions can return several values.
-
-For instance, in SLua:
-	local username, displayName
-function names(id)
-	return ll.GetUsername(id), ll.GetDisplayName(id)
-end
-username, displayName = names(ll.GetOwner())
-
-The "return" in the function names returns two values, separated by commas (Could be more values, all separated by commas).
-
-We use two variables, separated by commas, to assign the two returned values.
-
-So in
-	for i, veggie in ipairs(vegetables) do
-we get the index and the value at the same time.
-
-Sometimes we only want the values, not the index. In this case is usual to do, in SLua:
-	local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
-	for _, veggie in ipairs(vegetables) do
-		ll.OwnerSay(veggie)
-	end
-
-The _ (underscore) in the indexes of the loop for is the name of a variable. Variable names can start with underscore, or can be only an underscore.
-
-Using _ we are meaning that we are not going to use this variable, and the _ is there because we need it as a placeholder. It's a way to make the script more clear.
-
-Now let's write a dictionary table, for instance:
-local vegetables = {
+Let's write a dictionary table, for instance:
+<pre class="language-slua"><code class="language-slua">local vegetables = {
     Carrot = 60,
     Potato = 150,
     Tomato = 100,
     Onion = 110,
     Lettuce = 500
-}
+}</code></pre>
 with the vegetables as keys and its average weight in grams as values.
 
-We can write the table using a loop while and the next() function, in SLua:
-local key, value = next(vegetables)
+We can write the table using a loop while and the function next():
+<pre class="language-slua"><code class="language-slua">local key, value = next(vegetables)
 while key do
 	ll.OwnerSay(`{key} has an average weight of {value} grams`)
 	key, value = next(vegetables, key)
-end
+end</code></pre>
 
-next() with one parameter returns the first key in the table. With a key as second parameter returns the next key.
+next() with one parameter returns the first key in the table. With a key as second parameter returns the next key. And, like ipairs(), it returns two values: the key and the value.
 
-And, like ipairs(), it returns two values,  the key and the value.
+But, being a common process, it also has its own function: pairs().  
+pairs() works like ipairs() but in a dictionary table.
 
-But, being a common process, it also has its own function: pairs().
-
-pairs() works like ipairs() but in a dictionary table. We need to remember that ipairs() works in array tables only and pairs() in dictionary tables only.
-
-With for and pairs(), in SLua:
-for name, weight in pairs(vegetables) do
+With for and pairs():
+<pre class="language-slua"><code class="language-slua">for name, weight in pairs(vegetables) do
 	ll.OwnerSay(`{name} has an average weight of {weight} grams`)
-end
+end</code></pre>
 
-It's possible to use our own functions as iterators for the loop for, in the same way than ipairs() and pairs() are working. We will see it in future classes.
-
-Dictionary tables haven't got a defined key order. It's not the order that we added them, it's not an alphabetical order, no order at all. The keys are stored and accesed in the way that is internally more efficient.
+Dictionary tables haven't got a defined key order. It's not the order in which they are added, it's not an alphabetical order, it's no order at all. The keys are stored and accesed in the way that is internally more efficient.
 
 ### Generalized for
 
 ### repeat
 
-The last loop is repeat...until. It's similar to do...while, in LSL:
-	do {
-		// do something
-	} while (condition)    -- loops while the condition is true, ends when it becomes false
-
-In SLua:
-	repeat
-		-- do something
-	until condition    -- loops while the condition is false, ends when it becomes true
-
-So to translate a do...while without changing its condition, it would be, in SLua:
-	repeat
-		-- do something
-	until not (condition)
+The loop is repeat...until. It's similar to do...while, in LSL:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">do {
+	// do something
+} while (condition)    -- loops while the condition is true, ends when it becomes false</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">repeat
+	-- do something
+until condition    -- loops while the condition is false, ends when it becomes true</code></pre>
+</td></tr></table>
 
 
-### Expression evaluation
+To translate a do...while without changing its condition:
+<pre class="language-slua"><code class="language-slua">repeat
+	-- do something
+until not (condition)</code></pre>
 
-Now this is more weird, and probably we will not find this problem in a real, or secondreal, script. But it's good to know.
-
-In LSL:
-	integer a = 0;
-	integer b = a * 20 + a = 1;
-	llOwnerSay((string)b);
-
-And in SLua:
-	local a = 0
-	local b = a * 20 + (function() a = 1 return a end)()
-	print(b)
-
-Are both versions the same? What is the value of b?
-
-In SLua b is 1, but in LSL b is 21.
-
-LSL, before doing any calculation, gets all the values in:
-	- assignations
-	- functions
-	- variables
-
-And it gets them from right to left, no matter parentheses, priorities or anything.
-
-So first, from the right:
-	a = 1, assigns 1 to a and gets 1 as the value of a
-
-Next, the other a at the start:
-	a, gets 1 as its values
-
-And the expression, after replacing asisgnations and variables (and functions if there is any) is:
-	integer b = 1 * 20 + 1;
-
-SLua gets the variables and functions, from left to right, as they are needed, so the result is 1 ( 0 * 20 + 1 ).
-
-The correct translation is assigning before the expression:
-	local a = 0
-	a = 1
-	b = a * 20 + a
-	print(b)
-
-We can see the difference more clear with this other example:
-
-In LSL:
-	integer func1() { llOwnerSay("one"); return 1; }
-	integer func2() { llOwnerSay("two"); return 2; }
-	integer func3() { llOwnerSay("three"); return 3; }
-	default { state_entry() {
-		integer b = func1() + func2() + func3();
-	}}
-
-In SLua:
-	function func1() print("one") return 1 end
-	function func2() print("two") return 2 end
-	function func3() print("three") return 3 end
-	local b = func1() + func2() + func3()
-
-b is always 6, but the printed messages are:
-	in LSL: "three", "two", "one"
-	in SLua: "one", "two", "three"
-
-And back to translating this LSL:
-	if ( func1() && func2() )  
-
-It's not this:
-	local tmp_func1 = func1()
-	local tmp_func2 = func2()
-	if tmp_func1 ~= 0 and tmp_func2 ~= 0 then
-		--
-	end
-
-But this, executing the function 2 first:
-	local tmp_func2 = func2()
-	local tmp_func1 = func1()
-	if tmp_func1 ~= 0 and tmp_func2 ~= 0 then
-		--
-	end
-
-LSL evaluates all the variables, functions and assignations, from right to left, before looking at the operators. This is why both sides of && and || are always evaluated.
-
-
+### block
