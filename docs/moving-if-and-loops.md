@@ -295,11 +295,11 @@ To use the value of the index after the loop for, it has to be copied to another
 
 ### Generic for
 
-It is used with for tables.
+It is used with tables.
 
-First let's say an array table using a numeric for, which is not the best way:
-local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
-<pre class="language-slua"><code class="language-slua">for i = 1, #vegetables do
+Saying an array table using a numeric for, which is not the best way:
+<pre class="language-slua"><code class="language-slua">local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
+for i = 1, #vegetables do
 	ll.OwnerSay(`index {i} is {vegetables[i]}`)
 end</code></pre>
 
@@ -321,7 +321,7 @@ end</code></pre>
 The _ (underscore) in the variables is the name of a variable. Variable names can start with underscore, or can be only an underscore.  
 Using _ we are meaning that we are not going to use this variable, and the _ is there because we need it as a placeholder.
 
-Let's write a dictionary table, for instance:
+Using this dictionary table:
 <pre class="language-slua"><code class="language-slua">local vegetables = {
     Carrot = 60,
     Potato = 150,
@@ -331,7 +331,7 @@ Let's write a dictionary table, for instance:
 }</code></pre>
 with the vegetables as keys and its average weight in grams as values.
 
-We can write the table using a loop while and the function next():
+We can say the table using a loop while and the function next():
 <pre class="language-slua"><code class="language-slua">local key, value = next(vegetables)
 while key do
 	ll.OwnerSay(`{key} has an average weight of {value} grams`)
@@ -354,11 +354,11 @@ Dictionary tables haven't got a defined key order. It's not the order in which t
 
 ### repeat
 
-The loop is repeat...until. It's similar to do...while, in LSL:
+The loop repeat...until is similar to do...while, in LSL:
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">do {
 	// do something
-} while (condition)    -- loops while the condition is true, ends when it becomes false</code></pre>
+} while (condition)    // loops while the condition is true, ends when it becomes false</code></pre>
 </td><td>
 <pre class="language-slua"><code class="language-slua">repeat
 	-- do something
