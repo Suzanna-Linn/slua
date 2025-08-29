@@ -352,6 +352,8 @@ Dictionary tables haven't got a defined key order. It's not the order in which t
 
 ### Generic for with generalized iteration
 
+
+
 ### repeat
 
 The loop repeat...until is similar to do...while, in LSL:
@@ -373,18 +375,24 @@ until not (condition)</code></pre>
 
 ### block
 
-A block to use an inner variable scope:
+A block to have an inner variable scope:
 <table><tr><td>
-<pre class="language-lsl"><code class="language-lsl">integer myVar;
+<pre class="language-lsl"><code class="language-lsl">string s = "outer";
 {
-    integer myVar;
-    // do something
-}</code></pre>
-</td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">local myVar = 0
-do
-    local myVar = 0
-    -- do something
-end</code></pre>
+    string s = "inner";
+    llOwnerSay(s);
+}
+llOwnerSay(s);
 
+// -- > inner, outer
+</code></pre>
+</td><td>
+<pre class="language-slua"><code class="language-slua">local s = "outer"
+do
+    local s = "inner"
+    ll.OwnerSay(s)
+end
+ll.OwnerSay(s)
+
+-- > inner, outer</code></pre>
 </td></tr></table>
