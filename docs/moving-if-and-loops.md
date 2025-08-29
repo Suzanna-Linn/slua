@@ -303,7 +303,7 @@ for i = 1, #vegetables do
 	ll.OwnerSay(`index {i} is {vegetables[i]}`)
 end</code></pre>
 
-Since reading a table is something that we do often, there is a function to do it: ipairs():
+Since reading a table is something that is done often, there is a function to do it: ipairs():
 <pre class="language-slua"><code class="language-slua">local vegetables = {"Carrot", "Tomato", "Potato", "Onion", "Lettuce"}
 for i, veggie in ipairs(vegetables) do
 	ll.OwnerSay(`index {i} is {veggie}`)
@@ -341,7 +341,7 @@ end</code></pre>
 next() with one parameter returns the first key in the table. With a key as second parameter returns the next key. And, like ipairs(), it returns two values: the key and the value.
 
 But, being a common process, it also has its own function: pairs().  
-pairs() works like ipairs() but in a dictionary table.
+pairs() works like ipairs() but on a dictionary table.
 
 With for and pairs():
 <pre class="language-slua"><code class="language-slua">for name, weight in pairs(vegetables) do
@@ -350,7 +350,7 @@ end</code></pre>
 
 Dictionary tables haven't got a defined key order. It's not the order in which they are added, it's not an alphabetical order, it's no order at all. The keys are stored and accesed in the way that is internally more efficient.
 
-### Generalized for
+### Generic for with generalized iteration
 
 ### repeat
 
