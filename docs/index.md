@@ -13,6 +13,7 @@ Lua for SL (SLua) has arrived to the Beta grid.
 In these pages, I am compiling information about Lua and SLua (the version of Lua for SL) to give you an overview of their features and functionalities.
 * The sections **The language: Lua compared to LSL** and **The language: Lua beyond LSL** are based on the standard Lua language. They are an overview of the language.
 * I'm currently writing the section **Moving from LSL to SLua**. It's focused on the differences between LSL and SLua and what we need to know to rewrite our LSL scripts in SLua. This section will be growing in the next weeks.
+* And starting the section **Scripts** with SLua examples. Many more to come, some new one every week.
 
 If LSL is your main scripting language and you want to expand your programming skills beyond SL, learning Lua is a great next step. Lua introduces powerful features and modern programming concepts that will broaden your knowledge and make it easier to transition to modern, in-demand languages like C#, Python, and JavaScript.
 
