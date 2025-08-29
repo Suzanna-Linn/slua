@@ -176,52 +176,27 @@ end</code></pre>
 
 ### for
 
-The loop for is very different in Lua. A way that always work is to change it into a loop while.
-
-In LSL:
-	for ( i = 0; i < 10; i++ ) {
-		// do something
-	}
-
-In SLua:
-	i = 0
-	while i < 10  do
-		-- do something
-		i += 1
-	end
-
-
-
-
-### Numeric for
-
-The loop for is very different in Lua. A way that always works is to change it into a loop while.
-
-In LSL:
-	for ( i = 0; i < 10; i++ ) {
-		// do something
-	}
-
-In SLua:
-	local i = 0
-	while i < 10  do
-		-- do something
-		i += 1
-	end
-
-Or, if we are going to use the variable i to index an array table, that we remember that start with index 1, in SLua:
-	local i = 0
-	while i < 10  do
-		i += 1
-		-- do something
-	end
-with the increment at the start of the loop, not at the end.
+The loop for is very different in SLua. A way that always work is to change it into a loop while:
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">for ( i = 0; i < 10; i++ ) {
+	// do something
+}</code></pre>
+</td><td>
+<pre class="language-slua line-numbers"><code class="language-slua">i = 0
+while i < 10  do
+	-- do something
+	i += 1
+end</code></pre>
+</td></tr></table>
 
 This is good to translate a LSL script without analizing what it does. But often it's not the best way.
 
-There are two types of loop for:
-	- Numeric for
-	- Generic for
+There are three types of loop for:
+- Numeric for
+- Generic for
+- Generic for with generalized iteration
+
+### Numeric for
 
 Let's start with the numeric, its format is, in SLua:
 	for i = start, stop, step do
