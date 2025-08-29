@@ -4,7 +4,7 @@
 
 It uses the keywords "then" and "end" instead of { and }.  
 The condition doesn't need to be inside ( and ).  
-There is a keyword "elsif" instead of "else if".
+There is a keyword "elsif" that can be used instead of "else if".
 
 Basic if-else:
 <table><tr><td>
@@ -40,7 +40,7 @@ else
 end</code></pre>
 </td></tr></table>
 
-Chain of if-else if using a SLua table:
+Chain of if-else-if using a SLua table:
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">if (option == "one") {
 	FirstOption()
@@ -121,67 +121,58 @@ if #someList ~= 0 then end
 
 ### while
 
-Let's start with the loop while.
-
-It's similar to the LSL while.
-
-In LSL:
-	while (condition) {
-		// do something
-	}
-
-In SLua;
-	while  condition do
-		-- do something
-	end
-
-Replacing { and } with "do" and "end", and the condition doesn`t need parentheses (same as the command if).
+It uses the keywords "do" and "end" instead of { and }.  
+The condition doesn't need to be inside ( and ).  
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">while (condition) {
+	// do something
+}</code></pre>
+</td><td>
+<pre class="language-slua line-numbers"><code class="language-slua">while  condition do
+	-- do something
+end</code></pre>
+</td></tr></table>
 
 But... let's look at this in LSL:
-	while (--count) {    // LSL
+<code class="language-lsl">while (--count) {  // LSL</code>
 
 It has a nice bunch of problems in a short space. There are 3 problems.
 
 First, the decrement -- doesn't exist in Lua (neither the increment ++).
 
 We could try with this, which work the same in LSL:
-	 while (count = count - 1) {    // LSL
+<code class="language-slua">while (count = count - 1) {  // LSL</code>
 
 But... second problem:
 
-In LSL, assignments are expressions, they return a value. LSL calculates count-1, assigns it to count, and returns the value of count (which is discarded if not needed).
-
-In SLua, assignments are statements, they return nothing. Not even nil, just nothing.
-
+In LSL, assignments are expressions, they return a value. LSL calculates count-1, assigns it to count, and returns the value of count (which is discarded if not needed).  
+In SLua, assignments are statements, they return nothing. Not even nil, just nothing.  
 Conditions expect a return value, so using an assignment in a condition in SLua throws an error at compile time.
 
 We could try with this LSL version:
+<pre class="language-lsl"><code class="language-lsl">// while (--count) in LSL
+
+count = count - 1;
+while (count) {
+	// do something
 	count = count - 1;
-	while (count) {
-		// do something
-		count = count - 1;
-	}
+}</code></pre>
 
 And, third problem, in SLua this would run forever.
 
-Because a value of 0 is true in Lua.
-
-0 is true, "" is true, NULL_KEY is true, the LL constant FALSE, which has a value of 0, is true. Any value of any type that we use in LSL is true in SLua.
-
+Because a value of 0 is true in Lua.  
+0 is true, "" is true, NULL_KEY is true, the LL constant FALSE, which has a value of 0, is true. Any value of any type that we use in LSL is true in SLua.  
 The only false values are the boolean false and nil.
 
-We need to get a boolean value, comparing with 0. 
-
+We need to get a boolean value, comparing with 0.  
 This is the good one, in SLua:
+<pre class="language-lsl"><code class="language-lsl">-- while (--count) in SLua
+
+count = count - 1;
+while count ~= 0 do
+	-- do something
 	count = count - 1;
-	while count ~= 0 do
-		-- do something
-		count = count - 1;
-	end
-
-
-
-
+end</code></pre>
 
 ### for
 
