@@ -353,7 +353,7 @@ Dictionary tables haven't got a defined key order. It's not the order in which t
 ### Generic for with generalized iteration
 
 This one was a later addition to the previous types of loop for.  
-It loops on a table or a table literal:
+It loops on a table or a table literal without using ipairs() or pairs():
 <pre class="language-slua"><code class="language-slua">local rivers = {
     Nile = 6650,
     Amazon = 6400,
