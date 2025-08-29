@@ -162,9 +162,9 @@ And, third problem, in SLua this would run forever.
 
 Because a value of 0 is true in Lua.  
 0 is true, "" is true, NULL_KEY is true, the LL constant FALSE, which has a value of 0, is true. Any value of any type that we use in LSL is true in SLua.  
-The only false values are the boolean false and nil.
+The only false values are the boolean false and nil.  
+We need to get a boolean value, comparing with 0.
 
-We need to get a boolean value, comparing with 0.  
 This is the good one, in SLua:
 <pre class="language-slua"><code class="language-slua">-- while (--count) in SLua
 
@@ -192,7 +192,7 @@ while i < 10  do
 end</code></pre>
 </td></tr></table>
 
-This is good to translate a LSL script without analizing what it does. But often it's not the best way.
+This is a good way to translate a LSL script without analizing what it does. But often it's not the best way.
 
 There are three types of loop for:
 - Numeric for
@@ -204,7 +204,7 @@ There are three types of loop for:
 <pre class="language-slua"><code class="language-slua">local start, stop, end = 1, 10, 1
 
 for i = start, stop, step do
--- do something
+	-- do something
 end</code></pre>
 
 To count from 0 to 15 by 3:
@@ -235,11 +235,11 @@ An example saying the colors of the prim:
 integer totalFaces = llGetNumberOfSides();
 integer i;
 for ( i = 0; i < totalFaces; i++) {
-	llOwnerSay("Face: " + (string)i + " color: " + (string)llGetColor(i));
+	llOwnerSay("Face: "+(string)i+" color: "+(string)llGetColor(i));
 }</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">
--- prim colors (SLua)
+<pre class="language-slua"><code class="language-slua">-- prim colors (SLua)
+
 
 
 for i = 0, ll.GetNumberOfSides() - 1 do
@@ -247,7 +247,7 @@ for i = 0, ll.GetNumberOfSides() - 1 do
 end</code></pre>
 </td></tr></table>
 
-In SLua ll.GetNumberOfSides() is called only once, in LSL is better to store its value in a variable to avoid calling it in each loop.
+In SLua, ll.GetNumberOfSides() is called only once, in LSL is better to store its value in a variable to avoid calling it in each loop.
 
 But now let's assume that we know for sure that one of the faces is red, and we want to know which face.
 <pre class="language-lsl"><code class="language-lsl">// looking for the red face (LSL)
@@ -261,7 +261,7 @@ llOwnerSay("Face in red is number: " + (string)i);</code></pre>
 No way to rewrite this LSL loop for into a SLua numeric for. But there is an alternative.  
 SLua has a command break to jump out of the loop for.
 
-Let's do a first try with this, in SLua:
+Let's do a first try with this:
 <pre class="language-slua"><code class="language-slua">-- looking for the red face (SLua)
 	
 local RED = vector(1, 0, 0)
