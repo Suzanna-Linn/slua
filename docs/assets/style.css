@@ -7,19 +7,6 @@ body {
   line-height: 1.6;
 }
 
-.styled-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.styled-table th, td {
-  border: 1px solid #999999;
-  text-align: center; 
-  padding: 8px;
-}
-.styled-table thead tr {
-  background-color: #f2f2f2;
-}
-
 .container {
   display: flex;
   min-height: 100vh;
