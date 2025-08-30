@@ -189,7 +189,7 @@ Comparing with not equal is a bit more tricky, in LSL <code class="language-lsl"
 - to get a number with the difference:
   - <code class="language-slua">local diff = #table1 - #table2</code>
  
-And the LSL alternative to llGetListLength(), <code class="language-lsl">integer len = list1 != [];</code>, is:
+And the LSL alternative to llGetListLength(), <code class="language-lsl">integer len = list1 != [];</code>, is just:
 - <code class="language-slua">local len = #table1</code>
 
 ### Sorting tables
