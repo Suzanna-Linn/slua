@@ -26,10 +26,10 @@ But it's not the same with the string library, this is why:
 
 local s = "café"    -- café has é with accent
 
-print(ll.StringLength(s))  -- 4
-print(#s)  -- 5
-print(string.len(s))  -- 5
-print(utf8.len(s))  -- 4</code></pre>
+print(ll.StringLength(s))  -- > 4
+print(#s)  -- > 5
+print(string.len(s))  -- > 5
+print(utf8.len(s))  -- > 4</code></pre>
 
 Because the string library only works with byte-length characters (ASCII codes from 0 to 127) and not with unicode characters.  
 The é with accent is a 2-byte unicode character, so it counts as 2 bytes for the length of the string.
@@ -78,32 +78,34 @@ print(result, "Substitutions:", subs)  -- > I have 4 apples and 10 bananas    Su
 
 string.format(fmt, ...) : formats a string with placeholders.
 - <pre class="language-slua"><code class="language-slua">-- string.format (SLua)
-print(string.format("Hello, %s!", "Dufa"))            -- Hello, Dufa!
-print(string.format("Score: %d", 42))                  -- Score: 42
-print(string.format("Pi rounded: %.2f", 3.14159265))   -- Pi rounded: 3.14
-print(string.format("Padded number: %03d", 7))         -- Padded number: 007
-print(string.format("%s is %d years old.", "Dufa", 2)) -- Dufa is 2 years old.
-print(string.format("Progress: %.1f%%", 75.5))          -- Progress: 75.5%
-print(string.format("Coordinates: (%.2f, %.2f)", 12.3456, 78.9012))  -- Coordinates: (12.35, 78.90)
-print(string.format("Hex colors: #%02X%02X%02X", 255, 165, 0))       -- Hex colors: #FFA500</code></pre>
+print(string.format("Hello, %s!", "Dufa"))            -- > Hello, Dufa!
+print(string.format("Score: %d", 42))                  -- > Score: 42
+print(string.format("Pi rounded: %.2f", 3.14159265))   -- > Pi rounded: 3.14
+print(string.format("Padded number: %03d", 7))         -- > Padded number: 007
+print(string.format("%s is %d years old.", "Dufa", 2)) -- > Dufa is 2 years old.
+print(string.format("Progress: %.1f%%", 75.5))          -- > Progress: 75.5%
+print(string.format("Coordinates: (%.2f, %.2f)", 12.3456, 78.9012))  -- > Coordinates: (12.35, 78.90)
+print(string.format("Hex colors: #%02X%02X%02X", 255, 165, 0))       -- > Hex colors: #FFA500</code></pre>
 
 string.match(s, pattern [, init]) : finds the first match of the pattern in the string. Returns the matched part.
 - <pre class="language-slua"><code class="language-slua">-- string.match (SLua)
 local text = "My email is user@example.com"
 local email = string.match(text, "[%w%.%-]+@[%w%.%-]+%.%a+")
-print(email)  -- Output: user@example.com</code></pre>
+print(email)  -- > user@example.com</code></pre>
 - string.match can return the captured part only, the parts of the pattern marked with parentheses.
   - <pre class="language-slua"><code class="language-slua">-- string.match (SLua)
 local s = "Price: $123.45"
 local dollars, cents = string.match(s, "%$(%d+)%.(%d+)")
-print(dollars, cents)  -- Output: 123  45</code></pre>
+print(dollars, cents)  -- > 45</code></pre>
 
 string.gmatch(s, pattern) : returns an iterator over all matches of the pattern in the string.
 - <pre class="language-slua"><code class="language-slua">-- string.gmatch (SLua)
 for word in string.gmatch("one two three", "%w+") do
 	print(word)
 end
--- Output: one  two  three</code></pre>
+-- > one
+-- > two
+-- > three</code></pre>
 
 The string library is the only library where we can use the : (colon) notation to call the methods on variables of type string.
 - <pre class="language-slua"><code class="language-slua">local s ="--<(Hello World)>--"
