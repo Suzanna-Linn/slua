@@ -5,7 +5,7 @@
 We can embed expressions directly within a string literal, enclosing the string in backticks and using curly braces {} to insert and evaluate expressions within the string.
 
 For instance, in LSL:
-- <code class="language-slua">llOwnerSay( "Units: " + (string)units + "   Price: " + (string)price + "   Amount: " + (string)(units * price) );</code>
+- <code class="language-lsl">llOwnerSay( "Units: " + (string)units + "   Price: " + (string)price + "   Amount: " + (string)(units * price) );</code>
 
 In SLua could be:
 - <code class="language-slua">ll.OwnerSay( "Units: " .. tostring(units) .. "   Price: " .. tostring(price) .. "   Amount: " .. tostring(units * price) );</code>
