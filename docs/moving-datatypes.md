@@ -261,9 +261,34 @@ Reference types have their data stored in the heap (pointed by the TValue) with 
 
 Strings and uuids are stored as UTF-8. The characters ASCII 0-127 use 1 byte (instead of 2 bytes in LSL):
 
-| Bytes | Unicode Range | Character Types |
-|---|---|---|
-| 1 | U+0000 to U+007F | ASCII characters (basic English letters, digits, etc.) |
-| 2 | U+0080 to U+07FF | Extended Latin, Greek, Cyrillic, Hebrew, Arabic |
-| 3 | U+0800 to U+FFFF | Chinese, Japanese, Korean, symbols, most emojis |
-| 4 | U+10000 to U+10FFFF| Supplementary characters, rare scripts, more emojis |
+<table style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px; background-color: #f2f2f2;">Bytes</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px; background-color: #f2f2f2;">Unicode Range</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px; background-color: #f2f2f2;">Character Types</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">1</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">U+0000 to U+007F</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">ASCII characters (basic English letters, digits, etc.)</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">2</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">U+0080 to U+07FF</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">Extended Latin, Greek, Cyrillic, Hebrew, Arabic</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">3</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">U+0800 to U+FFFF</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">Chinese, Japanese, Korean, symbols, most emojis</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">4</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">U+10000 to U+10FFFF</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">Supplementary characters, rare scripts, more emojis</td>
+    </tr>
+  </tbody>
+</table>
