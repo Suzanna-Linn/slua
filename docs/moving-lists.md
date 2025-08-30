@@ -287,7 +287,7 @@ As example, this table x, a sparse array missing the indexes 3, 5, 7, 11, 14 and
 <pre class="language-slua"><code class="language-slua">x = {}
 for _, v in { 1, 2, 4, 6, 8, 9, 10, 12, 13, 16 } do
 	x[v] = 1
-end
+end</code></pre>
 
 Let's try different things with the table x.
 
