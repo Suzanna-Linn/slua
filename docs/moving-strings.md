@@ -22,7 +22,7 @@ The variables and expressions between { and } are evaluated and casted to string
 With other libraries, it's better to use the Lua libraries instead of the LL functions, using the table library instead of the LL list functions, and the table math instead of the LL mathematical functions.
 
 But it's not the same with the string library, this is why:
-<pre class="language-slua line-numbers"><code class="language-slua">-- string length (SLua)
+<pre class="language-slua"><code class="language-slua">-- string length (SLua)
 
 local s = "café"    -- café has é with accent
 
