@@ -192,8 +192,7 @@ Comparing with not equal is a bit more tricky, in LSL <code class="language-lsl"
 And the LSL alternative to llGetListLength(), <code class="language-lsl">integer len = list1 != [];</code>, is:
 - <code class="language-slua">local len = #table1</code>
 
-
-## Sorting tables
+### Sorting tables
 
 As a example let's use a table of farm animals and their products:
 <pre class="language-slua"><code class="language-slua">local farmAnimals = {
@@ -252,11 +251,10 @@ Pig -> Meat
 Sheep -> Wool
 ]]</code></pre>
 
-The result is table sortedAnimals with the keys of the table farmAnimals sorted in alphabetical ascending order.  
-This is the default order of table.sort(). But we can sort in any order, for instance, by product and then by animal.
+The result is the table sortedAnimals with the keys of the table farmAnimals sorted in alphabetical ascending order. This is the default order of table.sort(). But it can sort in any order, for instance, by product and then by animal.
 
-table.sort() has a second parameter, a function, that will be called passing two parameters (let's call them "a" and "b"), which are two elements in the array list.  
-The function has to return a boolean value, true if a goes b, false if b goes a. Since this function is only used in table.sort(), it can be defined as an inline, unnamed function:
+table.sort() has a second parameter, a function, that will be called and passed two parameters (let's call them "a" and "b") which are two elements in the array list.  
+The function has to return a boolean value, true if a goes before b, false if b before goes a. Since this function is only used in table.sort(), it can be defined as an inline, unnamed function:
 <pre class="language-slua"><code class="language-slua">table.sort(sortedAnimals, function(a, b)
   if farmAnimals[a] == farmAnimals[b] then  -- comparing products
   	return a < b  -- if products are equal, sorting by name
