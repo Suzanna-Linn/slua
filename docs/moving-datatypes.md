@@ -227,3 +227,38 @@ For LL function parameters that are integer or float in LSL, SLua accepts both n
 - Many, but not all, of these functions also accept a boolean type, which is internally cast to an integer.
 
 In SLua, LL constants that contain a uuid have type uuid. In LSL they have type string.
+
+### Use of memory
+
+Every variable, or literal value, of any type, are stored as a 16 bytes tagged value (TValue) that include the type identifier.
+- Primitive types (boolean, number, vector and nil) have their value in the TValue.
+- Reference types (string, table, function, thread, buffer and userdata) have a pointer to the heap in the TValue.
+
+SLua vector is derived from Luau vector and is a primitive type.  
+SLua quaternion, uuid and integer are derived from userdata and are reference types.
+
+The format of the TValue is:
+- 8 bytes : value (for primitive types) or pointer (for reference types)
+- 4 bytes : extra (used for Luau vectors to store their 3rd component)
+- 4 bytes : type identifier
+
+When used as a key in a table, it changes to a Tkey, with this format:
+- 8 bytes : value
+- 4 bytes : extra
+- 4 bits : type identifier
+- 28 bits : link to the next node in the table
+
+Each node in a table has a TKey and a TValue.
+
+Reference types have their data stored in the heap (pointed by the TValue) with a header with internal metadata:
+- string has its length (in bytes) and data for string interning
+- table has the length of the array part, a pointer to its metatable, read-only parameter and data to optimize search
+- userdata has the length and a pointer to its internal metatable
+
+Strings and uuids are stored as UTF-8, characters ASCII 0-127 use 1 byte (instead of 2 bytes in LSL):
+| Bytes | Unicode Range | Character Types |
+|---|---|---|
+| 1 | U+0000 to U+007F | ASCII characters (basic English letters, digits, etc.) |
+| 2 | U+0080 to U+07FF | Extended Latin, Greek, Cyrillic, Hebrew, Arabic |
+| 3 | U+0800 to U+FFFF | Chinese, Japanese, Korean, symbols, most emojis |
+| 4 | U+10000 to U+10FFFF| Supplementary characters, rare scripts, more emojis |
