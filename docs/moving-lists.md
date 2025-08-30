@@ -278,3 +278,46 @@ Milk <- Cow
 Milk <- Goat
 Wool <- Sheep
 ]]</code></pre>
+
+### Sparse array tables
+
+The operator # and the library functions for array tables work perfectly if the table is an array with consecutive indexes starting with 1. But if there are missing values (nils) in the array their behaviour is sometimes surprising.
+
+As example, this table x, a sparse array missing the indexes 3, 5, 7, 11, 14 and 15.
+<pre class="language-slua"><code class="language-slua">x = {}
+for _, v in { 1, 2, 4, 6, 8, 9, 10, 12, 13, 16 } do
+	x[v] = 1
+end
+
+Let's try different things with the table x.
+
+<pre class="language-slua"><code class="language-slua">print(#x)  -- > 16
+print(ll.GetListLength(x))  -- > 16</code></pre>
+It looks well with #. The LL function returns the same.
+
+<pre class="language-slua"><code class="language-slua">for index, value in ipairs(x) do
+	print(index, value)
+end
+-- > 1 1
+-- > 2 1</code></pre>
+It only prints two pairs of key-values. ipairs() stops at the first nil at index 3.
+
+<pre class="language-slua"><code class="language-slua">x[4] = "hello"
+print(table.find(x, "hello"))  -- > nil</code></pre>
+It doesn't find the hello. table.find(), like ipairs(), stops at the first nil at index 3.
+
+<pre class="language-slua"><code class="language-slua">table.insert(x, "bye")
+print(x[17])  -- > bye</code></pre>
+table.insert() always inserts at #t+1.
+
+<pre class="language-slua"><code class="language-slua">print(#x)  -- > 13
+print(ll.GetListLength(x))  -- > 13</code></pre>
+After inserting the element 17, now the length is 13.  
+We can only trust that #t always exist and #t+1 never exists (always nil)
+
+We remove the element 17:
+<pre class="language-slua"><code class="language-slua">table.remove(x, 17)
+print(x[17])  -- > bye</code></pre>
+Removing the element 17, but the element it's still there. table.remove() only removes from 1 to #t and ignores calls with other indexes.  
+If the element is from 1 to #t, it is deleted and the elements after it until #t are moved one index down. But the elements after #t are not moved.
+
