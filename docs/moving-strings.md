@@ -109,3 +109,17 @@ The string library is the only library where we can use the : (colon) notation t
 - <pre class="language-slua line-numbers"><code class="language-slua">local s ="--<(Hello World)>--"
 print(string.sub(s, 5, -5))  -- > Hello World
 print(s:sub(5, -5))  -- > Hello World</code></pre>
+
+### String interning
+
+String interning is a memory-optimization technique to enhance efficiency by storing only one copy of each distinct string value.
+
+Lua automatically interns all strings. When a new string is created, Lua computes a hash of the string and searches for it in a global table of all strings. If a matching string is found, a reference to the existing one is used. If not, a new string is created, stored in this central table, and then its reference is returned.
+
+When two variables have the same string value, the string is only stored once and both variables have a reference to it.
+
+It's especially useful when passing strings as parameters to functions. The string doesn't have to be copied, only the reference is, saving memory and time.
+
+What makes this system work safely is that strings are immutable. Once a string is created, its contents can never be changed.  
+Any operation that modifies a string, such as concatenation, does not alter the original string. Instead, it creates a completely new string, interns it, and the local variable is updated to reference this new string.  
+The original string remains untouched and any other variables refering it are unaffected.
