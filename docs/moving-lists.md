@@ -191,3 +191,92 @@ Comparing with not equal is a bit more tricky, in LSL <code class="language-lsl"
  
 And the LSL alternative to llGetListLength(), <code class="language-lsl">integer len = list1 != [];</code>, is:
 - <code class="language-slua">local len = #table1</code>
+
+
+## Sorting tables
+
+As a example let's use a table of farm animals and their products:
+<pre class="language-slua"><code class="language-slua">local farmAnimals = {
+	Cow = "Milk",
+	Chicken = "Eggs",
+	Sheep = "Wool",
+	Pig = "Meat",
+	Goat = "Milk",
+	Duck = "Eggs",
+	Horse = "Labor",
+}
+  
+for animal, product in pairs(farmAnimals) do
+	ll.OwnerSay(animal .. " -> " .. product)
+end
+
+--[[
+result:
+
+Chicken -> Eggs
+Pig -> Meat
+Duck -> Eggs
+Sheep -> Wool
+Goat -> Milk
+Horse -> Labor
+Cow -> Milk
+]]</code></pre>
+
+Dictionary tables don't have a defined order, their keys can appear in any order when looping on them.
+
+Dictionary tables can't be sorted, only array tables can. The solution is to make an array table with the keys in the dictionary, the names of the animals, and to sort this array table.
+
+The array table with the animals:
+<pre class="language-slua"><code class="language-slua">local sortedAnimals = {}
+
+for animal in pairs(farmAnimals) do
+	table.insert(sortedAnimals, animal)
+end</code></pre>
+
+And sorting the table:
+<pre class="language-slua"><code class="language-slua">table.sort(sortedAnimals)
+
+for _, animal in ipairs(sortedAnimals) do
+	ll.OwnerSay(animal .. " -> " .. farmAnimals[animal])
+end
+
+--[[
+result:
+
+Chicken -> Eggs
+Cow -> Milk
+Duck -> Eggs
+Goat -> Milk
+Horse -> Labor
+Pig -> Meat
+Sheep -> Wool
+]]</code></pre>
+
+The result is table sortedAnimals with the keys of the table farmAnimals sorted in alphabetical ascending order.  
+This is the default order of table.sort(). But we can sort in any order, for instance, by product and then by animal.
+
+table.sort() has a second parameter, a function, that will be called passing two parameters (let's call them "a" and "b"), which are two elements in the array list.  
+The function has to return a boolean value, true if a goes b, false if b goes a. Since this function is only used in table.sort(), it can be defined as an inline, unnamed function:
+<pre class="language-slua"><code class="language-slua">table.sort(sortedAnimals, function(a, b)
+  if farmAnimals[a] == farmAnimals[b] then  -- comparing products
+  	return a < b  -- if products are equal, sorting by name
+  else
+  	return farmAnimals[a] < farmAnimals[b]  -- sorting by product
+  end
+end)
+
+for _, animal in ipairs(sortedAnimals) do
+	ll.OwnerSay(farmAnimals[animal] .. " <- " .. animal)
+end
+
+--[[
+result:
+
+Eggs <- Chicken
+Eggs <- Duck
+Labor <- Horse
+Meat <- Pig
+Milk <- Cow
+Milk <- Goat
+Wool <- Sheep
+]]</code></pre>
