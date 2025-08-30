@@ -230,9 +230,9 @@ In SLua, LL constants that contain a uuid have type uuid. In LSL they have type 
 
 ### Use of memory
 
-Every variable, or literal value, of any type, are stored as a 16 bytes tagged value (TValue) that include the type identifier.
+Every variable, or literal value, of any type, is stored as a 16 bytes tagged value (TValue) that includes the type identifier.
 - Primitive types (boolean, number, vector and nil) have their value in the TValue.
-- Reference types (string, table, function, thread, buffer and userdata) have a pointer to the heap in the TValue.
+- Reference types (string, table, function, thread, buffer and userdata) have a pointer to the heap.
 
 SLua vector is derived from Luau vector and is a primitive type.  
 SLua quaternion, uuid and integer are derived from userdata and are reference types.
@@ -251,11 +251,12 @@ When used as a key in a table, it changes to a Tkey, with this format:
 Each node in a table has a TKey and a TValue.
 
 Reference types have their data stored in the heap (pointed by the TValue) with a header with internal metadata:
-- string has its length (in bytes) and data for string interning
-- table has the length of the array part, a pointer to its metatable, read-only parameter and data to optimize search
-- userdata has the length and a pointer to its internal metatable
+- string has its length (in bytes) and data for string interning.
+- table has the length of the array part, a pointer to its metatable, the read-only parameter and data to optimize search.
+- userdata has the length and a pointer to its internal metatable.
 
 Strings and uuids are stored as UTF-8, characters ASCII 0-127 use 1 byte (instead of 2 bytes in LSL):
+
 | Bytes | Unicode Range | Character Types |
 |---|---|---|
 | 1 | U+0000 to U+007F | ASCII characters (basic English letters, digits, etc.) |
