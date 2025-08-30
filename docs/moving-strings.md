@@ -96,7 +96,7 @@ print(email)  -- > user@example.com</code></pre>
   - <pre class="language-slua"><code class="language-slua">-- string.match (SLua)
 local s = "Price: $123.45"
 local dollars, cents = string.match(s, "%$(%d+)%.(%d+)")
-print(dollars, cents)  -- > 45</code></pre>
+print(dollars, cents)  -- > 123    45</code></pre>
 
 string.gmatch(s, pattern) : returns an iterator over all matches of the pattern in the string.
 - <pre class="language-slua"><code class="language-slua">-- string.gmatch (SLua)
