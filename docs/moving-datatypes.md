@@ -20,7 +20,7 @@ local count = 0</code></pre>
 
 ### LSL float
 
-It is an SLua type number (floats and integers all go in the datatype number)
+It is an SLua type number (floats and integers all go in the datatype number). SLua numbers are stored in 64 bits.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// floats (LSL)
@@ -69,6 +69,7 @@ It is an SLua type vector. It uses the Luau library vector.
 - We get a vector using <code class="language-slua">myVec = vector(50, 50, 0)</code>.
 - It's not possible to assign a value to a component. We need to create a new vector.
 - We can get a component from the return value of a function, not only from a variable.
+- Components are stored in 32 bits (same as LSL).
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// vectors (LSL)
@@ -96,6 +97,7 @@ SLua adds the types rotation and quaternion. They are synonims, internally they 
 - We get a rotation using <code class="language-slua">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-slua">myRot = quaternion(1, 1, 1, 0)</code>.
 - It's not possible to assign a value to a component. We need to create a new rotation.
 - We can get a component from the return value of a function, not only from a variable.
+- Components are stored in 32 bits (same as LSL).
 - Vectors can use uppercase components (X, Y, Z) but rotations can't. Let's use always lowercase components.
 
 <table><tr><td>
@@ -142,9 +144,11 @@ More about tables here: [Tables](/slua/moving-lists).
 
 ### The SLua datatype integer
 
-SLua adds the type integer. It exists only for compatibility reasons with a few LL functions.
+SLua adds the type integer (32 bits). It exists only for compatibility reasons with a few LL functions.
 
-The LSL type integer is an SLua type number (which has integer and float values all in the same datatype). The SLua type integer is only for a few uses that requires it. We can't make operations with a number and an integer, they are different types. Integers must be casted to numbers to operate with numbers.
+It's not to be used as an LSL integer, the LSL integer is an SLua number (which has integer and float values all in the same datatype).
+
+The SLua type integer is only for a few uses that requires it. We can't make operations with a number and an integer, they are different types. Integers must be casted to numbers to operate with numbers.
 
 <pre class="language-slua line-numbers"><code class="language-slua">-- type integer (SLua)
 
