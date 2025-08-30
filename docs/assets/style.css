@@ -7,16 +7,16 @@ body {
   line-height: 1.6;
 }
 
-table {
+.styled-table {
   width: 100%;
   border-collapse: collapse;
 }
-th, td {
+.styled-table th, td {
   border: 1px solid #999999;
   text-align: center; 
   padding: 8px;
 }
-thead tr {
+.styled-table thead tr {
   background-color: #f2f2f2;
 }
 
