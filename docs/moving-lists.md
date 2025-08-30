@@ -315,9 +315,8 @@ print(ll.GetListLength(x))  -- > 13</code></pre>
 After inserting the element 17, now the length is 13.  
 We can only trust that #t always exist and #t+1 never exists (always nil)
 
-We remove the element 17:
 <pre class="language-slua"><code class="language-slua">table.remove(x, 17)
 print(x[17])  -- > bye</code></pre>
-Removing the element 17, but the element it's still there. table.remove() only removes from 1 to #t and ignores calls with other indexes.  
+Removing the element 17, but the element is still there. table.remove() only removes from 1 to #t and ignores calls with other indexes.  
 If the element is from 1 to #t, it is deleted and the elements after it until #t are moved one index down. But the elements after #t are not moved.
 
