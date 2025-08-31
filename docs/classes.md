@@ -23,7 +23,7 @@ This will open up a myriad of possibilities for creators, from interactive displ
 
 ### SLua - Basics (12 classes + 12 practices)
 
-- **Dates:** September 29th – December 19th  
+- **Dates:** October 1st – December 19th  
 - **Day:** Wednesdays (theory) & Fridays (practice)  
 - **Time:** 11:00am – 12:30pm SLT  
 - **Level:** Beginner/Intermediate in LSL (no prior SLua knowledge needed)  
@@ -39,7 +39,7 @@ This series starts from the ground up and is designed to get you comfortable wit
 
 ### SLua - Advanced (12 classes + 12 practices)
 
-- **Dates:** October 1st – December 18th  
+- **Dates:** September 29th – December 18th  
 - **Day:** Mondays (theory) & Thursdays (practice)  
 - **Time:** 11:00am – 12:30pm SLT  
 - **Level:** Intermediate in LSL (enough SLua knowledge to rewrite LSL scripts)  
