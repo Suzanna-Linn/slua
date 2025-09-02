@@ -1,5 +1,18 @@
 ## Functions
 
+Functions use the keyword "function" (and optionally "local"), no {, and “end” instead of }.
+<table><tr><td>
+<pre class="language-lsl"><code class="language-lsl">myFunc() {
+    // do something
+    return;
+}</code></pre>
+</td><td>
+<pre class="language-slua line-numbers"><code class="language-slua">local function myFunc()
+    -- do something
+    return
+end</code></pre>
+</td></tr></table>
+
 ### Variadic functions
 
 A function with variable parameters is defined using ... (3 points) as parameter name.
