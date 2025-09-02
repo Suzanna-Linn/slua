@@ -123,6 +123,54 @@ And the other option, with an inline function, is, in SLua:
 
 In the function the table people is assigned in the same way, and its value is returned so it can be used in a expression. Since the function has no parameters, its' being called with " () ".
 
+### Optional parameters
+
+The last parameters of the function (or all of them) can be optional, if the function sets default values to them:
+<pre class="language-slua"><code class="language-slua">function sendEmail(toAddress, message, subject)
+    message = message or "Hello"
+    subject = subject or "No subject"
+    llEmail(toAddress, subject, message)
+end
+
+sendEmail("example@domain.com", "This is a test.")</code></pre>
+
+message and subject are optional. <code class="language-slua">parameter = parameter or defaultValue</code> returns the parameter if it is not false or nil, otherwise it returns the default value.
+- same as <code class="language-slua">parameter = if parameter then parameter else defaultValue</code>
+
+If the parameter is a boolean and the default value is true we need to ckeck for nil:
+<pre class="language-slua"><code class="language-slua">function setToggle(value)
+    value = if value ~= nil then value else true
+    toggle = value
+end</code></pre>
+
+### Named parameters
+
+Lua does not have built-in named parameters, but we can simulate them by passing a table to the function. Then, inside the function, we access the table’s keys as parameter names.
+
+It is useful when a function has many parameters. This way we don't need to remember the order and any parameter can be optional.
+
+<pre class="language-slua"><code class="language-slua">local function setTextPanel(params)
+    local text = params.text or params[1] or " "
+    local size = params.size or 1
+    local foreColor = params.foreColor or vector(0, 0, 0)
+    local backColor = params.backColor or vector(1, 1, 1)
+    local alignment = params.alignment or "left"
+    -- do something
+end
+
+setTextPanel{ text = "hello world", alignment = "center", size = 2 }
+setTextPanel{ "good morning", foreColor = vector(1, 0 ,0) }</code></pre>
+
+The function sets a default value for each parameter. We can use a mix of positional and named parameters, in this example with "text". The parameters that we always use at the start and in the same order can be positional avoiding to type the name.
+
+setTextPanel() is called without parentheses in the example.
+
+When calling a function with only one table literal or string literal the parentheses are not necessary:
+<pre class="language-slua"><code class="language-slua">ll.SetPrimitiveParams{ PRIM_SIZE, vector( 0.1, 4, 4) }
+-- same as ll.SetPrimitiveParams({ PRIM_SIZE, vector( 0.1, 4, 4) })
+ll.OwnerSay "size changed"
+-- same as ll.OwnerSay("size changed")</code></pre>
+
 ### Passing parameters to functions
 
 In general, in programming languages, there are two ways of passing parameters to functions: by value or by reference.
@@ -157,31 +205,3 @@ print( tabTest[1] )  -- >   x</code></pre>
 Which doesn't happen in LSL, where variables with lists contain the list instead of a reference to it.
 
 We need to be careful when translating our LSL scripts to SLua, if any of them is modifying lists passed as parameters.
-
-### Named parameters
-
-Lua does not have built-in named parameters, but we can simulate them by passing a table to the function. Then, inside the function, we access the table’s keys as parameter names.
-
-It is useful when a function has many parameters. This way we don't need to remember the order and any parameter can be optional.
-
-<pre class="language-slua"><code class="language-slua">local function setTextPanel(params)
-    local text = params.text or params[1] or " "
-    local size = params.size or 1
-    local foreColor = params.foreColor or vector(0, 0, 0)
-    local backColor = params.backColor or vector(1, 1, 1)
-    local alignment = params.alignment or "left"
-    -- do something
-end
-
-setTextPanel{ text = "hello world", alignment = "center", size = 2 }
-setTextPanel{ "good morning", foreColor = vector(1, 0 ,0) }</code></pre>
-
-The function sets a default value for each parameter. We can use a mix of positional and named parameters, in this example with "text". The parameters that we always use at the start and in the same order can be positional avoiding to type the name.
-
-setTextPanel() is called without parentheses in the example.
-
-When calling a function with only one table literal or string literal the parentheses are not necessary:
-<pre class="language-slua"><code class="language-slua">ll.SetPrimitiveParams{ PRIM_SIZE, vector( 0.1, 4, 4) }
--- same as ll.SetPrimitiveParams({ PRIM_SIZE, vector( 0.1, 4, 4) })
-ll.OwnerSay "size changed"
--- same as ll.OwnerSay("size changed")</code></pre>
