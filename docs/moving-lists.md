@@ -76,7 +76,7 @@ Use of table.move() to copy two tables into another one:
 
 To make a string with the elements of the table:
 - <code class="language-slua">local myStr = table.concat( tabFruits, ", " )</code>
-  - like string myStr = llDumpList2String( tabFruits, ", " )</code>
+  - like <code class="language-lsl">string myStr = llDumpList2String( tabFruits, ", " )</code>
  
 But table.concat() only works with the types number and string. Any other type (boolean or any SLua type) throws an error.
 
@@ -84,9 +84,14 @@ To get the largest positive numerical key in the table (array or dictionary):
 - <code class="language-slua">local maxNumKey = table.maxn()</code>
 
 To create a pre-filled array table, optionally filling it with a default value:
-- <code class="language-slua">local myTotals = tableCreate( 10, 0 )  -- array from 1 to 10, initialized at 0</code>
+- <code class="language-slua">local myTotals = table.create( 10, 0 )  -- array from 1 to 10, initialized at 0</code>
 
 It's used for performance and memory optimization when creating large arrays and to initialize to some value.
+
+To assign the elements in a table to several variables:
+- <code class="language-slua">local name, descr, pos, rot = unpack(ll.GetObjectDetails(id, { OBJECT_NAME, OBJECT_DESC, OBJECT_POS, OBJECT_ROT }))</code>
+
+unpack() converts the elements in an array to a series of single values that are assigned to the variables in the same order.
 
 Tables in SLua are much more efficient than lists in LSL. Tables are a core feature of Lua and they are used everywhere for many things. Tables are very optimized by the compiler.  
 It's better to stop using the LL lists functions and use the tables in Lua style.
