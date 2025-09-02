@@ -68,7 +68,7 @@ The parameters of table.move() are:
 
 Another example with table.move:
 - <code class="language-slua">local newTab = table.move(myTab, 4, 6, 1, {})</code>
- - like <code class="language-lsl">list newList = llList2List( myTab, 3, 5 )</code>
+  - like <code class="language-lsl">list newList = llList2List( myTab, 3, 5 )</code>
 
 Use of table.move() to copy two tables into another one:
 - <code class="language-slua">local myTab3 = table.move(myTab2, 1, #myTab2, #myTab1 + 1, table.move(myTab1, 1, #myTab1, 1, {}))</code>
