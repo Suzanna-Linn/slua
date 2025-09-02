@@ -1,6 +1,6 @@
 ## Functions
 
-Functions use the keyword "function" (and optionally "local"), no {, and “end” instead of }.
+Functions use the keyword "function" (and optionally "local"), no {, and “end” instead of }:
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">myFunc() {
     // do something
@@ -12,12 +12,6 @@ Functions use the keyword "function" (and optionally "local"), no {, and “end�
     return
 end</code></pre>
 </td></tr></table>
-
-When calling a function with only one table literal or string literal the parentheses are not necessary:
-<pre class="language-slua"><code class="language-slua">ll.SetPrimitiveParams{ PRIM_SIZE, vector( 0.1, 4, 4) }
--- same as ll.SetPrimitiveParams({ PRIM_SIZE, vector( 0.1, 4, 4) })
-ll.OwnerSay "size changed"
--- same as ll.OwnerSay("size changed")</code></pre>
 
 ### Variadic functions
 
@@ -165,4 +159,28 @@ We need to be careful when translating our LSL scripts to SLua, if any of them i
 
 ## Named parameters
 
+Lua does not have built-in named parameters, but we can simulate them by passing a table to the function. Then, inside the function, we access the table’s keys as parameter names.
 
+It is useful when a function has many parameters. This way we don't need to remember the order and any parameter can be optional.
+
+<pre class="language-slua"><code class="language-slua">local function setTextPanel(params)
+    local text = params.text or params[1] or " "
+    local size = params.size or 1
+    local foreColor = params.foreColor or vector(0, 0, 0)
+    local backColor = params.backColor or vector(1, 1, 1)
+    local alignment = params.alignment or "left"
+    -- do something
+end
+
+setTextPanel{ text = "hello world", alignment = "center", size = 2 }
+setTextPanel{ "good morning", foreColor = vector(1, 0 ,0) }</code></pre>
+
+The function sets a default value for each parameter. We can use a mix of positional and named parameters, in the example with "text". The parameters that we always use at the start and in the same order can be positional avoiding to type the name.
+
+setTextPanel() is called without parentheses in the example.
+
+When calling a function with only one table literal or string literal the parentheses are not necessary:
+<pre class="language-slua"><code class="language-slua">ll.SetPrimitiveParams{ PRIM_SIZE, vector( 0.1, 4, 4) }
+-- same as ll.SetPrimitiveParams({ PRIM_SIZE, vector( 0.1, 4, 4) })
+ll.OwnerSay "size changed"
+-- same as ll.OwnerSay("size changed")</code></pre>
