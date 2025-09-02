@@ -7,11 +7,17 @@ Functions use the keyword "function" (and optionally "local"), no {, and â€œendâ
     return;
 }</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">local function myFunc()
+<pre class="language-slua"><code class="language-slua">local function myFunc()
     -- do something
     return
 end</code></pre>
 </td></tr></table>
+
+When calling a function with only one table literal or string literal the parentheses are not necessary:
+<pre class="language-slua"><code class="language-slua">ll.SetPrimitiveParams{ PRIM_SIZE, vector( 0.1, 4, 4) }
+-- same as ll.SetPrimitiveParams({ PRIM_SIZE, vector( 0.1, 4, 4) })
+ll.OwnerSay "size changed"
+-- same as ll.OwnerSay("size changed")</code></pre>
 
 ### Variadic functions
 
@@ -156,3 +162,7 @@ print( tabTest[1] )  -- >   x</code></pre>
 Which doesn't happen in LSL, where variables with lists contain the list instead of a reference to it.
 
 We need to be careful when translating our LSL scripts to SLua, if any of them is modifying lists passed as parameters.
+
+## Named parameters
+
+
