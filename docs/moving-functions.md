@@ -125,9 +125,10 @@ In the function the table people is assigned in the same way, and its value is r
 
 ### Passing parameters to functions
 
-In general, in programming languages, there are two ways of passing parameters to functions: by value or by reference.  
-Passing by value means the function gets a copy of the original data. Changes made inside the function do not affect the original value outside.  
-Passing by reference means the function receives a reference to the original data. Changes to that data do affect the original.  
+In general, in programming languages, there are two ways of passing parameters to functions: by value or by reference.
+- Passing by value means the function gets a copy of the original data. Changes made inside the function do not affect the original value outside.
+- Passing by reference means the function receives a reference to the original data. Changes to that data do affect the original.
+
 In SLua (as in LSL) all the parameters, of any type, are passed by value, the contents of the original variables can't be changed.
 
 For instance:
@@ -157,7 +158,7 @@ Which doesn't happen in LSL, where variables with lists contain the list instead
 
 We need to be careful when translating our LSL scripts to SLua, if any of them is modifying lists passed as parameters.
 
-## Named parameters
+### Named parameters
 
 Lua does not have built-in named parameters, but we can simulate them by passing a table to the function. Then, inside the function, we access the table’s keys as parameter names.
 
@@ -175,7 +176,7 @@ end
 setTextPanel{ text = "hello world", alignment = "center", size = 2 }
 setTextPanel{ "good morning", foreColor = vector(1, 0 ,0) }</code></pre>
 
-The function sets a default value for each parameter. We can use a mix of positional and named parameters, in the example with "text". The parameters that we always use at the start and in the same order can be positional avoiding to type the name.
+The function sets a default value for each parameter. We can use a mix of positional and named parameters, in this example with "text". The parameters that we always use at the start and in the same order can be positional avoiding to type the name.
 
 setTextPanel() is called without parentheses in the example.
 
