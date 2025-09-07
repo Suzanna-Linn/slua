@@ -92,6 +92,8 @@ end</code></pre>
 **Set:__tostring()** produces a comma-separated list of elements:  
 <code class="language-slua">print(Set(1, 2, 3))  -- > "1, 2, 3"</code>
 
+### Examples 
+
 <div class="script-box intermediate">
 <h4>Using sets</h4>
 <p>Examples of use</p>
@@ -178,7 +180,7 @@ print("Length of mythical after clear:", #mythical)  -- > Length of mythical aft
 fruits:update({"elderberry", "fig"})
 fruits:update(Set{"grape", "honeydew"}:list())
 printSet("fruits after updating with elderberry, fig, grape, honeydew", fruits)
--- > ruits after updating with elderberry, fig, grape, honeydew = {honeydew, grape, kiwi, fig, apple, elderberry, durian, banana} (size: 8) 
+-- > fruits after updating with elderberry, fig, grape, honeydew = {honeydew, grape, kiwi, fig, apple, elderberry, durian, banana} (size: 8) 
 
 -- Test has() with a funny question
 print("Do fruits have durian?", tostring(fruits:has("durian")))  -- > Do fruits have durian? true
@@ -190,6 +192,8 @@ print("Length of veggies:", #veggies)  -- > Length of veggies: 2
 print("Length of emptySet:", #emptySet)  -- > Length of emptySet: 0
 </code></pre>
 </div>
+
+### Script
 
 <div class="script-box advanced">
 <h4>Set</h4>
