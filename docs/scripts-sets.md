@@ -196,7 +196,7 @@ print("Length of emptySet:", #emptySet)  -- > Length of emptySet: 0
 <div class="script-box advanced">
 <h4>Class Set</h4>
 <p>A Set data structure, modeled after mathematical sets and similar to Python’s set type.</p>
-<pre class="language-slua"><code class="language-slua">local Set = {}
+<pre class="language-slua line-numbers"><code class="language-slua">local Set = {}
 Set.__index = Set
 
 setmetatable(Set, {
