@@ -84,7 +84,7 @@ Returns the number of elements in the set. Equivalent to **A:len()**.
 
 ### Iteration  
 We can iterate over a set directly with for ... in.  
-<pre class="language-slua line-numbers"><code class="language-slua">for element in s do
+<pre class="language-slua"><code class="language-slua">for element in s do
 	print(element)
 end</code></pre>
 
