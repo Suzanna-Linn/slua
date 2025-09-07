@@ -80,20 +80,19 @@ True if A is a strict subset of B.
 True if A is a subset of B (allowing equality).
 
 **\#A**  
-Returns the number of elements in the set. Equivalent to A:len().
+Returns the number of elements in the set. Equivalent to **A:len()**.
 
-##### Iteration  
+### Iteration  
 We can iterate over a set directly with for ... in.  
 <pre class="language-slua line-numbers"><code class="language-slua">for element in s do
 	print(element)
 end</code></pre>
 
-##### String Representation  
+### String Representation  
 **Set:__tostring()** produces a comma-separated list of elements:  
 <code class="language-slua">print(Set(1, 2, 3))  -- > "1, 2, 3"</code>
 
 ### Examples 
-
 <div class="script-box intermediate">
 <h4>Using sets</h4>
 <p>Examples of use</p>
@@ -194,7 +193,6 @@ print("Length of emptySet:", #emptySet)  -- > Length of emptySet: 0
 </div>
 
 ### Script
-
 <div class="script-box advanced">
 <h4>Set</h4>
 <p>A Set data structure, modeled after mathematical sets and similar to Python’s set type.</p>
