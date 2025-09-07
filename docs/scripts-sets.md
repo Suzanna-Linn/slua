@@ -2,14 +2,14 @@
 
 A set is a collection of unique elements, and the elements are not ordered. Sets are useful for checking membership and for performing mathematical operations such as union, intersection, and difference. In this implementation, a set is represented internally as a table with the elements as keys and true as their values.
 
-##### Constructor
+### Constructor
 
 **Set(...)** or **Set:new(...)**  
-Creates a new set from a list of elements or from a table.
-<code class="language-slua">local s1 = Set(1, 2, 3)</code>
+Creates a new set from a list of elements or from a table.  
+<code class="language-slua">local s1 = Set(1, 2, 3)</code>  
 <code class="language-slua">local s2 = Set({"a", "b", "c"})</code>
 
-##### Methods
+### Methods
 
 **Set:update(...): nil**  
 Adds multiple elements to the set (from variadic arguments or from a table).  
@@ -56,7 +56,7 @@ Removes and returns an arbitrary element. Returns nil if empty.
 Checks if two sets have no elements in common.  
 <code class="language-slua">print(s1:isdisjoint(s2))</code>
 
-##### Operators
+### Operators
 
 **A + B** (Union)  
 All elements in A or B.
@@ -82,13 +82,13 @@ True if A is a subset of B (allowing equality).
 **\#A**  
 Returns the number of elements in the set. Equivalent to A:len().
 
-Iteration  
+##### Iteration  
 We can iterate over a set directly with for ... in.  
 <pre class="language-slua line-numbers"><code class="language-slua">for element in s do
 	print(element)
 end</code></pre>
 
-String Representation  
+##### String Representation  
 **Set:__tostring()** produces a comma-separated list of elements:  
 <code class="language-slua">print(Set(1, 2, 3))  -- > "1, 2, 3"</code>
 
