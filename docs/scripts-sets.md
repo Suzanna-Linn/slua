@@ -1,4 +1,4 @@
-## Class Set
+## Sets
 
 A set is a collection of unique elements, and the elements are not ordered. Sets are useful for checking membership and for performing mathematical operations such as union, intersection, and difference. In this implementation, a set is represented internally as a table with the elements as keys and true as their values.
 
@@ -194,7 +194,7 @@ print("Length of emptySet:", #emptySet)  -- > Length of emptySet: 0
 
 ### Script
 <div class="script-box advanced">
-<h4>Set</h4>
+<h4>Class Set</h4>
 <p>A Set data structure, modeled after mathematical sets and similar to Python’s set type.</p>
 <pre class="language-slua"><code class="language-slua">local Set = {}
 Set.__index = Set
