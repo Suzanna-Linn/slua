@@ -5,10 +5,10 @@
 
   // Load preference from localStorage
   const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'night') {
-    dayTheme.disabled = true;
-    nightTheme.disabled = false;
-    button.textContent = 'Light script theme';
+  if (savedTheme === 'day') {
+    nightTheme.disabled = true;
+    dayTheme.disabled = false;
+    button.textContent = 'Dark script theme';
   }
 
   button.addEventListener('click', function () {
