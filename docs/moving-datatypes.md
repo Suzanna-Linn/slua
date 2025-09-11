@@ -264,9 +264,9 @@ Strings and uuids are stored as UTF-8. The characters ASCII 0-127 use 1 byte (in
 <table style="width: 100%; border-collapse: collapse;">
   <thead>
     <tr>
-      <th style="border: 2px solid #999999; text-align: center; padding: 8px; background-color: #f2f2f2;">Bytes</th>
-      <th style="border: 2px solid #999999; text-align: center; padding: 8px; background-color: #f2f2f2;">Unicode Range</th>
-      <th style="border: 2px solid #999999; text-align: center; padding: 8px; background-color: #f2f2f2;">Character Types</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Bytes</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Unicode Range</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Character Types</th>
     </tr>
   </thead>
   <tbody>
