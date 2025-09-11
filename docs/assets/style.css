@@ -357,14 +357,21 @@ button[disabled]:hover {
   background: #212121;
 }
 
-/* Dark theme only changes content background + body text */
 .content.dark-theme {
   background: #1e1e1e;   /* dark background */
   color: #e0e0e0;        /* default text color */
 }
 
-/* Make sure only plain text is affected */
 .content.dark-theme p,
 .content.dark-theme li {
   color: #e0e0e0;
+}
+
+.content.dark-theme .script-box {
+  background: #2b2b2b;
+  border-color: #555;
+}
+
+.content.dark-theme .script-box h4 {
+  color: #fff;
 }
