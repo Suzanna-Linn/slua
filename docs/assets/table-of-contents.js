@@ -28,7 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
           const computedStyle = window.getComputedStyle(header);
           const color = computedStyle.getPropertyValue('color');
 
-          if (color !== 'rgb(0, 0, 0)' && color.toLowerCase() !== '#000000') {
+        if (
+            (color.startsWith('#') && color.slice(-2).toLowerCase() === 'ff') ||
+            (color.startsWith('rgb') && parseInt(color.match(/\d+/g)[2], 10) === 255)
+        ) {
             const li = document.createElement('li');
             const a = document.createElement('a');
             
