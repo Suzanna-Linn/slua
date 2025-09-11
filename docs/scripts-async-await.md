@@ -4,7 +4,7 @@ A basic implementation of async/await functionality using coroutines to make the
 
 <div class="script-box beginner">
 <h4>A dataserver request</h4>
-<p>example of use, add the code that is at the end of page</p>
+<p>an example of use, add the async/await code that is at the end of page</p>
 <pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
 -- === copy the Async / Await code here ===
@@ -26,7 +26,7 @@ async(getName, "suzannalinn")</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>dataserver and http requests</h4>
-<p>example of use, add the code that is at the end of page</p>
+<p>an example of use, add the async/await code that is at the end of page</p>
 <pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
 -- === copy the Async / Await code here ===
