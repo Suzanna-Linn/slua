@@ -14,7 +14,7 @@
   const savedThemeText = localStorage.getItem('theme-text');
   if (savedThemeText === 'night') {
     content.classList.toggle('dark-theme')
-    button.textContent = 'Light text theme';
+    buttonText.textContent = 'Light text theme';
   }
 
   button.addEventListener('click', function () {
