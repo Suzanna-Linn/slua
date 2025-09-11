@@ -18,7 +18,7 @@ local function getName(username)
 end
 
 function dataserver(queryid, data)
-   awaiting(queryid,data)  -- async/await
+   awaiting(queryid, data)  -- async/await
 end
 
 async(getName, "suzannalinn")</code></pre>
@@ -51,11 +51,11 @@ end
 
 
 function dataserver(queryid, data)
-   awaiting(queryid,data)  -- async/await
+   awaiting(queryid, data)  -- async/await
 end
 
 function http_response(request_id, status, metadata, body)
-   awaiting(request_id,body)  -- async/await
+   awaiting(request_id, body)  -- async/await
 end</code></pre>
 </div>
 <div class="script-box advanced">
@@ -92,13 +92,13 @@ end
 
 
 function dataserver(queryid, data)
-   if awaiting(queryid,data) then  -- async/await
+   if awaiting(queryid, data) then  -- async/await
         -- other requests
    end
 end
 
 function http_response(request_id, status, metadata, body)
-   if awaiting(request_id,body) then  -- async/await
+   if awaiting(request_id, body) then  -- async/await
         -- other requests
    end
 end</code></pre>
