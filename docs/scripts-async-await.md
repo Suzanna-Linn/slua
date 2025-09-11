@@ -4,7 +4,7 @@ A basic implementation of async/await functionality using coroutines to make the
 
 <div class="script-box beginner">
 <h4>A dataserver request</h4>
--- start async/await section
+<pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
 === Async / Await code here ===
 
@@ -21,11 +21,11 @@ function dataserver(queryid, data)
    awaiting(queryid,data)  -- async/await
 end
 
-async(getName, "suzannalinn")
+async(getName, "suzannalinn")</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>dataserver and http requests</h4>
--- start async/await section
+<pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
 === Async / Await code here ===
 
@@ -48,10 +48,19 @@ function touch_start(numDetected)
     async(getInfo, ll.DetectedKey(0))
     async(getQuote)
 end
+
+
+function dataserver(queryid, data)
+   awaiting(queryid,data)  -- async/await
+end
+
+function http_response(request_id, status, metadata, body)
+   awaiting(request_id,body)  -- async/await
+end</code></pre>
 </div>
 <div class="script-box advanced">
 <h4>async/await code</h4>
--- Async / Await (by Suzanna Linn, 2025-09-11)
+<pre class="language-slua line-numbers"><code class="language-slua">-- Async / Await (by Suzanna Linn, 2025-09-11)
 
 -- start async/await section
 
@@ -92,5 +101,5 @@ function http_response(request_id, status, metadata, body)
    if awaiting(request_id,body) then  -- async/await
         -- other requests
    end
-end
+end</code></pre>
 </div>
