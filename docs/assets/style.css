@@ -361,16 +361,19 @@ button[disabled]:hover {
   background: #1e1e1e;   /* dark background */
   color: #e0e0e0;        /* default text color */
 }
-
 .content.dark-theme p,
 .content.dark-theme li {
   color: #e0e0e0;
 }
-
+.content.dark-theme h1,
+.content.dark-theme h2,
+.content.dark-theme h3,
+.content.dark-theme h4 {
+  color: #4fa3ff;
+}
 .content.dark-theme .script-box {
   background: #1e1e1e;
 }
-
 .content.dark-theme .script-box h4 {
   color: #e0e0e0;
 }
