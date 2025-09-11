@@ -38,10 +38,10 @@
     const isNight = content.classList.contains('dark-theme');
     if (isNight) {
       localStorage.setItem('theme-text', 'night');
-      button.textContent = 'Light text theme';
+      buttonText.textContent = 'Light text theme';
     } else {
       localStorage.setItem('theme-text', 'day');
-      button.textContent = 'Dark text theme';
+      buttonText.textContent = 'Dark text theme';
     }
     this.blur();
   });
