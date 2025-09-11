@@ -6,7 +6,7 @@ A basic implementation of async/await functionality using coroutines to make the
 <h4>A dataserver request</h4>
 <pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
-=== Async / Await code here ===
+=== copy the Async / Await code here ===
 
 -- end async/await section
 
@@ -27,7 +27,7 @@ async(getName, "suzannalinn")</code></pre>
 <h4>dataserver and http requests</h4>
 <pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
-=== Async / Await code here ===
+=== copy the Async / Await code here ===
 
 -- end async/await section
 
