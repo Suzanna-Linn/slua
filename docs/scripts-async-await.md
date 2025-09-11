@@ -7,7 +7,7 @@ A basic implementation of async/await functionality using coroutines to make the
 <p>an example of use, add the async/await code that is at the end of page</p>
 <pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
--- === copy the Async / Await code here ===
+-- ===== COPY THE ASYNC/AWAIT CODE HERE =====
 
 -- end async/await section
 
@@ -29,7 +29,7 @@ async(getName, "suzannalinn")</code></pre>
 <p>an example of use, add the async/await code that is at the end of page</p>
 <pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
 
--- === copy the Async / Await code here ===
+-- ===== COPY THE ASYNC/AWAIT CODE HERE =====
 
 -- end async/await section
 
@@ -41,7 +41,7 @@ local function getInfo(userId)
 end
 
 local function getQuote()
-    local quote = await(ll.HTTPRequest("https://zenquotes.io/api/random",{},""))
+    local quote = await(ll.HTTPRequest("https://zenquotes.io/api/random", {}, ""))
     local json = lljson.decode(quote)
     ll.OwnerSay(`\n{json[1].q}\n{json[1].a}\n `)
 end
@@ -69,7 +69,7 @@ end</code></pre>
 local _awaiting = {}
 
 local function async(func, ...)
-    coroutine.resume(coroutine.create(func),...)
+    coroutine.resume(coroutine.create(func), ...)
 end
 
 local function awaiting(queryid, ...)
@@ -90,7 +90,7 @@ end
 -- end async/await section
 
 
--- === PLACE YOUR CODE HERE ===
+-- ===== PLACE YOUR CODE HERE =====
 
 
 function dataserver(queryid, data)
