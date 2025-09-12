@@ -238,9 +238,11 @@ Every variable or literal value, of any type, is stored as a 16 bytes tagged val
 - Primitive types (boolean, number, vector and nil) have their value in the TValue.
 - Reference types (string, table, function, thread, buffer and userdata) have a pointer to the heap.
 
-- SLua vector is derived from Luau vector and is a primitive type.  
+- SLua vector is derived from Luau vector and is a primitive type.
+
 - SLua quaternion and uuid are derived from userdata and are reference types.
   - rotation is an alternative name for quaternion, internally there is only the type quaternion.
+
 - SLua integer is derived from the internal type "light userdata" that stores the data in the TValue like the primitive types.
   - "light userdata" returns "userdata" as type.
 
