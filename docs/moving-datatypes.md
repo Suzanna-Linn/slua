@@ -238,8 +238,11 @@ Every variable or literal value, of any type, is stored as a 16 bytes tagged val
 - Primitive types (boolean, number, vector and nil) have their value in the TValue.
 - Reference types (string, table, function, thread, buffer and userdata) have a pointer to the heap.
 
-SLua vector is derived from Luau vector and is a primitive type.  
-SLua quaternion, uuid and integer are derived from userdata and are reference types.
+- SLua vector is derived from Luau vector and is a primitive type.  
+- SLua quaternion and uuid are derived from userdata and are reference types.
+  - rotation is an alternative name for quaternion, internally there is only the type quaternion.
+- SLua integer is derived from the internal type "light userdata" that stores the data in the TValue like the primitive types.
+  - "light userdata" returns "userdata" as type.
 
 The format of the TValue is:
 - 8 bytes : value (for primitive types) or pointer (for reference types)
@@ -252,14 +255,93 @@ When used as a key in a table, it changes to a Tkey, with this format:
 - 4 bits : type identifier
 - 28 bits : link to the next node in the table
 
-Each node in a table has a TKey and a TValue.
+Each node in a dictionary table has a TKey and a TValue. Array tables are very optimized and in the best case only need the to store the TValues (depending on how the elements are added, preallocating the array with table.create() when the number of elements is known, gives the best optimization).
 
 Reference types have their data stored in the heap (pointed by the TValue) with a header with internal metadata:
-- string has its length (in bytes) and data for string interning.
+- string has its length (in bytes) and data for string interning (explained here [string interning](slua/moving-strings#string-interning)).
 - table has the length of the array part, a pointer to its metatable, the read-only parameter and data to optimize search.
 - userdata has the length and a pointer to its internal metatable.
 
-Strings and uuids are stored as UTF-8. The characters ASCII 0-127 use 1 byte (instead of 2 bytes in LSL):
+Memory used for each datatype:
+
+<table style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Datatype</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Bytes</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nil</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">16</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">16</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">number</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">16</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">vector</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">16</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">Luau vector</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">integer</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">16</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, internally light userdata, stored in the TValue</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">quaternion</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">48</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, rotations are stored as quaternions</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">37 + string length</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uses string interning</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid (valid)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">61</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, stored in numeric format</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid (string)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">61 + string length</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, stored as string, uses string interning</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">buffer</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">32 + buffer length</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">more exactly: 24 + buffer length with a minimum of 32</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">table</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">52 (empty)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">function</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">36 (empty)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">1024 (empty)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">coroutines</td>
+    </tr>
+  </tbody>
+</table>
+
+Strings and string uuids are stored as UTF-8. The characters ASCII 0-127 use 1 byte (instead of 2 bytes in LSL):
 
 <table style="width: 100%; border-collapse: collapse;">
   <thead>
