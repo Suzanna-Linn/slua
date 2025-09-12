@@ -255,7 +255,7 @@ When used as a key in a table, it changes to a Tkey, with this format:
 - 4 bits : type identifier
 - 28 bits : link to the next node in the table
 
-Each node in a dictionary table has a TKey and a TValue. Array tables are very optimized and in the best case only need to store the TValues (depending on how the elements are added, preallocating the array with table.create() when the number of elements is known, gives the best optimization).
+Each node in a dictionary table has a TKey and a TValue. Array tables are very optimized and in the best case only need to store the TValues (depending on how the elements are added, preallocating the array with table.create() when the number of elements is known gives the best optimization).
 
 Reference types have their data stored in the heap (pointed by the TValue) with a header with internal metadata:
 - string has its length (in bytes) and data for string interning (explained here [string interning](moving-strings#string-interning)).
