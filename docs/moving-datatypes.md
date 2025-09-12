@@ -301,7 +301,7 @@ Memory used for each datatype:
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">quaternion</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">48</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, rotations are stored as quaternions</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, rotations are quaternions</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
