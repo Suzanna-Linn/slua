@@ -258,7 +258,7 @@ When used as a key in a table, it changes to a Tkey, with this format:
 Each node in a dictionary table has a TKey and a TValue. Array tables are very optimized and in the best case only need the to store the TValues (depending on how the elements are added, preallocating the array with table.create() when the number of elements is known, gives the best optimization).
 
 Reference types have their data stored in the heap (pointed by the TValue) with a header with internal metadata:
-- string has its length (in bytes) and data for string interning (explained here [string interning](slua/moving-strings#string-interning)).
+- string has its length (in bytes) and data for string interning (explained here [string interning](moving-strings#string-interning)).
 - table has the length of the array part, a pointer to its metatable, the read-only parameter and data to optimize search.
 - userdata has the length and a pointer to its internal metatable.
 
