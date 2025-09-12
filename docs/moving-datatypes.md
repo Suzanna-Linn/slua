@@ -336,10 +336,12 @@ Memory used for each datatype:
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">1024 (empty)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">coroutines</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">coroutine</td>
     </tr>
   </tbody>
 </table>
+
+<br>
 
 Strings and string uuids are stored as UTF-8. The characters ASCII 0-127 use 1 byte (instead of 2 bytes in LSL):
 
