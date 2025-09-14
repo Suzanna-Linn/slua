@@ -2,19 +2,18 @@
 
 An enumeration is a special type that represents a set of named values. Instead of using raw numbers or strings in our code, we give meaningful names to those values. Code becomes clearer and self-documenting and enums enforce that only valid values are used.
 
-**Enum(table)** or **Enum:new(table)**
+**Enum(table)** or **Enum:new(table)**  
 Creates a new enumeration from an array or a dictionary table
 <pre class="language-slua"><code class="language-slua">local Colors = Enum { "Red", "Green", "Blue" }
 print(Colors.Red)   -- > 1
 print(Colors.Green) -- > 2</code></pre>
 
-**Enum:nameOf(value): string**
+**Enum:nameOf(value): string**  
 Looks up the name associated with a value in the enum.
 <pre class="language-slua"><code class="language-slua">print(Colors:nameOf(2))   -- > "Green"
 print(Colors(3))          -- > "Blue"   (shortcut without :nameOf)</code></pre>
 
 ## Examples
-
 <div class="script-box beginner">
 <h4>Using enums</h4>
 <p>Examples of use</p>
@@ -30,7 +29,6 @@ print(POINTS(point))  -- > SOUTH</code></pre>
 </div>
 
 ## Script
-
 <div class="script-box advanced">
 <h4>Class Enum</h4>
 <p>An enumeration data structure</p>
@@ -78,4 +76,5 @@ function Enum:__call(...)
 end
 
 Enum.__iter = pairs
-</div></code></pre>
+</code></pre>
+</div>
