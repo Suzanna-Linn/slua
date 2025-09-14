@@ -13,7 +13,7 @@ Looks up the name associated with a value in the enum.
 <pre class="language-slua"><code class="language-slua">print(Colors:nameOf(2))   -- > "Green"
 print(Colors(3))          -- > "Blue"   (shortcut without :nameOf)</code></pre>
 
-## Examples
+### Examples
 <div class="script-box beginner">
 <h4>Using enums</h4>
 <p>Examples of use</p>
@@ -28,11 +28,13 @@ local point = POINTS.SOUTH
 print(POINTS(point))  -- > SOUTH</code></pre>
 </div>
 
-## Script
+### Script
 <div class="script-box advanced">
 <h4>Class Enum</h4>
 <p>An enumeration data structure</p>
-<pre class="language-slua line-numbers"><code class="language-slua">local Enum = {}
+<pre class="language-slua line-numbers"><code class="language-slua">-- class Enum (by Suzanna Linn, 2025-09-14)
+
+local Enum = {}
 Enum.__index = Enum
 Enum._reverse = setmetatable({}, { __mode = "k" })
 
