@@ -176,11 +176,12 @@ band, bor and bnot can take any quantity of operators.
 
 For instance, in the event changed:
 - In LSL: <code class="language-lsl">if (change & (CHANGED_OWNER | CHANGED_INVENTORY )) {</code>
-- In SLua: <code class="language-slua">if bit32.band(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) ~= 0 then</code>  
-  or with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
+- In SLua: <code class="language-slua">if bit32.band(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) ~= 0 then</code>
+
+Or better with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
 - In SLua: <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then</code>
 
-Or checking for -1:
+Another example, checking for -1:
 - In LSL: <code class="language-lsl">if (~llListFindList(myList, [item])) {</code>
 - In SLua: <code class="language-slua">if bit32.bnot(ll.ListFindList(myList, {item})) ~= 0 then</code>
 
@@ -192,15 +193,20 @@ To get signed results we can use the SLua type integer, which is a 32-bit signed
 - in SLua: <code class="language-slua">local val = 0 val = tonumber(bit32.bnot(integer(val))) print(val)  -- > -1</code>  
   when all the parameters are SLua integers the returned value is also an SLua integer.
 
+The previous example, checking for -1, works because -1 is stored with all bits to 1, so no matter how many bits are used.
+
 Another example, to get a negative channel:
-- in LSL: <pre class="language-lsl"><code class="language-lsl">integer gChannel = 0x80000000 | (integer)("0x"+(string)llGetKey());
+<pre class="language-lsl"><code class="language-lsl">// LSL
+integer gChannel = 0x80000000 | (integer)("0x"+(string)llGetKey());
 llOwnerSay((string)gChannel);  // --> -1261093815</code></pre>
-- in SLua: <pre class="language-slua"><code class="language-slua">local gChannel = bit32.bor(0x80000000, integer("0x" .. tostring(ll.GetKey())))
+<pre class="language-slua"><code class="language-slua">-- SLua
+local gChannel = bit32.bor(0x80000000, integer("0x" .. tostring(ll.GetKey())))
 print(gChannel)  -- > 3033873481</code></pre>
 which is a way to get a channel number that can't be used in LSL or typing it in the viewer.
 
 With all the parameters as SLua integers:
-- in SLua: <pre class="language-slua"><code class="language-slua">local gChannel = tonumber(bit32.bor(integer(0x80000000), integer("0x" .. tostring(ll.GetKey()))))
+<pre class="language-slua"><code class="language-slua">-- SLua
+local gChannel = tonumber(bit32.bor(integer(0x80000000), integer("0x" .. tostring(ll.GetKey()))))
 print(gChannel)  -- > -1261093815</code></pre>
 
 ### Comparing string and uuid
