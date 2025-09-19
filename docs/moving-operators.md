@@ -197,7 +197,7 @@ The previous example, checking for -1, works because -1 is stored with all bits 
 
 Another example, to get a negative channel:
 <pre class="language-lsl"><code class="language-lsl">// LSL
-integer gChannel = 0x80000000 | (integer)("0x"+(string)llGetKey());
+integer gChannel = 0x80000000 | (integer)("0x" + (string)llGetKey());
 llOwnerSay((string)gChannel);  // --> -1261093815</code></pre>
 <pre class="language-slua"><code class="language-slua">-- SLua
 local gChannel = bit32.bor(0x80000000, integer("0x" .. tostring(ll.GetKey())))
