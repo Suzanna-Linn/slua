@@ -178,7 +178,7 @@ For instance, in the event changed:
 - In LSL: <code class="language-lsl">if (change & (CHANGED_OWNER | CHANGED_INVENTORY )) {</code>
 - In SLua: <code class="language-slua">if bit32.band(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) ~= 0 then</code>
 
-Or better with bit32.btest() that does a bitwise and, returning true if the resulting value is not 0, or false if it is 0.
+Or better with bit32.btest() that does a bitwise-and, returning true if the resulting value is not 0, or false if it is 0.
 - In SLua: <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then</code>
 
 Another example, checking for -1:
@@ -193,7 +193,7 @@ To get signed results we can use the SLua type integer, which is a 32-bit signed
 - in SLua: <code class="language-slua">local val = 0 val = tonumber(bit32.bnot(integer(val))) print(val)  -- > -1</code>  
   when all the parameters are SLua integers the returned value is also an SLua integer.
 
-The previous example, checking for -1, works because -1 is stored with all bits to 1, so no matter how many bits are used.
+The previous example, checking for -1, works because -1 is stored with all bits to 1, so no matter how many bits are used it is still -1.
 
 Another example, to get a negative channel:
 <pre class="language-lsl"><code class="language-lsl">// LSL
@@ -202,7 +202,7 @@ llOwnerSay((string)gChannel);  // --> -1261093815</code></pre>
 <pre class="language-slua"><code class="language-slua">-- SLua
 local gChannel = bit32.bor(0x80000000, integer("0x" .. tostring(ll.GetKey())))
 print(gChannel)  -- > 3033873481</code></pre>
-which is a way to get a channel number that can't be used in LSL or typing it in the viewer.
+which is a way to get a channel number that can't be used in LSL and neither used typing it in the viewer.
 
 With all the parameters as SLua integers:
 <pre class="language-slua"><code class="language-slua">-- SLua
