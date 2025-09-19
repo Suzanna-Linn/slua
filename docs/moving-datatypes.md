@@ -321,9 +321,9 @@ Memory used for each datatype:
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, stored as string, uses string interning</td>
     </tr>
 	<tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">buffer</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">32 + buffer length</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">more exactly: 24 + buffer length with a minimum of 32</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">local variable</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">24</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">without TValue, has an index to it in the stack (or heap for closures)</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">table</td>
@@ -334,6 +334,11 @@ Memory used for each datatype:
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">function</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">36 (empty)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">buffer</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">32 + buffer length</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">more exactly: 24 + buffer length with a minimum of 32</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread</td>
