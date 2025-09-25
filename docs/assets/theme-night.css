@@ -58,13 +58,36 @@ pre[class*="language-"] {
     white-space: normal;
 }
 
+.token.prolog,
+.token.doctype,
+.token.cdata,
 .token.comment    { color: gray; font-style: italic; }
+.token.char,
 .token.string     { color: lightgreen; }
 .token.number     { color: tomato; }
+.token.atrule,
+.token.attr-value,
 .token.keyword    { color: deepskyblue; font-weight: bold; }
+.token.selector,
+.token.attr-name,
 .token.builtin    { color: orange; }
+.token.class-name,
 .token.function   { color: orchid; }
+.token.property,
+.token.tag,
+.token.boolean,
+.token.constant,
+.token.symbol,
 .token.constant   { color: lightcoral; }
+.token.regex,
+.token.important,
 .token.variable   { color: lightseagreen; }
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
 .token.operator   { color: yellow; }
 .token.punctuation{ color: lightgray; } 
+.token.important,
+.token.bold { font-weight: bold; }
+.token.italic { font-style: italic; }
