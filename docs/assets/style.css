@@ -357,9 +357,25 @@ button[disabled]:hover {
   background: #212121;
 }
 
+.script-box h4 .extra {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  vertical-align: middle;
+}
+
+.script-box.beginner h4 .extra { background: #4CAF50; }
+.script-box.intermediate h4 .extra { background: #2196F3; }
+.script-box.advanced h4 .extra { background: #F44336; }
+.script-box.expert h4 .extra { background: #212121; }
+
 .content.dark-theme {
-  background: #1e1e1e;   /* dark background */
-  color: #e0e0e0;        /* default text color */
+  background: #1e1e1e;
+  color: #e0e0e0;
 }
 .content.dark-theme p,
 .content.dark-theme li {
