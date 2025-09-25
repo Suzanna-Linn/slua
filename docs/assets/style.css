@@ -397,3 +397,14 @@ button[disabled]:hover {
 .content.dark-theme .script-box h4 {
   color: #e0e0e0;
 }
+.content.dark-theme .script-box.expert {
+  border-color: #f5f5f5;
+}
+.content.dark-theme .script-box.expert h4::after {
+  background: #f5f5f5;
+  color: #212121;
+}
+.content.dark-theme .script-box.expert h4 .extra {
+  background: #f5f5f5;
+  color: #212121;
+}
