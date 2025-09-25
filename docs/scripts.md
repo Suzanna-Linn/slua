@@ -19,16 +19,11 @@ This is a brand-new section, and the collection is just beginning to grow. Be su
 </div>
 
 <div class="script-box advanced">
-  <h4>
-    Advanced Script
-    <span class="extra">HTML</span>
-    <span class="extra">CSS</span>
-    <span class="extra">JavaScript</span>
-  </h4>
+  <h4>Advanced Script</h4>
   <p>This covers advanced SLua features...</p>
 </div>
 
 <div class="script-box expert">
-  <h4>Expert Script</h4><span class="extra">Test</span>
+  <h4>Expert Script</h4>
   <p>This is for mastering SLua with complex scenarios...</p>
 </div>
