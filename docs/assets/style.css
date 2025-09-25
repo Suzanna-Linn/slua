@@ -325,6 +325,8 @@ button[disabled]:hover {
 .script-box h4 {
   color: black;
   display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;  
   margin: 0;
 }
 .script-box h4::after {
