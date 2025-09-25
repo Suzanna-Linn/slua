@@ -1,5 +1,13 @@
 Prism.languages.slua = {
     'comment': /^#!.+|--(?:\[(=*)\[[\s\S]*?\]\1\]|.*)/m,
+    'html-string': {
+        pattern: /\[(=+)\[\s*(<[\s\S]*?>)\s*\]\1\]/,
+        greedy: true,
+        alias: 'language-html',
+        inside: {
+            'rest': Prism.languages.markup
+        }
+    },
     'string': {
         pattern: /(["'])(?:(?!\1)[^\\\r\n]|\\z(?:\r\n|\s)|\\(?:\r\n|[^z]))*\1|\[(=*)\[[\s\S]*?\]\2\]/,
         greedy: true
