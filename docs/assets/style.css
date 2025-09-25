@@ -324,10 +324,11 @@ button[disabled]:hover {
 }
 .script-box h4 {
   color: black;
-  display: inline-block;
+  display: inline-flex;
   margin: 0;
 }
 .script-box h4::after {
+  order: 1;
   display: inline-block;
   margin-left: 8px;
   padding: 2px 8px;
@@ -358,6 +359,7 @@ button[disabled]:hover {
 }
 
 .script-box h4 .extra {
+  order: 2;
   display: inline-block;
   margin-left: 8px;
   padding: 2px 8px;
