@@ -4,22 +4,7 @@ I'm excited to announce the launch of three new scripting class series designed 
 
 Whether you're interested in integrating with external tools or diving into the future of scripting with SLua, there's something here for you.  
 
-**Starting on September 8th**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
-
-### LSL - Web Server and MOAP (6 classes)
-
-- **Dates:** September 8th – September 24th  
-- **Days:** Mondays and Wednesdays  
-- **Time:** 11:00am – 12:30pm SLT  
-- **Level:** Advanced LSL  
-- **Teachers:** Suzanna (suzannalinn) & Ali (sungali)  
-- **Format:** Text-only  
-- **Required:** Play media enabled  
-- **In-world Location:** [Caledon Oxbridge (Main Lecture Hall)](http://maps.secondlife.com/secondlife/Caledon%20Oxbridge/72/140/29)  
-
-We will learn advanced topics of handling HTTP requests, serving web pages directly from in-world objects, and leveraging MOAP to display web content on a prim surface.  
-This will open up a myriad of possibilities for creators, from interactive displays and dynamic in-world advertising to complex web-based applications that integrate seamlessly with Second Life.
-
+**Starting on September 29th**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
 ### SLua - Basics (12 classes + 12 practices)
 
