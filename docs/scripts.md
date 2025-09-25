@@ -24,6 +24,11 @@ This is a brand-new section, and the collection is just beginning to grow. Be su
 </div>
 
 <div class="script-box expert">
-  <h4>Expert Script</h4>
+  <h4>
+    Expert Script
+    <span class="extra">HTML</span>
+    <span class="extra">CSS</span>
+    <span class="extra">JavaScript</span>
+  </h4>
   <p>This is for mastering SLua with complex scenarios...</p>
 </div>
