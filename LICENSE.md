@@ -1,3 +1,26 @@
+# License for the SLua Website Project
+
+This project contains two types of content, each licensed separately: code and explanatory text.
+
+---
+
+### Code Examples
+
+All code examples within this project are licensed under the **MIT License**.
+
+A copy of the MIT License text is included below.
+
+### Text and Explanations
+
+All explanatory text and other written content (e.g., `.md` files, HTML text content) are licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
+
+To view a copy of this license, visit:
+[https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
+
+---
+
+### Full Text of the MIT License
+
 MIT License
 
 Copyright (c) 2025 Suzanna Linn
