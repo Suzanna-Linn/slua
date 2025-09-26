@@ -46,7 +46,7 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
 - **Format:** Text-only  
 - **Required:** Access to the Beta Grid (for SLua)  
 - **In-world Locations:**  
-  - **Main Grid:** [Caledon Oxbridge (Main Lecture Hall)](http://maps.secondlife.com/secondlife/Caledon%20Oxbridge/72/140/29)  
+  - **Main Grid:** [Caledon Oxbridge (Sandbox)](http://maps.secondlife.com/secondlife/Caledon%20Oxbridge/53/48/1500)  
   - **Beta Grid:** [SLua Yardang (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/157/8/23) 
 
 Come with your questions, practices, and projects to chat about anything scripting related.
