@@ -40,7 +40,7 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
 ### Study Groups
 
 - **Day:** All Saturdays  
-- **Time:** 11:00am – 1pm SLT  
+- **Time:** 11:00am – 1:00pm SLT  
 - **Level:** All levels  
 - **Teachers:** Ali (sungali) & Suzanna (suzannalinn)  
 - **Format:** Text-only  
