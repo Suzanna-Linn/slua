@@ -42,7 +42,7 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
 - **Day:** All Saturdays  
 - **Time:** 11:00am – 12:30pm SLT  
 - **Level:** All levels  
-- **Teachers:** Suzanna (suzannalinn) & Ali (sungali)  
+- **Teachers:** Ali (sungali) & Suzanna (suzannalinn)  
 - **Format:** Text-only  
 - **Required:** Access to the Beta Grid (for SLua)  
 - **In-world Locations:**  
