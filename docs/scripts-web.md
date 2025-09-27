@@ -54,9 +54,7 @@ The maximum length of this "url" is 1024 characters.
 local DATA_URL = "data:text/html,"
 local FACE_MEDIA = 2
 
-local html = [=[
-<h1>Welcome to My Page!</h1><p>Hello, world! Isn't HTML amazing?</p><p>HTML stands for <strong>Hyper Text Markup Language</strong>.</p><p>Thanks for visiting! Have a <em>fantastic</em> day!</p>
-]=]
+local html = [=[<h1>Welcome to My Page!</h1><p>Hello, world! Isn't HTML amazing?</p><p>HTML stands for <strong>Hyper Text Markup Language</strong>.</p><p>Thanks for visiting! Have a <em>fantastic</em> day!</p>]=]
 
 local function show(url)
     ll.SetPrimMediaParams(FACE_MEDIA, {
