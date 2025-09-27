@@ -4,7 +4,10 @@ title: Web server and MOAP
 markup_content: true
 ---
 
-## Web server and MOAP - Part II
+## Web server and MOAP - Part II (Advanced)
+
+The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23):
+<img src="images/giver.png" alt="Web server and MOAP">
 
 ### List of Sitters with auto-refresh
 
