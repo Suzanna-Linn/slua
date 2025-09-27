@@ -11,7 +11,6 @@ markup_content: true
 Displays an external webpage using Media-on-a-prim.
 
 Say the link to the webpage in public chat, starting with "http".
-
 <div class="script-box beginner">
 <h4>Media viewer</h4>
 <pre class="language-slua line-numbers"><code class="language-slua">-- Media viewer
@@ -50,7 +49,6 @@ initialize()</code></pre>
 We can set HTML code to the media face, adding "data:text/html," in front of the html code when we set the url. No headers, only the html that would go inside the <body>.
 
 The maximum length of this "url" is 1024 characters.
-
 <div class="script-box beginner">
 <h4>URL with HTML</h4>
 <p>The html string would usually be between quotes, I'm using [=[ to identify it as html for the syntax highlghter</p>
