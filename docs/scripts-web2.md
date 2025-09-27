@@ -544,4 +544,253 @@ initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
 </div>
 
+### Notecard Display
 
+Displaying a formatted notecard that we can write in Markdown, in HTML, or in a mix of both. It has a notecard with the CSS styles to use.
+
+Useful to display in public a nicely formatted info that is easy to modify, even by non-scripters.
+
+It's also useful as a HUD to send notecards that can be viewed in a beautiful and personalized way (each user can have their own favorite CSS styles), avoiding the ugly SL notecard look.
+
+There are examples in-world, including a Markdown Demo with the different markdown options. See on top of the page how to get the examples.
+
+<div class="script-box advanced">
+<h4>Notecard Display<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
+{% capture slua %}-- Notecard Display (by Suzanna Linn, 2025-09-27)
+
+local html = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  <style>
+    @STYLES@
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script> -->
+</head>
+<body>
+@CONTENT@
+</body>
+</html>
+]=]
+
+local htmlNotecardList = [=[
+  <h1>Available Notecards:</h1>
+  @LIST@
+]=]
+
+local htmlNotecard = [=[
+<form action="" method="post"><button type="submit" name="option" value="back">Back to Notecards List</button></form>
+<hr/>
+<div id="content"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+let contentBuffer = "";
+
+async function loadNotecard(line) {
+  try {
+    const response = await fetch(`notecard?name=${encodeURIComponent("@NOTECARD@")}&line=${line}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error Status: ${response.status}`);
+    }
+    const data = await response.text();
+
+    contentBuffer  += data;
+    if (data.length > 10000) {
+      loadNotecard(line + data.split("\n").length - 1);
+    } else {
+
+      // markdown-it
+      const md = window.markdownit({
+        html: true,    // Enable HTML tags in source
+        linkify: true,   // Autoconvert URL-like text to links
+        typographer: true  // Enable smartquotes and other typographic replacements
+      });
+      const htmlString = md.render(contentBuffer);
+      //
+
+      /* showdown
+      const converter = new showdown.Converter({ outputXHTML: true });
+      const htmlString = converter.makeHtml(contentBuffer);
+      */
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlString, "text/html");
+      const container = document.getElementById("content");
+      for (let node of doc.body.childNodes) {
+        container.appendChild(node);
+      }
+    }
+  } catch (err) {
+    console.error("Error loading notecard:", err);
+  }
+}
+
+window.onload = function() {
+  loadNotecard(0);
+};
+//]]>
+</script>
+]=]
+
+local FACE_MEDIA = 2
+local NOTECARD_STYLES = "style"
+
+local url = ""
+
+local notecardName = ""
+local notecardLine = 0
+local notecardText = {}
+
+local requestLineStylesId = NULL_KEY
+local requestLineNotecardId = NULL_KEY
+local requestId = NULL_KEY
+
+local function show(url)
+    ll.SetPrimMediaParams(FACE_MEDIA, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 2048,
+        PRIM_MEDIA_HEIGHT_PIXELS, 1024
+    })
+end
+
+local function readStyles()
+    local data = ""
+    repeat
+        data = ll.GetNotecardLineSync(notecardName, notecardLine)
+        if data ~= EOF then
+            if data ~= NAK then
+                table.insert(notecardText, data .. "\n")
+                notecardLine += 1
+            else
+                requestLineStylesId = ll.GetNotecardLine(notecardName, notecardLine)
+            end
+        end
+    until data == EOF or data == NAK
+    if data == EOF then
+        html = ll.ReplaceSubString(html, "@STYLES@", table.concat(notecardText), 0)
+        show(url .. "/view")
+    end
+end
+
+local function readNotecard()
+    local data = ""
+    local length = 0
+    repeat
+        data = ll.GetNotecardLineSync(notecardName, notecardLine)
+        if data ~= EOF then
+            if data ~= NAK then
+                table.insert(notecardText, data .. "\n")
+                length += #data
+                notecardLine += 1
+            else
+                requestLineNotecardId = ll.GetNotecardLine(notecardName, notecardLine)
+            end
+        end
+    until length > 10000 or data == EOF or data == NAK
+    if data ~= NAK then
+        ll.SetContentType(requestId, CONTENT_TYPE_TEXT)
+        ll.HTTPResponse(requestId, 200, table.concat(notecardText))
+    end
+end
+
+local function parseQuery(query)
+    local params = {}
+    for key, value in query:gmatch("([^&=]+)=?([^&]*)") do
+        params[ll.UnescapeURL(key)] = ll.UnescapeURL((value:gsub("+"," ")))
+    end
+    return params
+end
+
+local function notecardsList()
+    local list = {}
+    for i = 0, ll.GetInventoryNumber(INVENTORY_NOTECARD) - 1 do
+        local name = ll.GetInventoryName(INVENTORY_NOTECARD, i)
+        if name ~= NOTECARD_STYLES then
+            table.insert(list, `<form action="" method="post"><button type="submit" name="name" value="{name}">{name}</button></form>\n`)
+        end
+    end
+    local htmlList = ll.ReplaceSubString(htmlNotecardList, "@LIST@", table.concat(list), 0)
+    htmlList = ll.ReplaceSubString(html, "@CONTENT@", htmlList, 0)
+    return htmlList
+end
+
+local function initialize()
+    ll.ClearPrimMedia(FACE_MEDIA)
+    if ll.GetInventoryNumber(INVENTORY_NOTECARD) > 1 then
+        ll.RequestURL()
+        html = ll.ReplaceSubString(html, "@TITLE@", ll.GetObjectDesc(), 0)
+    else
+        ll.OwnerSay("No notecard to show")
+    end
+end
+
+function dataserver(queryid, data)
+    if queryid == requestLineStylesId then
+        readStyles()
+    elseif queryid == requestLineNotecardId then
+        readNotecard()
+    end
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        notecardName = NOTECARD_STYLES
+        notecardLine = 0
+        notecardText = {}
+        url = body
+        readStyles()
+        ll.OwnerSay(url .. "/view")
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        if path == "/notecard" then
+            requestId = id
+            local params = parseQuery(query)
+            notecardName = params.name
+            notecardLine = tonumber(params.line)
+            notecardText = {}
+            readNotecard()
+        else
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, notecardsList())
+        end
+    elseif method == "POST" then
+        local params = parseQuery(body)
+        if params.name then
+            local htmlView = ll.ReplaceSubString(htmlNotecard, "@NOTECARD@", params.name, 0)
+            htmlView = ll.ReplaceSubString(html, "@CONTENT@", htmlView, 0)
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, htmlView)
+        elseif params.option == "back" then
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, notecardsList())
+        end
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize()
+{% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
