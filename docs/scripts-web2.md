@@ -546,11 +546,15 @@ initialize(){% endcapture %}
 
 ### Notecard Display
 
-Displaying a formatted notecard that we can write in Markdown, in HTML, or in a mix of both. It has a notecard with the CSS styles to use.
+Displaying a formatted notecard that we can write in Markdown, in HTML, or in a mix of both. It has a notecard "style" with the CSS styles to use.
+
+We have to serve XHTML pages for public view, but we can use JavaScript to insert HTML code in the XHTML page.
 
 Useful to display in public a nicely formatted info that is easy to modify, even by non-scripters.
 
 It's also useful as a HUD to send notecards that can be viewed in a beautiful and personalized way (each user can have their own favorite CSS styles), avoiding the ugly SL notecard look.
+
+It uses the JavaScript library Markdown-it to convert markdown to HTML. There is also, commented, another library, Showdown, that does the same.
 
 There are examples in-world, including a Markdown Demo with the different markdown options. See on top of the page how to get the examples.
 
