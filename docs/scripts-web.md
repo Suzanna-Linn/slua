@@ -1251,3 +1251,609 @@ initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
 </div>
 
+### Form Poll
+
+Touches on a media face don't trigger touch events. The script can't know who is using the media.
+
+The three scripts with a form to enter info use different user checks:
+
+- The user enters the name, no user check.
+- The user enters the username, the script opens a menu to the user to confirm.
+- No MOAP, the script sends a link on touch (containing a random code) to open and fill in the browser.
+
+<div class="script-box intermediate">
+<h4>Form Poll, no user check<span class="extra">HTML</span><span class="extra">CSS</span></h4>
+{% capture slua %}-- Form Poll, no user check
+
+local FACE_MEDIA = 2
+
+local url = ""
+
+local htmlHeader = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  @STYLE@
+</head>
+<body>
+  @BODY@
+</body>
+</html>
+]=]
+
+local htmlStyle = [=[
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    form {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+    }
+    label {
+      font-weight: bold;
+      color: #666;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    p {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+  </style>
+]=]
+
+local htmlFruits = [=[
+  <form action="fruits" method="post">
+    <h1>Select Your Favorite Fruit</h1>
+    <label for="name">Your name:</label>
+    <input type="text" id="name" name="name" />
+    <p>Please select your favorite fruit:</p>
+      <input type="radio" id="apple" name="fruit" value="apple" />
+      <label for="apple">Apple</label>
+    <br />
+      <input type="radio" id="banana" name="fruit" value="banana" />
+      <label for="banana">Banana</label>
+    <br />
+      <input type="radio" id="orange" name="fruit" value="orange" />
+      <label for="orange">Orange</label>
+    <br />
+      <input type="radio" id="grape" name="fruit" value="grape" />
+      <label for="grape">Grape</label>
+    <br /><br />
+    <input type="submit" value="Submit" />
+  </form>
+]=]
+
+local htmlFruitsTitle = "Fruit Selection Form"
+
+local function show(url)
+    ll.SetPrimMediaParams(FACE_MEDIA, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 512,
+        PRIM_MEDIA_HEIGHT_PIXELS, 512
+    })
+end
+
+local function getPage(path)
+    local html = ""
+    if path == "/fruits" then
+        html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+        html = ll.ReplaceSubString(html, "@TITLE@", htmlFruitsTitle, 0)
+        html = ll.ReplaceSubString(html, "@BODY@", htmlFruits, 0)
+    end
+    return html
+end
+
+local function sayParams(params)
+    local paramList = {}
+    for key, value in params:gmatch("([^&=]+)=?([^&]*)") do
+        table.insert(paramList, `{ll.UnescapeURL(key)}={ll.UnescapeURL((value:gsub("+"," ")))}`)
+    end
+    ll.Say(0, `Parameters: \n{table.concat(paramList, "\n")}`)
+end
+
+
+local function initialize()
+    ll.RequestURL()
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/fruits"
+        ll.OwnerSay(url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path))
+    elseif method == "POST" then
+        sayParams(body)
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path))
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize(){% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
+<div class="script-box intermediate">
+<h4>Form Poll, user check with username and menu<span class="extra">HTML</span><span class="extra">CSS</span></h4>
+{% capture slua %}-- Form Poll, user check with username and menu
+
+local FACE_MEDIA = 2
+
+local url = ""
+
+local htmlHeader = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  @STYLE@
+</head>
+<body>
+  @BODY@
+</body>
+</html>
+]=]
+
+local htmlStyle = [=[
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    form {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+    }
+    label {
+      font-weight: bold;
+      color: #666;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    p {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+  </style>
+]=]
+
+local htmlFruits = [=[
+  <form action="fruits" method="post">
+    <h1>Select Your Favorite Fruit</h1>
+    <label for="name">Your username:</label>
+    <input type="text" id="name" name="name" />
+    <p>Please select your favorite fruit:</p>
+      <input type="radio" id="apple" name="fruit" value="apple" />
+      <label for="apple">Apple</label>
+    <br />
+      <input type="radio" id="banana" name="fruit" value="banana" />
+      <label for="banana">Banana</label>
+    <br />
+      <input type="radio" id="orange" name="fruit" value="orange" />
+      <label for="orange">Orange</label>
+    <br />
+      <input type="radio" id="grape" name="fruit" value="grape" />
+      <label for="grape">Grape</label>
+    <br /><br />
+    <input type="submit" value="Submit" />
+  </form>
+]=]
+
+local htmlFruitsTitle = "Fruit Selection Form"
+
+local menuChannel = 0
+local selection = {}
+
+local function show(url)
+    ll.SetPrimMediaParams(FACE_MEDIA, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 512,
+        PRIM_MEDIA_HEIGHT_PIXELS, 512
+    })
+end
+
+local function getPage(path)
+    local html = ""
+    if path == "/fruits" then
+        html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+        html = ll.ReplaceSubString(html, "@TITLE@", htmlFruitsTitle, 0)
+        html = ll.ReplaceSubString(html, "@BODY@", htmlFruits, 0)
+    end
+    return html
+end
+
+local function sayParams(userId, selFruit)
+    ll.OwnerSay(`Parameters:\nname={ll.GetUsername(userId)}\nfruit={selFruit}`)
+end
+
+local function parseQuery(query)
+    local params = {}
+    for key, value in query:gmatch("([^&=]+)=?([^&]*)") do
+        params[ll.UnescapeURL(key)] = ll.UnescapeURL((value:gsub("+"," ")))
+    end
+    return params
+end
+
+local function checkUser(params)
+    local userId = ll.Name2Key(params.name)
+    if userId.istruthy then
+        local selFruit = params.fruit
+        local message = "Poll Board\n\nPlease confirm that your selection of fruit is:\n" .. selFruit
+        selection[userId] = selFruit
+        ll.Dialog(userId, message, {"Yes", "No"}, menuChannel)
+    end
+end
+
+local function initialize()
+    menuChannel = tonumber(bit32.bor(integer(0x80000000), integer("0x" .. tostring(ll.GetKey()))))
+    ll.Listen(menuChannel, "", "", "")
+    selection = {}
+    ll.RequestURL()
+end
+
+function listen(channel, name, id, message)
+    if channel == menuChannel then
+        if selection[id] then
+            if message == "Yes" then
+                sayParams(id, selection[id])
+            end
+            selection[id] = nil
+        end
+    end
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/fruits"
+        ll.OwnerSay(url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path))
+    elseif method == "POST" then
+        checkUser(parseQuery(body))
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path))
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize()
+{% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
+<div class="script-box intermediate">
+<h4>Form Poll, user check with code and browser<span class="extra">HTML</span><span class="extra">CSS</span></h4>
+{% capture slua %}-- Form Poll, user check with code and browser
+
+local url = ""
+
+local htmlHeader = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  @STYLE@
+</head>
+<body>
+  @BODY@
+</body>
+</html>
+]=]
+
+local htmlStyle = [=[
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    form {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+    }
+    label {
+      font-weight: bold;
+      color: #666;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    p {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+  </style>
+]=]
+
+local htmlFruits = [=[
+  <form action="fruits" method="post">
+    <h1>Select Your Favorite Fruit, @DISPLAY_NAME@</h1>
+    <p>Please select your favorite fruit:</p>
+      <input type="radio" id="apple" name="fruit" value="apple" />
+      <label for="apple">Apple</label>
+    <br />
+      <input type="radio" id="banana" name="fruit" value="banana" />
+      <label for="banana">Banana</label>
+    <br />
+      <input type="radio" id="orange" name="fruit" value="orange" />
+      <label for="orange">Orange</label>
+    <br />
+      <input type="radio" id="grape" name="fruit" value="grape" />
+      <label for="grape">Grape</label>
+    <br /><br />
+    <input type="hidden" name="userCode" value="@USER_CODE@" />
+    <input type="submit" value="Submit" />
+  </form>
+]=]
+
+local htmlFruitsTitle = "Fruit Selection Form"
+
+local htmlThanks = [=[
+  <h1>Fantastic selection of fruit, @DISPLAY_NAME@!</h1>
+]=]
+
+local htmlThanksTitle = "Thanks for your selection"
+
+local userCodes = {}
+
+local function getUserCode()
+    local code = 0
+    repeat
+        code = tonumber(integer(ll.Frand(1000000000))) 
+    until not userCodes[code]
+    return code
+end
+
+local function parseQuery(query)
+    local params = {}
+    for key, value in query:gmatch("([^&=]+)=?([^&]*)") do
+        params[ll.UnescapeURL(key)] = ll.UnescapeURL((value:gsub("+"," ")))
+    end
+    return params
+end
+
+local function getPage(path, params)
+    local html = ""
+    local userCode = tonumber(params.userCode)
+    if userCodes[userCode] then
+        local displayName = userCodes[userCode].displayName
+        html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+        if path == "/fruits" then
+            html = ll.ReplaceSubString(html, "@TITLE@", htmlFruitsTitle, 0)
+            html = ll.ReplaceSubString(html, "@BODY@", htmlFruits, 0)
+            html = ll.ReplaceSubString(html, "@USER_CODE@", tostring(userCode), 0)
+        elseif path == "/thanks" then
+            html = ll.ReplaceSubString(html, "@TITLE@", htmlThanksTitle, 0)
+            html = ll.ReplaceSubString(html, "@BODY@", htmlThanks, 0)
+        end
+        html = ll.ReplaceSubString(html, "@DISPLAY_NAME@", displayName, 0)
+    end
+    return html
+end
+
+local function sayParams(params)
+    local paramList = {}
+    for key, value in params:gmatch("([^&=]+)=?([^&]*)") do
+        table.insert(paramList, `{ll.UnescapeURL(key)}={ll.UnescapeURL((value:gsub("+"," ")))}`)
+    end
+    ll.OwnerSay(`Parameters: \n{table.concat(paramList, "\n")}`)
+end
+
+local function initialize()
+    ll.SetText("Touch to select your favorite fruit", vector(1, 1, 1), 1)
+    userCodes = {}
+    ll.RequestURL()
+end
+
+function touch_start(num_detected)
+    local userId = ll.DetectedKey(0)
+    local userCode = getUserCode()
+    local displayName = ll.GetDisplayName(userId)
+    userCodes[userCode] = { userId = userId, displayName = displayName }
+    local urlParams = `{url}?userCode={userCode}`
+    ll.RegionSayTo(userId, 0, urlParams)
+    ll.LoadURL(userId, "please go to this link to select your fruit", urlParams)
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/fruits"
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.GetHTTPHeader(id, "x-query-string")
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path, parseQuery(query)))
+    elseif method == "POST" then
+        local userCode = tonumber(parseQuery(body).userCode)
+        if userCodes[userCode] then
+            local userInfo = userCodes[userCode]
+            ll.OwnerSay(`User: {userInfo.userId} {userInfo.displayName}`)
+            sayParams(body)
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, getPage("/thanks", parseQuery(body)))
+            userCodes[userCode] = nil
+        else
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, getPage("/fruits", parseQuery(body)))
+        end
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize(){% endcapture %}
+
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
