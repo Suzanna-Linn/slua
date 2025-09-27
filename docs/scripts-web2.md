@@ -6,9 +6,8 @@ markup_content: true
 
 ## Web server and MOAP - Part II (Advanced)
 
-The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Class Study Area)]:
+The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23):
 
-(secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23):
 <img src="images/giver.png" alt="Web server and MOAP">
 
 You are welcome to the study groups all Saturdays from 11am to 1pm slt with your questions, practices, and projects to chat about this and anything else scripting related.
