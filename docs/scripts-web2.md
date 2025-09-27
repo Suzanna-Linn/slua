@@ -9,6 +9,7 @@ markup_content: true
 ### List of Sitters with auto-refresh
 
 Similar code to the previous List of Visitors. The JavaScript requests the in-world script, to refresh the page if the list of sitters has changed.
+Using sitters instead of visitors for easier testing.
 
 <div class="script-box advanced">
 <h4>List of Sitters, auto-refresh<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
@@ -215,6 +216,318 @@ end
 
 function timer()
     getSitters()
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize(){% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
+
+### Chat Transcript
+
+Stores the public chat in linkset data and shows it in a webpage that we can copy-paste in text or save in PDF with better coloring.
+
+Useful to keep the transcript for any kind of meetings.
+
+It doesn't use MOAP, it gives a link to the owner to open in a web browser.
+
+There are two scripts, one for storing and the other for displaying.
+
+<div class="script-box advanced">
+<h4>Chat Transcript - Store<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
+{% capture slua %}-- Chat Transcript - Store script 1/2 (by Suzanna Linn, 2025-09-27)
+
+local ME = ""
+local counter = 1000
+
+local function storeMessage(name, id, message)
+    local format = ""
+    local time = ll.GetWallclock()
+    local hour = string.format("%02d:%02d", time // 3600, time % 3600 // 60)
+    if id == ME then
+        format = "m"
+        name = ll.GetDisplayName(ME)
+    else
+        if ll.GetAgentSize(id) ~= ZERO_VECTOR then
+            format = "a"
+            name = ll.GetDisplayName(id)
+        else
+            format = "o"
+            if ll.GetOwnerKey(id) == ME then
+                format = "x"
+            end
+        end
+    end
+    counter += 1
+    ll.LinksetDataWrite(tostring(counter), lljson.encode({format, hour, name, message}))
+end
+
+local function initialize()
+    counter = ll.LinksetDataCountKeys() + 1000
+    ME = ll.GetOwner()
+    ll.Listen(0, "", "", "")
+end
+
+function listen(channel, name, id, message)
+    if channel == 0 then
+        storeMessage(name, id, message)
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize(){% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
+<div class="script-box advanced">
+<h4>Chat Transcript - Display<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
+{% capture slua %}-- Chat Transcript - Display script 2/2 (by Suzanna Linn, 2025-09-27)
+
+local url = ""
+
+local html = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      color: #2196F3;
+    }
+    .classname {
+      font-style: italic;
+    }    
+
+    .line {
+      margin-bottom: 10px;
+      font-family: "Cascadia Code", "Cascadia Mono", monospace;
+    }
+    .line span {
+      white-space: pre-wrap;
+    }
+    .hour {
+      color: #808080; /* Gray */
+    }
+    .name-m {
+      color: #FF8C00; /* Dark Orange */
+    }
+    .name-a {
+      color: #9370DB; /* Medium Purple */
+    }
+    .name-o {
+      color: #87CEEB; /* Light Blue (Sky Blue) */
+      margin-right: 10px;
+    }
+    .name-x {
+      color: #FF6347; /* Red (Tomato) */
+    }
+    .text-m {
+      color: #00008B; /* Dark Blue */
+    }
+    .text-a {
+      color: #8B4513; /* Saddle Brown */
+    }
+    .text-o {
+      color: #228B22; /* Forest Green */
+    }
+    .text-x {
+      color: #000000; /* Black */
+    }
+
+    .header-bar {
+      position: sticky;
+      top: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+    .buttons {
+      margin-bottom: 20px;
+    }
+    button {
+      margin-right: 10px;
+      padding: 8px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+      background-color: #2196F3;
+      color: white;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    @media print {
+      .buttons {
+      display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="header-bar">
+  <h1 class="classname">@TITLE@</h1>
+  <div class="buttons">
+    <button onclick="window.scrollTo(0, document.body.scrollHeight)">↓ Latest</button>
+    <button onclick="window.scrollTo(0, 0)">↑ Top</button>
+    <button onclick="copyPlainText()">Copy to clipbboard</button>
+    <button onclick="scrollTopAndPrint()">Save to PDF</button>
+  </div>
+</div>
+<div id="content"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+const container = document.getElementById("content");
+
+async function loadData(nextMessage) {
+  try {
+    const response = await fetch('messages?numKey=' + nextMessage);
+    const data = await response.text();
+    const messages = JSON.parse(data);
+    for (const message of messages) {
+      if (message[0] == "") return;
+
+      const typeStr = message[0];
+      const hour = message[1];
+      let name = message[2];
+      let text = message[3];
+
+      const nameColorClass = "name-" + typeStr;
+      const textColorClass = "text-" + typeStr;
+      if (text.startsWith("/me ")) {
+        text = text.substring(3);
+      } else {
+        name += ": ";
+      }
+
+      const lineDiv = document.createElement("div");
+      lineDiv.className = "line";
+
+      const hourSpan = document.createElement("span");
+      hourSpan.className = "hour";
+      hourSpan.textContent = "[" + hour + "] ";
+
+      const nameSpan = document.createElement("span");
+      nameSpan.className = nameColorClass;
+      nameSpan.textContent = name;
+
+      const textSpan = document.createElement("span");
+      textSpan.className = textColorClass;
+      textSpan.textContent = text;
+
+      lineDiv.appendChild(hourSpan);
+      lineDiv.appendChild(nameSpan);
+      lineDiv.appendChild(textSpan);
+
+      container.appendChild(lineDiv);
+    }
+    if (messages.length > 0) {
+       loadData(nextMessage + messages.length);
+    }
+  } catch (err) {
+    console.error("Fetch error:", err);
+  }
+}
+
+function copyPlainText() {
+  const content = document.getElementById("content");
+  const text = content.innerText || content.textContent;
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  try {
+    const success = document.execCommand("copy");
+    alert(success ? "Text copied to clipboard." : "Failed to copy text.");
+  } catch (err) {
+    alert("Fallback copy failed: " + err);
+  }
+  document.body.removeChild(textarea);
+}
+
+function scrollTopAndPrint() {
+  window.scrollTo(0, 0);
+  setTimeout(() => {
+    window.print();
+  }, 200);
+}
+
+window.onload = function() {
+  loadData(0);
+};
+//]]>
+</script>
+</body>
+</html>
+]=]
+
+local function initialize()
+    ll.RequestURL()
+    html = ll.ReplaceSubString(html, "@TITLE@", ll.GetObjectDesc(), 0)
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body
+        ll.OwnerSay(url .. "/chat")
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        if path == "/chat" then
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, html)
+        elseif path == "/messages" then
+            local numKey = tonumber(query:split("=")[2])
+            local totalKeys = ll.LinksetDataCountKeys()
+            local data = {}
+            local length = 0
+            while numKey < totalKeys and length < 10000 do
+                local lKey = ll.LinksetDataListKeys(numKey, 1)[1]
+                local lValue = ll.LinksetDataRead(lKey)
+                table.insert(data, lljson.decode(lValue))
+                length += #lValue
+                numKey += 1
+            end
+            if numKey == totalKeys then
+                table.insert(data, {"", "", "", ""})
+            end
+            ll.SetContentType(id, CONTENT_TYPE_TEXT)
+            ll.HTTPResponse(id, 200, lljson.encode(data))
+        end
+    end
 end
 
 function on_rez(start_param)
