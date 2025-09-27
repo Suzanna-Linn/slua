@@ -556,7 +556,7 @@ It's also useful as a HUD to send notecards that can be viewed in a beautiful an
 
 It uses the JavaScript library Markdown-it to convert markdown to HTML. There is also, commented, another library, Showdown, that does the same.
 
-There are examples in-world, including a Markdown Demo with the different markdown options. See on top of the page how to get the examples.
+There are examples in-world, including a Markdown Demo with the different markdown options. Info on how to get the examples is on top of the page.
 
 <div class="script-box advanced">
 <h4>Notecard Display<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
@@ -798,3 +798,313 @@ initialize()
 {% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
 </div>
+
+### Notecard website
+
+This is an evolution of the previous script. It's useful to make a website with several pages, each one in a notecard.
+
+The notecards can have Markdown and HTML as before, and also JavaScript in <script> tags in the HTML.
+
+There is also a notecard "style" with the CSS.
+
+And another notecard "layout" with the common layout for all the pages. This notecard has the elements common to all the pages, like headers, menus, scripts, and so on. It must have a placeholder, @CONTENT@, to insert each page.
+
+The website must have a notecard "index" with the home page.
+
+There is an example in-world. Info on how to get the examples is on top of the page.
+
+The example layout has a menu with buttons to allow independent navigation for each user. It also has, commented, the menu with links to show the same page to everyone. It also has a button and a script for light/dark mode.
+
+There are two scripts, because of memory limits.
+
+<div class="script-box advanced">
+<h4>Notecards Website, Initialization<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
+{% capture slua %}-- Notecards Website, Initialization script 1/2 (by Suzanna Linn, 2025-09-27)
+
+local html = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  <style>
+    @STYLES@
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+  // <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+</head>
+<body>
+
+<div id="content"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+let contentBuffer = "";
+
+async function loadNotecard(line) {
+  try {
+    const response = await fetch(`notecard?name=${encodeURIComponent("@NOTECARD@")}&line=${line}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error Status: ${response.status}`);
+    }
+    const data = await response.text();
+
+    contentBuffer  += data;
+    if (data.length > 10000) {
+      loadNotecard(line + data.split("\n").length - 1);
+    } else {
+
+      // markdown-it
+      const md = window.markdownit({
+        html: true,    // Enable HTML tags in source
+        linkify: true,   // Autoconvert URL-like text to links
+        typographer: true  // Enable smartquotes and other typographic replacements
+      });
+      const htmlString = md.render(contentBuffer);
+      //
+
+      /* showdown
+      const converter = new showdown.Converter({ outputXHTML: true });
+      const htmlString = converter.makeHtml(contentBuffer);
+      */
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlString, "text/html");
+      const container = document.getElementById("content");
+      for (let node of doc.body.childNodes) {
+        if (node.tagName === "SCRIPT") {
+          const script = document.createElement("script");
+          script.textContent = node.textContent;
+          document.body.appendChild(script);
+        } else {
+          container.appendChild(node);
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Error loading notecard:", err);
+  }
+}
+
+window.onload = function() {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+  }
+  loadNotecard(0);
+};
+//]]>
+</script>
+</body>
+</html>
+]=]
+
+local NOTECARD_STYLES = "style"
+local NOTECARD_LAYOUT = "layout"
+
+local notecardName = ""
+local notecardLine = 0
+local notecardText = {}
+
+local requestLineStylesId = NULL_KEY
+local requestLineLayoutId = NULL_KEY
+
+local readLayout
+
+local function readStyles()
+    local data = ""
+    repeat
+        data = ll.GetNotecardLineSync(notecardName, notecardLine)
+        if data ~= EOF then
+            if data ~= NAK then
+                table.insert(notecardText, data .. "\n")
+                notecardLine += 1
+            else
+                requestLineStylesId = ll.GetNotecardLine(notecardName, notecardLine)
+            end
+        end
+    until data == EOF or data == NAK
+    if data == EOF then
+        html = ll.ReplaceSubString(html, "@STYLES@", table.concat(notecardText), 0)
+        ll.LinksetDataWrite("XHTML", html)
+        html = ""
+        notecardName = NOTECARD_LAYOUT
+        notecardLine = 0
+        notecardText = {}
+        readLayout()
+    end
+end
+
+function readLayout()
+    local data = ""
+    repeat
+        data = ll.GetNotecardLineSync(notecardName, notecardLine)
+        if data ~= EOF then
+            if data ~= NAK then
+                table.insert(notecardText, data .. "\n")
+                notecardLine += 1
+            else
+                requestLineLayoutId = ll.GetNotecardLine(notecardName, notecardLine)
+            end
+        end
+    until data == EOF or data == NAK or data:find("@CONTENT@", 1, true)
+    if data ~= NAK then
+        if data ~= EOF then
+            local startPos, endPos = data:find("@CONTENT@", 1, true)
+            notecardText[#notecardText] = data:sub(1, startPos - 1)
+            ll.LinksetDataWrite("LAYOUT1", table.concat(notecardText))
+            notecardText = {}
+            table.insert(notecardText, data:sub(endPos + 1))
+            readLayout()
+        else
+            ll.LinksetDataWrite("LAYOUT2", table.concat(notecardText))
+        end
+    end
+end
+
+local function initialize()
+    html = ll.ReplaceSubString(html, "@TITLE@", ll.GetObjectDesc(), 0)
+    notecardName = NOTECARD_STYLES
+    notecardLine = 0
+    notecardText = {}
+    readStyles()
+end
+
+function dataserver(queryid, data)
+    if queryid == requestLineStylesId then
+        readStyles()
+    elseif queryid == requestLineLayoutId then
+        readLayout()
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize(){% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
+<div class="script-box advanced">
+<h4>Notecards Website, Execution<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
+{% capture slua %}-- Notecards Website, Execution script 2/2 (by Suzanna Linn, 2025-09-27)
+
+local FACE_MEDIA = 2
+local NOTECARD_INDEX = "index"
+
+local url = ""
+
+local notecardName = ""
+local notecardLine = 0
+local notecardText = {}
+
+local requestLineNotecardId = NULL_KEY
+local requestId = NULL_KEY
+
+local function show(url)
+    ll.SetPrimMediaParams(FACE_MEDIA, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 2048,
+        PRIM_MEDIA_HEIGHT_PIXELS, 1024
+    })
+end
+
+local function readNotecard()
+    local data = ""
+    local length = 0
+    repeat
+        data = ll.GetNotecardLineSync(notecardName, notecardLine)
+        if data ~= EOF then
+            if data ~= NAK then
+                table.insert(notecardText, data .. "\n")
+                length += #data
+                notecardLine += 1
+            else
+                requestLineNotecardId = ll.GetNotecardLine(notecardName, notecardLine)
+            end
+        end
+    until length > 10000 or data == EOF or data == NAK
+    if data ~= NAK then
+        if data == EOF and #notecardText > 0 then
+            table.insert(notecardText, ll.LinksetDataRead("LAYOUT2"))
+        end
+        ll.SetContentType(requestId, CONTENT_TYPE_TEXT)
+        ll.HTTPResponse(requestId, 200, table.concat(notecardText))
+    end
+end
+
+local function parseQuery(query)
+    local params = {}
+    for key, value in query:gmatch("([^&=]+)=?([^&]*)") do
+        params[ll.UnescapeURL(key)] = ll.UnescapeURL((value:gsub("+"," ")))
+    end
+    return params
+end
+
+local function initialize()
+    ll.ClearPrimMedia(FACE_MEDIA)
+    ll.Sleep(1)
+    ll.RequestURL()
+end
+
+function dataserver(queryid, data)
+    if queryid == requestLineNotecardId then
+        readNotecard()
+    end
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body
+        show(url .. "/" .. NOTECARD_INDEX)
+        ll.OwnerSay(url .. "/" .. NOTECARD_INDEX)
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        if path == "/notecard" then
+            requestId = id
+            local params = parseQuery(query)
+            notecardName = params.name
+            notecardLine = tonumber(params.line)
+            notecardText = {}
+            table.insert(notecardText, ll.LinksetDataRead("LAYOUT1"))
+            readNotecard()
+        else
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, ll.ReplaceSubString(ll.LinksetDataRead("XHTML"), "@NOTECARD@", path:sub(2), 0))
+        end
+    elseif method == "POST" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, ll.ReplaceSubString(ll.LinksetDataRead("XHTML"), "@NOTECARD@", parseQuery(body).page, 0))
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize(){% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
+
