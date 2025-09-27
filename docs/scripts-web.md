@@ -406,7 +406,7 @@ Four scripts showing a list of the visitors in the region with progressive impro
 - HTML only, no styling (looks ugly).
 - HTML and CSS styling.
 - Multipage single view (index, visitors and language) using links. When a page is changed, it changes in all the viewers.
-- Multipage multi view using buttons. Viewers have indenpendent navigation, each one can be in a different page.
+- Multipage multi view using buttons. Viewers have independent navigation, each one can be in a different page.
 
 <div class="script-box intermediate">
 <h4>List of visitors, single page, no styling<span class="extra">HTML</span></h4>
@@ -665,8 +665,8 @@ initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
-<p>Links send GET requests and change the media URL</p>
 <h4>List of visitors, multipage, single view, CSS styling<span class="extra">HTML</span><span class="extra">CSS</span></h4>
+<p>Links send GET requests and change the media URL</p>
 {% capture slua %}-- List of visitors, multipage, single view, CSS styling
 
 local FACE_MEDIA = 2
