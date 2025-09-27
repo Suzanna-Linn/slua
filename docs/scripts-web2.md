@@ -10,7 +10,7 @@ The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Cla
 
 <img src="images/giver.png" alt="Web server and MOAP">
 
-You are welcome to the study groups all Saturdays from 11am to 1pm slt with your questions, practices, and projects to chat about this and anything else scripting related.
+You are welcome to the Study Groups all Saturdays from 11AM to 1PM SLT with your questions, practices, and projects to chat about this and anything else scripting related.
 
 ### List of Sitters with auto-refresh
 
