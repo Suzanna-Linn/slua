@@ -49,8 +49,7 @@ The maximum length of this "url" is 1024 characters.
 <h4>URL with HTML</h4>
 <p>The html string would usually be between quotes, I'm using [=[ to identify it as html for the syntax highlghter</p>
 
-{% capture lua_code %}
--- using HTML in the URL
+{% capture lua_code %}-- using HTML in the URL
 
 local DATA_URL = "data:text/html,"
 local FACE_MEDIA = 2
@@ -73,8 +72,7 @@ local function show(url)
     })
 end
 
-show(DATA_URL .. html)
-{% endcapture %}
+show(DATA_URL .. html){% endcapture %}
 
 <pre class="language-slua line-numbers"><code class="language-slua">{{ lua_code | escape }}</code></pre>
 </div>
