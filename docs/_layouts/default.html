@@ -30,6 +30,12 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 
+  {% if page.markup_content %}
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+  {% endif %}
+
   <script src="/slua/assets/language-slua.js"></script>
   <script src="/slua/assets/language-lsl.js"></script>
 
