@@ -6,7 +6,7 @@ markup_content: true
 
 ## Web server and MOAP - Part I (Basics)
 
-The objects with these scripts are available at [SLua Yardang (SLua Class Study Area) 178,2,23](secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23), touch the red cylinder:
+The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23):
 <img src="images/giver.png" alt="Web server and MOAP">
 
 ### Media viewer
