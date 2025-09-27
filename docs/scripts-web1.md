@@ -4,7 +4,10 @@ title: Web server and MOAP
 markup_content: true
 ---
 
-## Web server and MOAP - Part I
+## Web server and MOAP - Part I (Basics)
+
+The objects with these scripts are available at SLua Yardang, touch the red cylinder:
+<img src="images/giver.jpg" alt="Web server and MOAP">
 
 ### Media viewer
 
