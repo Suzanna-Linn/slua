@@ -7,7 +7,7 @@ Displaying an external webpage using Media-on-a-prim.
 Say the link to the webpage in public chat, starting with "http".
 
 <div class="script-box beginner">
-<h4><Media viewer/h4>
+<h4>Media viewer</h4>
 <pre class="language-slua line-numbers"><code class="language-slua">-- Media viewer
 
 local FACE_MEDIA = 2
@@ -37,5 +37,4 @@ function listen(channel, name, id, message)
 end
 
 initialize()</code></pre>
-</td></tr></table>
 </div>
