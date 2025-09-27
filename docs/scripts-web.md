@@ -206,10 +206,12 @@ Each face with media needs its own web browser instance.
 
 In the script, when we use an in-world URL, its http_request is triggered once for each avatar looking at it. If nobody is looking http_request is not be triggered.
 
-The next scripts request a new random quote from an external server at owner's touch. The first scripts shows the same quote to everyone, the second one shows a different quote to each viewer or internal/external browser using the link.
+The next scripts request a new random quote from an external server at owner's touch. The first script shows the same quote to everyone, the second one shows a different quote to each viewer or internal/external browser using the link.
 
 <div class="script-box intermediate">
 <h4>Random quotes: single view<span class="extra">HTML</span></h4>
+<p4>Requesting the quote on touch, serving the same one</p4>
+<p4>It adds a time to the media URL that is not used, but we need to set a different URL to make it reload</p4>
 {% capture slua %}-- Random quotes (single view)
 
 local url = ""
@@ -303,6 +305,7 @@ initialize(){% endcapture %}
 </div>
 <div class="script-box intermediate">
 <h4>Random quotes: multi view<span class="extra">HTML</span></h4>
+<p4>Requesting the quote on request, serving different ones</p4>
 {% capture slua %}-- Random quotes (multi view)
 
 local url = ""
