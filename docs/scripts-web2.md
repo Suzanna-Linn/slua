@@ -950,7 +950,7 @@ function readLayout()
     if data ~= NAK then
         if data ~= EOF then
             local startPos, endPos = data:find("@CONTENT@", 1, true)
-            notecardText[#notecardText] = data:sub(1, startPos - 1)
+            notecardText[#notecardText] = data:sub(1, startPos - 1) .. "\n"
             ll.LinksetDataWrite("LAYOUT1", table.concat(notecardText))
             notecardText = {}
             table.insert(notecardText, data:sub(endPos + 1))
