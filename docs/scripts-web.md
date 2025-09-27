@@ -514,7 +514,7 @@ initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
-<h4>-- List of visitors, single page, CSS styling<span class="extra">HTML</span><span class="extra">CSS</span></h4>
+<h4>List of visitors, single page, CSS styling<span class="extra">HTML</span><span class="extra">CSS</span></h4>
 {% capture slua %}-- List of visitors, single page, CSS styling
 
 local FACE_MEDIA = 2
