@@ -50,7 +50,7 @@ We can set HTML code to the media face, adding "data:text/html," in front of the
 
 The maximum length of this "url" is 1024 characters.
 <div class="script-box beginner">
-<h4>URL with HTML</h4>
+<h4>URL with HTML<span class="extra">HTML</span></h4>
 <p>The html string would usually be between quotes, I'm using [=[ to identify it as html for the syntax highlghter</p>
 
 {% capture slua %}-- using HTML in the URL
@@ -87,7 +87,7 @@ URL's are assigned to the script and stop working when the script is reset or it
 
 We use XHTML because pages served as HTML are only visible to the owner of the object, to other people or opening the link in a web browser shows the HTML code.
 <div class="script-box intermediate">
-<h4>Notecard display</h4>
+<h4>Notecard display<span class="extra">HTML</span></h4>
 <p>Names between @...@ in the XHTML are to be replaced with generated XHTML code before serving the page</p>
 {% capture slua %}-- Notecard display
 
