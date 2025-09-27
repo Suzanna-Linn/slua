@@ -805,7 +805,7 @@ initialize()
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
 </div>
 
-### Notecard website
+### Notecard Website
 
 This is an evolution of the previous script. It's useful to make a website with several pages, each one in a notecard.
 
