@@ -1857,3 +1857,304 @@ initialize(){% endcapture %}
 
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
 </div>
+
+### Form Event
+
+A script using most of the controls available in HTML Forms
+
+<div class="script-box intermediate">
+<h4>Form Event with variety of controls<span class="extra">HTML</span><span class="extra">CSS</span></h4>
+{% capture slua %}-- Form Event with variety of controls
+
+local FACE_MEDIA = 2
+
+local url = ""
+
+local htmlHeader = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  @STYLE@
+</head>
+<body>
+  @BODY@
+</body>
+</html>
+]=]
+
+local htmlStyle = [=[
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden; /* Ensure no scrollbars appear on body */
+    }
+
+    .form-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      box-sizing: border-box;
+      overflow: auto; /* Allow scrolling if content overflows */
+      max-height: 90vh; /* Limit maximum height */
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"],
+    .form-group input[type="date"],
+    .form-group input[type="time"],
+    .form-group input[type="url"],
+    .form-group input[type="tel"],
+    .form-group input[type="password"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    .form-group input[type="file"] {
+      padding: 5px;
+    }
+
+    .form-group input[type="radio"],
+    .form-group input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .form-group button {
+      width: 100%;
+      padding: 12px;
+      background-color: #ff7e5f;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-group button:hover {
+      background-color: #feb47b;
+    }
+  </style>
+]=]
+
+local htmlEvents = [=[
+  <div class="form-container">
+    <h2>Event Registration Form</h2>
+    <form action="events" method="post">
+      <!-- Text Input -->
+      <div class="form-group">
+        <label for="eventName">Event Name:</label>
+        <input type="text" id="eventName" name="eventName" required="required" />
+      </div>
+      <!-- Email Input -->
+      <div class="form-group">
+        <label for="email">Contact Email:</label>
+        <input type="email" id="email" name="email" />
+      </div>
+      <!-- Password Input -->
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" />
+      </div>
+      <!-- Number Input -->
+      <div class="form-group">
+        <label for="attendees">Number of Attendees:</label>
+        <input type="number" id="attendees" name="attendees" min="1" max="5000" />
+      </div>
+      <!-- Date Input -->
+      <div class="form-group">
+        <label for="eventDate">Event Date:</label>
+        <input type="date" id="eventDate" name="eventDate" />
+      </div>
+      <!-- Time Input -->
+      <div class="form-group">
+        <label for="eventTime">Event Time:</label>
+        <input type="time" id="eventTime" name="eventTime" />
+      </div>
+      <!-- URL Input -->
+      <div class="form-group">
+        <label for="eventWebsite">Event Website:</label>
+        <input type="url" id="eventWebsite" name="eventWebsite" />
+      </div>
+      <!-- Telephone Input -->
+      <div class="form-group">
+        <label for="contactNumber">Contact Number:</label>
+        <input type="tel" id="contactNumber" name="contactNumber" />
+      </div>
+      <!-- File Input -->
+      <div class="form-group">
+        <label for="eventBanner">Event Banner:</label>
+        <input type="file" id="eventBanner" name="eventBanner" />
+      </div>
+      <!-- Radio Buttons -->
+      <div class="form-group">
+        <label>Event Type:</label>
+        <input type="radio" id="online" name="eventType" value="Online" />
+        <label for="online">Online</label>
+        <input type="radio" id="offline" name="eventType" value="Offline" />
+        <label for="offline">Offline</label>
+      </div>
+      <!-- Checkbox -->
+      <div class="form-group">
+        <label>Additional Services:</label>
+        <input type="checkbox" id="catering" name="services" value="Catering" />
+        <label for="catering">Catering</label>
+        <input type="checkbox" id="photography" name="services" value="Photography" />
+        <label for="photography">Photography</label>
+        <input type="checkbox" id="soundSystem" name="services" value="Sound System" />
+        <label for="soundSystem">Sound System</label>
+      </div>
+      <!-- Dropdown -->
+      <div class="form-group">
+        <label for="eventLocation">Event Location:</label>
+        <select id="eventLocation" name="eventLocation">
+          <option value="europe">Europe</option>
+          <option value="america">America</option>
+          <option value="asia">Asia</option>
+          <option value="africa">Africa</option>
+          <option value="oceania">Oceania</option>
+        </select>
+      </div>
+      <!-- Range Slider -->
+      <div class="form-group">
+        <label for="budget">Event Budget:</label>
+        <input type="range" id="budget" name="budget" min="500" max="50000" step="500" value="5000" />
+      </div>
+      <!-- Color Picker -->
+      <div class="form-group">
+        <label for="themeColor">Event Theme Color:</label>
+        <input type="color" id="themeColor" name="themeColor" value="#ff5733" />
+      </div>
+      <!-- Textarea -->
+      <div class="form-group">
+        <label for="eventDescription">Event Description:</label>
+        <textarea id="eventDescription" name="eventDescription"></textarea>
+      </div>
+      <!-- Submit Button -->
+      <div class="form-group">
+        <button type="submit">Register Event</button>
+        <button type="reset">Reset Form</button>
+      </div>
+    </form>
+  </div>
+]=]
+
+local htmlEventsTitle = "Event Registration Form"
+
+local htmlThanks = [=[
+  <h1>Thanks for registering the event</h1>
+]=]
+
+local htmlThanksTitle = "Thanks for your info"
+
+local function show(url)
+    ll.SetPrimMediaParams(FACE_MEDIA, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true
+    })
+end
+
+local function getPage(path, params)
+    local html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+    if path == "/events" then
+        html = ll.ReplaceSubString(html, "@TITLE@", htmlEventsTitle, 0)
+        html = ll.ReplaceSubString(html, "@BODY@", htmlEvents, 0)
+    elseif path == "/thanks" then
+        html = ll.ReplaceSubString(html, "@TITLE@", htmlThanksTitle, 0)
+        html = ll.ReplaceSubString(html, "@BODY@", htmlThanks, 0)
+    end
+    return html
+end
+
+local function sayParams(params)
+    local paramList = {}
+    for key, value in params:gmatch("([^&=]+)=?([^&]*)") do
+        table.insert(paramList, `{ll.UnescapeURL(key)}={ll.UnescapeURL((value:gsub("+"," ")))}`)
+    end
+    ll.Say(0, `Parameters: \n{table.concat(paramList, "\n")}`)
+end
+
+local function initialize()
+    ll.RequestURL()
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/events"
+        ll.Say(0, url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.GetHTTPHeader(id, "x-query-string")
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path, query))
+    elseif method == "POST" then
+        sayParams(body)
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage("/thanks", body))
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize(){% endcapture %}
+<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+</div>
+
