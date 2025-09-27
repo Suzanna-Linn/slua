@@ -559,7 +559,7 @@ It's also useful as a HUD to send notecards that can be viewed in a beautiful an
 
 It uses the JavaScript library Markdown-it to convert markdown to HTML. There is also, commented, another library, Showdown, that does the same.
 
-There are examples in-world, including a Markdown Demo with the different markdown options. See on top of the page how to get the examples.
+There are examples in-world, including a Markdown Demo with the different markdown options. Info on how to get the examples is on top of the page.
 
 <div class="script-box advanced">
 <h4>Notecard Display<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
