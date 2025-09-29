@@ -1,0 +1,246 @@
+-- Multiple returns
+local function getInfo(name)
+    -- do something
+    return infoColor, infoShape
+end
+
+local color, shape = getInfo("Dufa")
+
+local color = getInfo("Dufa")  -- infoShape is discarded
+
+local color, shape, age = getInfo("Dufa")  -- age gets nil
+
+
+-- Multiple returns
+local function divide(a, b)
+    local q = math.floor(a / b)
+    local r = a % b
+    return q, r
+end
+
+local quotient, remainder = divide(17, 5)
+
+
+-- WRONG!!!
+-- when the function is last in the list only the first parameter is taken
+local quotient, remainder, greet = divide(17, 5), "hello"
+
+
+-- WRONG!!!
+-- Multiple returns checking for 0
+local function divide(a, b)
+    if b ~= 0 then
+        local q = math.floor(a / b)
+        local r = a % b
+        return q, r
+    end
+end
+
+ll.OwnerSay(tostring(divide(10, 0)))
+-- run time error, the function returns nothing, not nil
+
+
+-- Multiple returns checking for 0
+local function divide(a, b)
+    if b ~= 0 then
+        local q = math.floor(a / b)
+        local r = a % b
+        return q, r
+    end
+end
+
+ll.OwnerSay(tostring((divide(10, 0))))  -- nil
+-- "adjusting" the return with () produces one value (even is there is none), nil in this case
+-- or adding   return nil, nil   at the end of the function
+
+
+-- WRONG!!!
+local greet = "Hello World"
+ll.OwnerSay(0, greet:gsub("World", "SecondLife"))
+-- string:gsub() returns the resulting string and the number of substitutions
+-- LL functions don't discard extra parameters as Lua functions do
+
+local greet = "Hello World"
+ll.OwnerSay(0, (greet:gsub("World", "SecondLife")))
+-- same as before, "adjusting" the return with () produces one value
+
+
+-- Optional parameters
+local function setInfo( name, color, shape )
+    -- do something
+end
+setInfo( "Dufa", "white" )
+
+
+-- Optional parameters
+local function greet(name, punctuation)
+    name = name or "stranger"
+    punctuation = punctuation or "!"
+    return "Hello, " .. name .. punctuation
+end
+
+print(greet())                     -- Hello, stranger!
+print(greet("Alice"))              -- Hello, Alice!
+print(greet("Bob", " :)"))         -- Hello, Bob :)
+
+
+-- Variadic parameters with table constructor
+local function sumAll(...)
+    local total = 0
+    for i, v in ipairs({...}) do
+        total = total + v
+    end
+    return total
+end
+
+print(sumAll(5, 10, 15, 20))  -- 50
+print(sumAll())               -- 0
+
+
+-- Variadic parameters with table pack
+function sumAll(...)
+    local args = table.pack(...)
+    local total = 0
+    for i = 1, args.n do
+        local v = args[i]
+        if v then
+            total = total + v
+        end
+    end
+    return total
+end
+
+print(sumAll(1, nil, 4)) -- 5
+
+
+-- Variadic parameters with select
+local function sendMessage(message, ...)
+    local count = select("#", ...)
+    if count == 0 then
+        ll.Say(0, message)
+    else
+        for i = 1, count do
+            local avatarId = select(i, ...)
+            ll.InstantMessage(avatarId, message)
+        end
+    end
+    return count
+end
+
+sendMessage("Hello everyone!")
+sendMessage("Hello friends!", avatar1, avatar2)
+
+
+-- Named parameters
+function setPrimProperties(params)
+    local primId = params.primId
+    local color = params.color or vector(1, 1, 1)
+    local size = params.size or vector(0.5, 0.5, 0.5)
+    local shiny = params.shiny or false
+    local message = params.message
+
+    -- do something
+    if message then
+        ll.Say(0, message)
+    end
+end
+
+setPrimProperties{ primId="cube1", color="red", size={2,1,1} }
+setPrimProperties{ primId="cube2", shiny=true, message="Shiny cube!" }
+setPrimProperties{ primId="cube3" }
+
+
+-- Named and fixed parameters
+function setPrimProperties(params)
+    local primId = params.primId or params[1]
+    local color = params.color or vector(1, 1, 1)
+    local size = params.size or vector(0.5, 0.5, 0.5)
+    local shiny = params.shiny or false
+    local message = params.message
+
+    -- do something
+    if message then
+        ll.Say(0, message)
+    end
+end
+
+setPrimProperties{ primId="cube1", color="red", size={2,1,1} }
+setPrimProperties{ "cube2", shiny=true, message="Shiny cube!" }
+setPrimProperties{ "cube3" }
+
+
+-- Assigned to a variable
+local greet = function(name)
+    return "Hello, " .. name .. "!"
+end
+
+
+-- Callback
+callbacks = {}
+
+function dataserver(queryid, data)
+    if callbacks[queryid] then
+        callbacks[queryid] = nil
+        callbacks[queryid](data)
+    else
+        --
+    end
+end
+
+function sayOnline(data)
+    ll.Say(if data == "1" then "is Online" else "is Offline")
+end
+
+callbacks[ll.RequestAgentData(avatarId, DATA_ONLINE)] = sayOnline
+
+
+-- Callback with anonymous function
+callbacks = {}
+
+function dataserver(queryid, data)
+    if callbacks[queryid] then
+        callbacks[queryid] = nil
+        callbacks[queryid](data)
+    else
+        --
+    end
+end
+
+callbacks[ll.RequestAgentData(avatarId, DATA_ONLINE)] = function(data)
+    ll.Say(if data == "1" then "is Online" else "is Offline")
+end
+
+
+-- Table of functions as "switch" instead of if-elseif chain
+local calculator = {
+    add = function(a, b) return a + b end,
+    subtract = function(a, b) return a - b end,
+    multiply = function(a, b) return a * b end,
+    divide = function(a, b)
+        if b == 0 then return nil, "Division by zero" end
+        return a / b
+    end,
+    power = function(a, b) return a ^ b end,
+    modulo = function(a, b)
+        if b == 0 then return nil, "Modulo by zero" end
+        return a % b
+    end
+}
+
+function executeCalc(command, a, b)
+    local func = calculator[command]
+    if func then
+        local result, err = func(a, b)
+        if err then
+            print("Error:", err)
+        else
+            print(command, "of", a, "and", b, "is", result)
+        end
+    else
+        print("Unknown command:", command)
+    end
+end
+
+executeCalc("add", 5, 3) -- add of 5 and 3 is 8
+executeCalc("power", 2, 8) -- power of 2 and 8 is 256
+executeCalc("foo", 1, 2) -- Unknown command: foo
