@@ -1,0 +1,136 @@
+
+-- Funny Lua program: Alien performance
+
+function joke()
+	print("😂 Knock knock.")
+	print("...Who's there?")
+	print("Alien.")
+	print("Alien who?")
+	print("Alien-ate all your snacks already!")
+end
+
+function calculatePi()
+	local pi = 3.14159265359
+	print("🧮 Did you know Pi is approximately " .. pi .. "? I ate half of it already.")
+end
+
+function sleep()
+	for i = 3, 1, -1 do
+		print("💤 Entering sleep mode in " .. i .. "...")
+	end
+	print("🤖 Zzzzz...")
+end
+
+function perform(command)
+	if command == "sing" then
+		print("🎵 La-la-la... my alien karaoke will melt your ears.")
+	elseif command == "joke" then
+		joke()
+	elseif command == "math" then
+		calculatePi()
+	elseif command == "spaceship" then
+		print("🛸 Beam me up, Scotty... oops, wrong universe!")
+	elseif command == "sleep" then
+		sleep()
+	else
+		print("👽 I do not understand '" .. command .. "'. Did you mean 'take me to your leader'?")
+	end
+end
+
+print("Greetings, Earthling! What shall I do for you?")
+print("Options: sing, joke, math, spaceship, sleep")
+ll.Listen(0, "", ll.GetOwner(), "")
+
+function listen(channel, name, id, message)
+	perform(message)
+end
+
+
+
+-- Funny Lua program: Alien performance (table of functions version)
+
+local actions = {
+    sing = function()
+        print("🎵 La-la-la... my alien karaoke will melt your ears.")
+    end,
+
+    joke = function()
+        print("😂 Knock knock.")
+        print("...Who's there?")
+        print("Alien.")
+        print("Alien who?")
+        print("Alien-ate all your snacks already!")
+    end,
+
+    math = function()
+        local pi = 3.14159265359
+        print("🧮 Did you know Pi is approximately " .. pi .. "? I ate half of it already.")
+    end,
+
+    spaceship = function()
+        print("🛸 Beam me up, Scotty... oops, wrong universe!")
+    end,
+
+    sleep = function()
+        for i = 3, 1, -1 do
+            print("💤 Entering sleep mode in " .. i .. "...")
+        end
+        print("🤖 Zzzzz...")
+    end
+}
+
+local function perform(command)
+    local action = actions[command]
+    if action then
+        action()
+    else
+        print("👽 I do not understand '" .. command .. "'. Did you mean 'take me to your leader'?")
+    end
+end
+
+print("Greetings, Earthling! What shall I do for you?")
+print("Options: sing, joke, math, spaceship, sleep")
+ll.Listen(0, "", ll.GetOwner(), "")
+
+function listen(channel, name, id, message)
+    perform(message)
+end
+
+
+
+-- absurdly complicated function
+
+function mixText(str1, str2, opts,...)
+    opts = opts or {}
+    local sep, upper = opts.sep or "-", opts.upper
+    local extras = table.concat({...}, sep)
+    local combined = str1 .. sep .. str2 .. if extras ~= "" then sep .. extras else ""
+    if upper then combined = combined:upper() end
+    return combined, #combined, extras
+end
+
+print(mixText("hello", "world"))                          -- hello-world 11
+print(mixText("hello", "world", {upper = true}))          -- HELLO-WORLD 11
+print(mixText("foo", "bar", {sep = ":"}, "extra", "text")) -- foo:bar:extra:text 18 extra:text
+
+
+
+-- List of items of some types in the object contents and its quantity.
+-- With a variadic parameter with types of inventory items (for instance, we can ask for scripts and notecards).
+-- And returning two values: an array with the names of the items found, and a total of them.
+-- The variadic parameter can have no parameter. In this case the function returns the names of all the items.
+
+function findItemsByType(...)
+    local types = if select("#", ...) == 0 then { INVENTORY_ALL } else { ... }
+    local found = {}
+    for _, type in types do
+        for i = 0, ll.GetInventoryNumber(type) - 1 do
+            local name = ll.GetInventoryName(type, i)
+            table.insert(found, name)
+        end
+    end
+    return found, #found
+end
+
+print( table.concat( findItemsByType(), ", " ) )
+print( table.concat( findItemsByType( INVENTORY_SCRIPT ), ", " ) )
