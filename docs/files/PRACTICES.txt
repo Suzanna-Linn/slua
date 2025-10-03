@@ -1,136 +1,124 @@
-
--- Funny Lua program: Alien performance
-
-function joke()
-	print("😂 Knock knock.")
-	print("...Who's there?")
-	print("Alien.")
-	print("Alien who?")
-	print("Alien-ate all your snacks already!")
-end
-
-function calculatePi()
-	local pi = 3.14159265359
-	print("🧮 Did you know Pi is approximately " .. pi .. "? I ate half of it already.")
-end
-
-function sleep()
-	for i = 3, 1, -1 do
-		print("💤 Entering sleep mode in " .. i .. "...")
-	end
-	print("🤖 Zzzzz...")
-end
-
-function perform(command)
-	if command == "sing" then
-		print("🎵 La-la-la... my alien karaoke will melt your ears.")
-	elseif command == "joke" then
-		joke()
-	elseif command == "math" then
-		calculatePi()
-	elseif command == "spaceship" then
-		print("🛸 Beam me up, Scotty... oops, wrong universe!")
-	elseif command == "sleep" then
-		sleep()
-	else
-		print("👽 I do not understand '" .. command .. "'. Did you mean 'take me to your leader'?")
-	end
-end
-
-print("Greetings, Earthling! What shall I do for you?")
-print("Options: sing, joke, math, spaceship, sleep")
-ll.Listen(0, "", ll.GetOwner(), "")
-
-function listen(channel, name, id, message)
-	perform(message)
-end
+-- your name
+print(ll.GetDisplayName(ll.GetOwner()))
 
 
-
--- Funny Lua program: Alien performance (table of functions version)
-
-local actions = {
-    sing = function()
-        print("🎵 La-la-la... my alien karaoke will melt your ears.")
-    end,
-
-    joke = function()
-        print("😂 Knock knock.")
-        print("...Who's there?")
-        print("Alien.")
-        print("Alien who?")
-        print("Alien-ate all your snacks already!")
-    end,
-
-    math = function()
-        local pi = 3.14159265359
-        print("🧮 Did you know Pi is approximately " .. pi .. "? I ate half of it already.")
-    end,
-
-    spaceship = function()
-        print("🛸 Beam me up, Scotty... oops, wrong universe!")
-    end,
-
-    sleep = function()
-        for i = 3, 1, -1 do
-            print("💤 Entering sleep mode in " .. i .. "...")
-        end
-        print("🤖 Zzzzz...")
-    end
-}
-
-local function perform(command)
-    local action = actions[command]
-    if action then
-        action()
+-- maximum of two numbers
+local function maxOfTwo(a, b)
+    if a > b then
+        return a
     else
-        print("👽 I do not understand '" .. command .. "'. Did you mean 'take me to your leader'?")
+        return b
     end
 end
 
-print("Greetings, Earthling! What shall I do for you?")
-print("Options: sing, joke, math, spaceship, sleep")
-ll.Listen(0, "", ll.GetOwner(), "")
+print(maxOfTwo(4, 2))  -- > 4
+print(maxOfTwo(10, 25))  -- > 25
+
+
+-- positive, negative or zero
+local function numberSign(n)
+    if n > 0 then
+        return "positive"
+    elseif n < 0 then
+        return "negative"
+    else
+        return "zero"
+    end
+end
+
+print(numberSign(5))  -- > positive
+print(numberSign(-3))  -- > negative
+print(numberSign(0))  -- > zero
+
+
+-- check if the toucher is the owner
+function touch_start(num_detected)
+    if ll.DetectedKey(0) == ll.GetOwner() then
+        print("You are my owner")
+    else
+        print("You are a stranger")
+    end
+end
+
+
+-- guess the number, give hints and say the tries
+local guess = ll.GetWallclock()
+local tries = 0
+
+local function checkNumber(num)
+    tries = tries + 1
+    if num == guess then
+	print("Guessed! You have got it in " .. tries .. " tries")
+    elseif num > guess then
+        print("The number to guess is smaller")
+    else
+        print("The number to guess is bigger")
+    end
+end
+
+ll.Listen(1, "", ll.GetOwner(), "")
 
 function listen(channel, name, id, message)
-    perform(message)
+    checkNumber(tonumber(message))
 end
 
 
 
--- absurdly complicated function
+practices = [[
 
-function mixText(str1, str2, opts,...)
-    opts = opts or {}
-    local sep, upper = opts.sep or "-", opts.upper
-    local extras = table.concat({...}, sep)
-    local combined = str1 .. sep .. str2 .. if extras ~= "" then sep .. extras else ""
-    if upper then combined = combined:upper() end
-    return combined, #combined, extras
-end
+1) say the name of the owner
 
-print(mixText("hello", "world"))                          -- hello-world 11
-print(mixText("hello", "world", {upper = true}))          -- HELLO-WORLD 11
-print(mixText("foo", "bar", {sep = ":"}, "extra", "text")) -- foo:bar:extra:text 18 extra:text
+]]
 
 
+practices = [[
 
--- List of items of some types in the object contents and its quantity.
--- With a variadic parameter with types of inventory items (for instance, we can ask for scripts and notecards).
--- And returning two values: an array with the names of the items found, and a total of them.
--- The variadic parameter can have no parameter. In this case the function returns the names of all the items.
+1) say the name of the owner
 
-function findItemsByType(...)
-    local types = if select("#", ...) == 0 then { INVENTORY_ALL } else { ... }
-    local found = {}
-    for _, type in types do
-        for i = 0, ll.GetInventoryNumber(type) - 1 do
-            local name = ll.GetInventoryName(type, i)
-            table.insert(found, name)
-        end
-    end
-    return found, #found
-end
+2) a function that returns the maximum of two numbers
 
-print( table.concat( findItemsByType(), ", " ) )
-print( table.concat( findItemsByType( INVENTORY_SCRIPT ), ", " ) )
+]]
+
+
+practices = [[
+
+1) say the name of the owner
+
+2) a function that returns the maximum of two numbers
+
+3) a function that takes a number and returns "positive", "negative" or "zero"
+
+]]
+
+
+practices = [[
+
+1) say the name of the owner
+
+2) a function that returns the maximum of two numbers
+
+3) a function that takes a number and returns "positive", "negative" or "zero"
+
+4) say if the toucher is the owner
+
+]]
+
+
+practices = [[
+
+1) say the name of the owner
+
+2) a function that returns the maximum of two numbers
+
+3) a function that takes a number and returns "positive", "negative" or "zero"
+
+4) say if the toucher is the owner
+
+5) script to guess a number:
+    get a number with ll.GetWallclock()
+    listen to the owner in channel 1
+    use the Lua function   tonumber()   to cast a string to a number
+    call a function to say if the number is correct, bigger or smaller
+    count the tries and say them when the number is guessed
+
+]]
