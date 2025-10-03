@@ -26,3 +26,14 @@ These are the steps to follow before starting to script in SLua:
   - SLua counts script lines starting with 1, while the editor still shows a line nubmered 0. We must always subtract 1 from the error line number to find it in the editor.
   - Coloring and highlighting do not work perfectly.
   - Highlighting is much slower than in LSL. If editing large scripts becomes too slow we can disable it with the debug setting **ScriptEditorDisableSyntaxHighlight**.
+ 
+- Some common runtime errors and what to check first (especially when we are new to SLua):
+  - **attempt to call a nil value**
+    - Check typos, or missing . in a LL function, on the left of ().
+  - **attempt to perform arithmetic (add) on string**
+    - Check use of .. (not +) to concatenate strings.
+  - **attempt to index nil with ...**
+    - Check typos on the left of [].
+  - **attempt to call a table value**
+    - Check use of [] (not ()) to index a table.
+  - In general, if the error is about **nil**, check typos.
