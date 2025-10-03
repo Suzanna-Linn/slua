@@ -28,6 +28,7 @@ These are the steps to follow before starting to script in SLua:
   - Highlighting is much slower than in LSL. If editing large scripts becomes too slow we can disable it with the debug setting **ScriptEditorDisableSyntaxHighlight**.
  
 - Some common runtime errors and what to check first (especially when we are new to SLua):
+
   - **attempt to call a nil value**
     - Check typos, or missing . in a LL function, on the left of ().
   - **attempt to perform arithmetic (add) on string**
