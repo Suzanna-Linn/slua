@@ -116,7 +116,7 @@ float rotS = rot.s;</code></pre>
 local myRot = rotation(1, 1, 1, 0)
 local myRot2 = quaternion(2, 2, 2, 0)
 
-myRot = vector(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a value to a component
+myRot = rotation(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a value to a component
 
 
 local rotS = ll.GetRot().s</code></pre>
