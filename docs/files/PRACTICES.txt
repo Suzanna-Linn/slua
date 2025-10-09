@@ -103,7 +103,7 @@ local allOfThem = {}
     practice 3
 
     write a metatable for the table "fib" that returns the fibonacci number
-    and stores in the table all fibonnacci numbers lowere than it
+    and stores in the table all fibonnacci numbers lower than it
     (for instance, fib(10) will store all the fibonacci numbers from 3 to 10)
 ]]
 
