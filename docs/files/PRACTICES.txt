@@ -1,124 +1,112 @@
--- your name
-print(ll.GetDisplayName(ll.GetOwner()))
+-- table with lowercase keys
+local scandinavia = {
+    denmark = "copenhagen",
+    norway = "oslo",
+    sweden = "stockholm",
+    iceland = "reykjavik",
+    greenland = "nuuk",
+    faroe = "torshavn",
+}
+
+setmetatable(scandinavia, {
+  __index = function(t, k)
+    return rawget(t, k:lower())
+  end
+})
 
 
--- maximum of two numbers
-local function maxOfTwo(a, b)
-    if a > b then
-        return a
-    else
-        return b
+
+-- tables with people in each one
+local staff = { [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "suzannalinn" }
+local friends = { [uuid("ebff743c-5e47-400a-8ea6-a3bdb417b457")] = "sungali" }
+local vips = { [uuid("a1f62da5-dfab-4bfa-a918-75519517b753")] = "sungmanitu" }
+local subscribers = { [uuid("552e76a0-8ed8-499f-ba2e-0ab1ba0fa018")] = "suzannalinn2" }
+
+-- empty table
+local allOfThem = {}
+
+local allRoles = {
+  staff = staff,
+  friend = friends,
+  vip = vips,
+  subscriber = subscribers
+}
+
+setmetatable(allOfThem, {
+  __index = function(t, k)
+    local roles = {}
+    for role, tabRole in allRoles do
+      if tabRole[k] then
+        table.insert(roles, role)
+      end
     end
-end
+    return roles
+  end,
+})
 
-print(maxOfTwo(4, 2))  -- > 4
-print(maxOfTwo(10, 25))  -- > 25
 
 
--- positive, negative or zero
-local function numberSign(n)
-    if n > 0 then
-        return "positive"
-    elseif n < 0 then
-        return "negative"
-    else
-        return "zero"
+local fib = { [1] = 1, [2] = 1 }
+
+setmetatable(fib, {
+  __index = function(t, n)
+    if type(n) ~= "number" or n < 1 or n % 1 ~= 0 then
+      print("Index must be a positive integer.")
+      return
     end
-end
-
-print(numberSign(5))  -- > positive
-print(numberSign(-3))  -- > negative
-print(numberSign(0))  -- > zero
-
-
--- check if the toucher is the owner
-function touch_start(num_detected)
-    if ll.DetectedKey(0) == ll.GetOwner() then
-        print("You are my owner")
-    else
-        print("You are a stranger")
-    end
-end
+    local value = t[n-2] + t[n-1]
+    rawset(t, n, value)
+    return value
+  end
+})
 
 
--- guess the number, give hints and say the tries
-local guess = ll.GetWallclock()
-local tries = 0
+--[[
+    practice 1
 
-local function checkNumber(num)
-    tries = tries + 1
-    if num == guess then
-	print("Guessed! You have got it in " .. tries .. " tries")
-    elseif num > guess then
-        print("The number to guess is smaller")
-    else
-        print("The number to guess is bigger")
-    end
-end
-
-ll.Listen(1, "", ll.GetOwner(), "")
-
-function listen(channel, name, id, message)
-    checkNumber(tonumber(message))
-end
-
-
-
-practices = [[
-
-1) say the name of the owner
-
+    write a metatable for the table "scandinavia" that returns the capitals
+    when reading a country written in any lettercase, like Denmark or NORWAY
 ]]
 
+-- table with lowercase keys
+local scandinavia = {
+    denmark = "copenhagen",
+    norway = "oslo",
+    sweden = "stockholm",
+    iceland = "reykjavik",
+    greenland = "nuuk",
+    faroe = "torshavn",
+}
 
-practices = [[
 
-1) say the name of the owner
 
-2) a function that returns the maximum of two numbers
+--[[
+    practice 2
 
+    write a metatable for the table "allOfThem" that returns an array with
+    the names of the roles of the uuid when reading an uuid in "allOfThem"
+    (add users to different roles to test it)
 ]]
 
+-- tables with people in each one
+local staff = { [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "suzannalinn" }
+local friends = { [uuid("ebff743c-5e47-400a-8ea6-a3bdb417b457")] = "sungali" }
+local vips = { [uuid("a1f62da5-dfab-4bfa-a918-75519517b753")] = "sungmanitu" }
+local subscribers = { [uuid("552e76a0-8ed8-499f-ba2e-0ab1ba0fa018")] = "suzannalinn2" }
 
-practices = [[
+-- empty table
+local allOfThem = {}
 
-1) say the name of the owner
 
-2) a function that returns the maximum of two numbers
 
-3) a function that takes a number and returns "positive", "negative" or "zero"
+--[[
+    practice 3
 
+    write a metatable for the table "fib" that returns the fibonacci number
+    and stores in the table all fibonnacci numbers lowere than it
+    (for instance, fib(10) will store all the fibonacci numbers from 3 to 10)
 ]]
 
-
-practices = [[
-
-1) say the name of the owner
-
-2) a function that returns the maximum of two numbers
-
-3) a function that takes a number and returns "positive", "negative" or "zero"
-
-4) say if the toucher is the owner
-
-]]
+local fib = { [1] = 1, [2] = 1 }
 
 
-practices = [[
-
-1) say the name of the owner
-
-2) a function that returns the maximum of two numbers
-
-3) a function that takes a number and returns "positive", "negative" or "zero"
-
-4) say if the toucher is the owner
-
-5) script to guess a number:
-    get a number with ll.GetWallclock()
-    listen to the owner in channel 1
-    use the Lua function   tonumber()   to cast a string to a number
-    call a function to say if the number is correct, bigger or smaller
-    count the tries and say them when the number is guessed
-
-]]
