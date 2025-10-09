@@ -83,7 +83,7 @@ Prism.languages.slua = {
         alias: 'builtin'
     },
     'builtin-metamethods': {
-        pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm)\b/,
+        pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm|tojson)\b/,
         alias: 'builtin'
     },
     'builtin-events': {
