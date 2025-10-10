@@ -165,7 +165,7 @@ print(getConfig(0, "Guest"))        -- > 0
 
 
 --[[
-8️) The Truthy Counter
+8) The Truthy Counter
 
 Write a function countTruthy(a, b, c) that returns how many arguments are truthy.
 Test with:
