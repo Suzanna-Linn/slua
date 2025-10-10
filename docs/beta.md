@@ -1,8 +1,10 @@
 ## What is new in the SLua Beta version
 
-Slua Beta version is expected in November or December. It will be deployed in the Beta Grid (at least in the current SLua regions) and in a very few regions in the Main Grid.
+The SLua Beta is expected to arrive in November or December! It will first appear on the Beta Grid (at least in the current SLua regions) and in a handful of regions on the Main Grid.
 
-I have collected information available about the changes coming in the SLua Beta version. Not all of it is clear and definitive, so the contents of this page could be evolving.
+I’ve gathered all the info I could find about the changes coming in this Beta. Not everything is set in stone yet, so this page may be evolving as more details become clear.
+
+I’ve also put together some example code for SLua Beta. Keep in mind these examples can’t be tested yet and are based on assumptions. Comments in the code are shown in bright purple so you can easily spot that they’re not real code (at least, not yet!).
 
 ### Events, library llevents
 
