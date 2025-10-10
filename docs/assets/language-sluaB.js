@@ -119,7 +119,7 @@ Prism.languages.insertBefore('sluaB', 'string', {
                         pattern: /^\{|\}$/,
                         alias: 'punctuation'
                     },
-                    rest: Prism.languages.slua
+                    rest: Prism.languages.sluaB
                 }
             },
             'escape': {
