@@ -20,6 +20,43 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 ### Multi-events, table evts
 
+<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
+function touch_start(num_detected)
+    for i = 0, num_detected -1 do
+        local toucher = ll.GetDetectedKey(0)
+        -- do something
+    end
+end</code></pre>
+
+<pre class="language-sluaB"><code class="language-sluaB">-- example with minimal change (SLua Beta)
+ll = llcompat
+
+function llevents.touch_start(evts)
+    num_detected = #evts
+    for i = 0, num_detected -1 do
+        local toucher = ll.GetDetectedKey(0)
+        -- do something
+    end
+end</code></pre>
+
+<pre class="language-sluaB"><code class="language-sluaB">-- example with the table evts and the alternative events syntax (SLua Beta)
+function llevents.touch_start(evts)
+    for _, evt in evts do
+        local toucher = evt:GetKey()
+        -- do something
+    end
+end</code></pre>
+
+<pre class="language-sluaB"><code class="language-sluaB">-- example with the table evts (SLua Beta)
+local function myTouches(evts)
+    for _, evt in evts do
+        local toucher = evt:GetKey()
+        -- do something
+    end
+end
+
+llevents.on("touch_start", myTouches)</code></pre>
+
 
 ### LL functions compatibility, library llcompat
 
