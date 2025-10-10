@@ -1,112 +1,245 @@
--- table with lowercase keys
-local scandinavia = {
-    denmark = "copenhagen",
-    norway = "oslo",
-    sweden = "stockholm",
-    iceland = "reykjavik",
-    greenland = "nuuk",
-    faroe = "torshavn",
-}
+--[[
+1) Even or Odd
 
-setmetatable(scandinavia, {
-  __index = function(t, k)
-    return rawget(t, k:lower())
-  end
-})
+Write a function checkEvenOdd(number) that checks if a number is even or odd.
+Return "<number> is even." or "<number> is odd."
+]]
 
-
-
--- tables with people in each one
-local staff = { [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "suzannalinn" }
-local friends = { [uuid("ebff743c-5e47-400a-8ea6-a3bdb417b457")] = "sungali" }
-local vips = { [uuid("a1f62da5-dfab-4bfa-a918-75519517b753")] = "sungmanitu" }
-local subscribers = { [uuid("552e76a0-8ed8-499f-ba2e-0ab1ba0fa018")] = "suzannalinn2" }
-
--- empty table
-local allOfThem = {}
-
-local allRoles = {
-  staff = staff,
-  friend = friends,
-  vip = vips,
-  subscriber = subscribers
-}
-
-setmetatable(allOfThem, {
-  __index = function(t, k)
-    local roles = {}
-    for role, tabRole in allRoles do
-      if tabRole[k] then
-        table.insert(roles, role)
-      end
+local function checkEvenOdd(number)
+    if number % 2 == 0 then
+        return number .. " is even."
+    else
+        return number .. " is odd."
     end
-    return roles
-  end,
-})
+end
+
+print(checkEvenOdd(4))  -- > 4 is even.
+print(checkEvenOdd(7))  -- > 7 is odd.
+print(checkEvenOdd(0))  -- > 0 is even.
 
 
+--[[
+2) Temperature Converter
 
-local fib = { [1] = 1, [2] = 1 }
+Write a function convertTemperature(temp, unit) where unit is "C" or "F".
+If "C", convert to Fahrenheit using (C * 9/5) + 32.
+If "F", convert to Celsius using (F - 32) * 5/9.
+Return the converted value.
+]]
 
-setmetatable(fib, {
-  __index = function(t, n)
-    if type(n) ~= "number" or n < 1 or n % 1 ~= 0 then
-      print("Index must be a positive integer.")
-      return
+local function convertTemperature(temp, unit)
+    if unit == "C" then
+        return (temp * 9/5) + 32
+    elseif unit == "F" then
+        return (temp - 32) * 5/9
+    else
+        return nil
     end
-    local value = t[n-2] + t[n-1]
-    rawset(t, n, value)
-    return value
-  end
-})
+end
+
+print(convertTemperature(100, "C"))  -- > 212
+print(convertTemperature(68, "F"))   -- > 20
+print(convertTemperature(50, "X"))   -- > nil
 
 
 --[[
-    practice 1
+3) Simple Rock, Paper, Scissors Logic
 
-    write a metatable for the table "scandinavia" that returns the capitals
-    when reading a country written in any lettercase, like Denmark or NORWAY
+Write a function getWinner(player1, player2) that returns the winner.
+Rules: "rock" beats "scissors", "scissors" beats "paper", "paper" beats "rock".
+Return "Player 1 wins!", "Player 2 wins!", or "It's a tie!".
 ]]
 
--- table with lowercase keys
-local scandinavia = {
-    denmark = "copenhagen",
-    norway = "oslo",
-    sweden = "stockholm",
-    iceland = "reykjavik",
-    greenland = "nuuk",
-    faroe = "torshavn",
-}
+local function getWinner(player1, player2)
+    if player1 == player2 then
+        return "It's a tie!"
+    elseif (player1 == "rock" and player2 == "scissors") or
+           (player1 == "scissors" and player2 == "paper") or
+           (player1 == "paper" and player2 == "rock") then
+        return "Player 1 wins!"
+    else
+        return "Player 2 wins!"    end
+end
 
+print(getWinner("scissors", "rock"))      -- > Player 2 wins!
+print(getWinner("paper", "rock"))         -- > Player 1 wins!
+print(getWinner("scissors", "scissors"))  -- > It's a tie!
 
 
 --[[
-    practice 2
+4) Grade Calculator
 
-    write a metatable for the table "allOfThem" that returns an array with
-    the names of the roles of the uuid when reading an uuid in "allOfThem"
-    (add users to different roles to test it)
+Write a function getGrade(score) that returns a letter grade:
+  90–100 : "A"
+  80–89 : "B"
+  70–79 : "C"
+  60–69 : "D"
+  Below 60 : "F"
 ]]
 
--- tables with people in each one
-local staff = { [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "suzannalinn" }
-local friends = { [uuid("ebff743c-5e47-400a-8ea6-a3bdb417b457")] = "sungali" }
-local vips = { [uuid("a1f62da5-dfab-4bfa-a918-75519517b753")] = "sungmanitu" }
-local subscribers = { [uuid("552e76a0-8ed8-499f-ba2e-0ab1ba0fa018")] = "suzannalinn2" }
+local function getGrade(score)
+    if score >= 90 then
+        return "A"
+    elseif score >= 80 then
+        return "B"
+    elseif score >= 70 then
+        return "C"
+    elseif score >= 60 then
+        return "D"
+    else
+        return "F"
+    end
+end
 
--- empty table
-local allOfThem = {}
-
+print(getGrade(95))  -- > A
+print(getGrade(72))  -- > C
+print(getGrade(58))  -- > F
 
 
 --[[
-    practice 3
+5) Leap Year Calculator
 
-    write a metatable for the table "fib" that returns the fibonacci number
-    and stores in the table all fibonnacci numbers lower than it
-    (for instance, fib(10) will store all the fibonacci numbers from 3 to 10)
+Write a function isLeapYear(year) that returns true if the year is a leap year, false otherwise.
+Rules: divisible by 4 -> leap year,
+       except divisible by 100 -> not leap year,
+       unless divisible by 400 -> leap year.
+Test with 2000, 2024, 1900, 2023.
 ]]
 
-local fib = { [1] = 1, [2] = 1 }
+local function isLeapYear(year)
+    if year % 4 ~= 0 then
+        return false
+    elseif year % 100 ~= 0 then
+        return true
+    elseif year % 400 == 0 then
+        return true
+    else
+        return false
+    end
+end
+
+print(isLeapYear(2000))  -- > true
+print(isLeapYear(2024))  -- > true
+print(isLeapYear(1900))  -- > false
+print(isLeapYear(2023))  -- > false
 
 
+--[[
+6) The "Clamp" Function
+
+Write a function clamp(value, min, max) that keeps a number inside the range [min, max].
+If value < min, return min.
+If value > max, return max.
+Otherwise, return value.
+]]
+
+local function clamp(value, min, max)
+    if value < min then
+        return min
+    elseif value > max then
+        return max
+    else
+        return value
+    end
+end
+
+print(clamp(5, 1, 10))    -- > 5
+print(clamp(0, 1, 10))    -- > 1
+print(clamp(15, 1, 10))   -- > 10
+
+
+--[[
+7) The Default Value Provider
+
+Write a function getConfig(setting, default) that returns setting if it is truthy, otherwise return default.
+]]
+
+local function getConfig(setting, default)
+    return setting or default
+end
+
+print(getConfig("Admin", "Guest"))  -- > Admin
+print(getConfig(nil, "Guest"))      -- > Guest
+print(getConfig(false, "Guest"))    -- > Guest
+print(getConfig(0, "Guest"))        -- > 0
+
+
+--[[
+8️) The Truthy Counter
+
+Write a function countTruthy(a, b, c) that returns how many arguments are truthy.
+Test with:
+countTruthy(true, 1, "hello")   -- > 3
+countTruthy(0, "", false)       -- > 2
+countTruthy(nil, false, false)  -- > 0
+]]
+
+local function countTruthy(a, b, c)
+    local count = 0
+    if a then count += 1 end
+    if b then count += 1 end
+    if c then count += 1 end
+    return count
+end
+
+print(countTruthy(true, 1, "hello"))  -- > 3
+print(countTruthy(0, "", false))      -- > 2
+print(countTruthy(nil, false, false)) -- > 0
+
+
+--[[
+9) The Smart Adder
+
+Write a function smartAdd(a, b) that tries to add two values.
+Convert both to numbers.
+If both are numbers, return their sum. Otherwise, return nil.
+]]
+
+local function smartAdd(a, b)
+    local num1 = tonumber(a)
+    local num2 = tonumber(b)
+    if num1 and num2 then
+        return num1 + num2
+    else
+        return nil
+    end
+end
+
+print(smartAdd(10, 5))        -- > 15
+print(smartAdd("20", "10"))   -- > 30
+print(smartAdd("15.5", 5))    -- > 20.5
+print(smartAdd("hello", 5))   -- > nil
+print(smartAdd(10, "world"))  -- > nil
+
+
+--[[
+10) Describing Any Value
+
+Write a function describe(value) that returns a string describing the value:
+    nil : "The value is nil."
+    Boolean : "A boolean with value <true/false>."
+    Number : "A number with value <number>."
+    String : "A string with value '<string>'."
+    Other : "The value is of type '<type>'."
+]]
+
+local function describe(value)
+    local t = typeof(value)
+    if t == "nil" then
+        return "The value is nil."
+    elseif t == "boolean" then
+        return "A boolean with value " .. tostring(value) .. "."
+    elseif t == "number" then
+        return "A number with value " .. value .. "."
+    elseif t == "string" then
+        return "A string with value '" .. value .. "'."
+    else
+        return "The value is of type '" .. t .. "'."
+    end
+end
+
+print(describe(nil))      -- > The value is nil.
+print(describe(true))     -- > A boolean with value true.
+print(describe(42))       -- > A number with value 42.
+print(describe("hello"))  -- > A string with value 'hello'.
+print(describe(print))    -- > The value is of type 'function'.
