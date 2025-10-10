@@ -1,3 +1,9 @@
+---
+layout: default
+title: Slua Beta
+slua_beta: true
+---
+
 ## What is new in the SLua Beta version
 
 The SLua Beta is expected to arrive in November or December! It will first appear on the Beta Grid (at least in the current SLua regions) and in a handful of regions on the Main Grid.
