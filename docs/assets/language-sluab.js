@@ -1,4 +1,5 @@
 Prism.languages.sluab = {
+    'slua-beta-comment': /--(.*Slua Beta.*)/,
     'comment': /^#!.+|--(?:\[(=*)\[[\s\S]*?\]\1\]|.*)/m,
     'html-string': {
         pattern: /\[(=+)\[\s*(<[\s\S]*?>)\s*\]\1\]/,
@@ -7,6 +8,12 @@ Prism.languages.sluab = {
         inside: {
             'rest': Prism.languages.markup
         }
+    },
+    'builtin-string': {
+        pattern: /(llevents\.(?:on|once|off|listeners)\s*\(\s*)('|"|`)(?:at_rot_target|at_target|attach|changed|collision|collision_end|collision_start|control|dataserver|email|experience_permissions|experience_permissions_denied|final_damage|game_control|http_request|http_response|land_collision|land_collision_end|land_collision_start|link_message|linkset_data|listen|money|moving_end|moving_start|no_sensor|not_at_rot_target|not_at_target|object_rez|on_damage|on_death|on_rez|path_update|remote_data|run_time_permissions|sensor|touch|touch_end|touch_start|transaction_result)\2/,
+        lookbehind: true,
+        greedy: true,
+        alias: 'builtin'
     },
     'string': {
         pattern: /(["'])(?:(?!\1)[^\\\r\n]|\\z(?:\r\n|\s)|\\(?:\r\n|[^z]))*\1|\[(=*)\[[\s\S]*?\]\2\]/,
@@ -78,16 +85,25 @@ Prism.languages.sluab = {
         pattern: /\blljson\.(?:decode|encode)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
+    'builtin-llevents': {
+        pattern: /llevents\.(?:at_rot_target|at_target|attach|changed|collision|collision_end|collision_start|control|dataserver|email|experience_permissions|experience_permissions_denied|final_damage|game_control|http_request|http_response|land_collision|land_collision_end|land_collision_start|link_message|linkset_data|listen|money|moving_end|moving_start|no_sensor|not_at_rot_target|not_at_target|object_rez|on_damage|on_death|on_rez|path_update|remote_data|run_time_permissions|sensor|touch|touch_end|touch_start|transaction_result\b/,
+        alias: 'builtin'
+    },
+    'builtin-lltimers': {
+        pattern: /lltimers\.(?:on|once|off)\b/,
+        alias: 'builtin'
+    },
+    'builtin-get': {
+        pattern: /(:)(Get(?:Damage|Grab|Group|Key|LinkNumber|Name|Owner|Pos|Rezzer|Rot|TouchBinormal|TouchFace|TouchNormal|TouchPos|TouchST|TouchUV|Type|Vel))(?=\(\))/,
+        lookbehind: true,
+        alias: 'builtin'
+    }
     'builtin-standalone': {
         pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|typeof|unpack|xpcall|integer|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-metamethods': {
         pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm|tojson)\b/,
-        alias: 'builtin'
-    },
-    'builtin-events': {
-        pattern: /\b(?:at_rot_target|at_target|attach|changed|collision|collision_end|collision_start|control|dataserver|email|experience_permissions|experience_permissions_denied|final_damage|game_control|http_request|http_response|land_collision|land_collision_end|land_collision_start|link_message|linkset_data|listen|money|moving_end|moving_start|no_sensor|not_at_rot_target|not_at_target|object_rez|on_damage|on_death|on_rez|path_update|remote_data|run_time_permissions|sensor|timer|touch|touch_end|touch_start|transaction_result)\b/,
         alias: 'builtin'
     },
     'function': /(?!\d)\w+(?=\s*(?:[({]))/,
@@ -130,4 +146,3 @@ Prism.languages.insertBefore('sluab', 'string', {
         }
     },
 });
-
