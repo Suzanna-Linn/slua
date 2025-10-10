@@ -9,6 +9,7 @@ Prism.languages.sluab = {
             'rest': Prism.languages.markup
         }
     },
+14
     'builtin-string': {
         pattern: /(llevents\.(?:on|once|off|listeners)\s*\(\s*)('|"|`)(?:at_rot_target|at_target|attach|changed|collision|collision_end|collision_start|control|dataserver|email|experience_permissions|experience_permissions_denied|final_damage|game_control|http_request|http_response|land_collision|land_collision_end|land_collision_start|link_message|linkset_data|listen|money|moving_end|moving_start|no_sensor|not_at_rot_target|not_at_target|object_rez|on_damage|on_death|on_rez|path_update|remote_data|run_time_permissions|sensor|touch|touch_end|touch_start|transaction_result)\2/,
         lookbehind: true,
@@ -86,7 +87,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-llevents': {
-        pattern: /llevents\.(?:at_rot_target|at_target|attach|changed|collision|collision_end|collision_start|control|dataserver|email|experience_permissions|experience_permissions_denied|final_damage|game_control|http_request|http_response|land_collision|land_collision_end|land_collision_start|link_message|linkset_data|listen|money|moving_end|moving_start|no_sensor|not_at_rot_target|not_at_target|object_rez|on_damage|on_death|on_rez|path_update|remote_data|run_time_permissions|sensor|touch|touch_end|touch_start|transaction_result\b/,
+        pattern: /llevents\.(?:at_rot_target|at_target|attach|changed|collision|collision_end|collision_start|control|dataserver|email|experience_permissions|experience_permissions_denied|final_damage|game_control|http_request|http_response|land_collision|land_collision_end|land_collision_start|link_message|linkset_data|listen|money|moving_end|moving_start|no_sensor|not_at_rot_target|not_at_target|object_rez|on_damage|on_death|on_rez|path_update|remote_data|run_time_permissions|sensor|touch|touch_end|touch_start|transaction_result)\b/,
         alias: 'builtin'
     },
     'builtin-lltimers': {
