@@ -1,5 +1,5 @@
 Prism.languages.sluab = {
-    'slua-beta-comment': /--(.*Slua Beta.*)/,
+    'slua-beta-comment': /--(.*SLua Beta.*)/,
     'comment': /^#!.+|--(?:\[(=*)\[[\s\S]*?\]\1\]|.*)/m,
     'html-string': {
         pattern: /\[(=+)\[\s*(<[\s\S]*?>)\s*\]\1\]/,
