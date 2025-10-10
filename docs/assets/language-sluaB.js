@@ -1,4 +1,4 @@
-Prism.languages.slua = {
+Prism.languages.sluaB = {
     'comment': /^#!.+|--(?:\[(=*)\[[\s\S]*?\]\1\]|.*)/m,
     'html-string': {
         pattern: /\[(=+)\[\s*(<[\s\S]*?>)\s*\]\1\]/,
@@ -103,7 +103,7 @@ Prism.languages.slua = {
     ],
     'punctuation': /[\[\](){},;]|\.+|:+/
 };
-Prism.languages.insertBefore('slua', 'string', {
+Prism.languages.insertBefore('sluaB', 'string', {
     'template-string': {
         pattern: /`[^\\`{\r\n}]*(?:(?:\\.|{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+})[^\\`{\r\n}]*)*`/,
         greedy: true,
