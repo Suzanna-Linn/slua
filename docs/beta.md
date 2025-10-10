@@ -28,7 +28,7 @@ function touch_start(num_detected)
     end
 end</code></pre>
 
-<pre class="language-sluaB"><code class="language-sluaB">-- example with minimal change (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
 ll = llcompat
 
 function llevents.touch_start(evts)
@@ -39,7 +39,7 @@ function llevents.touch_start(evts)
     end
 end</code></pre>
 
-<pre class="language-sluaB"><code class="language-sluaB">-- example with the table evts and the alternative events syntax (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with the table evts and the alternative events syntax (SLua Beta)
 function llevents.touch_start(evts)
     for _, evt in evts do
         local toucher = evt:GetKey()
@@ -47,7 +47,7 @@ function llevents.touch_start(evts)
     end
 end</code></pre>
 
-<pre class="language-sluaB"><code class="language-sluaB">-- example with the table evts (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with the table evts (SLua Beta)
 local function myTouches(evts)
     for _, evt in evts do
         local toucher = evt:GetKey()
