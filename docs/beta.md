@@ -24,20 +24,24 @@ These are the functions in the library:
     - name : the name of the event.
     - handler : the function that runs when the event happens.
     - returns the same function that we have passed in, so we can use it later to remove it.
-  - 
+  - We can add several functions to the same event, they will be called in the same order in which we add them.
+  - If we add the same function again, it will be called twice (or as many times as we add it) when the event triggers.
+  - All the functions are called, we can't stop the calling sequence when we have processed the event.
+  - To remove the handler we will need the returned function if we have passed an anonymous function.
 
 - newHandler = **llevents.once**(name, handler) : adds a one-time event handler.
     -  name : the name of the event.
     -  handler : our function to handle the event.
     -  returns a new function that we can use to remove the handler.
-  - The function runs only once and is automatically removed afterward.
-
+  - The function runs only once and is automatically removed from the event afterward.
+  - Our function passed as handler is internally wrapped in another function and we get this new one as return.
+  - To remove the handler we will always need the returned function.
  
 - found = **llevents.off**(name, handler) : removes an event handler.
     -  name : the name of the event.
     -  handler : the function we want to stop handling the event.
     -  returns true if the function was removed, false otherwise.
-  -
+  - If we have added the same function twice or more, only the last one added will be removed.
  
 - eventsTable = **llevents.eventNames**() : returns which events are active.
     -  returns a table with all the event names that currently have functions handling them.
