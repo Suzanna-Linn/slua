@@ -216,14 +216,13 @@ lltimers.on(15, timer)
 -- some code here
 lltimers.off(timer)
 
--- example of use (SLua Beta)
 
--- a function to use as example
-local myTimerFunction()
-    -- do something
-end</code></pre>
+--</code></pre>
 </td><td>
-<pre class="language-slua line-numbers">-- SLua Alpha
+<pre class="language-slua"><code class="language-slua">-- SLua Alpha
+
+
+
 
 
 
@@ -234,15 +233,9 @@ ll.SetTimerEvent(15)
 -- some code here
 ll.SetTimerEvent(0)
 
-
-
-
-
-
-
 function timer()
   -- do something
-end<code class="language-slua"></code></pre>
+end</code></pre>
 </td></tr></table>
 
 
