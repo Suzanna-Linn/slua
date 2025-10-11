@@ -258,7 +258,7 @@ lltimers.once(15, myTimerFunction)
 -- remove
 lltimers.off(myTimerFunction)</code></pre>
 
-An example of use, one in Alpha and 3 different options in Beta:
+An example of use, one in Alpha and 2 different options in Beta:
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 
 local ticks = 60
@@ -300,10 +300,26 @@ end
 lltimers.on(1, myTimer1)
 lltimers.on(60, myTimer60)</code></pre>
 
-
-
-
 ### Multi-events, table evts
+
+We have a new way to work with the events, like touch_start, that can receive receive several events at once.
+
+Instead of the number of events (num_detected) the event handler receives an array table with the events.  
+Instead of functions like ll.DetectedKey() there are functions like GetKey() to use on each event in the table.
+
+The multi-events are these ones:
+- collision
+- collision_end
+- collision_start
+- damage
+- final_damage
+- touch
+- touch_end
+- touch_start
+- sensor
+
+And the ll.Detected* functions with its new names:
+
 
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 function touch_start(num_detected)
