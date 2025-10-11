@@ -46,12 +46,17 @@ These are the functions in the library:
  
 - *eventsTable* = **llevents.eventNames**() : returns which events are active.
   - returns a table with all the event names that currently have functions handling them.
-    - It's useful for debugging and to remove all the events used with llevents.listeners().  
+    - It's useful for debugging and to remove all the events used with llevents.listeners().
 
 - *handlersTable* = **llevents.listeners**(*name*) : returns which handlers are attached to an event.
   - name : the name of the event.
   - returns a table with the functions currenty handling the event.
-    -  It's useful for debugging and to remove all the functions handling an event. 
+    -  It's useful for debugging and to remove all the functions handling an event.
+   
+When an event becomes inactive (after removing all the functions handling it) the pending events are removed from the event queue.  
+To change an event handler:
+- Add the new one and remove the current one to preserve the pending events in the queue and handle them with the newly added function.
+- Remove the current one and add the new one to discard the pending events in the queue.
 
 We have an alternative syntax (called convenient assignment syntax) to make the change easier:
 <table><tr><td>
@@ -191,8 +196,56 @@ These are the functions in the library:
   - returns true if the timer was removed, false otherwise.
     - If we have added the same function twice or more, only the last one added will be removed.
       - If we have added it with different intervals, we can't stop the timer with the first interval.
-        - We should remove both times and add the second one again, but its interval would start at 0.
+        - We should remove both timers and add the second one again, but its interval would start at 0.
+       
+There is no way to get all the functions in the timers. There is no equivalent to llevents.listeners().
      
+These are the minimal to rewrite our scripts:
+<table><tr><td>
+<pre class="language-sluab"><code class="language-sluab">-- SLua Beta
+
+-- timer() is not an event, this is a user function
+local function timer()
+  -- do something
+end
+
+-- stop the timer, in case that it was set,
+-- to be sure not to duplicate it
+lltimers.off(timer)
+lltimers.on(15, timer)
+-- some code here
+lltimers.off(timer)
+
+-- example of use (SLua Beta)
+
+-- a function to use as example
+local myTimerFunction()
+    -- do something
+end</code></pre>
+</td><td>
+<pre class="language-slua line-numbers">-- SLua Alpha
+
+
+
+
+
+
+ll.SetTimerEvent(15)
+-- some code here
+ll.SetTimerEvent(0)
+
+
+
+
+
+
+
+function timer()
+  -- do something
+end<code class="language-slua"></code></pre>
+</td></tr></table>
+
+
 
 
 ### Multi-events, table evts
