@@ -14,6 +14,41 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 ### Events, library llevents
 
+We have a new library **llevents** to work with the events. The current way to write them will stop working and we will need to rewrite it.
+
+**llevents** is a more flexible and dynamic way to handle the events it allows us to:add or remove event handling functions at any time and to have several functions reacting to the same event.
+
+These are the functions in the library:
+
+- handler = **llevents.on**(name, handler) : adds an event handler.
+    - name : the name of the event.
+    - handler : the function that runs when the event happens.
+    - returns the same function that we have passed in, so we can use it later to remove it.
+  - 
+
+- newHandler = **llevents.once**(name, handler) : adds a one-time event handler.
+    -  name : the name of the event.
+    -  handler : our function to handle the event.
+    -  returns a new function that we can use to remove the handler.
+  - The function runs only once and is automatically removed afterward.
+
+ 
+- found = **llevents.off**(name, handler) : removes an event handler.
+    -  name : the name of the event.
+    -  handler : the function we want to stop handling the event.
+    -  returns true if the function was removed, false otherwise.
+  -
+ 
+- eventsTable = **llevents.eventNames**() : returns which events are active.
+    -  returns a table with all the event names that currently have functions handling them.
+
+- handlersTable = **llevents.listeners**(name) : returns which handlers are attached to an event.
+    -  name : the name of the event.
+    -  returns a table with the functions currenty handling the event.
+
+
+
+
 
 ### Timers, library lltimers
 
