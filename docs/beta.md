@@ -412,8 +412,10 @@ end
 
 llevents.on("touch_start", myTouches)</code></pre>
 
-
 ### LL functions compatibility, library llcompat
+
+Some LL functions change they behaviour. It's explained in the next sections.
+
 
 
 ### 1-based LL functions
@@ -422,11 +424,11 @@ llevents.on("touch_start", myTouches)</code></pre>
 ### boolean LL functions
 
 
-### Script memory
-
-
 ### Others
 
+- Script memory
+- TRUE / FALSE
+- Default "new script"
 
 ### SLua editor
 
