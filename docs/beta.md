@@ -426,9 +426,9 @@ The LL functions that have some kind of 0-based index change to 1-based.
 - Functions like ll.ListFindList() and ll.SubStringIndex() that return -1, meaning not found, still return -1.
   - LL functions are not ready to return to types of values (they can return sometimes number and sometimes nil)
 
-These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values.
+These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values:  
 
-<table border="1" style="width:100%; border: none; font-family: monospace;">
+<table border="1" style="width:80%; border: none; font-family: monospace;">
   <tr style="vertical-align: top;">
     <td style="width:50%; padding-right: 10px;">ll.AdjustDamage(number, new_damage)</td>
     <td style="width:50%; padding-left: 10px;">number</td>
@@ -515,7 +515,7 @@ These are the functions and the parameters that change. The "*" on the parameter
   </tr>
   <tr style="vertical-align: top;">
     <td style="width:50%; padding-right: 10px;">ll.GetInventoryName(type, number)</td>
-    <td style="width:50%; padding-left: 10px;">index</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
   </tr>
   <tr style="vertical-align: top;">
     <td style="width:50%; padding-right: 10px;">ll.GetListEntryType(src, index)</td>
@@ -562,7 +562,7 @@ These are the functions and the parameters that change. The "*" on the parameter
     <td style="width:50%; padding-left: 10px;">index*</td>
   </tr>
   <tr style="vertical-align: top;">
-    <td style="width:50%; padding-right: 10px;">ll.List2List(src, index)</td>
+    <td style="width:50%; padding-right: 10px;">ll.List2List(src, start, end)</td>
     <td style="width:50%; padding-left: 10px;">start*, end*</td>
   </tr>
   <tr style="vertical-align: top;">
@@ -625,9 +625,9 @@ The LL functions that return a boolean value now return type boolean instead of 
 - Functions like ll.GetPrimitiveParams() and ll.GetOBjectDetails() that return boolean values inside lists still return them as type number.
   - LL functions are not ready to return type boolean in a list.
 
-These are the functions that change:
+These are the functions that change:  
 
-<table style="width:100%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
+<table border="1" style="width:80%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
   <tr style="vertical-align: top;">
     <td style="padding: 5px; border: 1px solid black;">ll.AgentInExperience</td>
   </tr>
