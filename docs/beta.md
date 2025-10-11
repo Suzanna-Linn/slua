@@ -428,7 +428,7 @@ The LL functions that have some kind of 0-based index change to 1-based.
 
 These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values.
 
-<table style="width:100%; border: none; font-family: monospace;">
+<table border="1" style="width:100%; border: none; font-family: monospace;">
   <tr style="vertical-align: top;">
     <td style="width:50%; padding-right: 10px;">ll.AdjustDamage(number, new_damage)</td>
     <td style="width:50%; padding-left: 10px;">number</td>
