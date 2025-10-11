@@ -428,6 +428,7 @@ The LL functions that have some kind of 0-based index change to 1-based.
 
 These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values:  
 
+<br>
 <table border="1" style="width:100%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
   <tr style="vertical-align: top;">
     <td style="width:50%; padding-right: 10px;">ll.AdjustDamage(number, new_damage)</td>
@@ -614,7 +615,7 @@ These are the functions and the parameters that change. The "*" on the parameter
     <td style="width:50%; padding-left: 10px;">index*</td>
   </tr>
   <tr style="vertical-align: top;">
-    <td style="width:50%; padding-right: 10px;">ll.SubStringindex(source, pattern)</td>
+    <td style="width:50%; padding-right: 10px;">ll.SubStringIndex(source, pattern)</td>
     <td style="width:50%; padding-left: 10px;">&lt;return&gt;</td>
   </tr>
 </table>
@@ -627,6 +628,7 @@ The LL functions that return a boolean value now return type boolean instead of 
 
 These are the functions that change:  
 
+<br>
 <table border="1" style="width:50%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
   <tr style="vertical-align: top;">
     <td style="padding: 5px; border: 1px solid black;">ll.AgentInExperience</td>
