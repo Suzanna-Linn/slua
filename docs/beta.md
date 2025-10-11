@@ -426,7 +426,7 @@ The LL functions that have some kind of 0-based index change to 1-based.
 - Functions like ll.ListFindList() and ll.SubStringIndex() that return -1, meaning not found, still return -1.
   - LL functions are not ready to return to types of values (they can return sometimes number and sometimes nil)
 
-These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values:  
+These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if we are using negative values:  
 <br>
 <table border="1" style="width:100%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
   <tr style="vertical-align: top;">
@@ -680,10 +680,21 @@ These are the functions that change:
 
 ### Others
 
-- Script memory
-- TRUE / FALSE
-- Default "new script"
+- Script memory : SLua scripts will have 128k of memory. LSL scripts compiled to VM Luau will also have 128k. LSL Mon will stay with 64k.
+- TRUE / FALSE : They could stay the same or change to boolean values.
+- Default "new script" : There will be a different script, without using state_entry() and with ll.OwnerSay() instead of ll.Say().
 
 ### SLua editor
 
+There will be an official SLua extension for the Visual Studio Code editor. It could be ready at a different moment than SLua Beta.
+
+The SLua extension is based on open source VSC extensions:
+- [Luau-LSP](https://github.com/JohnnyMorganz/luau-lsp) : a Luau extension that uses the [Luau/Roblox code](https://github.com/luau-lang/luau)
+  - It uses the Luau Analyzer for type checking and linting.
+    - Type checking automatically infers types from the values assigned to variables or manually by adding type annotations. These annotations can define types, combinations of types, or subtypes. There are directives that allow to control the level of type checking in each script, ranging from none to strict.
+    - Linting identifies possible issues like uninitialized or unused variables, duplicated functions, mismatched parameter counts, return values, and many more. There are also directives to enable or disable specific linting checks.
+- [Selene](https://https://github.com/Kampfkarren/selene) : a Lua and Luau extension.
+  - Linting focusing on style rules that can be configured to adapt it to each scripter style.
+    - It helps enforce a consistent and readable coding style.
+ 
 
