@@ -694,7 +694,63 @@ The SLua extension is based on open source VSC extensions:
     - Type checking automatically infers types from the values assigned to variables or manually by adding type annotations. These annotations can define types, combinations of types, or subtypes. There are directives that allow to control the level of type checking in each script, ranging from none to strict.
     - Linting identifies possible issues like uninitialized or unused variables, duplicated functions, mismatched parameter counts, return values, and many more. There are also directives to enable or disable specific linting checks.
 - [Selene](https://https://github.com/Kampfkarren/selene) : a Lua and Luau extension.
-  - Linting focusing on style rules that can be configured to adapt it to each scripter style.
+  - Linting focusing on style rules that can be configured to adapt to each scripter style.
     - It helps enforce a consistent and readable coding style.
  
+The SLua extension will have a preprocessor.
+- Probably with the usual commands: #define, #undef, #ifdef, #ifndef, #else, #endif, #if, #elif
+  - The syntax is not known yet, probably not starting with # that is a SLua operator)
+- An include/require function.
+  - Files are imported at compile time by the preprocessor.
+  - It imports files accessible from VSC.
+  - It's not known if it can import inworld scripts.
+    - If it was the case, the scripts should be in the inventory and full perm.
+  - It can't import no-modify scripts. There is o way to distribute libraries without the source code.
 
+  An example of include/require:
+  <pre class="language-slua"><code class="language-slua">-- a library of functions ready to import (SLua Beta)
+
+-- all variables should be local to avoid name conflicts when imported
+local greetings = {}
+
+function greetings.hi(name)
+    print("Hello " .. name .. "!")
+end
+
+function greetings.bye(name)
+    print("See you " .. name .. "!")
+end
+
+-- libraries have to return something, often a table of functions
+return greetings</code></pre>
+  <pre class="language-slua"><code class="language-slua">-- a script using include/require (SLua Beta)
+
+local greet = require("greetings.slua")  -- the syntax is unknown
+
+greet.hi(ll.GetOwner())
+-- some more code
+greet.bye(ll.GetOwner())</code></pre>
+  <pre class="language-slua"><code class="language-slua">-- the same script after preprocessing and ready to compile (SLua Beta)
+
+-- the imported code is wrapped in an anonymous to avoid name conflicts
+-- the anonymous function is executed assigning the return to the variable
+
+local greet = (function()
+    local greetings = {}
+
+    function greetings.hi(name)
+        print("Hello " .. name .. "!")
+    end
+
+    function greetings.bye(name)
+        print("See you " .. name .. "!")
+    end
+
+    return greetings
+end)()
+
+greet.hi(ll.GetOwner())
+-- some more code
+greet.bye(ll.GetOwner())
+</code></pre>
+  
