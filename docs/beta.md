@@ -20,7 +20,7 @@ We have a new library **llevents** to work with the events. The current way to w
 
 These are the functions in the library:
 
-- handler = **llevents.on**(name, handler) : adds an event handler.
+- *handler* = **llevents.on**(*name*, *handler*) : adds an event handler.
   - name : the name of the event.
   - handler : the function that runs when the event happens.
   - returns the same function that we have passed in, so we can use it later to remove it.
@@ -29,7 +29,7 @@ These are the functions in the library:
     - All the functions are called, we can't stop the calling sequence when we have processed the event.
     - To remove the handler we will need the returned function if we have passed an anonymous function.
 
-- newHandler = **llevents.once**(name, handler) : adds a one-time event handler.
+- *newHandler* = **llevents.once**(*name*, *handler*) : adds a one-time event handler.
   -  name : the name of the event.
   -  handler : our function to handle the event.
   -  returns a new function that we can use to remove the handler.
@@ -37,16 +37,16 @@ These are the functions in the library:
     - Our function passed as handler is internally wrapped in another function and we get this new one as return.
     - To remove the handler we will always need the returned function.
  
-- found = **llevents.off**(name, handler) : removes an event handler.
+- *found* = **llevents.off**(*name*, *handler*) : removes an event handler.
   -  name : the name of the event.
   -  handler : the function we want to stop handling the event.
   -  returns true if the function was removed, false otherwise.
     - If we have added the same function twice or more, only the last one added will be removed.
  
-- eventsTable = **llevents.eventNames**() : returns which events are active.
+- *eventsTable* = **llevents.eventNames**() : returns which events are active.
   -  returns a table with all the event names that currently have functions handling them.
 
-- handlersTable = **llevents.listeners**(name) : returns which handlers are attached to an event.
+- *handlersTable* = **llevents.listeners**(*name*) : returns which handlers are attached to an event.
   -  name : the name of the event.
   -  returns a table with the functions currenty handling the event.
 
