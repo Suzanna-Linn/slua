@@ -14,9 +14,9 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 ### Events, library llevents
 
-We have a new library **llevents** to work with the events. The current way to write them will stop working and we will need to rewrite it.
+We have a new library **llevents** to work with the events. The current way to write them will stop working and we will need to rewrite the scripts.
 
-**llevents** is a more flexible and dynamic way to handle the events it allows us to:add or remove event handling functions at any time and to have several functions reacting to the same event.
+**llevents** is a more flexible and dynamic way to handle the events allowing us to add or remove event handling functions at any time and to have several functions reacting to the same event.
 
 These are the functions in the library:
 
@@ -26,7 +26,7 @@ These are the functions in the library:
   - returns the same function that we have passed in, so we can use it later to remove it.
     - We can add several functions to the same event, they will be called in the same order in which we add them.
     - If we add the same function again, it will be called twice (or as many times as we add it) when the event triggers.
-    - All the functions are called when the event triggers, we can't stop the calling sequence when we have processed the event.
+    - All the functions are called when the event triggers, we can't stop the calling sequence once we have processed the event.
     - To remove the handler we will need the returned function if we have passed an anonymous function.
 
 - *newHandler* = **llevents.once**(*name*, *handler*) : adds a one-time event handler.
@@ -40,13 +40,13 @@ These are the functions in the library:
 - *found* = **llevents.off**(*name*, *handler*) : removes an event handler.
   - name : the name of the event.
   - handler : the function we want to stop handling the event.
-  - returns true if the function was removed, false otherwise.
+  - returns true if the function has been found (and removed), false otherwise.
     - If we have added the same function twice or more with llevents.on(), only the last one added will be removed.
       - But not with llevents.once() that returns a different function each time.
  
 - *eventsTable* = **llevents.eventNames**() : returns which events are active.
   - returns a table with all the event names that currently have functions handling them.
-    - It's useful for debugging and to remove all the events used with llevents.listeners().
+    - It's useful for debugging and to remove all the events, using it with llevents.listeners().
 
 - *handlersTable* = **llevents.listeners**(*name*) : returns which handlers are attached to an event.
   - name : the name of the event.
@@ -109,7 +109,7 @@ for _, eventName in llevents.eventNames() do
     end
 end</code></pre>
 
-An example of use, one in Alpha and 3 different options in Beta:
+An example of use, first in Alpha and 3 different options in Beta:
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 
 function listen(channel, name, id, msg)
@@ -171,9 +171,9 @@ ll.Listen(2, "", "", "")</code></pre>
 
 ### Timers, library lltimers
 
-We have a new library **lltimers** to work with timers. The current way to set the timer with ll.SetTimerEvent() and the event timer() will stop working and we will need to rewrite it.
+We have a new library **lltimers** to work with timers. The current way to set the timer with ll.SetTimerEvent() and the event timer() will stop working and we will need to rewrite the scripts.
 
-**lltimers** is a more flexible and dynamic way to set the timers it allows us to use several timers and to set different functions for each one.
+**lltimers** is a more flexible and dynamic way to set the timers allowing us to use several timers and to set different functions for each interval.
 
 These are the functions in the library:
 
@@ -189,13 +189,13 @@ These are the functions in the library:
   - returns the same function that we have passed in, so we can use it later to remove it.
     - The timer runs only once and is automatically removed afterward.
     - To remove the handler we will need the returned function if we have passed an anonymous function.
-      - This is different than llevents.once() that returns another function.
+      - This is different than llevents.once() that returns a new function.
  
 - *found* = **lltimers.off**(*handler*) : removes a timer.
   - handler : the function we want to stop the timer.
-  - returns true if the timer was removed, false otherwise.
+  - returns true if the timer has been removed, false otherwise.
     - If we have added the same function twice or more, only the last one added will be removed.
-      - If we have added it with different intervals, we can't stop the timer with the first interval.
+      - If we have added the same function with different intervals, we can't stop the timer with the first interval.
         - We should remove both timers and add the second one again, but its interval would start at 0.
        
 There is no way to get all the functions in the timers. There is no equivalent to llevents.listeners().
@@ -204,12 +204,14 @@ These are the minimal changes to rewrite our scripts:
 <table><tr><td>
 <pre class="language-sluab"><code class="language-sluab">-- SLua Beta
 
--- stop the timer, in case that it was set,
--- to be sure not to duplicate it
-lltimers.off(timer)
-lltimers.on(15, timer)
--- some code here
-lltimers.off(timer)
+function someThing()
+    -- stop the timer, in case that it was set,
+    -- to be sure not to duplicate it
+    lltimers.off(timer)
+    lltimers.on(15, timer)
+    -- some code here
+    lltimers.off(timer)
+end
 
 -- timer() is not an event, this is a user function
 function timer()
@@ -218,12 +220,14 @@ end</code></pre>
 </td><td>
 <pre class="language-slua"><code class="language-slua">-- SLua Alpha
 
+function someThing()
 
 
 
-ll.SetTimerEvent(15)
--- some code here
-ll.SetTimerEvent(0)
+    ll.SetTimerEvent(15)
+    -- some code here
+    ll.SetTimerEvent(0)
+end
 
 
 function timer()
@@ -258,7 +262,7 @@ lltimers.once(15, myTimerFunction)
 -- remove
 lltimers.off(myTimerFunction)</code></pre>
 
-An example of use, one in Alpha and 2 different options in Beta:
+An example of use, first in Alpha and 2 different options in Beta:
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 
 local ticks = 60
@@ -302,9 +306,10 @@ lltimers.on(60, myTimer60)</code></pre>
 
 ### Multi-events, table evts
 
-We have a new way to work with the events, like touch_start, that can receive receive several events at once.
+We have a new way to work with the events, like touch_start, that can receive receive several events at once. The current way to write the multi-event events will stop working and we will need to rewrite the scripts.
 
-Instead of the number of events (num_detected) the event handler receives an array table with the events.  
+Instead of the number of events (the parameter num_detected) the event handler receives an array table with the events.
+
 Instead of functions like ll.DetectedKey() there are functions like GetKey() to use on each event in the table.
 
 The multi-events are these ones:
@@ -379,7 +384,7 @@ function touch_start(num_detected)
 end</code></pre>
 
 The ll.Detected* functions still work. To rewrite the script with the minimal changes we need to add:
-- <code class="language-sluab">ll = llcompat</code> at the start of the script, llcompat is explained in the next section.
+- <code class="language-sluab">ll = llcompat</code> at the start of the script, **llcompat** is explained in the next section.
 - <code class="language-sluab">num_detected = #evts</code> at the start of each event.
 
 <pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
@@ -414,19 +419,19 @@ llevents.on("touch_start", myTouches)</code></pre>
 
 ### LL functions compatibility, library llcompat
 
-Some LL functions change they behaviour. It's explained in the next sections.
+Some LL functions change they behaviour. These changes are explained in the next two sections.
 
 We have the library **llcompat** with the LL functions unchanged. To use them as in SLua Alpha (and LSL) we need to add, at the start of the script:
 - <code class="language-sluab">ll = llcompat</code>
 
 ### 1-based LL functions
 
-The LL functions that have some kind of 0-based index change to 1-based.
+The LL functions that have some kind of 0-based index are now 1-based.
 - Negative indexes don't change, the last element is still -1.
 - Functions like ll.ListFindList() and ll.SubStringIndex() that return -1, meaning not found, still return -1.
-  - LL functions are not ready to return to types of values (they can return sometimes number and sometimes nil)
+  - LL functions are not ready to return two types of values (they can't return sometimes number and sometimes nil)
 
-These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if we are using negative values:  
+These are the functions and the parameters that change. The "*" added to the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if we are using negative values:  
 <br>
 <table border="1" style="width:100%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
   <tr style="vertical-align: top;">
@@ -622,7 +627,7 @@ These are the functions and the parameters that change. The "*" on the parameter
 ### boolean LL functions
 
 The LL functions that return a boolean value now return type boolean instead of type number.
-- Functions like ll.GetPrimitiveParams() and ll.GetOBjectDetails() that return boolean values inside lists still return them as type number.
+- Functions like ll.GetPrimitiveParams() and ll.GetObjectDetails() that return boolean values inside lists still return them as type number.
   - LL functions are not ready to return type boolean in a list.
 
 These are the functions that change:  
@@ -703,8 +708,10 @@ The SLua extension will have a preprocessor.
 - An include/require function.
   - Files are imported at compile time by the preprocessor.
   - It imports files accessible from VSC.
-  - It's not known if it can import inworld scripts. If it was the case, the scripts should be in the inventory and full perm.
+  - It's not known if it can import inworld scripts. If it was the case, the scripts should be in the inventory and full perm, and the viewer should be opened to import them.
   - It can't import no-modify scripts. There is no way to distribute libraries without the source code.
+- With the viewer opened, scripts can be executed from VSC and the error and debug channel messages are shown in VSC.
+  - But no debugging option at all.
 
 An example of include/require:
 <pre class="language-sluab"><code class="language-sluab">-- a library of functions ready to import (SLua Beta with VSC extension)
@@ -752,4 +759,7 @@ greet.hi(ll.GetOwner())
 -- some more code
 greet.bye(ll.GetOwner())
 </code></pre>
-  
+
+There will also be an official LSL extension for VSC, appearing at the same time or later than the SLua extension.
+
+The inworld editor will be improved later (in an unknown later).
