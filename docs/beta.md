@@ -318,7 +318,7 @@ The multi-events are these ones:
 - touch_start
 - sensor
 
-And the ll.Detected* functions with its new names:
+The ll.Detected* functions with their names as functions in the events table:
 
 <table style="width:100%; border: none;">
   <tr style="vertical-align: top;">
@@ -379,8 +379,8 @@ function touch_start(num_detected)
 end</code></pre>
 
 The ll.Detected* functions still work. To rewrite the script with the minimal changes we need to add:
-- <pre class="language-sluab"><code class="language-sluab">ll = llcompat</code></pre> at the start of the script, llcompat is explained in the next section
-- <pre class="language-sluab"><code class="language-sluab">num_detected = #evts</code></pre> at the start of each event
+- <code class="language-sluab">ll = llcompat</code> at the start of the script, llcompat is explained in the next section.
+- <code class="language-sluab">num_detected = #evts</code> at the start of each event.
 
 <pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
 ll = llcompat
