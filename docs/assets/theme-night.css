@@ -91,4 +91,4 @@ pre[class*="language-"] {
 .token.important,
 .token.bold { font-weight: bold; }
 .token.italic { font-style: italic; }
-.token.slua-beta-comment    { color: Red; }
+.token.slua-beta-comment { color: #f3172d; font-style: italic; }
