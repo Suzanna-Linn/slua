@@ -31,7 +31,7 @@ These are the functions in the library:
 
 - *newHandler* = **llevents.once**(*name*, *handler*) : adds a one-time event handler.
   - name : the name of the event.
-  - handler : our function to handle the event.
+  - handler : the function that runs when the event happens.
   - returns a new function that we can use to remove the handler.
     - The function runs only once and is automatically removed from the event afterward.
     - Our function passed as handler is internally wrapped in another function and we get this new one as return.
@@ -165,6 +165,34 @@ ll.Listen(1, "", "", "")
 ll.Listen(2, "", "", "")</code></pre>
 
 ### Timers, library lltimers
+
+We have a new library **lltimers** to work with timers. The current way to set the timer with ll.SetTimerEvent() and the event timer() will stop working and we will need to rewrite it.
+
+**lltimers** is a more flexible and dynamic way to set the timers it allows us to use several timers and to set different functions for each one.
+
+These are the functions in the library:
+
+- *handler* = **lltimers.on**(*seconds*, *handler*) : adds a timer.
+  - seconds : the interval.
+  - handler : the function that runs when the time arrives.
+  - returns the same function that we have passed in, so we can use it later to remove it.
+    - To remove the handler we will need the returned function if we have passed an anonymous function.
+
+- *newHandler* = **lltimers.once**(*seconds*, *handler*) : adds a one-time timer.
+  - seconds : the interval.
+  - handler : our function that runs when the time arrives.
+  - returns the same function that we have passed in, so we can use it later to remove it.
+    - The timer runs only once and is automatically removed afterward.
+    - To remove the handler we will need the returned function if we have passed an anonymous function.
+      - This is different than llevents.once() that returns another function.
+ 
+- *found* = **lltimers.off**(*handler*) : removes a timer.
+  - handler : the function we want to stop the timer.
+  - returns true if the timer was removed, false otherwise.
+    - If we have added the same function twice or more, only the last one added will be removed.
+      - If we have added it with different intervals, we can't stop the timer with the first interval.
+        - We should remove both times and add the second one again, but its interval would start at 0.
+     
 
 
 ### Multi-events, table evts
