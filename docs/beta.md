@@ -707,7 +707,7 @@ The SLua extension will have a preprocessor.
   - It can't import no-modify scripts. There is o way to distribute libraries without the source code.
 
 An example of include/require:
-<pre class="language-slua"><code class="language-slua">-- a library of functions ready to import (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- a library of functions ready to import (SLua Beta)
 
 -- all variables should be local to avoid name conflicts when imported
 local greetings = {}
@@ -722,14 +722,14 @@ end
 
 -- libraries have to return something, often a table of functions
 return greetings</code></pre>
-  <pre class="language-slua"><code class="language-slua">-- a script using include/require (SLua Beta)
+  <pre class="language-sluab"><code class="language-sluab">-- a script using include/require (SLua Beta)
 
 local greet = require("greetings.slua")  -- the syntax is unknown
 
 greet.hi(ll.GetOwner())
 -- some more code
 greet.bye(ll.GetOwner())</code></pre>
-  <pre class="language-slua"><code class="language-slua">-- the same script after preprocessing and ready to compile (SLua Beta)
+  <pre class="language-sluab"><code class="language-sluab">-- the same script after preprocessing and ready to compile (SLua Beta)
 
 -- the imported code is wrapped in an anonymous function to avoid name conflicts
 -- the anonymous function is executed assigning the return to the variable
