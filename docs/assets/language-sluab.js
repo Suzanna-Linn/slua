@@ -101,8 +101,8 @@ Prism.languages.sluab = {
         pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|typeof|unpack|xpcall|integer|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
-    'builtin-librzries': {
-        pattern: /\b(?:bit32|buffer|coroutine|debug|os|string|table|utf8|vector|ll|llbase64|llcompat|llevents|lljson|lltimers)\b(?=\s*(?:[({]))/,
+    'builtin-libraries': {
+        pattern: /\b(?:bit32|buffer|coroutine|debug|os|string|table|utf8|vector|ll|llbase64|llcompat|llevents|lljson|lltimers)\b/,
         alias: 'builtin'
     },
     'builtin-metamethods': {
