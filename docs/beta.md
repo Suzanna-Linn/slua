@@ -417,7 +417,7 @@ end
 
 llevents.on("touch_start", myTouches)</code></pre>
 
-### LL functions compatibility, library llcompat
+### Compatibility, library llcompat
 
 Some LL functions change they behaviour. These changes are explained in the next two sections.
 
