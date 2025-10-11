@@ -200,7 +200,7 @@ These are the functions in the library:
        
 There is no way to get all the functions in the timers. There is no equivalent to llevents.listeners().
      
-These are the minimal to rewrite our scripts:
+These are the minimal changes to rewrite our scripts:
 <table><tr><td>
 <pre class="language-sluab"><code class="language-sluab">-- SLua Beta
 
@@ -217,9 +217,11 @@ lltimers.on(15, timer)
 lltimers.off(timer)
 
 
+
 --</code></pre>
 </td><td>
 <pre class="language-slua"><code class="language-slua">-- SLua Alpha
+
 
 
 
