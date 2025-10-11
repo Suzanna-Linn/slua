@@ -320,9 +320,9 @@ The multi-events are these ones:
 
 The ll.Detected* functions with their names as functions in the events table:
 
-<table style="width:100%; border: none;">
+<table style="width:80%; border: none;">
   <tr style="vertical-align: top;">
-    <td style="width:50%; padding-right: 10px;">
+    <td style="width:40%; padding-right: 10px;">
       <ul>
         <li>ll.DetectedDamage</li>
         <li>ll.DetectedGrab</li>
@@ -344,7 +344,7 @@ The ll.Detected* functions with their names as functions in the events table:
         <li>ll.DetectedVel</li>
       </ul>
     </td>
-    <td style="width:50%; padding-left: 10px;">
+    <td style="width:40%; padding-left: 10px;">
       <ul>
         <li>GetDamage</li>
         <li>GetGrab</li>
