@@ -625,6 +625,58 @@ The LL functions that return a boolean value now return type boolean instead of 
 - Functions like ll.GetPrimitiveParams() and ll.GetOBjectDetails() that return boolean values inside lists still return them as type number.
   - LL functions are not ready to return type boolean in a list.
 
+These are the functions that change:
+
+<table style="width:100%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.AgentInExperience</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.DerezObject</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.DetectedGroup</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.EdgeOfWorld</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.GetScriptState</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.GetStatus</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.IsFriend</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.IsLinkGLTFMaterial</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.ManageEstateAccess</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.OverMyLand</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.SameGroup</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.ScaleByFactor</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.ScriptDanger</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.SetMemoryLimit</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.SetRegionPos</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.VerifyRSA</td>
+  </tr>
+</table>
 
 ### Others
 
