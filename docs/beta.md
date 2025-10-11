@@ -426,8 +426,7 @@ The LL functions that have some kind of 0-based index change to 1-based.
 - Functions like ll.ListFindList() and ll.SubStringIndex() that return -1, meaning not found, still return -1.
   - LL functions are not ready to return to types of values (they can return sometimes number and sometimes nil)
 
-These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values:
-
+These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values:  
 <br>
 <table border="1" style="width:100%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
   <tr style="vertical-align: top;">
