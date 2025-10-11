@@ -41,11 +41,12 @@ These are the functions in the library:
   - name : the name of the event.
   - handler : the function we want to stop handling the event.
   - returns true if the function was removed, false otherwise.
-    - If we have added the same function twice or more, only the last one added will be removed.
+    - If we have added the same function twice or more with llevents.on(), only the last one added will be removed.
+      - But not with llevents.once() that returns a different function each time.
  
 - *eventsTable* = **llevents.eventNames**() : returns which events are active.
   - returns a table with all the event names that currently have functions handling them.
-    - It's useful for debugging and to remove all the events (used together with llevents.listeners().  
+    - It's useful for debugging and to remove all the events used with llevents.listeners().  
 
 - *handlersTable* = **llevents.listeners**(*name*) : returns which handlers are attached to an event.
   - name : the name of the event.
@@ -62,7 +63,106 @@ function listen(channel, name, id, msg)</code></pre>
 </td></tr></table>
 We only need to add llevents. to our events.
 
+An example with the syntax of all the functions:
+<pre class="language-sluab"><code class="language-sluab">-- example with all the functions (SLua Beta)
 
+-- a function to use for the example
+local myListenFunction(channel, name, id, msg)
+    -- do something
+end
+-- start listening as usual
+ll.Listen(1, "", "", "")
+
+-- add an event handler
+llevents.on("listen", myListenFunction)
+-- remove the event handler
+llevents.off("listen", myListenFunction)
+
+-- add with anonymous function
+local myListenHandler = llevents.on("listen",
+    function(channel, name, id, msg)
+        -- do something
+    end
+)
+-- remove
+llevents.off("listen", myListenHandler)
+
+-- add once
+local myListenHandler = llevents.once("listen", myListenFunction)
+-- remove
+llevents.off("listen", myListenHandler)
+
+-- remove all the handlers of an event
+for _, myListenHandler in llevents.listeners("listen") do
+    llevents.off("listen", myListenHandler)
+end
+
+-- remove all the events
+for _, eventName in llevents.eventNames() do
+    for _, myHandler in llevents.listeners(eventName) do
+        llevents.off(eventName, myHandler)
+    end
+end</code></pre>
+
+An example of use, one in Alpha and 3 different options in Beta:
+<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
+
+function listen(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    else
+        -- do something with 2
+    end
+end
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
+
+local function llevents.listen(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    else
+        -- do something with 2
+    end
+end
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with one event handler (SLua Beta)
+
+local function myListenFunction(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    else
+        -- do something with 2
+    end
+end
+
+llevents.on("listen", myListenFunction)
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with two event handlers (SLua Beta)
+
+local function myListenChannel1(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    end
+end
+
+local function myListenChannel2(channel, name, id, msg)
+    -- all the event handlers are called, we need to check the parameters in all the functions
+    if channel == 2 then
+        -- do something with 2
+    end
+end
+
+llevents.on("listen", myListenChannel1)
+llevents.on("listen", myListenChannel2)
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
 
 ### Timers, library lltimers
 
