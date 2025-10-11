@@ -204,7 +204,7 @@ These are the minimal changes to rewrite our scripts:
 <table><tr><td>
 <pre class="language-sluab"><code class="language-sluab">-- SLua Beta
 
-function someThing()
+local function someThing()
     -- stop the timer, in case that it was set,
     -- to be sure not to duplicate it
     lltimers.off(timer)
@@ -220,7 +220,7 @@ end</code></pre>
 </td><td>
 <pre class="language-slua"><code class="language-slua">-- SLua Alpha
 
-function someThing()
+local function someThing()
 
 
 
