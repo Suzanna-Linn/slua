@@ -29,7 +29,7 @@ function touch_start(num_detected)
 end</code></pre>
 
 <pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
-llx = xllcompat
+ll = llcompat
 
 function llevents.touch_start(evts)
     num_detected = #evts
