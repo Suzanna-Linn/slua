@@ -320,9 +320,9 @@ The multi-events are these ones:
 
 The ll.Detected* functions with their names as functions in the events table:
 
-<table style="width:80%; border: none;">
+<table style="width:60%; border: none;">
   <tr style="vertical-align: top;">
-    <td style="width:40%; padding-right: 10px;">
+    <td style="width:30%; padding-right: 10px;">
       <ul>
         <li>ll.DetectedDamage</li>
         <li>ll.DetectedGrab</li>
@@ -344,7 +344,7 @@ The ll.Detected* functions with their names as functions in the events table:
         <li>ll.DetectedVel</li>
       </ul>
     </td>
-    <td style="width:40%; padding-left: 10px;">
+    <td style="width:30%; padding-left: 10px;">
       <ul>
         <li>GetDamage</li>
         <li>GetGrab</li>
@@ -428,7 +428,7 @@ The LL functions that have some kind of 0-based index change to 1-based.
 
 These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values:  
 
-<table border="1" style="width:80%; border: none; font-family: monospace;">
+<table border="1" style="width:100%; font-family: monospace;">
   <tr style="vertical-align: top;">
     <td style="width:50%; padding-right: 10px;">ll.AdjustDamage(number, new_damage)</td>
     <td style="width:50%; padding-left: 10px;">number</td>
@@ -627,7 +627,7 @@ The LL functions that return a boolean value now return type boolean instead of 
 
 These are the functions that change:  
 
-<table border="1" style="width:80%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
+<table border="1" style="width:50%; border: 1px solid black; font-family: monospace;">
   <tr style="vertical-align: top;">
     <td style="padding: 5px; border: 1px solid black;">ll.AgentInExperience</td>
   </tr>
