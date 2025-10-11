@@ -416,10 +416,208 @@ llevents.on("touch_start", myTouches)</code></pre>
 
 Some LL functions change they behaviour. It's explained in the next sections.
 
-
+We have the library **llcompat** with the LL functions unchanged. To use them as in SLua Alpha (and LSL) we need to add, at the start of the script:
+- <code class="language-sluab">ll = llcompat</code>
 
 ### 1-based LL functions
 
+The LL functions that have some kind of 0-based index change to 1-based.
+- Negative indexes don't change, the last element is still -1.
+- The functions that return -1, meaning not found, still return -1.
+  - LL functions are not ready to return to types of values (they can return sometimes number and sometimes nil)
+
+These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values.
+
+<table style="width:100%; border: none; font-family: monospace;">
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.AdjustDamage(number, new_damage)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DeleteSubList(src, start, end)</td>
+    <td style="width:50%; padding-left: 10px;">start*, end*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DeleteSubString(src, start, end)</td>
+    <td style="width:50%; padding-left: 10px;">start*, end*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedDamage(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedGrab(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedGroup(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedKey(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedLinknumber(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedName(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedOwner(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedPos(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedRezzer(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedRot(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedTouchBinormal(index)</td>
+    <td style="width:50%; padding-left: 10px;">index</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedTouchFace(index)</td>
+    <td style="width:50%; padding-left: 10px;">index</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedTouchNormal(index)</td>
+    <td style="width:50%; padding-left: 10px;">index</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedTouchPos(index)</td>
+    <td style="width:50%; padding-left: 10px;">index</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedTouchST(index)</td>
+    <td style="width:50%; padding-left: 10px;">index</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedTouchUV(index)</td>
+    <td style="width:50%; padding-left: 10px;">index</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedType(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.DetectedVel(number)</td>
+    <td style="width:50%; padding-left: 10px;">number</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.GetInventoryName(type, number)</td>
+    <td style="width:50%; padding-left: 10px;">index</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.GetListEntryType(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.GetNotecardLine(name, line)</td>
+    <td style="width:50%; padding-left: 10px;">line</td>
+  </tr>
+    <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.GetNotecardLineSync(name, line)</td>
+    <td style="width:50%; padding-left: 10px;">line</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.GetSubString(src, start, end)</td>
+    <td style="width:50%; padding-left: 10px;">start*, end*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.InsertString(dst, pos, src)</td>
+    <td style="width:50%; padding-left: 10px;">pos</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.KeysKeyValue(first, count)</td>
+    <td style="width:50%; padding-left: 10px;">first</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.LinksetDataFindKeys(pattern, start, count)</td>
+    <td style="width:50%; padding-left: 10px;">start</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.LinksetDataListKeys(start, count)</td>
+    <td style="width:50%; padding-left: 10px;">start</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2Float(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2Integer(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2Key(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2List(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">start*, end*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2ListSlice(src, start, end, stride, slice_index)</td>
+    <td style="width:50%; padding-left: 10px;">start*, end*, slice_index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2ListStrided(src, start, end, stride)</td>
+    <td style="width:50%; padding-left: 10px;">start*, end*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2Rot(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2String(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.List2Vector(src, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.ListFindList(src, test)</td>
+    <td style="width:50%; padding-left: 10px;">&lt;return&gt;</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.ListFindListNext(src, test, instance)</td>
+    <td style="width:50%; padding-left: 10px;">&lt;return&gt;, instance*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.ListFindStrided((src, test, start, end, stride)</td>
+    <td style="width:50%; padding-left: 10px;">&lt;return&gt;, start*, end*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.ListInsertList(dest, src, start)</td>
+    <td style="width:50%; padding-left: 10px;">start*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.ListReplaceList(dest, src, start, end)</td>
+    <td style="width:50%; padding-left: 10px;">start*, end*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.ListSortStrided(src, stride, stride_index, ascending)</td>
+    <td style="width:50%; padding-left: 10px;">stride_index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.Ord(val, index)</td>
+    <td style="width:50%; padding-left: 10px;">index*</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">ll.SubStringindex(source, pattern)</td>
+    <td style="width:50%; padding-left: 10px;">&lt;return&gt;</td>
+  </tr>
+</table>
 
 ### boolean LL functions
 
