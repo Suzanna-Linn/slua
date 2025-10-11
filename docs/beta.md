@@ -369,10 +369,7 @@ And the ll.Detected* functions with its new names:
   </tr>
 </table>
 
-
-
-
-
+An example to see how it works:
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 function touch_start(num_detected)
     for i = 0, num_detected -1 do
@@ -380,6 +377,10 @@ function touch_start(num_detected)
         -- do something
     end
 end</code></pre>
+
+The ll.Detected* functions still work. To rewrite the script with the minimal changes we need to add:
+- <pre class="language-sluab"><code class="language-sluab">ll = llcompat</code></pre> at the start of the script, llcompat is explained in the next section
+- <pre class="language-sluab"><code class="language-sluab">num_detected = #evts</code></pre> at the start of each event
 
 <pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
 ll = llcompat
@@ -392,6 +393,7 @@ function llevents.touch_start(evts)
     end
 end</code></pre>
 
+2 different options with the new multi-events:
 <pre class="language-sluab"><code class="language-sluab">-- example with the table evts and the alternative events syntax (SLua Beta)
 function llevents.touch_start(evts)
     for _, evt in evts do
