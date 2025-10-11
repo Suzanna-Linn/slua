@@ -20,14 +20,7 @@ We have a new library **llevents** to work with the events. The current way to w
 
 These are the functions in the library:
 
-- *handler* = **llevents.on**(*name*, *handler*) : adds an event handler.
-  - name : the name of the event.
-  - handler : the function that runs when the event happens.
-  - returns the same function that we have passed in, so we can use it later to remove it.
-    - We can add several functions to the same event, they will be called in the same order in which we add them.
-    - If we add the same function again, it will be called twice (or as many times as we add it) when the event triggers.
-    - All the functions are called when the event triggers, we can't stop the calling sequence when we have processed the event.
-    - To remove the handler we will need the returned function if we have passed an anonymous function.
+
 
 - *newHandler* = **llevents.once**(*name*, *handler*) : adds a one-time event handler.
   -  name : the name of the event.
