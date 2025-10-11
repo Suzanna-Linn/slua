@@ -320,6 +320,58 @@ The multi-events are these ones:
 
 And the ll.Detected* functions with its new names:
 
+<table style="width:100%; border: none;">
+  <tr style="vertical-align: top;">
+    <td style="width:50%; padding-right: 10px;">
+      <ul>
+        <li>ll.DetectedDamage</li>
+        <li>ll.DetectedGrab</li>
+        <li>ll.DetectedGroup</li>
+        <li>ll.DetectedKey</li>
+        <li>ll.DetectedLinkNumber</li>
+        <li>ll.DetectedName</li>
+        <li>ll.DetectedOwner</li>
+        <li>ll.DetectedPos</li>
+        <li>ll.DetectedRezzer</li>
+        <li>ll.DetectedRot</li>
+        <li>ll.DetectedTouchBinormal</li>
+        <li>ll.DetectedTouchFace</li>
+        <li>ll.DetectedTouchNormal</li>
+        <li>ll.DetectedTouchPos</li>
+        <li>ll.DetectedTouchST</li>
+        <li>ll.DetectedTouchUV</li>
+        <li>ll.DetectedType</li>
+        <li>ll.DetectedVel</li>
+      </ul>
+    </td>
+    <td style="width:50%; padding-left: 10px;">
+      <ul>
+        <li>GetDamage</li>
+        <li>GetGrab</li>
+        <li>GetGroup</li>
+        <li>GetKey</li>
+        <li>GetLinkNumber</li>
+        <li>GetName</li>
+        <li>GetOwner</li>
+        <li>GetPos</li>
+        <li>GetRezzer</li>
+        <li>GetRot</li>
+        <li>GetTouchBinormal</li>
+        <li>GetTouchFace</li>
+        <li>GetTouchNormal</li>
+        <li>GetTouchPos</li>
+        <li>GetTouchST</li>
+        <li>GetTouchUV</li>
+        <li>GetType</li>
+        <li>GetVel</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+
+
 
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 function touch_start(num_detected)
