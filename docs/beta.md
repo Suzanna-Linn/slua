@@ -228,7 +228,6 @@ lltimers.off(timer)
 
 
 
-
 ll.SetTimerEvent(15)
 -- some code here
 ll.SetTimerEvent(0)
@@ -237,6 +236,75 @@ function timer()
   -- do something
 end</code></pre>
 </td></tr></table>
+
+An example with the syntax of all the functions:
+<pre class="language-sluab"><code class="language-sluab">-- example with all the functions (SLua Beta)
+
+-- a function to use for the example
+local myTimerFunction()
+    -- do something
+end
+
+-- add a timer with 15 seconds
+lltimers.on(15, myTimerFunction)
+-- remove the timer
+lltimers.off(myTimerFunction)
+
+-- add with anonymous function
+local myTimerHandler = lltimers.on(15,
+    function()
+        -- do something
+    end
+)
+-- remove
+lltimers.off(myTimerHandler)
+
+-- add once
+lltimers.once(15, myTimerFunction)
+-- remove
+lltimers.off(myTimerFunction)</code></pre>
+
+An example of use, one in Alpha and 3 different options in Beta:
+<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
+
+local ticks = 60
+
+function timer()
+    -- do something every 1 second
+    ticks -= 1
+    if ticks == 0 then
+        -- do something every 60 seconds
+        ticks = 60
+    end
+end
+
+ll.SetTimerEvent(1)</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
+
+local ticks = 60
+
+local function timer()
+    -- do something every 1 second
+    ticks -= 1
+    if ticks == 0 then
+        -- do something every 60 seconds
+        ticks = 60
+    end
+end
+
+lltimers.on(1, timer)</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with two timers (SLua Beta)
+
+local function myTimer1()
+    -- do something every 1 second
+end
+
+local function myTimer60()
+    -- do something every 60 seconds
+end
+
+lltimers.on(1, myTimer1)
+lltimers.on(60, myTimer60)</code></pre>
 
 
 
