@@ -704,10 +704,10 @@ The SLua extension will have a preprocessor.
   - Files are imported at compile time by the preprocessor.
   - It imports files accessible from VSC.
   - It's not known if it can import inworld scripts. If it was the case, the scripts should be in the inventory and full perm.
-  - It can't import no-modify scripts. There is o way to distribute libraries without the source code.
+  - It can't import no-modify scripts. There is no way to distribute libraries without the source code.
 
 An example of include/require:
-<pre class="language-sluab"><code class="language-sluab">-- a library of functions ready to import (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- a library of functions ready to import (SLua Beta with VSC extension)
 
 -- all variables should be local to avoid name conflicts when imported
 local greetings = {}
@@ -720,16 +720,16 @@ function greetings.bye(name)
     print("See you " .. name .. "!")
 end
 
--- libraries have to return something, often a table of functions
+-- libraries have to return something, often a table with functions
 return greetings</code></pre>
-  <pre class="language-sluab"><code class="language-sluab">-- a script using include/require (SLua Beta)
+  <pre class="language-sluab"><code class="language-sluab">-- a script using include/require (SLua Beta with VSC extension)
 
 local greet = require("greetings.slua")  -- the syntax is unknown
 
 greet.hi(ll.GetOwner())
 -- some more code
 greet.bye(ll.GetOwner())</code></pre>
-  <pre class="language-sluab"><code class="language-sluab">-- the same script after preprocessing and ready to compile (SLua Beta)
+  <pre class="language-sluab"><code class="language-sluab">-- the same script after preprocessing and ready to compile (SLua Beta with VSC extension)
 
 -- the imported code is wrapped in an anonymous function to avoid name conflicts
 -- the anonymous function is executed assigning the return to the variable
