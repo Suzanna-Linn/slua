@@ -423,7 +423,7 @@ We have the library **llcompat** with the LL functions unchanged. To use them as
 
 The LL functions that have some kind of 0-based index change to 1-based.
 - Negative indexes don't change, the last element is still -1.
-- The functions that return -1, meaning not found, still return -1.
+- Functions like ll.ListFindList() and ll.SubStringIndex() that return -1, meaning not found, still return -1.
   - LL functions are not ready to return to types of values (they can return sometimes number and sometimes nil)
 
 These are the functions and the parameters that change. The "*" on the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if they use negative values.
@@ -620,6 +620,10 @@ These are the functions and the parameters that change. The "*" on the parameter
 </table>
 
 ### boolean LL functions
+
+The LL functions that return a boolean value now return type boolean instead of type number.
+- Functions like ll.GetPrimitiveParams() and ll.GetOBjectDetails() that return boolean values inside lists still return them as type number.
+  - LL functions are not ready to return type boolean in a list.
 
 
 ### Others
