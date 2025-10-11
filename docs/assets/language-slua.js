@@ -82,6 +82,10 @@ Prism.languages.slua = {
         pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|typeof|unpack|xpcall|integer|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
+    'builtin-libraries': {
+        pattern: /\b(?:bit32|buffer|coroutine|debug|os|string|table|utf8|vector|ll|llbase64|llcompat|llevents|lljson|lltimers)\b/,
+        alias: 'builtin'
+    },
     'builtin-metamethods': {
         pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm|tojson)\b/,
         alias: 'builtin'
