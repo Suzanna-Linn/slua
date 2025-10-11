@@ -680,7 +680,7 @@ These are the functions that change:
 
 ### Others
 
-- Script memory : SLua scripts will have 128k of memory. LSL scripts compiled to VM Luau will also have 128k. LSL Mon will stay with 64k.
+- Script memory : SLua scripts will have 128k of memory. LSL scripts compiled to VM Luau will also have 128k. LSL Mono will stay with 64k.
 - TRUE / FALSE : They could stay the same or change to boolean values.
 - Default "new script" : There will be a different script, without using state_entry() and with ll.OwnerSay() instead of ll.Say().
 
@@ -703,12 +703,11 @@ The SLua extension will have a preprocessor.
 - An include/require function.
   - Files are imported at compile time by the preprocessor.
   - It imports files accessible from VSC.
-  - It's not known if it can import inworld scripts.
-    - If it was the case, the scripts should be in the inventory and full perm.
+  - It's not known if it can import inworld scripts. If it was the case, the scripts should be in the inventory and full perm.
   - It can't import no-modify scripts. There is o way to distribute libraries without the source code.
 
-  An example of include/require:
-  <pre class="language-slua"><code class="language-slua">-- a library of functions ready to import (SLua Beta)
+An example of include/require:
+<pre class="language-slua"><code class="language-slua">-- a library of functions ready to import (SLua Beta)
 
 -- all variables should be local to avoid name conflicts when imported
 local greetings = {}
@@ -732,7 +731,7 @@ greet.hi(ll.GetOwner())
 greet.bye(ll.GetOwner())</code></pre>
   <pre class="language-slua"><code class="language-slua">-- the same script after preprocessing and ready to compile (SLua Beta)
 
--- the imported code is wrapped in an anonymous to avoid name conflicts
+-- the imported code is wrapped in an anonymous function to avoid name conflicts
 -- the anonymous function is executed assigning the return to the variable
 
 local greet = (function()
