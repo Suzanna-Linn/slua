@@ -27,6 +27,7 @@ These are the functions in the library:
     - We can add several functions to the same event, they will be called in the same order in which we add them.
     - If we add the same function again, it will be called twice (or as many times as we add it) when the event triggers.
     - All the functions are called when the event triggers, we can't stop the calling sequence once we have processed the event.
+    - If we add a function to different events, there is no way to know which event has called it (unless the events have different number or types of parameters).
     - To remove the handler we will need the returned function if we have passed an anonymous function.
 
 - *newHandler* = **llevents.once**(*name*, *handler*) : adds a one-time event handler.
@@ -683,10 +684,11 @@ These are the functions that change:
   </tr>
 </table>
 
+The constants TRUE and FALSE are probably changed to boolean values.
+
 ### Others
 
 - Script memory : SLua scripts will have 128k of memory. LSL scripts compiled to VM Luau will also have 128k. LSL Mono will stay with 64k.
-- TRUE / FALSE : They could stay the same or change to boolean values.
 - Default "new script" : There will be a different script, without using state_entry() and with ll.OwnerSay() instead of ll.Say().
 
 ### SLua editor
