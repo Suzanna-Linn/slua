@@ -1,3 +1,4 @@
+
 function xTable(data)
   local mt = {
     __index = table
