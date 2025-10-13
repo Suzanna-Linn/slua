@@ -1,0 +1,16 @@
+function constantTable(data)
+    local mt = {
+        __index = data,
+        __newindex = function(t, key, value)
+            print("Not allowed")
+        end
+    }
+    return setmetatable({}, mt)
+end
+
+SEASONS = constantTable{ WINTER = 1, SPRING = 2, SUMMER =3, AUTUMN = 4 }
+
+SEASONS["WINTER"] = 5  -- Not allowed
+SEASONS["WINTER"] = nil  -- Not allowed
+SEASONS["DUSKHOLLOW"] = 5   -- Not allowed
+print(SEASONS.WINTER)  -- 1
