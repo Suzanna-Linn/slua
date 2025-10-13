@@ -14,7 +14,7 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 ### Events, library llevents
 
-We have a new library **llevents** to work with the events. The current way to write them will stop working and we will need to rewrite the scripts.
+We have a new library **llevents** to work with the events. The current way to write them that SLua ALpha uses will stop working and we will need to rewrite the scripts.
 
 **llevents** is a more flexible and dynamic way to handle the events allowing us to add or remove event handling functions at any time and to have several functions reacting to the same event.
 
@@ -172,7 +172,7 @@ ll.Listen(2, "", "", "")</code></pre>
 
 ### Timers, library lltimers
 
-We have a new library **lltimers** to work with timers. The current way to set the timer with ll.SetTimerEvent() and the event timer() will stop working and we will need to rewrite the scripts.
+We have a new library **lltimers** to work with timers. The current way to set the timer with ll.SetTimerEvent() and the event timer() that SLua ALpha uses will stop working and we will need to rewrite the scripts.
 
 **lltimers** is a more flexible and dynamic way to set the timers allowing us to use several timers and to set different functions for each interval.
 
@@ -307,7 +307,7 @@ lltimers.on(60, myTimer60)</code></pre>
 
 ### Multi-events, table evts
 
-We have a new way to work with the events, like touch_start, that can receive receive several events at once. The current way to write the multi-event events will stop working and we will need to rewrite the scripts.
+We have a new way to work with the events, like touch_start, that can receive receive several events at once. The current way to write the multi-event events that SLua ALpha uses will stop working and we will need to rewrite the scripts.
 
 Instead of the number of events (the parameter num_detected) the event handler receives an array table with the events.
 
