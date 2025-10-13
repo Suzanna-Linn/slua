@@ -1,3 +1,4 @@
+
 local TABLE_TYPES = { ARRAY = 1, DICT = 2, MIX = 3 }
 
 function xTable(data)
