@@ -394,7 +394,7 @@ The ll.Detected* functions still work. To rewrite the script with the minimal ch
 ll = llcompat
 
 function llevents.touch_start(evts)
-    num_detected = #evts
+    local num_detected = #evts
     for i = 0, num_detected -1 do
         local toucher = ll.GetDetectedKey(i)
         -- do something
