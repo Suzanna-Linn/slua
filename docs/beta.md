@@ -12,6 +12,8 @@ I’ve gathered all the info I could find about the changes coming in this Beta.
 
 I’ve also put together some example code for SLua Beta. Keep in mind these examples can’t be tested yet and are based on assumptions. First line comments in the code are shown in red so you can easily spot that they’re not real code (at least, not yet!).
 
+These changes are only in SLua. LSL is unchanged and stays working the same.
+
 ### Events, library llevents
 
 We have a new library **llevents** to work with the events. The current way to write them that SLua Alpha uses will stop working and we will need to rewrite the scripts.
@@ -379,7 +381,7 @@ An example to see how it works:
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 function touch_start(num_detected)
     for i = 0, num_detected -1 do
-        local toucher = ll.GetDetectedKey(0)
+        local toucher = ll.GetDetectedKey(i)
         -- do something
     end
 end</code></pre>
@@ -394,7 +396,7 @@ ll = llcompat
 function llevents.touch_start(evts)
     num_detected = #evts
     for i = 0, num_detected -1 do
-        local toucher = ll.GetDetectedKey(0)
+        local toucher = ll.GetDetectedKey(i)
         -- do something
     end
 end</code></pre>
@@ -689,6 +691,7 @@ The constants TRUE and FALSE are probably changed to boolean values.
 ### Others
 
 - Script memory : SLua scripts will have 128k of memory. LSL scripts compiled to VM Luau will also have 128k. LSL Mono will stay with 64k.
+  - Linkset Data will stay with 128k.
 - Default "new script" : There will be a different script, without using state_entry() and with ll.OwnerSay() instead of ll.Say().
 
 ### SLua editor
