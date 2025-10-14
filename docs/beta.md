@@ -690,7 +690,9 @@ The constants TRUE and FALSE are probably changed to boolean values.
 
 ### Others
 
-- Script memory : SLua scripts will have 128k of memory. LSL scripts compiled to VM Luau will also have 128k. LSL Mono will stay with 64k.
+- Script memory : SLua scripts will have 128k of memory.
+  - LSL scripts compiled to VM Luau will also have 128k.
+  - LSL Mono will stay with 64k.
   - Linkset Data will stay with 128k.
 - Default "new script" : There will be a different script, without using state_entry() and with ll.OwnerSay() instead of ll.Say().
 
