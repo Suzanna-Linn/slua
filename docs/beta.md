@@ -14,7 +14,7 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 These changes are only in SLua. LSL is unchanged and stays working the same.
 
-*(this page updasted on Wednesday, Oct 15th)*
+*(this page updated on Wednesday, Oct 15th)*
 
 ### Events, object LLEvents
 
