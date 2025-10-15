@@ -420,9 +420,17 @@ end
 
 LLEvents:on("touch_start", myTouches)</code></pre>
 
+## Constants TRUE and FALSE don't exist
+
+The LSL constants TRUE and FALSE that still existed in SLua Alpha are now undefined.
+- In SLua Alpha FALSE is evaluated as truthy.
+- In SLua Beta TRUE is evaluated as falsy.
+
+Don't use them!
+
 ### Compatibility, library llcompat
 
-Some LL functions change they behaviour. These changes are explained in the next two sections.
+Some LL functions change they behaviour. These changes are explained in the next three sections.
 
 We have the library **llcompat** with the LL functions unchanged. To use them as in SLua Alpha (and LSL) we need to add, at the start of the script:
 - <code class="language-sluab">ll = llcompat</code>
@@ -431,8 +439,6 @@ We have the library **llcompat** with the LL functions unchanged. To use them as
 
 The LL functions that have some kind of 0-based index are now 1-based.
 - Negative indexes don't change, the last element is still -1.
-- Functions like ll.ListFindList() and ll.SubStringIndex() that return -1, meaning not found, still return -1.
-  - LL functions are not ready to return two types of values (they can't return sometimes number and sometimes nil)
 
 These are the functions and the parameters that change. The "*" added to the parameter name means that it can use negative values, we can't just add 1 to rewrite our scripts if we are using negative values:  
 <br>
@@ -627,6 +633,27 @@ These are the functions and the parameters that change. The "*" added to the par
   </tr>
 </table>
 
+### LL functions return nil when not found
+
+The LL functions that returned -1 meaning "not found" now return nil.
+
+These are the functions that change:  
+<br>
+<table border="1" style="width:50%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.ListFindList</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.ListFindListNext</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.ListFindStrided</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.SubStringIndex</td>
+  </tr>
+</table>
+
 ### boolean LL functions
 
 The LL functions that return a boolean value now return type boolean instead of type number.
@@ -685,8 +712,6 @@ These are the functions that change:
     <td style="padding: 5px; border: 1px solid black;">ll.VerifyRSA</td>
   </tr>
 </table>
-
-The constants TRUE and FALSE are probably changed to boolean values.
 
 ### Others
 
