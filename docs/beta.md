@@ -14,6 +14,8 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 These changes are only in SLua. LSL is unchanged and stays working the same.
 
+*(this page updasted on Wednesday, Oct 15th)*
+
 ### Events, object LLEvents
 
 We have a new object **LLEvents** to work with the events. The current way to write them that SLua Alpha uses will stop working and we will need to rewrite the scripts.
@@ -69,7 +71,7 @@ function LLEvents.listen(channel, name, id, msg)</code></pre>
 <pre class="language-slua"><code class="language-slua">-- SLua Alpha
 function listen(channel, name, id, msg)</code></pre>
 </td></tr></table>
-We only need to add LLEvents: to our events.
+We only need to add LLEvents. to our events.
 
 An example with the syntax of all the methods:
 <pre class="language-sluab"><code class="language-sluab">-- example with all the methods (SLua Beta)
@@ -420,11 +422,11 @@ end
 
 LLEvents:on("touch_start", myTouches)</code></pre>
 
-## Constants TRUE and FALSE don't exist
+### Constants TRUE and FALSE don't exist
 
 The LSL constants TRUE and FALSE that still existed in SLua Alpha are now undefined.
-- In SLua Alpha FALSE is evaluated as truthy.
-- In SLua Beta TRUE is evaluated as falsy.
+- In SLua Alpha FALSE is evaluated as truthy (because is 0).
+- In SLua Beta TRUE is evaluated as falsy (because is nil).
 
 Don't use them!
 
@@ -742,7 +744,7 @@ The SLua extension will have a preprocessor.
   - It imports files accessible from VSC.
   - It's not known if it can import inworld scripts. If it was the case, the scripts should be in the inventory and full perm, and the viewer should be opened to import them.
   - It can't import no-modify scripts. There is no way to distribute libraries without the source code.
-- With the viewer opened, scripts can be executed from VSC and the error and debug channel messages are shown in VSC.
+- With the viewer opened, scripts can be executed from VSC and the error, debug channel and OwnerSay messages are shown in VSC.
   - But no debugging option at all.
 
 An example of include/require:
