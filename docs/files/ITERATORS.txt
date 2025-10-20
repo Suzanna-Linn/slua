@@ -1,3 +1,4 @@
+
 -- nonsense random iterator
 
 function iterRandom(mag)
