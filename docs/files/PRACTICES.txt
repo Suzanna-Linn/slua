@@ -1,3 +1,4 @@
+
 practice1 = [[ rewrite this script using a closure to avoid needing a script-wide variable
 
 local isOpen = false
