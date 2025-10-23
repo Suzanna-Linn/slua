@@ -37,6 +37,8 @@ function touch_start(total_number)
 end
 
 
+-- alternative version
+
 local door = (function ()
     local isOpen
     return function()
