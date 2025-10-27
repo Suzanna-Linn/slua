@@ -1,0 +1,69 @@
+-- start async/await section
+
+local _awaiting = {}
+
+local function async(func, ...)
+    coroutine.resume(coroutine.create(func),...)
+end
+
+local function awaiting(queryid, ...)
+    if _awaiting[queryid] then
+        coroutine.resume(_awaiting[queryid], ...)
+        _awaiting[queryid] = nil
+        return false
+    else
+        return true
+    end
+end
+
+local function await(queryid)
+    _awaiting[queryid] = coroutine.running()
+    return coroutine.yield()
+end
+
+-- end async/await section
+
+
+local function getName(username)
+    local displayName
+    local id = await(ll.RequestUserKey(username))
+    if uuid(id).istruthy then
+        displayName = await(ll.RequestDisplayName(id))
+    else
+        displayName = "not found"
+    end
+    ll.OwnerSay(username .. " is " .. displayName)
+end
+
+local function getQuote()
+    local quote = await(ll.HTTPRequest("https://zenquotes.io/api/random",{},""))
+    local json = lljson.decode(quote)
+    ll.OwnerSay(`\n{json[1].q}\n{json[1].a}`)
+end
+
+function touch_start(numDetected)
+    if ll.DetectedKey(0) == ll.GetOwner() then
+        async(getQuote)
+    end
+end
+
+function listen(channel,name,id,message)
+    local usernames = message:split(" ")
+    for _, username in usernames do
+        async(getName, username)
+    end
+end
+
+function dataserver(queryid, data)
+   if awaiting(queryid,data) then  -- async/await
+        -- other requests
+   end
+end
+
+function http_response(request_id,status,metadata,body)
+   if awaiting(request_id,body) then  -- async/await
+        -- other requests
+   end
+end
+
+ll.Listen(1, "", ll.GetOwner(), "")
