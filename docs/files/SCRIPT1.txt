@@ -1,0 +1,24 @@
+local function longProcess()
+    for i = 1, 25 do
+        for j = 1, 25 do
+            ll.SetText(tostring(i.." "..j),vector(1,1,1),1)
+        end
+    end
+    ll.SetText("",vector(0,0,0),0)
+end
+
+function touch_start(numDetected)
+    for i = 0, numDetected - 1 do
+        local toucher = ll.DetectedKey(i)
+        ll.RegionSayTo(toucher, 0, "Hello " .. ll.GetDisplayName(toucher))
+    end
+end
+
+function timer()
+    ll.SetTimerEvent(0)
+    longProcess()  
+    ll.SetTimerEvent(15)
+end
+
+ll.SetText("",vector(0,0,0),0)
+ll.SetTimerEvent(5)
