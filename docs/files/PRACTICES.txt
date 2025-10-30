@@ -1,0 +1,190 @@
+
+practice1 = [[
+Create a function that prints "Hello from the coroutine!".
+Create a coroutine with this function.
+Execute the coroutine.
+]]
+
+function myCoroutineFunction()
+    print("Hello from the coroutine!")
+end
+
+local co = coroutine.create(myCoroutineFunction)
+
+coroutine.resume(co)
+
+
+
+practice2  = [[
+Create another simple coroutine like in the previous exercise.
+Print the status of the coroutine before executing it.
+Execute the coroutine.
+Print the status of the coroutine after it has finished executing.
+]]
+
+function simpleTask()
+    print("Coroutine is running")
+end
+
+local taskCoro = coroutine.create(simpleTask)
+
+print("Initial status:", coroutine.status(taskCoro))  -- > suspended
+
+coroutine.resume(taskCoro)
+
+print("Final status:", coroutine.status(taskCoro))  -- > dead
+
+
+
+practice3 = [[
+Create a function that does the following:
+	Prints "Starting the task".
+	Pauses.
+	Prints "Resumed the task".
+Create a coroutine from this function.
+Execute the coroutine. You should see the first message.
+Print the status of the coroutine after the first resume.
+Resume the coroutine again. You should see the second message.
+Print the final status of the coroutine.
+]]
+
+function pausableTask()
+    print("Starting the task")
+    coroutine.yield()
+    print("Resumed the task")
+end
+
+local pausableCoro = coroutine.create(pausableTask)
+
+print("First resume call:")
+coroutine.resume(pausableCoro)
+
+print("Status after yielding:", coroutine.status(pausableCoro))  -- > suspended
+
+print("Second resume call:")
+coroutine.resume(pausableCoro)
+
+print("Final status:", coroutine.status(pausableCoro))  -- > dead
+
+
+
+practice4 = [[
+Create a function that accepts two numbers.
+Inside the function, print the sum of the two numbers.
+Create a coroutine from this function.
+Execute the coroutine with two numbers as arguments.
+]]
+
+function addNumbers(a, b)
+    print("The sum is:", a + b)  -- > The sum is: 15
+end
+
+local calculatorCoro = coroutine.create(addNumbers)
+
+coroutine.resume(calculatorCoro, 10, 5)
+
+
+
+practice5 = [[
+Create two different functions.
+	Each function has a loop that runs a few times.
+	Inside the loop, each function prints a message and pauses.
+Create a coroutine for each task and store them in a table.
+Create a main loop that continues as long as there are active tasks in the tasks table.
+Inside this loop, iterate through the tasks table and resume each coroutine one by one.
+	If a coroutine is finished, remove it from the table.
+]]
+
+local tasks = {}
+
+function taskA()
+    for i = 1, 3 do
+        print("Task A is running step", i)
+        coroutine.yield()
+    end
+    print("Task A finished.")
+end
+
+function taskB()
+    for i = 1, 5 do
+        print("Task B is running step", i)
+        coroutine.yield()
+    end
+    print("Task B finished.")
+end
+
+table.insert(tasks, coroutine.create(taskA))
+table.insert(tasks, coroutine.create(taskB))
+
+while #tasks > 0 do
+    for i = #tasks, 1, -1 do
+        local task = tasks[i]
+        coroutine.resume(task)
+
+        if coroutine.status(task) == "dead" then
+            table.remove(tasks, i)
+        end
+    end
+end
+
+print("All tasks are complete.")
+
+
+
+practice6 = [[
+Create a script that starts a coroutine when the object is touched.
+The coroutine asks the user several questions one by one in local chat.
+After each question, wait for the user’s answer before continuing.
+Store all the answers in a table.
+]]
+
+local QUESTIONS = {
+	"If animals could talk, which species do you think would be the most boring?",
+	"What is the most useless superpower you can think of that you would still want?",
+	"If you were a ghost, who or what would you haunt?",
+	"If you could have a lifetime supply of any one thing, what would it be?",
+	"What's a conspiracy theory you would start just for fun?",
+}
+
+local chat = {
+	co = nil,
+	listenHandle = nil,
+	userId = nil,
+}
+
+local answers = {}
+
+function questions(userId)
+	ll.OwnerSay("Hello, " .. ll.GetDisplayName(userId) .. "! I'm going to ask you a few questions. Please answer in local chat.")
+	answers[userId] = {}
+	for i, question in QUESTIONS do
+		ll.OwnerSay("Question #" .. i .. ": " .. question)
+		local answer = coroutine.yield()
+		table.insert(answers[userId], answer)
+	end
+	ll.OwnerSay("Thank you for answering all the questions! The session is now over.")
+end
+
+function touch_start(total_number)
+	if chat.co and coroutine.status(chat.co) ~= "dead" then
+		ll.OwnerSay("I am already in a conversation with someone. Please wait.")
+	else
+		local userId = ll.DetectedKey(0)
+		chat = {
+			co = coroutine.create(questions),
+			listenHandle = ll.Listen(1, "", userId, ""),
+			userId = userId, 
+		}
+		coroutine.resume(chat.co, userId)
+	end
+end
+
+function listen(channel, name, id, message)
+	if chat.co and id == chat.userId then
+		coroutine.resume(chat.co, message)
+		if coroutine.status(chat.co) == "dead" then
+			ll.ListenRemove(chat.listenHandle)
+			chat = {}
+		end
+	end
+end
