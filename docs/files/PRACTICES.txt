@@ -163,7 +163,7 @@ print(`It took {count} rolls to get a 6.`)
 
 
 practice10 = [[
-Print a 5×5 grid of numbers like this = [[
+Print a 5×5 grid of numbers like this:
     1 2 3 4 5
     1 2 3 4 5
     1 2 3 4 5
