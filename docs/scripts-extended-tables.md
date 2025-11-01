@@ -4,11 +4,7 @@ Xtable extends the functionality of standard SLua tables, providing a set of met
 
 ### Example of use
 
--- Create an Xtable from an existing array
-local myArray = Xtable:new({1, 2, 3, 4, 5})
 
--- You can also use the call syntax for convenience
-local anotherArray = Xtable({6, 7, 8})
 
 ### Functions and operators
 
