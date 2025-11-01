@@ -35,14 +35,16 @@ Determines the type of the table based on its keys.
 #### Array Manipulation
 
 **slice(from, to)**  
-Extracts a portion of an array. Negative indices can be used to count from the end of the array.  
+Extracts a portion of an array.  
+Similar to ll.List2List(). Supports negative indices but not exclusion range.  
 - **Parameters:**
   - from (number): The starting index.
   - to (number): The ending index.
-- **Returns:** A new Xtable containing the sliced elements.
+- **Returns:** A new Xtable array containing the sliced elements.
 
 **insertArray(ins, from)**  
 Inserts the elements of one array into another at a specified position.  
+Similar to ll.ListInsertList() but modifying the original table. Supports negative indices.  
 - **Parameters:**
   - ins (table): The array to be inserted.
   - from (number): The index at which to insert the new elements.
@@ -50,6 +52,7 @@ Inserts the elements of one array into another at a specified position.
 
 **replaceArray(rep, from, to)**  
 Replaces a range of elements in an array with the elements of another array.  
+Similar to ll.ListReplaceList() but modifying the original table. Supports negative indices but not exclusion range.  
 - **Parameters:**
   - rep (table): The array of replacement elements.
   - from (number): The starting index of the range to replace.
@@ -58,6 +61,7 @@ Replaces a range of elements in an array with the elements of another array.
 
 **removeArray(from, to)**  
 Removes a range of elements from an array.  
+Similar to ll.DeleteSubList() but modifying the original table. Supports negative indices but not exclusion range.
 - **Parameters:**
   - from (number): The starting index of the range to remove.
   - to (number): The ending index of the range to remove.
@@ -74,19 +78,19 @@ Applies a function to each element of one or more arrays and returns a new Xtabl
 - **Parameters:**
   - func (function): The function to apply to each element.
   - ...: Optional additional tables to be iterated over in parallel.
-- **Returns:** A new Xtable containing the results of the function applications.
+- **Returns:** A new Xtable array containing the results of the function applications.
 
 **filter(func)**  
 Creates a new Xtable with all elements that pass the test implemented by the provided function.  
 - **Parameters:**
   - func (function): The function to test each element. Should return true to keep the element.
-- **Returns:** A new Xtable with the filtered elements.
+- **Returns:** A new Xtable array with the filtered elements.
 
 **reject(func)**  
 The opposite of filter. Creates a new Xtable with all elements that do not pass the test implemented by the provided function.  
 - **Parameters:**
-  - func (function): The function to test each element. Should return false to keep the element.
-- **Returns:** A new Xtable with the rejected elements.
+  - func (function): The function to test each element. Should return true to keep the element.
+- **Returns:** A new Xtable array with the rejected elements.
 
 **reduce(func, init)**  
 Applies a function against an accumulator and each value of the array (from left-to-right) to reduce it to a single value.  
@@ -134,11 +138,11 @@ Counts the number of elements that match a given value or satisfy a given functi
 
 **keys()**  
 Returns a new Xtable containing the keys of the table.  
-- **Returns:** A new Xtable with the keys.
+- **Returns:** A new Xtable array with the keys.
 
 **values()**  
 Returns a new Xtable containing the values of the table.  
-- **Returns:** A new Xtable with the values.
+- **Returns:** A new Xtable array with the values.
 
 **update(other)**  
 Updates the table with the key-value pairs from another table, overwriting existing keys.  
@@ -148,27 +152,29 @@ Updates the table with the key-value pairs from another table, overwriting exist
 
 **unique()**  
 Creates a new Xtable with the unique values from the table.  
-- **Returns:** A new Xtable with unique values.
+- **Returns:** A new Xtable array with unique values.
 
 **intersection(other)**  
 Creates a new Xtable with the values that are present in both the original table and the other table.  
 - **Parameters:**
   - other (table): The table to intersect with.
-- **Returns:** A new Xtable with the common values.
+- **Returns:** A new Xtable array with the common values.
 
 **difference(other)**  
 Creates a new Xtable with the values from the original table that are not present in the other table.  
 - **Parameters:**
   - other (table): The table to compare against.
-- **Returns:** A new Xtable with the values unique to the original table.
+- **Returns:** A new Xtable array with the values unique to the original table.
 
 #### Operators
 
 **__add (Concatenation)**  
-The + operator concatenates two tables or a table and a single value.  
+The + operator concatenates two array tables or an array table and a single value.  
+- **Returns:** A new Xtable array.
 
 **__mul (Merging)**  
-The * operator merges two tables. For duplicate keys, the value from the right-hand table is used.  
+The * operator merges two dictionary tables. For duplicate keys, the value from the right-hand table is used.  
+- **Returns:** A new Xtable dictionary.
 
 ### Script
 
