@@ -4,7 +4,84 @@ Xtable extends the functionality of standard SLua tables, providing a set of met
 
 ### Example of use
 
+<div class="script-box intermediate">
+<h4>dataserver and http requests</h4>
+<p>an example of use, add the async/await code that is at the end of page</p>
+<pre class="language-slua line-numbers"><code class="language-slua">-- ===== COPY THE XTABLE CODE HERE =====
 
+-- Create a new Xtable (works like a normal table)
+local fruits = Xtable({"apple", "banana", "cherry"})
+print("Fruits:", table.concat(fruits, ", "))
+
+-- You can still use standard table functions,
+-- but with Xtable you can call them as methods using ':' instead of 'table.'.
+
+-- These two lines do the same thing:
+table.insert(fruits, "pear")     -- regular Lua style
+fruits:insert("pear")            -- method style (Xtable lets you do this)
+
+print("After insert:", fruits:concat(", "))
+
+-- You can also mix normal table functions with Xtable methods:
+print("Length:", #fruits)                -- Standard length operator
+print("Custom length:", fruits:len())    -- Using Xtable's len() method
+print("Type:", fruits:type())            -- "array", "dictionary", or "mix"
+
+-- Slice (like ll.List2List)
+local sliced = fruits:slice(2, 3)
+print("Slice (2–3):", sliced:concat(", "))
+
+-- Map: apply a function to each element
+local upper = fruits:map(string.upper)
+print("Uppercase:", upper:concat(", "))
+
+-- Filter: keep elements that match a condition
+local longNames = fruits:filter(function(fruit)
+	return #fruit > 5
+end)
+print("Long names:", longNames:concat(", "))
+
+-- Detect: find the first that matches a condition
+local found = fruits:detect(function(fruit)
+	return fruit:sub(1,1) == "b"
+end)
+print("First fruit starting with 'b':", found)
+
+-- Count: how many equal to something
+print("Count 'apple':", fruits:count("apple"))
+
+-- Unique: remove duplicates
+local dupes = Xtable({"apple", "banana", "apple", "cherry"})
+print("With duplicates:", dupes:concat(", "))
+local unique = dupes:unique()
+print("Unique:", unique:concat(", "))
+
+-- Keys and Values (works for dictionaries)
+local person = Xtable({name = "Alice", age = 25, city = "Paris"})
+print("Keys:", person:keys():concat(", "))
+print("Values:", person:values():concat(", "))
+
+-- Update: add/replace values from another table
+person:update({age = 26, country = "France"})
+print("After update:")
+for k, v in person do
+	print(" ", k, v)
+end
+
+-- + Operator: concatenates arrays
+local more = Xtable({"fig", "grape"})
+local combined = fruits + more
+print("Combined:", combined:concat(", "))
+
+-- * Operator: merges dictionaries
+local dict1 = Xtable({a = 1, b = 2})
+local dict2 = Xtable({b = 3, c = 4})
+local merged = dict1 * dict2
+for k, v in merged do
+	print("Merged", k, v)
+end
+</code></pre>
+</div>
 
 ### Functions and operators
 
