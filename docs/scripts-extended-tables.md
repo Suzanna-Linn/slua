@@ -5,7 +5,7 @@ Xtable extends the functionality of standard SLua tables, providing a set of met
 ### Example of use
 
 <div class="script-box intermediate">
-<h4>extended table</h4>
+<h4>Using extended tables</h4>
 <p>an example of use, add the extended table code that is at the end of page</p>
 <pre class="language-slua line-numbers"><code class="language-slua">
 -- ===== COPY THE XTABLE CODE HERE =====
@@ -253,7 +253,7 @@ The * operator merges two dictionary tables. For duplicate keys, the value from 
 ### Script
 
 <div class="script-box advanced">
-<h4>extended table code</h4>
+<h4>Class Extended Table</h4>
 <pre class="language-slua line-numbers"><code class="language-slua">-- Extended table (by Suzanna Linn, 2025-10-31)
 
 local Xtable = {}
