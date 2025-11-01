@@ -16,21 +16,21 @@ local anotherArray = Xtable({6, 7, 8})
 
 **Xtable:new(tab)**  
 Creates a new Xtable instance from an existing table tab.  
-*  **Parameters:**
-  *  tab (table): The table to be wrapped by Xtable.
-*  **Returns:** A new Xtable instance.
+-  **Parameters:**
+  -  tab (table): The table to be wrapped by Xtable.
+-  **Returns:** A new Xtable instance.
 
 **Xtable:len()**  
 Returns the number of elements in the table, considering both array and dictionary parts. It iterates through all key-value pairs to determine the count.  
-*  **Returns:** (number) The total number of elements.
+-  **Returns:** (number) The total number of elements.
 
 **Xtable:type()**  
 Determines the type of the table based on its keys.  
-*  **Returns:** (string) One of the following:
-  *  "empty": If the table has no elements.
-  *  "array": If all keys are sequential integers starting from 1.
-  *  "dictionary": If there are no array elements.
-  *  "mix": If the table contains both array and dictionary-style keys.
+-  **Returns:** (string) One of the following:
+  -  "empty": If the table has no elements.
+  -  "array": If all keys are sequential integers starting from 1.
+  -  "dictionary": If there are no array elements.
+  -  "mix": If the table contains both array and dictionary-style keys.
 
 #### Array Manipulation
 
