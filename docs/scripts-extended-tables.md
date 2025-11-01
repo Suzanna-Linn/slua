@@ -5,9 +5,10 @@ Xtable extends the functionality of standard SLua tables, providing a set of met
 ### Example of use
 
 <div class="script-box intermediate">
-<h4>dataserver and http requests</h4>
-<p>an example of use, add the async/await code that is at the end of page</p>
-<pre class="language-slua line-numbers"><code class="language-slua">-- ===== COPY THE XTABLE CODE HERE =====
+<h4>extended table</h4>
+<p>an example of use, add the extended table code that is at the end of page</p>
+<pre class="language-slua line-numbers"><code class="language-slua">
+-- ===== COPY THE XTABLE CODE HERE =====
 
 -- Create a new Xtable (works like a normal table)
 local fruits = Xtable({"apple", "banana", "cherry"})
@@ -251,3 +252,270 @@ The * operator merges two dictionary tables. For duplicate keys, the value from 
 
 ### Script
 
+<div class="script-box advanced">
+<h4>extended table code</h4>
+<pre class="language-slua line-numbers"><code class="language-slua">-- Extended table (by Suzanna Linn, 2025-10-31)
+
+local Xtable = {}
+
+Xtable.__index = function(tab, key)
+	return Xtable[key] or table[key]
+end
+
+setmetatable(Xtable, {
+	__call = function(t, ...)
+		return Xtable:new(...)
+	end,
+	__iter = pairs,
+})
+
+function Xtable:new(tab)
+	return setmetatable(tab, Xtable)
+end
+
+function Xtable:len()
+	local count = 0
+	for _ in self do
+		count += 1
+	end
+	return count
+end
+
+function Xtable:type()
+	local arrayLen = #self
+	local dictLen = self:len()
+	return if dictLen == 0 then "empty"
+		elseif arrayLen == dictLen then "array"
+		elseif arrayLen == 0 then "dictionary"
+		else "mix"
+end
+
+function Xtable:slice(from, to)
+	from, to = if from < 0 then #self + from + 1 else from, if to < 0 then #self + to + 1 else to 
+	return Xtable:new(table.move(self, from, to, 1, {}))
+end
+
+function Xtable:insertArray(ins, from)
+	from = if from < 0 then #self + from + 1 else from
+	table.move(ins, 1, #ins, from,
+		table.move(self, from, #self, from + #ins)
+	)
+	return self
+end
+
+function Xtable:replaceArray(rep, from, to)
+	from, to = if from < 0 then #self + from + 1 else from, if to < 0 then #self + to + 1 else to 
+	table.move(rep, 1, #rep, from,
+		table.move(
+			table.move({}, 1, to - from + 1, #self - to + from,
+				table.move(self, to + 1, #self, from)
+			)
+		, from, #self, from + #rep)
+	)
+	return self
+end
+
+function Xtable:removeArray(from, to)
+	from, to = if from < 0 then #self + from + 1 else from, if to < 0 then #self + to + 1 else to 
+	table.move({}, 1, to - from + 1, #self - to + from,
+		table.move(self, to + 1, #self, from)
+	)
+	return self
+end
+
+function Xtable:reverse()
+	local right = #self
+	for left = 1, right // 2 do
+		self[left], self[right] = self[right], self[left]
+		right -= 1
+	end
+	return self
+end
+
+function Xtable:map(func, ...)
+	local mapped = {}
+	local tables = {self, ...}
+	local elements = #tables[1]
+	for iTable = 2, #tables do
+		local len = #tables[iTable]
+		if len < elements then
+			elements = len
+		end
+	end
+	for iElement = 1, elements do
+		local element = {}
+		for _, tab in tables do
+			table.insert(element, tab[iElement])
+		end
+		table.insert(mapped, func(table.unpack(element)))
+	end
+	return Xtable:new(mapped)
+end
+
+function Xtable:filter(func)
+	local filtered = {}
+	for iElement = 1, #self do
+		if func(self[iElement]) then
+			table.insert(filtered, self[iElement])
+		end
+	end
+	return Xtable:new(filtered)
+end
+
+function Xtable:reject(func)
+	local rejected = {}
+	for iElement = 1, #self do
+		if func(self[iElement]) then
+			table.insert(rejected, self[iElement])
+		end
+	end
+	return Xtable:new(rejected)
+end
+
+function Xtable:reduce(func, init)
+	local reduced = if init ~= nil then init else self[1]
+	for iElement = if init ~= nil then 1 else 2, #self do
+		reduced = func(reduced, self[iElement])
+	end
+	return reduced
+end
+
+function Xtable:each(func)
+	for _, v in self do
+		func(v)
+	end
+end
+
+function Xtable:detect(func)
+	for _, v in self do
+		if func(v) then
+			return v
+		end
+	end
+	return nil
+end
+
+function Xtable:any(func)
+	for _, v in self do
+		if func(v) then
+			return true
+		end
+	end
+	return false
+end
+
+function Xtable:all(func)
+	for _, v in self do
+		if not func(v) then
+			return false
+		end
+	end
+	return true
+end
+
+function Xtable:none(func)
+	for _, v in self do
+		if func(v) then
+			return false
+		end
+	end
+	return true
+end
+
+function Xtable:count(funcOrValue)
+	local count = 0
+	if type(funcOrValue) == "function" then
+		for _, v in self do
+			if funcOrValue(v) then
+				count += 1
+			end
+		end
+	else
+		for _, v in self do
+			if v == funcOrValue then
+				count += 1
+			end
+		end
+	end
+	return count
+end
+
+function Xtable:keys()
+	local res = {}
+	for k in self do
+		table.insert(res, k)
+	end
+	return Xtable:new(res)
+end
+
+function Xtable:values()
+	local res = {}
+	for _, v in self do
+		table.insert(res, v)
+	end
+	return Xtable:new(res)
+end
+
+function Xtable:update(other)
+	for k, v in other do
+		self[k] = v
+	end
+	return self
+end
+
+function Xtable:unique()
+	local seen = {}
+	local res = {}
+	for _, v in self do
+		if not seen[v] then
+			table.insert(res, v)
+			seen[v] = true
+		end
+	end
+	return Xtable:new(res)
+end
+
+function Xtable:intersection(other)
+	local res = {}
+	local seen = {}
+	for _, v in other do
+		seen[v] = true
+	end
+	for _, v in self do
+		if seen[v] then
+			table.insert(res, v)
+		end
+	end
+	return Xtable:new(res)
+end
+
+function Xtable:difference(other)
+	local res = {}
+	local seen = {}
+	for _, v in other do
+		seen[v] = true
+	end
+	for _, v in self do
+		if not seen[v] then
+			table.insert(res, v)
+		end
+	end
+	return Xtable:new(res)
+end
+
+Xtable.__add = function(left, right)
+	left, right = if type(left) == "table" then left else {left}, if type(right) == "table" then right else {right}
+	return Xtable:new(table.move(right, 1, #right, #left + 1, table.move(left, 1, #left, 1, {})))
+end
+
+Xtable.__mul = function(left, right)
+	local res = {}
+	for k, v in left do
+		res[k] = v
+	end
+	for k, v in right do
+		res[k] = v
+	end
+	return Xtable:new(res)
+end</code></pre>
+</div>
