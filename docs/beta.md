@@ -14,7 +14,7 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 These changes are only in SLua. LSL is unchanged and stays working the same.
 
-*(this page updated on Wednesday, Oct 15th)*
+*(this page updated on Sunday, Nov 2nd)*
 
 ### Events, object LLEvents
 
@@ -430,6 +430,27 @@ The LSL constants TRUE and FALSE that still existed in SLua Alpha are now undefi
 
 Don't use them!
 
+### SLua type uuid
+
+The function uuid() returns NULL_KEY for not valid uuids.
+
+LL functions with parameters of type uuid can receive uuid or string.
+
+LL functions returning textures return:
+- type string when the name of the texture is returned.
+- type uuid when the uuid of the texture is returned.
+
+Linked messages have a string instead of an uuid in their fourth parameter
+- the function ll.MessageLinked( link, num, str, str2 )
+- the event link_message( sender_num, num, str, str2 )
+- linked messages with LSL scripts are internally typecasted.
+
+### SLua type integer
+
+The type integer doesn't exist any more.
+
+It was necessary at the beginnings of SLua to work with some LL functions. Now all the LL functions work with the type number and the type integer had become mostly unuseful.
+
 ### Compatibility, library llcompat
 
 Some LL functions change they behaviour. These changes are explained in the next three sections.
@@ -661,6 +682,8 @@ These are the functions that change:
 The LL functions that return a boolean value now return type boolean instead of type number.
 - Functions like ll.GetPrimitiveParams() and ll.GetObjectDetails() that return boolean values inside lists still return them as type number.
   - LL functions are not ready to return type boolean in a list.
+
+LL functions with integer parameters that are a boolean value can receive boolean or number (this already worked in SLua Alpha).
 
 These are the functions that change:  
 <br>
