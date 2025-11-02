@@ -458,7 +458,7 @@ The few remaining uses of integer were:
 	- we can use <code class="language-sluab">string.match(myStr, "^%s*([-+]?%d+)" ) or 0</code>
   - <code class="language-sluab">integer(myBool) -- > 1 or 0</code>
 	- we can use <code class="language-sluab">if myBool then 1 else 0</code>
-- the bit32 library functions returned type integer when all the parameters have type integer.
+- the bit32 library functions returned type integer when all the parameters had type integer.
   - to get signed results (like -1 instead of 4294967295) we can use:
     -  <code class="language-sluab">myRes = bit32.bnot(myNum) if myRes >= 2^31 then myRes -= 2^32 end</code>
 - ll.List2Integer() returned type integer.
