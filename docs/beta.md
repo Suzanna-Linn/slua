@@ -440,7 +440,7 @@ LL functions returning textures return:
 - type string when the name of the texture is returned.
 - type uuid when the uuid of the texture is returned.
 
-Linked messages have a string instead of an uuid in their fourth parameter
+Linked messages have a string instead of an uuid in their fourth parameter.
 - the function ll.MessageLinked( link, num, str, str2 )
 - the event link_message( sender_num, num, str, str2 )
 - linked messages with LSL scripts are internally typecasted.
@@ -459,7 +459,8 @@ The few remaining uses of integer were:
   - <code class="language-sluab">integer(myBool) -- > 1 or 0</code>
 	- we can use <code class="language-sluab">if myBool then 1 else 0</code>
 - the bit32 library functions returned type integer when all the parameters have type integer.
-  - to get signed results we can use <code class="language-sluab">myRes = bit32.bnot(myNum) if myRes >= 2^31 then myRes -= 2^32</code>
+  - to get signed results (like -1 instead of 4294967295) we can use:
+    -  <code class="language-sluab">myRes = bit32.bnot(myNum) if myRes >= 2^31 then myRes -= 2^32 end</code>
 - ll.List2Integer() returned type integer.
   - it returns type number.
 - ll.DumpList2String() and ll.List2CSV() printed type number always with six decimals and type integer without decimals.
