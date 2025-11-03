@@ -105,3 +105,56 @@ function http_response(request_id, status, metadata, body)
    end
 end</code></pre>
 </div>
+<div class="script-box advanced">
+<h4>async/await with error control code</h4>
+<pre class="language-slua line-numbers"><code class="language-slua">-- Async / Await with error control (by Suzanna Linn, 2025-11-03)
+
+-- start async/await section
+
+local _awaiting = {}
+
+local function _err(err, message)
+    if not err then
+        local func, line = debug.info(3,"nl")
+        message = `\nerror in coroutine called in {if func ~= "" then "function ".. func else "main script"} at line {line}:\n{message}\n`
+        error(message, 3)
+    end
+end
+
+local function async(func, ...)
+    _err(coroutine.resume(coroutine.create(func),...))
+end
+
+local function awaiting(queryid, ...)
+    if _awaiting[queryid] then
+        _err(coroutine.resume(_awaiting[queryid], ...))
+        _awaiting[queryid] = nil
+        return false
+    else
+        return true
+    end
+end
+
+local function await(queryid)
+    _awaiting[queryid] = coroutine.running()
+    return coroutine.yield()
+end
+
+-- end async/await section
+
+
+-- ===== PLACE YOUR CODE HERE =====
+
+
+function dataserver(queryid, data)
+   if awaiting(queryid, data) then  -- async/await
+        -- other requests
+   end
+end
+
+function http_response(request_id, status, metadata, body)
+   if awaiting(request_id, body) then  -- async/await
+        -- other requests
+   end
+end</code></pre>
+</div>
