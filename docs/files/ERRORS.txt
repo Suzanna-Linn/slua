@@ -164,3 +164,73 @@ end
 
 local ok, result = xpcall(runTimeError2,err)
 if not ok then error(result) end
+
+
+
+local function numberGenerator()
+	for i = 1, 3 do
+		coroutine.yield(i)
+	end
+	return 4
+end
+
+local co = coroutine.create(numberGenerator)
+
+local success, value = coroutine.resume(co)
+print(value) -- > 1
+success, value = coroutine.resume(co)
+print(value) -- > 2
+success, value = coroutine.resume(co)
+print(value) -- > 3
+success, value = coroutine.resume(co)
+print(value) -- > 4
+success, value = coroutine.resume(co)
+print(value)  -- >   cannot resume dead coroutine
+
+
+
+function wrap(func)
+	local co = coroutine.create(func)
+	return function(...)
+		local results = table.pack(coroutine.resume(co, ...))
+		local success = results[1]
+		if success then
+			return table.unpack(results, 2, results.n)
+		else
+			local errorMessage = results[2]
+			error(errorMessage)
+		end
+	end
+end
+
+local function numberGenerator()
+	for i = 1, 3 do
+		coroutine.yield(i)
+	end
+	return 4
+end
+
+local generate = wrap(numberGenerator)
+
+print(generate()) -- > 1
+print(generate()) -- > 2
+print(generate()) -- > 3
+print(generate()) -- > 4
+print(pcall(generate))  -- > false    cannot resume dead coroutine
+
+
+
+local function numberGenerator()
+	for i = 1, 3 do
+		coroutine.yield(i)
+	end
+	return 4
+end
+
+local generate = coroutine.wrap(numberGenerator)
+
+print(generate()) -- > 1
+print(generate()) -- > 2
+print(generate()) -- > 3
+print(generate()) -- > 4
+print(pcall(generate))  -- > false    cannot resume dead coroutine
