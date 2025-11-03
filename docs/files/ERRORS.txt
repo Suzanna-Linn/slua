@@ -1,9 +1,9 @@
 
-function calculateSquareRoot(number)
+local function calculateSquareRoot(number)
    return math.sqrt(number)
 end
 
-function safeSquareRoot(input)
+local function safeSquareRoot(input)
    local success, result = pcall(calculateSquareRoot, input)
    if success then
        print("The square root is:", result)
@@ -184,7 +184,7 @@ print(value)  -- >   cannot resume dead coroutine
 
 
 
-function wrap(func)
+local function wrap(func)
 	local co = coroutine.create(func)
 	return function(...)
 		local results = table.pack(coroutine.resume(co, ...))
