@@ -1,3 +1,4 @@
+
 function calculateSquareRoot(number)
    return math.sqrt(number)
 end
