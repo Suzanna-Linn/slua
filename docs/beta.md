@@ -770,7 +770,7 @@ The SLua extension is based on open source VSC extensions:
   - It uses the Luau Analyzer for type checking and linting.
     - Type checking automatically infers types from the values assigned to variables or manually by adding type annotations. These annotations can define types, combinations of types, or subtypes. There are directives that allow to control the level of type checking in each script, ranging from none to strict.
     - Linting identifies possible issues like uninitialized or unused variables, duplicated functions, mismatched parameter counts, return values, and many more. There are also directives to enable or disable specific linting checks.
-- [Selene](https://https://github.com/Kampfkarren/selene) : a Lua and Luau extension.
+- [Selene](https://github.com/Kampfkarren/selene) : a Lua and Luau extension.
   - Linting focusing on style rules that can be configured to adapt to each scripter style.
     - It helps enforce a consistent and readable coding style.
  
