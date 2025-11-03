@@ -791,12 +791,12 @@ An example of include/require:
 -- all variables should be local to avoid name conflicts when imported
 local greetings = {}
 
-function greetings.hi(name)
-    print("Hello " .. name .. "!")
+function greetings.hi(id)
+    print("Hello " .. ll.GetDisplayName(id) .. "!")
 end
 
-function greetings.bye(name)
-    print("See you " .. name .. "!")
+function greetings.bye(id)
+    print("See you " .. ll.GetDisplayName(id) .. "!")
 end
 
 -- libraries have to return something, often a table with functions
@@ -816,12 +816,12 @@ greet.bye(ll.GetOwner())</code></pre>
 local greet = (function()
     local greetings = {}
 
-    function greetings.hi(name)
-        print("Hello " .. name .. "!")
+    function greetings.hi(id)
+        print("Hello " .. ll.GetDisplayName(id) .. "!")
     end
 
-    function greetings.bye(name)
-        print("See you " .. name .. "!")
+    function greetings.bye(id)
+        print("See you " .. ll.GetDisplayName(id) .. "!")
     end
 
     return greetings
