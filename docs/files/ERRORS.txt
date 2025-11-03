@@ -16,21 +16,15 @@ safeSquareRoot("hello") -- Error in lua_Script:2: invalid argument #1 to 'sqrt' 
 
 
 
-function calculateSquareRoot(number)
-   return math.sqrt(number)
+local function safeDivide(a: number, b: number): number
+    if b == 0 then
+        error("Division by zero")
+    end
+    return a / b
 end
 
-function safeSquareRoot(input)
-   local success, result = pcall(calculateSquareRoot, input)
-   if success then
-       print("The square root is:", result)
-   else
-       print("Error in", result) 
-   end
-end
-
-safeSquareRoot(25) -- The square root is: 5.0
-safeSquareRoot("hello") -- Error in lua_Script:2: invalid argument #1 to 'sqrt' (number expected, got string)
+print(safeDivide(10, 2))  -- 5
+print(safeDivide(5, 0))   -- lua.script:3: Division by zero
 
 
 
