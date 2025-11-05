@@ -1,0 +1,46 @@
+
+LSL = [[
+default {
+    state_entry() {
+        
+        list lst1 = [ 10, 20, 30 ];
+        list lst2 = [];
+        
+        key obj1 = llGetKey();
+        key obj2 = NULL_KEY;
+        llSetObjectDesc("original description");
+        
+        lst2 = lst1;
+        lst1 = llListReplaceList(lst1, [15], 1, 1);
+        
+        obj2 = obj1;
+        llSetObjectDesc("mew description");
+        
+        llOwnerSay(llList2String(lst1, 1));  // --> 15
+        llOwnerSay(llList2String(lst2, 1));  // --> 20
+        
+        llOwnerSay(llList2String(llGetObjectDetails(obj1,[OBJECT_DESC]),0));  // --> new description
+        llOwnerSay(llList2String(llGetObjectDetails(obj2,[OBJECT_DESC]),0));  // --> new description
+        
+    }
+}
+]]
+
+local tab1 = { 10, 20, 30 }
+local tab2 = {}
+
+local obj1 = ll.GetKey()
+local obj2 = NULL_KEY
+ll.SetObjectDesc("original description")
+
+tab2 = tab1
+tab1[2] = 15
+
+obj2 = obj1
+ll.SetObjectDesc("new description")
+
+ll.OwnerSay(tostring(tab1[2]))  -- > 15
+ll.OwnerSay(tostring(tab2[2]))  -- > 15
+
+ll.OwnerSay(`{ll.GetObjectDetails(obj1,{OBJECT_DESC})[1]}`)  -- > new description
+ll.OwnerSay(`{ll.GetObjectDetails(obj2,{OBJECT_DESC})[1]}`)  -- > new description
