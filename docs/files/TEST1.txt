@@ -1,0 +1,26 @@
+
+LSL = [[
+default {
+    state_entry() {
+        
+        list lst1 = [ 10, 20, 30 ];
+        list lst2 = [];
+        
+        lst2 = lst1;
+        lst1 = llListReplaceList(lst1, [15], 1, 1);
+        
+        llOwnerSay(llList2String(lst1, 1));  // --> 15
+        llOwnerSay(llList2String(lst2, 1));  // --> 20
+        
+    }
+}
+]]
+
+local tab1 = { 10, 20, 30 }
+local tab2 = {}
+
+tab2 = tab1
+tab1[2] = 15
+
+ll.OwnerSay(tostring(tab1[2]))  -- > 15
+ll.OwnerSay(tostring(tab2[2]))  -- > 15
