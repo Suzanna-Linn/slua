@@ -389,7 +389,7 @@ Strings and string uuids are stored as UTF-8. The characters ASCII 0-127 use 1 b
 - The memory for tables is allocated dynamically and optimized for speed.
 - The table starts with zero memory allocated. As elements are added, SLua  allocates memory in chunks sized to a power of two (e.g., 4, 8, 16).
 - The array part of the table (correlative integer indexes starting with 1) only stores TValue (16 bytes each element). We can use table.create() to preallocate its size.
-- The dictionary part of the table stores TKey and TValue (32 bytes each element)
+- The dictionary part of the table stores TKey and TValue (32 bytes each element). There is no way to avoid allocation to the next power of two.
 - Each part of the table has its own allocation space.
 - The allocation never shrinks, only grows. To free memory after removing elements from a table the only way is to copy the remaining elements to a new table.
 
