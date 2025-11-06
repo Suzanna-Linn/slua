@@ -182,7 +182,7 @@ We have a new object **LLTimers** to work with timers. The current way to set th
 
 These are the methods in the object:
 
-- *handler* = **LLTimers:on**(*seconds*, *handler*) : adds a timer.
+- *handler* = **LLTimers:every**(*seconds*, *handler*) : adds a timer.
   - seconds : the interval.
   - handler : the function that runs when the time arrives.
   - returns the same function that we have passed in, so we can use it later to remove it.
@@ -213,7 +213,7 @@ local function someThing()
     -- stop the timer, in case that it was set,
     -- to be sure not to duplicate it
     LLTimers:off(timer)
-    LLTimers:on(15, timer)
+    LLTimers:every(15, timer)
     -- some code here
     LLTimers:off(timer)
 end
@@ -249,12 +249,12 @@ local myTimerFunction()
 end
 
 -- add a timer with 15 seconds
-LLTimers:on(15, myTimerFunction)
+LLTimers:every(15, myTimerFunction)
 -- remove the timer
 LLTimers:off(myTimerFunction)
 
 -- add with anonymous function
-local myTimerHandler = LLTimers:on(15,
+local myTimerHandler = LLTimers:every(15,
     function()
         -- do something
     end
@@ -295,7 +295,7 @@ local function timer()
     end
 end
 
-LLTimers:on(1, timer)</code></pre>
+LLTimers:every(1, timer)</code></pre>
 <pre class="language-sluab"><code class="language-sluab">-- example with two timers (SLua Beta)
 
 local function myTimer1()
@@ -306,8 +306,8 @@ local function myTimer60()
     -- do something every 60 seconds
 end
 
-LLTimers:on(1, myTimer1)
-LLTimers:on(60, myTimer60)</code></pre>
+LLTimers:every(1, myTimer1)
+LLTimers:every(60, myTimer60)</code></pre>
 
 ### Multi-events, table evts
 
@@ -695,8 +695,8 @@ These are the functions that change:
 ### boolean LL functions
 
 The LL functions that return a boolean value now return type boolean instead of type number.
-- Functions like ll.GetPrimitiveParams() and ll.GetObjectDetails() that return boolean values inside lists still return them as type number.
-  - LL functions are not ready to return type boolean in a list.
+
+Functions like ll.GetPrimitiveParams() and ll.GetObjectDetails() that return boolean values inside lists also return type boolean instead of type number.
 
 LL functions with integer parameters that are a boolean value can receive boolean or number (this already worked in SLua Alpha).
 
