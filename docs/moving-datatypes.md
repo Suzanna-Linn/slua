@@ -439,10 +439,10 @@ for i = 1, 31 do table.remove(tab) end
 print(ll.GetUsedMemory() - before)  -- > 512 (32*16)
 
 tab = table.clone(tab)
-for _ = 1, 1 do end
+for _ = 1, 1 do end  -- strange thing that updates memory (garbage collecting or something with the count of used memory)
 print(ll.GetUsedMemory() - before)  -- > 512 (32*16)
 
 tab = table.move(tab, 1, #tab, 1, {})
-for _ = 1, 1 do end
+for _ = 1, 1 do end  -- without this ll.GetUsedMemory() still counts the memory of the now unreferenced table
 print(ll.GetUsedMemory() - before)  -- > 16 (1*16)</code></pre>
 
