@@ -93,7 +93,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-lltimers': {
-        pattern: /LLTimers:(?:on|once|off)\b/,
+        pattern: /LLTimers:(?:every|on|once|off)\b/,
         alias: 'builtin'
     },
     'builtin-get': {
