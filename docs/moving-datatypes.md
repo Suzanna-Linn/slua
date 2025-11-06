@@ -383,3 +383,66 @@ Strings and string uuids are stored as UTF-8. The characters ASCII 0-127 use 1 b
     </tr>
   </tbody>
 </table>
+
+### Memory allocation for tables
+
+- The memory for tables is allocated dynamically and optimized for speed.
+- The table starts with zero memory allocated. As elements are added, SLua  allocates memory in chunks sized to a power of two (e.g., 4, 8, 16).
+- The array part of the table (correlative integer indexes starting with 1) only stores TValue (16 bytes each element). We can use table.create() to preallocate its size.
+- The dictionary part of the table stores TKey and TValue (32 bytes each element)
+- Each part of the table has its own allocation space.
+- The allocation never shrinks, only grows. To free memory after removing elements from a table the only way is to copy the remaining elements to a new table.
+
+Array with 32 elements:
+<pre class="language-slua"><code class="language-slua">local tab = {}
+local before = ll.GetUsedMemory()
+for i = 1, 32 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 512 (32*16)</code></pre>
+
+With 33 elements allocates memory for 64:
+<pre class="language-slua"><code class="language-slua">local tab = {}
+local before = ll.GetUsedMemory()
+-- tab = table.create(100)
+for i = 1, 33 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 1024 (64*16)</code></pre>
+
+We can use table.create() to allocate 33:
+<pre class="language-slua"><code class="language-slua">local tab = {}
+local before = ll.GetUsedMemory()
+tab = table.create(33)
+for i = 1, 33 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 528 (33*16)</code></pre>
+
+Dictionaries or sparse arrays use 32 bytes for element, with 100 elements allocates memory for 128, no way to allocate only for 100:
+<pre class="language-slua"><code class="language-slua">local tab = {}
+local before = ll.GetUsedMemory()
+for i = 10, 1000, 10 do tab[i] = i end
+print(ll.GetUsedMemory() - before)  -- > 4096 (128*32)</code></pre>
+
+Arrays and dictionaries use different allocations, a dictionary of 33 elements allocates for 64 (of 32 bytes), an array of 17 elements allocates for 32 (of 16 bytes):
+<pre class="language-slua"><code class="language-slua">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 1010, 1330, 10 do tab[i] = i end
+print(ll.GetUsedMemory() - before)  -- > 2048 (64*32)
+
+for i = 1, 17 do tab[i] = i end
+print(ll.GetUsedMemory() - before)  -- > 2560 (+512, 32*16)</code></pre>
+
+After removing 31 elements from an array of 32 it still have allocation for 32 elements. We can make a new table to free memory, but not with table.clone() that also copies the allocation:
+<pre class="language-slua"><code class="language-slua">local tab = {}
+local before = ll.GetUsedMemory()
+for i = 1, 32 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 512 (32*16)
+
+for i = 1, 31 do table.remove(tab) end
+print(ll.GetUsedMemory() - before)  -- > 512 (32*16)
+
+tab = table.clone(tab)
+for _ = 1, 1 do end
+print(ll.GetUsedMemory() - before)  -- > 512 (32*16)
+
+tab = table.move(tab, 1, #tab, 1, {})
+for _ = 1, 1 do end
+print(ll.GetUsedMemory() - before)  -- > 16 (1*16)</code></pre>
+
