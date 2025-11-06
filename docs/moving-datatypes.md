@@ -432,6 +432,7 @@ print(ll.GetUsedMemory() - before)  -- > 2560 (+512, 32*16)</code></pre>
 After removing 31 elements from an array of 32 it still have allocation for 32 elements. We can make a new table to free memory, but not with table.clone() that also copies the allocation:
 <pre class="language-slua"><code class="language-slua">local tab = {}
 local before = ll.GetUsedMemory()
+
 for i = 1, 32 do table.insert(tab, i) end
 print(ll.GetUsedMemory() - before)  -- > 512 (32*16)
 
