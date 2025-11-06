@@ -1,0 +1,193 @@
+
+practice1 = [[
+use pcall() to call this function without crashing, print the result or the error.
+]]
+
+local function getSomething()
+    if math.random() > 0.5 then
+        return "Something"
+    else
+        error("Crash")
+    end
+end
+
+local success, result = pcall(getSomething)
+
+if success then
+    print("Got:", result)
+else
+    print("Error caught:", result)
+end
+
+
+
+practice2 = [[
+use assert() to check that the parameter is a non-empty string.
+]]
+
+local function greet(name)
+    assert(type(name) == "string" and name ~= "", "Invalid name!")
+    print("Hello, " .. name .. "!")
+end
+
+greet("Alice")
+greet(123)
+
+
+
+practice3 = [[
+use pcall() with the previous practice to call the function with an array of names.
+print a default message when there is an error.
+]]
+
+local function greet2(name)
+    assert(type(name) == "string" and name ~= "", "Invalid name!")
+    print("Hello, " .. name .. "!")
+end
+
+local names = { "Al Dente", "", "Chris P. Bacon", "Crystal Clearwater", 12345, "Justin Time", "Paige Turner", {} }
+
+for _, name in ipairs(names) do
+    local success, err = pcall(greet2, name)
+    if not success then
+        print("Hello, stranger!")
+    end
+end
+
+
+
+practice4 = [[
+write a function that executes an array of tasks and prints if the task succeeds or fails.
+]]
+
+local function runTasks(tasks)
+    for i, task in ipairs(tasks) do
+        local success, err = pcall(task)
+        if success then
+            print("Task " .. i .. " succeeded.")
+        else
+            print("Task " .. i .. " failed:", err)
+        end
+    end
+end
+
+local tasks = {
+    function() print("Task 1 OK") end,
+    function() error("Oops in Task 2") end,
+    function() print("Task 3 OK") end,
+}
+
+runTasks(tasks)
+
+
+
+practice5 = [[
+use debug.info() to write a function that prints where another function is defined.
+]]
+
+local function report(func)
+    print("Function info:")
+    local source, line, name, funcObj = debug.info(func, "slnf")
+    print("Source:", source)
+    print("Line Defined:", line)
+    print("Name:", if name ~= "" then name else "anonymous")
+    print("Function Object:", funcObj)
+end
+
+local function myFunc()
+    return 42
+end
+
+report(myFunc)
+
+
+
+practice6 = [[
+write a function which uses debug.info() to print information about the error's location.
+use xpcall() to run a function that is expected to error and that invokes our info function.
+]]
+
+local function customErrorHandler(err)
+    local name, line = debug.info(2, "nl")
+    print(`An error occurred in: {if name ~= "" then name else "anonymous"} on line {line}`)
+    print(`Error message: {err}`)
+end
+
+local function happilyCrashing()
+    _() -- intentional crash: calling nil
+end
+
+xpcall(happilyCrashing, customErrorHandler)
+
+
+
+practice7 = [[
+Execute this coroutine until it finishes or crashes.
+Print if the coroutine has finished or in what loop index has crashed.
+]]
+
+local co = coroutine.create(function()
+    math.randomseed(os.time())
+    for i = 1, math.random(100) do
+        if math.random() > 0.975 then
+            error("Bad luck!")
+        end
+        coroutine.yield(i)
+    end
+end)
+
+local success, result
+local lastIndex = 0
+
+repeat
+    success, result = coroutine.resume(co)
+    if success and result then
+        lastIndex = result
+    end
+until not success or coroutine.status(co) == "dead"
+
+if success then
+    print("Coroutine finished successfully.")
+else
+    print("Coroutine crashed at loop index " .. tostring(lastIndex) .. " with error:", result)
+end
+
+
+
+practice8 = [[
+Use debug.traceback() to write a function to print the function call chain with all the info available
+]]
+
+local function printStack()
+    print("=== Stack Trace ===")
+    print(debug.traceback(nil, 2))
+    print("===================")
+end
+
+local function C() printStack() end
+local function B() C() end
+local function A() B() end
+
+A()
+
+
+
+practice9 = [[
+Rewrite the same function using debug.info().
+]]
+
+local function printStack2()
+    print("=== Stack Info (via debug.info) ===")
+    for level = 2, math.huge do
+        local source, line, name = debug.info(level, "sln")
+        if not source then break end
+        print(`level {level}, {source}:{line} in function {if name ~= "" then name else "anonymous"}`)
+    end
+    print("===================================")
+end
+
+local function C2() printStack2() end
+local function B2() C2() end
+local function A2() B2() end
+
+A2()
