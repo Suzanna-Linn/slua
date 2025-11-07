@@ -327,7 +327,7 @@ LLTimers:every(60, myTimer60)</code></pre>
 
 LLTimers passes a parameter to the handler function with the expected trigger time. The actual trigger time could be a few milliseconds later, never before.
 
-We can compare it to ll.GetTime(), which now has more precission, to know the delay. Both LLTimers and ll.GetTime() time is set to 0 when the script starts running:
+We can compare it to ll.GetTime(), which now has more precission, to know the delay. LLTimers and ll.GetTime() time is set to 0 when the script starts running:
 <pre class="language-sluab"><code class="language-sluab">-- comparing actual and expected time (SLua Beta)
 
 local function myTimer(expected)
