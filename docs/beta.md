@@ -473,6 +473,35 @@ Some LL functions change they behaviour. These changes are explained in the next
 We have the library **llcompat** with the LL functions unchanged. To use them as in SLua Alpha (and LSL) we need to add, at the start of the script:
 - <code class="language-sluab">ll = llcompat</code>
 
+### Removed functions
+
+These functions doesn't exist in SLua Beta:
+<br>
+<table border="1" style="width:50%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.SetTimerEvent</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.ResetTime</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.GetAndResetTime</td>
+  </tr>
+  <tr style="vertical-align: top;">
+    <td style="padding: 5px; border: 1px solid black;">ll.SetMemoryLimit</td>
+  </tr>
+</table>
+
+We can still use them in the llcompat library, but the 3 time-related functions are not compatible with the LLTimers object. We can't use the old timer functions and LLTimers together because LLTimers would fail.
+
+The old timer event, to be used with llcompat.SetTimerEvent(), is:
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- using the old event timer (SLua Beta)
+function LLEvents.timer()
+    -- do something
+end
+
+llcompat.SetTimerEvent(1)</code></pre>
+
 ### 1-based LL functions
 
 The LL functions that have some kind of 0-based index are now 1-based.
