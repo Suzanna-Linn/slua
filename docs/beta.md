@@ -448,7 +448,7 @@ Don't use them!
 
 ### SLua type uuid
 
-The function uuid() returns NULL_KEY for not valid uuids.
+The function uuid() returns nil for not valid uuids.
 
 LL functions with parameters of type uuid can receive uuid or string.
 
