@@ -325,6 +325,17 @@ end
 LLTimers:every(1, myTimer1)
 LLTimers:every(60, myTimer60)</code></pre>
 
+LLTimers passes a parameter to the handler function with the expected trigger time. The actual trigger time could be a few milliseconds later, never before.
+
+We can compare it to ll.GetTime(), which now has more precission, to know the delay. Both LLTimers and ll.GetTime() time is set to 0 when the script starts running:
+<pre class="language-sluab"><code class="language-sluab">-- comparing actual and expected time (SLua Beta)
+
+local function myTimer(expected)
+    print(ll.GetTime() - expected)  -- delay
+end
+
+LLTimers:every(1, myTimer)</code></pre>
+
 ### Multi-events, table evts
 
 We have a new way to work with the events, like touch_start, that can receive receive several events at once. The current way to write the multi-event events that SLua Alpha uses will stop working and we will need to rewrite the scripts.
