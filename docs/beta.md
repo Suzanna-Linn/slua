@@ -14,7 +14,7 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 These changes are only in SLua. LSL is unchanged and stays working the same.
 
-*(this page updated on Sunday, Nov 2nd)*
+*(this page updated on Friday, Nov 7nd)*
 
 ### Events, object LLEvents
 
@@ -77,7 +77,7 @@ An example with the syntax of all the methods:
 <pre class="language-sluab"><code class="language-sluab">-- example with all the methods (SLua Beta)
 
 -- a function to use for the example
-local myListenFunction(channel, name, id, msg)
+local function myListenFunction(channel, name, id, msg)
     -- do something
 end
 -- start listening as usual
@@ -244,7 +244,7 @@ An example with the syntax of all the methods:
 <pre class="language-sluab"><code class="language-sluab">-- example with all the methods (SLua Beta)
 
 -- a function to use for the example
-local myTimerFunction()
+local function myTimerFunction()
     -- do something
 end
 
@@ -356,24 +356,24 @@ The ll.Detected* functions with their names as functions in the events table:
     </td>
     <td style="width:30%; padding-left: 10px;">
       <ul>
-        <li>GetDamage</li>
-        <li>GetGrab</li>
-        <li>GetGroup</li>
-        <li>GetKey</li>
-        <li>GetLinkNumber</li>
-        <li>GetName</li>
-        <li>GetOwner</li>
-        <li>GetPos</li>
-        <li>GetRezzer</li>
-        <li>GetRot</li>
-        <li>GetTouchBinormal</li>
-        <li>GetTouchFace</li>
-        <li>GetTouchNormal</li>
-        <li>GetTouchPos</li>
-        <li>GetTouchST</li>
-        <li>GetTouchUV</li>
-        <li>GetType</li>
-        <li>GetVel</li>
+        <li>getDamage</li>
+        <li>getGrab</li>
+        <li>getGroup</li>
+        <li>getKey</li>
+        <li>getLinkNumber</li>
+        <li>getName</li>
+        <li>getOwner</li>
+        <li>getPos</li>
+        <li>getRezzer</li>
+        <li>getRot</li>
+        <li>getTouchBinormal</li>
+        <li>getTouchFace</li>
+        <li>getTouchNormal</li>
+        <li>getTouchPos</li>
+        <li>getTouchST</li>
+        <li>getTouchUV</li>
+        <li>getType</li>
+        <li>getVel</li>
       </ul>
     </td>
   </tr>
@@ -407,7 +407,7 @@ end</code></pre>
 <pre class="language-sluab"><code class="language-sluab">-- example with the table evts and the alternative events syntax (SLua Beta)
 function LLEvents.touch_start(evts)
     for _, evt in evts do
-        local toucher = evt:GetKey()
+        local toucher = evt:getKey()
         -- do something
     end
 end</code></pre>
@@ -415,7 +415,7 @@ end</code></pre>
 <pre class="language-sluab"><code class="language-sluab">-- example with the table evts (SLua Beta)
 local function myTouches(evts)
     for _, evt in evts do
-        local toucher = evt:GetKey()
+        local toucher = evt:getKey()
         -- do something
     end
 end
