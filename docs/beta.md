@@ -6,7 +6,9 @@ slua_beta: true
 
 ## What is new in the SLua Beta version
 
-The SLua Beta is expected to arrive in November or December! It will first appear on the Beta Grid (at least in the current SLua regions) and in a handful of regions on the Main Grid.
+The SLua pre-Beta with most of the new improvements is already in the SLua regions on the Beta Grid!
+
+The SLua Beta is expected to arrive in November or December. It will first appear on the Beta Grid (at least in the current SLua regions) and in a handful of regions on the Main Grid.
 
 I’ve gathered all the info I could find about the changes coming in this Beta. Not everything is set in stone yet, so this page may be evolving as more details become clear.
 
@@ -14,7 +16,20 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 These changes are only in SLua. LSL is unchanged and stays working the same.
 
-*(this page updated on Friday, Nov 7nd)*
+*(this page updated on Friday, Nov 7th)*
+
+### Getting it working (fast)
+
+If you just want your code to run right now, follow these steps. These are the quickest fixes — explanations and better approaches follow below.
+
+- Add this line at the start of the script
+  <code class="language-sluab">ll = llcompat</code>
+
+- Add "LLEvents." in front of all the event names
+  <code class="language-sluab">function LLEvents.listen(channel, name, id, msg)</code> instead of <code class="language-slua">function listen(channel, name, id, msg)</code>
+
+- In the events touch_start, touch, touch_end, collision_start, collision, collision_end, sensor, damage, final_damage, if you are using its parameter, add as first line in the event:
+   <code class="language-slua">num_detected = #num_detected</code> (change num_detected with the name of the event parameter)
 
 ### Events, object LLEvents
 
