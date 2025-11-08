@@ -410,7 +410,7 @@ An example to see how it works:
 <pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 function touch_start(num_detected)
     for i = 0, num_detected -1 do
-        local toucher = ll.GetDetectedKey(i)
+        local toucher = ll.DetectedKey(i)
         -- do something
     end
 end</code></pre>
@@ -425,7 +425,7 @@ ll = llcompat
 function LLEvents.touch_start(evts)
     local num_detected = #evts
     for i = 0, num_detected -1 do
-        local toucher = ll.GetDetectedKey(i)
+        local toucher = ll.DetectedKey(i)
         -- do something
     end
 end</code></pre>
