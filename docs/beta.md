@@ -16,7 +16,7 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 These changes are only in SLua. LSL is unchanged and stays working the same.
 
-*(this page updated on Friday, Nov 7th)*
+*(this page updated on Saturday, Nov 8th)*
 
 ### Getting it working (fast)
 
@@ -198,7 +198,7 @@ We have a new object **LLTimers** to work with timers. The current way to set th
 
 These are the methods in the object:
 
-- *handler* = **LLTimers:every**(*seconds*, *handler*) : adds a timer.
+- *handler* = **LLTimers:every**(*seconds*, *handler*) or *handler* = **LLTimers:on**(*seconds*, *handler*) : adds a timer.
   - seconds : the interval.
   - handler : the function that runs when the time arrives.
   - returns the same function that we have passed in, so we can use it later to remove it.
@@ -361,6 +361,7 @@ The ll.Detected* functions with their names as functions in the events table:
   <tr style="vertical-align: top;">
     <td style="width:30%; padding-right: 10px;">
       <ul>
+		<li>ll.AdjustDamage</li>
         <li>ll.DetectedDamage</li>
         <li>ll.DetectedGrab</li>
         <li>ll.DetectedGroup</li>
@@ -383,6 +384,7 @@ The ll.Detected* functions with their names as functions in the events table:
     </td>
     <td style="width:30%; padding-left: 10px;">
       <ul>
+		<li>adjustDamage</li>
         <li>getDamage</li>
         <li>getGrab</li>
         <li>getGroup</li>
