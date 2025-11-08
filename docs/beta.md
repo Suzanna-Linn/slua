@@ -79,6 +79,10 @@ To change an event handler:
 - Add the new one and remove the current one to preserve the pending events in the queue and handle them with the newly added function.
 - Remove the current one and add the new one to discard the pending events in the queue.
 
+When the "listen" event becomes inactive all the listeners are removed.
+
+When the "sensor" event becomes inactive, the sensor repeat (if present) is removed.
+
 We have an alternative syntax (called convenient assignment syntax) to make the change easier:
 <table><tr><td>
 <pre class="language-sluab"><code class="language-sluab">-- SLua Beta
