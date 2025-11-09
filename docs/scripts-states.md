@@ -5,7 +5,7 @@ slua_beta: true
 ---
 ## States
 
-Simulating LSL states
+Simulating LSL states.
 
 <div class="script-box intermediate">
 <h4>States, with the LSL default "new script"</h4>
@@ -139,7 +139,7 @@ function default.state_entry()
     ll.SetText("Click to change states", vector(1.0, 1.0, 1.0), 1)
 end
 
-function default.touch_end(num_detected)
+function default.touch_end(events)
     -- Note: NEVER do a state change from within a touch_start event -
     -- that can lead to the next touch_start on return to this state to be missed.
     -- Here we do the state change safely, from within touch_end
