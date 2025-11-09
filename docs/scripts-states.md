@@ -169,22 +169,24 @@ state(default)</code></pre>
 local state = (function()
     local currentState
     return function(fnState)
-        if currentState and currentState.state_exit then
-            currentState.state_exit()
-        end
-        for _, eventName in LLEvents:eventNames() do
-            for _, handler in LLEvents:listeners(eventName) do
-                LLEvents:off(eventName, handler)
+        if fnState ~= currentState then
+            if currentState and currentState.state_exit then
+                currentState.state_exit()
             end
-        end
-        for ev, fn in fnState do
-            if ev ~= "state_entry" and ev ~= "state_exit" then
-                LLEvents:on(ev, fn)
+            for _, eventName in LLEvents:eventNames() do
+                for _, handler in LLEvents:listeners(eventName) do
+                    LLEvents:off(eventName, handler)
+                end
             end
-        end
-        currentState = fnState
-        if currentState.state_entry then
-            currentState.state_entry()
+            for ev, fn in fnState do
+                if ev ~= "state_entry" and ev ~= "state_exit" then
+                    LLEvents:on(ev, fn)
+                end
+            end
+            currentState = fnState
+            if currentState.state_entry then
+                currentState.state_entry()
+            end
         end
     end
 end)()
