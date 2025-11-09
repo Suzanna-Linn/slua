@@ -50,11 +50,11 @@ end
 local default = {}
 
 function default.state_entry()
-    ll.Say(0, "Hello, Avatar!");
+    ll.Say(0, "Hello, Avatar!")
 end
 
 function default.touch_start(events)
-    ll.Say(0, "Touched.");
+    ll.Say(0, "Touched.")
 end
 
 state(default)</code></pre>
@@ -156,7 +156,7 @@ function two.state_entry()
 end
 
 function two.state_exit()
-    ll.Say(0, "The script leaves state 'two'");
+    ll.Say(0, "The script leaves state 'two'")
 end
 
 state(default)</code></pre>
