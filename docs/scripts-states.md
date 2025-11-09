@@ -37,7 +37,7 @@ local function state(fnState)
         end
         for ev, fn in fnState do
             if ev ~= "state_entry" and ev ~= "state_exit" then
-                LLEvents:on(ev,fn)
+                LLEvents:on(ev, fn)
             end
         end
         currentState = fnState
@@ -118,7 +118,7 @@ local function state(fnState)
         end
         for ev, fn in fnState do
             if ev ~= "state_entry" and ev ~= "state_exit" then
-                LLEvents:on(ev,fn)
+                LLEvents:on(ev, fn)
             end
         end
         currentState = fnState
@@ -179,7 +179,7 @@ local state = (function()
         end
         for ev, fn in fnState do
             if ev ~= "state_entry" and ev ~= "state_exit" then
-                LLEvents:on(ev,fn)
+                LLEvents:on(ev, fn)
             end
         end
         currentState = fnState
