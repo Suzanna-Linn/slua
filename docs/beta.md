@@ -492,6 +492,17 @@ print(#meStr16)  -- > 16
 local meBack = uuid(buffer.fromstring(meStr16))
 print(me == meBack)  -- > true</code></pre>
 
+To store in linkset data we need to avoid characters ascii 0 and other special characters:
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string24 for linkset data (SLua Beta)
+
+local me = ll.GetOwner()
+
+ll.LinksetDataWrite("test",llbase64.encode(me.bytes))
+print(#ll.LinksetDataRead("test")) -- > 24
+
+local meBack = uuid(llbase64.decode(ll.LinksetDataRead("test"), true))
+print(me == meBack)  -- > true</code></pre>
+
 ### SLua type integer
 
 The type integer doesn't exist any more.
