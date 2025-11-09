@@ -482,7 +482,7 @@ Uuid's can be converted to and from 16-characters string storing the uuid in num
 - the property .bytes returns the uuid as a 16-characters string.
 - the function uuid() can take a buffer of 16 or more bytes and get the uuid from the first 16 bytes.
 - it's useful to store uuid's in linkset data or in a buffer using 16 bytes instead of 36.
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string16 (Slua Beta)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string16 (SLua Beta)
 
 local me = ll.GetOwner()
 
