@@ -478,6 +478,21 @@ Linked messages have a string instead of an uuid in their fourth parameter.
 - the event link_message( sender_num, num, str, str2 )
 - linked messages with LSL scripts are internally typecasted.
 
+Uuid's can be converted to and from 16-characters string storing the uuid in numeric form:
+- property .bytes that returns the uuid as a 16-characters string.
+- the function uuid() can take a buffer of 16 or more bytes and get the uuid from the first 16 bytes.
+- it's useful to store uuid's in linkset data or in a buffer using 16 bytes instead of 36.
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string16 (Slua Beta)
+
+local me = ll.GetOwner()
+
+local meStr16 = me.bytes
+print(#meStr16)  -- > 16
+
+local meBack = uuid(buffer.fromstring(meStr16))
+print(me == meBack)  -- > true</code></pre>
+</td></tr></table>
+
 ### SLua type integer
 
 The type integer doesn't exist any more.
