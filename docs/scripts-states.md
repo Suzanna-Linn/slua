@@ -21,7 +21,7 @@ Simulating LSL states
         llSay(0, "Touched.");
     }
 }</code></pre>
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states, LSL default "new script"
 
 local currentState
 
@@ -103,7 +103,9 @@ state two
     }
 }
 <code class="language-lsl"></code></pre>
-<pre class="language-sluab line-numbers"><code class="language-sluab">local currentState
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states, LSL wiki example for states
+    
+local currentState
 
 local function state(fnState)
     if fnState ~= currentState then
@@ -161,9 +163,37 @@ end
 state(default)</code></pre>
 </div>
 
-
-
 <div class="script-box advanced">
 <h4>States, using a closure to avoid the script-wide variable</h4>
-<pre class="language-sluab line-numbers"><code class="language-sluab"></code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states
+    
+local state = (function()
+    local currentState
+    return function(fnState)
+        if currentState and currentState.state_exit then
+            currentState.state_exit()
+        end
+        for _, eventName in LLEvents:eventNames() do
+            for _, handler in LLEvents:listeners(eventName) do
+                LLEvents:off(eventName, handler)
+            end
+        end
+        for ev, fn in fnState do
+            if ev ~= "state_entry" and ev ~= "state_exit" then
+                LLEvents:on(ev,fn)
+            end
+        end
+        currentState = fnState
+        if currentState.state_entry then
+            currentState.state_entry()
+        end
+    end
+end)()
+
+local default = {}
+
+--
+
+state(default)
+</code></pre>
 </div>
