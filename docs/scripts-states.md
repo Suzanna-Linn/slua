@@ -1,3 +1,8 @@
+---
+layout: default
+title: States
+slua_beta: true
+---
 ## States
 
 Simulating LSL states
