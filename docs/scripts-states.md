@@ -63,7 +63,7 @@ state(default)</code></pre>
 
 <div class="script-box intermediate">
 <h4>States, with the LSL wiki example for states</h4>
-<pre class="language-lsl line-numbers">default
+<pre class="language-lsl line-numbers"><code class="language-lsl">default
 {
     state_entry()
     {
@@ -101,8 +101,7 @@ state two
     {
         llSay(0, "The script leaves state 'two'");
     }
-}
-<code class="language-lsl"></code></pre>
+}</code></pre>
 <pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states, LSL wiki example for states
     
 local currentState
@@ -194,6 +193,5 @@ local default = {}
 
 --
 
-state(default)
-</code></pre>
+state(default)</code></pre>
 </div>
