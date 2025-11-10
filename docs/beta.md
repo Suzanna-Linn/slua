@@ -16,7 +16,7 @@ I’ve also put together some example code for SLua Beta. Keep in mind these exa
 
 These changes are only in SLua. LSL is unchanged and stays working the same.
 
-*(this page updated on Sunday, Nov 9th)*
+*(this page updated on Monday, Nov 10th)*
 
 ### Getting it working (fast)
 
@@ -329,16 +329,19 @@ end
 LLTimers:every(1, myTimer1)
 LLTimers:every(60, myTimer60)</code></pre>
 
-LLTimers passes a parameter to the handler function with the expected trigger time. The actual trigger time could be a few milliseconds later, never before.
+LLTimers passes two parameters to the handler function:
+- The expected trigger time. The actual trigger time could be a few milliseconds later, never before.
+- The interval. It's nil with LLTimers:once().
 
-We can compare it to ll.GetTime(), which now has more precission, to know the delay. LLTimers and ll.GetTime() time is set to 0 when the script starts running:
+We can compare the expected time to ll.GetTime(), which now has more precission, to know the delay. LLTimers and ll.GetTime() time is set to 0 when the script starts running:
 <pre class="language-sluab"><code class="language-sluab">-- comparing actual and expected time (SLua Beta)
 
-local function myTimer(expected)
+local function myTimer(expected, interval)
     print(ll.GetTime() - expected)  -- delay
 end
 
 LLTimers:every(1, myTimer)</code></pre>
+We can use the interval, in case that we are using the same function with different intervals, to know which timer has called it.
 
 ### Multi-events, table evts
 
