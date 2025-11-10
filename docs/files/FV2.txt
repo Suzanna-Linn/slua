@@ -1,0 +1,46 @@
+
+local flatVector = {}
+
+function flatVector.new(x, y)
+    return setmetatable({
+        x = x,
+        y = y
+    }, flatVectorMt)
+end
+
+function flatVector.magnitude(self)
+    return math.sqrt(self.x * self.x + self.y * self.y)
+end
+
+function flatVector.normalize(self)
+    local mag = self.magnitude(self)
+    if mag == 0 then
+        return flatVector.new(0, 0)
+    end
+    return flatVector.new(self.x / mag, self.y / mag)
+end
+
+function flatVector.distanceTo(self, other)
+    local dx = self.x - other.x
+    local dy = self.y - other.y
+    return math.sqrt(dx * dx + dy * dy)
+end
+
+local flatVectorMt = {
+    __index = flatVector,
+
+    __tostring = function(self)
+        return "<" .. self.x .. ", " .. self.y .. ">"
+    end
+}
+
+local myVec1 = flatVector.new(1, 2)
+local myVec2 = flatVector.new(3, 4)
+
+print(myVec1)  -- <1, 2>
+print(myVec2)  -- <3, 4>
+print(myVec1.x)  -- 1
+print(myVec2.y)  -- 4
+print(myVec1.magnitude(myVec1))  -- 2.2360679774998
+print(myVec2.normalize(myVec2))  -- <0.6, 0.8>
+print(myVec1.distanceTo(myVec1,myVec2))  -- 2.8284271247462
