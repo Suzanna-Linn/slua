@@ -29,7 +29,7 @@ If you just want your code to run right now, follow these steps. These are the q
   - <code class="language-sluab">function LLEvents.listen(channel, name, id, msg)</code>
     - instead of <code class="language-slua">function listen(channel, name, id, msg)</code>
 
-- In the events touch_start, touch, touch_end, collision_start, collision, collision_end, sensor, damage, final_damage, if you are using its parameter, add as first line in the event:
+- In the events touch_start, touch, touch_end, collision_start, collision, collision_end, sensor, on_damage, final_damage, if you are using its parameter, add as first line in the event:
    - <code class="language-slua">num_detected = #num_detected</code> (change "num_detected" with the event parameter name)
 
 ### Events, object LLEvents
@@ -355,12 +355,12 @@ The multi-events are these ones:
 - collision
 - collision_end
 - collision_start
-- damage
 - final_damage
+- on_damage
+- sensor
 - touch
 - touch_end
 - touch_start
-- sensor
 
 The ll.Detected* functions with their names as functions in the events table:
 
