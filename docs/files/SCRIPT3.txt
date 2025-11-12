@@ -16,7 +16,7 @@ local function getDateTimeSL()
     return dtTab
 end
 
-function showDateTime()
+local function showDateTime()
     local sl = getDateTimeSL()
     ll.SetText(sl.date8 .. " " .. sl.time, vector(1, 1, 1), 1)
 end
