@@ -1,0 +1,43 @@
+
+local COLOR = {
+    NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
+    AQUA =   vector(0.498, 0.859, 1.000),  TEAL =    vector(0.224, 0.800, 0.800),
+    OLIVE =  vector(0.239, 0.600, 0.439),  GREEN =   vector(0.180, 0.800, 0.251), 
+    LIME =   vector(0.004, 1.000, 0.439),  YELLOW =  vector(1.000, 0.863, 0.000),
+    ORANGE = vector(1.000, 0.522, 0.106),  RED =     vector(1.000, 0.255, 0.212),
+    MAROON = vector(0.522, 0.078, 0.294),  FUCHSIA = vector(0.941, 0.071, 0.745),
+    PURPLE = vector(0.694, 0.051, 0.788),  WHITE =   vector(1.000, 1.000, 1.000),
+    SILVER = vector(0.867, 0.867, 0.867),  GRAY =    vector(0.667, 0.667, 0.667),
+    BLACK =  vector(0.067, 0.067, 0.067)
+}
+
+local colors = { COLOR.WHITE, COLOR.GREEN, COLOR.RED }
+local texts = { "Still updating inventory…", "Lag is my natural habitat.", "Contains traces of prims.", "Mesh? More like mess." }
+local alpha = 1.0
+
+local currentColor = 1
+local currentText = 1
+
+local function showText()
+    local text = texts[currentText]
+    local color = colors[currentColor]
+    ll.SetText(text, color, alpha)
+end
+
+local function color()
+    showText()
+    currentColor += 1
+    if currentColor > #colors then
+        currentColor = 1
+    end
+end
+
+local function text()
+    currentText += 1
+    if currentText > #texts then
+        currentText = 1
+    end
+end
+
+LLTimers:every(0.5, color)
+LLTimers:every(15, text)
