@@ -19,9 +19,9 @@ local currentColor = 1
 local currentText = 1
 
 local function showText()
-    local text = texts[currentText]
-    local color = colors[currentColor]
-    ll.SetText(text, color, alpha)
+    local selText = texts[currentText]
+    local selColor = colors[currentColor]
+    ll.SetText(selText, selColor, alpha)
 end
 
 local function color()
