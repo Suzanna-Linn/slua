@@ -1,0 +1,91 @@
+
+Exercise3 = [[ The Book and its Bookmark
+Create a Book class.
+The new function should accept a title, author, and the total of pages. It should also initialize a current page property to 0.
+Add a read(pages) method that advances the current page. The current page should not exceed the book's total pages.
+Implement logic to compare two Book objects using ==, ~=, <, <=, >, >=.
+The comparison should be based on the number of unread pages.
+A book with fewer unread pages is considered "less than" a book with more unread pages. This means the book you are closer to finishing is "smaller".
+]]
+
+Book = {}
+Book.__index = Book
+
+function Book:new(title, author, pageCount)
+  local instance = {
+    title = title,
+    author = author,
+    pageCount = pageCount or 1,
+    currentPage = 0
+  }
+  setmetatable(instance, self)
+  return instance
+end
+
+function Book:read(pagesRead)
+  self.currentPage = self.currentPage + pagesRead
+  if self.currentPage > self.pageCount then
+    self.currentPage = self.pageCount
+    print(`You finished {self.title}!`)
+  else
+    print(`You have read {self.currentPage} pages of {self.title}!`)
+  end
+end
+
+function Book:getUnreadPages()
+  return self.pageCount - self.currentPage
+end
+
+function Book:__tostring()
+  return `[Book: {self.title} by {self.author} (Page {self.currentPage}/{self.pageCount})]`
+end
+
+function Book.__eq(left, right)
+  if getmetatable(left) == Book and getmetatable(right) == Book then
+    return left:getUnreadPages() == right:getUnreadPages()
+  end
+  return false
+end
+
+function Book.__lt(left, right)
+  if getmetatable(left) == Book and getmetatable(right) == Book then
+    return left:getUnreadPages() < right:getUnreadPages()
+  end
+  return false
+end
+
+function Book.__le(left, right)
+  if getmetatable(left) == Book and getmetatable(right) == Book then
+    return left:getUnreadPages() <= right:getUnreadPages()
+  end
+  return false
+end
+
+-- --- Example Usage ---
+
+local book1 = Book:new("The Hobbit", "J.R.R. Tolkien", 310)
+local book2 = Book:new("Dune", "Frank Herbert", 412)
+local book3 = Book:new("A Wizard of Earthsea", "Ursula K. Le Guin", 205)
+
+book1:read(290) -- > You have read 290 pages of The Hobbit!
+book2:read(100) -- > You have read 100 pages of Dune!
+book3:read(195) -- > You have read 195 pages of A Wizard of Earthsea!
+
+print("Book 1 status:", book1) -- > [Book: The Hobbit by J.R.R. Tolkien (Page 290/310)] 
+print("Book 2 status:", book2) -- > [Book: Dune by Frank Herbert (Page 100/412)]
+print("Book 3 status:", book3) -- > [Book: A Wizard of Earthsea by Ursula K. Le Guin (Page 195/205)]
+
+print("Is Book 1 < Book 2?", book1 < book2) -- > true
+print("Is Book 3 < Book 1?", book3 < book1) -- > true
+print("Is Book 1 <= Book 1?", book1 <= book1) -- > true
+
+local library = { book1, book2, book3 }
+
+table.sort(library)
+
+for i, book in ipairs(library) do
+  print(`#{i}: {book.title} - {book:getUnreadPages()} pages left"`)
+end
+-- > #1: A Wizard of Earthsea - 10 pages left
+-- > #2: The Hobbit - 20 pages left
+-- > #3: Dune - 312 pages left  
