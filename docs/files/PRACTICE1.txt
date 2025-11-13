@@ -1,0 +1,37 @@
+
+Exercise1 = [[ The Talking Dog
+Create a Dog class.
+The new function should accept a name and breed for the dog.
+Add a speak method that prints a string to the console, like "[Name] barks!".
+]]
+
+Dog = {}
+Dog.__index = Dog
+
+function Dog:new(name, breed)
+  local instance = {
+    name = name or "Unnamed",
+    breed = breed or "Mutt"
+  }
+  setmetatable(instance, self)
+  return instance
+end
+
+function Dog:speak()
+  print(self.name .. " barks!")
+end
+
+function Dog:__tostring()
+  return `Dog name: {self.name}, dog breed: {self.breed}`
+end
+
+-- --- Example Usage ---
+
+local dog1 = Dog:new("Rex", "German Shepherd")
+local dog2 = Dog:new("Buddy", "Golden Retriever")
+
+dog1:speak() -- > Rex barks!
+dog2:speak() -- > Buddy barks!
+
+print(dog1) -- > Dog name: Rex, dog breed: German Shepherd
+print(dog2) -- > Dog name: Buddy, dog breed: Golden Retriever 
