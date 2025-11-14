@@ -1,0 +1,90 @@
+
+Practice 1: Timers
+
+Rezz a cylinder and rotate it so all the faces are visible.
+Add timers to change the color (from a list of colors or random ones) of the faces (each face with a different interval)
+When touched the face stops changing color, when touched again it changes again.
+To change a color is:   ll.SetColor(color, face)
+To know which face has been touched is:   ll.DetectedTouchFace()
+
+
+
+Practice 2: Dates
+
+Write a function that returns the current date +/- a number of days.
+
+-- Examples:
+local nextWeek = shiftCurrentDate(7)
+print("Next week:", nextWeek.year, nextWeek.month, nextWeek.day)
+local lastMonth = shiftCurrentDate(-30)
+print("30 days ago:", lastMonth.year, lastMonth.month, lastMonth.day)
+
+
+
+Practice 3: Inline-if 1
+
+Add an “s” to a word only when counts is not 1, using inline-if.
+
+local count = 3
+local word = "apple"
+local output -- calculate output
+print(output)  -- > 3 apples
+
+
+
+Practice 4: Inline-If 2
+
+categorize a numeric score: "High" (80-100), "Mid" (50-79), "Low" (0-49).
+
+local score = 73
+local category -- calculate category
+print(category)  -- > Mid
+
+
+
+Practice 5: And
+
+Add an "and" condition to avoid this code throwing an error:
+    local player = nil
+    if player.health > 50 then
+        print("Healthy player")
+    end
+
+
+
+Practice 6: Or
+
+Add an "or" condition to provide a default value:
+    local input = nil
+    local value = input
+    print(value)
+
+
+
+Practice 7: Tables as parameters
+
+Write a Luau function that takes a table and a boolean as parameters and returns either the original table or a shallow copy of it depending on the boolean value.
+	Create a function called conditionalCopy.
+	The function should accept two parameters:
+		t → a table
+		makeCopy → a boolean
+	If makeCopy is true, return a shallow copy of the table t.
+	If makeCopy is false, return the original table t.
+	Test your function with a sample table, e.g., {1, 2, 3} and both true and false as the boolean input.
+	Ensure that the copied table is a different table object, but contains the same values.
+
+function conditionalCopy(t, makeCopy)
+    if makeCopy then
+        return table.clone()
+    else
+        return t
+    end
+end
+
+local originalTable = {1, 2, 3}
+
+local table1 = conditionalCopy(originalTable, false)
+print(table1 == originalTable)  -- true, same table
+
+local table2 = conditionalCopy(originalTable, true)
+print(table2 == originalTable)  -- false, different table
