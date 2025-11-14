@@ -1,0 +1,111 @@
+
+Practice2 = [[ Dates
+Write a function that returns the current date +/- a number of days.
+]]
+
+local function shiftCurrentDate(days)
+    -- Get the current timestamp
+    local now = os.time()
+
+    -- Add/subtract the number of days in seconds
+    local shiftedTimestamp = now + (days * 86400)
+
+    -- Convert back to a table
+    local t = os.date("*t", shiftedTimestamp)
+
+    -- Return only year, month, day
+    return {
+        year = t.year,
+        month = t.month,
+        day = t.day
+    }
+end
+
+-- Examples:
+local nextWeek = shiftCurrentDate(7)
+print("Next week:", nextWeek.year, nextWeek.month, nextWeek.day)  -- > Next week: 2025 11 21
+local lastMonth = shiftCurrentDate(-30)
+print("30 days ago:", lastMonth.year, lastMonth.month, lastMonth.day)  -- > 30 days ago: 2025 10 15
+  
+
+
+Practice3 = [[ Inline-if 1
+Add an “s” to a word only when counts is not 1, using inline-if.
+]]
+
+local count = 3
+local word = "apple"
+local output = count .. " " .. word .. if count == 1 then "" else "s"
+print(output)  -- > 3 apples
+local output = `{count} {word}{if count == 1 then "" else "s"}`  -- alternative with backticks
+print(output)  -- > 3 apples
+
+
+
+Practice4 = [[ Inline-If 2
+categorize a numeric score: "High" (80-100), "Mid" (50-79), "Low" (0-49).
+]]
+
+local score = 73
+local category = if score > 79 then "High" elseif score > 49 then "Mid" else "Low"
+print(category)  -- > Mid
+
+
+
+Practice5 = [[ And
+Add an "and" condition to avoid this code throwing an error:
+    local player = nil
+    if player.health > 50 then
+        print("Healthy player")
+    end
+]]
+
+local player = nil
+if player and player.health > 50 then
+    print("Healthy player")
+end
+
+
+
+Practice6 = [[ Or
+Add an "or" condition to provide a default value:
+    local input = nil
+    local value = input
+    print(value)
+]]
+
+local input = nil
+local value = input or 50
+print(value)
+
+
+
+Practice7 = [[ Tables as parameters
+
+Write a Luau function that takes a table and a boolean as parameters and returns either the original table or a shallow copy of it depending on the boolean value.
+	Create a function called conditionalCopy.
+	The function should accept two parameters:
+		t → a table
+		makeCopy → a boolean
+	If makeCopy is true, return a shallow copy of the table t.
+	If makeCopy is false, return the original table t.
+	Test your function with a sample table, e.g., {1, 2, 3} and both true and false as the boolean input.
+	Ensure that the copied table is a different table object, but contains the same values.
+
+]]
+
+function conditionalCopy(t, makeCopy)
+    if makeCopy then
+        return table.clone(t)
+    else
+        return t
+    end
+end
+
+local originalTable = {1, 2, 3}
+
+local table1 = conditionalCopy(originalTable, false)
+print(table1 == originalTable)  -- > true
+
+local table2 = conditionalCopy(originalTable, true)
+print(table2 == originalTable)  -- > false
