@@ -9,7 +9,7 @@ slua_beta: true
 <div class="script-box beginner">
 <h4>Basic</h4>
 <p>A basic floating text with the name of the owner</p>
-<pre class="language-slua"><code class="language-slua">-- basic floating text with a fixed text
+<pre class="language-sluab"><code class="language-sluab">-- basic floating text with a fixed text
 
 local text = "I'm owned by " .. ll.GetDisplayName(ll.GetOwner())
 local color = vector(1.000, 0.255, 0.212)  -- red
@@ -21,7 +21,7 @@ ll.SetText(text, color, alpha)</code></pre>
 <div class="script-box beginner">
 <h4>Color change</h4>
 <p>A floating text that changes its color with a timer</p>
-<pre class="language-slua"><code class="language-slua">-- floating text with a fixed text and changing colors
+<pre class="language-sluab"><code class="language-sluab">-- floating text with a fixed text and changing colors
 
 local COLOR = {
     NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
@@ -57,7 +57,7 @@ LLTimers:every(0.5, changeColor)</code></pre>
 <div class="script-box beginner">
 <h4>Text change</h4>
 <p>A floating text that changes colors and listens for a new text</p>
-<pre class="language-slua"><code class="language-slua">-- floating text with changing text and changing colors
+<pre class="language-sluab"><code class="language-sluab">-- floating text with changing text and changing colors
 
 local COLOR = {
     NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
@@ -104,7 +104,7 @@ LLTimers:every(0.5 changeColor)
 <div class="script-box beginner">
 <h4>Text alternance</h4>
 <p>A floating text that listens for two texts in two channels, alternates the text and changes the colors, with different timings</p>
-<pre class="language-slua"><code class="language-slua">-- floating text with double changing text and changing colors
+<pre class="language-sluab"><code class="language-sluab">-- floating text with double changing text and changing colors
 
 local COLOR = {
     NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
@@ -173,7 +173,7 @@ LLTimers:every(15, textChange)
 <div class="script-box beginner">
 <h4>Horizontal scrolling</h4>
 <p>A floating text that scrolls horizontally from right to left (Halloween ambient)</p>
-<pre class="language-slua"><code class="language-slua">-- floating text with horizontal scrolling
+<pre class="language-sluab"><code class="language-sluab">-- floating text with horizontal scrolling
 
 local MESSAGE_LENGTH = 25  -- characters displayed in the floating text
 
@@ -215,7 +215,7 @@ LLTimers:every(0.25, scrollText)</code></pre>
 <div class="script-box beginner">
 <h4>Vertical scrolling</h4>
 <p>A floating text that scrolls vertically from the bottom (Halloween ambient)</p>
-<pre class="language-slua"><code class="language-slua">-- floating text with vertical scrolling
+<pre class="language-sluab"><code class="language-sluab">-- floating text with vertical scrolling
 
 local MESSAGE_LINES = 5  -- lines displayed in the floating text
 
@@ -264,7 +264,7 @@ local function scrollText()
 end
 
 LLEvents:on("touch_start", touched)
-LLTimers:every(5, scrollText)</code></pre></code></pre>
+LLTimers:every(5, scrollText)</code></pre>
 </div>
 
 <div class="script-box intermediate">
@@ -274,7 +274,7 @@ LLTimers:every(5, scrollText)</code></pre></code></pre>
 <p>Floating texts have only one color, and prims only one floating text.</p>
 <p>We need two identical prims rezzed in the same position. Each prim shows half of the lines in one color.</p>
 <p>The script must be in both prims. It identifies what text and color to display using the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.</p>
-<pre class="language-slua"><code class="language-slua">-- floating text with vertical scroll in two colors (by Suzanna Linn, 2025-08-28)
+<pre class="language-sluab"><code class="language-sluab">-- floating text with vertical scroll in two colors (by Suzanna Linn, 2025-08-28)
 
 local COLOR = {
     NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
@@ -371,7 +371,7 @@ end</code></pre>
 <p>A floating text with seven colors for the rainbow:</p>
 <img src="images/rainbow.jpg" alt="Rainbow">
 <p>It works like the previous example. Here there are seven identical prims in the same position, with descriptions from "floating 1" to "floating 7". Each prim shows a letter in a different color.</p>
-<pre class="language-slua"><code class="language-slua">-- floating text in rainbow colors (by Suzanna Linn, 2025-08-28)
+<pre class="language-sluab"><code class="language-sluab">-- floating text in rainbow colors (by Suzanna Linn, 2025-08-28)
 
 local letters = {
     ["floating 1"] = { color = vector(1.0, 0.0, 0.0),     text = "R                  "  },  -- red
