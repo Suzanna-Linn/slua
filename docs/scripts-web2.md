@@ -2,6 +2,7 @@
 layout: default
 title: Web server and MOAP
 markup_content: true
+slua_beta: true
 ---
 
 ## Web server and MOAP - Part II (Advanced)
@@ -231,7 +232,7 @@ LLEvents:on("changed", function(change)
 end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Chat Transcript
@@ -296,7 +297,7 @@ LLEvents:on("changed", function(change)
 end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box advanced">
 <h4>Chat Transcript - Display<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
@@ -543,7 +544,7 @@ LLEvents:on("changed", function(change)
 end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Notecard Display
@@ -798,7 +799,7 @@ end)
 
 initialize()
 {% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Notecard Website
@@ -990,7 +991,7 @@ LLEvents:on("changed", function(change)
 end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box advanced">
 <h4>Notecards Website, Execution<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
@@ -1107,7 +1108,7 @@ LLEvents:on("changed", function(change)
 end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Linkset Data Editor
@@ -1534,7 +1535,7 @@ LLEvents:on("changed", function(change)
 end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box advanced">
 <h4>Linkset Data Editor, Execution<span class="extra">HTML</span><span class="extra">CSS</span><span class="extra">JavaScript</span></h4>
@@ -1616,5 +1617,5 @@ LLEvents:on("changed", function(change)
 end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
