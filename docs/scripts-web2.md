@@ -892,7 +892,7 @@ window.onload = function() {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
   }
-  loadNotecard(0);
+  loadNotecard(1);
 };
 //]]>
 </script>
@@ -904,7 +904,7 @@ local NOTECARD_STYLES = "style"
 local NOTECARD_LAYOUT = "layout"
 
 local notecardName = ""
-local notecardLine = 0
+local notecardLine = 1
 local notecardText = {}
 
 local requestLineStylesId = NULL_KEY
@@ -930,7 +930,7 @@ local function readStyles()
         ll.LinksetDataWrite("XHTML", html)
         html = ""
         notecardName = NOTECARD_LAYOUT
-        notecardLine = 0
+        notecardLine = 1
         notecardText = {}
         readLayout()
     end
@@ -966,28 +966,28 @@ end
 local function initialize()
     html = ll.ReplaceSubString(html, "@TITLE@", ll.GetObjectDesc(), 0)
     notecardName = NOTECARD_STYLES
-    notecardLine = 0
+    notecardLine = 1
     notecardText = {}
     readStyles()
 end
 
-function dataserver(queryid, data)
+LLEvents:on("dataserver", function(queryid, data)
     if queryid == requestLineStylesId then
         readStyles()
     elseif queryid == requestLineLayoutId then
         readLayout()
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
@@ -1002,7 +1002,7 @@ local NOTECARD_INDEX = "index"
 local url = ""
 
 local notecardName = ""
-local notecardLine = 0
+local notecardLine = 1
 local notecardText = {}
 
 local requestLineNotecardId = NULL_KEY
@@ -1060,13 +1060,13 @@ local function initialize()
     ll.RequestURL()
 end
 
-function dataserver(queryid, data)
+LLEvents:on(" dataserver", function(queryid, data)
     if queryid == requestLineNotecardId then
         readNotecard()
     end
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         show(url .. "/" .. NOTECARD_INDEX)
@@ -1094,17 +1094,17 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, ll.ReplaceSubString(ll.LinksetDataRead("XHTML"), "@NOTECARD@", parseQuery(body).page, 0))
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
@@ -1484,7 +1484,7 @@ function sortTable() {
 
 function reloadData() {
   tbody.innerHTML = "";
-  loadData(0);
+  loadData(1);
 }
 
 function showAlert(msg) {
@@ -1502,7 +1502,7 @@ sortBtn.onclick = sortTable;
 reloadBtn.onclick = reloadData;
 
 window.onload = function() {
-  loadData(0);
+  loadData(1);
 };
 //]]>
 </script>
@@ -1517,21 +1517,21 @@ local function initialize()
     html = ll.ReplaceSubString(html, "@OBJECT@", ll.GetObjectName(), 0)
 end
 
-function link_message(sender_num, num, str, id)
+LLEvents:on("link_message", function(sender_num, num, str, id)
     if num == ASKING then
         ll.MessageLinked(LINK_THIS, SENDING, html, "")
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, CHANGED_OWNER) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
@@ -1551,14 +1551,14 @@ local function initialize()
     ll.RequestURL()
 end
 
-function link_message(sender_num, num, str, id)
+LLEvents:on("link_message", function(sender_num, num, str, id)
     if num == SENDING then
         ll.SetContentType(requestId, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(requestId, 200, str)
     end
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         ll.OwnerSay(url .. "/edit")
@@ -1575,14 +1575,14 @@ function http_request(id, method, body)
             local totalKeys = ll.LinksetDataCountKeys()
             local data = {}
             local length = 0
-            while numKey < totalKeys and length < 20000 do
+            while numKey <= totalKeys and length < 20000 do
                 local lKey = ll.LinksetDataListKeys(numKey, 1)[1]
                 local lValue = ll.LinksetDataRead(lKey)
                 table.insert(data, {lKey, lValue})
                 length += #lKey + #lValue
                 numKey += 1
             end
-            if numKey == totalKeys then
+            if numKey > totalKeys then
                 table.insert(data, {"", ""})
             end
             ll.SetContentType(id, CONTENT_TYPE_TEXT)
@@ -1603,17 +1603,17 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_TEXT)
         ll.HTTPResponse(id, 200, "Ok")
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
