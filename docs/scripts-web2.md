@@ -187,7 +187,7 @@ end
 
 local function initialize()
     ll.RequestURL()
-    LLTimers(2, getSitters)
+    LLTimers:every(2, getSitters)
 end
 
 LLEvents:on("http_request", function(id, method, body)
