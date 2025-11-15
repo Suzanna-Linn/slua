@@ -186,10 +186,10 @@ end
 
 local function initialize()
     ll.RequestURL()
-    ll.SetTimerEvent(2)
+    LLTimers(2, getSitters)
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/sitters"
         ll.Say(0, url)
@@ -218,21 +218,17 @@ function http_request(id, method, body)
          end
          ll.HTTPResponse(id, 200, html)
     end
-end
+end)
 
-function timer()
-    getSitters()
-end
-
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
@@ -283,21 +279,21 @@ local function initialize()
     ll.Listen(0, "", "", "")
 end
 
-function listen(channel, name, id, message)
+LLEvents:on("listen", function(channel, name, id, message)
     if channel == 0 then
         storeMessage(name, id, message)
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
@@ -490,7 +486,7 @@ function scrollTopAndPrint() {
 }
 
 window.onload = function() {
-  loadData(0);
+  loadData(1);
 };
 //]]>
 </script>
@@ -503,7 +499,7 @@ local function initialize()
     html = ll.ReplaceSubString(html, "@TITLE@", ll.GetObjectDesc(), 0)
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         ll.OwnerSay(url .. "/chat")
@@ -520,31 +516,31 @@ function http_request(id, method, body)
             local totalKeys = ll.LinksetDataCountKeys()
             local data = {}
             local length = 0
-            while numKey < totalKeys and length < 10000 do
+            while numKey <= totalKeys and length < 10000 do
                 local lKey = ll.LinksetDataListKeys(numKey, 1)[1]
                 local lValue = ll.LinksetDataRead(lKey)
                 table.insert(data, lljson.decode(lValue))
                 length += #lValue
                 numKey += 1
             end
-            if numKey == totalKeys then
+            if numKey > totalKeys then
                 table.insert(data, {"", "", "", ""})
             end
             ll.SetContentType(id, CONTENT_TYPE_TEXT)
             ll.HTTPResponse(id, 200, lljson.encode(data))
         end
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 <pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
@@ -640,7 +636,7 @@ async function loadNotecard(line) {
 }
 
 window.onload = function() {
-  loadNotecard(0);
+  loadNotecard(1);
 };
 //]]>
 </script>
@@ -652,7 +648,7 @@ local NOTECARD_STYLES = "style"
 local url = ""
 
 local notecardName = ""
-local notecardLine = 0
+local notecardLine = 1
 local notecardText = {}
 
 local requestLineStylesId = NULL_KEY
@@ -723,7 +719,7 @@ end
 
 local function notecardsList()
     local list = {}
-    for i = 0, ll.GetInventoryNumber(INVENTORY_NOTECARD) - 1 do
+    for i = 1, ll.GetInventoryNumber(INVENTORY_NOTECARD) do
         local name = ll.GetInventoryName(INVENTORY_NOTECARD, i)
         if name ~= NOTECARD_STYLES then
             table.insert(list, `<form action="" method="post"><button type="submit" name="name" value="{name}">{name}</button></form>\n`)
@@ -744,18 +740,18 @@ local function initialize()
     end
 end
 
-function dataserver(queryid, data)
+LLEvents:on("dataserver", function(queryid, data)
     if queryid == requestLineStylesId then
         readStyles()
     elseif queryid == requestLineNotecardId then
         readNotecard()
     end
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         notecardName = NOTECARD_STYLES
-        notecardLine = 0
+        notecardLine = 1
         notecardText = {}
         url = body
         readStyles()
@@ -788,17 +784,17 @@ function http_request(id, method, body)
             ll.HTTPResponse(id, 200, notecardsList())
         end
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize()
 {% endcapture %}
