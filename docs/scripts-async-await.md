@@ -114,9 +114,6 @@ local function awaiting(queryid, ...)
     if _awaiting[queryid] then
         _err(coroutine.resume(_awaiting[queryid], ...))
         _awaiting[queryid] = nil
-        return false
-    else
-        return true
     end
 end
 
