@@ -2,6 +2,7 @@
 layout: default
 title: Web server and MOAP
 markup_content: true
+slua_beta: true
 ---
 
 ## Web server and MOAP - Part I (Basics)
@@ -19,7 +20,7 @@ Displays an external webpage using Media-on-a-prim.
 Say the link to the webpage in public chat, starting with "http".
 <div class="script-box beginner">
 <h4>Media viewer</h4>
-<pre class="language-slua line-numbers"><code class="language-slua">-- Media viewer
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- Media viewer
 
 local FACE_MEDIA = 2
 
@@ -39,13 +40,13 @@ local function initialize()
     ll.Listen(0, "", "", "")
 end
 
-function listen(channel, name, id, message)
+LLEvents:on("listen", function(channel, name, id, message)
     if channel == 0 then
         if message:sub(1,7) == "http://" or message:sub(1,8) == "https://" then
             show(message)
         end
     end
-end
+end)
 
 initialize()</code></pre>
 </div>
@@ -57,7 +58,7 @@ We can set HTML code to the media face, adding "data:text/html," in front of the
 The maximum length of this "url" is 1024 characters.
 <div class="script-box beginner">
 <h4>URL with HTML<span class="extra">HTML</span></h4>
-<p>The html string would usually be between quotes, I'm using [=[ to identify it as html for the syntax highlghter</p>
+<p>The html string would usually be between quotes, I'm using [=[ to identify it as html for the syntax highlighter</p>
 
 {% capture slua %}-- using HTML in the URL
 
@@ -82,7 +83,7 @@ end
 
 show(DATA_URL .. html){% endcapture %}
 
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Displaying a notecard on MOAP
@@ -120,7 +121,7 @@ local htmlNotecardLines = [=[
 ]=]
 
 local notecardName = ""
-local notecardLine = 0
+local notecardLine = 1
 local requestLineId = NULL_KEY
 local notecard = {}
 
@@ -141,17 +142,17 @@ local function sayUrl(url)
 end
 
 local function initialize()
-    notecardName = ll.GetInventoryName(INVENTORY_NOTECARD, 0)
+    notecardName = ll.GetInventoryName(INVENTORY_NOTECARD, 1)
     if notecardName ~= "" then
         notecard = {}
-        notecardLine = 0
+        notecardLine = 1
         requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
     else
         ll.OwnerSay("No notecards in the contents")
     end
 end
 
-function dataserver(request, data)
+LLEvents:on("dataserver", function(request, data)
     if request == requestLineId then
         repeat
             if data ~= EOF then
@@ -167,9 +168,9 @@ function dataserver(request, data)
             ll.RequestURL()
         end
     end
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         sayUrl(url)
@@ -182,20 +183,20 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, html)
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Displaying random quotes in single or multi view
@@ -263,26 +264,26 @@ local function initialize()
     ll.RequestURL()
 end
 
-function touch_start(num_detected)
-    if ll.DetectedKey(0) == ll.GetOwner() then
+LLEvents:on("touch_start", function(events)
+    if events[1]:getKey() == ll.GetOwner() then
         if requestCount ~= 0 then
             ll.OwnerSay(`{requestCount} requests to the previous page`)
             requestCount = 0
         end
         httpRequestId = ll.HTTPRequest(WEB_API, {}, "")
     end
-end
+end)
 
-function http_response(request_id, status, metadata, body)
+LLEvents:on("http_response", function(request_id, status, metadata, body)
     if httpRequestId == request_id then
         local json = lljson.decode(body)
         html = ll.ReplaceSubString(htmlQuote, "@QUOTE@", json[1].q, 0)
         html = ll.ReplaceSubString(html, "@AUTHOR@", json[1].a, 0)
         show(`{url}/?time={os.time()}`)
     end
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         ll.OwnerSay(url)
@@ -294,20 +295,20 @@ function http_request(id, method, body)
         ll.HTTPResponse(id, 200, html)
         requestCount += 1
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>Random quotes: multi view<span class="extra">HTML</span></h4>
@@ -357,8 +358,8 @@ local function initialize()
     ll.RequestURL()
 end
 
-function touch_start(num_detected)
-    if ll.DetectedKey(0) == ll.GetOwner() then
+LLEvents:on("touch_start", function(events)
+    if events[1]:getKey() == ll.GetOwner() then
         requests = {}
         if requestCount ~= 0 then
             ll.OwnerSay(`{requestCount} requests to the previous page`)
@@ -366,9 +367,9 @@ function touch_start(num_detected)
         end
         show(`{url}/?time={os.time()}`)
     end
-end
+end)
 
-function http_response(request_id, status, metadata, body)
+LLEvents:on("http_response", function(request_id, status, metadata, body)
     if requests[request_id] then
         local id = requests[request_id]
         local json = lljson.decode(body)
@@ -378,9 +379,9 @@ function http_response(request_id, status, metadata, body)
         ll.HTTPResponse(id, 200, html)
         requests[request_id] = nil
     end
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         ll.OwnerSay(url)
@@ -390,20 +391,20 @@ function http_request(id, method, body)
         requests[ll.HTTPRequest(WEB_API, {}, "")] = id
         requestCount += 1
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### List of Visitors
@@ -492,7 +493,7 @@ local function initialize()
     ll.RequestURL()
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         sayUrl(url)
@@ -504,20 +505,20 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, html)
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>List of visitors, single page, CSS styling<span class="extra">HTML</span><span class="extra">CSS</span></h4>
@@ -643,7 +644,7 @@ local function initialize()
     ll.RequestURL()
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         ll.OwnerSay(url)
@@ -655,20 +656,20 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, html)
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed" function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>List of visitors, multipage, single view, CSS styling<span class="extra">HTML</span><span class="extra">CSS</span></h4>
@@ -874,7 +875,7 @@ local function initialize()
     ll.RequestURL()
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/links"
         ll.OwnerSay(url)
@@ -898,20 +899,20 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, html)
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>List of visitors, multipage, multi view, CSS styling<span class="extra">HTML</span><span class="extra">CSS</span></h4>
@@ -1227,7 +1228,7 @@ local function initialize()
     ll.RequestURL()
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/links"
         ll.OwnerSay(url)
@@ -1241,20 +1242,20 @@ function http_request(id, method, body)
     elseif method == "POST" then
         responsePage(id, parseQuery(body).button)
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Form Poll
@@ -1409,12 +1410,11 @@ local function sayParams(params)
     ll.Say(0, `Parameters: \n{table.concat(paramList, "\n")}`)
 end
 
-
 local function initialize()
     ll.RequestURL()
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/fruits"
         ll.OwnerSay(url)
@@ -1432,20 +1432,20 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, getPage(path))
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>Form Poll, user check with username and menu<span class="extra">HTML</span><span class="extra">CSS</span></h4>
@@ -1607,13 +1607,13 @@ local function checkUser(params)
 end
 
 local function initialize()
-    menuChannel = tonumber(bit32.bor(integer(0x80000000), integer("0x" .. tostring(ll.GetKey()))))
+    menuChannel = bit32.bor(0x80000000, "0x" .. tostring(ll.GetKey()))
     ll.Listen(menuChannel, "", "", "")
     selection = {}
     ll.RequestURL()
 end
 
-function listen(channel, name, id, message)
+LLEvents:on("listen", function(channel, name, id, message)
     if channel == menuChannel then
         if selection[id] then
             if message == "Yes" then
@@ -1622,9 +1622,9 @@ function listen(channel, name, id, message)
             selection[id] = nil
         end
     end
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request·, function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/fruits"
         ll.OwnerSay(url)
@@ -1642,21 +1642,21 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, getPage(path))
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize()
 {% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>Form Poll, user check with code and browser<span class="extra">HTML</span><span class="extra">CSS</span></h4>
@@ -1767,7 +1767,7 @@ local userCodes = {}
 local function getUserCode()
     local code = 0
     repeat
-        code = tonumber(integer(ll.Frand(1000000000))) 
+        code = math.random(1000000000)
     until not userCodes[code]
     return code
 end
@@ -1813,17 +1813,17 @@ local function initialize()
     ll.RequestURL()
 end
 
-function touch_start(num_detected)
-    local userId = ll.DetectedKey(0)
+LLEvents:on("touch_start", functoon(events)
+    local userId = events[1]:getKey()
     local userCode = getUserCode()
     local displayName = ll.GetDisplayName(userId)
     userCodes[userCode] = { userId = userId, displayName = displayName }
     local urlParams = `{url}?userCode={userCode}`
     ll.RegionSayTo(userId, 0, urlParams)
     ll.LoadURL(userId, "please go to this link to select your fruit", urlParams)
-end
+end)
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/fruits"
     elseif method == URL_REQUEST_DENIED then
@@ -1847,21 +1847,21 @@ function http_request(id, method, body)
             ll.HTTPResponse(id, 200, getPage("/fruits", parseQuery(body)))
         end
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
 
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
 
 ### Form Event
@@ -2130,7 +2130,7 @@ local function initialize()
     ll.RequestURL()
 end
 
-function http_request(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/events"
         ll.Say(0, url)
@@ -2148,18 +2148,18 @@ function http_request(id, method, body)
         ll.SetContentType(id, CONTENT_TYPE_XHTML)
         ll.HTTPResponse(id, 200, getPage("/thanks", body))
     end
-end
+end)
 
-function on_rez(start_param)
+LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
-end
+end)
 
-function changed(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
-end
+end)
 
 initialize(){% endcapture %}
-<pre class="language-slua line-numbers"><code class="language-slua">{{ slua | escape }}</code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab">{{ slua | escape }}</code></pre>
 </div>
