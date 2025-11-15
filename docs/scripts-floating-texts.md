@@ -1,3 +1,9 @@
+---
+layout: default
+title: Slua Beta
+slua_beta: true
+---
+
 ## Floating texts
 
 <div class="script-box beginner">
