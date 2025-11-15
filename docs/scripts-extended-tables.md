@@ -218,6 +218,12 @@ Returns a new Xtable containing the keys of the table.
 Returns a new Xtable containing the values of the table.  
 - **Returns:** A new Xtable array with the values.
 
+**equals(other)**  
+Performs a shallow comparison to check if the table is equal to another table.
+- **Parameters:**
+  - other (table): The table to compare against.
+- **Returns:** A boolean value.
+
 **update(other)**  
 Updates the table with the key-value pairs from another table, overwriting existing keys.  
 - **Parameters:**
@@ -454,6 +460,17 @@ function Xtable:values()
 		table.insert(res, v)
 	end
 	return Xtable:new(res)
+end
+
+function Xtable:equals(other)
+	if self == other then return true end
+	if self:len ~= other:len then return false end
+	for k, v in self do
+		if other[k] ~= v then
+			return false
+		end
+	end
+	return true
 end
 
 function Xtable:update(other)
