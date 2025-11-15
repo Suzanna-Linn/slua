@@ -75,7 +75,7 @@ local CHANNEL_FLOATING_TEXT = 11
 
 local colors = { COLOR.WHITE, COLOR.GREEN, COLOR.RED }  -- any colors
 
-local text = "Say a text in channel 11"
+local text = "Say a text in channel " .. CHANNEL_FLOATING_TEXT
 local alpha = 1.0
 local colorCounter = 1
 
@@ -97,7 +97,7 @@ end
 
 ll.Listen(CHANNEL_FLOATING_TEXT, "", ll.GetOwner(), "")
 LLEvents:on("listen", listenMessage)
-LLTimers:every(0.5 changeColor)
+LLTimers:every(0.5, changeColor)
 </code></pre>
 </div>
 
@@ -123,8 +123,8 @@ local CHANNEL_FLOATING_TEXT_2 = 12
 
 local colors = { COLOR.WHITE, COLOR.GREEN, COLOR.RED }  -- any colors
 
-local text1 = "Say a text in channel 11"
-local text2 = "Say a text in channel 12"
+local text1 = "Say a text in channel " .. CHANNEL_FLOATING_TEXT_1
+local text2 = "Say a text in channel " .. CHANNEL_FLOATING_TEXT_2
 local text = text1
 local alpha = 1.0
 local colorCounter = 1
@@ -165,7 +165,7 @@ end
 ll.Listen(CHANNEL_FLOATING_TEXT_1, "", ll.GetOwner(), "")
 ll.Listen(CHANNEL_FLOATING_TEXT_2, "", ll.GetOwner(), "")
 LLEvents:on("listen", listenMessage)
-LLTimers:every(0.5, colorChange
+LLTimers:every(0.5, colorChange)
 LLTimers:every(15, textChange)
 </code></pre>
 </div>
@@ -360,7 +360,7 @@ if primIndex then
         MESSAGE_LINES = #text
     end
     displayText()
-    LLTimers:every(5, displayText())
+    LLTimers:every(5, displayText)
 else
     ll.OwnerSay(primDesc .. " is not in the table")
 end</code></pre>
