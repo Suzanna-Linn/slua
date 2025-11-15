@@ -1,3 +1,9 @@
+---
+layout: default
+title: Slua Beta
+slua_beta: true
+---
+
 ## Async / Await
 
 A basic implementation of async/await functionality using coroutines to make the asynchronous requests look "synchronous".
@@ -5,7 +11,7 @@ A basic implementation of async/await functionality using coroutines to make the
 <div class="script-box beginner">
 <h4>A dataserver request</h4>
 <p>an example of use, add the async/await code that is at the end of page</p>
-<pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- start async/await section
 
 -- ===== COPY THE ASYNC/AWAIT CODE HERE =====
 
@@ -18,16 +24,12 @@ local function getName(username)
     ll.OwnerSay(displayName)
 end
 
-function dataserver(queryid, data)
-   awaiting(queryid, data)  -- async/await
-end
-
 async(getName, "suzannalinn")</code></pre>
 </div>
 <div class="script-box intermediate">
 <h4>dataserver and http requests</h4>
 <p>an example of use, add the async/await code that is at the end of page</p>
-<pre class="language-slua line-numbers"><code class="language-slua">-- start async/await section
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- start async/await section
 
 -- ===== COPY THE ASYNC/AWAIT CODE HERE =====
 
@@ -46,23 +48,14 @@ local function getQuote()
     ll.OwnerSay(`\n{json[1].q}\n{json[1].a}\n `)
 end
 
-function touch_start(numDetected)
-    async(getInfo, ll.DetectedKey(0))
+LLEvents:on("touch_start", function(events)
+    async(getInfo, events[1]:getKey())
     async(getQuote)
-end
-
-
-function dataserver(queryid, data)
-   awaiting(queryid, data)  -- async/await
-end
-
-function http_response(request_id, status, metadata, body)
-   awaiting(request_id, body)  -- async/await
-end</code></pre>
+end)</code></pre>
 </div>
 <div class="script-box advanced">
 <h4>async/await code</h4>
-<pre class="language-slua line-numbers"><code class="language-slua">-- Async / Await (by Suzanna Linn, 2025-09-11)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- Async / Await (by Suzanna Linn, 2025-09-11)
 
 -- start async/await section
 
@@ -76,9 +69,6 @@ local function awaiting(queryid, ...)
     if _awaiting[queryid] then
         coroutine.resume(_awaiting[queryid], ...)
         _awaiting[queryid] = nil
-        return false
-    else
-        return true
     end
 end
 
@@ -87,27 +77,22 @@ local function await(queryid)
     return coroutine.yield()
 end
 
+LLEvents:on("dataserver", awaiting)
+LLEvents:on("http_response", function(request_id, status, metadata, body)
+    awaiting(request_id, body)
+end)
+
 -- end async/await section
 
 
 -- ===== PLACE YOUR CODE HERE =====
 
 
-function dataserver(queryid, data)
-   if awaiting(queryid, data) then  -- async/await
-        -- other requests
-   end
-end
-
-function http_response(request_id, status, metadata, body)
-   if awaiting(request_id, body) then  -- async/await
-        -- other requests
-   end
-end</code></pre>
+</code></pre>
 </div>
 <div class="script-box advanced">
 <h4>async/await with error control code</h4>
-<pre class="language-slua line-numbers"><code class="language-slua">-- Async / Await with error control (by Suzanna Linn, 2025-11-03)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- Async / Await with error control (by Suzanna Linn, 2025-11-03)
 
 -- start async/await section
 
@@ -140,21 +125,16 @@ local function await(queryid)
     return coroutine.yield()
 end
 
+LLEvents:on("dataserver", awaiting)
+LLEvents:on("http_response", function(request_id, status, metadata, body)
+    awaiting(request_id, body)
+end)
+
 -- end async/await section
 
 
 -- ===== PLACE YOUR CODE HERE =====
 
 
-function dataserver(queryid, data)
-   if awaiting(queryid, data) then  -- async/await
-        -- other requests
-   end
-end
-
-function http_response(request_id, status, metadata, body)
-   if awaiting(request_id, body) then  -- async/await
-        -- other requests
-   end
-end</code></pre>
+</code></pre>
 </div>
