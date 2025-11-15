@@ -35,7 +35,7 @@ local text = "I'm owned by " .. ll.GetDisplayName(ll.GetOwner())
 local alpha = 1.0
 local colorCounter = 1
 
-function timer()
+local function changeColor()
     local color = colors[colorCounter]
     ll.SetText(text, color, alpha)
 
@@ -45,12 +45,12 @@ function timer()
     end
 end
 
-ll.SetTimerEvent(0.5)</code></pre>
+LLTimers:every(0.5, changeColor)</code></pre>
 </div>
 
 <div class="script-box beginner">
 <h4>Text change</h4>
-<p>A floating text that changes colors listens for a new text</p>
+<p>A floating text that changes colors and listens for a new text</p>
 <pre class="language-slua"><code class="language-slua">-- floating text with changing text and changing colors
 
 local COLOR = {
@@ -73,7 +73,7 @@ local text = "Say a text in channel 11"
 local alpha = 1.0
 local colorCounter = 1
 
-function timer()
+local function changeColor()
     local color = colors[colorCounter]
     ll.SetText(text, color, alpha)
 
@@ -83,14 +83,15 @@ function timer()
     end
 end
 
-function listen(channel, name, id, message)
+local function listenMessage(channel, name, id, message)
     if channel == CHANNEL_FLOATING_TEXT then
         text = message
     end
 end
 
 ll.Listen(CHANNEL_FLOATING_TEXT, "", ll.GetOwner(), "")
-ll.SetTimerEvent(0.5)
+LLEvents:on("listen", listenMessage)
+LLTimers:every(0.5 changeColor)
 </code></pre>
 </div>
 
@@ -122,9 +123,8 @@ local text = text1
 local alpha = 1.0
 local colorCounter = 1
 local currentText = 1
-local textTicks = 30
 
-function timer()
+local function colorChange()
     local color = colors[colorCounter]
     ll.SetText(text, color, alpha)
 
@@ -132,21 +132,19 @@ function timer()
     if colorCounter > #colors then
         colorCounter = 1
     end
+end
 
-    textTicks -= 1
-    if textTicks == 0 then
-        if currentText == 1 then
-            currentText = 2
-            text = text2
-        else
-            currentText = 1
-            text = text1
-        end
-        textTicks = 30
+local function textChange()
+    if currentText == 1 then
+        currentText = 2
+        text = text2
+    else
+        currentText = 1
+        text = text1
     end
 end
 
-function listen(channel, name, id, message)
+local function listenMessage(channel, name, id, message)
     if channel == CHANNEL_FLOATING_TEXT_1 then
         text1 = message
         currentText = 2  -- force the change to the new message
@@ -160,7 +158,9 @@ end
 
 ll.Listen(CHANNEL_FLOATING_TEXT_1, "", ll.GetOwner(), "")
 ll.Listen(CHANNEL_FLOATING_TEXT_2, "", ll.GetOwner(), "")
-ll.SetTimerEvent(0.5)
+LLEvents:on("listen", listenMessage)
+LLTimers:every(0.5, colorChange
+LLTimers:every(15, textChange)
 </code></pre>
 </div>
 
@@ -184,16 +184,16 @@ end
 local color = vector(1.000, 1.000, 1.000)  -- white
 local alpha = 1.0
 
-function touch_start(num_detected)
-    ll.RegionSayTo(ll.DetectedKey(0), 0, "👻 Boo! You shouldn’t have touched that… Now I’m awake! 💀")
+local function touched(events)
+    ll.RegionSayTo(events[1]:getKey(), 0, "👻 Boo! You shouldn’t have touched that… Now I’m awake! 💀")
     color = vector(1.000, 0.255, 0.212)  -- red
 end
 
-function timer()
+local function scrollText()
     local textShown = ll.GetSubString(text .. text, textPos, textPos + MESSAGE_LENGTH - 1)
     -- text..text to get the end and the start in one call
-    -- with text="Hello world ", textPos=6 and MESSAGE_LENGTH=12 is:
-    -- ll.GetSubstring("Hello world ".."Hello world ",6,6+12-1)  -- > world Hello
+    -- with text = "Hello world ", textPos = 6 and MESSAGE_LENGTH = 12 is:
+    -- ll.GetSubstring("Hello world " .. "Hello world ", 6, 6 + 12 - 1)  -- > world Hello
 
     ll.SetText(textShown, color, alpha)
     textPos += 1
@@ -202,7 +202,8 @@ function timer()
     end
 end
 
-ll.SetTimerEvent(0.25)</code></pre>
+LLEvents:on("touch_start", touched)
+LLTimers:every(0.25, scrollText)</code></pre>
 </div>
 
 <div class="script-box beginner">
@@ -237,12 +238,12 @@ end
 local color = vector(1.000, 1.000, 1.000)  -- white
 local alpha = 1.0
 
-function touch_start(num_detected)
-    ll.RegionSayTo(ll.DetectedKey(0), 0, "👻 Boo! You shouldn’t have touched that… Now I’m awake! 💀")
+local function touched(events)
+    ll.RegionSayTo(events[1]:getKey(), 0, "👻 Boo! You shouldn’t have touched that… Now I’m awake! 💀")
     color = vector(1.000, 0.255, 0.212)  -- red
 end
 
-function timer()
+local function scrollText()
     local textShown = {}
     -- using table.insert and table.concat is more efficient that concatenating to a string
     -- this is just an example, it's not important with a few substrings
@@ -256,7 +257,8 @@ function timer()
     end
 end
 
-ll.SetTimerEvent(5)</code></pre>
+LLEvents:on("touch_start", touched)
+LLTimers:every(5, scrollText)</code></pre></code></pre>
 </div>
 
 <div class="script-box intermediate">
@@ -347,16 +349,12 @@ local function displayText()
     end
 end
 
-function timer()
-    displayText()
-end
-
 if primIndex then
     if #text < MESSAGE_LINES then
         MESSAGE_LINES = #text
     end
     displayText()
-    ll.SetTimerEvent(5)
+    LLTimers:every(5, displayText())
 else
     ll.OwnerSay(primDesc .. " is not in the table")
 end</code></pre>
