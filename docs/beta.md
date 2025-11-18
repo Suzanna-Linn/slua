@@ -202,7 +202,7 @@ We have a new object **LLTimers** to work with timers. The current way to set th
 
 These are the methods in the object:
 
-- *handler* = **LLTimers:every**(*seconds*, *handler*) or *handler* = **LLTimers:on**(*seconds*, *handler*) : adds a timer.
+- *handler* = **LLTimers:every**(*seconds*, *handler*) : adds a timer.
   - seconds : the interval.
   - handler : the function that runs when the time arrives.
   - returns the same function that we have passed in, so we can use it later to remove it.
