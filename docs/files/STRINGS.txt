@@ -1,3 +1,4 @@
+
 -- string length
 
 local s = "café"    -- café has é with accent
@@ -53,3 +54,10 @@ print( string.rep(boom, 3) )  -- > Boom! Boom! Boom!
 
 local text = "stressed"
 print( string.reverse(text) )  -- > desserts
+
+
+-- using : with strings
+
+local text = "something"
+local start, end = text:find("et")
+print(start, end)  -- > 4    5
