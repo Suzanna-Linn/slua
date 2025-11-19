@@ -1,0 +1,55 @@
+-- string length
+
+local s = "café"    -- café has é with accent
+
+print(ll.StringLength(s))  -- > 4
+print(#s)  -- > 5
+print(string.len(s))  -- > 5
+print(utf8.len(s))  -- > 4
+
+
+-- string functions
+
+local text = "Hello"
+print( #text )  -- > 5
+print( string.len(text) )  -- > 5
+print( ll.StringLength(text) )  -- > 5
+
+
+local text = "Lua Scripting"
+print( string.lower(text) )  -- > lua scripting
+print( ll.ToLower(text) )  -- > lua scripting
+
+
+local text = "loud noises"
+print( string.upper(text) )  -- > LOUD NOISES
+print( ll.ToUpper(text) )  -- > LOUD NOISES
+
+
+-- string functions
+
+local text = "Banana"
+print( string.find(text, "nana", 1, true) )  -- > 3    6  -- returns "start", "end"
+print( ll.SubStringIndex(text, "nana")  -- > 3
+-- in old SLua Alpha:  print( ll.SubStringIndex(text, "nana")  -- > 2
+
+
+local text = "Banana"
+print( string.sub(text, 2, 4) )  -- > ana
+print( ll.GetSubString(text, 2, 4)  -- > ana
+-- in old SLua Alpha:  print( ll.GetSubString(text, 1, 3)  -- > bcd
+
+
+local text = "apple,banana,orange"
+local fruits = string.split(text, ",")  -- table fruits = { "apple", "banana", "orange" }
+list fruits = llParseString2List(text, [","], [])  -- table fruits = { "apple", "banana", "orange" }
+
+
+-- string functions
+
+local boom = "Boom! "
+print( string.rep(boom, 3) )  -- > Boom! Boom! Boom! 
+
+
+local text = "stressed"
+print( string.reverse(text) )  -- > desserts
