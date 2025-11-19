@@ -1,3 +1,4 @@
+
 -- SLua Alpha
 
 function touch_start(num_detected)
