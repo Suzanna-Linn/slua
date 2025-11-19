@@ -46,6 +46,15 @@ end
 -- SLua Beta
 
 local function LLEvents.touch_start(events)
+    for i = 1, #events do
+        local toucher = ll.DetectedKey(i)
+        print(ll.DetectedName(i))
+    end
+end
+
+-- SLua Beta
+
+local function LLEvents.touch_start(events)
     local toucher = ll.DetectedKey(1)
     print(ll.DetectedName(1))
 end
