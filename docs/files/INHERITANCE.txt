@@ -43,6 +43,7 @@ Bird.__index = Bird
 setmetatable(Bird, Animal)
 
 function Bird:new(name, age, wingSpan)
+    assert(self ~= Bird, "Bird is an abstract concept, use a specific bird")
     local bird = Animal.new(self, name, age)
     bird.wingSpan = wingSpan
     return bird
