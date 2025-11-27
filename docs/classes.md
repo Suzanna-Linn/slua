@@ -16,7 +16,7 @@ And going on with the **Study Groups**, now in the main grid!
 - **Format:** Text-only  
 - **In-world Locations:**  
   - **Theory (Mondays):** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)  
-  - **Practices (Thursdays):** [Scripting Study Group Area)](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
+  - **Practices (Thursdays):** [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
  
 This series starts from the ground up and is designed to get you comfortable with the new Lua-based scripting system.
 
@@ -30,7 +30,7 @@ This series starts from the ground up and is designed to get you comfortable wit
 - **Format:** Text-only  
 - **In-world Locations:**  
   - **Theory (Wednesdays):** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)  
-  - **Practices (Fridays):** [Scripting Study Group Area)](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
+  - **Practices (Fridays):** [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
 
 Already scripting in SLua? This advanced series unlocks powerful features and techniques that go far beyond what’s possible with LSL.
 
@@ -48,6 +48,6 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
 - **Level:** All levels  
 - **Teachers:** Ali (sungali) & Suzanna (suzannalinn)  
 - **Format:** Text-only  
-- **In-world Location:** [Scripting Study Group Area)](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
+- **In-world Location:** [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
 
 Come with your questions, practices, and projects to chat about anything scripting related.
