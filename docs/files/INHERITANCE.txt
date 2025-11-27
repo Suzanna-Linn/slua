@@ -1,0 +1,207 @@
+
+local Animal = {}
+Animal.__index = Animal
+
+function Animal:new(name, age)
+    assert(self ~= Animal, "Animal is an abstract concept, use a specific animal")
+    local animal = setmetatable({
+        name = name,
+        age = age,
+    }, self)
+    return animal
+end
+
+function Animal:eat()
+    print(self.name .. " is eating.")
+end
+
+function Animal:speak()
+    error("Abstract method 'Speak' must be implemented by subclasses")
+end
+
+
+
+local Mammal = {}
+Mammal.__index = Mammal
+setmetatable(Mammal, Animal)
+
+function Mammal:new(name, age, hasFur)
+    assert(self ~= Mammal, "Mammal is an abstract concept, use a specific mammal")
+    local mammal = Animal.new(self, name, age)
+    mammal.hasFur = hasFur
+    return mammal
+end
+
+function Mammal:walk()
+    print(self.name .. " is walking.")
+end
+
+
+
+local Bird = {}
+Bird.__index = Bird
+setmetatable(Bird, Animal)
+
+function Bird:new(name, age, wingSpan)
+    local bird = Animal.new(self, name, age)
+    bird.wingSpan = wingSpan
+    return bird
+end
+
+function Bird:fly()
+    print(self.name .. " is flying.")
+end
+
+
+
+local Dog = {}
+Dog.__index = Dog
+setmetatable(Dog, Mammal)
+
+function Dog:new(name, age, breed)
+    local dog = Mammal.new(self, name, age, true) -- Dogs always have fur
+    dog.breed = breed
+    return dog
+end
+
+function Dog:speak()
+    print("WOOF! I am a " .. self.breed)
+end
+
+function Dog:__tostring()
+    return `[Dog] {self.name} the {self.breed}`
+end
+
+
+
+local Parrot = {}
+Parrot.__index = Parrot
+setmetatable(Parrot, Bird)
+
+function Parrot:new(name, age)
+    local parrot = Bird.new(self, name, age, 0.5)  -- Parrots have small wingspan
+    return parrot
+end
+
+function Parrot:speak()
+    print(`Squawk! {self.name} wants a cracker!`)
+end
+
+function Parrot:__tostring()
+    return `[Parrot] {self.name} (Feathery Friend)`
+end
+
+
+
+local GoldenRetriever = {}
+GoldenRetriever.__index = GoldenRetriever
+setmetatable(GoldenRetriever, Dog)
+
+function GoldenRetriever:new(name: string, age: number)
+    local goldenRetriever = Dog.new(self, name, age, "Golden Retriever")
+    goldenRetriever.isGoodBoy = true
+    return goldenRetriever
+end
+
+function GoldenRetriever:fetch()
+    print(self.name .. " runs fast to catch the ball!")
+end
+
+function GoldenRetriever:__tostring()
+    return `🌟 [Golden Boy] {self.name} 🌟`
+end
+
+
+
+
+local buddy = GoldenRetriever:new("Buddy", 3)
+
+print("Name: " .. buddy.name)                      --> Name: Buddy             -- From Animal
+print("Age: " .. buddy.age)                        --> Age: 3                  -- From Animal
+print("HasFur: " .. tostring(buddy.hasFur))        --> Hasfur: true            -- From Mammal
+print("Breed: " .. buddy.breed)                    --> Breed: Golden Retriever -- From Dog
+print("IsGoodBoy: " .. tostring(buddy.isGoodBoy))  --> IsGoodBoy: true         -- From GoldenRetriever
+
+buddy:eat()       --> Buddy is eating                   -- From Animal
+buddy:walk()      --> Buddy is walking                  -- From Mammal
+buddy:speak()     --> WOOF! I am a Golden Retriever     -- From Dog
+buddy:fetch()     --> uddy runs fast to catch the ball! -- From GoldenRetriever
+
+print("Printing object:", buddy)  -- > Printing object: 🌟 [Golden Boy] Buddy 🌟
+
+
+
+local rex = Dog:new("Rex", 5, "German Shepherd")
+
+print("Name: " .. rex.name)                      --> Name: Rex              -- From Animal
+print("Age: " .. rex.age)                        --> Age: 5                 -- From Animal
+print("HasFur: " .. tostring(rex.hasFur))        --> HasFur: true           -- From Mammal
+print("Breed: " .. rex.breed)                    --> Breed: German Shepherd -- From Dog
+
+rex:eat()       --> Rex is eating.               -- From Animal
+rex:walk()      --> Rex is walking.              -- From Mammal
+rex:speak()     --> WOOF! I am a German Shepherd -- From Dog
+
+print("Printing object:", rex)  -- > Printing object: [Dog] Rex the German Shepherd
+
+
+
+local polly = Parrot:new("Polly", 50)
+
+print("Name: " .. polly.name)          --> Name: Polly   -- From Animal
+print("Age: " .. polly.age)            --> Age: 50       -- From Animal
+print("WingSpan: " .. polly.wingSpan)  --> WingSpan: 0.5 -- From Brid
+
+polly:fly()       --> Polly is flying.               -- From Bird
+polly:speak()     --> Squawk! Polly wants a cracker! -- From Parrot
+
+print("Printing object:", polly)  -- > Printing object: [Parrot] Polly (Feathery Friend)
+
+
+
+-- local cow = Mammal:new("Bessie", 5, true)
+-- > Error: Mammal is an abstract concept, use a specific mammal
+
+
+local function inspect(t)
+    repeat
+        for k in t do
+            print(k)
+        end
+        t = getmetatable(t)
+        if t then
+            t = t.__index
+            print("---------------")
+        end
+    until not t
+end
+
+inspect(buddy)
+
+-- >  (from table buddy)
+name
+breed
+isGoodBoy
+age
+hasFur
+--------------- (from table Golden Retriver)
+__index
+__tostring
+fetch
+new
+--------------- (from table Dog)
+__index
+__tostring
+speak
+new
+--------------- (from table Mammal)
+__index
+walk
+new
+--------------- (from table Animal)
+__index
+eat
+speak
+new
+
+
