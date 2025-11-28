@@ -1,0 +1,519 @@
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+local notecard = {}
+
+local function listNotecard()
+    for _, line in notecard do
+        ll.OwnerSay(line)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                table.insert(notecard, data)
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            listNotecard()
+        end
+    end
+end
+
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+
+
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+local questions = {}
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            -- notecard ready
+        end
+    end
+end
+
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+
+
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local questions = {}
+local answer = ""
+local count = 0
+
+local function askQuestion()
+    if #questions > 0 then
+        count += 1
+        local questionNumber = math.random(1, #questions)
+        local question = questions[questionNumber]
+        local text = `\nquestion number: {count}:\n{question.question}`
+        answer = question.answer
+        table.remove(questions, questionNumber)
+        ll.Say(0, text)
+    else
+        ll.Say(0, "All the questions asked. End of game.\n")
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            askQuestion()
+        end
+    end
+end
+
+math.randomseed(os.time())
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+
+
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local questions = {}
+local answer = ""
+local count = 0
+
+local listener = 0
+
+local function askQuestion()
+    if #questions > 0 then
+        count += 1
+        local questionNumber = math.random(1, #questions)
+        local question = questions[questionNumber]
+        local text = `\nquestion number: {count}:\n{question.question}`
+        answer = question.answer
+        table.remove(questions, questionNumber)
+        ll.Say(0, text)
+        listener = ll.Listen(0, "", "", "")
+    else
+        ll.Say(0, "All the questions asked. End of game.\n")
+    end
+end
+
+local function checkAnswer(userId, userAnswer)
+    if userAnswer == answer then
+        ll.ListenRemove(listener)
+        ll.Say(0, `{ll.GetDisplayName(userId)} is right! the answer is {answer}\n`)
+        askQuestion()
+    end
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 and tonumber(message) then
+        checkAnswer(id, message)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            askQuestion()
+        end
+    end
+end
+
+math.randomseed(os.time())
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+
+
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local questions = {}
+local answer = ""
+local count = 0
+
+local listener = 0
+
+local timeAdjust = 1  -- bigger values (1.25, 1.50,...) to go slower, smaller values (0.80, 0.60...) to go faster
+
+local noAnswer
+
+local function askQuestion()
+    if #questions > 0 then
+        count += 1
+        local questionNumber = math.random(1, #questions)
+        local question = questions[questionNumber]
+        local text = `\nquestion number: {count}:\n{question.question}`
+        answer = question.answer
+        table.remove(questions, questionNumber)
+        ll.Say(0, text)
+        listener = ll.Listen(0, "", "", "")
+        local time = ( 15 + #question.question * 0.15 ) * timeAdjust
+        LLTimers:once(time, noAnswer)
+    else
+        ll.Say(0, "All the questions asked. End of game.\n")
+    end
+end
+
+local function checkAnswer(userId, userAnswer)
+    if userAnswer == answer then
+        LLTimers:off(noAnswer)
+        ll.ListenRemove(listener)
+        ll.Say(0, `{ll.GetDisplayName(userId)} is right! the answer is {answer}\n`)
+        askQuestion()
+    end
+end
+
+function noAnswer()
+    ll.Say(0, `no correct answer in time, the answer is:\n{answer}\n`)
+    askQuestion()
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 and tonumber(message) then
+        checkAnswer(id, message)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            askQuestion()
+        end
+    end
+end
+
+math.randomseed(os.time())
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+
+
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local questions = {}
+local answer = ""
+local count = 0
+
+local listener = 0
+
+local timeAdjust = 1  -- bigger values (1.25, 1.50,...) to go slower, smaller values (0.80, 0.60...) to go faster
+
+local noAnswer
+
+local function askQuestion()
+    if #questions > 0 then
+        count += 1
+        local questionNumber = math.random(1, #questions)
+        local question = questions[questionNumber]
+        local text = `\nquestion number: {count}:\n{question.question}`
+        answer = question.answer
+        table.remove(questions, questionNumber)
+        ll.Say(0, text)
+        listener = ll.Listen(0, "", "", "")
+        local time = ( 15 + #question.question * 0.15 ) * timeAdjust
+        LLTimers:once(time, noAnswer)
+    else
+        ll.Say(0, "All the questions asked. End of game.\n")
+    end
+end
+
+local function checkAnswer(userId, userAnswer)
+    if userAnswer == answer then
+        LLTimers:off(noAnswer)
+        ll.ListenRemove(listener)
+        ll.Say(0, `{ll.GetDisplayName(userId)} is right! the answer is {answer}\n`)
+        LLTimers:once(3 * timeAdjust, askQuestion)
+    end
+end
+
+function noAnswer()
+    ll.Say(0, `no correct answer in time, the answer is:\n{answer}\n`)
+    LLTimers:once(3 * timeAdjust, askQuestion)
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 and tonumber(message) then
+        checkAnswer(id, message)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            askQuestion()
+        end
+    end
+end
+
+math.randomseed(os.time())
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+
+
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local questions = {}
+local answer = ""
+local count = 0
+
+local listener = 0
+
+local timeAdjust = 1  -- bigger values (1.25, 1.50,...) to go slower, smaller values (0.80, 0.60...) to go faster
+
+local whoAnswered = {}
+
+local noAnswer
+
+local function askQuestion()
+    if #questions > 0 then
+        count += 1
+        local questionNumber = math.random(1, #questions)
+        local question = questions[questionNumber]
+        local text = `\nquestion number: {count}:\n{question.question}`
+        answer = question.answer
+        table.remove(questions, questionNumber)
+        ll.Say(0, text)
+        whoAnswered = {}
+        listener = ll.Listen(0, "", "", "")
+        local time = ( 15 + #question.question * 0.15 ) * timeAdjust
+        LLTimers:once(time, noAnswer)
+    else
+        ll.Say(0, "All the questions asked. End of game.\n")
+    end
+end
+
+local function checkAnswer(userId, userAnswer)
+    if table.find(whoAnswered, userId) then
+        ll.Say(0, `Only one answer per person, {ll.GetDisplayName(userId)}`)
+    else  
+        if userAnswer == answer then
+            LLTimers:off(noAnswer)
+            ll.ListenRemove(listener)
+            ll.Say(0, `{ll.GetDisplayName(userId)} is right! the answer is {answer}\n`)
+            LLTimers:once(3 * timeAdjust, askQuestion)
+        else
+            table.insert(whoAnswered, userId)
+        end
+    end
+end
+
+function noAnswer()
+    ll.Say(0, `no correct answer in time, the answer is:\n{answer}\n`)
+    LLTimers:once(3 * timeAdjust, askQuestion)
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 and tonumber(message) then
+        checkAnswer(id, message)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            askQuestion()
+        end
+    end
+end
+
+math.randomseed(os.time())
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+
+
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local questions = {}
+local answer = ""
+local count = 0
+
+local listener = 0
+
+local timeAdjust = 1  -- bigger values (1.25, 1.50,...) to go slower, smaller values (0.80, 0.60...) to go faster
+
+local whoAnswered = {}
+
+local scores = {}
+
+local noAnswer
+
+local function sayScores()
+    ll.Say(0, "\nScore table:")
+    for userId, points in scores do
+        ll.Say(0,`{ll.GetDisplayName(userId)} --- {points}`)
+    end
+    ll.Say(0, " \n")
+end
+
+local function askQuestion()
+    if #questions > 0 then
+        sayScores()
+        count += 1
+        local questionNumber = math.random(1, #questions)
+        local question = questions[questionNumber]
+        local text = `\nquestion number: {count}:\n{question.question}`
+        answer = question.answer
+        table.remove(questions, questionNumber)
+        ll.Say(0, text)
+        whoAnswered = {}
+        listener = ll.Listen(0, "", "", "")
+        local time = ( 15 + #question.question * 0.15 ) * timeAdjust
+        LLTimers:once(time, noAnswer)
+    else
+        ll.Say(0, "All the questions asked. End of game.\n")
+        sayScores()
+    end
+end
+
+local function checkAnswer(userId, userAnswer)
+    if table.find(whoAnswered, userId) then
+        ll.Say(0, `Only one answer per person, {ll.GetDisplayName(userId)}`)
+    else  
+        if userAnswer == answer then
+            LLTimers:off(noAnswer)
+            ll.ListenRemove(listener)
+            ll.Say(0, `{ll.GetDisplayName(userId)} is right! the answer is {answer}\n`)
+            scores[userId] = (scores[userId] or 0) + 1
+            LLTimers:once(3 * timeAdjust, askQuestion)
+        else
+            table.insert(whoAnswered, userId)
+        end
+    end
+end
+
+function noAnswer()
+    ll.Say(0, `no correct answer in time, the answer is:\n{answer}\n`)
+    LLTimers:once(3 * timeAdjust, askQuestion)
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 and tonumber(message) then
+        checkAnswer(id, message)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            askQuestion()
+        end
+    end
+end
+
+math.randomseed(os.time())
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
