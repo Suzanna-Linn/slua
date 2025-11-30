@@ -6,37 +6,33 @@ And going on with the **Study Groups**, now in the main grid!
 
 **Starting on Jannuary 5th**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
-### SLua - Basics (12 classes + 12 practices)
+### SLua - Basics (12 classes)
 
 - **Dates:** January 5th – March 26th  
-- **Day:** Mondays (theory) & Thursdays (practice) 
+- **Day:** Mondays 
 - **Time:** 11:00am – 12:30pm SLT  
 - **Level:** basic programming skills (in LSL or another language), no prior SLua knowledge needed  
 - **Teachers:** Suzanna (suzannalinn) & Ali (sungali)  
 - **Format:** Text-only  
-- **In-world Locations:**  
-  - **Theory (Mondays):** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)  
-  - **Practices (Thursdays):** [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
+- **In-world Location:** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)  
  
 This series starts from the ground up and is designed to get you comfortable with the new Lua-based scripting system.
 
-### SLua - Advanced (12 classes + 12 practices)
+### SLua - Advanced (12 classes)
 
 - **Dates:** January 7th – March 27th  
-- **Day:** Wednesdays (theory) & Fridays (practice)  
+- **Day:** Wednesdays 
 - **Time:** 11:00am – 12:30pm SLT  
 - **Level:** intermediate programming skills (in LSL or another language), enough SLua knowledge to rewrite LSL scripts  
 - **Teachers:** Suzanna (suzannalinn) & Ali (sungali)  
 - **Format:** Text-only  
-- **In-world Locations:**  
-  - **Theory (Wednesdays):** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)  
-  - **Practices (Fridays):** [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
+- **In-world Location:** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)  
 
 Already scripting in SLua? This advanced series unlocks powerful features and techniques that go far beyond what’s possible with LSL.
 
 ### Study Groups
 
-- **Days (November and December):**
+- **Days (December):**
   - Thursdays (focused to advanced level)
   - Fridays (focused to beginner level)
   - Saturdays (all levels)
