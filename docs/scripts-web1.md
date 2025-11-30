@@ -662,7 +662,7 @@ LLEvents:on("on_rez", function(start_param)
     ll.ResetScript()
 end)
 
-LLEvents:on("changed" function(change)
+LLEvents:on("changed", function(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
@@ -1607,7 +1607,7 @@ local function checkUser(params)
 end
 
 local function initialize()
-    menuChannel = bit32.bor(0x80000000, "0x" .. tostring(ll.GetKey()))
+    menuChannel = -tonumber("0x" .. tostring(ll.GetKey()):sub(-8))
     ll.Listen(menuChannel, "", "", "")
     selection = {}
     ll.RequestURL()
@@ -1624,7 +1624,7 @@ LLEvents:on("listen", function(channel, name, id, message)
     end
 end)
 
-LLEvents:on("http_request·, function(id, method, body)
+LLEvents:on("http_request", function(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body .. "/fruits"
         ll.OwnerSay(url)
@@ -1813,7 +1813,7 @@ local function initialize()
     ll.RequestURL()
 end
 
-LLEvents:on("touch_start", functoon(events)
+LLEvents:on("touch_start", function(events)
     local userId = events[1]:getKey()
     local userCode = getUserCode()
     local displayName = ll.GetDisplayName(userId)
