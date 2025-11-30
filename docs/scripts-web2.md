@@ -1061,7 +1061,7 @@ local function initialize()
     ll.RequestURL()
 end
 
-LLEvents:on(" dataserver", function(queryid, data)
+LLEvents:on("dataserver", function(queryid, data)
     if queryid == requestLineNotecardId then
         readNotecard()
     end
