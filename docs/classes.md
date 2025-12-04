@@ -1,10 +1,10 @@
 ## Classes
 
-New series of **SLua classes** starting in January. SLua has arrived to the main grid! Time to start the new year learning or improving it!
+New series of **SLua classes** starting in January 2026. SLua has arrived to the main grid! Time to start the new year learning or improving it!
 
 And going on with the **Study Groups**, now in the main grid!
 
-**Starting on Jannuary 5th**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
+**Starting on Jannuary 5th 2026**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
 ### SLua - Basics (12 classes)
 
