@@ -102,7 +102,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-standalone': {
-        pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|typeof|unpack|xpcall|integer|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
+        pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|typeof|unpack|xpcall|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-libraries': {
