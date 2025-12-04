@@ -4,7 +4,7 @@ New series of **SLua classes** starting in January 2026. SLua has arrived to the
 
 And going on with the **Study Groups**, now in the main grid!
 
-**Starting on Jannuary 5th 2026**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
+**Starting on January 5th 2026**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
 ### SLua - Basics (12 classes)
 
