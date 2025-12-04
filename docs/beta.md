@@ -516,7 +516,7 @@ The few remaining uses of integer were:
 - Typecasting in LSL-style
   - <code class="language-sluab">integer("123abc") -- > 123</code> or <code class="language-sluab">integer("aaa") -- > 0</code>
     - tonumber() returns nil in both cases.
-	- we can use <code class="language-sluab">string.match(myStr, "^%s*([-+]?%d+)" ) or 0</code>
+	- we can use <code class="language-sluab">tonumber(string.match(myStr, "^%s*([-+]?%d+)" )) or 0</code>
   - <code class="language-sluab">integer(myBool) -- > 1 or 0</code>
 	- we can use <code class="language-sluab">if myBool then 1 else 0</code>
 - the bit32 library functions returned type integer when all the parameters had type integer.
