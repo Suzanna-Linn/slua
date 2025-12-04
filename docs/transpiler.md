@@ -1,3 +1,9 @@
+---
+layout: default
+title: Slua Beta
+slua_beta: true
+---
+
 ## Transpiler
 
 ### Transpile a LSL script to SLua
@@ -14,7 +20,7 @@ Its intention is to provide a script that can be compiled and executed in SLua, 
 The scripts are processed internally and not stored or shared. I will only see the script if you click on "Report issue".
 
 <div id="transpiled-container" style="display: none; margin-top: 1em;">
-<pre class="language-slua line-numbers"><code class="language-slua" id="transpiled-output"></code></pre>
+<pre class="language-sluab line-numbers"><code class="language-sluab" id="transpiled-output"></code></pre>
 </div>
 
 <form id="transpiler-form" autocomplete="off">
@@ -96,8 +102,8 @@ What it does not (and probably will not, since these are very uncommon situation
 
 What it does not (and will not, since it would require redesigning the code)
 - jump (except when it can be replaced with break or continue)
-  - the command <code class="language-lsl">jump name_of_label;</code> is replaced with <code class="language-slua">jump = "jump name_of_label"</code>
-  - the label <code class="language-lsl">@name_of_label;</code> is replaced with <code class="language-slua">jump = "@name_of_label"</code>
+  - the command <code class="language-lsl">jump name_of_label;</code> is replaced with <code class="language-sluab">jump = "jump name_of_label"</code>
+  - the label <code class="language-lsl">@name_of_label;</code> is replaced with <code class="language-sluab">jump = "@name_of_label"</code>
 
 <script>
 document.getElementById('transpiler-form').addEventListener('submit', function(e) {
