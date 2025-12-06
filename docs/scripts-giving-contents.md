@@ -621,7 +621,7 @@ setMidnightTimer()</code></pre>
 <div class="script-box intermediate">
 <h4>Unpacker</h4>
 <p>Unpacking items into a folder, with options for contact and information</p>
-<img src="images/unpacker suzanna.jpg" alt="Unpacker image">
+<img src="images/unpacker-suzanna.jpg" alt="Unpacker image">
 <a href="images/unpacker.jpg" download>Download here an unnamed image to use adding your name</a>
 <pre class="language-sluab"><code class="language-sluab">-- unpacker (by Suzanna Linn, 2025-12-05)
 
