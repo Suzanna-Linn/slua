@@ -212,7 +212,7 @@ ll.Listen(INVENTORY_CHANNEL, "", ll.GetOwner(), "")</code></pre>
 </div>
 
 <div class="script-box beginner">
-<h4>List type totals</h4>
+<h4>List types totals</h4>
 <p>Listing the total of contents of each type</p>
 <pre class="language-sluab"><code class="language-sluab">-- list total contents by type (with hold-touch)
 
@@ -336,8 +336,8 @@ local function addGiven(personId)
         table.remove(givenPeople, index)
     end
     table.insert(givenPeople, personId)  -- adding at the end of the list
-    -- to avoid script memory issues we only keep the last 200 people
-    if #givenPeople > 200 then
+    -- to avoid script memory issues we only keep the last 500 people
+    if #givenPeople > 500 then
         table.remove(givenPeople, 1)
     end
 end
@@ -382,7 +382,7 @@ ll.VolumeDetect(true)  -- make the object a collision detector</code></pre>
 <p>Use this script in a HUD</p>
 <pre class="language-sluab"><code class="language-sluab">-- HUD to give contents to nearby people
 
-local GIVING_RANGE = 40  -- max distance to giveG
+local GIVING_RANGE = 40  -- max distance to give
 
 local ME = ll.GetOwner()
 local THIS_SCRIPT = ll.GetScriptName()
@@ -621,8 +621,8 @@ setMidnightTimer()</code></pre>
 <div class="script-box intermediate">
 <h4>Unpacker</h4>
 <p>Unpacking items into a folder, with options for contact and information</p>
-<img src="images/unpacker suzanna.jpg" alt="Bicolor">
-<a href="images/unpacker.jpg" download>Download an unnamed image to use adding your name</a>
+<img src="images/unpacker suzanna.jpg" alt="Unpacker image">
+<a href="images/unpacker.jpg" download>Download here an unnamed image to use adding your name</a>
 <pre class="language-sluab"><code class="language-sluab">-- unpacker (by Suzanna Linn, 2025-12-05)
 
 
