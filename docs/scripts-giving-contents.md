@@ -7,7 +7,7 @@ slua_beta: true
 ## Giving contents
 
 <div class="script-box beginner">
-<h4>Basic</h4>
+<h4>List</h4>
 <p>Listing the contents with its type description</p>
 <pre class="language-sluab"><code class="language-sluab">-- list all the contents with type description
 
@@ -63,7 +63,7 @@ constant returned by ll.GetInventoryType(name) when name does not exist in the c
 </div>
 
 <div class="script-box beginner">
-<h4>Color change</h4>
+<h4>Give</h4>
 <p>Giving the contents (except the scripts)</p>
 <pre class="language-sluab"><code class="language-sluab">-- give all the contents except the scripts to the toucher
 
@@ -86,7 +86,7 @@ end)</code></pre>
 </div>
 
 <div class="script-box beginner">
-<h4>Text change</h4>
+<h4>Give folder</h4>
 <p>Giving the contents in a folder</p>
 <pre class="language-sluab"><code class="language-sluab">-- give all the contents except scripts in a folder
 
@@ -114,7 +114,7 @@ end)</code></pre>
 </div>
 
 <div class="script-box beginner">
-<h4>Text alternance</h4>
+<h4>Remove</h4>
 <p>Removing from the contents</p>
 <pre class="language-sluab"><code class="language-sluab">-- remove an item from the contents
 
@@ -137,7 +137,7 @@ end)</code></pre>
 </div>
 
 <div class="script-box beginner">
-<h4>Horizontal scrolling</h4>
+<h4>List one type</h4>
 <p>Listing the contents of one type</p>
 <pre class="language-sluab"><code class="language-sluab">-- list contents of one type
 
@@ -212,7 +212,7 @@ ll.Listen(INVENTORY_CHANNEL, "", ll.GetOwner(), "")</code></pre>
 </div>
 
 <div class="script-box beginner">
-<h4>Vertical scrolling</h4>
+<h4>List type totals</h4>
 <p>Listing the total of contents of each type</p>
 <pre class="language-sluab"><code class="language-sluab">-- list total contents by type (with hold-touch)
 
@@ -280,130 +280,428 @@ end)</code></pre>
 </div>
 
 <div class="script-box intermediate">
-<h4>Bicolor</h4>
-<p>A floating text that scrolls using two colors for alternating lines:</p>
-<img src="images/bicolor.jpg" alt="Bicolor">
-<p>Floating texts have only one color, and prims only one floating text.</p>
-<p>We need two identical prims rezzed in the same position. Each prim shows half of the lines in one color.</p>
-<p>The script must be in both prims. It identifies what text and color to display using the prim description. The descriptions must be "floating 1" and "floating 2", as defined in the table primDecs in the script.</p>
-<pre class="language-sluab"><code class="language-sluab">-- floating text with vertical scroll in two colors (by Suzanna Linn, 2025-08-28)
+<h4>Find by type</h4>
+<p>Finding items by type</p>
+<pre class="language-sluab"><code class="language-sluab">-- find items by types (optional variadic multi-return function)
 
-local COLOR = {
-    NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
-    AQUA =   vector(0.498, 0.859, 1.000),  TEAL =    vector(0.224, 0.800, 0.800),
-    OLIVE =  vector(0.239, 0.600, 0.439),  GREEN =   vector(0.180, 0.800, 0.251), 
-    LIME =   vector(0.004, 1.000, 0.439),  YELLOW =  vector(1.000, 0.863, 0.000),
-    ORANGE = vector(1.000, 0.522, 0.106),  RED =     vector(1.000, 0.255, 0.212),
-    MAROON = vector(0.522, 0.078, 0.294),  FUCHSIA = vector(0.941, 0.071, 0.745),
-    PURPLE = vector(0.694, 0.051, 0.788),  WHITE =   vector(1.000, 1.000, 1.000),
-    SILVER = vector(0.867, 0.867, 0.867),  GRAY =    vector(0.667, 0.667, 0.667),
-    BLACK =  vector(0.067, 0.067, 0.067)
-}
-
-local colors = { COLOR.WHITE, COLOR.AQUA }
-
-local MESSAGE_LINES = 6  -- lines displayed in the floating text, must be a multiple of the number of prims
-
-local primDescs = {"floating 1", "floating 2"}  -- prims descriptions
-
-local primDesc = ll.GetObjectDesc()
-local primIndex = table.find(primDescs, primDesc)
--- position of this prim in the list of prims,
--- to know with which line and color to start
-
-local text = {
-    " ",
-    "The Programmer’s Plight",
-    "by ChatGPT",
-    " ",
-    "I sit before my screen so bright,",
-    "Prepared to code into the night.",
-    "With coffee brewed and mind set free,",
-    "I’ll write the best code there can be!",
-    "The first line’s typed, my spirits soar—",
-    "But syntax errors? Ten or more!",
-    "A missing semicolon here,",
-    "A bracket gone, a loop unclear.",
-    "The logic flows, or so I think,",
-    "Until it stops—my mind’s on the brink.",
-    "I debug, squint, refactor twice,",
-    "Yet still, the code won’t play nice.",
-    "Oh, variables that hide and flee,",
-    "Why can’t you just show up for me?",
-    "I search and search through lines galore,",
-    "And then—my laptop hits the floor.",
-    "I restart fresh, with patience thin,",
-    "And swear this time that I’ll win.",
-    "A dozen tabs open at once,",
-    "Google knows I’m now a dunce.",
-    "Then suddenly! The screen displays,",
-    "A program running, earning praise!",
-    "Victory dance, a cheer I shout—",
-    "Until it crashes… I’m logged out.",
-    "Oh, coding’s tough but full of charm,",
-    "With bugs that chase and cause alarm.",
-    "But I’ll return, it’s love and pain—",
-    "Tomorrow night, I’ll code again."
-}
-
-local textPos = 1
-local alpha = 1.0
-
-local function displayText()
-    local textShown = {}
-    for i = textPos, textPos + MESSAGE_LINES - 1 do
-        table.insert(textShown, text[ if i > #text then i - #text else i ])
-    end
-    for i = 1, MESSAGE_LINES do
-        if (i - 1) % #primDescs + 1 ~= primIndex then
-            textShown[i] = " "
+function findItemsByType(...)
+    local types = if select("#", ...) == 0 then { INVENTORY_ALL } else { ... }
+    local found = {}
+    for _, type in types do
+        for itemNumber = 1, ll.GetInventoryNumber(type) do
+            local itemName = ll.GetInventoryName(type, itemNumber)
+            table.insert(found, itemName)
         end
     end
-    local color = colors[ ((textPos - 1) + (primIndex - 1)) % #primDescs + 1 ]
-    ll.SetText(table.concat(textShown, "\n"), color, alpha)
-    textPos += 1
-    if textPos == #text then
-        textPos = 1
-    end
+    return found, #found
 end
 
-if primIndex then
-    if #text < MESSAGE_LINES then
-        MESSAGE_LINES = #text
-    end
-    displayText()
-    LLTimers:every(5, displayText)
-else
-    ll.OwnerSay(primDesc .. " is not in the table")
-end</code></pre>
+-- find notecards and textures
+local items, total = findItemsByType(INVENTORY_NOTECARD, INVENTORY_TEXTURE)
+print(`{total} items: {table.concat(items, ", ")}`)
+
+-- find all
+local items, total = findItemsByType()
+print(`{total} items: {table.concat(items, ", ")}`)</code></pre>
 </div>
 
 <div class="script-box intermediate">
-<h4>Multicolor</h4>
-<p>A floating text with seven colors for the rainbow:</p>
-<img src="images/rainbow.jpg" alt="Rainbow">
-<p>It works like the previous example. Here there are seven identical prims in the same position, with descriptions from "floating 1" to "floating 7". Each prim shows a letter in a different color.</p>
-<pre class="language-sluab"><code class="language-sluab">-- floating text in rainbow colors (by Suzanna Linn, 2025-08-28)
+<h4>Give to visitors</h4>
+<p>Giving contents to the visitors the first time that they come</p>
+<p>Use this script in an object, like a welcome mat, at the door</p>
+<pre class="language-sluab"><code class="language-sluab">-- give contents to visitors, to be used in a collider object
 
-local letters = {
-    ["floating 1"] = { color = vector(1.0, 0.0, 0.0),     text = "R                  "  },  -- red
-    ["floating 2"] = { color = vector(1.0, 0.498, 0.0),   text = "   A               "  },  -- orange
-    ["floating 3"] = { color = vector(1.0, 1.0, 0.0),     text = "      I             " },  -- yellow
-    ["floating 4"] = { color = vector(0.0, 1.0, 0.0),     text = "        N          "  },  -- green
-    ["floating 5"] = { color = vector(0.0, 0.0, 1.0),     text = "           B       "  },  -- blue
-    ["floating 6"] = { color = vector(0.294, 0.0, 0.510), text = "              O   "   },  -- indigo
-    ["floating 7"] = { color = vector(0.561, 0.0, 1.0),   text = "                 W"   }   -- violet
-}
+local THIS_SCRIPT = ll.GetScriptName()
 
-local alpha = 1.0
+local givenPeople = {}
 
-local primDesc = ll.GetObjectDesc()
+local function giveInventory(receiver)
+    local items = {}
+    local folderName = ll.GetObjectDesc()
 
-if letters[primDesc] then
-    local color = letters[primDesc].color
-    local text = letters[primDesc].text
-    ll.SetText(text, color, alpha)
-else
-    ll.OwnerSay(primDesc .. " is not in the table")
-end</code></pre>
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        if itemName ~= THIS_SCRIPT then
+            table.insert(items, itemName)
+        end
+    end
+
+    ll.GiveInventoryList(receiver, folderName, items)
+end
+
+local function addGiven(personId)
+    local index = table.find(givenPeople, personId)
+    -- if the person is in the list, delete them to add again in the last position
+    if index then
+        table.remove(givenPeople, index)
+    end
+    table.insert(givenPeople, personId)  -- adding at the end of the list
+    -- to avoid script memory issues we only keep the last 200 people
+    if #givenPeople > 200 then
+        table.remove(givenPeople, 1)
+    end
+end
+
+LLEvents:on("touch_start", function(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        -- if they touch we always give, no matter if they are in the list of given people
+        giveInventory(toucher)
+        -- we add them to the list, to not give on collision
+        addGiven(toucher)
+    end
+end)
+
+LLEvents:on("collision_start", function(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        if not table.find(givenPeople, toucher) then
+            -- we give if they are not in the list of given people
+            giveInventory(toucher)
+        end
+        addGiven(toucher) 
+    end
+end)
+
+LLEvents:on("on_rez", function(start_param)
+    ll.ResetScript()
+end)
+
+LLEvents:on("changed", function(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()  -- to empty the list of given people when we change the contents
+    end
+end)
+
+ll.VolumeDetect(true)  -- make the object a collision detector</code></pre>
+</div>
+
+<div class="script-box intermediate">
+<h4>Give contents HUD</h4>
+<p>Giving the contents placed in the object to the nearby people</p>
+<p>Use this script in a HUD</p>
+<pre class="language-sluab"><code class="language-sluab">-- HUD to give contents to nearby people
+
+local GIVING_RANGE = 40  -- max distance to giveG
+
+local ME = ll.GetOwner()
+local THIS_SCRIPT = ll.GetScriptName()
+local PERMS_COPY_TRANSFER = bit32.bor(PERM_COPY, PERM_TRANSFER)
+
+local WHITE = vector(1, 1, 1)
+local RED = vector(1, 0, 0)
+local GREEN = vector(0, 0.5, 0)
+
+local folderName = ""
+
+local function getFolderName()
+    -- folder name is the name of the first item
+    local itemName = ll.GetInventoryName(INVENTORY_ALL, 1)
+
+    if itemName == THIS_SCRIPT then
+        -- if the first item happens to be this script use the second item
+        itemName = ll.GetInventoryName(INVENTORY_ALL, 2)
+    end
+
+    return itemName
+end
+
+local function checkInventoryPerms()
+    local hasPerms = true
+    local text = ""
+
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        if itemName ~= THIS_SCRIPT then
+            local itemOwnerPerms = ll.GetInventoryPermMask(itemName, MASK_OWNER)
+            if bit32.band(itemOwnerPerms, PERMS_COPY_TRANSFER) ~= PERMS_COPY_TRANSFER then
+                ll.OwnerSay(`{itemName} is not copy-transfer`)
+                hasPerms = false
+            end
+            text ..= "\n" .. itemName
+        end
+    end
+
+    ll.SetText(text, WHITE, 1)
+    return hasPerms
+end
+
+local function checkContents()
+    local totalItems = ll.GetInventoryNumber(INVENTORY_ALL)
+    if totalItems == 1 then
+        ll.SetColor(WHITE, ALL_SIDES)
+        ll.OwnerSay("Empty, drop items")
+        folderName = ""
+        ll.SetText("", ZERO_VECTOR, 0)
+    else
+        if totalItems == 2 then
+            folderName = getFolderName()
+        end
+        if checkInventoryPerms() then
+            ll.SetColor(GREEN, ALL_SIDES)
+            ll.OwnerSay(`Ready, {totalItems - 1} items, drop more or touch to give`)
+        else
+            ll.SetColor(RED, ALL_SIDES)
+            ll.OwnerSay("Error, check properties")
+        end
+    end
+end
+
+local function getInventory()
+    local items = {}
+
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        if itemName ~= THIS_SCRIPT then
+            table.insert(items, itemName)
+        end
+    end
+
+    return items
+end
+
+local function removeInventory()
+    for itemNumber = ll.GetInventoryNumber(INVENTORY_ALL), 1, -1 do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        if itemName ~= THIS_SCRIPT then
+            ll.RemoveInventory(itemName)
+        end
+    end
+end
+
+local function giveInventory()
+    local items = getInventory()
+    local people = ll.GetAgentList(AGENT_LIST_PARCEL, {})
+    local myPos = ll.GetPos()
+    local peopleSent = 0
+
+    ll.OwnerSay("Sending...")
+    for _, personId in people do
+        if personId ~= ME then
+            local personPos = ll.GetObjectDetails(personId, {OBJECT_POS})[1]
+            local personDistance = ll.VecDist(myPos, personPos)
+            if personDistance < GIVING_RANGE then
+                ll.GiveInventoryList(personId, folderName, items)
+                peopleSent += 1
+                ll.OwnerSay("Given to " .. ll.GetDisplayName(personId))
+            end
+        end
+    end
+
+    removeInventory()
+    ll.OwnerSay(`{#items} items given to {peopleSent} people`)
+    checkContents()
+end
+
+local function initialize()
+    local objectName = ll.GetDisplayName(ME) .. "'s contents giver"
+    ll.SetObjectName(objectName)
+    if ll.GetObjectName() ~= objectName then
+        -- name has unicode characters, changed to "?" in the object name
+        ll.SetObjectName(ll.GetUsername(ME) .. "'s contents giver")
+    end
+    checkContents()
+end
+
+LLEvents:on("touch_start", function(events)
+    if ll.GetColor(ALL_SIDES) == GREEN then
+        giveInventory()
+    else
+        ll.OwnerSay("Not ready, drop items")
+    end
+end)
+
+LLEvents:on("changed", function(change)
+    if bit32.btest(change, CHANGED_INVENTORY) then
+        checkContents()
+    end
+    if bit32.btest(change, CHANGED_OWNER) then
+        ll.ResetScript()
+    end
+end)
+
+LLEvents:on("on_rez", function(start_param)
+    ll.ResetScript()
+end)
+
+initialize()</code></pre>
+</div>
+
+<div class="script-box intermediate">
+<h4>Give a random item</h4>
+<p>Giving a random item to the visitors only after some time</p>
+<p>Useful to encourage visitors to come regularly to get all the items</p>
+<pre class="language-sluab"><code class="language-sluab">-- random giver with wait time
+
+local HOURS = 3  -- hours between gives, HOURS=0 one give daily (SL time)
+
+local THIS_SCRIPT = ll.GetScriptName()
+
+local setMidnightTimer
+
+local function sendGift(toucher)
+    local items = {}
+
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        if itemName ~= THIS_SCRIPT then
+            table.insert(items, itemName)
+        end
+    end
+
+    local randomItem = math.random(1, #items)
+    local wait = if HOURS == 0 then "tomorrow (SL time)" else "in " .. tostring(HOURS) .. " hours"
+    ll.RegionSayTo(toucher, 0, "Your gift is on the way, you can get a gift again " .. wait)
+    ll.GiveInventory(toucher, items[randomItem])
+end
+
+local function newDay()
+    if HOURS ~= 0 then
+        local keys = ll.LinksetDataListKeys(1, 0)
+        for _, key in keys do
+            local lastGift = tonumber(ll.LinksetDataRead(key))
+            if 86400 - lastGift < HOURS * 3600 then
+                ll.LinksetDataWrite(key, tostring(lastGift - 86400))
+            else
+                ll.LinksetDataDelete(key)
+            end
+        end
+    else
+        ll.LinksetDataReset()
+    end
+    setMidnightTimer()
+end
+
+local function giftReady(toucher)
+    local ok = true
+    local time = ll.GetWallclock()
+    if time < (tonumber(ll.LinksetDataRead(" ")) or 0) then
+        newDay()
+    end
+    local lastGift = tonumber(ll.LinksetDataRead(tostring(toucher)))
+    if lastGift then
+        if HOURS == 0 then
+            ok = false
+            ll.RegionSayTo(toucher, 0, "Your next gift will be ready tomorrow (in SL time)")
+        elseif (time - lastGift) / 3600 < HOURS then
+            ok = false
+            local timeWait = HOURS - ((time - lastGift) / 3600)
+            local hours = math.floor(timeWait)
+            local minutes = math.ceil((timeWait - hours) * 60)
+            ll.RegionSayTo(toucher, 0, "Your next gift will be ready in " .. string.format("%d:%02d", hours, minutes) .. " hours")
+        end
+    end
+    if ok then
+        ll.LinksetDataWrite(tostring(toucher), tostring(time))
+    end
+    setMidnightTimer()
+    return ok
+end
+
+function setMidnightTimer()
+    local time = ll.GetWallclock()
+    ll.LinksetDataWrite(" ", tostring(time))
+    LLTimers:off(newDay)
+    LLTimers:once(86400 - time + 1, newDay)
+end
+
+LLEvents:on("touch_start", function(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        if giftReady(toucher) then
+            sendGift(toucher)
+        end
+    end
+end)
+
+math.randomseed(os.time)
+setMidnightTimer()</code></pre>
+</div>
+
+<div class="script-box intermediate">
+<h4>Unpacker</h4>
+<p>Unpacking items into a folder, with options for contact and information</p>
+<img src="images/unpacker suzanna.jpg" alt="Bicolor">
+<a href="images/unpacker.jpg" download>Download an unnamed image to use adding your name</a>
+<pre class="language-sluab"><code class="language-sluab">-- unpacker (by Suzanna Linn, 2025-12-05)
+
+
+-- replace this section with your data
+
+local OPTIONS = { "INFO", "CONTACT", "UNPACK" }
+
+-- circles on top must come before circles underneath
+local CIRCLES = { vector(0.253, 0.780, 0.146), vector(0.747, 0.780, 0.146), vector(0.485, 0.485, 0.342) }
+
+local TEXTURE_UNPACK = uuid("c4125f85-ad79-c446-8dd0-85c2a733529a")  -- your texture for the unpacker HUD
+local NOTECARD_INFO = "Hi, I'm Suzanna, nice to meet you :)"         -- name of your notecard with info (in the object contents)
+local CONTACT_UUID = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")    -- your uuid
+
+-- end of replace section
+
+
+
+local function findOption(touchPos)
+    local option
+
+    for index, circle in CIRCLES do
+        local radius = circle.z
+        circle = vector(circle.x, circle.y, 0)
+        if ll.VecDist(circle, touchPos) <= radius then
+            option = OPTIONS[index]
+            break
+        end
+    end
+
+    return option
+end
+
+local function unpackContents(toucher)
+    local items = {}
+    local folderName = (ll.GetObjectName():split(" ("))[1]
+
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        if itemName ~= ll.GetScriptName() and itemName ~= NOTECARD_INFO then
+            table.insert(items, itemName)
+        end
+    end
+
+    if #items > 0 then
+        ll.RegionSayTo(toucher, 0, "Unpacking to your folder " .. folderName .. "...")
+        ll.GiveInventoryList(toucher, folderName, items)
+    else
+        ll.RegionSayTo(toucher, 0, "Sorry, there aren't items to unpack")
+    end
+
+    ll.RequestPermissions(toucher, PERMISSION_ATTACH)
+end
+
+local function unpackOrInfo(toucher, touchPos)
+    local option = findOption(touchPos)
+    if option == "UNPACK" then
+        unpackContents(toucher)
+    elseif option == "INFO" then
+        ll.GiveInventory(toucher, NOTECARD_INFO)
+    elseif option == "CONTACT" then
+        ll.RegionSayTo(toucher, 0, "secondlife:///app/agent/" .. tostring(CONTACT_UUID) .. "/about")
+    end
+end
+
+LLEvents:on("touch_start", function(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        local touchPos = ev:getTouchST()
+        touchPos = vector(touchPos.x, 1 - touchPos.y, touchPos.z)
+        unpackOrInfo(toucher, touchPos)
+    end
+end)
+
+LLEvents:on("run_time_permissions", function(perm)
+    if bit32.btest(perm, PERMISSION_ATTACH) then
+        ll.DetachFromAvatar()
+    end
+end)
+
+ll.SetTexture(TEXTURE_UNPACK, ALL_SIDES)</code></pre>
 </div>
