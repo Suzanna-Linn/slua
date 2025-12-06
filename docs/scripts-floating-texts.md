@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Slua Beta
+title: Floating texts
 slua_beta: true
 ---
 
