@@ -68,7 +68,8 @@ What it does:
 - replaces assignation to vector/rotation components with a new vector/rotation
 - replaces assignations in expressions with inline functions
 - replaces llGetListLength with the # length operator
-- replaces multiline strings with [[ ]] strings.
+- replaces multiline strings with [[ ]] strings
+- changes "else if" to "elseif" when possible
 - adds a line (before the first function) declaring the functions that are defined after they are used
 - renames variables that are SLua keywords (by adding _t at the end)
 - renames state_entry() in the default state to initialize() and calls it at the end
@@ -91,7 +92,6 @@ What it does not (but could do, if I receive requests for it)
     - remove the declaration of the index variable
 - use integers with bit32 functions to get signed numbers when they are in arithmetic operations
 - change "jump" to "break" or "continue" when possible
-- change "else if" to "elseif" when possible
 - preserve the formatting of lists declarations, when they are written in several lines or tabbed
 
 What it does not (and probably will not, since these are very uncommon situations)
