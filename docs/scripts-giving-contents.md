@@ -4,267 +4,279 @@ title: Slua Beta
 slua_beta: true
 ---
 
-## Floating texts
+## Giving contents
 
 <div class="script-box beginner">
 <h4>Basic</h4>
-<p>A basic floating text with the name of the owner</p>
-<pre class="language-sluab"><code class="language-sluab">-- basic floating text with a fixed text
+<p>Listing the contents with its type description</p>
+<pre class="language-sluab"><code class="language-sluab">-- list all the contents with type description
 
-local text = "I'm owned by " .. ll.GetDisplayName(ll.GetOwner())
-local color = vector(1.000, 0.255, 0.212)  -- red
-local alpha = 1.0
+local TYPES = {
+    [0] = "Texture",
+    [1] = "Sound",
+    [3] = "Landmark",
+    [5] = "Clothing",
+    [6] = "Object",
+    [7] = "Notecard",
+    [10] = "Script",
+    [13] = "Bodypart",
+    [20] = "Animation",
+    [21] = "Gesture",
+    [56] = "Setting",
+    [57] = "Material",
+}
 
-ll.SetText(text, color, alpha)</code></pre>
+local function listInventory()
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+        local itemTypeDescription = TYPES[itemType]
+        ll.OwnerSay(`{itemName} ({itemTypeDescription})`)
+    end
+end
+
+LLEvents:on("touch_start", function(events)
+    listInventory()
+end)
+
+--[[
+
+list of constants for the inventory types:
+
+    INVENTORY_ALL
+    INVENTORY_TEXTURE
+    INVENTORY_SOUND
+    INVENTORY_LANDMARK
+    INVENTORY_CLOTHING
+    INVENTORY_OBJECT
+    INVENTORY_NOTECARD
+    INVENTORY_SCRIPT
+    INVENTORY_BODYPART
+    INVENTORY_ANIMATION
+    INVENTORY_GESTURE
+
+constant returned by ll.GetInventoryType(name) when name does not exist in the contents:
+
+    INVENTORY_NONE
+
+]]</code></pre>
 </div>
 
 <div class="script-box beginner">
 <h4>Color change</h4>
-<p>A floating text that changes its color with a timer</p>
-<pre class="language-sluab"><code class="language-sluab">-- floating text with a fixed text and changing colors
+<p>Giving the contents (except the scripts)</p>
+<pre class="language-sluab"><code class="language-sluab">-- give all the contents except the scripts to the toucher
 
-local COLOR = {
-    NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
-    AQUA =   vector(0.498, 0.859, 1.000),  TEAL =    vector(0.224, 0.800, 0.800),
-    OLIVE =  vector(0.239, 0.600, 0.439),  GREEN =   vector(0.180, 0.800, 0.251), 
-    LIME =   vector(0.004, 1.000, 0.439),  YELLOW =  vector(1.000, 0.863, 0.000),
-    ORANGE = vector(1.000, 0.522, 0.106),  RED =     vector(1.000, 0.255, 0.212),
-    MAROON = vector(0.522, 0.078, 0.294),  FUCHSIA = vector(0.941, 0.071, 0.745),
-    PURPLE = vector(0.694, 0.051, 0.788),  WHITE =   vector(1.000, 1.000, 1.000),
-    SILVER = vector(0.867, 0.867, 0.867),  GRAY =    vector(0.667, 0.667, 0.667),
-    BLACK =  vector(0.067, 0.067, 0.067)
-}
-
-local colors = { COLOR.WHITE, COLOR.GREEN, COLOR.RED }  -- any colors
-
-local text = "I'm owned by " .. ll.GetDisplayName(ll.GetOwner())
-local alpha = 1.0
-local colorCounter = 1
-
-local function changeColor()
-    local color = colors[colorCounter]
-    ll.SetText(text, color, alpha)
-
-    colorCounter += 1
-    if colorCounter > #colors then
-        colorCounter = 1
+local function giveInventory(receiver)
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+        if itemType ~= INVENTORY_SCRIPT then
+            ll.GiveInventory(receiver,itemName);
+        end
     end
 end
 
-LLTimers:every(0.5, changeColor)</code></pre>
+LLEvents:on("touch_start", function(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        giveInventory(toucher)
+    end
+end)</code></pre>
 </div>
 
 <div class="script-box beginner">
 <h4>Text change</h4>
-<p>A floating text that changes colors and listens for a new text</p>
-<pre class="language-sluab"><code class="language-sluab">-- floating text with changing text and changing colors
+<p>Giving the contents in a folder</p>
+<pre class="language-sluab"><code class="language-sluab">-- give all the contents except scripts in a folder
 
-local COLOR = {
-    NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
-    AQUA =   vector(0.498, 0.859, 1.000),  TEAL =    vector(0.224, 0.800, 0.800),
-    OLIVE =  vector(0.239, 0.600, 0.439),  GREEN =   vector(0.180, 0.800, 0.251), 
-    LIME =   vector(0.004, 1.000, 0.439),  YELLOW =  vector(1.000, 0.863, 0.000),
-    ORANGE = vector(1.000, 0.522, 0.106),  RED =     vector(1.000, 0.255, 0.212),
-    MAROON = vector(0.522, 0.078, 0.294),  FUCHSIA = vector(0.941, 0.071, 0.745),
-    PURPLE = vector(0.694, 0.051, 0.788),  WHITE =   vector(1.000, 1.000, 1.000),
-    SILVER = vector(0.867, 0.867, 0.867),  GRAY =    vector(0.667, 0.667, 0.667),
-    BLACK =  vector(0.067, 0.067, 0.067)
-}
+local function giveInventoryFolder(receiver)
+    local items = {}
+    local folderName = ll.GetObjectDesc()
 
-local CHANNEL_FLOATING_TEXT = 11
-
-local colors = { COLOR.WHITE, COLOR.GREEN, COLOR.RED }  -- any colors
-
-local text = "Say a text in channel " .. CHANNEL_FLOATING_TEXT
-local alpha = 1.0
-local colorCounter = 1
-
-local function changeColor()
-    local color = colors[colorCounter]
-    ll.SetText(text, color, alpha)
-
-    colorCounter += 1
-    if colorCounter > #colors then
-        colorCounter = 1
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+        if itemType ~= INVENTORY_SCRIPT then
+            table.insert(items, itemName)
+        end
     end
+
+    ll.GiveInventoryList(receiver, folderName, items)
 end
 
-local function listenMessage(channel, name, id, message)
-    if channel == CHANNEL_FLOATING_TEXT then
-        text = message
+LLEvents:on("touch_start", function(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        giveInventoryFolder(toucher)
     end
-end
-
-ll.Listen(CHANNEL_FLOATING_TEXT, "", ll.GetOwner(), "")
-LLEvents:on("listen", listenMessage)
-LLTimers:every(0.5, changeColor)
-</code></pre>
+end)</code></pre>
 </div>
 
 <div class="script-box beginner">
 <h4>Text alternance</h4>
-<p>A floating text that listens for two texts in two channels, alternates the text and changes the colors, with different timings</p>
-<pre class="language-sluab"><code class="language-sluab">-- floating text with double changing text and changing colors
+<p>Removing from the contents</p>
+<pre class="language-sluab"><code class="language-sluab">-- remove an item from the contents
 
-local COLOR = {
-    NAVY =   vector(0.000, 0.122, 0.247),  BLUE =    vector(0.000, 0.455, 0.851),
-    AQUA =   vector(0.498, 0.859, 1.000),  TEAL =    vector(0.224, 0.800, 0.800),
-    OLIVE =  vector(0.239, 0.600, 0.439),  GREEN =   vector(0.180, 0.800, 0.251), 
-    LIME =   vector(0.004, 1.000, 0.439),  YELLOW =  vector(1.000, 0.863, 0.000),
-    ORANGE = vector(1.000, 0.522, 0.106),  RED =     vector(1.000, 0.255, 0.212),
-    MAROON = vector(0.522, 0.078, 0.294),  FUCHSIA = vector(0.941, 0.071, 0.745),
-    PURPLE = vector(0.694, 0.051, 0.788),  WHITE =   vector(1.000, 1.000, 1.000),
-    SILVER = vector(0.867, 0.867, 0.867),  GRAY =    vector(0.667, 0.667, 0.667),
-    BLACK =  vector(0.067, 0.067, 0.067)
-}
-
-local CHANNEL_FLOATING_TEXT_1 = 11
-local CHANNEL_FLOATING_TEXT_2 = 12
-
-local colors = { COLOR.WHITE, COLOR.GREEN, COLOR.RED }  -- any colors
-
-local text1 = "Say a text in channel " .. CHANNEL_FLOATING_TEXT_1
-local text2 = "Say a text in channel " .. CHANNEL_FLOATING_TEXT_2
-local text = text1
-local alpha = 1.0
-local colorCounter = 1
-local currentText = 1
-
-local function colorChange()
-    local color = colors[colorCounter]
-    ll.SetText(text, color, alpha)
-
-    colorCounter += 1
-    if colorCounter > #colors then
-        colorCounter = 1
-    end
+local function itemExists(name)
+    return ll.GetInventoryType(name) ~= INVENTORY_NONE
 end
 
-local function textChange()
-    if currentText == 1 then
-        currentText = 2
-        text = text2
+local function removeInventory(name)
+    if itemExists(name) then
+        ll.RemoveInventory(name)
+        ll.OwnerSay("The item '" .. name .. "' has been removed")
     else
-        currentText = 1
-        text = text1
+        ll.OwnerSay("The item '" .. name .. "' does not exist")
     end
 end
 
-local function listenMessage(channel, name, id, message)
-    if channel == CHANNEL_FLOATING_TEXT_1 then
-        text1 = message
-        currentText = 2  -- force the change to the new message
-        textTicks = 1    -- in the next timer
-    elseif channel == CHANNEL_FLOATING_TEXT_2 then
-        text2 = message
-        currentText = 1  -- force the change to the new message
-        textTicks = 1    -- in the next timer
-    end
-end
-
-ll.Listen(CHANNEL_FLOATING_TEXT_1, "", ll.GetOwner(), "")
-ll.Listen(CHANNEL_FLOATING_TEXT_2, "", ll.GetOwner(), "")
-LLEvents:on("listen", listenMessage)
-LLTimers:every(0.5, colorChange)
-LLTimers:every(15, textChange)
-</code></pre>
+LLEvents:on("touch_start", function(events)
+    removeInventory("Unuseful item")
+end)</code></pre>
 </div>
 
 <div class="script-box beginner">
 <h4>Horizontal scrolling</h4>
-<p>A floating text that scrolls horizontally from right to left (Halloween ambient)</p>
-<pre class="language-sluab"><code class="language-sluab">-- floating text with horizontal scrolling
+<p>Listing the contents of one type</p>
+<pre class="language-sluab"><code class="language-sluab">-- list contents of one type
 
-local MESSAGE_LENGTH = 25  -- characters displayed in the floating text
+local TYPES = {
+    [0] = "Texture",
+    [1] = "Sound",
+    [3] = "Landmark",
+    [5] = "Clothing",
+    [6] = "Object",
+    [7] = "Notecard",
+    [10] = "Script",
+    [13] = "Bodypart",
+    [20] = "Animation",
+    [21] = "Gesture",
+    [56] = "Setting",
+    [57] = "Material",
+}
 
--- any long text, with a white space at the end
-local text = "🎃 Beware! This object may be haunted! 👻 Touch if you dare… but don’t say I didn’t warn you! 💀✨. "
+local TYPE_CODES = {
+    texture = 0,
+    sound = 1,
+    landmark = 3,
+    clothing = 5,
+    object = 6,
+    notecard = 7,
+    script = 10,
+    bodypart = 13,
+    animation = 20,
+    gesture = 21,
+    setting = 56,
+    material = 57,
+}
 
-local textLength = ll.StringLength(text)  -- not #text, the string has unicode
-local textPos = 0  -- index base 0 to use with LL string functions
+local INVENTORY_CHANNEL = 5  -- channel to listen for the inventory type to list
 
-if textLength < MESSAGE_LENGTH then  -- in case that the text is too short, no scrolling
-    MESSAGE_LENGTH = textLength
-end
-
-local color = vector(1.000, 1.000, 1.000)  -- white
-local alpha = 1.0
-
-local function touched(events)
-    ll.RegionSayTo(events[1]:getKey(), 0, "👻 Boo! You shouldn’t have touched that… Now I’m awake! 💀")
-    color = vector(1.000, 0.255, 0.212)  -- red
-end
-
-local function scrollText()
-    local textShown = ll.GetSubString(text .. text, textPos, textPos + MESSAGE_LENGTH - 1)
-    -- text..text to get the end and the start in one call
-    -- with text = "Hello world ", textPos = 6 and MESSAGE_LENGTH = 12 is:
-    -- ll.GetSubstring("Hello world " .. "Hello world ", 6, 6 + 12 - 1)  -- > world Hello
-
-    ll.SetText(textShown, color, alpha)
-    textPos += 1
-    if textPos == textLength then
-        textPos = 0
+local function listInventory()
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+        local itemTypeDescription = TYPES[itemType]
+        ll.OwnerSay(`{itemName} ({itemTypeDescription})`)
     end
 end
 
-LLEvents:on("touch_start", touched)
-LLTimers:every(0.25, scrollText)</code></pre>
+local function listInventoryByType(type)
+    type = type:lower()
+    local typeCode = if type == "all" then INVENTORY_ALL else TYPE_CODES[type]
+
+    if typeCode then
+        for itemNumber = 1, ll.GetInventoryNumber(typeCode) do
+            local itemName = ll.GetInventoryName(typeCode, itemNumber)
+            local itemType = ll.GetInventoryType(itemName)
+            local itemTypeDescription = TYPES[itemType]
+            ll.OwnerSay(`{itemName} ({itemTypeDescription})`)
+        end
+    else
+        ll.OwnerSay(`The type name {type} doesn't exist`)
+    end
+end
+
+LLEvents:on("touch_start", function(events)
+    listInventory()
+end)
+
+LLEvents:on("listen", function(channel, name, id, message)
+    if channel == INVENTORY_CHANNEL then
+        listInventoryByType(message)
+    end
+end)
+
+ll.Listen(INVENTORY_CHANNEL, "", ll.GetOwner(), "")</code></pre>
 </div>
 
 <div class="script-box beginner">
 <h4>Vertical scrolling</h4>
-<p>A floating text that scrolls vertically from the bottom (Halloween ambient)</p>
-<pre class="language-sluab"><code class="language-sluab">-- floating text with vertical scrolling
+<p>Listing the total of contents of each type</p>
+<pre class="language-sluab"><code class="language-sluab">-- list total contents by type (with hold-touch)
 
-local MESSAGE_LINES = 5  -- lines displayed in the floating text
-
--- any text with many short lines
-local text = {
-    "🎃 Welcome, brave soul!",
-    "Step right up to this haunted heap!",
-    "Touch if you dare, but beware!",
-    "You might unleash a spirit...",
-    "Or just an old pizza crust.",
-    "Who knows what lurks in here? 👀",
-    "A ghost? A goblin?",
-    "Or maybe... just a really bad smell? 💀",
-    "Proceed with caution, or a clothespin!",
-    "Happy Haunting! 👻✨"
+local TYPES = {
+    [0] = "Texture",
+    [1] = "Sound",
+    [3] = "Landmark",
+    [5] = "Clothing",
+    [6] = "Object",
+    [7] = "Notecard",
+    [10] = "Script",
+    [13] = "Bodypart",
+    [20] = "Animation",
+    [21] = "Gesture",
+    [56] = "Setting",
+    [57] = "Material",
 }
 
-local textPos = 1
+-- to use touch and hold-touch
+local isHoldTouch = false
+local timeTouch = 0
 
--- the length of an array table is stored with the table, not calculated
--- no need of local textLines = #text, using #text each time is fast enough
-if #text < MESSAGE_LINES then  -- in case that the text is too short, no scrolling
-    MESSAGE_LINES = #text
-end
-
-local color = vector(1.000, 1.000, 1.000)  -- white
-local alpha = 1.0
-
-local function touched(events)
-    ll.RegionSayTo(events[1]:getKey(), 0, "👻 Boo! You shouldn’t have touched that… Now I’m awake! 💀")
-    color = vector(1.000, 0.255, 0.212)  -- red
-end
-
-local function scrollText()
-    local textShown = {}
-    -- using table.insert and table.concat is more efficient that concatenating to a string
-    -- this is just an example, it's not important with a few substrings
-    for i = textPos, textPos + MESSAGE_LINES - 1 do
-        table.insert(textShown, text[ if i > #text then i - #text else i ])  -- inline-if to wrap the index
-    end
-    ll.SetText(table.concat(textShown, "\n"), color, alpha)
-    textPos += 1
-    if textPos > #text then
-        textPos = 1
+local function listInventory()
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+        local itemTypeDescription = TYPES[itemType]
+        ll.OwnerSay(`{itemName} ({itemTypeDescription})`)
     end
 end
 
-LLEvents:on("touch_start", touched)
-LLTimers:every(5, scrollText)</code></pre>
+local function listInventoryTotals()
+    local totals = {}
+
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+        totals[itemType] = (totals[itemType] or 0) + 1
+    end
+
+    for itemType, total in totals do
+        ll.OwnerSay(`{total} {TYPES[itemType]}`)
+    end
+end
+
+LLEvents:on("touch_start", function(events)
+    timeTouch = ll.GetTime()
+    isHoldTouch = false
+end)
+
+LLEvents:on("touch", function(events)
+    -- hold-touch to list the totals
+    if ll.GetTime() - timeTouch > 1 and not isHoldTouch then
+        isHoldTouch = true
+        listInventoryTotals()
+    end
+end)
+
+LLEvents:on("touch_end", function(events)
+    -- touch to list the details
+    if not isHoldTouch then
+        listInventory()
+    end
+end)</code></pre>
 </div>
 
 <div class="script-box intermediate">
