@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Slua Beta
+title: Giving contents
 slua_beta: true
 ---
 
