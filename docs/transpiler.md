@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Slua Beta
+title: Transpiler
 slua_beta: true
 ---
 
