@@ -81,7 +81,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-lljson': {
-        pattern: /\blljson\.(?:decode|encode)\b(?=\s*(?:[({]))/,
+        pattern: /\blljson\.(?:decode|encode|sldecode|slencode)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-llevents': {
@@ -93,7 +93,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-lltimers': {
-        pattern: /LLTimers:(?:every|on|once|off)\b/,
+        pattern: /LLTimers:(?:every|once|off)\b/,
         alias: 'builtin'
     },
     'builtin-get': {
@@ -102,7 +102,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-standalone': {
-        pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|typeof|unpack|xpcall|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
+        pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|touuid|type|typeof|unpack|xpcall|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-libraries': {
