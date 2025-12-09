@@ -235,7 +235,7 @@ Parameters for the submenus, as key values in the first table in the submenu:
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
 
-Parameters for each option in a menu, as key values in the first table in the submenu:
+Parameters for each option in a menu, as key values in the other tables in the submenu:
 
 - option : the text to display in the menu button.
   - can be a string or a function returning a string.
