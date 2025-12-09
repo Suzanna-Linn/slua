@@ -7,7 +7,7 @@ slua_beta: true
 
 ## Web server and MOAP - Part I (Basics)
 
-The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23):
+The objects with these scripts are available at [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/65/93/495):
 
 <img src="images/giver.png" alt="Web server and MOAP">
 
