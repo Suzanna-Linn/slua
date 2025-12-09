@@ -6,6 +6,12 @@ slua_beta: true
 
 ## Menus
 
+The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23):
+
+<img src="images/giver.png" alt="Web server and MOAP">
+
+You are welcome to the Study Groups all Thursdays, Fridays and Saturdays from 11AM to 1PM SLT with your questions, practices, and projects to chat about this and anything else scripting related.
+
 ### Examples
 
 Example 1: a yes/no menu:
@@ -261,6 +267,9 @@ Parameters for each option in a menu, as key values in the first table in the su
 - exit : function to execute after the action function is called.
   - if it returns false the same menu is displayed again
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
+   
+Menus are started with:
+<code class="language-sluab">menu.open(tableMenu, userId)</code>
 
 ### Example 1: a yes/no menu
 
