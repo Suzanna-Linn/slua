@@ -280,7 +280,7 @@ local mainMenu = {
 <div class="script-box beginner">
 <h4>Yes/no</h4>
 <p></p>
-<pre class="language-sluab"><code class="language-sluab">-- start menu section
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- start menu section
 
 -- ===== COPY THE MENUS CODE HERE =====
 
@@ -311,7 +311,7 @@ end)</code></pre>
 <div class="script-box beginner">
 <h4>Movement</h4>
 <p></p>
-<pre class="language-sluab"><code class="language-sluab">-- start menu section
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- start menu section
 
 -- ===== COPY THE MENUS CODE HERE =====
 
@@ -381,7 +381,7 @@ end)</code></pre>
 <div class="script-box intermediate">
 <h4>Information</h4>
 <p></p>
-<pre class="language-sluab"><code class="language-sluab">-- start menu section
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- start menu section
 
 -- ===== COPY THE MENUS CODE HERE =====
 
@@ -541,7 +541,7 @@ end)</code></pre>
 <div class="script-box advanced">
 <h4>Photoalbum</h4>
 <p></p>
-<pre class="language-sluab"><code class="language-sluab">-- start menu section
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- start menu section
 
 -- ===== COPY THE MENUS CODE HERE =====
 
@@ -978,7 +978,7 @@ init()</code></pre>
 <div class="script-box expert">
 <h4>Menus</h4>
 <p></p>
-<pre class="language-sluab"><code class="language-sluab">-- Menus (by Suzanna Linn, 2025-12-09)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- Menus (by Suzanna Linn, 2025-12-09)
 	
 -- menu section, user configurable part
 
