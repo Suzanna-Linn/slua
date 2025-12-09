@@ -1,14 +1,18 @@
 ---
 layout: default
-title: Floating texts
+title: Menus
 slua_beta: true
 ---
 
 ## Menus
 
-The objects with these scripts are available at [SLua Yardang 178,2,23 (SLua Class Study Area)](secondlife://Aditi/secondlife/SLua%20Yardang/178/2/23):
+A menu generator using a table with its definition. With submenus, multi-page and multi-user.
 
-<img src="images/giver.png" alt="Web server and MOAP">
+I suggest to take a copy of objects and us them to follow the examples.
+
+The objects with these scripts are available at [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/65/93/495):
+
+<img src="images/giver menu.png" alt="Menus">
 
 You are welcome to the Study Groups all Thursdays, Fridays and Saturdays from 11AM to 1PM SLT with your questions, practices, and projects to chat about this and anything else scripting related.
 
