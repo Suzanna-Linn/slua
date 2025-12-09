@@ -162,14 +162,14 @@ local mainMenu = {
 	RIGHT_TEXT = ">>>",
 }</code></pre>
 
-- CLOSE : the main menu adds a "close" option.
-- BACK : the submenus add a "back" option.
-- RETURN : the main menu closes and the submenus go to the parent menu after chosing and option.
-- TIMEOUT : second for the menu to time out.
-- CLOSE_TEXT : text shown in the "close" option.
-- BACK_TEXT : text shown in the "back" option.
-- LEFT_TEXT : text shown in the previous page option in a multipage menu.
-- RIGHT_TEXT : text shown in the next page option in a multipage menu.
+- **CLOSE** : the main menu adds a "close" option.
+- **BACK** : the submenus add a "back" option.
+- **RETURN** : the main menu closes and the submenus go to the parent menu after chosing and option.
+- **TIMEOUT** : second for the menu to time out.
+- **CLOSE_TEXT** : text shown in the "close" option.
+- **BACK_TEXT** : text shown in the "back" option.
+- **LEFT_TEXT** : text shown in the previous page option in a multipage menu.
+- **RIGHT_TEXT** : text shown in the next page option in a multipage menu.
 
 
 **The table context:**
@@ -183,68 +183,68 @@ local mainMenu = {
 
 **Parameters for the main menu, as key values in the first table in the menu:**
 
-- message : the text to display in the menu.
+- **message** : the text to display in the menu.
   - can be a string or a function returning a string.
   - the string can contain context keys between [ and ].
   - " message = " can be omitted is the message is in the first position in the table.
 
-- close : if true a "close" option is added to the menu.
+- **close** : if true a "close" option is added to the menu.
 
-- ret : if true the menu closes after chosing an option.
+- **ret** : if true the menu closes after chosing an option.
 
-- say : if true the full names of the options are said to the user in their chat.
+- **say** : if true the full names of the options are said to the user in their chat.
 
-- timeout : seconds to timeout the menu, replaces menu.TIMEOUT as default.
+- **timeout** : seconds to timeout the menu, replaces menu.TIMEOUT as default.
 
-- back_default : replaces menu.BACK as default.
+- **back_default** : replaces menu.BACK as default.
 
-- ret_default : replaces menu.RETURN as default.
+- **ret_default** : replaces menu.RETURN as default.
 
-- init : function to execute once at the start of the menu.
+- **init** : function to execute once at the start of the menu.
 
-- entry : function to execute when the menu is displayed.
+- **entry** : function to execute when the menu is displayed.
   - if it returns false the menu is not displayed.
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
-- exit : function to execute when the menu is closing.
+- **exit** : function to execute when the menu is closing.
   - if it returns false the menu is not closed and it is displayed again.
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
 
 **Parameters for the submenus, as key values in the first table in the submenu:**
 
-- message : the text to display in the menu.
+- **message** : the text to display in the menu.
   - can be a string or a function returning a string.
   - the string can contain context keys between [ and ].
   - " message = " can be omitted is the message is in the first position in the table.
 
-- back : if true a "back" option is added to the menu.
+- **back** : if true a "back" option is added to the menu.
 
-- ret : if true the menu goes back to the previous menu after chosing an option.
+- **ret** : if true the menu goes back to the previous menu after chosing an option.
 
-- say : if true the full names of the options are said to the user in their chat.
+- **say** : if true the full names of the options are said to the user in their chat.
 
-- timeout : seconds to timeout the menu.
+- **timeout** : seconds to timeout the menu.
 
-- entry : function to execute when the menu is displayed.
+- **entry** : function to execute when the menu is displayed.
   - if it returns false the menu is not displayed.
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
-- exit : function to execute when the menu is going back to the previous menu.
+- **exit** : function to execute when the menu is going back to the previous menu.
   - if it returns false the menu is not closed and it is displayed again.
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
 
 **Parameters for each option in a menu, as key values in the other tables in the submenu:**
 
-- option : the text to display in the menu button.
+- **option** : the text to display in the menu button.
   - can be a string or a function returning a string.
   - can group several options that use the same action function:
     - can be an array table of strings or a function returning an array table of strings.
   - each string can contain context keys between [ and ].
   - " option = " can be omitted is the option is in the first position in the table.
 
-- action: a function to call when the option is chosen.
+- **action** : a function to call when the option is chosen.
   - it is called with the name of the option and the context table: actionFunction(optionName, context)
   - it can return:
     - false : to stay in the same menu and to display it again.
@@ -254,21 +254,21 @@ local mainMenu = {
   - " action = " can be omitted is the action is in the second position in the table.
     - only if "option = " has also been omitted and is in the first position in the table.
 
-- textbox : the message for a textbox
+- **textbox** : the message for a textbox
   - a textbox is displayed before the action function is called.
   - the action function receives the text from the textbox in the parameter name.
   - the message can be a string or a function returning a string.
   - the string can contain context keys between [ and ].
   - with textbox = true the name of the option is used as message.
 
-- menu : a table with the definition of a submenu
+- **menu** : a table with the definition of a submenu
   - if "action" is defined "menu" is not used.
 
-- entry : function to execute before the action function is called.
+- **entry** : function to execute before the action function is called.
   - if it returns false the action is not executed and the same menu is displayed again.
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
-- exit : function to execute after the action function is called.
+- **exit** : function to execute after the action function is called.
   - if it returns false the same menu is displayed again
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
    
