@@ -6,7 +6,7 @@ slua_beta: true
 
 ## Menus
 
-A menu generator using a table with its definition. With submenus, multi-page and multi-user.
+**A menu generator using a table with its definition. With submenus, multi-page and multi-user.**
 
 I suggest to take a copy of the objects and use them to follow the examples.
 
@@ -18,7 +18,7 @@ You are welcome to the Study Groups all Thursdays, Fridays and Saturdays from 11
 
 ### Examples of definitions
 
-Example 1: a yes/no menu:
+**Example 1: a yes/no menu:**
 
 <pre class="language-sluab"><code class="language-sluab">-- the definition of the menu is an array table
 local mainMenu = {
@@ -35,7 +35,7 @@ local mainMenu = {
     { "No", yesno },
 }</code></pre>
 
-Example 2: a movement menu:
+**Example 2: a movement menu:**
 
 <pre class="language-sluab"><code class="language-sluab">local mainMenu = {
     { "Object control", close = true },
@@ -65,7 +65,7 @@ Example 2: a movement menu:
 }
 </code></pre>
 
-Example 3: an information menu
+**Example 3: an information menu**
 
 <pre class="language-sluab"><code class="language-sluab">
 local mainMenu = {
@@ -85,7 +85,7 @@ local mainMenu = {
 }
 </code></pre>
 
-Example 4: a photoalbum menu:
+**Example 4: a photoalbum menu:**
 
 <pre class="language-sluab"><code class="language-sluab">-- the table "context"
 --     it's a table to store internal values used in menu
@@ -149,7 +149,7 @@ local mainMenu = {
 
 ### Documentation
 
-Default configurable values:
+**Default configurable values:**
 
 <pre class="language-sluab"><code class="language-sluab">local menu = {
 	CLOSE = true,
@@ -172,7 +172,7 @@ Default configurable values:
 - RIGHT_TEXT : text shown in the next page option in a multipage menu.
 
 
-The table context:
+**The table context:**
 
 - It's a table used to share information among the different functions used in the menu.
 - Initially it has the key   userId   with the id of the user of the menu.
@@ -181,7 +181,7 @@ The table context:
 - All functions can use this table and edit it.
 
 
-Parameters for the main menu, as key values in the first table in the menu:
+**Parameters for the main menu, as key values in the first table in the menu:**
 
 - message : the text to display in the menu.
   - can be a string or a function returning a string.
@@ -211,7 +211,7 @@ Parameters for the main menu, as key values in the first table in the menu:
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
 
-Parameters for the submenus, as key values in the first table in the submenu:
+**Parameters for the submenus, as key values in the first table in the submenu:**
 
 - message : the text to display in the menu.
   - can be a string or a function returning a string.
@@ -235,7 +235,7 @@ Parameters for the submenus, as key values in the first table in the submenu:
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
 
-Parameters for each option in a menu, as key values in the other tables in the submenu:
+**Parameters for each option in a menu, as key values in the other tables in the submenu:**
 
 - option : the text to display in the menu button.
   - can be a string or a function returning a string.
@@ -272,7 +272,7 @@ Parameters for each option in a menu, as key values in the other tables in the s
   - if it returns false the same menu is displayed again
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
    
-Menus are started with:
+**Menus are started with:**  
 <code class="language-sluab">menu.open(tableMenu, userId)</code>
 
 ### Example 1: a yes/no menu
