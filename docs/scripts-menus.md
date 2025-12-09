@@ -262,5 +262,44 @@ Parameters for each option in a menu, as key values in the first table in the su
   - if it returns false the same menu is displayed again
     - if a second value is returned, it displays a menu with the option "Ok" and this second value as text.
 
+### Example 1: a yes/no menu
+
+<div class="script-box beginner">
+<h4>Yes/no</h4>
+<p></p>
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+</div>
+
+### Example 2: a movement menu
+
+<div class="script-box beginner">
+<h4>Movement</h4>
+<p></p>
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+</div>
+
+### Example 3: an information menu
+
+<div class="script-box intermediate">
+<h4>Information</h4>
+<p></p>
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+</div>
+
+### Example 4: a photoalbum menu
+
+<div class="script-box advanced">
+<h4>Photoalbum</h4>
+<p></p>
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+</div>
+
+### Menus code
+
+<div class="script-box expert">
+<h4>Menus</h4>
+<p></p>
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+</div>
 
 
