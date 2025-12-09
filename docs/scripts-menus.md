@@ -8,7 +8,7 @@ slua_beta: true
 
 A menu generator using a table with its definition. With submenus, multi-page and multi-user.
 
-I suggest to take a copy of objects and us them to follow the examples.
+I suggest to take a copy of the objects and use them to follow the examples.
 
 The objects with these scripts are available at [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/65/93/495):
 
@@ -16,7 +16,7 @@ The objects with these scripts are available at [Scripting Study Group Area](htt
 
 You are welcome to the Study Groups all Thursdays, Fridays and Saturdays from 11AM to 1PM SLT with your questions, practices, and projects to chat about this and anything else scripting related.
 
-### Examples
+### Examples of definitions
 
 Example 1: a yes/no menu:
 
