@@ -8,14 +8,14 @@ slua_beta: true
 
 ### Compatibility, library llcompat
 
-Some LL functions change they behaviour. These changes are explained in the next three sections.
+Some LL functions change they behaviour. These changes are explained in the next four sections.
 
-We have the library **llcompat** with the LL functions unchanged. To use them as in SLua Alpha (and LSL) we need to add, at the start of the script:
+We have the library **llcompat** with the LL functions unchanged. To use them as in LSL we need to add, at the start of the script:
 - <code class="language-sluab">ll = llcompat</code>
 
 ### Removed functions
 
-These functions doesn't exist in SLua Beta:
+These functions doesn't exist in SLua:
 <br>
 <table border="1" style="width:50%; border: 1px solid black; border-collapse: collapse; font-family: monospace;">
   <tr style="vertical-align: top;">
@@ -35,7 +35,7 @@ These functions doesn't exist in SLua Beta:
 We can still use them in the llcompat library, but the 3 time-related functions are not compatible with the LLTimers object. We can't use the old timer functions and LLTimers together because LLTimers would fail.
 
 The old timer event, to be used with llcompat.SetTimerEvent(), is:
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- using the old event timer (SLua Beta)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- using the old event timer
 function LLEvents.timer()
     -- do something
 end
