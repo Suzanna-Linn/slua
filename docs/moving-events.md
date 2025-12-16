@@ -8,7 +8,7 @@ slua_beta: true
 
 ### Object LLEvents
 
-We have a new object **LLEvents** to work with the events. The current way to write them that SLua Alpha uses will stop working and we will need to rewrite the scripts.
+We have a new object **LLEvents** to work with the events.
 
 **LLEvents** is a more flexible and dynamic way to handle the events allowing us to add or remove event handling functions at any time and to have several functions reacting to the same event.
 
@@ -57,18 +57,12 @@ When the "listen" event becomes inactive all the listeners are removed.
 
 When the "sensor" event becomes inactive, the sensor repeat (if present) is removed.
 
-We have an alternative syntax (called convenient assignment syntax) to make the change easier:
-<table><tr><td>
-<pre class="language-sluab"><code class="language-sluab">-- SLua Beta
-function LLEvents.listen(channel, name, id, msg)</code></pre>
-</td><td>
-<pre class="language-slua"><code class="language-slua">-- SLua Alpha
-function listen(channel, name, id, msg)</code></pre>
-</td></tr></table>
+We have an alternative syntax (called convenient assignment syntax):
+<pre class="language-sluab"><code class="language-sluab">function LLEvents.listen(channel, name, id, msg)</code></pre>
 We only need to add LLEvents. to our events.
 
 An example with the syntax of all the methods:
-<pre class="language-sluab"><code class="language-sluab">-- example with all the methods (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with all the methods
 
 -- a function to use for the example
 local function myListenFunction(channel, name, id, msg)
@@ -108,20 +102,8 @@ for _, eventName in LLEvents:eventNames() do
     end
 end</code></pre>
 
-An example of use, first in Alpha and 3 different options in Beta:
-<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
-
-function listen(channel, name, id, msg)
-    if channel == 1 then
-        -- do something with 1
-    else
-        -- do something with 2
-    end
-end
-
-ll.Listen(1, "", "", "")
-ll.Listen(2, "", "", "")</code></pre>
-<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
+An example of use, 3 different options:
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change
 
 function LLEvents.listen(channel, name, id, msg)
     if channel == 1 then
@@ -133,7 +115,7 @@ end
 
 ll.Listen(1, "", "", "")
 ll.Listen(2, "", "", "")</code></pre>
-<pre class="language-sluab"><code class="language-sluab">-- example with one event handler (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with one event handler
 
 local function myListenFunction(channel, name, id, msg)
     if channel == 1 then
@@ -147,7 +129,7 @@ LLEvents:on("listen", myListenFunction)
 
 ll.Listen(1, "", "", "")
 ll.Listen(2, "", "", "")</code></pre>
-<pre class="language-sluab"><code class="language-sluab">-- example with two event handlers (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with two event handlers
 
 local function myListenChannel1(channel, name, id, msg)
     if channel == 1 then
@@ -170,7 +152,7 @@ ll.Listen(2, "", "", "")</code></pre>
 
 ### Multi-events
 
-We have a new way to work with the events, like touch_start, that can receive receive several events at once. The current way to write the multi-event events that SLua Alpha uses will stop working and we will need to rewrite the scripts.
+We have a new way to work with the events, like touch_start, that can receive receive several events at once.
 
 Instead of the number of events (the parameter num_detected) the event handler receives an array table with the events.
 
@@ -240,20 +222,11 @@ The ll.Detected* functions with their names as functions in the events table:
   </tr>
 </table>
 
-An example to see how it works:
-<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
-function touch_start(num_detected)
-    for i = 0, num_detected -1 do
-        local toucher = ll.DetectedKey(i)
-        -- do something
-    end
-end</code></pre>
-
 The ll.Detected* functions still work. To rewrite the script with the minimal changes we need to add:
 - <code class="language-sluab">ll = llcompat</code> at the start of the script, **llcompat** is explained in the next section.
-- <code class="language-sluab">num_detected = #evts</code> at the start of each event.
+- <code class="language-sluab">num_detected = #events</code> at the start of each event.
 
-<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change
 ll = llcompat
 
 function LLEvents.touch_start(events)
@@ -265,7 +238,7 @@ function LLEvents.touch_start(events)
 end</code></pre>
 
 2 different options with the new multi-events:
-<pre class="language-sluab"><code class="language-sluab">-- example with the table evts and the alternative events syntax (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with the table events and the alternative events syntax
 function LLEvents.touch_start(events)
     for _, evt in events do
         local toucher = evt:getKey()
@@ -273,7 +246,7 @@ function LLEvents.touch_start(events)
     end
 end</code></pre>
 
-<pre class="language-sluab"><code class="language-sluab">-- example with the table evts (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with the table events
 local function myTouches(events)
     for _, evt in events do
         local toucher = evt:getKey()
