@@ -8,7 +8,7 @@ slua_beta: true
 
 ### Object LLTimers
 
-We have a new object **LLTimers** to work with timers. The current way to set the timer with ll.SetTimerEvent() and the event timer() that SLua Alpha uses will stop working and we will need to rewrite the scripts.
+We have a new object **LLTimers** to work with timers.
 
 **LLTimers** is a more flexible and dynamic way to set the timers allowing us to use several timers and to set different functions for each interval.
 
@@ -38,10 +38,7 @@ These are the methods in the object:
 There is no way to get all the functions in the timers. There is no equivalent to LLEvents:listeners().
      
 These are the minimal changes to rewrite our scripts:
-<table><tr><td>
-<pre class="language-sluab"><code class="language-sluab">-- SLua Beta
-
-local function someThing()
+<pre class="language-sluab"><code class="language-sluab">local function someThing()
     -- stop the timer, in case that it was set,
     -- to be sure not to duplicate it
     LLTimers:off(timer)
@@ -54,26 +51,9 @@ end
 function timer()
   -- do something
 end</code></pre>
-</td><td>
-<pre class="language-slua"><code class="language-slua">-- SLua Alpha
-
-local function someThing()
-
-
-
-    ll.SetTimerEvent(15)
-    -- some code here
-    ll.SetTimerEvent(0)
-end
-
-
-function timer()
-  -- do something
-end</code></pre>
-</td></tr></table>
 
 An example with the syntax of all the methods:
-<pre class="language-sluab"><code class="language-sluab">-- example with all the methods (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with all the methods
 
 -- a function to use for the example
 local function myTimerFunction()
@@ -99,22 +79,8 @@ LLTimers:once(15, myTimerFunction)
 -- remove
 LLTimers:off(myTimerFunction)</code></pre>
 
-An example of use, first in Alpha and 2 different options in Beta:
-<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
-
-local ticks = 60
-
-function timer()
-    -- do something every 1 second
-    ticks -= 1
-    if ticks == 0 then
-        -- do something every 60 seconds
-        ticks = 60
-    end
-end
-
-ll.SetTimerEvent(1)</code></pre>
-<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
+An example of use, 2 different options:
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change
 
 local ticks = 60
 
@@ -128,7 +94,7 @@ local function timer()
 end
 
 LLTimers:every(1, timer)</code></pre>
-<pre class="language-sluab"><code class="language-sluab">-- example with two timers (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- example with two timers
 
 local function myTimer1()
     -- do something every 1 second
@@ -146,8 +112,7 @@ LLTimers passes two parameters to the handler function:
 - The interval. It's nil with LLTimers:once().
 
 We can compare the expected time to ll.GetTime(), which now has more precission, to know the delay. LLTimers and ll.GetTime() time is set to 0 when the script starts running:
-<pre class="language-sluab"><code class="language-sluab">-- comparing actual and expected time (SLua Beta)
-
+<pre class="language-sluab"><code class="language-sluab">-- comparing actual and expected time
 local function myTimer(expected, interval)
     print(ll.GetTime() - expected)  -- delay
 end
