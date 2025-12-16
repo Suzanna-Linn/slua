@@ -1,10 +1,12 @@
 ---
 layout: default
-title: Slua Beta
+title: Timers
 slua_beta: true
 ---
 
-## Timers, object LLTimers
+## Timers
+
+### Object LLTimers
 
 We have a new object **LLTimers** to work with timers. The current way to set the timer with ll.SetTimerEvent() and the event timer() that SLua Alpha uses will stop working and we will need to rewrite the scripts.
 
