@@ -529,7 +529,7 @@ The few remaining uses of integer were:
 
 ### Compatibility, library llcompat
 
-Some LL functions change they behaviour. These changes are explained in the next three sections.
+Some LL functions change they behaviour. These changes are explained in the next four sections.
 
 We have the library **llcompat** with the LL functions unchanged. To use them as in SLua Alpha (and LSL) we need to add, at the start of the script:
 - <code class="language-sluab">ll = llcompat</code>
