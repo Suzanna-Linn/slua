@@ -1,163 +1,284 @@
-## Events and States
+---
+layout: default
+title: Events
+slua_beta: true
+---
 
-### Events (future)
+## Events
 
-A new more powerful way to handle events is expected before the beta version.
+### Object LLEvents
 
-There will be a LL library with functions to add and remove event handlers with callback functions.
+We have a new object **LLEvents** to work with the events. The current way to write them that SLua Alpha uses will stop working and we will need to rewrite the scripts.
 
-There is a proposal about the format in these links:
-- [SLua event handling proposal](https://github.com/secondlife/issues/pull/3)
-- [canny: events in SLua](https://feedback.secondlife.com/slua-alpha/p/events-in-slua)
+**LLEvents** is a more flexible and dynamic way to handle the events allowing us to add or remove event handling functions at any time and to have several functions reacting to the same event.
 
-### Events (currently)
+These are the methods in the object:
 
-Events are writen as global functions (without the <code class="language-slua">local</code> keyword).
+- *handler* = **LLEvents:on**(*name*, *handler*) : adds an event handler.
+  - name : the name of the event.
+  - handler : the function that runs when the event happens.
+  - returns the same function that we have passed in, so we can use it later to remove it.
+    - We can add several functions to the same event, they will be called in the same order in which we add them.
+    - If we add the same function again, it will be called twice (or as many times as we add it) when the event triggers.
+    - All the functions are called when the event triggers, we can't stop the calling sequence once we have processed the event.
+    - If we add a function to different events, there is no way to know which event has called it (unless the events have different number or types of parameters).
+    - To remove the handler we will need the returned function if we have passed an anonymous function.
 
-They have the same names and parameters.
+- *newHandler* = **LLEvents:once**(*name*, *handler*) : adds a one-time event handler.
+  - name : the name of the event.
+  - handler : the function that runs when the event happens.
+  - returns a new function that we can use to remove the handler.
+    - The function runs only once and is automatically removed from the event afterward.
+    - Our function passed as handler is internally wrapped in another function and we get this new one as return.
+    - To remove the handler we will always need the returned function.
+ 
+- *found* = **LLEvents:off**(*name*, *handler*) : removes an event handler.
+  - name : the name of the event.
+  - handler : the function we want to stop handling the event.
+  - returns true if the function has been found (and removed), false otherwise.
+    - If we have added the same function twice or more with LLEvents:on(), only the last one added will be removed.
+      - But not with LLEvents:once() that returns a different function each time.
+ 
+- *eventsTable* = **LLEvents:eventNames**() : returns which events are active.
+  - returns a table with all the event names that currently have functions handling them.
+    - It's useful for debugging and to remove all the events, using it with LLEvents:listeners().
 
+- *handlersTable* = **LLEvents:listeners**(*name*) : returns which handlers are attached to an event.
+  - name : the name of the event.
+  - returns a table with the functions currenty handling the event.
+    -  It's useful for debugging and to remove all the functions handling an event.
+   
+When an event becomes inactive (after removing all the functions handling it) the pending events are removed from the event queue.  
+To change an event handler:
+- Add the new one and remove the current one to preserve the pending events in the queue and handle them with the newly added function.
+- Remove the current one and add the new one to discard the pending events in the queue.
+
+When the "listen" event becomes inactive all the listeners are removed.
+
+When the "sensor" event becomes inactive, the sensor repeat (if present) is removed.
+
+We have an alternative syntax (called convenient assignment syntax) to make the change easier:
 <table><tr><td>
-<pre class="language-lsl"><code class="language-lsl">// events (LSL)
-
-touch_start(integer num_detected)
-{
-    // do something
-}
-
-listen(integer channel, string name, key id, string message)
-{
-    // do something
-}</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- SLua Beta
+function LLEvents.listen(channel, name, id, msg)</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- events (SLua)
+<pre class="language-slua"><code class="language-slua">-- SLua Alpha
+function listen(channel, name, id, msg)</code></pre>
+</td></tr></table>
+We only need to add LLEvents. to our events.
 
+An example with the syntax of all the methods:
+<pre class="language-sluab"><code class="language-sluab">-- example with all the methods (SLua Beta)
+
+-- a function to use for the example
+local function myListenFunction(channel, name, id, msg)
+    -- do something
+end
+-- start listening as usual
+ll.Listen(1, "", "", "")
+
+-- add an event handler
+LLEvents:on("listen", myListenFunction)
+-- remove the event handler
+LLEvents:off("listen", myListenFunction)
+
+-- add with anonymous function
+local myListenHandler = LLEvents:on("listen",
+    function(channel, name, id, msg)
+        -- do something
+    end
+)
+-- remove
+LLEvents:off("listen", myListenHandler)
+
+-- add once
+local myListenHandler = LLEvents:once("listen", myListenFunction)
+-- remove
+LLEvents:off("listen", myListenHandler)
+
+-- remove all the handlers of an event
+for _, myListenHandler in LLEvents:listeners("listen") do
+    LLEvents:off("listen", myListenHandler)
+end
+
+-- remove all the events
+for _, eventName in LLEvents:eventNames() do
+    for _, myHandler in LLEvents:listeners(eventName) do
+        LLEvents:off(eventName, myHandler)
+    end
+end</code></pre>
+
+An example of use, first in Alpha and 3 different options in Beta:
+<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
+
+function listen(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    else
+        -- do something with 2
+    end
+end
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
+
+function LLEvents.listen(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    else
+        -- do something with 2
+    end
+end
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with one event handler (SLua Beta)
+
+local function myListenFunction(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    else
+        -- do something with 2
+    end
+end
+
+LLEvents:on("listen", myListenFunction)
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- example with two event handlers (SLua Beta)
+
+local function myListenChannel1(channel, name, id, msg)
+    if channel == 1 then
+        -- do something with 1
+    end
+end
+
+local function myListenChannel2(channel, name, id, msg)
+    -- all the event handlers are called, we need to check the parameters in all the functions
+    if channel == 2 then
+        -- do something with 2
+    end
+end
+
+LLEvents:on("listen", myListenChannel1)
+LLEvents:on("listen", myListenChannel2)
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")</code></pre>
+
+### Multi-events
+
+We have a new way to work with the events, like touch_start, that can receive receive several events at once. The current way to write the multi-event events that SLua Alpha uses will stop working and we will need to rewrite the scripts.
+
+Instead of the number of events (the parameter num_detected) the event handler receives an array table with the events.
+
+Instead of functions like ll.DetectedKey() there are functions like GetKey() to use on each event in the table.
+
+The multi-events are these ones:
+- collision
+- collision_end
+- collision_start
+- final_damage
+- on_damage
+- sensor
+- touch
+- touch_end
+- touch_start
+
+The ll.Detected* functions with their names as functions in the events table:
+
+<table style="width:60%; border: none;">
+  <tr style="vertical-align: top;">
+    <td style="width:30%; padding-right: 10px;">
+      <ul>
+		<li>ll.AdjustDamage</li>
+        <li>ll.DetectedDamage</li>
+        <li>ll.DetectedGrab</li>
+        <li>ll.DetectedGroup</li>
+        <li>ll.DetectedKey</li>
+        <li>ll.DetectedLinkNumber</li>
+        <li>ll.DetectedName</li>
+        <li>ll.DetectedOwner</li>
+        <li>ll.DetectedPos</li>
+        <li>ll.DetectedRezzer</li>
+        <li>ll.DetectedRot</li>
+        <li>ll.DetectedTouchBinormal</li>
+        <li>ll.DetectedTouchFace</li>
+        <li>ll.DetectedTouchNormal</li>
+        <li>ll.DetectedTouchPos</li>
+        <li>ll.DetectedTouchST</li>
+        <li>ll.DetectedTouchUV</li>
+        <li>ll.DetectedType</li>
+        <li>ll.DetectedVel</li>
+      </ul>
+    </td>
+    <td style="width:30%; padding-left: 10px;">
+      <ul>
+		<li>adjustDamage</li>
+        <li>getDamage</li>
+        <li>getGrab</li>
+        <li>getGroup</li>
+        <li>getKey</li>
+        <li>getLinkNumber</li>
+        <li>getName</li>
+        <li>getOwner</li>
+        <li>getPos</li>
+        <li>getRezzer</li>
+        <li>getRot</li>
+        <li>getTouchBinormal</li>
+        <li>getTouchFace</li>
+        <li>getTouchNormal</li>
+        <li>getTouchPos</li>
+        <li>getTouchST</li>
+        <li>getTouchUV</li>
+        <li>getType</li>
+        <li>getVel</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+An example to see how it works:
+<pre class="language-slua"><code class="language-slua">-- example (SLua Alpha)
 function touch_start(num_detected)
-    -- do something
+    for i = 0, num_detected -1 do
+        local toucher = ll.DetectedKey(i)
+        -- do something
+    end
+end</code></pre>
+
+The ll.Detected* functions still work. To rewrite the script with the minimal changes we need to add:
+- <code class="language-sluab">ll = llcompat</code> at the start of the script, **llcompat** is explained in the next section.
+- <code class="language-sluab">num_detected = #evts</code> at the start of each event.
+
+<pre class="language-sluab"><code class="language-sluab">-- example with minimal change (SLua Beta)
+ll = llcompat
+
+function LLEvents.touch_start(events)
+    local num_detected = #events
+    for i = 0, num_detected -1 do
+        local toucher = ll.DetectedKey(i)
+        -- do something
+    end
+end</code></pre>
+
+2 different options with the new multi-events:
+<pre class="language-sluab"><code class="language-sluab">-- example with the table evts and the alternative events syntax (SLua Beta)
+function LLEvents.touch_start(events)
+    for _, evt in events do
+        local toucher = evt:getKey()
+        -- do something
+    end
+end</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- example with the table evts (SLua Beta)
+local function myTouches(events)
+    for _, evt in events do
+        local toucher = evt:getKey()
+        -- do something
+    end
 end
 
-
-function listen(channel, name, id, message)
-    -- do something
-end
---</code></pre>
-</td></tr></table>
-
-### The "New Script"
-
-<table><tr><td>
-<pre class="language-lsl"><code class="language-lsl">// the "New Script" (LSL)
-
-default
-{
-    state_entry()
-    {
-        llSay(0, "Hello, Avatar!");
-    }
-
-    touch_start(integer total_number)
-    {
-        llSay(0, "Touched.");
-    }
-}
-
-//</code></pre>
-</td><td>
-<pre class="language-slua"><code class="language-slua">-- the "New Script" (SLua - LSL style)
-
-
-
-function state_entry()
-    ll.Say(0, "Hello, Avatar!")
-end
-
-
-function touch_start(total_number)
-   ll.Say(0, "Touched.")
-end
-
-
-
-state_entry()</code></pre>
-</td><td>
-<pre class="language-slua"><code class="language-slua">-- the "New Script" (SLua - Lua style)
-
-
-
-
-
-
-
-
-function touch_start(total_number)
-   ll.Say(0, "Touched.")
-end
-
-
-
-ll.Say(0, "Hello, Avatar!")</code></pre>
-</td></tr></table>
-
-
-SLua doesn't have states and there are no events <code class="language-lsl">state_entry()</code> or <code class="language-lsl">state_exit()</code>.
-
-To keep the LSL structure, we can write a function with name <code class="language-slua">state_entry()</code> (it's not an event, just a function) and call it from the top-level code (LSL-style script, last line).
-
-Or move the code in the LSL <code class="language-lsl">state_entry()</code> to the top-level code (Lua-style script, last line).
-
-### States
-
-There aren't states in Slua.
-
-The events <code class="language-lsl">state_entry()</code> and <code class="language-lsl">state_exit()</code> doesn't exist.
-
-The script executes the code that is at the top level, out of the functions.
-
-We can simulate states with functions with different names, one for each state, for each event. To change to another "state" we assign the function for this "state" to the name of the event.
-
-<table><tr><td>
-<pre class="language-lsl"><code class="language-lsl">// states (LSL)
-
-default
-{
-    touch_end(integer num_detected)
-    {
-        llOwnerSay("Changing to state ready");
-        state ready;
-    }
-}
-
-state ready
-{
-    touch_end(integer num_detected)
-    {
-        llOwnerSay("Changing to state default");
-        state default;
-    }
-}
-
-
-//</code></pre>
-</td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- states (SLua)
-
-
--- function for the event in the "state" default
-function touch_end_default(num_detected)
-    ll.OwnerSay("Changing to state ready")
-    touch_end = touch_end_ready  -- we change the function that handles the event
-end
-
-
-
-
--- function for the event in the "state" ready
-function touch_end_ready(num_detected)
-    ll.OwnerSay("Changing to state default")
-    touch_end = touch_end_default  -- we change the function that handles the event
-end
-
-
--- in Lua we can assign a function to a variable
--- touch_end becomes a function, the same than touch_end_default
-touch_end = touch_end_default</code></pre>
-</td></tr></table>
+LLEvents:on("touch_start", myTouches)</code></pre>
