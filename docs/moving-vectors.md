@@ -28,7 +28,7 @@ The SLua vector internally uses a Luau vector and its library. We can't use the 
 
 **vector.magnitude( vec )** : returns a number, the magnitude of the vector.
 - same as ll.VecMag( vec ).
-  - **vector.magnitude( vec1 - vec2 ) : returns a number, the distance between the vectors.
+  - **vector.magnitude( vec1 - vec2 )** : returns a number, the distance between the vectors.
     - same as ll.VecDist( vec1, vec2 )
 
 **vector.normalize( vec )** : returns a vector, the normalized version (unit vector) of the vector.
@@ -42,7 +42,7 @@ The SLua vector internally uses a Luau vector and its library. We can't use the 
 
 **vector.angle( vec1, vec2, axis )** : returns a number, the angle between the vectors in radians. The axis, if specified, is used to determine the sign of the angle.
 
-<pre class="language-sluab"><code class="language-sluab">-- vector.angle in SLua
+<pre class="language-sluab"><code class="language-sluab">-- vector.angle written in SLua
 local function angle(a, b, axis)
     local cross = vector.cross(a, b)
     local sinA = vector.magnitude(cross)
@@ -68,5 +68,5 @@ In LSL this:
 is this in SLua:
 - <code class="language-sluab">local dotProduct = vector.dot(myVec1, myVec2)  -- SLua</code>
 
-SLua has also added the division, that divides the components, and doesn't exist in LSL:
+SLua has added the division, that divides the components, and doesn't exist in LSL:
 - <code class="language-sluab">print( vector( 12, 6, 3) / vector ( 3, 2, 1 ) )  -- > < 4, 3, 3 ></code>
