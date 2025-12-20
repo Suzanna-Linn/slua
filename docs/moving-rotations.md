@@ -6,7 +6,7 @@ slua_beta: true
 
 ### Rotations
 
-**rotation()** or **quaternion()** create a rotation from its components:
+**rotation()** or **quaternion()** create a rotation from its components:  
 <code class="language-sluab">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-sluab">myRot = quaternion(1, 1, 1, 0)</code>.
 
 - It's not possible to assign a value to a component. We need to create a new rotation.
@@ -23,7 +23,7 @@ myRot = rotation(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a valu
 
 local rotS = ll.GetRot().s</code></pre>
 
-**torotation()** or **toquaternion()** create a rotation from a string:
+**torotation()** or **toquaternion()** create a rotation from a string:  
 <code class="language-sluab">myRot = torotation("<1, 1, 1, 0>")</code> or <code class="language-sluab">myRot = quaternion( torotation("<1, 1, 1, 0>"))</code>.
 
 We have the datatypes rotation and quaternion, but internally only exists the type quaternion, rotation is just an alias:
@@ -87,7 +87,7 @@ end</code></pre>
 
 <pre class="language-sluab"><code class="language-sluab">-- rotation.slerp() written in SLua
 
-local function slerp(a, b, t)
+local function slerp(a, b, u)
     local cos_t = a.x * b.x + a.y * b.y + a.z * b.z + a.s * b.s  -- dot product
 
     local bflip = false
