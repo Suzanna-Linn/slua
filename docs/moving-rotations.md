@@ -39,7 +39,7 @@ SLua has a library with functions for rotations. We can't use the :method notati
 **rotation.create( x, y, z, s )** : creates a new rotation.
 - same as rotation( x, y, z, s )
 
-**rotation.conjugate( rot )** : returns a rotation, the "inverse" or opposite of the rotation. If quat rotates 90° left, conjugate(quat) rotates 90° right.
+**rotation.conjugate( rot )** : returns a rotation, the "inverse" or opposite of the rotation. If rot rotates 90° left, conjugate(rot) rotates 90° right.
 
 <pre class="language-sluab"><code class="language-sluab">-- rotation.conjugate() written in SLua
 
