@@ -6,7 +6,8 @@ slua_beta: true
 
 ### Vectors
 
-- We get a vector using <code class="language-sluab">myVec = vector(50, 50, 0)</code>.
+**vector()** creates a vector from its components: <code class="language-sluab">myVec = vector(50, 50, 20)</code>.
+
 - It's not possible to assign a value to a component. We need to create a new vector.
 - We can get a component from the return value of a function, not only from a variable.
 - Components are stored in 32 bits floats.
@@ -19,12 +20,14 @@ myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a component
 
 local posZ = ll.GetPos().z</code></pre>
 
+**tovector()** creates a vector from a string: <code class="language-slua">myVec = tovector("<50, 50, 20>")</code>
+
 ### The vector library
 
 The SLua vector internally uses a Luau vector and its library. We can't use the :method notation, we have to call them on vector:
 
 **vector.create( x, y, z )** : creates a new vector.
-- same than vector( x, y, z )
+- same as vector( x, y, z )
 
 **vector.magnitude( vec )** : returns a number, the magnitude of the vector.
 - same as ll.VecMag( vec ).
@@ -42,7 +45,7 @@ The SLua vector internally uses a Luau vector and its library. We can't use the 
 
 **vector.angle( vec1, vec2, axis )** : returns a number, the angle between the vectors in radians. The axis, if specified, is used to determine the sign of the angle.
 
-<pre class="language-sluab"><code class="language-sluab">-- vector.angle written in SLua
+<pre class="language-sluab"><code class="language-sluab">-- vector.angle() written in SLua
 local function angle(a, b, axis)
     local cross = vector.cross(a, b)
     local sinA = vector.magnitude(cross)
