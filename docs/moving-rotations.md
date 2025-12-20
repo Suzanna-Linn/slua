@@ -1,4 +1,4 @@
-``---
+---
 layout: default
 title: Rotations
 slua_beta: true
