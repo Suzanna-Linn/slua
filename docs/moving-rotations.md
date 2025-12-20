@@ -6,7 +6,8 @@ slua_beta: true
 
 ### Rotations
 
-- We get a rotation using <code class="language-sluab">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-sluab">myRot = quaternion(1, 1, 1, 0)</code>.
+**rotation()** or **quaternion()** create a rotation from its components: <code class="language-sluab">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-sluab">myRot = quaternion(1, 1, 1, 0)</code>.
+
 - It's not possible to assign a value to a component. We need to create a new rotation.
 - We can get a component from the return value of a function, not only from a variable.
 - Components are stored in 32 bits floats.
@@ -21,7 +22,17 @@ myRot = rotation(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a valu
 
 local rotS = ll.GetRot().s</code></pre>
 
-### The rotation library
+**torotation()** or **toquaternion()** create a rotation from a string: <code class="language-sluab">myRot = torotation("<1, 1, 1, 0>")</code> or <code class="language-sluab">myRot = quaternion( torotation("<1, 1, 1, 0>"))</code>.
+
+We have the datatypes rotation and quaternion, but internally only exists the type quaternion, rotation is just an alias.
+
+<pre class="language-slua"><code class="language-slua">if typeof(myVar) == "quaternion" then  -- NOT "rotation", it would never happen!
+	-- do rotations stuff
+end</code></pre>
+
+<code class="language-slua">typeof( ZERO_ROTATION ) -- > quaternion</code>. There is no constant ZERO_QUATERNION.
+
+### The rotation (or quaternion) library
 
 SLua has a library with functions for rotations. We can't use the :method notation, we have to call them on rotation or quaternion:
 
