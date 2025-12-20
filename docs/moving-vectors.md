@@ -11,6 +11,7 @@ slua_beta: true
 - It's not possible to assign a value to a component. We need to create a new vector.
 - We can get a component from the return value of a function, not only from a variable.
 - Components are stored in 32 bits floats.
+- Vectors can use uppercase components (X, Y, Z) but rotations can't. Let's use always lowercase components.
 
 <pre class="language-sluab"><code class="language-sluab">-- vectors
 
