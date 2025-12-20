@@ -68,6 +68,10 @@ Prism.languages.sluab = {
         pattern: /\bvector\.(?:abs|angle|ceil|clamp|create|cross|dot|floor|magnitude|max|min|normalize|sign)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
+    'builtin-rotation': {
+        pattern: /\brotation\.(?:conjugate|create|dot|magnitude|normalize|slerp|tofwd|toleft|torot)\b(?=\s*(?:[({]))/,
+        alias: 'builtin'
+    },
     'builtin-vector-constant': {
         pattern: /\bvector\.(?:one|zero)\b/,
         alias: 'builtin'
