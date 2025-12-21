@@ -119,3 +119,87 @@ end
 
 LLTimers:every(1, myTimer)</code></pre>
 We can use the interval, in case that we are using the same function with different intervals, to know which timer has called it.
+
+### Time related removed functions
+
+These functions doesn't exist in SLua:
+- ll.SetTimerEvent()
+- ll.ResetTime()
+- ll.GetAndResetTime()
+
+We can still use them in the llcompat library, but the 3 time-related functions are not compatible with the LLTimers object.  
+We can't use the old timer functions and LLTimers together because they would interfere one another and would fail.
+
+The old timer event, to be used with llcompat.SetTimerEvent(), is:
+
+<pre class="language-sluab"><code class="language-sluab">-- using the old event timer (SLua Beta)
+function LLEvents.timer()
+    -- do timer things
+end
+
+llcompat.SetTimerEvent(1)</code></pre>
+
+ll.GetTime() returns the time since the script started running (after reset or save).
+
+Instead of resetting it with ll.ResetTime() we need to use a variable to store the start time:
+<pre class="language-sluab"><code class="language-sluab">-- example of hold-touch without resetting the time
+local isHoldTouch = false
+local timeTouch = 0
+
+LLEvents:on("touch_start", function(events)
+    timeTouch = ll.GetTime()
+    isHoldTouch = false
+end)
+
+LLEvents:on("touch", function(events)
+    if ll.GetTime() - timeTouch > 1 and not isHoldTouch then
+        isHoldTouch = true
+        -- do hold-touch things
+    end
+end)
+
+LLEvents:on("touch_end", function(events)
+    if not isHoldTouch then
+        -- do touch things
+    end
+end)</code></pre>
+
+### Timer internals
+
+We can know how many timers are set with <code class="language-sluab">tostring(LLTimers)</code>:
+<pre class="language-sluab"><code class="language-sluab">-- number of timers
+
+LLTimers:every(60, function() print("minute") end)
+LLTimers:every(3600, function() print("hour") end)
+LLTimers:every(86400, function() print("day") end)
+
+print(LLTimers)  -- > LLTimers{timers=3}
+
+local timersSet = tonumber(tostring(LLTimers):match("timers=(%d+)"))
+print(timersSet)  -- > 3</code></pre>
+
+Internally there is only one timer. LLTimers uses this timer and the event "timer":
+<pre class="language-sluab"><code class="language-sluab"></code>LLTimers:every(15, function() print("15 seconds tick") end)
+
+local events = LLEvents:eventNames()
+local timerHandle = LLEvents:listeners("timer")
+
+print(table.concat(events, ", "))  -- > timer`
+print(#timerHandle)  -- > 1</pre>
+
+Its handler is protected, LLEvents:listeners() returns a handler that isn´t the actual one.  
+We can't stop it:
+<pre class="language-sluab"><code class="language-sluab">LLTimers:every(15, function() print("15 seconds tick") end)
+
+-- trying to stop the event timer
+LLEvents:off("timer", LLEvents:listeners("timer")[1])
+
+local events = LLEvents:eventNames()
+local timerHandle = LLEvents:listeners("timer")
+
+-- but it's still there
+print(table.concat(events, ", "))  -- > timer`
+print(#timerHandle)  -- > 1</code></pre>
+
+### Timer delays and catch-ups
+
