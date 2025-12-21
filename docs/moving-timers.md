@@ -319,7 +319,7 @@ end)
 ]]</code></pre>
 
 Timers with an interval of 0 are useful in LLTimers:once() to allow other events to be executed placing the timed function after them.  
-They are scheduled to the current time for its next tick, ensuring that they can be triggered in the next time frame
+They are scheduled to the current time for its next tick, ensuring that they can be triggered in the next time frame:
 <pre class="language-sluab"><code class="language-sluab">-- zero timer
 LLTimers:every(0, function(expected, interval)
     print(string.format("%18.15f%3d%20.15f", expected, interval, ll.GetTime()))
