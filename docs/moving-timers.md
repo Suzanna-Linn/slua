@@ -245,9 +245,22 @@ end)
  0.112087999994401   0.022256999975070
 ]]</code></pre>
 
-When the event "timer" is delayed because the script is executing other events or when the script is paused and resumed, because of teleport, regions crossing, detach/attach, derez/rez, region restart, etc:
-- if the delay is below 2 seconds, LLTimers tries to catch-up, triggering one event in each time frame.
-- if the delay is more than 2 seconds (or exactly 2 seconds), LLTimers reschedule the next tick adding the interval to the current time.
+When the event "timer" is delayed because the script is executing other events or the script is paused and resumed because of teleport, regions crossing, detach/attach, derez/rez, region restart, etc:
+- if the delay is below 2 seconds, LLTimers tries to catch up, triggering one event in each time frame.
+- if the delay is more than 2 seconds (or exactly 2 seconds), LLTimers reschedules the next tick adding the interval to the current time.
+
+We can discard the fast ticks if we don't want them:
+<pre class="language-sluab"><code class="language-sluab">-- discarding catch-up ticks
+
+local lastTick = 0
+
+LLTimers:every(2, function(expected, interval)
+    local currentTime = ll.GetTime()
+    if (currentTime - lastTick  > interval - 0.05) then
+        -- do timer things
+        lastTick = currentTime
+    end
+end)</code></pre>
 
 A short pause, LLTimers catches up:
 <pre class="language-sluab"><code class="language-sluab">-- short pause
@@ -305,7 +318,7 @@ end)
  6.986741000001784  0.01   7.022836999996798
 ]]</code></pre>
 
-Timers with an interval of 0 are useful in LLTimers:once() to allow other events to be executed placing the timed function after them.
+Timers with an interval of 0 are useful in LLTimers:once() to allow other events to be executed placing the timed function after them.  
 They are scheduled to the current time for its next tick, ensuring that they can be triggered in the next time frame
 <pre class="language-sluab"><code class="language-sluab">-- zero timer
 LLTimers:every(0, function(expected, interval)
