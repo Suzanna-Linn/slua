@@ -209,13 +209,13 @@ A time frame is about 1/45th of second or 0.022 seconds.
 
 The timers will be trigered a few milliseconds later than scheduled, depending on when the LLTimers is called. They will never be triggered before the scheduled time.
 
-The next timer tick is scheduled from the current schedule and not from the current time. Intervals between timer ticks could be a few milliseconds longer or shorter.
+The next timer tick is scheduled from the current schedule and not from the current time. Intervals between timer ticks could be a few milliseconds longer or shorter:
 <pre class="language-sluab"><code class="language-sluab">-- normal timer
 
 local lastTick = 0
 LLTimers:every(1, function(expected, interval)
     currentTime = ll.GetTime()
-    print(string.format("%18.15f%20.15f%20.15f", expected,, currentTime, currentTime - lastTick))
+    print(string.format("%18.15f%20.15f%20.15f", expected, currentTime, currentTime - lastTick))
     lastTick = currentTime
 end)
 --[[
@@ -225,20 +225,97 @@ end)
  4.001613999978872   4.022590999986278   0.999683000001824
  5.001613999978872   5.022719000000507   1.000128000014229
  6.001613999978872   6.022799999976996   1.000080999976490
-]]
-</code></pre>
+]]</code></pre>
 
+Timers can be triggered only once in each time frame. Timers set to less than 0.02 seconds will not be faster:
+<pre class="language-sluab"><code class="language-sluab">-- short timer
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+local lastTick = 0
+LLTimers:every(0.01, function(expected, interval)
+    currentTime = ll.GetTime()
+    print(string.format("%18.15f%20.15f", currentTime, currentTime - lastTick))
+    lastTick = currentTime
+end)
+--[[
+    current time       interval
+ 0.022603000019444   0.022603000019444
+ 0.045783000008669   0.023179999989225
+ 0.067921000008937   0.022138000000268
+ 0.089831000019331   0.021910000010394
+ 0.112087999994401   0.022256999975070
+]]</code></pre>
 
+When the event "timer" is delayed because the script is executing other events or when the script is paused and resumed, because of teleport, regions crossing, detach/attach, derez/rez, region restart, etc:
+- if the delay is below 2 seconds, LLTimers tries to catch-up, triggering one event in each time frame.
+- if the delay is more than 2 seconds (or exactly 2 seconds), LLTimers reschedule the next tick adding the interval to the current time.
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+A short pause, LLTimers catches up:
+<pre class="language-sluab"><code class="language-sluab">-- short pause
+  
+LLTimers:every(0.5, function(expected, interval)
+    print(string.format("%18.15f%5.1f%20.15f", expected, interval, ll.GetTime()))
+end)
+--[[
+    expected time     int       current time
+ 3.744617999996990    0.5    3.755671999999322
+ 4.244617999996990    0.5    4.266828999971040
+ 4.744617999996990    0.5    4.755670999991707
+( a teleport here )
+ 5.244617999996990    0.5    7.031092999939574
+( less than 2 seconds behind, catching up )
+ 5.744617999996990    0.5    7.053188999940176
+ 6.244617999996990    0.5    7.075179999941611
+ 6.744617999996990    0.5    7.097259999936796
+ 7.244617999996990    0.5    7.253033999935724
+ 7.744617999996990    0.5    7.764567999940482
+]]</code></pre>
 
+A long pause, LLTimers reschedules:
+<pre class="language-sluab"><code class="language-sluab">-- long pause
+LLTimers:every(1, function(expected, interval)
+    print(string.format("%18.15f%3d%20.15f", expected, interval, ll.GetTime()))
+end)
+--[[
+    expected time   i      current time
+ 1.000510999991093  1   1.022607999999309
+ 2.000510999991093  1   2.022523999999976
+ 3.000510999991093  1   3.022410999983549
+( object detached and attached)
+ 4.000510999991093  1   9.911324999993667
+( more than 2 seconds behind, next tick recalculated from the current time)
+10.911324999993667  1  10.911449000006542
+11.911324999993667  1  11.934320000000298
+]]</code></pre>
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+Short timers are also rescheduled when they fall behind more than 2 seconds:
+<pre class="language-sluab"><code class="language-sluab">-- short timer
+LLTimers:every(0.01, function(expected, interval)
+    print(string.format("%18.15f%6.2f%20.15f", expected, interval, ll.GetTime()))
+end)
+--[[
+ (after about 160 ticks)
+    expected time   int       current time
+ 4.919829999994219  0.01   6.912322999996832
+ 4.929829999994219  0.01   6.934133000002475
+(not yet 2 seconds behind, it compares the next tick with the current time: 6.934 - 4.939  < 2 )
+ 4.939829999994219  0.01   6.956741000001784
+( more than 2 seconds behind: 6.956 - 4.949 > 2, next tick recalculated from the current time)
+ 6.966741000001784  0.01   6.978368999989470
+ 6.976741000001784  0.01   7.000942999991821
+ 6.986741000001784  0.01   7.022836999996798
+]]</code></pre>
 
-
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
-
-
-
+Timers with an interval of 0 are useful in LLTimers:once() to allow other events to be executed placing the timed function after them.
+They are scheduled to the current time for its next tick, ensuring that they can be triggered in the next time frame
+<pre class="language-sluab"><code class="language-sluab">-- zero timer
+LLTimers:every(0, function(expected, interval)
+    print(string.format("%18.15f%3d%20.15f", expected, interval, ll.GetTime()))
+end)
+--[[
+    expected time   i      current time
+ 0.002203000010923  0   0.022972000006121
+ 0.022972000006121  0   0.045318999997107
+ 0.045318999997107  0   0.067628999997396
+ 0.067628999997396  0   0.089823999995133
+ 0.089823999995133  0   0.112355999997817
+]]</code></pre>
