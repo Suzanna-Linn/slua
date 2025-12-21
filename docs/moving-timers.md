@@ -127,12 +127,13 @@ These functions doesn't exist in SLua:
 - ll.ResetTime()
 - ll.GetAndResetTime()
 
-We can still use them in the llcompat library, but the 3 time-related functions are not compatible with the LLTimers object.  
+We can still use them in the llcompat library, but the 3 time-related functions are not compatible with the LLTimers object.
+
 We can't use the old timer functions and LLTimers together because they would interfere one another and would fail.
 
 The old timer event, to be used with llcompat.SetTimerEvent(), is:
 
-<pre class="language-sluab"><code class="language-sluab">-- using the old event timer (SLua Beta)
+<pre class="language-sluab"><code class="language-sluab">-- using the old event timer
 function LLEvents.timer()
     -- do timer things
 end
@@ -179,13 +180,13 @@ local timersSet = tonumber(tostring(LLTimers):match("timers=(%d+)"))
 print(timersSet)  -- > 3</code></pre>
 
 Internally there is only one timer. LLTimers uses this timer and the event "timer":
-<pre class="language-sluab"><code class="language-sluab"></code>LLTimers:every(15, function() print("15 seconds tick") end)
+<pre class="language-sluab"><code class="language-sluab">LLTimers:every(15, function() print("15 seconds tick") end)
 
 local events = LLEvents:eventNames()
 local timerHandle = LLEvents:listeners("timer")
 
-print(table.concat(events, ", "))  -- > timer`
-print(#timerHandle)  -- > 1</pre>
+print(table.concat(events, ", "))  -- > timer
+print(#timerHandle)  -- > 1</code></pre>
 
 Its handler is protected, LLEvents:listeners() returns a handler that isn´t the actual one.  
 We can't stop it:
@@ -198,7 +199,7 @@ local events = LLEvents:eventNames()
 local timerHandle = LLEvents:listeners("timer")
 
 -- but it's still there
-print(table.concat(events, ", "))  -- > timer`
+print(table.concat(events, ", "))  -- > timer
 print(#timerHandle)  -- > 1</code></pre>
 
 ### Timer delays and catch-ups
