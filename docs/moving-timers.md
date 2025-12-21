@@ -109,7 +109,7 @@ LLTimers:every(60, myTimer60)</code></pre>
 
 LLTimers passes two parameters to the handler function:
 - The expected trigger time. The actual trigger time could be a few milliseconds later, never before.
-- The interval. It's nil with LLTimers:once().
+- The interval. It's nil with LLTimers:once(). The actual internval could be a few milliseconds longer or shorter.
 
 We can compare the expected time to ll.GetTime(), which now has more precission, to know the delay. LLTimers and ll.GetTime() time is set to 0 when the script starts running:
 <pre class="language-sluab"><code class="language-sluab">-- comparing actual and expected time
