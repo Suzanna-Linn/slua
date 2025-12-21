@@ -135,7 +135,7 @@ The old timer event, to be used with llcompat.SetTimerEvent(), is:
 
 <pre class="language-sluab"><code class="language-sluab">-- using the old event timer
 function LLEvents.timer()
-    -- do timer things
+    -- do timed things
 end
 
 llcompat.SetTimerEvent(1)</code></pre>
@@ -257,7 +257,7 @@ local lastTick = 0
 LLTimers:every(2, function(expected, interval)
     local currentTime = ll.GetTime()
     if (currentTime - lastTick  > interval - 0.05) then
-        -- do timer things
+        -- do timed things
         lastTick = currentTime
     end
 end)</code></pre>
