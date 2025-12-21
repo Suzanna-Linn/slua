@@ -192,7 +192,7 @@ Its handler is protected, LLEvents:listeners() returns a handler that isn´t the
 We can't stop it:
 <pre class="language-sluab"><code class="language-sluab">LLTimers:every(15, function() print("15 seconds tick") end)
 
--- trying to stop the event timer
+-- trying to stop the event "timer"
 LLEvents:off("timer", LLEvents:listeners("timer")[1])
 
 local events = LLEvents:eventNames()
@@ -203,4 +203,42 @@ print(table.concat(events, ", "))  -- > timer
 print(#timerHandle)  -- > 1</code></pre>
 
 ### Timer delays and catch-ups
+
+LLTimers is called once on each time frame to process the timers (if the script is not busy doing something else).
+A time frame is about 1/45th of second or 0.022 seconds.
+
+The timers will be trigered a few milliseconds later than scheduled, depending on when the LLTimers is called. They will never be triggered before the scheduled time.
+
+The next timer tick is scheduled from the current schedule and not from the current time. Intervals between timer ticks could be a few milliseconds longer or shorter.
+<pre class="language-sluab"><code class="language-sluab">-- normal timer
+
+local lastTick = 0
+LLTimers:every(1, function(expected, interval)
+    currentTime = ll.GetTime()
+    print(string.format("%18.15f%20.15f%20.15f", expected,, currentTime, currentTime - lastTick))
+    lastTick = currentTime
+end)
+--[[
+    expected time       current time        interval
+ 2.001613999978872   2.022656999994069   0.999803999991855
+ 3.001613999978872   3.022907999984454   1.000250999990385
+ 4.001613999978872   4.022590999986278   0.999683000001824
+ 5.001613999978872   5.022719000000507   1.000128000014229
+ 6.001613999978872   6.022799999976996   1.000080999976490
+]]
+</code></pre>
+
+
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+
+
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+
+
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+
+
+<pre class="language-sluab"><code class="language-sluab"></code></pre>
+
+
 
