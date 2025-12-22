@@ -28,9 +28,9 @@ default
     {
         llSay(0, "Touched.");
     }
-}//</code></pre>
+}</code></pre>
 </td><td>
-<pre class="language-slua"><code class="language-sluab">-- the "New Script" (SLua)
+<pre class="language-sluab"><code class="language-sluab">-- the "New Script" (SLua)
 
 
 function LLEvents.touch_start(detected)
@@ -50,63 +50,112 @@ To keep the LSL structure, we can write an initialization function instead of <c
 
 ### Simulating LSL states.
 
-<div class="script-box intermediate">
-<h4>States, with the LSL default "new script"</h4>
-<pre class="language-lsl line-numbers"><code class="language-lsl">default
-{
-    state_entry()
-    {
-        llSay(0, "Hello, Avatar!");
-    }
+We can use one table for each "state" to store its event handlers:
 
-    touch_start(integer total_number)
-    {
-        llSay(0, "Touched.");
-    }
-}</code></pre>
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states, LSL default "new script"
+<table><tr><td>
+<pre class="language-sluab"><code class="language-sluab">-- simulating states, "states" tables (SLua)
 
-local currentState
-
-local function state(fnState)
-    if fnState ~= currentState then
-        if currentState and currentState.state_exit then
-            currentState.state_exit()
-        end
-        for _, eventName in LLEvents:eventNames() do
-            for _, handler in LLEvents:listeners(eventName) do
-                LLEvents:off(eventName, handler)
-            end
-        end
-        for ev, fn in fnState do
-            if ev ~= "state_entry" and ev ~= "state_exit" then
-                LLEvents:on(ev, fn)
-            end
-        end
-        currentState = fnState
-        if currentState.state_entry then
-            currentState.state_entry()
-        end
-    end
-end
-
-local default = {}
+local default, two = {}, {}  -- tables for the "states" functions
 
 function default.state_entry()
-    ll.Say(0, "Hello, Avatar!")
+
 end
 
-function default.touch_start(events)
-    ll.Say(0, "Touched.")
+function default.touch_end(events)
+
 end
 
-state(default)</code></pre>
-</div>
+function default.state_exit()
 
+end
 
-<div class="script-box intermediate">
-<h4>States, with the LSL wiki example for states</h4>
-<pre class="language-lsl line-numbers"><code class="language-lsl">default
+function two.state_entry()
+
+end
+
+function two.state_exit()
+
+end</code></pre>
+</td><td>
+<pre class="language-lsl"><code class="language-lsl">// states (LSL)
+
+default {
+    state_entry() {
+
+    }
+
+    touch_end(integer num_detected) {
+
+    }
+
+    state_exit() {
+
+    }
+}
+
+state two {
+    state_entry() {
+
+    }
+
+    state_exit() {
+    
+    }
+}</code></pre>
+</td></tr></table>
+
+And a function to change from one "state" to another using LLEvents to remove the handlers in a "state" table and add the handlers in the other:
+
+<pre class="language-sluab"><code class="language-sluab">-- simulating states, function to change the "state" (SLua)
+
+local _currentState = {}  -- store the current "state" table
+local function state(newState)
+    if newState ~= _currentState then  -- the state is changing
+        if _currentState and _currentState.state_exit then  -- there is state_exit() and is not "default" at the start
+            _currentState.state_exit()
+        end
+        for _, eventName in LLEvents:eventNames() do  -- all the events
+            for _, handler in LLEvents:listeners(eventName) do  -- all the handlers of the event
+                LLEvents:off(eventName, handler)  -- removing handler
+            end
+        end
+        for eventName, handler in newState do  -- all the functions in the "state" table
+            if eventName ~= "state_entry" and eventName ~= "state_exit" then  -- except "entry" and "exit"
+                LLEvents:on(eventName, handler)  -- adding handler
+            end
+        end
+        _currentState = newState  -- "state" changed
+        if _currentState.state_entry then  -- there is state_entry()
+            _currentState.state_entry()
+        end
+    end
+end</code></pre>
+
+To change the state we use <code class="language-sluab">state(two)  -- SLua</code> instead of <code class="language-lsl">state two;  // LSL</code>
+
+And after the "state" tables we add <code class="language-sluab">state(default)  -- SLua</code> to call state_entry() in the table "default".
+
+### On state change
+
+Aside of changing the events handlers when a state changes:
+- All listens are released.
+  - When all the handlers to the even "listen" are removed, LLEvents releseases all the listens.
+- The event queue is cleared.
+  - When all the handlers of an the even are removed, LLEvents remove the pending events from the event queue.
+- Repeating sensors are released.
+  - When all the handlers to the even "sensor" are removed, LLEvents releases the repeating sensor.
+- The timer event clock is not cleared.
+  - If the script uses the event "timer" and ll.SetTimerEvent() in the library llcompat:
+    -  (if the new state has a timer event, and the previous state has a timer set, the timer event in the new state will be triggered on the interval set in the previous state).
+  - If the script uses LLTimers:
+    - the timers will be triggered on the intervals set in the previous state.
+    - the event "timer" used by LLTimers is protected and can't be removed by LLEvents:off(), we don't need to check for it in the function "state".
+  - LLTimers and ll.SetTimerEvent() are incompatible, scripts can't use both.
+
+### States example
+
+The LSL wiki example for states:
+<pre class="language-lsl"><code class="language-lsl">default
 {
     state_entry()
     {
@@ -145,28 +194,29 @@ state two
         llSay(0, "The script leaves state 'two'");
     }
 }</code></pre>
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states, LSL wiki example for states
-    
-local currentState
 
-local function state(fnState)
-    if fnState ~= currentState then
-        if currentState and currentState.state_exit then
-            currentState.state_exit()
+Becomes:
+<pre class="language-sluab"><code class="language-sluab">-- simulating LSL states, LSL wiki example for states
+    
+local _currentState = {}
+local function state(newState)
+    if newState ~= _currentState then
+        if _currentState and _currentState.state_exit then
+            _currentState.state_exit()
         end
         for _, eventName in LLEvents:eventNames() do
             for _, handler in LLEvents:listeners(eventName) do
                 LLEvents:off(eventName, handler)
             end
         end
-        for ev, fn in fnState do
-            if ev ~= "state_entry" and ev ~= "state_exit" then
-                LLEvents:on(ev, fn)
+        for eventName, handler in newState do
+            if eventName ~= "state_entry" and eventName ~= "state_exit" then
+                LLEvents:on(eventName, handler)
             end
         end
-        currentState = fnState
-        if currentState.state_entry then
-            currentState.state_entry()
+        _currentState = newState
+        if _currentState.state_entry then
+            _currentState.state_entry()
         end
     end
 end
@@ -174,17 +224,16 @@ end
 local default, two = {}, {}
 
 function default.state_entry()
-    ll.Say(0,
-        "You either just saved the script after editing it"
-        .. "\nand/or the script (re)entered the default state.")
+    ll.Say(0, "You either just saved the script after editing it" .. "\nand/or the script (re)entered the default state.")
 
     -- white and opaque text
     ll.SetText("Click to change states", vector(1.0, 1.0, 1.0), 1)
 end
 
 function default.touch_end(events)
+    local num_detected = #events
     -- Note: NEVER do a state change from within a touch_start event -
-    -- that can lead to the next touch_start on return to this state to be missed.
+    -- - that can lead to the next touch_start on return to this state to be missed.
     -- Here we do the state change safely, from within touch_end
     state(two)
 end
@@ -203,40 +252,3 @@ function two.state_exit()
 end
 
 state(default)</code></pre>
-</div>
-
-<div class="script-box advanced">
-<h4>States, using a closure to avoid the script-wide variable</h4>
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- simulating LSL states
-    
-local state = (function()
-    local currentState
-    return function(fnState)
-        if fnState ~= currentState then
-            if currentState and currentState.state_exit then
-                currentState.state_exit()
-            end
-            for _, eventName in LLEvents:eventNames() do
-                for _, handler in LLEvents:listeners(eventName) do
-                    LLEvents:off(eventName, handler)
-                end
-            end
-            for ev, fn in fnState do
-                if ev ~= "state_entry" and ev ~= "state_exit" then
-                    LLEvents:on(ev, fn)
-                end
-            end
-            currentState = fnState
-            if currentState.state_entry then
-                currentState.state_entry()
-            end
-        end
-    end
-end)()
-
-local default = {}
-
---
-
-state(default)</code></pre>
-</div>
