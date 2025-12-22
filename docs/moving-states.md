@@ -147,12 +147,12 @@ Aside of changing the events handlers when a state changes:
 - Repeating sensors are released.
   - When all the handlers to the even "sensor" are removed, LLEvents releases the repeating sensor.
 - The timer event clock is not cleared.
-  - If the script uses the event "timer" and ll.SetTimerEvent() in the library llcompat:
+  - If the script uses the event "timer" and llcompat.SetTimerEvent() in the library llcompat:
     -  if the new state has a timer event, and the previous state has a timer set, the timer event in the new state will be triggered on the interval set in the previous state.
   - If the script uses LLTimers:
     - the timers will be triggered on the intervals set in the previous state.
     - the event "timer" used by LLTimers is protected and can't be removed by LLEvents:off(), we don't need to check for it in the function "state".
-  - LLTimers and ll.SetTimerEvent() are incompatible, scripts can't use both.
+  - LLTimers and llcompat.SetTimerEvent() are incompatible, scripts can't use both.
 
 ### States example
 
