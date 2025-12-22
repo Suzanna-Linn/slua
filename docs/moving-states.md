@@ -56,7 +56,6 @@ We can use one table for each "state" to store its event handlers:
 <pre class="language-lsl"><code class="language-lsl">// states (LSL)
 
 
-
 default {
     state_entry() {
 
@@ -96,7 +95,6 @@ end
 function default.state_exit()
 
 end
-
 
 
 
