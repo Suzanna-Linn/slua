@@ -53,30 +53,6 @@ To keep the LSL structure, we can write an initialization function instead of <c
 We can use one table for each "state" to store its event handlers:
 
 <table><tr><td>
-<pre class="language-sluab"><code class="language-sluab">-- simulating states, "states" tables (SLua)
-
-local default, two = {}, {}  -- tables for the "states" functions
-
-function default.state_entry()
-
-end
-
-function default.touch_end(events)
-
-end
-
-function default.state_exit()
-
-end
-
-function two.state_entry()
-
-end
-
-function two.state_exit()
-
-end</code></pre>
-</td><td>
 <pre class="language-lsl"><code class="language-lsl">// states (LSL)
 
 default {
@@ -102,6 +78,32 @@ state two {
     
     }
 }</code></pre>
+</td><td>
+<pre class="language-sluab"><code class="language-sluab">-- simulating states, "states" tables (SLua)
+
+local default, two = {}, {}  -- tables for the "states" functions
+
+function default.state_entry()
+
+end
+
+function default.touch_end(events)
+
+end
+
+function default.state_exit()
+
+end
+
+function two.state_entry()
+
+end
+
+function two.state_exit()
+
+end
+
+--</code></pre>
 </td></tr></table>
 
 And a function to change from one "state" to another using LLEvents to remove the handlers in a "state" table and add the handlers in the other:
@@ -111,7 +113,7 @@ And a function to change from one "state" to another using LLEvents to remove th
 local _currentState = {}  -- store the current "state" table
 local function state(newState)
     if newState ~= _currentState then  -- the state is changing
-        if _currentState and _currentState.state_exit then  -- there is state_exit() and is not "default" at the start
+        if _currentState and _currentState.state_exit then  -- there is a current state with state_exit()
             _currentState.state_exit()
         end
         for _, eventName in LLEvents:eventNames() do  -- all the events
@@ -146,7 +148,7 @@ Aside of changing the events handlers when a state changes:
   - When all the handlers to the even "sensor" are removed, LLEvents releases the repeating sensor.
 - The timer event clock is not cleared.
   - If the script uses the event "timer" and ll.SetTimerEvent() in the library llcompat:
-    -  (if the new state has a timer event, and the previous state has a timer set, the timer event in the new state will be triggered on the interval set in the previous state).
+    -  if the new state has a timer event, and the previous state has a timer set, the timer event in the new state will be triggered on the interval set in the previous state.
   - If the script uses LLTimers:
     - the timers will be triggered on the intervals set in the previous state.
     - the event "timer" used by LLTimers is protected and can't be removed by LLEvents:off(), we don't need to check for it in the function "state".
