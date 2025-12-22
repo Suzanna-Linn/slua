@@ -73,7 +73,7 @@ What it does:
 - adds a line (before the first function) declaring the functions that are defined after they are used
 - renames variables that are SLua keywords (by adding _t at the end)
 - renames state_entry() in the default state to main() and calls it at the end
-- simulates states wuth tables for the states events and a function state() to change states
+- simulates states with tables for the states events and a function state() to change states
 
 What it does not (but could do, if I receive requests for it)
 - add type annotations for type-checking and linting, useful when we have the Luau analyzer in SLua
