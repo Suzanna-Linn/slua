@@ -72,12 +72,8 @@ What it does:
 - changes "else if" to "elseif" when possible
 - adds a line (before the first function) declaring the functions that are defined after they are used
 - renames variables that are SLua keywords (by adding _t at the end)
-- renames state_entry() in the default state to initialize() and calls it at the end
-
-What it does not (but will do, if possible, when we have the definitive version of SLua events)
-- states
-  - events in states other than default are renamed adding the state name and _ at the start
-  - the command   state name_of_state;   is replaced with   state = "name_of_state"
+- renames state_entry() in the default state to main() and calls it at the end
+- simulates states wuth tables for the states events and a function state() to change states
 
 What it does not (but could do, if I receive requests for it)
 - add type annotations for type-checking and linting, useful when we have the Luau analyzer in SLua
