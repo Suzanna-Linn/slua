@@ -32,11 +32,7 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
 
 ### Study Groups
 
-- **Days (December):**
-  - Thursdays (focused to advanced level)
-  - Fridays (focused to beginner level)
-  - Saturdays (all levels)
-- **Days (January to March):**
+- **Days:**
   - Thursdays (focused to beginner level)
   - Fridays (focused to advanced level)
   - Saturdays (all levels)
