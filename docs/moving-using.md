@@ -11,7 +11,7 @@ These are the steps to follow before starting to script in SLua:
   - [SLua Beta Porridge](http://maps.secondlife.com/secondlife/SLua%20Beta%20Porridge/128/128/23)
   - [SLua Beta Eraserhead](http://maps.secondlife.com/secondlife/SLua%20Beta%20Eraserhead/128/128/23)
   - [SLua Beta Glass](http://maps.secondlife.com/secondlife/SLua%20Beta%20Glass/128/128/23)
-  - [SLua Beta Void](http://maps.secondlife.com/secondlife/SLua%20Beta%20Void/128/128/23) (this regions is mostly water)
+  - [SLua Beta Void](http://maps.secondlife.com/secondlife/SLua%20Beta%20Void/128/128/23) (this region is mostly water)
   - [SLua Beta Anderson](http://maps.secondlife.com/secondlife/SLua%20Beta%20Anderson/128/128/23)
   - [SLua Beta Sausage](http://maps.secondlife.com/secondlife/SLua%20Beta%20Sausage/128/128/23)
   - [SLua Beta Nicoise](http://maps.secondlife.com/secondlife/SLua%20Beta%20Nicoise/128/128/23)
