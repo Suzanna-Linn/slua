@@ -261,7 +261,7 @@ These are the functions that change:
   </tr>
 </table>
 
-### boolean LL functions
+### Boolean LL functions
 
 The LL functions that return a boolean value now return type boolean instead of type number.
 
@@ -321,3 +321,12 @@ These are the functions that change:
     <td style="padding: 5px; border: 1px solid black;">ll.VerifyRSA</td>
   </tr>
 </table>
+
+### Linked messages and uuid's
+
+In LSL, the parameter id can be used to pass any string. In SLua, uuid's can't store strings that are not in uuid format.
+
+Linked messages have a string instead of an uuid in their fourth parameter.
+- the function ll.MessageLinked( link, num, str, str2 )
+- the event link_message( sender_num, num, str, str2 )
+- linked messages with LSL scripts are internally typecasted.
