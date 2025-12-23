@@ -137,7 +137,7 @@ myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a component
 local posZ = ll.GetPos().z </code></pre>
 </td></tr></table>
 
-More about vectors here: [Strings](/slua/moving-vectors).
+More about vectors here: [Vectors](/slua/moving-vectors).
 
 ### LSL rotation
 
@@ -170,7 +170,7 @@ myRot = rotation(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a valu
 local rotS = ll.GetRot().s</code></pre>
 </td></tr></table>
 
-More about rotations here: [Strings](/slua/moving-rotations).
+More about rotations here: [Rotations](/slua/moving-rotations).
 
 ### LSL list
 
