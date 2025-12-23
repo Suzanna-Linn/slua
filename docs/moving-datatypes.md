@@ -82,7 +82,7 @@ More info on the use of uuid's in linked messages here: [Linked messages and uui
 They can take a buffer of 16 or more bytes and get the uuid in numeric format from the first 16 bytes.
 
 The variables that contain an uuid have these properties:
-- **istruthy** : returns true if the variable has an uuid, false if it is "" or NULL_KEY. It¡s mostly used with an if command:
+- **istruthy** : returns true if the variable has an uuid, false if it is "" or NULL_KEY. It's mostly used with an if command:
   - <code class="language-sluab">if someUuid.istruthy then</code>
 - **bytes** : returns a string with the uuid in numeric format (16 characters):
   - <code class="language-sluab">print(someUuid.bytes)  -- > ??8NK_?Έm?;?A</code>
@@ -137,6 +137,8 @@ myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a component
 local posZ = ll.GetPos().z </code></pre>
 </td></tr></table>
 
+More about vectors here: [Strings](/slua/moving-vectors).
+
 ### LSL rotation
 
 SLua adds the types rotation and quaternion. They are synonims, internally they are the same datatype quaternion.
@@ -167,6 +169,8 @@ myRot = rotation(myRot.x, myRot.y, myRot.z, -myRot.s)  -- we can't assign a valu
 
 local rotS = ll.GetRot().s</code></pre>
 </td></tr></table>
+
+More about rotations here: [Strings](/slua/moving-rotations).
 
 ### LSL list
 
