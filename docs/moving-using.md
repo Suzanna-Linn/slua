@@ -11,7 +11,7 @@ These are the steps to follow before starting to script in SLua:
   - [SLua Beta Porridge](http://maps.secondlife.com/secondlife/SLua%20Beta%20Porridge/128/128/23)
   - [SLua Beta Eraserhead](http://maps.secondlife.com/secondlife/SLua%20Beta%20Eraserhead/128/128/23)
   - [SLua Beta Glass](http://maps.secondlife.com/secondlife/SLua%20Beta%20Glass/128/128/23)
-  - [SLua Beta Void](http://maps.secondlife.com/secondlife/SLua%20Beta%20Void/128/128/23)
+  - [SLua Beta Void](http://maps.secondlife.com/secondlife/SLua%20Beta%20Void/128/128/23) (this regions is mostly water)
   - [SLua Beta Anderson](http://maps.secondlife.com/secondlife/SLua%20Beta%20Anderson/128/128/23)
   - [SLua Beta Sausage](http://maps.secondlife.com/secondlife/SLua%20Beta%20Sausage/128/128/23)
   - [SLua Beta Nicoise](http://maps.secondlife.com/secondlife/SLua%20Beta%20Nicoise/128/128/23)
@@ -24,7 +24,7 @@ These are the steps to follow before starting to script in SLua:
   - SLua
  
 - All the LL functions exist in SLua with the same name, but with a "." added between "ll" and the name of the function:  
-- <code class="language-lsl">llSay(0, "Hello world") // LSL</code> is <code class="language-slua">ll.Say(0, "Hello world")  -- SLua</code>.
+  - <code class="language-lsl">llSay(0, "Hello world") // LSL</code> is <code class="language-slua">ll.Say(0, "Hello world")  -- SLua</code>.
 
 - About the editor, some things to keep in mind:
   - Some errors are not detected when compiling, we will get them in an error window, which sometimes opens behind the editor window. If the script does nothing after compiling, move the editor window to check.
