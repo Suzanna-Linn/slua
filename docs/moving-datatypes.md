@@ -77,7 +77,7 @@ local myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code></pre>
 They return nil if the string has not a valid uuid format.
 
 This is different to LSL, where we can store any string in a variable of type key.  
-More info on the use of uuid's in linked messages here:
+More info on the use of uuid's in linked messages here: [Linked messages and uuid's](/slua/moving-llfunctions#linked-messages-and-uuids).
 
 They can take a buffer of 16 or more bytes and get the uuid in numeric format from the first 16 bytes.
 
@@ -96,7 +96,7 @@ local meStr16 = me.bytes
 print(#meStr16)  -- > 16
 
 local meBack = uuid(buffer.fromstring(meStr16))
-print(me == meBack)  -- > true</code></pre>**
+print(me == meBack)  -- > true</code></pre>
 
 To store in linkset data we need to avoid characters ascii 0 and other special characters. We can store them in 24 byes instead of 36:
 <pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string24 for linkset data
