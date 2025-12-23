@@ -1,8 +1,14 @@
+---
+layout: default
+title: Datatypes
+slua_beta: true
+---
+
 ## Datatypes
 
 ### LSL integer
 
-Used as a boolean value, with contants <code class="language-lsl">TRUE</code> and <code class="language-lsl">FALSE</code> is an SLua type boolean, with values <code class="language-slua">true</code> and <code class="language-slua">false</code>.
+Used as a boolean value, with constants <code class="language-lsl">TRUE</code> and <code class="language-lsl">FALSE</code> is an SLua type boolean, with values <code class="language-sluab">true</code> and <code class="language-sluab">false</code>.
 
 Used as an integer is an SLua type number (which has integer and float values all in the same datatype).
 
@@ -12,22 +18,24 @@ Used as an integer is an SLua type number (which has integer and float values al
 integer isOk = TRUE;
 integer count = 0;</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- integers (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- integers (SLua)
 
 local isOk = true
 local count = 0</code></pre>
 </td></tr></table>
 
+The constants <code class="language-lsl">TRUE</code> and <code class="language-lsl">FALSE</code> doesn't exist in SLua. Remember to not use them!
+
 ### LSL float
 
-It is an SLua type number (floats and integers all go in the datatype number). SLua numbers are stored in 64 bits.
+It is an SLua type number (floats and integers all go in the datatype number). SLua numbers are stored as 64 bit floats.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// floats (LSL)
 
 float height = 1.65;</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- floats (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- floats (SLua)
 
 local height = 1.65</code></pre>
 </td></tr></table>
@@ -41,7 +49,7 @@ It is an SLua type string.
 
 string message = "hello";</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- strings (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- strings (SLua)
 
 local message = "hello"</code></pre>
 </td></tr></table>
@@ -51,22 +59,60 @@ More about strings here: [Strings](/slua/moving-strings).
 ### LSL key
 
 SLua adds the type uuid, which is the same than the LSL key.The change of name is to avoid confusion with the key of a table.
-- We get a uuid using <code class="language-slua">myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
+- We get a uuid using <code class="language-sluab">myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
+- Or with <code class="language-sluab">myId = touuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
+
+<code class="language-sluab">uuid()</code> and <code class="language-sluab">touuid()</code> are the same, we can use any of them.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// keys (LSL)
 
 key myId = "0f16c0e1-384e-4b5f-b7ce-886dda3bce41";</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- uuids (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuids (SLua)
 
 local myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code></pre>
 </td></tr></table>
 
+They return nil if the string has not a valid uuid format.
+
+This is different to LSL, where we can store any string in a variable of type key.  
+More info on the use of uuid's in linked messages here:
+
+They can take a buffer of 16 or more bytes and get the uuid in numeric format from the first 16 bytes.
+
+The variables that contain an uuid have these properties:
+- **istruthy** : returns true if the variable has an uuid, false if it is "" or NULL_KEY. It¡s mostly used with an if command:
+  - <code class="language-sluab"if someUuid.istruthy then</code>
+- **bytes** : returns a string with the uuid in numeric format (16 characters):
+  - <code class="language-sluab">print(someUuid.bytes)  -- > ??8NK_?Έm?;?A</code>
+
+Example converting an uuid to numeric format and back. Useful to store them in 16 bytes instead of 36:
+**<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string16
+
+local me = ll.GetOwner()
+
+local meStr16 = me.bytes
+print(#meStr16)  -- > 16
+
+local meBack = uuid(buffer.fromstring(meStr16))
+print(me == meBack)  -- > true</code></pre>**
+
+To store in linkset data we need to avoid characters ascii 0 and other special characters. We can store them in 24 byes instead of 36:
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string24 for linkset data (SLua Beta)
+
+local me = ll.GetOwner()
+
+ll.LinksetDataWrite("test",llbase64.encode(me.bytes))
+print(#ll.LinksetDataRead("test")) -- > 24
+
+local meBack = uuid(llbase64.decode(ll.LinksetDataRead("test"), true))
+print(me == meBack)  -- > true</code></pre>
+
 ### LSL vector
 
 It is an SLua type vector. It uses the Luau library vector.
-- We get a vector using <code class="language-slua">myVec = vector(50, 50, 0)</code>.
+- We get a vector using <code class="language-sluab">myVec = vector(50, 50, 0)</code>.
 - It's not possible to assign a value to a component. We need to create a new vector.
 - We can get a component from the return value of a function, not only from a variable.
 - Components are stored in 32 bits (same as LSL).
@@ -81,7 +127,7 @@ myVec.z = 20;
 vector pos = llGetPos();  // we need a variable before reading the component
 float posZ = pos.z;</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- vectors (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- vectors (SLua)
 
 local myVec = vector(50, 50, 0)
 
@@ -94,7 +140,7 @@ local posZ = ll.GetPos().z </code></pre>
 ### LSL rotation
 
 SLua adds the types rotation and quaternion. They are synonims, internally they are the same datatype quaternion.
-- We get a rotation using <code class="language-slua">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-slua">myRot = quaternion(1, 1, 1, 0)</code>.
+- We get a rotation using <code class="language-sluab">myRot = rotation(1, 1, 1, 0)</code> or <code class="language-sluab">myRot = quaternion(1, 1, 1, 0)</code>.
 - It's not possible to assign a value to a component. We need to create a new rotation.
 - We can get a component from the return value of a function, not only from a variable.
 - Components are stored in 32 bits (same as LSL).
@@ -111,7 +157,7 @@ myRot.s = -myRot.s;
 rotation rot = llGetRot();  // we need a variable before reading the component
 float rotS = rot.s;</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- rotations (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- rotations (SLua)
 
 local myRot = rotation(1, 1, 1, 0)
 local myRot2 = quaternion(2, 2, 2, 0)
@@ -133,7 +179,7 @@ list fruits = ["apple", "banana", "orange"];
 
 //</code></pre>
 </td><td>
-<pre class="language-slua line-numbers"><code class="language-slua">-- tables (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- tables (SLua)
 
 local fruits = {"apple", "banana", "orange"}
 
@@ -150,18 +196,18 @@ It's not to be used as an LSL integer, the LSL integer is an SLua number (which 
 
 The SLua type integer is only for a few uses that requires it. We can't make operations with a number and an integer, they are different types. Integers must be casted to numbers to operate with numbers.
 
-<pre class="language-slua line-numbers"><code class="language-slua">-- type integer (SLua)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- type integer (SLua)
 
 	local myInt = integer(42)    -- don't use this type unless there is a good reason
 </code></pre>
 
 The uses of "integer" are:
 - Typecasting in LSL-style
-  - <code class="language-slua">integer("123abc") -- > 123</code> or <code class="language-slua">integer("aaa") -- > 0</code>
+  - <code class="language-sluab">integer("123abc") -- > 123</code> or <code class="language-sluab">integer("aaa") -- > 0</code>
     - tonumber() returns nil in both cases.
-	- same as <code class="language-slua">string.match( "123abc", "^%s*([-+]?%d+)" ) or 0</code>
-  - <code class="language-slua">integer(myBool) -- > 1 or 0</code>
-	- same as <code class="language-slua">if myBool then 1 else 0</code>
+	- same as <code class="language-sluab">string.match( "123abc", "^%s*([-+]?%d+)" ) or 0</code>
+  - <code class="language-sluab">integer(myBool) -- > 1 or 0</code>
+	- same as <code class="language-sluab">if myBool then 1 else 0</code>
 - ll.List2Integer() returns type integer.
 - ll.DumpList2String() and ll.List2CSV() print type number always with six decimals and type integer without decimals
 - the bit32 library functions return type integer when all the parameters have type integer.
@@ -169,36 +215,36 @@ The uses of "integer" are:
 ### Typecasting
 
 - to boolean
-  - from number or integer: <code class="language-slua">myBool = (myNum ~= 0)</code>
+  - from number or integer: <code class="language-sluab">myBool = (myNum ~= 0)</code>
 
 - to number
   - from string:
     - if the string is fully numeric:
-      - <code class="language-slua">myNum = tonumber("123") -- > 123</code> or <code class="language-slua">myNum = tonumber("1.75") -- > 1.75</code>
-	  - but <code class="language-slua">tonumber("123abc") --> nil</code>
+      - <code class="language-sluab">myNum = tonumber("123") -- > 123</code> or <code class="language-sluab">myNum = tonumber("1.75") -- > 1.75</code>
+	  - but <code class="language-sluab">tonumber("123abc") --> nil</code>
     - if the string starts with an integer:
-      - <code class="language-slua">myNum = integer("123abc") -- > 123</code> or <code class="language-slua">integer("abc") -- > 0</code>
-	  - but <code class="language-slua">integer("1.75abc") -- > 1</code>
-  - from integer: <code class="language-slua">myNum = tonumber(integer(42)) -- > 42</code>
+      - <code class="language-sluab">myNum = integer("123abc") -- > 123</code> or <code class="language-sluab">integer("abc") -- > 0</code>
+	  - but <code class="language-sluab">integer("1.75abc") -- > 1</code>
+  - from integer: <code class="language-sluab">myNum = tonumber(integer(42)) -- > 42</code>
 
 - to string
-  - from any type: <code class="language-slua">myStr = tostring(myVar)</code>
+  - from any type: <code class="language-sluab">myStr = tostring(myVar)</code>
 
 - to uuid
-  - from string: <code class="language-slua">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>
+  - from string: <code class="language-sluab">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>
 
 - to vector
-  - from string: <code class="language-slua">myVec = tovector("<50, 50, 20>")</code>
+  - from string: <code class="language-sluab">myVec = tovector("<50, 50, 20>")</code>
 
 - to rotation/quaternion 
   - from string:
-    - <code class="language-slua">myRot = torotation("<1, 1, 1, 0>")</code>
-	- <code class="language-slua">myRot = toquaternion("<1, 1, 1, 0>")</code>
+    - <code class="language-sluab">myRot = torotation("<1, 1, 1, 0>")</code>
+	- <code class="language-sluab">myRot = toquaternion("<1, 1, 1, 0>")</code>
 
 - to integer
-  - from boolean: <code class="language-slua">myInt = integer(isOk) -- > myInt will be 1 or 0</code>
-  - from number: <code class="language-slua">myInt = integer(1.75)</code>
-  - from string: <code class="language-slua">myInt = integer("123abc")</code>
+  - from boolean: <code class="language-sluab">myInt = integer(isOk) -- > myInt will be 1 or 0</code>
+  - from number: <code class="language-sluab">myInt = integer(1.75)</code>
+  - from string: <code class="language-sluab">myInt = integer("123abc")</code>
 
 The types integer and uuid haven't got a "to" function because they already use or can use a string to create the value.
 
@@ -207,19 +253,19 @@ The types integer and uuid haven't got a "to" function because they already use 
 type( myVar ) returns the Lua base type of the variable. All the types added by SLua return "userdata", which is an internal datatype used to define new types in the language itself. We can't use "userdata".
 
 typeof( myVar ) returns the type of the variable, including the new types:
-- <code class="language-slua">typeof( vector( 1, 2, 3 ) ) -- > vector</code>
-- <code class="language-slua">typeof( uuid( "0f16c0e1-384e-4b5f-b7ce-886dda3bce41" ) ) -- > uuid</code>
-- <code class="language-slua">typeof ( rotation ( 1, 2, 3, 4) ) -- > quaternion</code>
+- <code class="language-sluab">typeof( vector( 1, 2, 3 ) ) -- > vector</code>
+- <code class="language-sluab">typeof( uuid( "0f16c0e1-384e-4b5f-b7ce-886dda3bce41" ) ) -- > uuid</code>
+- <code class="language-sluab">typeof ( rotation ( 1, 2, 3, 4) ) -- > quaternion</code>
 
 We have the datatypes rotation and quaternion and the functions torotation() and toquaternion() to cast from string, but internally only exists the type quaternion, rotation is just an alias.
 
-<pre class="language-slua"><code class="language-slua">-- typeof() (SLua)
+<pre class="language-sluab"><code class="language-sluab">-- typeof() (SLua)
 
 if typeof(myVar) == "quaternion" then  -- NOT "rotation", it would never happen!
 	-- do rotations stuff
 end</code></pre>
 
-<code class="language-slua">typeof( ZERO_ROTATION ) -- > quaternion</code>. There is no constant ZERO_QUATERNION.
+<code class="language-sluab">typeof( ZERO_ROTATION ) -- > quaternion</code>. There is no constant ZERO_QUATERNION.
 
 ### Types in LL constants and functions
 
@@ -394,33 +440,33 @@ Strings and string uuids are stored as UTF-8. The characters ASCII 0-127 use 1 b
 - The allocation never shrinks, only grows. To free memory after removing elements from a table the only way is to copy the remaining elements to a new table.
 
 Array with 32 elements:
-<pre class="language-slua"><code class="language-slua">local tab = {}
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 for i = 1, 32 do table.insert(tab, i) end
 print(ll.GetUsedMemory() - before)  -- > 512 (32*16)</code></pre>
 
 With 33 elements allocates memory for 64:
-<pre class="language-slua"><code class="language-slua">local tab = {}
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 -- tab = table.create(100)
 for i = 1, 33 do table.insert(tab, i) end
 print(ll.GetUsedMemory() - before)  -- > 1024 (64*16)</code></pre>
 
 We can use table.create() to allocate 33:
-<pre class="language-slua"><code class="language-slua">local tab = {}
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 tab = table.create(33)
 for i = 1, 33 do table.insert(tab, i) end
 print(ll.GetUsedMemory() - before)  -- > 528 (33*16)</code></pre>
 
 Dictionaries or sparse arrays use 32 bytes for element, with 100 elements allocates memory for 128, no way to allocate only for 100:
-<pre class="language-slua"><code class="language-slua">local tab = {}
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 for i = 10, 1000, 10 do tab[i] = i end
 print(ll.GetUsedMemory() - before)  -- > 4096 (128*32)</code></pre>
 
 Arrays and dictionaries use different allocations, a dictionary of 33 elements allocates for 64 (of 32 bytes), an array of 17 elements allocates for 32 (of 16 bytes):
-<pre class="language-slua"><code class="language-slua">local tab = {}
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
 for i = 1010, 1330, 10 do tab[i] = i end
@@ -430,7 +476,7 @@ for i = 1, 17 do tab[i] = i end
 print(ll.GetUsedMemory() - before)  -- > 2560 (+512, 32*16)</code></pre>
 
 After removing 31 elements from an array of 32 it still have allocation for 32 elements. We can make a new table to free memory, but not with table.clone() that also copies the allocation:
-<pre class="language-slua"><code class="language-slua">local tab = {}
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
 for i = 1, 32 do table.insert(tab, i) end
