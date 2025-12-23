@@ -244,11 +244,10 @@ end</code></pre>
 ### Types in LL constants and functions
 
 In SLua, LL constants, function return values, and the elements of lists returned by LL functions have the type number if their LSL type is integer or float.
-- The only exception is ll.List2Integer(), which returns an SLua integer.
 
 For LL function parameters that are integer or float in LSL, SLua accepts both number and integer types.
 - If a number with decimals is passed to a parameter expecting an integer, the decimal part is truncated (not rounded).
-- Many, but not all, of these functions also accept a boolean type, which is internally cast to an integer.
+- Many of these functions also accept a boolean type, which is internally cast to an integer.
 
 In SLua, LL constants that contain a uuid have type uuid. In LSL they have type string.
 
@@ -262,9 +261,6 @@ Every variable or literal value, of any type, is stored as a 16 bytes tagged val
 
 - SLua quaternion and uuid are derived from userdata and are reference types.
   - rotation is an alternative name for quaternion, internally there is only the type quaternion.
-
-- SLua integer is derived from the internal type "light userdata" that stores the data in the TValue like the primitive types.
-  - "light userdata" returns "userdata" as type.
 
 The format of the TValue is:
 - 8 bytes : value (for primitive types) or pointer (for reference types)
@@ -316,11 +312,6 @@ Memory used for each datatype:
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">Luau vector</td>
     </tr>
 	<tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">integer</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">16</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, internally light userdata, stored in the TValue</td>
-    </tr>
-	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">quaternion</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">48</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, rotations are quaternions</td>
@@ -331,14 +322,9 @@ Memory used for each datatype:
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uses string interning</td>
     </tr>
 	<tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid (valid)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">61</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, stored in numeric format</td>
-    </tr>
-	<tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid (string)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">61 + string length</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, stored as string, uses string interning</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">local variable</td>
