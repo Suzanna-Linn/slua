@@ -192,30 +192,6 @@ local fruits = {"apple", "banana", "orange"}
 
 More about tables here: [Tables](/slua/moving-lists).
 
-### The SLua datatype integer
-
-SLua adds the type integer (32 bits). It exists only for compatibility reasons with a few LL functions.
-
-It's not to be used as an LSL integer, the LSL integer is an SLua number (which has integer and float values all in the same datatype).
-
-The SLua type integer is only for a few uses that requires it. We can't make operations with a number and an integer, they are different types. Integers must be casted to numbers to operate with numbers.
-
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- type integer (SLua)
-
-	local myInt = integer(42)    -- don't use this type unless there is a good reason
-</code></pre>
-
-The uses of "integer" are:
-- Typecasting in LSL-style
-  - <code class="language-sluab">integer("123abc") -- > 123</code> or <code class="language-sluab">integer("aaa") -- > 0</code>
-    - tonumber() returns nil in both cases.
-	- same as <code class="language-sluab">string.match( "123abc", "^%s*([-+]?%d+)" ) or 0</code>
-  - <code class="language-sluab">integer(myBool) -- > 1 or 0</code>
-	- same as <code class="language-sluab">if myBool then 1 else 0</code>
-- ll.List2Integer() returns type integer.
-- ll.DumpList2String() and ll.List2CSV() print type number always with six decimals and type integer without decimals
-- the bit32 library functions return type integer when all the parameters have type integer.
-
 ### Typecasting
 
 - to boolean
@@ -225,17 +201,18 @@ The uses of "integer" are:
   - from string:
     - if the string is fully numeric:
       - <code class="language-sluab">myNum = tonumber("123") -- > 123</code> or <code class="language-sluab">myNum = tonumber("1.75") -- > 1.75</code>
-	  - but <code class="language-sluab">tonumber("123abc") --> nil</code>
-    - if the string starts with an integer:
-      - <code class="language-sluab">myNum = integer("123abc") -- > 123</code> or <code class="language-sluab">integer("abc") -- > 0</code>
-	  - but <code class="language-sluab">integer("1.75abc") -- > 1</code>
-  - from integer: <code class="language-sluab">myNum = tonumber(integer(42)) -- > 42</code>
+	  - but <code class="language-sluab">tonumber("123abc") -- > nil</code>
+    - if the string starts with an integer, to typecast in LSL-style:
+      - <code class="language-sluab">tonumber(string.match("123abc", "^%s*([-+]?%d+)" )) or 0  -- > 123</code>
+	  - <code class="language-sluab">tonumber(string.match("aaa", "^%s*([-+]?%d+)" )) or 0  -- > 0</code>
+  - from boolean:
+    - <code class="language-sluab">if myBool then 1 else 0</code>
 
 - to string
   - from any type: <code class="language-sluab">myStr = tostring(myVar)</code>
 
 - to uuid
-  - from string: <code class="language-sluab">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>
+  - from string: <code class="language-sluab">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code> (or with touuid() that is the same)
 
 - to vector
   - from string: <code class="language-sluab">myVec = tovector("<50, 50, 20>")</code>
@@ -244,13 +221,6 @@ The uses of "integer" are:
   - from string:
     - <code class="language-sluab">myRot = torotation("<1, 1, 1, 0>")</code>
 	- <code class="language-sluab">myRot = toquaternion("<1, 1, 1, 0>")</code>
-
-- to integer
-  - from boolean: <code class="language-sluab">myInt = integer(isOk) -- > myInt will be 1 or 0</code>
-  - from number: <code class="language-sluab">myInt = integer(1.75)</code>
-  - from string: <code class="language-sluab">myInt = integer("123abc")</code>
-
-The types integer and uuid haven't got a "to" function because they already use or can use a string to create the value.
 
 ### type() and typeof()
 
