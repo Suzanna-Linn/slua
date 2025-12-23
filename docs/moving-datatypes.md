@@ -212,7 +212,8 @@ More about tables here: [Tables](/slua/moving-lists).
   - from any type: <code class="language-sluab">myStr = tostring(myVar)</code>
 
 - to uuid
-  - from string: <code class="language-sluab">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code> (or with touuid() that is the same)
+  - from string: <code class="language-sluab">myUuid = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>
+    - or with touuid() that is the same
 
 - to vector
   - from string: <code class="language-sluab">myVec = tovector("<50, 50, 20>")</code>
