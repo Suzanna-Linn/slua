@@ -83,12 +83,12 @@ They can take a buffer of 16 or more bytes and get the uuid in numeric format fr
 
 The variables that contain an uuid have these properties:
 - **istruthy** : returns true if the variable has an uuid, false if it is "" or NULL_KEY. It¡s mostly used with an if command:
-  - <code class="language-sluab"if someUuid.istruthy then</code>
+  - <code class="language-sluab">if someUuid.istruthy then</code>
 - **bytes** : returns a string with the uuid in numeric format (16 characters):
   - <code class="language-sluab">print(someUuid.bytes)  -- > ??8NK_?Έm?;?A</code>
 
 Example converting an uuid to numeric format and back. Useful to store them in 16 bytes instead of 36:
-**<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string16
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string16
 
 local me = ll.GetOwner()
 
@@ -99,7 +99,7 @@ local meBack = uuid(buffer.fromstring(meStr16))
 print(me == meBack)  -- > true</code></pre>**
 
 To store in linkset data we need to avoid characters ascii 0 and other special characters. We can store them in 24 byes instead of 36:
-<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string24 for linkset data (SLua Beta)
+<pre class="language-sluab line-numbers"><code class="language-sluab">-- uuid's to string24 for linkset data
 
 local me = ll.GetOwner()
 
