@@ -2,7 +2,7 @@
 
 New series of **SLua classes** starting in January 2026. SLua has arrived to the main grid! Time to start the new year learning or improving it!
 
-And going on with the **Study Groups**, now in the main grid!
+And going on with the **Study Groups**, now in the main grid! Builders Brewery's regions have SLua, no need to go to the SLua regions.
 
 **Starting on January 5th 2026**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
@@ -40,6 +40,6 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
 - **Level:** All levels  
 - **Teachers:** Ali (sungali) & Suzanna (suzannalinn)  
 - **Format:** Text-only  
-- **In-world Location:** [Scripting Study Group Area](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
+- **In-world Location:** [Bulders Brewery (Scripting Study Group Area)](https://maps.secondlife.com/secondlife/Builders%20Brewery%20Sandbox/36/76/495)
 
 Come with your questions, practices, and projects to chat about anything scripting related.
