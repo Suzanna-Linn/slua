@@ -195,7 +195,7 @@ function LLEvents.dataserver(queryid, data)
     end
 end
 
-local callbacks[ll.RequestAgentData(avatarId, DATA_ONLINE)] = function(data)
+callbacks[ll.RequestAgentData(avatarId, DATA_ONLINE)] = function(data)
     ll.Say(if data == "1" then "is Online" else "is Offline")
 end
 
