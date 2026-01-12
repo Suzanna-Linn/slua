@@ -27,9 +27,9 @@ print( typeof( isOn ) )   -- > boolean
 print( typeof( hasIt ) )  -- > boolean
 
 
--- constants TRUE / FALSE coming from LSL
+-- constants TRUE / FALSE from LSL don't exist
 
--- DON'T USE THEM!!!
+-- REMEMBER NOT TO USE THEM!!!
 
 print( TRUE )   -- > nil
 print( FALSE )  -- > nil
@@ -51,14 +51,14 @@ end
 
 
 -- DON'T DO THIS!!!
-local isDone = FALSE
+local isDone = 0
 
 if isDone then  -- WRONG!!!
     print("done")
 else
     print("not yet")
 end
--- > not yet
+-- > done
 
 
 
