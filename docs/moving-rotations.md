@@ -48,9 +48,8 @@ local function conjugate(rot)
 end</code></pre>
 
 **rotation.dot( rot1, rot2 )** : returns a number, the dot product of the rotations. It measures how "similar" two rotations are.
--	If the result is 1, the rotations are identical.
--	If the result is 0, they are 90 degrees apart.
--	If the result is -1, the rotations are opposite.
+-	If the result is 1 or -1, the rotations are identical.
+-	If the result is 0, they are 180 degrees apart.
 
 <pre class="language-sluab"><code class="language-sluab">-- rotation.dot() written in SLua
 
