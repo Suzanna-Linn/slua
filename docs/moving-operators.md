@@ -157,10 +157,6 @@ As a ternary operator:
 - <code class="language-slua">text = count == 1 and "1 item" or count .. " items"</code>
   - same as <code class="language-slua">text = if count == 1 then "1 item" else count .. " items"</code>
 
-To call a function on a condition:
-- <code class="language-slua">isReady and start()</code>
-  - same as <code class="language-slua">if isReady then start() end</code>
-
 ### Bitwise operations
 
 The bitwise operators &, \|, ~, ^, <<, >> don't exist in SLua.
@@ -181,33 +177,21 @@ For instance, in the event changed:
 Or better with bit32.btest() that does a bitwise-and, returning true if the resulting value is not 0, or false if it is 0.
 - In SLua: <code class="language-slua">if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then</code>
 
-Another example, checking for -1:
-- In LSL: <code class="language-lsl">if (~llListFindList(myList, [item])) {</code>
-- In SLua: <code class="language-slua">if bit32.bnot(ll.ListFindList(myList, {item})) ~= 0 then</code>
-
 The library bit32 works with 32 bits and SLua numbers are 64 bits. The library uses the low 32 bits of the number and the return value is an unsigned number:
 - in LSL: <code class="language-lsl">integer val = 0; val = ~val; llOwnerSay((string)val);  // --> -1</code>
 - in SLua: <code class="language-slua">local val = 0 val = bit32.bnot(val) print(val)  -- > 4294967295</code>
 
-To get signed results we can use the SLua type integer, which is a 32-bit signed integer, and cast the result to number:
-- in SLua: <code class="language-slua">local val = 0 val = tonumber(bit32.bnot(integer(val))) print(val)  -- > -1</code>  
-  when all the parameters are SLua integers the returned value is also an SLua integer.
-
-The previous example, checking for -1, works because -1 is stored with all bits to 1, so no matter how many bits are used it is still -1.
+To get signed results we can use:
+- in SLua: <code class="language-slua">local val = 0 val = bit32.bnot(val) val -= if val >= 2^31 then 2^32 else 0 print(val)  -- > -1</code>  
 
 Another example, to get a negative channel:
 <pre class="language-lsl"><code class="language-lsl">// LSL
-integer gChannel = 0x80000000 | (integer)("0x" + (string)llGetKey());
-llOwnerSay((string)gChannel);  // --> -1261093815</code></pre>
+integer gChannel = 0x80000000 | (integer)("0x" + llGetSubString((string)llGetKey(),-8,-1));
+llOwnerSay((string)gChannel);  // --> -633614783</code></pre>
 <pre class="language-slua"><code class="language-slua">-- SLua
-local gChannel = bit32.bor(0x80000000, integer("0x" .. tostring(ll.GetKey())))
-print(gChannel)  -- > 3033873481</code></pre>
-which is a way to get a channel number that can't be used in LSL and neither used typing it in the viewer.
-
-With all the parameters as SLua integers:
-<pre class="language-slua"><code class="language-slua">-- SLua
-local gChannel = tonumber(bit32.bor(integer(0x80000000), integer("0x" .. tostring(ll.GetKey()))))
-print(gChannel)  -- > -1261093815</code></pre>
+local gChannel = bit32.bor(0x80000000) tonumber("0x" .. tostring(ll.GetKey()):sub(-8,-1)))
+gChannel -= if gChannel >= 2^31 then 2^32 else 0
+print(gChannel)  -- > -633614783</code></pre>
 
 ### Comparing string and uuid
 
@@ -217,17 +201,14 @@ Variables of different types are always different, no matter their contents.
 In LSL, we can compare strings and keys as if they were the same type.
 
 In LSL this (in an object with blank textures) works:
-- <code class="language-slua">if ( llGetTexture(0) == TEXTURE_BLANK ) {  -- true</code>  
+- <code class="language-slua">if ( llGetOwner() =="0f16c0e1-384e-4b5f-b7ce-886dda3bce41" ) {  -- true</code>  
 but in SLua:
-- <code class="language-slua">if ll.GetTexture(0) == TEXTURE_BLANK then  -- false</code>
-
-Because the LL functions that return a texture can return the name of the texture or its UUID, but they can only have one return type. So they always return a string.
-And LL constants that contain a uuid have type uuid.
+- <code class="language-slua">if ll.GetOwner() == "0f16c0e1-384e-4b5f-b7ce-886dda3bce41" then  -- false</code>
 
 In SLua a variable of type uuid and a variable of type string are always different, even if they have the same text.
 
 In SLua it must be:
-- <code class="language-slua">if uuid( ll.GetTexture(0) ) == TEXTURE_BLANK then  -- false</code>
+- <code class="language-slua">if ll.GetOwner() == uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41") then  -- true</code>
 
 ### Vectors
 
