@@ -60,9 +60,10 @@ More about strings here: [Strings](/slua/moving-strings).
 
 SLua adds the type uuid, which is the same than the LSL key.The change of name is to avoid confusion with the key of a table.
 - We get a uuid using <code class="language-sluab">myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
+- Or with <code class="language-sluab">myId = uuid.create("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
 - Or with <code class="language-sluab">myId = touuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
 
-<code class="language-sluab">uuid()</code> and <code class="language-sluab">touuid()</code> are the same, we can use any of them.
+<code class="language-sluab">uuid()</code>, <code class="language-sluab">uuid.create()</code> and <code class="language-sluab">touuid()</code> are the same, we can use any of them.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// keys (LSL)
