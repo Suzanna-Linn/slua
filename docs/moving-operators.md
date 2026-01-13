@@ -200,7 +200,7 @@ Variables of different types are always different, no matter their contents.
 
 In LSL, we can compare strings and keys as if they were the same type.
 
-In LSL this (in an object with blank textures) works:
+In LSL this works:
 - <code class="language-lsl">if ( llGetOwner() =="0f16c0e1-384e-4b5f-b7ce-886dda3bce41" ) {  -- true</code>  
 but in SLua:
 - <code class="language-slua">if ll.GetOwner() == "0f16c0e1-384e-4b5f-b7ce-886dda3bce41" then  -- false</code>
