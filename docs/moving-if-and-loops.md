@@ -201,7 +201,7 @@ There are three types of loop for:
 
 ### Numeric for
 
-<pre class="language-slua"><code class="language-slua">local start, stop, end = 1, 10, 1
+<pre class="language-slua"><code class="language-slua">local start, stop, step = 1, 10, 1
 
 for i = start, stop, step do
 	-- do something
