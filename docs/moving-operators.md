@@ -189,7 +189,7 @@ Another example, to get a negative channel:
 integer gChannel = 0x80000000 | (integer)("0x" + llGetSubString((string)llGetKey(),-8,-1));
 llOwnerSay((string)gChannel);  // --> -633614783</code></pre>
 <pre class="language-slua"><code class="language-slua">-- SLua
-local gChannel = bit32.bor(0x80000000) tonumber("0x" .. tostring(ll.GetKey()):sub(-8,-1)))
+local gChannel = bit32.bor(0x80000000, tonumber("0x" .. tostring(ll.GetKey()):sub(-8,-1)))
 gChannel -= if gChannel >= 2^31 then 2^32 else 0
 print(gChannel)  -- > -633614783</code></pre>
 
