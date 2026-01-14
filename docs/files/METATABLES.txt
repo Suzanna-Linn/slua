@@ -148,7 +148,7 @@ end
 -- debugging with metatables
 local DEBUG = {}  -- set to nil to stop debugging
 
-debugCheckNils = {
+local debugCheckNils = {
     __index = function (t, k)
         if t[k] == nil then
             if DEBUG then print(`Warning: nil in table {DEBUG[t]} key {k}`) end
@@ -156,7 +156,7 @@ debugCheckNils = {
     end
 }
 
-myTab = { 1, 2, 3, 4, 5 }
+local myTab = { 1, 2, 3, 4, 5 }
 
 if DEBUG then
     DEBUG[myTab] = "myTab"
@@ -167,7 +167,7 @@ end
 -- debugging with metatables (working one)
 local DEBUG = {}  -- set to nil to stop debugging
 
-debugCheckNils = {
+local debugCheckNils = {
     __index = function (t, k)
         -- if t[k] == nil then
         if rawget(t, k) == nil then
@@ -176,7 +176,7 @@ debugCheckNils = {
     end
 }
 
-myTab = { 1, 2, 3, 4, 5 }
+local myTab = { 1, 2, 3, 4, 5 }
 
 if DEBUG then
     DEBUG[myTab] = "myTab"
@@ -187,7 +187,7 @@ end
 -- debugging with metatables (better one)
 local DEBUG = {}  -- set to nil to stop debugging
 
-debugCheckNils = {
+local debugCheckNils = {
     __index = function (t, k)
         -- if t[k] == nil then
         -- if rawget(t, k) == nil then
@@ -196,7 +196,7 @@ debugCheckNils = {
     end
 }
 
-myTab = { 1, 2, 3, 4, 5 }
+local myTab = { 1, 2, 3, 4, 5 }
 
 if DEBUG then
     DEBUG[myTab] = "myTab"
