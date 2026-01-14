@@ -1,0 +1,204 @@
+-- params default one by one
+local function rezzing(params)
+    params.pos = params.pos or ll.GetPos() + vector(10, 10, 10)
+    params.rot = params.rot or ZERO_ROTATION
+    params.size = params.size or vector(1, 1, 1)
+    -- and more parameters
+    
+    -- do things and rezz a new object using params[paramName]
+end
+
+
+-- preparing a table with defaults
+local function rezzing(params)
+    local defaults = { pos = ll.GetPos() + vector(10, 10, 10), rot = ZERO_ROTATION, size = vector(1, 1, 1) }  -- and more parameters
+    
+    -- we need to add something here
+    
+    -- do things and rezz a new object
+end
+
+
+-- defaults table and loop for
+local function rezzing(params)
+    local defaults = { pos = ll.GetPos() + vector(10, 10, 10), rot = ZERO_ROTATION, size = vector(1, 1, 1) }  -- and more parameters
+
+    for k, v in defaults do
+        if params[k] == nil then
+            params[k] = v
+        end
+    end
+
+    -- do things and rezz a new object using params[paramName]
+end
+
+
+-- defaults table and function
+local function rezzing(params)
+    local defaults = { pos = ll.GetPos() + vector(10, 10, 10), rot = ZERO_ROTATION, size = vector(1, 1, 1) }  -- and more parameters
+
+    local function P(paramName)
+        return if params[paramName] == nil then
+            defaults[paramName]
+        else
+            params[paramName]
+    end
+
+    -- do things and rezz a new object using P(paramName)
+end
+
+
+-- defaults table and link table as params metatable
+local function rezzing(params)
+    local defaults = { pos = ll.GetPos() + vector(10, 10, 10), rot = ZERO_ROTATION, size = vector(1, 1, 1) }  -- and more parameters
+
+    local linkTable = {
+        __index = defaults
+    }
+    setmetatable(params, linkTable)
+
+    -- do things and rezz a new object using params[paramName]
+end
+
+
+-- defaults table and anonymous table as params metatable
+local function rezzing(params)
+    local defaults = { pos = ll.GetPos() + vector(10, 10, 10), rot = ZERO_ROTATION, size = vector(1, 1, 1) }  -- and more parameters
+
+    --[[
+    local linkTable = {
+        __index = defaults
+    }
+    setmetatable(params, linkTable)
+    ]]
+
+    setmetatable(params, { __index = defaults })
+
+    -- do things and rezz a new object using params[paramName]
+end
+
+
+
+
+-- checking people in several tables
+
+-- tables with people in each one
+local staff = { [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "suzannalinn" }
+local friends = { [uuid("ebff743c-5e47-400a-8ea6-a3bdb417b457")] = "sungali" }
+local vips = { [uuid("a1f62da5-dfab-4bfa-a918-75519517b753")] = "sungmanitu" }
+local subscribers = { [uuid("552e76a0-8ed8-499f-ba2e-0ab1ba0fa018")] = "suzannalinn2" }
+
+-- empty table
+local allOfThem = {}
+
+-- we need to add something here
+
+function LLEvents.touch_start(events)
+    if allOfThem[ll.DetectedKey(1)] then
+        -- do something
+    else
+        -- don't do it
+    end
+end
+
+
+-- checking people in several tables
+
+-- tables with people in each one
+local staff = { [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "suzannalinn" }
+local friends = { [uuid("ebff743c-5e47-400a-8ea6-a3bdb417b457")] = "sungali" }
+local vips = { [uuid("a1f62da5-dfab-4bfa-a918-75519517b753")] = "sungmanitu" }
+local subscribers = { [uuid("552e76a0-8ed8-499f-ba2e-0ab1ba0fa018")] = "suzannalinn2" }
+
+-- empty table
+local allOfThem = {}
+
+setmetatable(allOfThem, {
+    __index = function(t, k)
+        return staff[k] or friends[k] or vips[k] or subscribers[k]
+    end,
+})
+
+function LLEvents.touch_start(events)
+    if allOfThem[ll.DetectedKey(1)] then
+        -- do something
+    else
+        -- don't do it
+    end
+end
+
+
+
+-- digression on datatypes and table keys
+local tab = {
+    [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "uuid",
+    ["0f16c0e1-384e-4b5f-b7ce-886dda3bce41"] = "string",
+}
+
+for k, v in tab do
+    print(`{k} is a {v}`)
+    -- > 0f16c0e1-384e-4b5f-b7ce-886dda3bce41 is a uuid
+    -- > 0f16c0e1-384e-4b5f-b7ce-886dda3bce41 is a string
+end
+
+
+
+
+-- WRONG!!!
+-- debugging with metatables
+local DEBUG = {}  -- set to nil to stop debugging
+
+debugCheckNils = {
+    __index = function (t, k)
+        if t[k] == nil then
+            if DEBUG then print(`Warning: nil in table {DEBUG[t]} key {k}`) end
+        end
+    end
+}
+
+myTab = { 1, 2, 3, 4, 5 }
+
+if DEBUG then
+    DEBUG[myTab] = "myTab"
+    setmetatable(myTab, debugCheckNils)
+end
+
+
+-- debugging with metatables (working one)
+local DEBUG = {}  -- set to nil to stop debugging
+
+debugCheckNils = {
+    __index = function (t, k)
+        -- if t[k] == nil then
+        if rawget(t, k) == nil then
+            if DEBUG then print(`Warning: nil in table {DEBUG[t]} key {k}`) end
+        end
+    end
+}
+
+myTab = { 1, 2, 3, 4, 5 }
+
+if DEBUG then
+    DEBUG[myTab] = "myTab"
+    setmetatable(myTab, debugCheckNils)
+end
+
+
+-- debugging with metatables (better one)
+local DEBUG = {}  -- set to nil to stop debugging
+
+debugCheckNils = {
+    __index = function (t, k)
+        -- if t[k] == nil then
+        -- if rawget(t, k) == nil then
+        if DEBUG then print(`Warning: nil in table {DEBUG[t]} key {k}`) end
+        -- end
+    end
+}
+
+myTab = { 1, 2, 3, 4, 5 }
+
+if DEBUG then
+    DEBUG[myTab] = "myTab"
+    setmetatable(myTab, debugCheckNils)
+end
