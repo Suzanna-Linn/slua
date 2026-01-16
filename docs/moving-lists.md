@@ -378,7 +378,7 @@ print(ll.GetUsedMemory() - before)  -- > 2048 (64*32)
 for i = 1, 17 do tab[i] = i end
 print(ll.GetUsedMemory() - before)  -- > 2560 (+512, 32*16)</code></pre>
 
-Array tables with more than 128 elements allocated to the next multiple of 128:
+Arrays with more than 128 elements allocate to the next multiple of 128:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
@@ -388,7 +388,7 @@ print(ll.GetUsedMemory() - before)  -- > 16384 (1024*16)
 table.insert(tab, 1025)
 print(ll.GetUsedMemory() - before)  -- > 18432 (+2048, 128*16)</code></pre>
 
-Dictionary tables always allocated to the next power of 2:
+Dictionaries always allocate to the next power of 2:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
@@ -398,7 +398,7 @@ print(ll.GetUsedMemory() - before)  -- > 32768 (1024*32)
 tab[110250] = 110250
 print(ll.GetUsedMemory() - before)  -- > 65536 (+32768, 1024*32)</code></pre>
 
-<code class="language-sluab">table.shrink(tab)</code> frees the unused allocated space:
+For arrays, <code class="language-sluab">table.shrink(tab)</code> frees the unused allocated space:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
@@ -413,7 +413,7 @@ print(#tab)  -- > 10
 print(ll.GetUsedMemory() - before)  -- > 160 (10*16)</code></pre>
 
 For sparse arrays, table.shrink() has a second optional parameters, "reorder", that is false by default.
-<code class="language-sluab">table.shrink(tab, true)</code> can move keys from the sparse array to the dictionary part if it saves memory:
+With reorder true, <code class="language-sluab">table.shrink(tab, true)</code> can move keys from the sparse array to the dictionary part if it saves memory:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
