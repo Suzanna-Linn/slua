@@ -127,3 +127,6 @@ end
 
 **rotation.toup( rot )** : returns a vector, the Up vector (local Z-axis) of the rotation.
 - same as ll.Rot2Up( rot )
+
+**rotation.identity** : returns the identity rotation.
+- same as ZERO_ROTATION
