@@ -325,3 +325,98 @@ print(x[17])  -- > bye</code></pre>
 Removing the element 17, but the element is still there. table.remove() only removes from 1 to #t and ignores calls with other indexes.  
 If the element is from 1 to #t, it is deleted and the elements after it until #t are moved one index down. But the elements after #t are not moved.
 
+### Memory allocation for tables
+
+- The memory for tables is allocated dynamically and optimized for speed.
+- Tables start with zero memory allocated. As elements are added, SLua allocates memory in chunks sized as powers of two (e.g., 4, 8, 16).
+- The array part of the table (consecutive integer indexes starting with 1) only stores TValue (16 bytes per element). We can use table.create() to preallocate its exact size.
+- The array part grows to the next multiple of 128 when it exceeds 128 elements, instead of growing to the next power of two.
+- The dictionary part of the table stores TKey and TValue (32 bytes per element). There is no way to avoid allocation to the next power of two.
+- Each part of the table has its own allocation space.
+- The allocation never shrinks, only grows.
+- To free memory from an array table after removing elements or clearing unused allocated space, we can use table.shrink().
+- In dictionary tables, the only way to free memory after removing elements is to copy the remaining elements to a new table. There is no way to free the unused allocated space.
+
+Array with 32 elements:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+for i = 1, 32 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 512 (32*16)</code></pre>
+
+With 33 elements allocates memory for 64:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+for i = 1, 33 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 1024 (64*16)</code></pre>
+
+We can use table.create() to allocate 33:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+tab = table.create(33)
+for i = 1, 33 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 528 (33*16)</code></pre>
+
+Dictionaries or sparse arrays use 32 bytes for element, with 100 elements allocates memory for 128, no way to allocate only for 100:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+for i = 10, 1000, 10 do tab[i] = i end
+print(ll.GetUsedMemory() - before)  -- > 4096 (128*32)</code></pre>
+
+Arrays and dictionaries use different allocations, a dictionary of 33 elements allocates for 64 (of 32 bytes), an array of 17 elements allocates for 32 (of 16 bytes):
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 1010, 1330, 10 do tab[i] = i end
+print(ll.GetUsedMemory() - before)  -- > 2048 (64*32)
+
+for i = 1, 17 do tab[i] = i end
+print(ll.GetUsedMemory() - before)  -- > 2560 (+512, 32*16)</code></pre>
+
+Array tables with more than 128 elements allocated to the next multiple of 128:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 1, 1024 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 16384 (1024*16)
+
+table.insert(tab, 1025)
+print(ll.GetUsedMemory() - before)  -- > 18432 (+2048, 128*16)</code></pre>
+
+Dictionary tables always allocated to the next power of 2:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 100010, 110240, 10 do tab[i] = i end
+print(ll.GetUsedMemory() - before)  -- > 32768 (1024*32)
+
+tab[110250] = 110250
+print(ll.GetUsedMemory() - before)  -- > 65536 (+32768, 1024*32)</code></pre>
+
+<code class="language-sluab">table.shrink(tab)</code> frees the unused allocated space:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 1, 10 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 256 (16*16)
+
+for i = 2, 9 do tab[i] = nil end  -- now the table has only indexes 1 and 10
+
+-- the table still uses ten indexes, 8 of them with nil
+table.shrink(tab)
+print(#tab)  -- > 10
+print(ll.GetUsedMemory() - before)  -- > 160 (10*16)</code></pre>
+
+For sparse arrays, table.shrink() has a second optional parameters, "reorder", that is false by default.
+<code class="language-sluab">table.shrink(tab, true)</code> can move keys from the sparse array to the dictionary part if it saves memory:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 1, 10 do table.insert(tab, i) end
+print(ll.GetUsedMemory() - before)  -- > 256 (16*16)
+
+for i = 2, 9 do tab[i] = nil end  -- now the table has only indexes 1 and 10
+
+-- with reorder index 10 is moved to the dictionary part of the table
+table.shrink(tab, true)
+print(#tab)  -- > 1
+print(ll.GetUsedMemory() - before)  -- > 48 (16+32)</code></pre>
