@@ -1,3 +1,9 @@
+---
+layout: default
+title: Tables
+slua_beta: true
+---
+
 ## Tables
 
 ### Array tables
