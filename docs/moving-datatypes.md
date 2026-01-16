@@ -392,4 +392,4 @@ Strings and string uuids are stored as UTF-8. The characters ASCII 0-127 use 1 b
   </tbody>
 </table>
 
-Details about memory allocation for tables here: [Memory allocation for tables](/slua/moving-lists#memory-allocation-for-tables)).
+Details about memory allocation for tables here: [Memory allocation for tables](/slua/moving-lists#memory-allocation-for-tables).
