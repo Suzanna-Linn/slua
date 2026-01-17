@@ -336,7 +336,7 @@ If the element is from 1 to #t, it is deleted and the elements after it until #t
 - The memory for tables is allocated dynamically and optimized for speed.
 - Tables start with zero memory allocated. As elements are added, SLua allocates memory in chunks sized as powers of two (e.g., 4, 8, 16).
 - The array part of the table (consecutive integer indexes starting with 1) only stores TValue (16 bytes per element). We can use table.create() to preallocate its exact size.
-- Adding elements to an array with table.move() allocates the exact size needed.
+- Adding elements to an array with table.move() allocates for the exact size needed but keeps the current allocation if it is bigger than needed.
 - The array part grows to the next multiple of 128 when it exceeds 128 elements, instead of growing to the next power of two.
 - The dictionary part of the table stores TKey and TValue (32 bytes per element). There is no way to avoid allocation to the next power of two.
 - Each part of the table has its own allocation space.
