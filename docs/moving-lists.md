@@ -425,7 +425,7 @@ print(#tab)  -- > 10
 print(ll.GetUsedMemory() - before)  -- > 160 (10*16)</code></pre>
 
 For sparse arrays, table.shrink() has a second optional parameter, "reorder", that is false by default.
-With reorder true, <code class="language-sluab">table.shrink(tab, true)</code> can move keys from the sparse array to the dictionary part if it saves memory:
+With reorder set to true, <code class="language-sluab">table.shrink(tab, true)</code> can move keys from the sparse array to the dictionary part if it saves memory:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
