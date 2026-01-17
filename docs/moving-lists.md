@@ -374,7 +374,7 @@ print(ll.GetUsedMemory() - before)  -- > 256 (16*16)
 table.move( tabmove, 1 ,3 , #tab + 1, tab)
 print(ll.GetUsedMemory() - before)  -- > 288 (18*16)</code></pre>
 
-Dictionaries or sparse arrays use 32 bytes for element, with 100 elements allocates memory for 128, no way to allocate only for 100:
+Dictionaries use 32 bytes for element, with 100 elements allocates memory for 128, no way to allocate only for 100:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 for i = 10, 1000, 10 do tab[i] = i end
