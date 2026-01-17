@@ -363,7 +363,7 @@ tab = table.create(33)
 for i = 1, 33 do table.insert(tab, i) end
 print(ll.GetUsedMemory() - before)  -- > 528 (33*16)</code></pre>
 
-Adding 3 elements to am array of 15 with table,move() allocates for 18:
+Adding 3 elements to an array of 15 with table,move() allocates for 18:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local tabmove = { 101, 102, 103 }
 local before = ll.GetUsedMemory()
