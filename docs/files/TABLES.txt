@@ -1,0 +1,200 @@
+
+-- TABLES
+
+
+-- Array Tables
+
+
+-- create an empty table
+local myTab = {}
+
+
+-- Create an array-like table of fruits
+local tabFruits = { "Apple", "Orange", "Banana" }
+
+
+-- Print the number of fruits in the table
+print( "We have " .. tostring( #tabFruits ) .. " fruits")
+-- > We have 3 fruits
+
+
+-- Access and print the second fruit (at index 2)
+print( tabFruits[2] )  -- > Orange
+
+
+-- Modify and print the third fruit (at index 3)
+tabFruits[3] =  "Melon"
+print( tabFruits[3] )  -- > Melon
+
+
+-- Join the fruits into a string, separated by ", "
+local myFruits = table.concat( tabFruits, ", " )
+print( myFruits )
+-- > Apple, Orange, Melon
+
+
+-- Add one element to the end of the list
+tabFruits[ #tabFruits + 1 ] = "Pear"
+print( "We have " .. tostring( #tabFruits ) .. " fruits")
+-- > We have 4 fruits
+
+
+-- Add one element to the end of the list
+table.insert( tabFruits, "Mango" )
+print( "We have " .. tostring( #tabFruits ) .. " fruits")
+-- > We have 5 fruits
+
+
+-- Add one element to the start of the list
+table.insert( tabFruits, 1, "Lemon" )
+print( table.concat( tabFruits, ", " ) )
+-- > Lemon, Apple, Orange, Melon, Pear, Mango
+
+
+-- Add one element at index 3 of the list
+table.insert( tabFruits, 3, "Grape" )
+print( table.concat( tabFruits, ", " ) )
+-- > Lemon, Apple, Grape, Orange, Melon, Pear, Mango 
+
+
+-- Remove the last fruit
+table.remove( tabFruits )
+
+
+-- Remove the fruit at position 3
+table.remove( tabFruits, 3 )
+print( table.concat( tabFruits, ", " ) )
+-- > Lemon, Apple, Orange, Melon, Pear
+
+
+-- Find a fruit in the table
+local indexOrange = table.find( tabFruits, "Orange" )
+print( indexOrange, tabFruits[ indexOrange ])  -- > 3  Orange
+
+
+-- Sort the table alphabetically
+table.sort( tabFruits )
+print( table.concat( tabFruits, ", " ) )
+-- > Apple, Lemon, Melon, Orange, Pear
+
+
+-- A new table with exotic fruits
+local tabExoticFruits = { "DragonFruit", "Rambutan", "Lychee", "Durian", "Mangosteen" }
+
+-- Add them to our table of fruits
+table.move( tabExoticFruits, 1, #tabExoticFruits, #tabFruits + 1, tabFruits )
+print( table.concat( tabFruits, ", " ) )
+-- > Apple, Lemon, Melon, Orange, Pear, DragonFruit, Rambutan, Lychee, Durian, Mangosteen 
+
+
+-- create a new table someFruits with fruits from index 2 to 4
+someFruits = table.move( tabFruits, 2, 4, 1, {} )
+print( table.concat( someFruits, ", " ) )
+-- > Lemon, Melon, Orange
+
+
+-- Dictionary Tables
+
+
+-- Create a dictionary-like table for fruit quantities
+local tabFruitQuantities = {
+    Apple = 5,
+    Orange = 10,
+    Banana = 12
+}
+
+
+-- Get the quantity of oranges
+print( tabFruitQuantities.Orange )  -- > 10
+
+
+-- Get the quantity of passion fruits
+print( tabFruitQuantities["Passion Fruit"] )  -- > nil
+
+
+-- Add a new fruit, "Grape", with a quantity of 20
+tabFruitQuantities.Grape = 20
+
+
+-- Add a new fruit, "Passion Fruit", with a quantity of 3
+tabFruitQuantities["Passion Fruit"] = 3
+
+
+-- We got more apples! Let's update the count.
+tabFruitQuantities.Apple = 15
+print( tabFruitQuantities.Apple )  -- > 15
+
+
+-- We sold all the oranges. Let's remove them.
+tabFruitQuantities.Orange = nil
+print( tabFruitQuantities.Orange )  -- > nil
+
+
+-- Nested Tables
+
+
+-- A nested table of fruits
+local tabFruitData = {
+    -- The "Apple" entry is a table itself
+    Apple = {
+        color = "Red",
+        averageWeight = 0.15, -- in kilograms
+        pricePerKg = 2.50
+    },
+
+    -- The "Orange" entry is another table
+    Orange = {
+        color = "Orange",
+        averageWeight = 0.20,
+        pricePerKg = 1.75
+    },
+
+    -- The "Banana" entry is also a table
+    Banana = {
+        color = "Yellow",
+        averageWeight = 0.12,
+        pricePerKg = 1.99
+    },
+}
+
+
+-- Let's get the information for the Apple
+local appleInfo = tabFruitData.Apple
+
+print("Apple color:", appleInfo.color)  -- > Red
+print("Apple price:", appleInfo.pricePerKg)  -- > 2.5
+
+
+-- Another way to get the information
+print("Orange price per kg: ", tabFruitData.Orange.pricePerKg)
+-- > Orange price per kg: 1.75
+print("Banana's average weight: ", tabFruitData.Banana.averageWeight)
+-- > Banana's average weight: 0.12
+
+
+-- Let's add "Grape" to our data
+tabFruitData.Grape = {
+    color = "Purple",
+    averageWeight = 0.005,
+    pricePerKg = 4.50
+}
+
+print("Grape color: ", tabFruitData.Grape.color)
+-- > Grape color: Purple
+
+
+-- The price of apples just went up!
+tabFruitData.Apple.pricePerKg = 2.99
+print("New price of an Apple: ", tabFruitData.Apple.pricePerKg)
+-- > New price of an Apple: 2.99
+
+
+-- Let's remove the "Banana" and all its data
+tabFruitData.Banana = nil
+
+
+-- A safe way to check is to see if the main entry exists first
+if tabFruitData.Banana == nil then
+    print("There is no data for Banana.")
+end
+-- > There is no data for Banana.
