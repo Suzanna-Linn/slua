@@ -292,7 +292,7 @@ Wool <- Sheep
 
 ### Sparse array tables
 
-The operator # and the library functions for array tables work perfectly if the table is an array with consecutive indexes starting with 1. But if there are missing values (nils) in the array their behaviour is sometimes surprising.
+The operator # and the library functions for array tables work perfectly if the table is an array with consecutive integer indexes starting with 1. But if there are missing values (nils) in the array their behaviour is sometimes surprising.
 
 As example, this table x, a sparse array missing the indexes 3, 5, 7, 11, 14 and 15.
 <pre class="language-slua"><code class="language-slua">x = {}
