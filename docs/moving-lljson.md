@@ -234,12 +234,82 @@ print(lljson.encode(puffedNumbers))
 #### Indexing (0 vs 1)
 
 JSON arrays do not store explicit index values in the file. They only define an ordered list of elements.  
-When a programming language decodes a JSON array, it assigns indices according to its own array indexing rules. Most languages use 0-based indexing, so decoded arrays start at index 0.  
-When SLua decodes a JSON array received from an external source, it creates Lua tables using 1-based indexing, so the first element starts at index 1.
+- When a programming language decodes a JSON array, it assigns indices according to its own array indexing rules. Most languages use 0-based indexing, so decoded arrays start at index 0.  
+- When SLua decodes a JSON array received from an external source, it creates Lua tables using 1-based indexing, so the first element starts at index 1.
 
 #### Examples
 
+A longer example:
+<pre class="language-slua"><code class="language-slua">local shelter = {
+    -- General info about the shelter
+    info = {
+        name = "Happy Tails Shelter",
+        location = "Riverdale",
+        open_hours = { "Mon-Fri", "10:00-18:00" },
+        staff = {
+            manager = "Alice",
+            volunteers = { "Bob", "Clara", "Dylan" }
+        }
+    },
+    -- Pets section: dictionary of species
+    pets = {
+        dogs = {
+            count = 8,
+            breeds = { "Labrador", "Beagle", "Poodle" },
+            vaccinated = true
+        },
+        cats = {
+            count = 6,
+            breeds = { "Siamese", "Maine Coon" },
+            vaccinated = true
+        },
+        ["tropical fish"] = {
+            count = 15,
+            species = { "Guppy", "Goldfish", "Betta" },
+            vaccinated = false
+        }
+    },
+    -- Adoption records (array of dictionaries)
+    adoptions = {
+        { pet = "dog", adopter = "Emma", date = "2025-10-01" },
+        { pet = "cat", adopter = "Lucas", date = "2025-10-12" }
+    }
+}
 
+print(lljson.encode(shelter))</code></pre>
+
+There are several websites where to copy-paste JSON and show it well formatted, like <https://jsonlint.com/>:
+<img src="images/json1.png" alt="json example 1">
+
+An example with SLua data types:
+<pre class="language-slua"><code class="language-slua">local build = {
+    build_id = uuid("a1b2c3d4-1111-2222-3333-abcdefabcdef"),
+    info = {
+        name = "Beach Hangout",
+        owner = uuid("9f8e7d6c-5555-4444-3333-bbbbbbbbbbbb"),
+        category = "Social"
+    },
+    props = {
+        {
+            name = "Palm Tree",
+            position = vector(128, 64, 22.5),
+            orientation = rotation(0, 0, 0, 1)
+        },
+        {
+            name = "Campfire",
+            position = vector(130.5, 63.2, 21.8),
+            orientation = rotation(0, 0.3827, 0, 0.9239),
+            effects = {
+                sound = "fire-crackle",
+                color = vector(1, 0.5, 0.2)
+            }
+        }
+    }
+}
+
+print(lljson.encode(build))</code></pre>
+
+<img src="images/json2.png" alt="json example 2">
 
 ### decode()
 
