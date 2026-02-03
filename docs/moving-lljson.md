@@ -106,7 +106,7 @@ Datatypes mapping with lljson.encode();
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"<25,50,10>"</td>
     </tr>
     <tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">rotation</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">rotation/quaternion</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"<0.5,0.25,0,1>"</td>
     </tr>
@@ -126,12 +126,38 @@ Datatypes mapping with lljson.encode();
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">run-time error</td>
     </tr>
     <tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread (coroutine)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">run-time error</td>
     </tr>
   </tbody>
 </table>
+
+#### lljson.null
+
+
+
+#### Empty tables
+
+
+
+#### Sparse arrays
+
+
+
+#### Mixed tables
+
+
+
+#### inf and -inf
+
+
+
+#### nan
+
+
+
+#### indexing (0 vs 1)
 
 
 
@@ -175,9 +201,15 @@ Datatypes mapping with lljson.decode();
   </tbody>
 </table>
 
+#### lljson.null
+
 
 
 ### slencode() / sldecode()
+
+
+
+#### Tight encoding
 
 
 
@@ -185,7 +217,7 @@ Datatypes mapping with lljson.decode();
 
 
 
-### lljson contants
+### lljson constants
 
 
 
