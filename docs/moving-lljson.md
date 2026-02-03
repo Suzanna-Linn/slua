@@ -225,7 +225,7 @@ print(lljson.encode(bigNumbers))
 
 #### nan
 **nan** is exported as the literal **NAN** (a literal, not a string).
-<pre class="language-slua"><code class="language-slua">nan to the literal NaN
+<pre class="language-slua"><code class="language-slua">-- nan to the literal NaN
 local puffedNumbers = { 0/0 }
 print(lljson.encode(puffedNumbers))
 -- > [NaN]</code></pre>
