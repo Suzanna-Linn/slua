@@ -163,7 +163,7 @@ We can use the constant **lljson.empty_array** to generate an empty JSON array:
 local tab = lljson.empty_array
 print(lljson.encode(tab))
 --> []</code></pre>
-We can export an empty table as array setting the table **lljson.empty_array_mt** as its metatable:
+We can export an empty table as JSON array setting the table **lljson.empty_array_mt** as its metatable:
 <pre class="language-slua"><code class="language-slua">-- empty table as JSON array
 local tab = { "hello" }
 setmetatable(tab, lljson.empty_array_mt)
@@ -199,6 +199,12 @@ Numeric keys are exported as strings:
 local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
 print(lljson.encode(vegetables))
 -- > {"1":"Carrot","2":"Tomato","3":"Potato","Lettuce":"favorite"}</code></pre>
+We can export only the array part of a mixed table as JSON array setting the table **lljson.array_mt** as its metatable:
+<pre class="language-slua"><code class="language-slua">-- array part of mixed table to JSON array
+local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
+setmetatable(vegetables, lljson.array_mt)
+print(lljson.encode(vegetables))
+-- > ["Carrot","Tomato","Potato"</code></pre>
 
 #### Dictionary tabñes
 
