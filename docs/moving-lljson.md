@@ -172,12 +172,12 @@ print(lljson.encode(tab))
 table.remove(tab, 1)
 print(lljson.encode(tab))
 --> []</code></pre>
-**issue** : with mixed tables only exports the array part of the table.
+**issue** : with mixed tables only the array part of the table is exported. It will be solved to export all the table.
 
 #### Sparse arrays
 
 Moderately sparse arrays are exported as JSON objects.  
-nil values are exported as lljson.null. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).  
+**nil** values are exported as **null**. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).  
 With more nulls it throws the run-time error "Cannot serialise table: excessively sparse array":
 <pre class="language-slua">-- sparse array as JSON array
 local vegetables = { "Carrot", "Tomato", "Potato" }
@@ -208,7 +208,7 @@ print(lljson.encode(vegetables))
 
 #### Dictionary tabñes
 
-Other data types except numbers and strings throw the run-time error "Cannot serialise userdata: table key must be a number or string":
+Keys with data types other than numbers and strings throw the run-time error "Cannot serialise userdata: table key must be a number or string":
 <pre class="language-slua"><code class="language-slua">-- dictionary table with other data types
 local staff = { [ll.GetOwner()] = "VIP" }
 print(lljson.encode(staff))
@@ -217,13 +217,22 @@ print(lljson.encode(staff))
 
 #### inf and -inf
 
-
+**inf** and **-inf** are exported as numbers with values **1e9999** and **-1e9999**:
+<pre class="language-slua"><code class="language-slua">-- inf and -inf to numbers
+local bigNumbers = { math.huge, -math.huge }
+print(lljson.encode(bigNumbers))
+-- > [1e9999,-1e9999]</code></pre>
 
 #### nan
-
-
+**nan** is exported as the literal **NAN** (not a string).
+<pre class="language-slua"><code class="language-slua">-- inf and -inf to numbers
+local puffedNumbers = { 0/0 }
+print(lljson.encode(puffedNumbers))
+-- > [NaN]</code></pre>
+**issue** : this is not standard JSON. It will be changed to export it as **null**.
 
 #### Indexing (0 vs 1)
+
 
 
 #### Examples
