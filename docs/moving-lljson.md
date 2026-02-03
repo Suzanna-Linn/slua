@@ -19,34 +19,34 @@ JSON is useful, in general, to exchange complex multilevel structured data betwe
 - Linkset Data storage.
 
 JSON organizes data into two basic structures:
-- Arrays: list of values, like the array tables in SLua:
+- **Arrays**: list of values, like the array tables in SLua:
 	- [ "apple", "banana", "cherry" ]
   - The values are separated by "," and all the array is enclosed in "[" and "]".
-- Objects: collections of (key, value) pairs. Like the dictionary tables in SLua:
+- **Objects**: collections of (key, value) pairs, like the dictionary tables in SLua:
 	- { "type" : "dog" ,   "name" : "Dufa",   "color" : "white" }
   - The key and the value are separated by ":", the (key, value) pairs are separated by "," and all the object is enclosed in "{" and "}".
   - Keys must be strings. 
 
 There are 4 data types:
-- String: text enclosed in double quotes ("hello").
-- Number: Numbers, either integers (42) or decimals (3.14).
-- Boolean: true or false.
-- Null: null, a special value indicating no data.
+- **String**: text enclosed in double quotes ("hello").
+- **Number**: Numbers, either integers (42) or decimals (3.14).
+- **Boolean**: true or false.
+- **Null**: null, a special value indicating no data.
 
 Objects and arrays can contain a mix of these types.  
 They also can contain other objects and arrays, in any depth and complexity.  
 We can have arrays of objects with keys that are arrays with more arrays and with more objects, etc.
 
-### Library lljsom
+### Library lljson
 
-The functions to work with JSON are have their own library: lljson.
+The functions to work with JSON have their own library: lljson.
 
 There are two pairs of functions:
-- lljson.encode() / lljson.decode() :
+- **lljson.encode()** / l**ljson.decode()** :
   - They generate or read standard JSON
   - They are useful to exchange data with external resources and other scripting languages.
   - SLua types without a JSON equivalent are encoded as strings.
-- lljson.slencode() / lljson.sldecode() :
+- **lljson.slencode()** / **lljson.sldecode()** :
   - They generate non standard JSON-like code.
   - They are useful to exchange code with other scripts or objects or to store in linkset data.
   - They are decoded into the original SLua types. 
@@ -56,7 +56,7 @@ There are two pairs of functions:
 
 
 Datatypes mapping with lljson.encode();
-<table style="width: 100%; border-collapse: collapse;">
+<table style="width: 50%; border-collapse: collapse;">
   <thead>
     <tr>
       <th style="border: 2px solid #999999; text-align: center; padding: 8px;">SLua type</th>
@@ -103,7 +103,7 @@ Datatypes mapping with lljson.encode();
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">rotation</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"<0.5,0.25,0, 1>"</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"<0.5,0.25,0,1>"</td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid</td>
@@ -150,18 +150,18 @@ Datatypes mapping with lljson.encode();
 
 
 
-### empty_array
+#### empty_array
 
 
 
-### array_mt
+#### array_mt
 
 
 
-### empty_array_mt
+#### empty_array_mt
 
 
 
-### _NAMR and _VERSION
+#### _NAME and _VERSION
 
 
