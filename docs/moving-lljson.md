@@ -225,7 +225,7 @@ print(lljson.encode(bigNumbers))
 
 #### nan
 **nan** is exported as the literal **NAN** (a literal, not a string).
-<pre class="language-slua"><code class="language-slua">-- inf and -inf to numbers
+<pre class="language-slua"><code class="language-slua">nan to the literal NaN
 local puffedNumbers = { 0/0 }
 print(lljson.encode(puffedNumbers))
 -- > [NaN]</code></pre>
@@ -234,8 +234,8 @@ print(lljson.encode(puffedNumbers))
 #### Indexing (0 vs 1)
 
 JSON arrays do not store explicit index values in the file. They only define an ordered list of elements.  
-- When a programming language decodes a JSON array, it assigns indices according to its own array indexing rules. Most languages use 0-based indexing, so decoded arrays start at index 0.  
-- When SLua decodes a JSON array received from an external source, it creates Lua tables using 1-based indexing, so the first element starts at index 1.
+- When a programming language decodes a JSON array received from SLua, it assigns indices according to its own array indexing rules. Most languages use 0-based indexing, so decoded arrays start at index 0.  
+- When SLua decodes a JSON array received from an external source, it creates SLua tables using 1-based indexing, so the first element starts at index 1.
 
 #### Examples
 
