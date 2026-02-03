@@ -278,7 +278,9 @@ A longer example:
 
 print(lljson.encode(shelter))</code></pre>
 
-There are several websites where to copy-paste JSON and show it well formatted, like <https://jsonlint.com/>:
+There are several websites where to copy-paste JSON and show it well formatted, like <https://jsonlint.com/>.
+
+Generated JSON:
 <img src="images/json1.png" alt="json example 1">
 
 An example with SLua data types:
@@ -309,6 +311,7 @@ An example with SLua data types:
 
 print(lljson.encode(build))</code></pre>
 
+Generated JSON:
 <img src="images/json2.png" alt="json example 2">
 
 ### decode()
