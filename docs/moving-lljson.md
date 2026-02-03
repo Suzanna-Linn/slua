@@ -179,7 +179,7 @@ print(lljson.encode(tab))
 Moderately sparse arrays are exported as JSON objects.  
 **nil** values are exported as **null**. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).  
 With more nulls it throws the run-time error "Cannot serialise table: excessively sparse array":
-<pre class="language-slua">-- sparse array as JSON array
+<pre class="language-slua"><code class="language-slua">-- sparse array as JSON array
 local vegetables = { "Carrot", "Tomato", "Potato" }
 vegetables[10] = "Lettuce"
 print(lljson.encode(vegetables))
@@ -188,7 +188,7 @@ print(lljson.encode(vegetables))
 vegetables[12] = "Onion"
 print(lljson.encode(vegetables))
 -- > Cannot serialise table: excessively sparse array
-<code class="language-slua"></code></pre>
+</code></pre>
 **possible improvement** : it is requested that excessively sparce arrays are exported as objects, or to have an option to export array tables as objects.
 
 #### Mixed tables
@@ -204,9 +204,9 @@ We can export only the array part of a mixed table as JSON array setting the tab
 local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
 setmetatable(vegetables, lljson.array_mt)
 print(lljson.encode(vegetables))
--- > ["Carrot","Tomato","Potato"</code></pre>
+-- > ["Carrot","Tomato","Potato"]</code></pre>
 
-#### Dictionary tabñes
+#### Dictionary tables
 
 Keys with data types other than numbers and strings throw the run-time error "Cannot serialise userdata: table key must be a number or string":
 <pre class="language-slua"><code class="language-slua">-- dictionary table with other data types
@@ -224,7 +224,7 @@ print(lljson.encode(bigNumbers))
 -- > [1e9999,-1e9999]</code></pre>
 
 #### nan
-**nan** is exported as the literal **NAN** (not a string).
+**nan** is exported as the literal **NAN** (a literal, not a string).
 <pre class="language-slua"><code class="language-slua">-- inf and -inf to numbers
 local puffedNumbers = { 0/0 }
 print(lljson.encode(puffedNumbers))
@@ -233,7 +233,9 @@ print(lljson.encode(puffedNumbers))
 
 #### Indexing (0 vs 1)
 
-
+JSON arrays do not store explicit index values in the file. They only define an ordered list of elements.  
+When a programming language decodes a JSON array, it assigns indices according to its own array indexing rules. Most languages use 0-based indexing, so decoded arrays start at index 0.  
+When SLua decodes a JSON array received from an external source, it creates Lua tables using 1-based indexing, so the first element starts at index 1.
 
 #### Examples
 
