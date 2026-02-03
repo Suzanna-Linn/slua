@@ -117,13 +117,13 @@ Datatypes mapping with lljson.encode();
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">function</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">error</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">run-time error</td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">error</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">run-time error</td>
     </tr>
   </tbody>
 </table>
@@ -146,19 +146,11 @@ Datatypes mapping with lljson.encode();
 
 
 
-#### null
+#### null and empty_array
 
 
 
-#### empty_array
-
-
-
-#### array_mt
-
-
-
-#### empty_array_mt
+#### array_mt and empty_array_mt
 
 
 
