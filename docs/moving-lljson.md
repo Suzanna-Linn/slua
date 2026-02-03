@@ -164,7 +164,6 @@ local tab = lljson.empty_array
 print(lljson.encode(tab))
 --> []</code></pre>
 We can export an empty table as array setting the table **lljson.empty_array_mt** as its metatable:
-- **issue** : with mixed tables only exports the array part of the table.
 <pre class="language-slua"><code class="language-slua">-- empty table as JSON array
 local tab = { "hello" }
 setmetatable(tab, lljson.empty_array_mt)
@@ -173,10 +172,24 @@ print(lljson.encode(tab))
 table.remove(tab, 1)
 print(lljson.encode(tab))
 --> []</code></pre>
+**issue** : with mixed tables only exports the array part of the table.
 
 #### Sparse arrays
 
+Moderately sparse arrays are exported as JSON objects.
+nil values are exported as lljson.null. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).
+With more nulls it throws the run-time error "Cannot serialise table: excessively sparse array":
+<pre class="language-slua">-- sparse array
+local vegetables = { "Carrot", "Tomato", "Potato" }
+vegetables[10] = "Lettuce"
+print(lljson.encode(vegetables))
+-- > ["Carrot","Tomato","Potato",null,null,null,null,null,null,"Lettuce"]
 
+vegetables[12] = "Onion"
+print(lljson.encode(vegetables))
+-- > Cannot serialise table: excessively sparse array
+<code class="language-slua"></code></pre>
+**possible improvement^* : it is requested that excessively sparce arrays are exported as objects, or to have an option to export array tables as objects.
 
 #### Mixed tables
 
@@ -191,6 +204,9 @@ print(lljson.encode(tab))
 
 
 #### Indexing (0 vs 1)
+
+
+#### Examples
 
 
 
@@ -235,6 +251,10 @@ Datatypes mapping with **lljson.decode()**:
 </table>
 
 #### lljson.null
+
+
+
+#### Example
 
 
 
