@@ -71,6 +71,11 @@ Datatypes mapping with lljson.encode();
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
     <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.null</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">null</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
@@ -131,6 +136,44 @@ Datatypes mapping with lljson.encode();
 
 
 ### decode()
+
+
+
+Datatypes mapping with lljson.decode();
+<table style="width: 30%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">JSON type</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">SLua type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">null</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.null</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">number</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">number</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">array []</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">table</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">object {}</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">table</td>
+    </tr>
+  </tbody>
+</table>
 
 
 
