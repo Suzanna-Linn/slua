@@ -4,7 +4,7 @@ title: lljson
 slua_beta: true
 ---
 
-## The ibrary lljson
+## The library lljson
 
 ### What is JSON?
 
