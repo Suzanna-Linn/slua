@@ -59,10 +59,10 @@ It takes an SLua table and generates standard JSON to send to an external websit
 local tabFruits = { "apples", "bananas", "oranges" }
 print(lljson.encode(tabFruits))
 -- > ["apples","bananas","oranges"]</code></pre>
-<pre class="language-slua">-- dictionary table, encodes to a JSON object
+<pre class="language-slua"><code class="language-slua">-- dictionary table, encodes to a JSON object
 local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
 print(lljson.encode(tabFruitsQuantity))
--- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}<code class="language-slua"></code></pre>
+-- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
 Datatypes mapping with lljson.encode():
 <table style="width: 50%; border-collapse: collapse;">
