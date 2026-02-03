@@ -53,9 +53,18 @@ There are two pairs of functions:
 
 ### encode()
 
+It takes an SLua table and generates standard JSON to send to an external website and be used with another scripting language.
 
+<pre class="language-slua"><code class="language-slua">-- array table, encodes to a JSON array
+local tabFruits = { "apples", "bananas", "oranges" }
+print(lljson.encode(tabFruits))
+-- > ["apples","bananas","oranges"]</code></pre>
+<pre class="language-slua">-- dictionary table, encodes to a JSON object
+local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
+print(lljson.encode(tabFruitsQuantity))
+-- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}<code class="language-slua"></code></pre>
 
-Datatypes mapping with lljson.encode();
+Datatypes mapping with lljson.encode():
 <table style="width: 50%; border-collapse: collapse;">
   <thead>
     <tr>
@@ -135,9 +144,18 @@ Datatypes mapping with lljson.encode();
 
 #### lljson.null
 
-
+**lljson.null** is a constant in the lljson library.  
+We can use it in dictionary tables when we want to export a key that has no value.
+<pre class="language-slua"><code class="language-slua">-- dictionary table (with null keys), encodes to a JSON object
+local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15, Kiwi = lljson.null }
+print(lljson.encode(tabFruitsQuantity))
+-- > {"Kiwi":null,"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
 #### Empty tables
+
+Empty tables are exported as objects.  
+We can use the constant **lljson.empty_array** to generate an empty JSON array.  
+We can export an empty table as array setting the table **lljson.empty_array_mt** as its metatable.
 
 
 
@@ -157,7 +175,7 @@ Datatypes mapping with lljson.encode();
 
 
 
-#### indexing (0 vs 1)
+#### Indexing (0 vs 1)
 
 
 
@@ -165,7 +183,7 @@ Datatypes mapping with lljson.encode();
 
 
 
-Datatypes mapping with lljson.decode();
+Datatypes mapping with lljson.decode():
 <table style="width: 30%; border-collapse: collapse;">
   <thead>
     <tr>
@@ -205,15 +223,15 @@ Datatypes mapping with lljson.decode();
 
 
 
+### metamethod __tojson
+
+
+
 ### slencode() / sldecode()
 
 
 
 #### Tight encoding
-
-
-
-### metamethod __tojson
 
 
 
