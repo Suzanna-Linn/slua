@@ -176,10 +176,10 @@ print(lljson.encode(tab))
 
 #### Sparse arrays
 
-Moderately sparse arrays are exported as JSON objects.
-nil values are exported as lljson.null. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).
+Moderately sparse arrays are exported as JSON objects.  
+nil values are exported as lljson.null. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).  
 With more nulls it throws the run-time error "Cannot serialise table: excessively sparse array":
-<pre class="language-slua">-- sparse array
+<pre class="language-slua">-- sparse array as JSON array
 local vegetables = { "Carrot", "Tomato", "Potato" }
 vegetables[10] = "Lettuce"
 print(lljson.encode(vegetables))
@@ -189,11 +189,25 @@ vegetables[12] = "Onion"
 print(lljson.encode(vegetables))
 -- > Cannot serialise table: excessively sparse array
 <code class="language-slua"></code></pre>
-**possible improvement^* : it is requested that excessively sparce arrays are exported as objects, or to have an option to export array tables as objects.
+**possible improvement** : it is requested that excessively sparce arrays are exported as objects, or to have an option to export array tables as objects.
 
 #### Mixed tables
 
+Mixed tables are exported as JSON objects.  
+Numeric keys are exported as strings:
+<pre class="language-slua"><code class="language-slua">-- mixed table to JSON object with string keys
+local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
+print(lljson.encode(vegetables))
+-- > {"1":"Carrot","2":"Tomato","3":"Potato","Lettuce":"favorite"}</code></pre>
 
+#### Dictionary tabñes
+
+Other data types except numbers and strings throw the run-time error "Cannot serialise userdata: table key must be a number or string":
+<pre class="language-slua"><code class="language-slua">-- dictionary table with other data types
+local staff = { [ll.GetOwner()] = "VIP" }
+print(lljson.encode(staff))
+-- > Cannot serialise userdata: table key must be a number or string</code></pre>
+**possible improvement** : it is requested that all datatypes (except functions and threads) are exported as strings.
 
 #### inf and -inf
 
