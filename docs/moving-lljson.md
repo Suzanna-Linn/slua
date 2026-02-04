@@ -399,7 +399,35 @@ Generated JSON:
 
 ### decode()
 
+It takes standard JSON received from an external website and generates an SLua table.
 
+An example sending a request to a website that returns a JSON with a random quote:
+<pre class="language-sluab"><code class="language-sluab">local url  = "https://zenquotes.io/api/random"
+
+LLEvents:on("touch_start", function(events)
+    ll.HTTPRequest(url, {}, "")
+end)
+
+LLEvents:on("http_response", function(request_id, status, metadata, body)
+    if status == 200 then
+        print("json: ", body)
+        local json = lljson.decode(body)
+        print("quote:", json[1].q)
+        print("author:", json[1].a)
+    else
+        print("Request failed.")
+    end
+end)</code></pre>
+
+The received JSON:
+<pre><code class="language-json">[
+  {
+    "q": "Remember that sometimes not getting what you want is a wonderful stroke of luck.",
+    "a": "Dalai Lama",
+    "h": "<blockquote>&ldquo;Remember that sometimes not getting what you want is a wonderful stroke of luck.&rdquo; &mdash; <footer>Dalai Lama</footer></blockquote>"
+  }
+]
+</code></pre>
 
 Datatypes mapping with **lljson.decode()**:
 <table style="width: 30%; border-collapse: collapse;">
@@ -443,7 +471,80 @@ Datatypes mapping with **lljson.decode()**:
 
 #### Example
 
+An example with **encode()** and **decode()**, sending a JSON to a website that returns the same JSON and information about the headers of the request:
 
+<pre class="language-sluab"><code class="language-sluab">local url = "https://postman-echo.com/post"
+
+local function send()
+    local sending = { task = "test", value = 123, object_name = ll.GetObjectName()}
+    local json = lljson.encode(sending)
+    ll.HTTPRequest(url, {HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json"}, json)
+end
+
+local function receive(json)
+    local receiving = lljson.decode(json)
+    for k, v in receiving do
+        if type(v) == "table" then
+            print(k)
+            for k, v in v do
+                print(" ", k, v)
+            end
+        else
+            print(k, v)
+        end
+    end
+end
+
+LLEvents:on("http_response", function(request_id, status, metadata, body)
+    if status == 200 then
+        receive(body)
+    else
+        print("Request failed.")
+    end
+end)
+
+send()
+</code></pre>
+
+The received JSON:
+<pre><code class="language-json">{
+  "args": {},
+  "data": {
+    "value": 123,
+    "task": "test",
+    "object_name": "JSON testing object"
+  },
+  "files": {},
+  "form": {},
+  "headers": {
+    "host": "postman-echo.com",
+    "x-secondlife-local-velocity": "(0.000000, 0.000000, 0.000000)",
+    "accept-encoding": "gzip, br",
+    "x-secondlife-local-position": "(104.017860, 190.604568, 22.250095)",
+    "x-forwarded-proto": "https",
+    "content-type": "application/json",
+    "x-secondlife-region": "SLua Beta Nicoise (255744, 253952)",
+    "x-secondlife-local-rotation": "(0.000000, 0.000000, 0.000000, 1.000000)",
+    "x-secondlife-object-key": "db02d587-2bf9-3322-007b-5d80cf3f43fc",
+    "x-secondlife-owner-key": "0f16c0e1-384e-4b5f-b7ce-886dda3bce41",
+    "accept": "text/*, application/xhtml+xml, application/atom+xml, application/json, application/xml, application/llsd+xml, application/x-javascript, application/javascript, application/x-www-form-urlencoded, application/rss+xml",
+    "content-length": "63",
+    "x-secondlife-shard": "Production",
+    "cache-control": "no-cache, max-age=0",
+    "accept-charset": "utf-8;q=1.0, *;q=0.5",
+    "user-agent": "Second-Life-LSL/2026-01-06.20757451310 (https://secondlife.com)",
+    "x-secondlife-owner-name": "SuzannaLinn Resident",
+    "pragma": "no-cache",
+    "x-secondlife-object-name": "JSON testing object"
+  },
+  "json": {
+    "value": 123,
+    "task": "test",
+    "object_name": "JSON testing object"
+  },
+  "url": "https://postman-echo.com/post"
+}
+</code></pre>
 
 ### metamethod __tojson
 
