@@ -1,0 +1,16 @@
+local coGetName = nil
+
+local function getName(username)
+    local id = coroutine.yield(ll.RequestUserKey(username))
+        -- paused before assigning a value to id, id will have the value sent with coroutine.resume()
+    local displayName = coroutine.yield(ll.RequestDisplayName(id))
+        -- paused before assigning a value to displayName, displayName will have the value sent with coroutine.resume()
+    ll.OwnerSay(displayName)
+end
+
+function LLEvents.dataserver(queryid, data)
+    coroutine.resume(coGetName, data)
+end
+
+coGetName = coroutine.create(getName)
+coroutine.resume(coGetName, "suzannalinn")
