@@ -467,7 +467,7 @@ Datatypes mapping with **lljson.decode()**:
 
 #### lljson.null
 
-
+JSON nulls are decoded to **lljson.null** to preserve the keys with null values from JSON objects. These keys would disappear decoding null to **nil**.
 
 #### Example
 
