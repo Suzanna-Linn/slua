@@ -55,11 +55,11 @@ There are two pairs of functions:
 
 It takes an SLua table and generates standard JSON to send to an external website and be used with another scripting language.
 
-<pre class="language-slua"><code class="language-slua">-- array table, encodes to a JSON array
+<pre class="language-sluab"><code class="language-sluab">-- array table, encodes to a JSON array
 local tabFruits = { "apples", "bananas", "oranges" }
 print(lljson.encode(tabFruits))
 -- > ["apples","bananas","oranges"]</code></pre>
-<pre class="language-slua"><code class="language-slua">-- dictionary table, encodes to a JSON object
+<pre class="language-sluab"><code class="language-sluab">-- dictionary table, encodes to a JSON object
 local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
 print(lljson.encode(tabFruitsQuantity))
 -- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
@@ -146,7 +146,7 @@ Datatypes mapping with **lljson.encode()**:
 
 **lljson.null** is a constant in the lljson library.  
 We can use it in dictionary tables when we want to export a key that has no value.
-<pre class="language-slua"><code class="language-slua">-- dictionary table (with null keys), encodes to a JSON object
+<pre class="language-sluab"><code class="language-sluab">-- dictionary table (with null keys), encodes to a JSON object
 local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15, Kiwi = lljson.null }
 print(lljson.encode(tabFruitsQuantity))
 -- > {"Kiwi":null,"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
@@ -154,17 +154,17 @@ print(lljson.encode(tabFruitsQuantity))
 #### Empty tables
 
 Empty tables are exported as objects:
-<pre class="language-slua"><code class="language-slua">-- empty table as JSON object
+<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON object
 local tab = {}
 print(lljson.encode(tab))
 --> {}</code></pre>
 We can use the constant **lljson.empty_array** to generate an empty JSON array:
-<pre class="language-slua"><code class="language-slua">-- empty table as JSON array
+<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON array
 local tab = lljson.empty_array
 print(lljson.encode(tab))
 --> []</code></pre>
 We can export an empty table as JSON array setting the table **lljson.empty_array_mt** as its metatable:
-<pre class="language-slua"><code class="language-slua">-- empty table as JSON array
+<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON array
 local tab = { "hello" }
 setmetatable(tab, lljson.empty_array_mt)
 print(lljson.encode(tab))
@@ -179,7 +179,7 @@ print(lljson.encode(tab))
 Moderately sparse arrays are exported as JSON objects.  
 **nil** values are exported as **null**. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).  
 With more nulls it throws the run-time error "Cannot serialise table: excessively sparse array":
-<pre class="language-slua"><code class="language-slua">-- sparse array as JSON array
+<pre class="language-sluab"><code class="language-sluab">-- sparse array as JSON array
 local vegetables = { "Carrot", "Tomato", "Potato" }
 vegetables[10] = "Lettuce"
 print(lljson.encode(vegetables))
@@ -195,12 +195,12 @@ print(lljson.encode(vegetables))
 
 Mixed tables are exported as JSON objects.  
 Numeric keys are exported as strings:
-<pre class="language-slua"><code class="language-slua">-- mixed table to JSON object with string keys
+<pre class="language-sluab"><code class="language-sluab">-- mixed table to JSON object with string keys
 local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
 print(lljson.encode(vegetables))
 -- > {"1":"Carrot","2":"Tomato","3":"Potato","Lettuce":"favorite"}</code></pre>
 We can export only the array part of a mixed table as JSON array setting the table **lljson.array_mt** as its metatable:
-<pre class="language-slua"><code class="language-slua">-- array part of mixed table to JSON array
+<pre class="language-sluab"><code class="language-sluab">-- array part of mixed table to JSON array
 local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
 setmetatable(vegetables, lljson.array_mt)
 print(lljson.encode(vegetables))
@@ -209,7 +209,7 @@ print(lljson.encode(vegetables))
 #### Dictionary tables
 
 Keys with data types other than numbers and strings throw the run-time error "Cannot serialise userdata: table key must be a number or string":
-<pre class="language-slua"><code class="language-slua">-- dictionary table with other data types
+<pre class="language-sluab"><code class="language-sluab">-- dictionary table with other data types
 local staff = { [ll.GetOwner()] = "VIP" }
 print(lljson.encode(staff))
 -- > Cannot serialise userdata: table key must be a number or string</code></pre>
@@ -218,14 +218,14 @@ print(lljson.encode(staff))
 #### inf and -inf
 
 **inf** and **-inf** are exported as numbers with values **1e9999** and **-1e9999**:
-<pre class="language-slua"><code class="language-slua">-- inf and -inf to numbers
+<pre class="language-sluab"><code class="language-sluab">-- inf and -inf to numbers
 local bigNumbers = { math.huge, -math.huge }
 print(lljson.encode(bigNumbers))
 -- > [1e9999,-1e9999]</code></pre>
 
 #### nan
 **nan** is exported as the literal **NAN** (a literal, not a string).
-<pre class="language-slua"><code class="language-slua">-- nan to the literal NaN
+<pre class="language-sluab"><code class="language-sluab">-- nan to the literal NaN
 local puffedNumbers = { 0/0 }
 print(lljson.encode(puffedNumbers))
 -- > [NaN]</code></pre>
@@ -240,7 +240,7 @@ JSON arrays do not store explicit index values in the file. They only define an 
 #### Examples
 
 A longer example:
-<pre class="language-slua"><code class="language-slua">local shelter = {
+<pre class="language-sluab"><code class="language-sluab">local shelter = {
     -- General info about the shelter
     info = {
         name = "Happy Tails Shelter",
@@ -282,10 +282,67 @@ There are several websites where to copy-paste JSON and show it well formatted, 
 
 Generated JSON:
 
-<img src="images/json1.png" alt="json example 1">
+<pre><code class="language-json">{
+  "pets": {
+    "dogs": {
+      "breeds": [
+        "Labrador",
+        "Beagle",
+        "Poodle"
+      ],
+      "count": 8,
+      "vaccinated": true
+    },
+    "tropical fish": {
+      "vaccinated": false,
+      "species": [
+        "Guppy",
+        "Goldfish",
+        "Betta"
+      ],
+      "count": 15
+    },
+    "cats": {
+      "breeds": [
+        "Siamese",
+        "Maine Coon"
+      ],
+      "count": 6,
+      "vaccinated": true
+    }
+  },
+  "info": {
+    "location": "Riverdale",
+    "open_hours": [
+      "Mon-Fri",
+      "10:00-18:00"
+    ],
+    "name": "Happy Tails Shelter",
+    "staff": {
+      "volunteers": [
+        "Bob",
+        "Clara",
+        "Dylan"
+      ],
+      "manager": "Alice"
+    }
+  },
+  "adoptions": [
+    {
+      "date": "2025-10-01",
+      "pet": "dog",
+      "adopter": "Emma"
+    },
+    {
+      "date": "2025-10-12",
+      "pet": "cat",
+      "adopter": "Lucas"
+    }
+  ]
+}</code></pre>
 
 An example with SLua data types:
-<pre class="language-slua"><code class="language-slua">local build = {
+<pre class="language-sluab"><code class="language-sluab">local build = {
     build_id = uuid("a1b2c3d4-1111-2222-3333-abcdefabcdef"),
     info = {
         name = "Beach Hangout",
@@ -314,7 +371,30 @@ print(lljson.encode(build))</code></pre>
 
 Generated JSON:
 
-<img src="images/json2.png" alt="json example 2">
+<pre><code class="language-json">{
+  "props": [
+    {
+      "orientation": "<0,0,0,1>",
+      "name": "Palm Tree",
+      "position": "<128,64,22.5>"
+    },
+    {
+      "orientation": "<0,0.3827,0,0.9239>",
+      "effects": {
+        "sound": "fire-crackle",
+        "color": "<1,0.5,0.2>"
+      },
+      "name": "Campfire",
+      "position": "<130.5,63.2,21.8>"
+    }
+  ],
+  "info": {
+    "owner": "9f8e7d6c-5555-4444-3333-bbbbbbbbbbbb",
+    "name": "Beach Hangout",
+    "category": "Social"
+  },
+  "build_id": "a1b2c3d4-1111-2222-3333-abcdefabcdef"
+}</code></pre>
 
 ### decode()
 
