@@ -1,0 +1,39 @@
+
+local processOn = false
+local coLongProcess = nil
+
+local function longProcess()
+    processOn = true
+    for i = 1, 25 do
+        for j = 1, 25 do
+            ll.SetText(tostring(i.." "..j),vector(1,1,1),1)
+        end
+        coroutine.yield()
+        -- paused here
+    end
+    ll.SetText("",vector(0,0,0),0)
+    processOn = false
+end
+
+function LLEvents.touch_start(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        ll.RegionSayTo(toucher, 0, "Hello " .. ll.GetDisplayName(toucher))
+    end
+end
+
+local function timing()
+    if not processOn then
+        coLongProcess = coroutine.create(longProcess)
+        coroutine.resume(coLongProcess)
+        -- paused here
+        LLTimers:once(0.1, timing)
+    else
+        coroutine.resume(coLongProcess)
+        -- paused here
+        LLTimers:once(if processOn then 0.1 else 15, timing)
+    end
+end
+
+ll.SetText("",vector(0,0,0),0)
+LLTimers:once(5, timing)
