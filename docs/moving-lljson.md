@@ -2,6 +2,7 @@
 layout: default
 title: lljson
 slua_beta: true
+json : true
 ---
 
 ## The library lljson
