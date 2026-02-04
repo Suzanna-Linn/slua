@@ -411,9 +411,9 @@ end)
 LLEvents:on("http_response", function(request_id, status, metadata, body)
     if status == 200 then
         print("json: ", body)
-        local json = lljson.decode(body)
-        print("quote:", json[1].q)
-        print("author:", json[1].a)
+        local quote = lljson.decode(body)
+        print("quote:", quote[1].q)
+        print("author:", quote[1].a)
     else
         print("Request failed.")
     end
