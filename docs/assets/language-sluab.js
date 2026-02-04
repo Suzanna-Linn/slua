@@ -96,6 +96,10 @@ Prism.languages.sluab = {
         pattern: /\blljson\.(?:decode|encode|sldecode|slencode)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
+    'builtin-lljson-constant': {
+        pattern: /\lljson\.(?:_NAME|_VERSION|array_mt|empty_array|empty_array_mt|null)\b/,
+        alias: 'builtin'
+    },
     'builtin-llevents': {
         pattern: /LLEvents:(?:on|once|off|eventNames|listeners)\b/,
         alias: 'builtin'
