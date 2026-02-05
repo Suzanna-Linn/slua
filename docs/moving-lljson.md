@@ -63,7 +63,7 @@ local fruits = { "apples", "bananas", "oranges" }
 print(lljson.encode(fruits))
 -- > ["apples","bananas","oranges"]</code></pre>
 <pre class="language-sluab"><code class="language-sluab">-- dictionary table, encodes to a JSON object
-local fruitssQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
+local fruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
 print(lljson.encode(fruitsQuantity))
 -- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
@@ -565,7 +565,7 @@ The received JSON:
 
 ### metamethod __tojson
 
-When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate hte JSON of the table, instead of reading the table.
+When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate the JSON of the table, instead of reading the table.
 
 It's useful to adapt the contents of the table to the format that the external language or website expects:
 <pre class="language-sluab"><code class="language-sluab">-- exporting a table formatted with __tojson
@@ -638,7 +638,33 @@ local mt = {
 }
 setmetatable(tab, mt)
 print(lljson.encode(tab))
--- > {"25":"value 25","50":"value 50"</code></pre>
+-- > {"25":"value 25","50":"value 50"}</code></pre>
+
+We can improve the previous script for a more general use to export proper arrays as JSON arrays and sparse arrays as JSON objects.
+The idea is that if the array isn't sparse the metamethod will return the unchanged table.
+But it can return the same table, because **lljson.encode()** would call **__json** on it and go into infinite recursion, until throwing the error "Cannot serialise, excessive nesting (101)".
+It returns a cloned table (which is cloned with the metatable) with its metatable set to nil:
+
+<pre class="language-sluab"><code class="language-sluab">-- array to JSON array and sparse array to JSON object with __tojson
+local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
+local mt = {
+    __tojson = function(t)
+        if table.maxn(t) > #t then
+            local jsonTab = {}
+            for k, v in t do
+                jsonTab[tostring(k)] = v
+            end
+            return jsonTab
+        else
+			-- return t  -- WRONG! __tojson is called again and goes into infinite recursion
+			-- return table.clone(t)  -- WRONG! the table is cloned with its metatable
+            return setmetatable(table.clone(t), nil)
+        end
+    end
+}
+setmetatable(vegetables, mt)
+print(lljson.encode(vegetables))
+-- > ["Carrot","Tomato","Potato","Onion","Lettuce"]</code></pre>
 
 We can typecast keys to string, avoiding the "Cannot serialise userdata: table key must be a number or string" error:
 <pre class="language-sluab"><code class="language-sluab">-- dictionary keys as string to JSON object with __tojson
