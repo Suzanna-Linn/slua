@@ -684,14 +684,14 @@ print(lljson.encode(tab))
 
 ### metamethod __len
 
-When there is a **__len** metamethod, **lljson.encode()** generates an array with the array part of the table and the length returned by **__len**. It uses **null** for the **nil** indexes, and adds **null**'s at the end if there are not enough elements:
+When there is a **__len** metamethod, **lljson.encode()** generates an array with the array part of the table and the length returned by **__len**. It uses **null** for the **nil** indexes, and adds **null**s at the end if there are not enough elements:
 <pre class="language-sluab"><code class="language-sluab">-- table to JSON array with __len length
 local tab = { 1, 2, 3, a = "a", b = "b" }
 local mt = {
-	__len = function(t) 
+	__len = function(t)  -- nonsense function for testing
 		return math.random(0, 10)
 	end
-}  -- nonsense function for testing
+}
 setmetatable(tab, mt)
 print(lljson.encode(tab))
 -- > [1,2,3,null]
@@ -718,7 +718,15 @@ print(lljson.encode(tab))
 But we need to be careful if we are using **__len** for something else:
 <pre class="language-sluab"><code class="language-sluab"> -- dictionary table to JSON object generates array of nulls with __len
 local tab = { a = 1, b = 2, c = 3 }
-local mt = { __len = function(t) local len = 0 for _ in t do len += 1 end return len end }
+local mt = { 
+	__len = function(t)
+		local len = 0 
+		for _ in t do 
+			len += 1 
+		end 
+		return len 
+	end
+}
 setmetatable(tab, mt)
 print(lljson.encode(tab))
 -- > [null,null,null]</code></pre>
@@ -727,8 +735,16 @@ The solution is to use **__tojson** to return the same table without its metatab
 <pre class="language-sluab"><code class="language-sluab">-- dictionary table to JSON object with __tojson to avoid __len
 local tab = { a = 1, b = 2, c = 3 }
 local mt = {
-    __len = function(t) local len = 0 for _ in t do len += 1 end return len end,
-    __tojson = function(t) return setmetatable(table.clone(t), nil) end
+	__len = function(t)
+		local len = 0 
+		for _ in t do 
+			len += 1 
+		end 
+		return len 
+	end,
+    __tojson = function(t)
+		return setmetatable(table.clone(t), nil) 
+	end
 }
 setmetatable(tab, mt)
 print(lljson.encode(tab))
