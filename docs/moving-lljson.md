@@ -752,7 +752,7 @@ print(lljson.encode(tab))
 
 ### lljson constants
 
-Asides of the 4 funtions, there are 6 constants to give instructions for encoding and for information.
+Asides of the 4 functions, there are 6 constants to give instructions for encoding and for information.
 
 #### null and empty_array
 
@@ -760,11 +760,11 @@ They are two values that can't be represented with SLua values.
 
 **lljson.null** : encodes to a JSON null. Useful to add null keys to a JSON object.
 <pre class="language-sluab"><code class="language-sluab">-- lljson.null as null JSON key
-local animals = { { kind = "dog", name = "Dufa", color = "white", puppies = lljson.null } }
+local animals = { { kind = "dog", name = "Dufa", color = "white", wingspan = lljson.null } }
 print(lljson.encode(animals))
 -- > [{"color":"white","kind":"dog","name":"Dufa","wingspan":null}]</code></pre>
 
-**lljson.empty_array** : encodes a JSON empty array. 
+**lljson.empty_array** : encodes a JSON empty array (instead of a JSON empty object, that is the default for an empty table).
 <pre class="language-sluab"><code class="language-sluab">-- lljson.empty_array as empty JSON array
 local animals = { { kind = "dog", name = "Dufa", color = "white", puppies = lljson.empty_array } }
 print(lljson.encode(animals))
@@ -778,7 +778,7 @@ print( type(lljson.empty_array), typeof(lljson.empty_array), lljson.empty_array 
 
 #### array_mt and empty_array_mt
 
-They are two metatables that can be set to the table to give instructions
+They are two metatables that can be set to the table to give encoding instructions
 
 **lljson.array_mt** : encodes the array part of the table as JSON array.
 <pre class="language-sluab"><code class="language-sluab">-- array part of mixed table to JSON array
@@ -787,7 +787,7 @@ setmetatable(vegetables, lljson.array_mt)
 print(lljson.encode(vegetables))
 -- > ["Carrot","Tomato","Potato"]</code></pre>
 
-**lljson.empty_array_mt** : if the table is empty, encodes it as a JSON empty array.
+**lljson.empty_array_mt** : if the table is empty, encodes a JSON empty array (instead of a JSON empty object, that is the default for an empty table).
 <pre class="language-sluab"><code class="language-sluab">-- empty table as JSON array
 local tab = { "hello" }
 setmetatable(tab, lljson.empty_array_mt)
