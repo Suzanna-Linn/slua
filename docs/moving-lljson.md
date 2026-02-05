@@ -640,9 +640,9 @@ setmetatable(tab, mt)
 print(lljson.encode(tab))
 -- > {"25":"value 25","50":"value 50"}</code></pre>
 
-We can improve the previous script for a more general use to export proper arrays as JSON arrays and sparse arrays as JSON objects.
-The idea is that if the array isn't sparse the metamethod will return the unchanged table.
-But it can return the same table, because **lljson.encode()** would call **__json** on it and go into infinite recursion, until throwing the error "Cannot serialise, excessive nesting (101)".
+We can improve the previous script for a more general use to export proper arrays as JSON arrays and sparse arrays as JSON objects.  
+The idea is that if the array isn't sparse the metamethod will return the unchanged table.  
+But it can return the same table, because **lljson.encode()** would call **__tojson** on it and go into infinite recursion, until throwing the error "Cannot serialise, excessive nesting (101)".  
 It returns a cloned table (which is cloned with the metatable) with its metatable set to nil:
 
 <pre class="language-sluab"><code class="language-sluab">-- array to JSON array and sparse array to JSON object with __tojson
@@ -684,7 +684,55 @@ print(lljson.encode(tab))
 
 ### metamethod __len
 
+When there is a **__len** metamethod, **lljson.encode()** generates an array with the array part of the table and the length returned by **__len**. It uses **null** for the **nil** indexes, and adds **null**'s at the end if there are not enough elements:
+<pre class="language-sluab"><code class="language-sluab">-- table to JSON array with __len length
+local tab = { 1, 2, 3, a = "a", b = "b" }
+local mt = {
+	__len = function(t) 
+		return math.random(0, 10)
+	end
+}  -- nonsense function for testing
+setmetatable(tab, mt)
+print(lljson.encode(tab))
+-- > [1,2,3,null]
+print(lljson.encode(tab))
+-- > [1,2]
+print(lljson.encode(tab))
+-- > [1,2,3,null,null,null,null]</code></pre>
 
+There is no limit to the quantity of **null**s used.
+
+We can export a sparse array as a JSON array, avoiding the "Cannot serialise table: excessively sparse array" error:
+<pre class="language-sluab"><code class="language-sluab">-- excessively sparse array to JSON array with __len
+local tab = {}
+tab[25], tab[50] = "value 25", "value 50"
+local mt = { 
+	__len = function(t)
+		return table.maxn(t)
+	end
+}
+setmetatable(tab, mt)
+print(lljson.encode(tab))
+--> [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"value 25",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"value 50"]</code></pre>
+
+But we need to be careful if we are using **__len** for something else:
+<pre class="language-sluab"><code class="language-sluab"> -- dictionary table to JSON object generates array of nulls with __len
+local tab = { a = 1, b = 2, c = 3 }
+local mt = { __len = function(t) local len = 0 for _ in t do len += 1 end return len end }
+setmetatable(tab, mt)
+print(lljson.encode(tab))
+-- > [null,null,null]</code></pre>
+
+The solution is to use **__tojson** to return the same table without its metatable:
+<pre class="language-sluab"><code class="language-sluab">-- dictionary table to JSON object with __tojson to avoid __len
+local tab = { a = 1, b = 2, c = 3 }
+local mt = {
+    __len = function(t) local len = 0 for _ in t do len += 1 end return len end,
+    __tojson = function(t) return setmetatable(table.clone(t), nil) end
+}
+setmetatable(tab, mt)
+print(lljson.encode(tab))
+-- > {"a":1,"c":3,"b":2}</code></pre>
 
 ### lljson constants
 
