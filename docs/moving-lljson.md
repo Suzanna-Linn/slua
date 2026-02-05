@@ -38,7 +38,7 @@ There are 4 data types:
 
 Objects and arrays can contain a mix of these types.  
 They also can contain other objects and arrays, in any depth and complexity.  
-We can have arrays of objects with keys that are arrays with more arrays and with more objects, etc.
+We can have arrays of objects with keys that are arrays with more arrays and with more objects, etc. Up to 100 levels of depth.
 
 ### Library lljson
 
@@ -59,12 +59,12 @@ There are two pairs of functions:
 It takes an SLua table and generates standard JSON to send to an external website and be used with another scripting language.
 
 <pre class="language-sluab"><code class="language-sluab">-- array table, encodes to a JSON array
-local tabFruits = { "apples", "bananas", "oranges" }
-print(lljson.encode(tabFruits))
+local fruits = { "apples", "bananas", "oranges" }
+print(lljson.encode(fruits))
 -- > ["apples","bananas","oranges"]</code></pre>
 <pre class="language-sluab"><code class="language-sluab">-- dictionary table, encodes to a JSON object
-local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
-print(lljson.encode(tabFruitsQuantity))
+local fruitssQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
+print(lljson.encode(fruitsQuantity))
 -- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
 Datatypes mapping with **lljson.encode()**:
@@ -150,8 +150,8 @@ Datatypes mapping with **lljson.encode()**:
 **lljson.null** is a constant in the lljson library.  
 We can use it in dictionary tables when we want to export a key that has no value.
 <pre class="language-sluab"><code class="language-sluab">-- dictionary table (with null keys), encodes to a JSON object
-local tabFruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15, Kiwi = lljson.null }
-print(lljson.encode(tabFruitsQuantity))
+local fruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15, Kiwi = lljson.null }
+print(lljson.encode(fruitsQuantity))
 -- > {"Kiwi":null,"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
 #### Empty tables
@@ -565,7 +565,96 @@ The received JSON:
 
 ### metamethod __tojson
 
+When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate hte JSON of the table, instead of reading the table.
 
+It's useful to adapt the contents of the table to the format that the external language or website expects:
+<pre class="language-sluab"><code class="language-sluab">-- exporting a table formatted with __tojson
+local fruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
+print(lljson.encode(fruitsQuantity))
+-- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}
+	
+local fruitsQuantity_mt = {
+    __tojson = function(t)
+        local jsonFruits = { title = "List of fruits and quantities", total = 0, fruits = {} }
+        for k, v in t do
+            table.insert(jsonFruits.fruits, { name = k, quantity = v })
+            jsonFruits.total += v
+        end
+        return jsonFruits
+    end
+}
+setmetatable(fruitsQuantity, fruitsQuantity_mt)
+print(lljson.encode(fruitsQuantity))
+-- > {"fruits":[{"name":"Apple","quantity":50},{"name":"Cherry","quantity":20},{"name":"Orange","quantity":15},{"name":"Banana","quantity":30}],"total":115,"title":"List of fruits and quantities"}</code></pre>
+
+Generated JSON ready to export:
+<pre><code class="language-json">{
+  "fruits": [
+    {
+      "name": "Apple",
+      "quantity": 50
+    },
+    {
+      "name": "Cherry",
+      "quantity": 20
+    },
+    {
+      "name": "Orange",
+      "quantity": 15
+    },
+    {
+      "name": "Banana",
+      "quantity": 30
+    }
+  ],
+  "total": 115,
+  "title": "List of fruits and quantities"
+}</code></pre>
+
+Anything that we return in **__tojson** will be generated instead of the table:
+<pre class="language-sluab"><code class="language-sluab">-- exporting a table formated with __tojson
+local fruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
+local fruitsQuantity_mt = {
+    __tojson = function(t)
+        return "non exportable table"
+    end
+}
+setmetatable(fruitsQuantity, fruitsQuantity_mt)
+print(lljson.encode(fruitsQuantity))
+-- > "non exportable table"</code></pre>
+
+We can export a sparse array as a JSON object, avoiding the "Cannot serialise table: excessively sparse array" error:
+<pre class="language-sluab"><code class="language-sluab">-- sparse array to JSON object with __tojson
+local tab = {}
+tab[25], tab[50] = "value 25", "value 50"
+local mt = {
+    __tojson = function(t)
+        local jsonTab = {}
+        for k, v in t do
+            jsonTab[tostring(k)] = v
+        end
+        return jsonTab
+    end
+}
+setmetatable(tab, mt)
+print(lljson.encode(tab))
+-- > {"25":"value 25","50":"value 50"</code></pre>
+
+We can typecast keys to string, avoiding the "Cannot serialise userdata: table key must be a number or string" error:
+<pre class="language-sluab"><code class="language-sluab">-- dictionary keys as string to JSON object with __tojson
+local tab = { [ll.GetOwner()] = true }
+local mt = {
+    __tojson = function(t)
+        local jsonTab = {}
+        for k, v in t do
+            jsonTab[tostring(k)] = v
+        end
+        return jsonTab
+    end
+}
+setmetatable(tab, mt)
+print(lljson.encode(tab))
+-- > {"0f16c0e1-384e-4b5f-b7ce-886dda3bce41":true}</code></pre>
 
 ### metamethod __len
 
