@@ -189,22 +189,22 @@ print(lljson.encode(vegetables))
 	
 If there are more nils than elements and the last element is bigger than 10, it throws the run-time error "Cannot serialise table: excessively sparse array":
 <pre class="language-sluab"><code class="language-sluab">-- sparse array as JSON array, up to index 10 it works no matter how many nils
-local t = {}
-t[10] = "value 10"
-print(lljson.encode(t))
--- > [null,null,null,null,null,null,null,null,null,"element 10"]
-t[11] = "value 11"
-print(lljson.encode(t))
+local tab = {}
+tab[10] = "value 10"
+print(lljson.encode(tab))
+-- > [null,null,null,null,null,null,null,null,null,"value 10"]
+tab[11] = "value 11"
+print(lljson.encode(tab))
 -- > Cannot serialise table: excessively sparse array</code></pre>
 <pre class="language-sluab"><code class="language-sluab">-- sparse array as JSON array, it works if there aren't more nils than values
-local t = {}
+local tab = {}
 for i = 1, 15, 2 do
-    t[i] = "value " .. i
+    tab[i] = "value " .. i
 end
-print(lljson.encode(t))
--- > ["element 1",null,"element 3",null,"element 5",null,"element 7",null,"element 9",null,"element 11",null,"element 13",null,"element 15"]
-t[20] = "value 20"
-print(lljson.encode(t))
+print(lljson.encode(tab))
+-- > ["value 1",null,"value 3",null,"value 5",null,"value 7",null,"value 9",null,"value 11",null,"value 13",null,"value 15"]
+tab[20] = "value 20"
+print(lljson.encode(tab))
 -- > Cannot serialise table: excessively sparse array</code></pre>
 
 **possible improvement** : it is requested that excessively sparce arrays are exported as objects, or to have an option to export array tables as objects.
