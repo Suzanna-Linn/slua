@@ -11,7 +11,9 @@ json : true
 
 JSON, short for JavaScript Object Notation, is a data format used to store and exchange information.  
 It's simple and readable. It uses a clean and minimal structure, easy to understand.  
-It's widely supported. It's supported by nearly all programming languages and tools, making it ideal for exchanging data between systems.  
+It's widely supported. It's supported by nearly all programming languages and tools, making it ideal for exchanging data between systems.
+
+SLua tables fit well in the JSON format, making the conversion much easier than in LSL.
 
 JSON is useful, in general, to exchange complex multilevel structured data between:
 - external resources, using http.
@@ -178,18 +180,33 @@ print(lljson.encode(tab))
 #### Sparse arrays
 
 Moderately sparse arrays are exported as JSON objects.  
-**nil** values are exported as **null**. Up to 6 nulls are allowed, without counting the possible nulls in index 1, 2 and 3 (so it can be up to 9 nulls).  
-With more nulls it throws the run-time error "Cannot serialise table: excessively sparse array":
+**nil** values are exported as **null**.
 <pre class="language-sluab"><code class="language-sluab">-- sparse array as JSON array
-local vegetables = { "Carrot", "Tomato", "Potato" }
-vegetables[10] = "Lettuce"
+local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
+vegetables[4] = nil
 print(lljson.encode(vegetables))
--- > ["Carrot","Tomato","Potato",null,null,null,null,null,null,"Lettuce"]
+-- > ["Carrot","Tomato","Potato",null,"Lettuce"]</code></pre>
+	
+If there are more nils than elements and the last element is bigger than 10, it throws the run-time error "Cannot serialise table: excessively sparse array":
+<pre class="language-sluab"><code class="language-sluab">-- sparse array as JSON array, up to index 10 it works no matter how many nils
+local t = {}
+t[10] = "value 10"
+print(lljson.encode(t))
+-- > [null,null,null,null,null,null,null,null,null,"element 10"]
+t[11] = "value 11"
+print(lljson.encode(t))
+-- > Cannot serialise table: excessively sparse array</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- sparse array as JSON array, it works if there aren't more nils than values
+local t = {}
+for i = 1, 15, 2 do
+    t[i] = "value " .. i
+end
+print(lljson.encode(t))
+-- > ["element 1",null,"element 3",null,"element 5",null,"element 7",null,"element 9",null,"element 11",null,"element 13",null,"element 15"]
+t[20] = "value 20"
+print(lljson.encode(t))
+-- > Cannot serialise table: excessively sparse array</code></pre>
 
-vegetables[12] = "Onion"
-print(lljson.encode(vegetables))
--- > Cannot serialise table: excessively sparse array
-</code></pre>
 **possible improvement** : it is requested that excessively sparce arrays are exported as objects, or to have an option to export array tables as objects.
 
 #### Mixed tables
@@ -550,11 +567,7 @@ The received JSON:
 
 
 
-### slencode() / sldecode()
-
-
-
-#### Tight encoding
+### metamethod __len
 
 
 
@@ -571,5 +584,13 @@ The received JSON:
 
 
 #### _NAME and _VERSION
+
+
+
+### slencode() / sldecode()
+
+
+
+#### Tight encoding
 
 
