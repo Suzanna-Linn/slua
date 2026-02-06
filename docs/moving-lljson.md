@@ -10,7 +10,7 @@ json : true
 ### What is JSON?
 
 JSON, short for JavaScript Object Notation, is a data format used to store and exchange information.  
-It's simple and readable. It uses a clean and minimal structure, easy to understand.  
+It is simple and readable, using a clean, minimal structure that is easy to understand. 
 It's widely supported. It's supported by nearly all programming languages and tools, making it ideal for exchanging data between systems.
 
 SLua tables fit well in the JSON format, making the conversion much easier than in LSL.
@@ -24,10 +24,10 @@ JSON is useful, in general, to exchange complex multilevel structured data betwe
 JSON organizes data into two basic structures:
 - **Arrays**: list of values, like the array tables in SLua:
 	- [ "apple", "banana", "cherry" ]
-  - The values are separated by "," and all the array is enclosed in "[" and "]".
+  - The values are separated by commas (,) and the entire array is enclosed in brackets ([ and ]).
 - **Objects**: collections of (key, value) pairs, like the dictionary tables in SLua:
 	- { "type" : "dog" ,   "name" : "Dufa",   "color" : "white" }
-  - The key and the value are separated by ":", the (key, value) pairs are separated by "," and all the object is enclosed in "{" and "}".
+  - Keys and values are separated by colons (:), pairs are separated by commas (,), and the entire object is enclosed in curly braces ({ and }).
   - Keys must be strings. 
 
 There are 4 data types:
@@ -50,13 +50,13 @@ There are two pairs of functions:
   - They are useful to exchange data with external resources and other scripting languages.
   - SLua types without a JSON equivalent are encoded as strings.
 - **lljson.slencode()** / **lljson.sldecode()** :
-  - They generate non standard JSON-like code.
+  - They generate non-standard JSON-like code.
   - They are useful to exchange code with other scripts or objects or to store in linkset data.
   - They are decoded into the original SLua types. 
 
 ### encode()
 
-It takes an SLua table and generates standard JSON to send to an external website and be used with another scripting language.
+It takes an SLua table and generates standard JSON to send to an external website or for use with another scripting language.
 
 <pre class="language-sluab"><code class="language-sluab">-- array table, encodes to a JSON array
 local fruits = { "apples", "bananas", "oranges" }
@@ -177,7 +177,7 @@ print(lljson.encode(tab))
 table.remove(tab, 1)
 print(lljson.encode(tab))
 --> []</code></pre>
-**issue** : with mixed tables only the array part of the table is exported. It will be solved to export all the table.
+**issue** : with mixed tables only the array part of the table is exported. This will be fixed to export all the table.
 
 #### Sparse arrays
 
@@ -189,7 +189,7 @@ vegetables[4] = nil
 print(lljson.encode(vegetables))
 -- > ["Carrot","Tomato","Potato",null,"Lettuce"]</code></pre>
 	
-If there are more nils than elements and the last element is bigger than 10, it throws the run-time error "Cannot serialise table: excessively sparse array":
+If there are more nils than elements and the last index is bigger than 10, it throws the run-time error "Cannot serialise table: excessively sparse array":
 <pre class="language-sluab"><code class="language-sluab">-- sparse array as JSON array, up to index 10 it works no matter how many nils
 local tab = {}
 tab[10] = "value 10"
@@ -209,7 +209,7 @@ tab[20] = "value 20"
 print(lljson.encode(tab))
 -- > Cannot serialise table: excessively sparse array</code></pre>
 
-**possible improvement** : it is requested that excessively sparce arrays are exported as objects, or to have an option to export array tables as objects.
+**possible improvement** : it is requested that excessively sparse arrays are exported as objects, or to have an option to export array tables as objects.
 
 #### Mixed tables
 
@@ -244,16 +244,16 @@ print(lljson.encode(bigNumbers))
 -- > [1e9999,-1e9999]</code></pre>
 
 #### nan
-**nan** is exported as the literal **NAN** (a literal, not a string).
+**nan** is exported as the literal **NaN** (a literal, not a string).
 <pre class="language-sluab"><code class="language-sluab">-- nan to the literal NaN
 local puffedNumbers = { 0/0 }
 print(lljson.encode(puffedNumbers))
 -- > [NaN]</code></pre>
-**issue** : this is not standard JSON. It will be changed to export it as **null**.
+**issue** : this is not standard JSON. This will be changed to export as **null**.
 
 #### Special characters
 
-Charaters with ASCII codes from 0 to 31 are encoded as JSON unicode:
+Characters with ASCII codes from 0 to 31 are encoded as JSON unicode:
 <pre class="language-sluab"><code class="language-sluab">-- special characters to JSON unicode
 local idBytes = ll.GetOwner().bytes
 print(idBytes)
@@ -308,7 +308,7 @@ A longer example:
 
 print(lljson.encode(shelter))</code></pre>
 
-There are several websites where to copy-paste JSON and show it well formatted, like <https://jsonlint.com/>.
+There are several websites where you can copy-paste JSON and show it well formatted, like <https://jsonlint.com/>.
 
 Generated JSON:
 
@@ -430,7 +430,7 @@ Generated JSON:
 
 It takes standard JSON received from an external website and generates an SLua table.
 
-An example sending a request to a website that returns a JSON with a random quote:
+An example sending a request to a website that returns JSON data containing a random quote:
 <pre class="language-sluab"><code class="language-sluab">local url  = "https://zenquotes.io/api/random"
 
 LLEvents:on("touch_start", function(events)
@@ -579,7 +579,7 @@ The received JSON:
 
 ### metamethod __tojson
 
-When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate the JSON of the table, instead of reading the table.
+When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate the JSON representation of the table, instead of reading the table.
 
 It's useful to adapt the contents of the table to the format that the external language or website expects:
 <pre class="language-sluab"><code class="language-sluab">-- exporting a table formatted with __tojson
@@ -657,8 +657,7 @@ print(lljson.encode(tab))
 We can improve the previous script for a more general use to export proper arrays as JSON arrays and sparse arrays as JSON objects.  
 The idea is that if the array isn't sparse the metamethod will return the unchanged table.  
 But it can return the same table, because **lljson.encode()** would call **__tojson** on it and go into infinite recursion, until throwing the error "Cannot serialise, excessive nesting (101)".  
-It returns a cloned table (which is cloned with the metatable) with its metatable set to nil:
-
+It returns a cloned table (cloned along with its metatable) with its metatable subsequently set to nil:
 <pre class="language-sluab"><code class="language-sluab">-- array to JSON array and sparse array to JSON object with __tojson
 local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
 local mt = {
@@ -766,7 +765,7 @@ print(lljson.encode(tab))
 
 ### lljson constants
 
-Asides of the 4 functions, there are 6 constants to give instructions for encoding and for information.
+Asides from the 4 functions, there are 6 constants to give instructions for encoding and for information.
 
 #### null and empty_array
 
@@ -845,12 +844,12 @@ end
 To send JSON data to external resources use **encode()**.
 To receive JSON data from external resources use **decode()**.
 
-The generated code doesn't contain any special character so we can store it safely in linksed data.
+The generated code doesn't contain any special character so we can store it safely in linkset data.
 
 A table's metatable can't be encoded. We have to set it again after decoding the table. If it is decoded in another script, the metatable has to be defined there too.
 
-**issue** : **nil**s are decoded as **lljson.null**. It will be solved.  
-**issue** : **lljson.empty_array** is decoded as an empty table. It will be solved.
+**issue** : **nil**s are decoded as **lljson.null**. This will be resolved.
+**issue** : **lljson.empty_array** is decoded as an empty table. This will be resolved.
 
 **slencode()** uses the metamethods **__tojson** and **__len** and the metatables **lljson.array_mt** and **lljson.empty_array_mt**, like **encode()**.  
 We can use them to export to an external resource and also be able to use it internally:
@@ -877,7 +876,7 @@ slEncode = true
 print(lljson.slencode(fruits))  -- internal use
 -- > ["apples","bananas","oranges"]  -- ready to be decoded</code></pre>
 
-**possible improvement** : it's requested that **slencode()** don't use the metatables and metamethods.
+**possible improvement** : It is requested that **slencode()** not use metatables and metamethods.
 
 #### Tight encoding
 
@@ -885,7 +884,7 @@ print(lljson.slencode(fruits))  -- internal use
 
 Changes are:
 - vectors and rotations: encoded without "<" and ">" and coordinates with value 0 as empty.
-- uuids : encoded in numeric format as base64 strings in 22 characters instead of 36 (plus the 2 charaters of the "!u" tag).
+- uuids : encoded in numeric format as base64 strings in 22 characters instead of 36 (plus the 2 characters of the "!u" tag).
 
 <pre class="language-sluab"><code class="language-sluab">-- encoding tight
 local tab = { ll.GetOwner(), vector(25, 50, 0), rotation(0.50, 0.25, 0, 1) }
@@ -894,4 +893,4 @@ print(lljson.slencode(tab))
 print(lljson.slencode(tab, true))
 -- > ["!uDxbA4ThOS1+3zoht2jvOQQ","!v25,50,","!q0.5,0.25,,1"]</code></pre>
 
-**sldecode()** identifies both formats, so we don't have to tell it which format it is.
+**sldecode()** identifies both formats automatically, so we don't have to specify the format.
