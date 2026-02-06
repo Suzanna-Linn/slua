@@ -9,7 +9,7 @@ json : true
 
 ### Quick start
 
-If you want to store tables in linkset data or send tables to another script with linked messages reading this section is enough.
+If you want to store tables in linkset data or send tables to another script with linked messages, reading this section is enough.
 
 We can encode any kind of table with its nested tables no matter how complex it is in a string and decode the string to the same table with:
 - to encode: <code class="language-sluab">myString = lljson.slencode(myTab)</code>
@@ -65,6 +65,7 @@ local resort = {}
 LLEvents:on("link_message", function(sender_num, num, str, id)
     -- reading
     resort = lljson.decode(ll.LinksetDataRead("resort"))
+	
     -- checking that it has worked
     for k, v in resort do
         print(k, if type(v) == "table" then table.concat(v, ", ") else v)
