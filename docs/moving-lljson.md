@@ -73,7 +73,7 @@ LLEvents:on("link_message", function(sender_num, num, str, id)
 	-- > tips        Bring sunscreen, Smile for photos, Don't feed the seagulls
 end)</code></pre>
 
-Go on reading to learn much more...
+There is much more about the lljson library, go on reading...
 
 ### What is JSON?
 
