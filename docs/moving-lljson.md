@@ -893,3 +893,5 @@ print(lljson.slencode(tab))
 -- > ["!u0f16c0e1-384e-4b5f-b7ce-886dda3bce41","!v<25,50,0>","!q<0.5,0.25,0,1>"]
 print(lljson.slencode(tab, true))
 -- > ["!uDxbA4ThOS1+3zoht2jvOQQ","!v25,50,","!q0.5,0.25,,1"]</code></pre>
+
+**sldecode()** identifies both formats, so we don't have to tell it which format it is.
