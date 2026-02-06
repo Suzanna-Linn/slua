@@ -794,7 +794,9 @@ local mt = {
 }
 setmetatable(tab, mt)
 print(lljson.encode(tab))
---> [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"value 25",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"value 50"]</code></pre>
+--> [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,"value 25",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+null,null,null,null,null,null,null,null,null,"value 50"]</code></pre>
 
 But we need to be careful if we are using **__len** for something else:
 <pre class="language-sluab"><code class="language-sluab"> -- dictionary table to JSON object generates array of nulls with __len
@@ -895,7 +897,8 @@ These functions work with non standard JSON-like code that can be encoded and de
 local tab = { 42, 3.14, "hello", true, ll.GetOwner(), vector(25, 50, 0), rotation(0.50, 0.25, 0, 1), "!vStringInVectorDisguise" }
 local s = lljson.slencode(tab)
 print(s)
--- > [42,3.14,"hello",true,"!u0f16c0e1-384e-4b5f-b7ce-886dda3bce41","!v<25,50,0>","!q<0.5,0.25,0,1>","!!vStringInVectorDisguise"]
+-- > [42,3.14,"hello",true,"!u0f16c0e1-384e-4b5f-b7ce-886dda3bce41","!v<25,50,0>","!q<0.5,0.25,0,1>",
+"!!vStringInVectorDisguise"]
 local tabs = lljson.sldecode(s)
 for _, v in tabs do
     print(typeof(v), v)
