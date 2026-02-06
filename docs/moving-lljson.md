@@ -7,6 +7,81 @@ json : true
 
 ## The library lljson
 
+### Quick start
+
+If you want to store tables in linkset data or send tables to another script with linked messages reading this section is enough.
+
+We can encode any kind of table with its nested tables no matter how complex it is in a string and decode the string to the same table with:
+- to encode: <code class="language-sluab">myString = lljson.slencode(myTab)</code>
+- to decode: <code class="language-sluab">myTab = lljson.sldecode(myString)</code>
+
+Example storing a table in linkset data:
+<pre class="language-sluab"><code class="language-sluab">-- storing a table in linkset data
+local resort = {
+    name = "Sunny Sands",
+    activities = {"Sunbathing", "Jet skiing", "Frisbee competitions"},
+    rating = 4.2,
+    open = true,
+    tips = {"Bring sunscreen", "Smile for photos", "Don't feed the seagulls"}
+}
+
+-- writing
+ll.LinksetDataWrite("resort", lljson.slencode(resort))
+
+-- reading
+resort = lljson.decode(ll.LinksetDataRead("resort"))
+
+-- checking that it has worked
+for k, v in resort do
+    print(k, if type(v) == "table" then table.concat(v, ", ") else v)
+end
+--[[
+-- >
+name    Sunny Sands
+activities    Sunbathing, Jet skiing, Frisbee competitions
+rating    4.2
+open    true
+tips    Bring sunscreen, Smile for photos, Don't feed the seagulls
+]]
+</code></pre>
+
+Example sending a table in a linked message:
+<pre class="language-sluab"><code class="language-sluab">-- script1 - sending a table with linkset message
+local resort = {
+    name = "Sunny Sands",
+    activities = {"Sunbathing", "Jet skiing", "Frisbee competitions"},
+    rating = 4.2,
+    open = true,
+    tips = {"Bring sunscreen", "Smile for photos", "Don't feed the seagulls"}
+}
+
+LLEvents:on("touch_start", function(events)
+    -- sending
+    ll.MessageLinked(LINK_THIS, 0, lljson.slencode(resort), "")
+end)</code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- script2 - receiving a table with linkset message
+local resort = {}
+
+LLEvents:on("link_message", function(sender_num, num, str, id)
+    -- reading
+    resort = lljson.decode(ll.LinksetDataRead("resort"))
+    -- checking that it has worked
+    for k, v in resort do
+        print(k, if type(v) == "table" then table.concat(v, ", ") else v)
+    end
+    --[[
+    -- >
+    name    Sunny Sands
+    activities    Sunbathing, Jet skiing, Frisbee competitions
+    rating    4.2
+    open    true
+    tips    Bring sunscreen, Smile for photos, Don't feed the seagulls
+    ]]
+end)
+</code></pre>
+
+Go on reading to learn much more...
+
 ### What is JSON?
 
 JSON, short for JavaScript Object Notation, is a data format used to store and exchange information.  
