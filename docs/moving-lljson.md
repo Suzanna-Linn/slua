@@ -876,6 +876,25 @@ slEncode = true
 print(lljson.slencode(fruits))  -- internal use
 -- > ["apples","bananas","oranges"]  -- ready to be decoded</code></pre>
 
+If the table has a **__len** metamethod we have to add a **__tojson** to return the table without the metatable:
+<pre class="language-sluab"><code class="language-sluab">-- dictionary table to JSON object with __tojson to avoid __len
+local tab = { a = 1, b = 2, c = 3 }
+local mt = {
+	__len = function(t)
+		local len = 0 
+		for _ in t do 
+			len += 1 
+		end 
+		return len 
+	end,
+    __tojson = function(t)
+		return setmetatable(table.clone(t), nil) 
+	end
+}
+setmetatable(tab, mt)
+print(lljson.slencode(tab))
+-- > {"a":1,"c":3,"b":2}</code></pre>
+
 **possible improvement** : It is requested that **slencode()** not use metatables and metamethods.
 
 #### Tight encoding
