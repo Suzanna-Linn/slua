@@ -46,7 +46,7 @@ tips    Bring sunscreen, Smile for photos, Don't feed the seagulls
 </code></pre>
 
 Example sending a table in a linked message:
-<pre class="language-sluab"><code class="language-sluab">-- script1 - sending a table with linkset message
+<pre class="language-sluab"><code class="language-sluab">-- script1 - sending a table with a linked message
 local resort = {
     name = "Sunny Sands",
     activities = {"Sunbathing", "Jet skiing", "Frisbee competitions"},
@@ -59,7 +59,7 @@ LLEvents:on("touch_start", function(events)
     -- sending
     ll.MessageLinked(LINK_THIS, 0, lljson.slencode(resort), "")
 end)</code></pre>
-<pre class="language-sluab"><code class="language-sluab">-- script2 - receiving a table with linkset message
+<pre class="language-sluab"><code class="language-sluab">-- script2 - receiving a table with a linked message
 local resort = {}
 
 LLEvents:on("link_message", function(sender_num, num, str, id)
