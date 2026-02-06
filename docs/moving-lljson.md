@@ -251,7 +251,7 @@ print(lljson.encode(puffedNumbers))
 -- > [NaN]</code></pre>
 **issue** : this is not standard JSON. It will be changed to export it as **null**.
 
-### special characters
+#### Special characters
 
 Charaters with ASCII codes from 0 to 31 are encoded as JSON unicode:
 <pre class="language-sluab"><code class="language-sluab">-- special characters to JSON unicode
@@ -498,7 +498,7 @@ Datatypes mapping with **lljson.decode()**:
 
 #### lljson.null
 
-JSON nulls are decoded to **lljson.null** to preserve the keys with null values from JSON objects. These keys would disappear decoding null to **nil**.
+JSON nulls are decoded to **lljson.null** to preserve the keys with null values from JSON objects. These keys would disappear decoding nulls to **nil**.
 
 #### Example
 
@@ -664,11 +664,11 @@ local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
 local mt = {
     __tojson = function(t)
         if table.maxn(t) > #t then
-            local jsonTab = {}
+            local jsonVegetables = {}
             for k, v in t do
-                jsonTab[tostring(k)] = v
+                jsonVegetables[tostring(k)] = v
             end
-            return jsonTab
+            return jsonVegetables
         else
 			-- return t  -- WRONG! __tojson is called again and goes into infinite recursion
 			-- return table.clone(t)  -- WRONG! the table is cloned with its metatable
@@ -784,7 +784,7 @@ local animals = { { kind = "dog", name = "Dufa", color = "white", puppies = lljs
 print(lljson.encode(animals))
 -- > [{"color":"white","kind":"dog","name":"Dufa","puppies":[]}]</code></pre>
 
-They have type "lljson_constant" derived from "userdata" (internally a value type derived from light userdata). They can't be confused with any other value:
+They have type "lljson_constant" derived from "userdata" (internally a value type derived from light userdata). They can't be confused with any other value of another type:
 <pre class="language-sluab"><code class="language-sluab">print( type(lljson.null), typeof(lljson.null), lljson.null )
 -- > userdata    lljson_constant    lljson_constant: 0x0000000000000003
 print( type(lljson.empty_array), typeof(lljson.empty_array), lljson.empty_array )
@@ -824,7 +824,7 @@ print(lljson._VERSION)
 ### slencode() / sldecode()
 
 These functions work with non standard JSON-like code that can be encoded and decoded as the same table. They are useful to exchange code with other scripts or objects or to store in linkset data:
-<pre class="language-sluab">-- encoding to internal JSON ready to be decoded unchanged
+<pre class="language-sluab"><code class="language-sluab">-- encoding to internal JSON ready to be decoded unchanged
 local tab = { 42, 3.14, "hello", true, ll.GetOwner(), vector(25, 50, 0), rotation(0.50, 0.25, 0, 1), "!vStringInVectorDisguise" }
 local s = lljson.slencode(tab)
 print(s)
@@ -840,19 +840,19 @@ end
 -- > uuid       0f16c0e1-384e-4b5f-b7ce-886dda3bce41
 -- > vector     <25, 50, 0>
 -- > quaternion <0.5, 0.25, 0, 1>
--- > string     !vStringInVectorDisguise<code class="language-sluab"></code></pre>
+-- > string     !vStringInVectorDisguise</code></pre>
 
-To send JSON data to external resources use **encode()*.
-To receive JSON data from external resources use **decode()*.
+To send JSON data to external resources use **encode()**.
+To receive JSON data from external resources use **decode()**.
 
 The generated code doesn't contain any special character so we can store it safely in linksed data.
 
 A table's metatable can't be encoded. We have to set it again after decoding the table. If it is decoded in another script, the metatable has to be defined there too.
 
-**issue** : **nil**s are decodes as **lljson.null**. It will be solved.
+**issue** : **nil**s are decoded as **lljson.null**. It will be solved.  
 **issue** : **lljson.empty_array** is decoded as an empty table. It will be solved.
 
-**slencode()** uses the metamethods **__tojson** and **__len** and the metatables **lljson.array_mt** and **lljson.empty_array_mt** like **encode()**.  
+**slencode()** uses the metamethods **__tojson** and **__len** and the metatables **lljson.array_mt** and **lljson.empty_array_mt**, like **encode()**.  
 We can use them to export to an external resource and also be able to use it internally:
 <pre class="language-sluab"><code class="language-sluab">-- encoding for external and internal use
 local slEncode
@@ -877,12 +877,14 @@ slEncode = true
 print(lljson.slencode(fruits))  -- internal use
 -- > ["apples","bananas","oranges"]  -- ready to be decoded</code></pre>
 
+**possible improvement** : it's requested that **slencode()** don't use the metatables and metamethods.
+
 #### Tight encoding
 
-**slencode()** has a second parameter for tight encoding, false by default. With true some data types are encoded with less characters.
+**slencode()** has a second parameter for tight encoding, **false** by default. With **true** some data types are encoded with less characters.
 
 Changes are:
-- vectors and rotations: encoded without "<" and ">" and coordinates with value of as empty.
+- vectors and rotations: encoded without "<" and ">" and coordinates with value 0 as empty.
 - uuids : encoded in numeric format as base64 strings in 22 characters instead of 36 (plus the 2 charaters of the "!u" tag).
 
 <pre class="language-sluab"><code class="language-sluab">-- encoding tight
