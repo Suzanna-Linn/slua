@@ -67,6 +67,8 @@ local fruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
 print(lljson.encode(fruitsQuantity))
 -- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
+To work in SLua scripts with JSON strings that can be encoded and decoded as the same table use **slencode()**/**sldecode()**.
+
 Datatypes mapping with **lljson.encode()**:
 <table style="width: 50%; border-collapse: collapse;">
   <thead>
@@ -248,6 +250,16 @@ local puffedNumbers = { 0/0 }
 print(lljson.encode(puffedNumbers))
 -- > [NaN]</code></pre>
 **issue** : this is not standard JSON. It will be changed to export it as **null**.
+
+### special characters
+
+Charaters with ASCII codes from 0 to 31 are encoded as JSON unicode:
+<pre class="language-sluab"><code class="language-sluab">-- special characters to JSON unicode
+local idBytes = ll.GetOwner().bytes
+print(idBytes)
+-- > ??8NK_?Έm?;?A
+print(lljson.encode(idBytes))
+-- > "\u000f\u0016??8NK_?Έm?;?A"</code></pre>
 
 #### Indexing (0 vs 1)
 
@@ -445,6 +457,8 @@ The received JSON:
   }
 ]
 </code></pre>
+
+To work in SLua scripts with JSON strings that can be encoded and decoded as the same table use **slencode()**/**sldecode()**.
 
 Datatypes mapping with **lljson.decode()**:
 <table style="width: 30%; border-collapse: collapse;">
@@ -809,8 +823,71 @@ print(lljson._VERSION)
 
 ### slencode() / sldecode()
 
+These functions work with non standard JSON-like code that can be encoded and decoded as the same table. They are useful to exchange code with other scripts or objects or to store in linkset data:
+<pre class="language-sluab">-- encoding to internal JSON ready to be decoded unchanged
+local tab = { 42, 3.14, "hello", true, ll.GetOwner(), vector(25, 50, 0), rotation(0.50, 0.25, 0, 1), "!vStringInVectorDisguise" }
+local s = lljson.slencode(tab)
+print(s)
+-- > [42,3.14,"hello",true,"!u0f16c0e1-384e-4b5f-b7ce-886dda3bce41","!v<25,50,0>","!q<0.5,0.25,0,1>","!!vStringInVectorDisguise"]
+local tabs = lljson.sldecode(s)
+for _, v in tabs do
+    print(typeof(v), v)
+end
+-- > number     42
+-- > number     3.14
+-- > string     hello
+-- > boolean    true
+-- > uuid       0f16c0e1-384e-4b5f-b7ce-886dda3bce41
+-- > vector     <25, 50, 0>
+-- > quaternion <0.5, 0.25, 0, 1>
+-- > string     !vStringInVectorDisguise<code class="language-sluab"></code></pre>
 
+To send JSON data to external resources use **encode()*.
+To receive JSON data from external resources use **decode()*.
+
+The generated code doesn't contain any special character so we can store it safely in linksed data.
+
+A table's metatable can't be encoded. We have to set it again after decoding the table. If it is decoded in another script, the metatable has to be defined there too.
+
+**issue** : **nil**s are decodes as **lljson.null**. It will be solved.
+**issue** : **lljson.empty_array** is decoded as an empty table. It will be solved.
+
+**slencode()** uses the metamethods **__tojson** and **__len** and the metatables **lljson.array_mt** and **lljson.empty_array_mt** like **encode()**.  
+We can use them to export to an external resource and also be able to use it internally:
+<pre class="language-sluab"><code class="language-sluab">-- encoding for external and internal use
+local slEncode
+local fruits = { "apples", "bananas", "oranges" }
+local fruits_mt = {
+    __tojson = function(t)
+        if slEncode then
+            return setmetatable(table.clone(t), nil)
+        end
+        local jsonFruits = {}
+        for _, v in t do
+            table.insert(jsonFruits, v:upper())
+        end
+        return jsonFruits
+    end
+}
+setmetatable(fruits, fruits_mt)
+slEncode = false
+print(lljson.encode(fruits))  -- external use
+-- > ["APPLES","BANANAS","ORANGES"]  -- ready to export
+slEncode = true
+print(lljson.slencode(fruits))  -- internal use
+-- > ["apples","bananas","oranges"]  -- ready to be decoded</code></pre>
 
 #### Tight encoding
 
+**slencode()** has a second parameter for tight encoding, false by default. With true some data types are encoded with less characters.
 
+Changes are:
+- vectors and rotations: encoded without "<" and ">" and coordinates with value of as empty.
+- uuids : encoded in numeric format as base64 strings in 22 characters instead of 36 (plus the 2 charaters of the "!u" tag).
+
+<pre class="language-sluab"><code class="language-sluab">-- encoding tight
+local tab = { ll.GetOwner(), vector(25, 50, 0), rotation(0.50, 0.25, 0, 1) }
+print(lljson.slencode(tab))
+-- > ["!u0f16c0e1-384e-4b5f-b7ce-886dda3bce41","!v<25,50,0>","!q<0.5,0.25,0,1>"]
+print(lljson.slencode(tab, true))
+-- > ["!uDxbA4ThOS1+3zoht2jvOQQ","!v25,50,","!q0.5,0.25,,1"]</code></pre>
