@@ -877,7 +877,7 @@ print(lljson.slencode(fruits))  -- internal use
 -- > ["apples","bananas","oranges"]  -- ready to be decoded</code></pre>
 
 If the table has a **__len** metamethod we have to add a **__tojson** to return the table without the metatable:
-<pre class="language-sluab"><code class="language-sluab">-- dictionary table to JSON object with __tojson to avoid __len
+<pre class="language-sluab"><code class="language-sluab">-- using __tojson to avoid __len
 local tab = { a = 1, b = 2, c = 3 }
 local mt = {
 	__len = function(t)
