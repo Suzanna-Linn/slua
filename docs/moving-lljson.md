@@ -795,8 +795,8 @@ local mt = {
 setmetatable(tab, mt)
 print(lljson.encode(tab))
 -- > [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
--- > null,null,null,null,"value 25",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
--- > null,null,null,null,null,null,null,null,null,"value 50"]</code></pre>
+-- > null,null,null,null,"value 25",null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+-- > null,null,null,null,null,null,null,null,null,null,"value 50"]</code></pre>
 
 But we need to be careful if we are using **__len** for something else:
 <pre class="language-sluab"><code class="language-sluab"> -- dictionary table to JSON object generates array of nulls with __len
