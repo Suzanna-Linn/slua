@@ -63,7 +63,7 @@ end)</code></pre>
 local resort = {}
 
 LLEvents:on("link_message", function(sender_num, num, str, id)
-    -- reading
+    -- receiving
     resort = lljson.decode(str)
 	
     -- checking that it has worked
