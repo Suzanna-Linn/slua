@@ -9,9 +9,9 @@ json : true
 
 ### Quick start
 
-If you want to store tables in linkset data or send tables to another script with linked messages, reading this section is enough.
+If you want to store tables in linkset data or send tables to another script with linked messages, reading this section is enough:
 
-We can encode any kind of table with its nested tables no matter how complex it is in a string and decode the string to the same table with:
+We can encode any kind of table with its nested tables, no matter how complex the structure is, in a string and decode the string to the same table with:
 - to encode: <code class="language-sluab">myString = lljson.slencode(myTab)</code>
 - to decode: <code class="language-sluab">myTab = lljson.sldecode(myString)</code>
 
