@@ -64,7 +64,7 @@ local resort = {}
 
 LLEvents:on("link_message", function(sender_num, num, str, id)
     -- reading
-    resort = lljson.decode(ll.LinksetDataRead("resort"))
+    resort = lljson.decode(str)
 	
     -- checking that it has worked
     for k, v in resort do
@@ -78,8 +78,7 @@ LLEvents:on("link_message", function(sender_num, num, str, id)
     open    true
     tips    Bring sunscreen, Smile for photos, Don't feed the seagulls
     ]]
-end)
-</code></pre>
+end)</code></pre>
 
 Go on reading to learn much more...
 
