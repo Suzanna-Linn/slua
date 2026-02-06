@@ -35,15 +35,11 @@ resort = lljson.decode(ll.LinksetDataRead("resort"))
 for k, v in resort do
     print(k, if type(v) == "table" then table.concat(v, ", ") else v)
 end
---[[
--- >
-name    Sunny Sands
-activities    Sunbathing, Jet skiing, Frisbee competitions
-rating    4.2
-open    true
-tips    Bring sunscreen, Smile for photos, Don't feed the seagulls
-]]
-</code></pre>
+-- > name        Sunny Sands
+-- > activities  Sunbathing, Jet skiing, Frisbee competitions
+-- > rating      4.2
+-- > open        true
+-- > tips        Bring sunscreen, Smile for photos, Don't feed the seagulls</code></pre>
 
 Example sending a table in a linked message:
 <pre class="language-sluab"><code class="language-sluab">-- script1 - sending a table with a linked message
@@ -70,14 +66,11 @@ LLEvents:on("link_message", function(sender_num, num, str, id)
     for k, v in resort do
         print(k, if type(v) == "table" then table.concat(v, ", ") else v)
     end
-    --[[
-    -- >
-    name    Sunny Sands
-    activities    Sunbathing, Jet skiing, Frisbee competitions
-    rating    4.2
-    open    true
-    tips    Bring sunscreen, Smile for photos, Don't feed the seagulls
-    ]]
+	-- > name        Sunny Sands
+	-- > activities  Sunbathing, Jet skiing, Frisbee competitions
+	-- > rating      4.2
+	-- > open        true
+	-- > tips        Bring sunscreen, Smile for photos, Don't feed the seagulls
 end)</code></pre>
 
 Go on reading to learn much more...
