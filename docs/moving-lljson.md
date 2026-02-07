@@ -1063,8 +1063,8 @@ Encoding of data types, some of them change depending on wether they are used as
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid (tight)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!u" base64 string 22 chars (see note below)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!u" base64 string 22 chars</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">(see note below)</td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">buffer</td>
@@ -1131,7 +1131,7 @@ Encoding of data types, some of them change depending on wether they are used as
 
 **Encoding of uuid (tight)** : A uuid in base64 consists of 24 characters, but only the first 22 are significant. The final two characters are padding and are not stored:
 
-<pre class="language-sluab">-- uuid with tight encoding
+<pre class="language-sluab"><code class="language-sluab">-- uuid with tight encoding
 
 local id = ll.GetOwner()
 
@@ -1142,4 +1142,4 @@ local idEncoded = '"' .. "!u" .. llbase64.encode(id.bytes):sub(1, 22) .. '"'
 print(idEncoded == json)
 
 local idDecoded = uuid(buffer.fromstring(llbase64.decode(idEncoded:sub(4, 25) .. "==")))
-print(idDecoded == id)<code class="language-sluab"></code></pre>
+print(idDecoded == id)</code></pre>
