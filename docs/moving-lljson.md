@@ -1023,7 +1023,7 @@ Encoding of data types, some of them change depending on wether they are used as
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean (key)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!1" : true, "!0" : false</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!b1" : true, "!b0" : false</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
     <tr>
