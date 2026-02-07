@@ -992,7 +992,7 @@ We don't need to know how the internal JSON is encoded; **slencode()** and **sld
 The encoding is important only if we are scripting an external resource in another language that reads **slencode()** format and/or writes **sldecode()** format.
 
 Encoding of data types, some of them change depending on wether they are used as a value or as a key:
-<table style="width: 50%; border-collapse: collapse;">
+<table style="width: 80%; border-collapse: collapse;">
   <thead>
     <tr>
       <th style="border: 2px solid #999999; text-align: center; padding: 8px;">SLua type</th>
@@ -1069,7 +1069,7 @@ Encoding of data types, some of them change depending on wether they are used as
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">buffer</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!d" base64 string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">/td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">function</td>
