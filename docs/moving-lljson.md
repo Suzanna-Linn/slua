@@ -984,3 +984,162 @@ print(lljson.slencode(tab, true))
 -- > ["!uDxbA4ThOS1+3zoht2jvOQQ","!v25,50,","!q0.5,0.25,,1"]</code></pre>
 
 **sldecode()** identifies both formats automatically, so we don't have to specify the format.
+
+### Codes
+
+We don't need to know how the internal JSON is encoded; **slencode()** and **sldecode()** manage it so we don't have to worry about it.
+
+The encoding is important only if we are scripting an external resource in another language that reads **slencode()** format and/or writes **sldecode()** format.
+
+Encoding of data types, some of them change depending on wether they are used as a value or as a key:
+<table style="width: 50%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">SLua type</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Encoding</th>
+      <th style="border: 2px solid #999999; text-align: center; padding: 8px;">Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">if it starts with "!": "!"..string</td>
+    </tr>
+    <tr> 
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">number (value)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">number</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr> 
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">number (key)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!f" string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean (value)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean (key)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!1":true, "!0":false</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">table (value)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">array [] or object {}</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">table (key)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">vector</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!v" string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!v<25,50,0>"</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">vector (tight)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!v" string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!v25,50,"</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">rotation/quaternion</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!q" string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!q<0.5,0.25,0,1>"</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">rotation/quaternion (tight)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!q" string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!q0.5,0.25,,1"</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!u" string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid (tight)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!u" base64 string 22 chars (see note below)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">buffer</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!d" base64 string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">/td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">function</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread (coroutine)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nil (value)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">null</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode will change, now decodes to lljson.null</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nil (key)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not possible in SLua</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.null (value)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">null</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.null (key)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.empty_array (value)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">[]</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode will change, now decodes to empty table</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.empty_array (key)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">inf, -inf</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!f1e9999", "!f-1e9999"</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nan (value)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">NaN (literal, not string)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode could change, now is non-standard JSON</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nan (key)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not possible in SLua</td>
+    </tr>
+  </tbody>
+</table>
+
+**Encoding of uuid (tight)** : A uuid in base64 consists of 24 characters, but only the first 22 are significant. The final two characters are padding and are not stored:
+
+<pre class="language-sluab">-- uuid with tight encoding
+
+local id = ll.GetOwner()
+
+local json = lljson.slencode(id, true)
+print(json)
+
+local idEncoded = '"' .. "!u" .. llbase64.encode(id.bytes):sub(1, 22) .. '"'
+print(idEncoded == json)
+
+local idDecoded = uuid(buffer.fromstring(llbase64.decode(idEncoded:sub(4, 25) .. "==")))
+print(idDecoded == id)<code class="language-sluab"></code></pre>
