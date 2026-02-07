@@ -1004,7 +1004,7 @@ Encoding of data types, some of them change depending on wether they are used as
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">if it starts with "!": "!"..string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">if it starts with "!" then "!" .. string</td>
     </tr>
     <tr> 
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">number (value)</td>
@@ -1023,7 +1023,7 @@ Encoding of data types, some of them change depending on wether they are used as
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">boolean (key)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!1":true, "!0":false</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!1" : true, "!0" : false</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
     <tr>
@@ -1104,7 +1104,7 @@ Encoding of data types, some of them change depending on wether they are used as
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.empty_array (value)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">[]</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode will change, now decodes to empty table</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode will change, now decodes to {}</td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.empty_array (key)</td>
@@ -1136,10 +1136,10 @@ Encoding of data types, some of them change depending on wether they are used as
 local id = ll.GetOwner()
 
 local json = lljson.slencode(id, true)
-print(json)
+print(json)  -- > "!uDxbA4ThOS1+3zoht2jvOQQ"
 
 local idEncoded = '"' .. "!u" .. llbase64.encode(id.bytes):sub(1, 22) .. '"'
-print(idEncoded == json)
+print(idEncoded == json)  -- > true
 
 local idDecoded = uuid(buffer.fromstring(llbase64.decode(idEncoded:sub(4, 25) .. "==")))
-print(idDecoded == id)</code></pre>
+print(idDecoded == id)  -- > true</code></pre>
