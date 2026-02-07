@@ -29,7 +29,7 @@ local resort = {
 ll.LinksetDataWrite("resort", lljson.slencode(resort))
 
 -- reading
-resort = lljson.decode(ll.LinksetDataRead("resort"))
+resort = lljson.sldecode(ll.LinksetDataRead("resort"))
 
 -- checking that it has worked
 for k, v in resort do
@@ -60,7 +60,7 @@ local resort = {}
 
 LLEvents:on("link_message", function(sender_num, num, str, id)
     -- receiving
-    resort = lljson.decode(str)
+    resort = lljson.sldecode(str)
 	
     -- checking that it has worked
     for k, v in resort do
