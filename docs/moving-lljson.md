@@ -1129,7 +1129,7 @@ Encoding of data types, some of them change depending on wether they are used as
   </tbody>
 </table>
 
-**Encoding of uuid (tight)** : A uuid in base64 consists of 24 characters, but only the first 22 are significant. The final two characters are padding and are not stored:
+**Encoding of uuid (tight)** : A uuid in base64 consists of 24 characters, but only the first 22 are significant. The final two characters are padding and are not encoded:
 
 <pre class="language-sluab"><code class="language-sluab">-- uuid with tight encoding
 
