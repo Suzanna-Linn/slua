@@ -329,6 +329,11 @@ print(idBytes)
 print(lljson.encode(idBytes))
 -- > "\u000f\u0016??8NK_?Έm?;?A"</code></pre>
 
+The cursor control characters have their own escape codes:
+<pre class="language-sluab"><code class="language-sluab">-- cursor control characters to JSON escape codes
+local s = string.char(8, 9 ,10, 12, 13)
+print(lljson.slencode(s))  -- > "\b\t\n\f\r"</code></pre>
+
 #### Indexing (0 vs 1)
 
 JSON arrays do not store explicit index values in the file. They only define an ordered list of elements.  
