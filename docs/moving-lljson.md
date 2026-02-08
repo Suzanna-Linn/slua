@@ -332,7 +332,8 @@ print(lljson.encode(idBytes))
 The cursor control characters have their own escape codes:
 <pre class="language-sluab"><code class="language-sluab">-- cursor control characters to JSON escape codes
 local s = string.char(8, 9 ,10, 12, 13)
-print(lljson.slencode(s))  -- > "\b\t\n\f\r"</code></pre>
+print(lljson.slencode(s))
+-- > "\b\t\n\f\r"</code></pre>
 
 #### Indexing (0 vs 1)
 
@@ -1134,7 +1135,9 @@ Encoding of data types, some of them change depending on wether they are used as
   </tbody>
 </table>
 
-**Encoding of uuid (tight)** : A uuid in base64 consists of 24 characters, but only the first 22 are significant. The final two characters are padding and are not encoded:
+**Encoding of uuid (tight)**
+
+A uuid in base64 consists of 24 characters, but only the first 22 are significant. The final two characters are padding and are not encoded:
 
 <pre class="language-sluab"><code class="language-sluab">-- uuid with tight encoding
 
@@ -1148,3 +1151,10 @@ print(idEncoded == json)  -- > true
 
 local idDecoded = uuid(buffer.fromstring(llbase64.decode(idEncoded:sub(4, 25) .. "==")))
 print(idDecoded == id)  -- > true</code></pre>
+
+An empty uuid is encoded as "!u":
+<pre class="language-sluab"><code class="language-sluab">-- empty uuid with tight encoding
+local id = NULL_KEY
+print(lljson.slencode(id, true))
+-- > "!u"</code></pre>
+
