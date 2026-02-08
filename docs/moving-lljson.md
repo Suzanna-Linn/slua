@@ -1118,7 +1118,12 @@ Encoding of data types, some of them change depending on wether they are used as
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
     </tr>
     <tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">inf, -inf</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">inf, -inf (value) </td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">1e9999, -1e9999</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">inf, -inf (key)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!f1e9999", "!f-1e9999"</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
