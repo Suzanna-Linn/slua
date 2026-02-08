@@ -1160,6 +1160,4 @@ print(idDecoded == id)  -- > true</code></pre>
 An empty uuid is encoded as "!u":
 <pre class="language-sluab"><code class="language-sluab">-- empty uuid with tight encoding
 local id = NULL_KEY
-print(lljson.slencode(id, true))
--- > "!u"</code></pre>
-
+print(lljson.slencode(id, true))  -- > "!u"</code></pre>
