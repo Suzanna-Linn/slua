@@ -1,0 +1,15 @@
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+--while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; while false do end; 
+function LLEvents.touch_end(detected)
+end--touch_end
