@@ -1,0 +1,48 @@
+
+-- start async/await section
+
+local _awaiting = {}
+
+local function _err(err, message)
+    if not err then
+        local func, line = debug.info(3,"nl")
+        message = `\nerror in coroutine called in {if func ~= "" then "function ".. func else "main script"} at line {line}:\n{message}\n`
+        error(message, 3)
+    end
+end
+
+local function async(func, ...)
+    _err(coroutine.resume(coroutine.create(func),...))
+end
+
+local function awaiting(queryid, ...)
+    if _awaiting[queryid] then
+        _err(coroutine.resume(_awaiting[queryid], ...))
+        _awaiting[queryid] = nil
+        return false
+    else
+        return true
+    end
+end
+
+local function await(queryid)
+    _awaiting[queryid] = coroutine.running()
+    return coroutine.yield()
+end
+
+-- end async/await section
+
+
+local function getName(username)
+    local id = await(ll.RequestUserKey(username))
+    local displayName = await(ll.RequestDisplayName(id))
+    ll.OwnerSay(displayName)
+end
+
+function LLEvents.dataserver(queryid, data)
+   if awaiting(queryid,data) then  -- async/await
+        -- other requests
+   end
+end
+
+async(getName, "suzannalinn")
