@@ -878,8 +878,8 @@ local fruits_mt = {
 print(lljson.encode(setmetatable({}, fruits_mt)))
 --> [{"color":"Red","fruit":"Apple","price":1.2},{"color":"Yellow","fruit":"Banana","price":0.8},{"color":"Orange","fruit":"Orange","price":1.5}]</code></pre>
 
-With **__json** and **__len** to generate new data. Using **__json** to get parameters, **__index** as an iterator and **__len** as the limit of the iteration:
-<pre class="language-sluab"><code class="language-sluab">-- __json, __index and __len to generate calculated JSON
+With **__tojson** and **__len** to generate new data. Using **__tojson** to get parameters, **__index** as an iterator and **__len** as the limit of the iteration:
+<pre class="language-sluab"><code class="language-sluab">-- __tojson, __index and __len to generate calculated JSON
 local mt = {
     __tojson = function(t)
         return setmetatable({}, {
