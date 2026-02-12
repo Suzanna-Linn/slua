@@ -255,3 +255,20 @@ local function myTouches(events)
 end
 
 LLEvents:on("touch_start", myTouches)</code></pre>
+
+### Other events
+
+**link_message**
+
+In LSL, the fourth parameter, id, can be used to pass any string. In SLua, uuid’s can’t store strings that are not in uuid format.
+
+In SLua linked messages have a string instead of an uuid in their fourth parameter:
+<pre class="language-sluab"><code class="language-sluab">LLEvents:on("link_message", function(sender_num, num, str, str2)
+	-- do something
+end)</code></pre>
+<pre class="language-sluab"><code class="language-sluab">ll.MessageLinked(LINK_THIS, 0, "hello", "world")</code></pre>
+
+**state_entry** and **state_exit**
+
+These events don't exist in Slua, because SLua don't have states.
+
