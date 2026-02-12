@@ -839,6 +839,71 @@ setmetatable(tab, mt)
 print(lljson.encode(tab))
 -- > {"a":1,"c":3,"b":2}</code></pre>
 
+### metamethod __index
+
+The metamethod **__index** is called in the usual way when **lljson.encode()** reads a nil array index.
+
+The check for sparse arrays is done previously and we can`t use **__index** to avoid the "excessively sparse array" error.
+
+We can use **__index** to replace **nil** with another value_
+<pre class="language-sluab"><code class="language-sluab">-- __index to use "" instead of null
+local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
+vegetables[4] = nil
+local vegetables_mt = {
+    __index = function(t, k)
+        return ""
+    end
+}
+setmetatable(vegetables, vegetables_mt)
+print(lljson.encode(vegetables))
+-- > ["Carrot","Tomato","Potato","","Lettuce"]</code></pre>
+
+With **__len** to get data from several tables:
+<pre class="language-sluab"><code class="language-sluab">
+-- __index and __len to merge data from several tables
+local fruits = { "Apple", "Banana", "Orange" }
+local fruitsColors = { Apple = "Red", Banana = "Yellow", Orange = "Orange" }
+local fruitsPrices = { Apple = 1.20, Banana = 0.80, Orange = 1.50 }
+
+local fruits_mt = {
+    __index = function(t, k)
+        local fruit = fruits[k]
+        return { fruit = fruit, color = fruitsColors[fruit], price = fruitsPrices[fruit] }
+    end,
+    __len = function(t)
+        return #fruits
+    end
+}
+
+print(lljson.encode(setmetatable({}, fruits_mt)))
+--> [{"color":"Red","fruit":"Apple","price":1.2},{"color":"Yellow","fruit":"Banana","price":0.8},{"color":"Orange","fruit":"Orange","price":1.5}]</code></pre>
+
+With **__json** and **__len** to generate new data. We use **__json** to get parameters, **__index** as an iterator and **__len** as the limit the iteration:
+<pre class="language-sluab"><code class="language-sluab">-- __json, __index and __len to generate calculated JSON
+local mt = {
+    __tojson = function(t)
+        return setmetatable({}, {
+            __index = (function()
+                local a, b = 1, 1
+                local count = 0
+                return function()
+                    local res = a
+                    a, b = b, a + b 
+                    count += 1
+                    return res
+                end
+            end)(),
+            __len = function()
+                return t[1]
+            end
+        })
+    end
+}
+
+print(lljson.encode(setmetatable({ 15 }, mt)))
+-- > [1,1,2,3,5,8,13,21,34,55,89,144,233,377,610]
+</code></pre>
+
 ### lljson constants
 
 Asides from the 4 functions, there are 6 constants to give instructions for encoding and for information.
