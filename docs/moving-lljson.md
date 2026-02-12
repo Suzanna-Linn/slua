@@ -843,9 +843,9 @@ print(lljson.encode(tab))
 
 The metamethod **__index** is called in the usual way when **lljson.encode()** reads a nil array index.
 
-The check for sparse arrays is done previously and we can`t use **__index** to avoid the "excessively sparse array" error.
+The check for sparse arrays is done previously and we can't use **__index** to avoid the "excessively sparse array" error.
 
-We can use **__index** to replace **nil** with another value_
+We can use **__index** to replace **nil** with another value:
 <pre class="language-sluab"><code class="language-sluab">-- __index to use "" instead of null
 local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
 vegetables[4] = nil
@@ -858,7 +858,7 @@ setmetatable(vegetables, vegetables_mt)
 print(lljson.encode(vegetables))
 -- > ["Carrot","Tomato","Potato","","Lettuce"]</code></pre>
 
-With **__len** to get data from several tables:
+With **__len** to get data from other tables:
 <pre class="language-sluab"><code class="language-sluab">
 -- __index and __len to merge data from several tables
 local fruits = { "Apple", "Banana", "Orange" }
@@ -878,7 +878,7 @@ local fruits_mt = {
 print(lljson.encode(setmetatable({}, fruits_mt)))
 --> [{"color":"Red","fruit":"Apple","price":1.2},{"color":"Yellow","fruit":"Banana","price":0.8},{"color":"Orange","fruit":"Orange","price":1.5}]</code></pre>
 
-With **__json** and **__len** to generate new data. We use **__json** to get parameters, **__index** as an iterator and **__len** as the limit the iteration:
+With **__json** and **__len** to generate new data. Using **__json** to get parameters, **__index** as an iterator and **__len** as the limit of the iteration:
 <pre class="language-sluab"><code class="language-sluab">-- __json, __index and __len to generate calculated JSON
 local mt = {
     __tojson = function(t)
