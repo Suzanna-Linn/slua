@@ -11,7 +11,7 @@ end
 
 -- SLua Beta
 
-local function LLEvents.touch_start(events)
+function LLEvents.touch_start(events)
     for _, ev in events do
         local toucher = ev:getKey()
         print(ev:getName())
@@ -29,7 +29,7 @@ end
 
 -- SLua Beta
 
-local function LLEvents.touch_start(events)
+function LLEvents.touch_start(events)
     local toucher = events[1]:getKey()
     print(events[1]:getName())
 end
@@ -37,7 +37,7 @@ end
 
 -- SLua Beta
 
-local function LLEvents.touch_start(events)
+function LLEvents.touch_start(events)
     one = events[1]
     local toucher = one:getKey()
     print(one:getName())
@@ -46,7 +46,7 @@ end
 
 -- SLua Beta
 
-local function LLEvents.touch_start(events)
+function LLEvents.touch_start(events)
     for i = 1, #events do
         local toucher = ll.DetectedKey(i)
         print(ll.DetectedName(i))
@@ -55,7 +55,7 @@ end
 
 -- SLua Beta
 
-local function LLEvents.touch_start(events)
+function LLEvents.touch_start(events)
     local toucher = ll.DetectedKey(1)
     print(ll.DetectedName(1))
 end
