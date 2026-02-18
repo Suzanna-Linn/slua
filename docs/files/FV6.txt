@@ -14,7 +14,7 @@ function flatVector:new(x, y)
     }, flatVector)
 end
 
-flatVector.ZERO_VECTOR = flatVector:new(0, 0)
+flatVector.ZERO_FLATVECTOR = flatVector:new(0, 0)
 
 function flatVector:magnitude()
     return math.sqrt(self.x * self.x + self.y * self.y)
@@ -60,7 +60,7 @@ end
 
 local myVec1 = flatVector(1, 2)
 local myVec2 = flatVector(3, 4)
-local myVec3 = flatVector.ZERO_VECTOR
+local myVec3 = flatVector.ZERO_FLATVECTOR
 
 print(myVec1)  -- <1, 2>
 print(myVec2)  -- <3, 4>
