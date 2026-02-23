@@ -1,0 +1,38 @@
+
+local notecardName = ""
+local notecardLine = 1
+local requestLineId = NULL_KEY
+local notecard = {}
+
+local function listNotecard()
+    for _, line in notecard do
+        ll.OwnerSay(line)
+    end
+end
+
+function LLEvents.touch_start(events)
+    notecardName = ll.GetInventoryName(INVENTORY_NOTECARD, 1)
+    if notecardName ~= "" then
+        notecard = {}
+        notecardLine = 1
+        requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                table.insert(notecard, data)
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                end
+            end
+        until data == EOF or data == NAK
+        if data == EOF then
+            listNotecard()
+        end
+    end
+end
