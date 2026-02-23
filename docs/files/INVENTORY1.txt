@@ -1,39 +1,71 @@
 
-local notecardName = "story Fluffernutter"
-local text = "Fluffernutter"
-local count = 0
-local requestCountId = NULL_KEY
+local TYPES = {
+    [0] = "Texture",
+    [1] = "Sound",
+    [3] = "Landmark",
+    [5] = "Clothing",
+    [6] = "Object",
+    [7] = "Notecard",
+    [10] = "Script",
+    [13] = "Bodypart",
+    [20] = "Animation",
+    [21] = "Gesture",
+    [56] = "Setting",
+    [57] = "Material",
+}
 
-local FIND_TEXT_STRIDE = 3
-local FIND_TEXT_ROW = 0
-local FIND_TEXT_COLUMN = 1
-local FIND_TEXT_LENGTH = 2
+local function giveInventory(receiver)
+    local items = {}
+    local folderName = ll.GetObjectDesc()
 
-local function findText()
-    local totalFound = {}
-    for i = 0, count - 1, 64 do
-        repeat
-            local found = ll.FindNotecardTextSync(notecardName, text, i, 64, {})
-            if found[1] == NAK then
-                ll.GetNumberOfNotecardLines(notecardName)
-                ll.Sleep(0.5)
-            else
-                totalFound = table.move(found, 1, #found, #totalFound +1, totalFound)
-            end
-        until found[1] ~= NAK
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+
+        if itemType ~= INVENTORY_SCRIPT then
+            table.insert(items, itemName)
+            -- llGiveInventory(receiver,itemName);
+        end
+
     end
-    for i = 1, #totalFound, FIND_TEXT_STRIDE do
-        ll.OwnerSay(`Line: {totalFound[i + FIND_TEXT_ROW]}     Column: {totalFound[i + FIND_TEXT_COLUMN]}     Length: {totalFound[i + FIND_TEXT_LENGTH]}`)
+
+    ll.GiveInventoryList(receiver, folderName, items)
+end
+
+local function listInventory()
+
+    for itemNumber = 1, ll.GetInventoryNumber(INVENTORY_ALL) do
+        local itemName = ll.GetInventoryName(INVENTORY_ALL, itemNumber)
+        local itemType = ll.GetInventoryType(itemName)
+        local itemTypeDescription = TYPES[itemType]
+        ll.OwnerSay(`{itemName} ({itemTypeDescription})`)
     end
 end
 
 function LLEvents.touch_start(events)
-    requestCountId = ll.FindNotecardTextCount(notecardName, text, {})
+    for _, ev in events do
+        local toucher = ev:getKey()
+        giveInventory(toucher)
+    end
+    -- listInventory();
 end
 
-function LLEvents.dataserver(request, data)
-    if request == requestCountId then
-        count = tonumber(data)
-        findText()
-    end
-end
+-- list of constants for the inventory types:
+--
+-- INVENTORY_ALL
+-- INVENTORY_TEXTURE
+-- INVENTORY_SOUND
+-- INVENTORY_LANDMARK
+-- INVENTORY_CLOTHING
+-- INVENTORY_OBJECT
+-- INVENTORY_NOTECARD
+-- INVENTORY_SCRIPT
+-- INVENTORY_BODYPART
+-- INVENTORY_ANIMATION
+-- INVENTORY_GESTURE
+--
+--
+-- constant returned by llGetInventoryType(name) when name does not exist in the contents:
+--
+-- INVENTORY_NONE
+--
