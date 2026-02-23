@@ -1,0 +1,39 @@
+
+local notecardName = "story Fluffernutter"
+local text = "Fluffernutter"
+local count = 0
+local requestCountId = NULL_KEY
+
+local FIND_TEXT_STRIDE = 3
+local FIND_TEXT_ROW = 0
+local FIND_TEXT_COLUMN = 1
+local FIND_TEXT_LENGTH = 2
+
+local function findText()
+    local totalFound = {}
+    for i = 0, count - 1, 64 do
+        repeat
+            local found = ll.FindNotecardTextSync(notecardName, text, i, 64, {})
+            if found[1] == NAK then
+                ll.GetNumberOfNotecardLines(notecardName)
+                ll.Sleep(0.5)
+            else
+                totalFound = table.move(found, 1, #found, #totalFound +1, totalFound)
+            end
+        until found[1] ~= NAK
+    end
+    for i = 1, #totalFound, FIND_TEXT_STRIDE do
+        ll.OwnerSay(`Line: {totalFound[i + FIND_TEXT_ROW]}     Column: {totalFound[i + FIND_TEXT_COLUMN]}     Length: {totalFound[i + FIND_TEXT_LENGTH]}`)
+    end
+end
+
+function LLEvents.touch_start(events)
+    requestCountId = ll.FindNotecardTextCount(notecardName, text, {})
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestCountId then
+        count = tonumber(data)
+        findText()
+    end
+end
