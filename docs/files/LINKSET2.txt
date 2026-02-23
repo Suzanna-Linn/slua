@@ -1,0 +1,51 @@
+
+local getFullName
+
+local function addListen(personId)
+    local count = tonumber(ll.LinksetDataRead(tostring(personId))) or 0
+    ll.LinksetDataWrite(tostring(personId), tostring(count + 1))
+end
+
+local function sayChatters()
+    local chatters = ll.LinksetDataListKeys(1, 0)
+    ll.OwnerSay("---" .. #chatters .. " people has chatted ---")
+    for _, personId in chatters do
+        ll.OwnerSay(getFullName(personId) .. " : " .. ll.LinksetDataRead(tostring(personId)))
+    end
+end
+
+function getFullName(personId)
+    local displayName = ll.GetDisplayName(personId)
+    local username = ll.GetUsername(personId)
+    if username ~= ll.ToLower(displayName) then
+        displayName = `{displayName} ({username})`
+    end
+    return displayName
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 then
+        if id == ll.GetOwner() and message == "RESET" then
+            sayChatters()
+            ll.LinksetDataReset()
+            ll.OwnerSay("\nInfo deleted.")
+        else
+            addListen(id)
+        end
+    end
+end
+
+function LLEvents.touch_start(events)
+    if events[1]:getKey() == ll.GetOwner() then
+        sayChatters()
+    end
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, CHANGED_OWNER) then
+        ll.LinksetDataReset()
+        ll.ResetScript()
+    end
+end
+
+ll.Listen(0, "", "", "")
