@@ -1,0 +1,72 @@
+
+x = {}
+
+for _, v in { 1, 2, 4, 6, 8, 9, 10, 12, 13, 16 } do
+    x[v] = 1
+end
+
+print(#x)  -- 16
+print(ll.GetListLength(x))  -- 16
+
+for index, value in ipairs(x) do
+    print(index, value)  -- 1 1 / 2 1
+end
+
+x[4] = "hello"
+print(table.find(x, "hello"))  -- nil
+
+table.insert(x, "bye")
+print(x[17])  -- bye
+
+print(#x)  -- 13
+print(ll.GetListLength(x))  -- 13
+
+table.remove(x, 17)
+print(x[17])  -- bye
+
+table.remove(x, 10)
+
+for index, value in pairs(x) do
+    print(index, value)
+end
+
+
+local function arrayLen(tab)  -- length of the correlative part of the array
+    local len = #tab
+    for i = 1, len do
+        if tab[i] == nil then
+            len = i - 1
+            break
+        end
+    end
+    return len
+end
+
+local function arrayHasNils(tab)  -- are there nils in the array?
+    local hasNils = false
+    for i = 1, #tab do
+        if tab[i] == nil then
+            hasNils = true
+            break
+        end
+    end
+    return hasNils
+end
+
+local function arrayOnly(tab)  -- is an array with only correlative elements and nothing else?
+    local len = #tab
+    if len > 0 and next(tab, len) == nil then
+        for i = 1, #tab do
+            if tab[i] == nil then
+                return false
+            end
+        end
+        return true
+    else
+        return false
+    end
+end
+
+print(arrayLen(x))  -- 2
+print(arrayHasNils(x))  -- true
+print(arrayOnly(x))  -- false
