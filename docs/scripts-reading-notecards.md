@@ -6,7 +6,10 @@ slua_beta: true
 ## Reading notecards
 
 Notecards used in the examples:
-
+- <li><a href="/slua/texts/lorem-ipsum.txt" class="page-link">Lorem Ipsum</a></li>
+- <li><a href="/slua/texts/fluffernutter.txt" class="page-link">Fluffernutter</a></li>
+- <li><a href="/slua/texts/config.txt" class="page-link">config</a></li>
+- <li><a href="/slua/texts/poems.txt" class="page-link">poems</a></li>
 
 ### Reading
 
@@ -412,7 +415,7 @@ function Notecard:read(trim)
 end
 
 function Notecard:countLines()
-    return coutl.dataserver(ll.GetNumberOf_lines(self._name))
+    return coutl.dataserver(ll.GetNumberOfNotecardLines(self._name))
 end
 
 function Notecard:countText(text)
@@ -426,7 +429,7 @@ function Notecard:findText(text)
         repeat
             txts = ll.FindNotecardTextSync(self._name, text, i, 64, {})
             if txts[1] == NAK then
-                coutl.dataserver(ll.GetNumberOf_lines(self._name))
+                coutl.dataserver(ll.GetNumberOfNotecardLines(self._name))
             end
         until txts[1] ~= NAK
         texts = table.move(txts, 1, #txts, #texts + 1, texts)
@@ -496,6 +499,12 @@ end)</code></pre>
     for _, found in notecard:findText("[[][^\n]+[]]") do
         print((notecard:line(found.line)))
     end
+end)</code></pre>
+
+##### reading the last line
+
+<pre class="language-sluab"><code class="language-sluab">Notecard("config", function(notecard)
+    print(notecard:line(notecard:countLines()))
 end)</code></pre>
 
 ##### reading a notecard section
