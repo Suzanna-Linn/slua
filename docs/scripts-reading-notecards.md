@@ -5,6 +5,9 @@ slua_beta: true
 ---
 ## Reading notecards
 
+Notecards used in the examples:
+
+
 ### Reading
 
 Reading a notecard with **ll.GetNotecardLineSync()**
@@ -133,11 +136,9 @@ end)
 
 ### Notecard object
 
-These libraries are written for **Second Life's Luau (LSL-Lua) scripting environment**. They solve the common problem of "callback hell" in LSL by using coroutines to pause scripts while waiting for asynchronous events (like dataserver requests, timers, or listens) and resuming them as if the code was executed synchronously.
-
 ##### `coutl` (Coroutine Utilities)
 
-The `coutl` module is an asynchronous task manager. In Second Life, many functions (like reading notecards or waiting for chat) require requesting data and then waiting for a distinct event to fire. `coutl` wraps Lua's native `coroutine` library, allowing you to write code that looks sequential and synchronous. When an asynchronous request is made, `coutl` yields (pauses) the function, automatically listens for the correct event, and resumes the function exactly where it left off once the data arrives.
+The `coutl` library uses coroutines to allow us to write code that looks sequential and synchronous. When an asynchronous request is made, `coutl` yields (pauses) the function, automatically waits for the correct event, and resumes the function once the data arrives.
 
 ##### Functions
 
@@ -149,17 +150,17 @@ Starts a new coroutine. This must be used to wrap any function that will utilize
 *   **Behavior:** It creates the coroutine, registers a global `dataserver` event handler (if not already active), and immediately begins execution.
 
 ##### `coutl.stop(co, func, ...)`
-Safely terminates a coroutine and cleans up associated event listeners.
+Safely terminates a coroutine and cleans up associated event handlers.
 *   **Parameters:**
     *   `co` *(thread)*: The coroutine to stop.
     *   `func` *(function, optional)*: A callback function to execute after the coroutine closes.
     *   `...` *(vararg)*: Arguments to pass to the callback function.
-*   **Behavior:** Removes the coroutine from the active tracking list. If no more coroutines are active, it turns off the global dataserver listener. The optional callback is queued via `LLTimers` to run on the next tick.
+*   **Behavior:** Removes the coroutine from the active tracking list. If no more coroutines are active, it turns off the global dataserver listener. The optional callback is queued via `LLTimers` to run in the main thread on the next tick.
 
 ##### `coutl.dataserver(id, seconds)`
 Yields the current coroutine until a specific dataserver request is fulfilled.
 *   **Parameters:**
-    *   `id` *(string/key)*: The dataserver request ID (e.g., returned by `ll.GetNotecardLine`).
+    *   `id` *(uuid)*: The dataserver request ID.
     *   `seconds` *(number, optional)*: A timeout limit. If the data isn't received within this time, the coroutine resumes with `nil`. Defaults to `0` (no timeout).
 *   **Returns:** Returns the data provided by the `dataserver` event.
 *   **Note:** *Must be called from within a coroutine.*
@@ -176,19 +177,19 @@ Yields the current coroutine until a chat message is received on a specific chan
 A non-blocking sleep function. Yields the current coroutine for a specific amount of time.
 *   **Parameters:**
     *   `seconds` *(number)*: The amount of time to wait, in seconds.
-*   **Behavior:** Acts similarly to `llSleep()`, but unlike LSL's sleep, it does *not* freeze the entire script; it only pauses the specific coroutine.
+*   **Behavior:** Acts similarly to `ll.Sleep()`, but unlike sleep, it does *not* freeze the entire script; it only pauses the specific coroutine.
 *   **Note:** *Must be called from within a coroutine.*
 
 ##### `Notecard`
 
-The `Notecard` object provides a clean, Object-Oriented Interface for reading and searching Second Life notecards. It utilizes the new synchronous reading capabilities of SL Luau (`llGetNotecardLineSync`), but intelligently falls back to asynchronous reading via the `coutl` library if the notecard is not currently cached by the simulator (when the sync function returns `NAK`).
+The `Notecard` object provides an Object-Oriented Interface for reading and searching Second Life notecards. It utilizes the synchronous reading functions, but falls back to asynchronous reading via the `coutl` library if the notecard is not currently cached by the simulator (when the sync function returns `NAK`).
 
 ##### Constructor
 
 ##### `Notecard:new(name, func)` / `Notecard(name, func)`
-Creates a new Notecard instance and immediately starts a coroutine to process it.
+Creates a new Notecard instance and immediately starts a coroutine to process it. The instance is not returned, but passed to the function.
 *   **Parameters:**
-    *   `name` *(string)*: The exact name of the notecard in the prim's inventory.
+    *   `name` *(string)*: The name of the notecard in the prim's inventory.
     *   `func` *(function)*: The function to execute. The newly created Notecard instance will be passed as the first argument to this function.
 
 ##### Methods
@@ -203,15 +204,16 @@ Gets or sets the target notecard.
 ##### `Notecard:line(lineNum, trim)`
 Reads a specific line from the notecard.
 *   **Parameters:**
-    *   `lineNum` *(number)*: The 0-based or 1-based line number to read (depending on LSL implementation).
+    *   `lineNum` *(number)*: The line number to read.
     *   `trim` *(boolean, optional)*: If `true`, trims leading and trailing whitespace from the string.
 *   **Returns:** 
-    1. The string content of the line, or `nil` if the End Of File (EOF) is reached.
+    1. The string content of the line, or `nil` if the end of the notcard (EOF) is reached.
     2. The line number that was read.
 
 ##### `Notecard:firstLine(trim)`
 Reads the first line of the notecard (Line 1).
 *   **Parameters:** `trim` *(boolean, optional)*.
+*   **Returns:** The line string (or `nil`), and the line number.
 
 ##### `Notecard:nextLine(trim)`
 Reads the next sequential line of the notecard, based on the last line read.
@@ -219,9 +221,9 @@ Reads the next sequential line of the notecard, based on the last line read.
 *   **Returns:** The line string (or `nil`), and the line number.
 
 ##### `Notecard:read(trim)`
-Reads the entire notecard from top to bottom.
+Reads the entire notecard.
 *   **Parameters:** `trim` *(boolean, optional)*.
-*   **Returns:** A sequentially indexed table (array) containing all the lines of the notecard.
+*   **Returns:** An array indexed table containing all the lines of the notecard.
 
 ##### `Notecard:countLines()`
 Requests the total number of lines in the notecard.
@@ -230,31 +232,31 @@ Requests the total number of lines in the notecard.
 ##### `Notecard:countText(text)`
 Counts how many times a specific string of text appears in the notecard.
 *   **Parameters:** `text` *(string)*: The text to search for.
-*   **Returns:** The number of occurrences *(number)*. Yields until completed.
+*   **Returns:** The number of occurrences *(number)*.
 
 ##### `Notecard:findText(text)`
 Finds the exact locations of a specific text string within the notecard.
 *   **Parameters:** `text` *(string)*: The text to search for.
-*   **Returns:** A table of dictionaries. Each dictionary contains:
+*   **Returns:** An array table of dictionary tables. Each dictionary contains:
     *   `line`: The line number where the text was found.
     *   `column`: The character index where the text starts.
     *   `length`: The length of the found text.
 
 ##### `Notecard:process(func, ...)`
-Queues a function to run immediately on the next script tick without blocking the current thread.
+Queues a function to run in the main thread when the current thread is paused.
 *   **Parameters:**
     *   `func` *(function)*: The function to run.
     *   `...` *(vararg)*: Arguments to pass to the function.
 
 ##### `Notecard:done(func, ...)`
-Signals that notecard processing is complete. Stops the current coroutine via `coutl.stop`.
+Signals that notecard processing is complete. Stops the current coroutine.
 *   **Parameters:**
-    *   `func` *(function, optional)*: A callback function to run after stopping.
+    *   `func` *(function, optional)*: A callback function to run in the main thread after stopping.
     *   `...` *(vararg)*: Arguments to pass to the callback.
 
 ##### `Notecard:notecardNames()`
 Retrieves a list of all notecards currently inside the prim's inventory.
-*   **Returns:** A table (array) of strings containing the names of all notecards.
+*   **Returns:** An array table containing the names of all notecards.
 
 <div class="script-box advanced">
 <h4>Notecard object</h4>
