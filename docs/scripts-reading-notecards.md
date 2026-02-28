@@ -6,10 +6,10 @@ slua_beta: true
 ## Reading notecards
 
 Notecards used in the examples:
-- <li><a href="/slua/texts/lorem-ipsum.txt" class="page-link">Lorem Ipsum</a></li>
-- <li><a href="/slua/texts/fluffernutter.txt" class="page-link">Fluffernutter</a></li>
-- <li><a href="/slua/texts/config.txt" class="page-link">config</a></li>
-- <li><a href="/slua/texts/poems.txt" class="page-link">poems</a></li>
+- <li><a href="texts/lorem-ipsum.txt" class="page-link">Lorem Ipsum</a></li>
+- <li><a href="texts/fluffernutter.txt" class="page-link">Fluffernutter</a></li>
+- <li><a href="texts/config.txt" class="page-link">config</a></li>
+- <li><a href="texts/poems.txt" class="page-link">poems</a></li>
 
 ### Reading
 
