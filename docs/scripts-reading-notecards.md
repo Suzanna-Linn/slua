@@ -3,8 +3,9 @@ layout: default
 title: Reading notecards
 slua_beta: true
 ---
+## Reading notecards
 
-## Reading
+### Reading
 
 Reading a notecard with **ll.GetNotecardLineSync()**
 
@@ -47,7 +48,7 @@ LLEvents:on("dataserver", function(request, data)
 end)</code></pre>
 </div>
 
-## Finding text
+### Finding text
 
 Finding text in a notecard with **ll.FindNotecardTextSync()**
 
@@ -81,7 +82,7 @@ LLEvents:on("touch_start", function(events)
 end)</code></pre>
 </div>
 
-## Finding and counting text
+### Finding and counting text
 
 Finding and counting text in a notecard with **ll.FindNotecardTextSync()** and **ll.FindNotecardTextCount()**
 
@@ -130,7 +131,7 @@ end)
 </code></pre>
 </div>
 
-## Notecard object
+### Notecard object
 
 <div class="script-box advanced">
 <h4>Notecard object</h4>
