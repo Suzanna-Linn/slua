@@ -324,7 +324,7 @@ function coutl.dataserver(id, seconds)
     local awaiting = { co = co }
     if seconds > 0 then
         awaiting.timer = LLTimers:once(seconds, function()
-            coutl._await[id] = nil
+            coutl._awaiting[id] = nil
             coutl._err(coroutine.resume(co, nil))
         end)
     end
