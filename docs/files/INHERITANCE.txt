@@ -102,19 +102,15 @@ end
 
 -- ----------
 
-
-
 print("--- 1. INSTANTIATION ---")
 local a = Animal:new("Generic Beast", 10)
 local h = Horse:new("Spirit", 5, "Mustang color")
 local e = Eagle:new("Freedom", 3, 2.5)
 local p = Pegasus:new("Hercules", 1000, "White", 10.0, "Celestial")
-
 print(a) -- > [Animal] Name: Generic Beast, Age: 10
 print(h) -- > [Horse] Spirit is a Mustang color horse.
 print(e) -- > [Eagle] Freedom (Wingspan: 2.5m)
 print(p) -- > [Pegasus] Hercules (Aura: Celestial)
-
 
 print("\n--- 2. INHERITANCE (introduce) ---")
 -- All classes inherit 'introduce' from Animal (Pegasus finds it via Horse)
@@ -123,7 +119,6 @@ h:introduce() -- > Hi, I am Spirit and I am 5 years old.
 e:introduce() -- > Hi, I am Freedom and I am 3 years old.
 p:introduce() -- > Hi, I am Hercules and I am 1000 years old.
 
-
 print("\n--- 3. POLYMORPHISM (speak) ---")
 -- Each class has its own version of 'speak'
 a:speak() -- > Generic Beast makes a generic animal sound.
@@ -131,21 +126,17 @@ h:speak() -- > Spirit says: Neigh!
 e:speak() -- > Freedom says: Screeeech!
 p:speak() -- > Hercules neighs and screeches simultaneously!
 
-
 print("\n--- 4. SPECIALIZED METHODS ---")
 -- Testing methods unique to specific classes
 h:gallop() -- > Spirit is galloping majestically in the wind.
 e:fly()    -- > Freedom is flying high with a wingspan of 2.5m.
-
 -- Pegasus can do both because of Multiple Inheritance
 p:gallop() -- > Hercules is galloping majestically in the wind. (Inherited from Horse)
 p:fly()    -- > Hercules is flying high with a wingspan of 10m. (Inherited from Eagle)
 
-
 print("\n--- 5. MYTHOLOGIC METHODS ---")
 -- Testing the unique method added only to Pegasus
 p:ascendToOlympus()  -- > Hercules glows with a Celestial aura and ascends to Mount Olympus!
-
 
 print("\n--- 6. ERROR CHECKING ---")
 print(select(2, pcall(h.fly, h)))             -- attempt to call method 'fly' (a nil value)
