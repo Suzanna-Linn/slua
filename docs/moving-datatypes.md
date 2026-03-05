@@ -315,27 +315,22 @@ Memory used for each datatype:
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">quaternion</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">48</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">32</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, rotations are quaternions</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">37 + string length</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">36 + string length</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uses string interning</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">61</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, stored in numeric format</td>
-    </tr>
-	<tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">local variable</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">24</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">without TValue, has an index to it in the stack (or heap for closures)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">52</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, stored in numeric format, uses string interning</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">table</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">52 (empty)</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">48 (empty)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
 	<tr>
@@ -345,13 +340,18 @@ Memory used for each datatype:
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">buffer</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">32 + buffer length</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">more exactly: 24 + buffer length with a minimum of 32</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">28 + buffer length</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">more exactly: 28 + buffer length with a minimum of 36</td>
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">thread</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">1024 (empty)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">coroutine</td>
+    </tr>
+	<tr>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson_constant</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">16</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">userdata, internally lightuserdata, constants in the lljson library</td>
     </tr>
   </tbody>
 </table>
