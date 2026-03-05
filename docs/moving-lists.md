@@ -343,6 +343,7 @@ If the element is from 1 to #t, it is deleted and the elements after it until #t
 - The allocation never shrinks, only grows.
 - To free memory from an array table after removing elements or clearing unused allocated space, we can use table.shrink().
 - In dictionary tables, the only way to free memory after removing elements is to copy the remaining elements to a new table. There is no way to free the unused allocated space.
+- A table uses 32 bytes to store its internal metadata, such as pointers to its array and hash memory, the length of the array part, and a reference to its metatable. These 32 bytes are not counted in the examples below, since this is a fixed size for all tables.
 
 Array with 32 elements:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
