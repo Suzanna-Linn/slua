@@ -1,0 +1,69 @@
+
+-- constants to change
+local TEXTURE = "ec76a99f-e4fd-25e1-a6e5-4d2231c2f39a"
+local COLS = 5
+local ROWS = 4
+
+local DEBUG = true
+
+-- script constants
+local LINKED_TEXTURE = 2
+local LINKED_SELECTION = 3
+local SELECTION_FACE = 4
+local ROT = 0
+
+local function debug(msg)
+    if DEBUG then
+        ll.OwnerSay(msg)
+    end
+end
+
+local function selectTexture(touched)
+    local xPos, yPos = 0, 0  -- touched x and y positions, their values are from 0 to 1
+    local col, row = 0, 0  -- touched col and row   
+    local xSize, ySize = 0, 0  -- sizes x and y of a cell
+    local centerCol, centerRow = 0, 0  -- column and row of the cell at the center, it will have half column or half row if the quantities of cells are even
+    local offsetCol, offsetRow = 0, 0  -- offset of column and row from the center
+    local xOffset, yOffset = 0, 0  -- offset x and y of the cell from the center multiplied by the size of the cell
+    debug(" ")
+
+    xPos = touched.x
+    yPos = 1 - touched.y  -- y axis goes from bottom (y=0) to top (y=1), we reverse it ( y = 1-y ) to have it from top to bottom
+    debug(`Touched:   xPos: {xPos},   yPos: {yPos}`)
+
+    -- calculate x and y sizes of a cell
+    xSize = 1 / COLS
+    ySize = 1 / ROWS
+    debug(`Size:   xSize: {xSize},   ySize: {ySize}`)
+
+    -- calculate column and row from the touched x and y positions, from 0 to COLS-1 and ROWS-1
+    col = math.min(math.floor(xPos / xSize), COLS - 1)
+    row = math.min(math.floor(yPos / ySize), ROWS - 1)
+    debug(`Selected:   col: {col},   row: {row}`)
+
+    -- calculate the column and row of the cell at the center, from 0 to COLS-1 and ROWS-1
+    centerCol = (COLS - 1) / 2
+    centerRow = (ROWS - 1) / 2
+    debug(`Center:   centerCol: {centerCol},   centerRow: {centerRow}`)
+
+    -- calculate the offset of the column and row from the center
+    offsetCol = col - centerCol
+    offsetRow = row - centerRow
+    debug(`Offset cell:   offsetCol: {offsetCol},   offsetRow: {offsetRow}`)
+
+    -- calculate the offset of the column and row from the center multiplied by their size
+    xOffset = offsetCol * xSize
+    yOffset = offsetRow * ySize
+    yOffset = -yOffset  -- the offset is calculated from top to bottom, change its sign to have it from bottom to top
+    debug(`Offset:   xOffset: {xOffset},   yOffset: {yOffset}`)
+
+    ll.SetLinkPrimitiveParamsFast(LINKED_SELECTION, {PRIM_TEXTURE, SELECTION_FACE, TEXTURE, vector(xSize, ySize, 0), vector(xOffset, yOffset, 0), ROT})
+    debug(" ")
+end
+
+function LLEvents.touch_start(events)
+    local ev = events[1]
+    if ev:getLinkNumber() == LINKED_TEXTURE then
+        selectTexture(ev:getTouchST())
+    end
+end
