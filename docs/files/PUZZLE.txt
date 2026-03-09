@@ -1,0 +1,154 @@
+
+local SIZE     = 4
+local SHUFFLES = 500
+
+local board      = {}
+local empty      = {}
+local image      = NULL_KEY
+local solved     = false
+local totalMoves = 0
+local textures   = {}
+
+local function getTextures()
+	textures = {}
+	for index = 1, ll.GetInventoryNumber(INVENTORY_TEXTURE) do
+		table.insert(textures, ll.GetInventoryName(INVENTORY_TEXTURE, index))
+	end
+end
+
+local function showTile(tile)
+	local imageTile      = board[tile.v][tile.u]
+	local link, face     = tile.v + 1, tile.u - 1
+	local scale          = 1.0 / SIZE
+	local offsetU        = ((imageTile.u - 1) * scale + scale / 2) - 0.5
+	local offsetV        = 0.5 - (((imageTile.v - 1) * scale + scale / 2))
+
+	ll.SetLinkPrimitiveParamsFast(link, {
+		PRIM_COLOR,   face, vector(1, 1, 1), 1.0,
+		PRIM_TEXTURE, face, image,
+		vector(scale, scale, 0), vector(offsetU, offsetV, 0), 0.0
+	})
+end
+
+local function showEmpty(tile)
+	local link, face = tile.v + 1, tile.u - 1
+	ll.SetLinkPrimitiveParamsFast(link, {
+		PRIM_COLOR,   face, vector(0, 0, 0), 1.0,
+		PRIM_TEXTURE, face, TEXTURE_BLANK,
+		vector(1, 1, 0), vector(0, 0, 0), 0.0
+	})
+end
+
+local function showBoard()
+	for row = 1, SIZE do
+		for col = 1, SIZE do
+			if row == empty.v and col == empty.u then
+				showEmpty(empty)
+			else
+				showTile({ v = row, u = col })
+			end
+		end
+	end
+end
+
+local function createBoard()
+
+	local function cleanBoard()
+		for link = 2, 9 do
+			ll.SetLinkPrimitiveParamsFast(link, {
+				PRIM_TEXTURE, ALL_SIDES, TEXTURE_TRANSPARENT,
+				vector(1, 1, 0), vector(0, 0, 0), 0.0
+			})
+		end
+	end
+
+	image = textures[math.random(#textures)]
+	cleanBoard()
+	board = {}
+	for row = 1, SIZE do
+		board[row] = {}
+		for col = 1, SIZE do
+			board[row][col] = { v = row, u = col }
+		end
+	end
+	board[SIZE][SIZE] = { v = 0, u = 0 }
+	empty = { v = SIZE, u = SIZE }
+end
+
+local function isSolved()
+	for row = 1, SIZE do
+		for col = 1, SIZE do
+			if board[row][col].v ~= row or board[row][col].u ~= col then
+				return row == SIZE and col == SIZE
+			end
+		end
+	end
+end
+
+local function moves()
+	local function inBoard(v, u)
+		return v >= 1 and v <= SIZE and u >= 1 and u <= SIZE
+	end
+
+	local mvs = {}
+	for _, d in { {1,0}, {-1,0}, {0,1}, {0,-1} } do
+		local nv, nu = empty.v + d[1], empty.u + d[2]
+		if inBoard(nv, nu) then
+			table.insert(list, { v = nv, u = nu })
+		end
+	end
+	return mvs
+end
+
+local function swap(t1, t2)
+	board[t1.v][t1.u], board[t2.v][t2.u] = board[t2.v][t2.u], board[t1.v][t1.u]
+end
+
+local function shuffleBoard()
+	repeat
+		for _ = 1, SHUFFLES do
+			local mvs = moves()
+			local choice = mvs[math.random(#mvs)]
+			swap(empty, choice)
+			empty = choice
+		end
+	until not isSolved()
+	solved = false
+	totalMoves = 0
+end
+
+local function tryMove(v, u)
+	if math.abs(v - empty.v) + math.abs(u - empty.u) == 1 then
+		swap({ v = v, u = u }, empty)
+		showTile(empty)
+		empty = { v = v, u = u }
+		showEmpty(empty)
+		totalMoves += 1
+		if isSolved() then
+			ll.Say(0, `Puzzle solved in {totalMoves} moves`)
+			solved = true
+		end
+	end
+end
+
+local function newGame()
+	createBoard()
+	shuffleBoard()
+	showBoard()
+end
+
+function LLEvents.touch_start(events)
+	if solved then
+		newGame()
+	else
+		local ev = events[1]
+		local link = ev:getLinkNumber()
+		local face = ev:getTouchFace()
+		if link > 1 then
+			tryMove(link - 1, face + 1)
+		end
+	end
+end
+
+getTextures()
+newGame()
