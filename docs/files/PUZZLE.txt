@@ -94,7 +94,7 @@ local function moves()
 	for _, d in { {1,0}, {-1,0}, {0,1}, {0,-1} } do
 		local nv, nu = empty.v + d[1], empty.u + d[2]
 		if inBoard(nv, nu) then
-			table.insert(list, { v = nv, u = nu })
+			table.insert(mvs, { v = nv, u = nu })
 		end
 	end
 	return mvs
