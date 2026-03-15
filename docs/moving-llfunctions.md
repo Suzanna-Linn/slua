@@ -312,9 +312,6 @@ These are the functions that change:
     <td style="padding: 5px; border: 1px solid black;">ll.ScriptDanger</td>
   </tr>
   <tr style="vertical-align: top;">
-    <td style="padding: 5px; border: 1px solid black;">ll.SetMemoryLimit</td>
-  </tr>
-  <tr style="vertical-align: top;">
     <td style="padding: 5px; border: 1px solid black;">ll.SetRegionPos</td>
   </tr>
   <tr style="vertical-align: top;">
