@@ -1,0 +1,256 @@
+
+-- script constants, don't change them
+--
+local ME = ll.GetOwner()
+local MIN_VERTEX = vector(0, 0, 0)
+local MAX_VERTEX = vector(256, 256, 4096)
+local MAX_DISTANCE = 4112
+local RED = vector(1, 0, 0)
+local GREEN = vector(0, 0.5, 0)
+--
+
+-- configuration constants to be changed
+--
+-- TEST_MODE=true sends all the greeting messages to myself
+local TEST_MODE = false
+--
+-- in case that my display name has unicode or extended ASCII characters, it needs to be rewritten in MY_NAME
+local MY_NAME = ""
+--
+-- space to scan for people:
+--     AGENT_LIST_PARCEL: the parcel where I am 
+--     AGENT_LIST_PARCEL_OWNER: the parcel where I am and other parcels with the same owner
+--     AGENT_LIST_REGION: all the sim
+local AGENT_SELECTION = AGENT_LIST_PARCEL
+--
+-- time to wait between scannings
+local SCAN_SECONDS = 15
+--
+-- a "box" space inside which the visitors will be greeted
+-- VERTEX_LOW has the lower values of the x,y,z coordinates, VERTEX_HIGH has the higher values
+local VERTEX_LOW = vector(10, 6, 605)
+local VERTEX_HIGH = vector(56, 56, 615)
+--
+-- a distance from me nearer which the visitors will be greeted
+-- if the place hasn't got a chat relay it should be set to 100 or less, otherwise it would greet but we wouldn't be able to chat
+local DISTANCE = MAX_DISTANCE
+--
+-- PUBLIC_GREETING=true greets arriving visitors in public chat, =false greets only to the visitor
+local PUBLIC_GREETING = true
+--
+-- WARN_ME=true sends me a message when a visitor arrives (if the greetings are not public) or leaves
+local WARN_ME = true
+--
+-- it greets leaving visitors who have moved out of sim with ll.InstantMessage which sends text in red letters
+-- GREET_OUT_SIM_OBJECT_NAME=true tries to send the message using the object name instead of text
+local GREET_OUT_SIM_OBJECT_NAME = true
+--
+-- texts for the greetings, the visitor display name is added between the PRE and POST texts
+local GREETING_IN_PRE = "Hello "
+local GREETING_IN_POST = ", welcome to the place"
+local GREETING_OUT_PRE = "See you "
+local GREETING_OUT_POST = ", come back soon"
+--
+
+-- vars
+local People = {}
+local PeopleOut = {}
+local GreeterOn = false
+local MyName = MY_NAME
+local CheckInPlace = true
+local TryObjectName = GREET_OUT_SIM_OBJECT_NAME
+local DataOnlineQuery = NULL_KEY
+
+
+local function IsPersonInPlace(PersonId)  -- checks if the visitor is inside the greeting limits
+	local InPlace = true
+	if PersonId == ME then
+		InPlace = false  -- don't greet myself
+	else
+		local Pos = ll.GetObjectDetails(PersonId, {OBJECT_POS})[1]
+		if Pos.x < VERTEX_LOW.x or Pos.x > VERTEX_HIGH.x or Pos.y < VERTEX_LOW.y or Pos.y > VERTEX_HIGH.y or Pos.z < VERTEX_LOW.z or Pos.z > VERTEX_HIGH.z then
+			InPlace = false  -- out of the "box" space
+		else
+			if ll.VecDist(ll.GetPos(), Pos) > DISTANCE then
+				InPlace = false  -- out of distance
+			end
+		end
+	end
+	return InPlace
+end
+
+local function GreetIn(PersonId)  -- greet an arriving visitor
+	local Name = ll.GetDisplayName(PersonId)
+	local Greeting = GREETING_IN_PRE .. Name .. GREETING_IN_POST
+	local Pos = ll.GetObjectDetails(PersonId, {OBJECT_POS})[1]
+	local Distance = ll.VecDist(ll.GetPos(), Pos)
+	if TEST_MODE then
+		ll.OwnerSay(Greeting)
+	else
+		if PUBLIC_GREETING and Distance < 100 then
+			if Distance < 20 then
+				ll.Say(0, Greeting)
+			else
+				ll.Shout(0, Greeting)
+			end
+		else
+			ll.RegionSayTo(PersonId, 0, Greeting)
+			if WARN_ME then
+				ll.OwnerSay(Name .. " has arrived")
+			end
+		end
+	end
+end
+
+local function GreetOut(PersonId)  -- greet a leaving visitor who is in the sim
+	local Name = ""
+	if ll.GetAgentSize(PersonId) ~= ZERO_VECTOR then  -- AgentSize is the lsl wiki recommended way to check if an agent is in the sim 
+		Name = ll.GetDisplayName(PersonId)
+		if TEST_MODE then
+			ll.OwnerSay(GREETING_OUT_PRE .. Name .. GREETING_OUT_POST)
+		else
+			ll.RegionSayTo(PersonId, 0, GREETING_OUT_PRE .. Name .. GREETING_OUT_POST)
+		end
+	else  -- if the leaving visitor is not in the sim, it makes a table to greet later
+		Name = People[PersonId]
+		PeopleOut[PersonId] = Name
+	end
+	if WARN_ME then
+		ll.OwnerSay(Name .. " has left")
+	end
+end
+
+local function GreetOutSim()  -- great leaving visitors who are not in the sim, only if they are online
+	local PersonId = next(PeopleOut)  -- next person to greet
+	if PersonId then
+		DataOnlineQuery = ll.RequestAgentData(PersonId, DATA_ONLINE)  -- check for online
+	end
+end
+
+local function GreetOutSimOne(PersonId, Name)  -- great a leaving visitor who is not in the sim and is online
+	local GreetPre = ""
+	local GreetPost = ""
+	local Greeted = false
+	if TryObjectName then  -- try to use the object name instead of the red letters message
+		GreetPre = GREETING_OUT_PRE .. Name
+		GreetPost = GREETING_OUT_POST
+		if ll.GetSubString(GreetPost, 1, 1) == "," then  -- remove possible "," at the start
+			GreetPost = ll.GetSubString(GreetPost, 2, -1)
+		end
+		GreetPost = ll.StringTrim(GreetPost, STRING_TRIM)  -- remove possible spaces
+		ll.SetObjectName(GreetPre)
+		if ll.GetObjectName() == GreetPre then  -- if not non-ascii-127 characters and not too long (max length is 63)
+			if TEST_MODE then
+				ll.OwnerSay(" ")
+			else
+				ll.InstantMessage(PersonId, " ")
+			end
+			ll.SetObjectName(GreetPost)
+			if TEST_MODE then
+				ll.OwnerSay(" ")
+			else
+				ll.InstantMessage(PersonId, " ")
+			end
+			Greeted = true
+		end
+		ll.SetObjectName(MyName)
+	end
+	if not Greeted then  -- if not greeted already use the red letters message
+		if TEST_MODE then
+			ll.OwnerSay(GREETING_OUT_PRE .. Name .. GREETING_OUT_POST)
+		else
+			ll.InstantMessage(PersonId, GREETING_OUT_PRE .. Name .. GREETING_OUT_POST)
+		end
+	end
+end
+
+local function ScanPeople(Greet)  -- scan the people
+	local PeopleScan = ll.GetAgentList(AGENT_SELECTION, {})
+	local PeopleInPlace = {}
+	for _, PersonId in PeopleScan do
+		if PersonId ~= ME and (not CheckInPlace or IsPersonInPlace(PersonId)) then  -- check if the person is inside the "box" space and the distance
+			PeopleInPlace[PersonId] = true  -- add to the people in the place
+		end
+	end
+	-- looks for the people who has left
+	PeopleOut = {}
+	for PersonId in People do  -- looks for the people in the previous scan who aren't in the scan now
+		if not PeopleInPlace[PersonId] then
+			if Greet then  -- greet them out
+				GreetOut(PersonId)
+			end
+			People[PersonId] = nil  -- remove from the people
+		end        
+	end
+	-- looks for the people who has arrived
+	for PersonId in PeopleInPlace do  -- looks for the people in the scan now who aren't in the previous scan
+		if not People[PersonId] then
+			if Greet then  -- greet them in
+				GreetIn(PersonId)
+			end
+		end
+		People[PersonId] = ll.GetDisplayName(PersonId)  -- add to the people
+	end
+	GreetOutSim()  -- greet leaving people who are not in the sim
+end
+
+local function main()
+	ll.SetColor(RED, ALL_SIDES)
+	if MyName == "" then
+		MyName = ll.GetDisplayName(ME)
+	end
+	if VERTEX_LOW == MIN_VERTEX and VERTEX_HIGH == MAX_VERTEX and DISTANCE == MAX_DISTANCE then
+		CheckInPlace = false  -- don't check the place if any value is set
+	end
+	if TryObjectName then  -- don't try to use the object name if it's already not possible
+		ll.SetObjectName(GREETING_OUT_PRE)
+		if ll.GetObjectName() ~= GREETING_OUT_PRE then
+			TryObjectName = false
+		end
+		ll.SetObjectName(GREETING_OUT_POST)
+		if ll.GetObjectName() ~= GREETING_OUT_POST then
+			TryObjectName = false
+		end
+	end
+	ll.SetObjectName(MyName)
+end
+
+local function scanTimer()
+	ScanPeople(true)
+end
+
+function LLEvents.touch_start(events)  --  touch to turn the HUD ON/OFF
+	GreeterOn = not GreeterOn
+	if GreeterOn then
+		People = {}
+		ScanPeople(false)  --  don't greet when turning on to avoid greeting everybody
+		ll.SetColor(GREEN, ALL_SIDES)
+		LLTimers:every(SCAN_SECONDS, scanTimer)
+	else
+		LLTimers:off(scanTimer)
+		ll.SetColor(RED, ALL_SIDES)
+	end
+end
+
+function LLEvents.dataserver(queryid, data)
+	if queryid == DataOnlineQuery then  -- looking if the leaving visitor is online
+		local PersonId = next(PeopleOut)  -- first person to greet
+		if data == "1" then  --  don't greet if not online
+			GreetOutSimOne(PersonId, PeopleOut[PersonId])
+		end
+		PeopleOut[PersonId] = nil  -- remove the person
+		GreetOutSim()  -- greet the next one
+	end
+end
+
+function LLEvents.on_rez(start_param)
+	ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+	if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_TELEPORT)) then
+		ll.ResetScript()
+	end
+end
+
+main()
