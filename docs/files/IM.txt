@@ -1,0 +1,4 @@
+
+function LLEvents.touch_start(events)
+    ll.InstantMessage(ll.GetOwner(),"this is an instant message")
+end
