@@ -166,7 +166,7 @@ We have the library bit32, with functions for bitwise operations:
 -  \| : bit32.bor()
 -  ~ : bit32.bnot()
 -  ^ : bit32.bxor()
--  << : bit32.lshift()
+-  \<\< : bit32.lshift()
 -  \>\> : bit32.arshift()  
 band, bor and bxor can take any quantity of operators.
 
