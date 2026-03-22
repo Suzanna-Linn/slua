@@ -184,12 +184,13 @@ In SLua, yielding is the act of pausing a running function (a coroutine) so that
 
 Yielding is restricted in certain contexts. If we try to yield in these places, we will get an "attempt to yield across metamethod/C-call boundary" error.
 
-The technical reason of the "C-Call Boundary" limitation is that SLua is a scripting language embedded within a C++ engine.
-When SLua code runs, it uses a SLua stack, which can be easily paused and resumed.
-However, when a SLua script calls a built-in C++ function (such as a metamethod), and that C++ function calls back into SLua (our function for the metamethod), a C++ stack frame is created.
+The technical reason of the "C-Call Boundary" limitation is that SLua is a scripting language embedded within a C++ engine.  
+When SLua code runs, it uses a SLua stack, which can be easily paused and resumed.  
+However, when a SLua script calls a built-in C++ function (such as a metamethod), and that C++ function calls back into SLua (our function for the metamethod), a C++ stack frame is created.  
 Unlike SLua, C++ cannot simply "pause" and "resume" its execution state mid-function. Therefore, SLua forbids yielding whenever there is a C++ function active in the middle of the call stack.
 
-In SL, scripts must yield regularly to avoid using more runtime than the time slice assigned to them. If we execute a long process in a place that can't yield (like a function within a metamethod), the script exceeds its allotted running time, and the scheduler will force it to stop, resulting in a "Failed to perform mandatory yield" error.
+In SL, scripts must yield regularly to avoid using more runtime than the time slice assigned to them.  
+If we execute a long process in a place that can't yield (like a function within a metamethod), the script exceeds its allotted running time, and the scheduler will force it to stop, resulting in a "Failed to perform mandatory yield" error.
 
 In this release many of these cases has been solved. The following are now yieldable:
 - iterators in a generic for loop
@@ -199,9 +200,9 @@ In this release many of these cases has been solved. The following are now yield
 - lljson library functions and the *__tojson* metamethod
 
 Are not yieldable:
-- metamethods (except __tojson): we need to optimize the code and avoid using LL functions that call the simulator.
+- metamethods (except *__tojson*): we need to optimize the code and avoid using LL functions that call the simulator.
 
-Examples:
+Examples of yieldable:
 <pre class="language-sluab"><code class="language-sluab">-- yielding in an iterator
 local t = { ll.GetOwner() }
 local function iterNames(tab)
@@ -238,6 +239,7 @@ table.sort(t, function(a,b)
     return a > b
 end)</code></pre>
 
+Examples of not yieldable:
 <pre class="language-sluab"><code class="language-sluab">-- metamethods are not yieldable, "attempt to yield across metamethod/C-call boundary"
 local t = setmetatable({}, {
     __index = function()
