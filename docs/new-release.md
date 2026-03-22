@@ -43,7 +43,8 @@ table.append(t2, "a", "b", "c")
 print(table.concat(t2))  -- > 12abc</code></pre>
 
 
-**table.extend(t1, t2)**: Inserts the values of t2 into t1, starting at #t1 + 1. It is the same as <code class="language-sluab">table.move(t2, 1, #t2, #t1 + 1, t1)</code>:
+**table.extend(t1, t2)**: Inserts the values of t2 into t1, starting at #t1 + 1.
+It is the same as <code class="language-sluab">table.move(t2, 1, #t2, #t1 + 1, t1)</code>:
 <pre class="language-sluab"><code class="language-sluab">-- table.extend()
 local t1 = { "a", "b", "c" }
 local t2 = { "d", "e", "f" }
@@ -61,15 +62,17 @@ print(table.concat(t4,", "))  -- > a, b, c, d, e, f, g, h, i</code></pre>
 
 **table.append()** is optimized for speed and **table.extend()** is optimized for memory.
 
-If we prefer to save memory, instead of <code class="language-sluab">table.append(t, "a", "b", "c")</code> we can use <code class="language-sluab">table.extend(t, { "a", "b", "c" })</code>
+To save memory, instead of <code class="language-sluab">table.append(t, "a", "b", "c")</code> we can use <code class="language-sluab">table.extend(t, { "a", "b", "c" })</code>
 
 ### bit32 library
 
+**bit32.s32()**
 
+**bit32.smul**
 
 ### vector library
 
-
+**vector.lerp()**
 
 ### math library
 
@@ -88,11 +91,16 @@ For any number, one of the functions is true and the other two functions are fal
 
 ### global library
 
+**tovector()**, **tororation()**/**toquaternion()**, **touuid()**/**uuid()** : Return **nil** when called with a parameter that is not a string (instead of throwing an error).
 
+This way they behave the same than **tonumber()**
 
 ### LL functions
 
+**ll.List2Key()** : Returns **NULL_KEY** when the parameter has not a valid uuid format (instead of returning a string).
 
+**ll.FindNotecardTextSync()** : Its parameter **start** is 1-based.
+The description of **start** is *Index of the first match to return.* (instead of *The number of matches to skip before returning values.*).
 
 ### lljson library
 
