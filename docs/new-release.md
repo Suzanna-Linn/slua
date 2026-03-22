@@ -263,4 +263,4 @@ local t = setmetatable({}, {
 })
 print(t.test)
 -- > yieldable: false
--- > false    Failed to perform mandatory yield</code></pre>
+-- > Error: Failed to perform mandatory yield</code></pre>
