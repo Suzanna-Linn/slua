@@ -201,8 +201,33 @@ In this release many of these cases has been solved. The following are now yield
 Are not yieldable:
 - metamethods (except __tojson): we need to optimize the code and avoid using LL functions that call the simulator.
 
+Examples:
 <pre class="language-sluab"><code class="language-sluab">-- yielding in an iterator
-</code></pre>
+local t = { ll.GetOwner() }
+local function iterNames(tab)
+    local count = 0
+    return function()
+        count += 1
+        local id = tab[count]
+        local name
+        if id then
+            name = ll.GetDisplayName(id)
+            if name == "" then
+                name = coroutine.yield(ll.RequestDisplayName(id))
+            end
+        end
+        return id, name
+    end
+end
+local co = coroutine.create(function()
+    for k, v in iterNames(t) do
+        print(k, v)
+    end
+end)
+LLEvents:on("dataserver", function(queryId, data)
+    coroutine.resume(co, data)
+end)
+coroutine.resume(co)</code></pre>
 
 <pre class="language-sluab"><code class="language-sluab">-- a very long sort
 local t = {}
@@ -214,7 +239,26 @@ table.sort(t, function(a,b)
 end)</code></pre>
 
 <pre class="language-sluab"><code class="language-sluab">-- metamethods are not yieldable, "attempt to yield across metamethod/C-call boundary"
-</code></pre>
+local t = setmetatable({}, {
+    __index = function()
+        print("yieldable: ", coroutine.isyieldable())
+        coroutine.yield()
+    end
+})
+print(coroutine.resume(coroutine.create(function()
+    print(t.test)
+end)))
+-- > yieldable: false
+-- > false    attempt to yield across metamethod/C-call boundary</code></pre>
 
 <pre class="language-sluab"><code class="language-sluab">-- metamethods are not yieldable, "Failed to perform mandatory yield"
-</code></pre>
+local t = setmetatable({}, {
+    __index = function()
+        print("yieldable: ", coroutine.isyieldable())
+        -- slow function that exceeds the time slice
+        ll.SetText("test", vector(1, 1, 1), 1)
+    end
+})
+print(t.test)
+-- > yieldable: false
+-- > false    Failed to perform mandatory yield</code></pre>
