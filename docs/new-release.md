@@ -239,30 +239,43 @@ The reviver processes nested structures from the inside out. The children of an 
 
 In `sldecode()` the reviver receives keys and values already converted to SLua datatypes from the internal format.
 
-##### Changes in `encode()`encoding
+##### Changes in encoding with `encode()`
 
-nan
+Empty tables are encoded as array by default.
 
-empty tables as array by default
+**NaN** is encoded as `lljson.null` (instead of *Nan*, that is not standard JSON).
 
-##### Changes in `decode()`decoding
+##### Changes in decoding with `decode()`
 
-array_mt and object_mt added to all tables in decode()
+All tables are decoded with its metatable set to `array_mt` or `object_mt` depending on the JSON type.  
+This is useful in case of re-encoding the data or to know the JSON type in a *reviver* function.
 
 ##### Changes in `__tojson`
 
-parameter ctx (mode, tight)
+`__tojson` has a second parameter *ctx* which is a table providing information about the encoding mode. It contains two keys:
+- *ctx.mode*: A string, either "json" (for `encode()`) or "sljson" (for `slencode()`).
+- *ctx.tight*: A boolean indicating if the *tight* encoding option is enabled (only relevant for `slencode()`).
 
-mode = "json" / "sljson"
+If `__tojson` returns a table that has a metamethod `__tojson`, this other one is not called. We can return the same table without going into infinite recursion.
 
-non recursive
+##### New metamethod `__jsonhint` for `encode()`
 
-##### New metamethod `__jsonhint`
+The `__jsonhint` metamethod is a special directive used during serialization to resolve ambiguity in SLua tables. Because a SLua table can represent both a key-value map (object) and a sequential list (array), the encoder must guess the user's intent. The `__jsonhint` gives us explicit control over this process, hinting a table to be encoded as either a JSON object ({}) or a JSON array ([]).
 
-"array" / "object"
+We set `__jsonhint` as a key within a table's metatable. The value must be one of the string values that "hint" at the desired JSON structure.
 
-__jsonhint="array" ignored if it can't be an array
-__jsonhint="array" encodes excessively sparse array (ignores allow_sparse = false)
+Valid Values for `__jsonhint`
+- *"array"*: Hints the table to be encoded as a JSON array. This is a soft hint. If the table contains keys that are not positive integers, it cannot be a valid JSON array. In this case, the encoder will ignore the hint and serialize it as a JSON object to preserve all the data.
+- *"object"*: Hints the table to be encoded as a JSON object. This is a strong hint. It will always produce a JSON object, converting any numeric keys into string keys in the final output.
+
+This is useful for:
+- Empty tables: An empty SLua table {} could be either {} or [] in JSON. Without a hint they are encoded as JSON arrays.
+- Tables with only numeric keys: A table like { [1] = "a" } would normally become an array, but we might intend for it to be an object {"1": "a"}.
+- Sparse array: An excessively sparse array will be encoded as a JSON array with `__jsonhint="array"`, instead of throwing a "excessively sparse array" error. 
+
+For convenience, the lljson library provides pre-configured, read-only metatables that we can use directly:
+- `lljson.array_mt`: Use this to hint that a table should be an array.
+- `lljson.object_mt`: Use this to hint that a table should be an object.
 
 ##### Changes in tables and metatables to encode to array or object
 
