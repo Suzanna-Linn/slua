@@ -206,11 +206,13 @@ Many changes here. There are the same library functions but with many more optio
 
 A replacer is a callback function that allows us to intercept and modify values during the serialization process. It gives us fine-grained control over the final JSON output, making it ideal for filtering data, formatting custom types, or censoring sensitive information.
 
-**replacer(key, value, parent)**: callback function to modify the contents before encoding them with `encode()` or `slencode()`.  
+**replacer(key, value, parent)**: callback function to modify the contents before encoding them with `encode()` or `slencode()`.
+
 Parameters:
 - *key*: The key or index of the value being processed. The key is nil for the root value.
 - *value*: The value associated with the key.
-- *parent*: The table that contains the current value. The parent is nil for the root value.  
+- *parent*: The table that contains the current value. The parent is nil for the root value.
+
 Return value: The value we return from the replacer determines what gets written to the JSON string.
 - any value: The returned value will be serialized in place of the original value. This is used for transformation.
 - the constant `lljson.remove`: This constant instructs the encoder to completely omit the key-value pair from the final JSON. This is used for filtering.
@@ -224,13 +226,15 @@ If a table has a `__tojson` metamethod, it is called before passing the values t
 
 A reviver is a callback function that lets us inspect and transform data as it is being parsed from a JSON string. It is called for every key-value pair after it has been parsed but before it's added to its parent container. This is useful for "reviving" data into custom types (like dates or vectors) or restructuring the data on the fly.
 
-**reviver(key, value, parent, ctx)**: callback function to modify the contents while decoding them with `decode()` or `sldecode()`.  
+**reviver(key, value, parent, ctx)**: callback function to modify the contents while decoding them with `decode()` or `sldecode()`.
+
 Parameters:
 - *key*: The key or index of the value being processed. The key is nil for the root value.
 - *value*: The value that was just parsed from the JSON.
 - *parent*: The table that the value will be placed into. The parent is nil for the root value.
 - *ctx*: A table containing metadata about the parse operation.
-- *ctx.path*: A table representing the traversal path to the current value. For a value at data.users[2], the path would be {"data", "users", 2}. This is only populated if we enable it with the { track_path = true } option.  
+- *ctx.path*: A table representing the traversal path to the current value. For a value at data.users[2], the path would be {"data", "users", 2}. This is only populated if we enable it with the { track_path = true } option.
+
 Return value: The value we return from the reviver determines what gets written to the tables.
 - any value: The returned value will be inserted into the parent table instead of the original parsed value.
 - the constant `lljson.remove`: This constant prevents the value from being added to its parent. In an array the element is skipped, and subsequent elements are shifted down to fill the gap, resulting in a shorter array.
@@ -335,7 +339,7 @@ When no replacer is used,  `__jsonhint` is read before `__tojson` is executed:
   - If __tojson returned a non-table (e.g., a string), it serializes it directly (ignoring hints).
   - If __tojson returned a table, the encoder takes the shape hint saved in the first step and applies it to this new table, forcing it to serialize as that shape.
 
-Why this order?
+Why this order?  
 It allows a table to dictate its content via `__tojson`, but dictate its shape via its own `__jsonhint`, without requiring us to attach a metatable to the temporary table returned by `__tojson`.
 
 **With a Replacer**
@@ -350,7 +354,7 @@ Why this order?
 It ensures that our replacer function always receives the final data that an object intends to serialize, rather than forcing the replacer to try and understand the object's complex internal structure.  
 It also guarantees strict compatibility with the JavaScript JSON.stringify specification, which requires an object's toJSON method to fully resolve its serializable value before that value is ever passed to the replacer function.
 
-##### Changes in `slencode()`/ `sldecode()`encoding
+##### Changes in `slencode()`/ `sldecode()` encoding
 
 **nil** is encoded as *"!n"* and is decoded back to **nil** (instead of *null* that was decoded to `lljson.null`).
 
@@ -364,7 +368,7 @@ In tigh encoding (with the parameter `tight=true`):
 
 ##### Constants `_NAME` and `_VERSION` don't exist
 
-The lljson constants ' _NAME` and `_VERSION` had few use and have been removed.
+The lljson constants `_NAME` and `_VERSION` had few use and have been removed.
 
 ### Yieldability
 
