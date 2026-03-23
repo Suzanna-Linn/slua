@@ -178,6 +178,94 @@ The description of **start** is *Index of the first match to return.* (instead o
 
 
 
+##### New parameters when encoding
+
+`allow_sparse`
+`skip_tojson`
+`track_path`
+
+##### New callbacks `replacer` / `reviver` when encoding and decoding
+
+replacer(key. value. parent)
+return value
+retun nil encode as null
+return lljson.remove to ignore the key
+	in array result is compacted, no index to nil
+	in main table encodes lljson.null
+key == nil and parent == nil in main table
+__tojson is previously executed
+
+reviver(key. value)
+return value
+return nil decodes as nil
+return lljson.remove to ignore the key
+	in array result is compacted, no index to nil
+	in main table decodes lljson.null
+key == nil in main table
+key, value are previously decoded in sldecode()
+ctx.path in reviver, with track_path = true parameter, with the tables path
+
+ctx  (mode, tight, alllow_sparse, path)
+
+`lljson.remove`
+
+##### Changes in `encode()`encoding
+
+nan
+
+empty tables as array by default
+
+##### Changes in `decode()`decoding
+
+array_mt and object_mt added to all tables in decode()
+
+##### Changes in `__tojson`
+
+parameter ctx (mode, tight, alllow_sparse, path)
+
+mode = "json" / "sljson"
+
+non recursive
+
+##### New metamethod `__jsonhint`
+
+"array" / "object"
+
+__jsonhint="array" ignored if it can't be an array
+__jsonhint="array" encodes excessively sparse array (ignores allow_sparse = false)
+
+##### Changes in tables and metatables to encode to array or object
+
+`array_mt`
+`object_mt`
+
+`empty_array`
+`empty_object`
+
+no `empty_array_mt`
+
+##### Metamethods `__len`and `__index`not used
+
+##### Objects
+
+##### Arrays
+
+##### Sparse arrays
+
+##### Sequence of execution
+
+##### Chamges in `slencode()`/ `sldecode()`encoding
+
+`slencode()`ignores `__jsonhint` and shape metatables
+
+nil
+
+nan
+
+!v, !q
+
+##### Constants _NAME and _VERSION don't exist
+
 ### Yieldability
 
 In SLua, yielding is the act of pausing a running function (a coroutine) so that it can be resumed later. This is done via coroutine.yield().
