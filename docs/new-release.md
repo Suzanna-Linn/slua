@@ -277,17 +277,26 @@ For convenience, the lljson library provides pre-configured, read-only metatable
 - `lljson.array_mt`: Use this to hint that a table should be an array.
 - `lljson.object_mt`: Use this to hint that a table should be an object.
 
+`__jsonhint` is not used by `slencode()`. `slencode()` uses the encoding that is more efficient. 
+
 ##### Changes in tables and metatables to encode to array or object
 
-`array_mt`
-`object_mt`
+**`array_mt` and the new `object_mt`**  
+They are tables with a `__jsonhint` metamethod set to "array" or "object". Previously `array_mt` was an empty table.
 
-`empty_array`
-`empty_object`
+**`empty_array` and the new `empty_object`**  
+They are empty tables with a metatable with a `__jsonhint` metamethod set to "array" or "object". Previously `empty_array` was lljson constant.
 
-no `empty_array_mt`
+**`empty_array_mt` doesn't exist**
+It's not needed since an empty table becomes a JSON array by default. We have `object_mt` or `__jsonhint="object"` to generate an empty JSON object.
 
-##### Metamethods `__len`and `__index`not used
+These shaping tables are not used by `slencode()`. `slencode()` uses the encoding that is more efficient. 
+
+##### Metamethods `__len`and `__index` are not used
+
+With the new improvements they are not needed.
+
+
 
 ##### Objects
 
