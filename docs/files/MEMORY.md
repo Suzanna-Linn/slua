@@ -118,7 +118,7 @@ end
 function LLEvents.touch_start(events)
     if isTouchActive then
         local ev = events[1]
-        touchPrim(ev:getKey(), ev:LinkNumber())
+        touchPrim(ev:getKey(), ev:getLinkNumber())
     end
 end
 
