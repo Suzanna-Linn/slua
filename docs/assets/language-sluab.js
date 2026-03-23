@@ -25,7 +25,7 @@ Prism.languages.sluab = {
         alias: 'keyword'
     },
     'builtin-math': {
-        pattern: /\bmath\.(?:abs|acos|asin|atan|atan2|ceil|clamp|cos|cosh|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|noise|pow|rad|random|randomseed|round|sign|sin|sinh|sqrt|tan|tanh)\b(?=\s*(?:[({]))/,
+        pattern: /\bmath\.(?:abs|acos|asin|atan|atan2|ceil|clamp|cos|cosh|deg|exp|floor|fmod|frexp|isfinite|isinf|isnan|ldexp|log|log10|max|min|modf|noise|pow|rad|random|randomseed|round|sign|sin|sinh|sqrt|tan|tanh)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-math-constant': {
@@ -33,7 +33,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-table': {
-        pattern: /\btable\.(?:clear|clone|concat|create|find|foreach|foreachi|freeze|getn|insert|isfrozen|maxn|move|pack|remove|shrink|sort|unpack)\b(?=\s*(?:[({]))/,
+        pattern: /\btable\.(?:append|clear|clone|concat|create|extend|find|foreach|foreachi|freeze|getn|insert|isfrozen|maxn|move|pack|remove|shrink|sort|unpack)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-string': {
@@ -45,7 +45,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-bit32': {
-        pattern: /\bbit32\.(?:arshift|band|bnot|bor|btest|bxor|byteswap|countlz|countrz|extract|lrotate|lshift|replace|rrotate|rshift)\b(?=\s*(?:[({]))/,
+        pattern: /\bbit32\.(?:arshift|band|bnot|bor|btest|bxor|byteswap|countlz|countrz|extract|lrotate|lshift|replace|rrotate|rshift|s32|smul)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-utf8': {
@@ -65,7 +65,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-vector': {
-        pattern: /\bvector\.(?:abs|angle|ceil|clamp|create|cross|dot|floor|magnitude|max|min|normalize|sign)\b(?=\s*(?:[({]))/,
+        pattern: /\bvector\.(?:abs|angle|ceil|clamp|create|cross|dot|floor|lerp|magnitude|max|min|normalize|sign)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-vector-constant': {
@@ -97,11 +97,11 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-lljson-constant': {
-        pattern: /\lljson\.(?:_NAME|_VERSION|array_mt|empty_array|empty_array_mt|null)\b/,
+        pattern: /\lljson\.(?:_NAME|_VERSION|array_mt|empty_array|empty_array_mt|empty_object|null|object_mt|remove)\b/,
         alias: 'builtin'
     },
     'builtin-llevents': {
-        pattern: /LLEvents:(?:on|once|off|eventNames|listeners)\b/,
+        pattern: /LLEvents:(?:on|once|off|eventNames|handlers|listeners)\b/,
         alias: 'builtin'
     },
     'builtin-llevents-alternative': {
@@ -118,7 +118,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-standalone': {
-        pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|touuid|type|typeof|unpack|xpcall|quaternion|rotation|toquaternion|torotation|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
+        pattern: /\b(?:assert|error|gcinfo|getmetatable|ipairs|newproxy|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|typeof|unpack|xpcall|quaternion|rotation|toquaternion|torotation|touuid|tovector|uuid|vector)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-libraries': {
@@ -126,7 +126,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-metamethods': {
-        pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm|tojson)\b/,
+        pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm|jsonhint|tojson)\b/,
         alias: 'builtin'
     },
     'function': /(?!\d)\w+(?=\s*(?:[({]))/,
