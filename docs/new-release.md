@@ -321,7 +321,33 @@ An excessively sparse array table is encoded as a JSON array if:
 
 `__jsonhint` has priority over *allow_sparse*. With `__jsonhint = "array"` an excessively sparse array will be encoded as an error even if we have passed `allow_sparse=false`.
 
-##### Sequence of execution
+##### Encoding sequence of execution
+
+`encode()` uses two different execution pipelines depending on whether we provided a replacer function in our options.
+
+**Without a Replacer**
+
+When no replacer is used,  `__jsonhint` is read before `__tojson` is executed:
+- Read `__jsonhint` (Original Table): The encoder looks at the original table's metatable and reads the `__jsonhint`. It saves this shape intent.
+- Execute `__tojson` (Original Table): Next, it checks if the original table has a `__tojson` metamethod. If it does, it calls it and takes the returned value. (The original table is now discarded).
+- Apply shape and serialize:
+  - If __tojson returned a non-table (e.g., a string), it serializes it directly (ignoring hints).
+  - If __tojson returned a table, the encoder takes the shape hint saved in the first step and applies it to this new table, forcing it to serialize as that shape.
+  - 
+Why this order?
+It allows a table to dictate its content via `__tojson`, but dictate its shape via its own `__jsonhint`, without requiring us to attach a metatable to the temporary table returned by `__tojson`.
+
+**With a Replacer**
+
+When a replacer is provided, `__tojson` executes first, then the *replacer* function, and `__jsonhint` is read last:
+- Execute `__tojson` (Original Table): Before the replacer sees the value, the encoder checks for `__tojson` on the original table and executes it.
+- Execute replacer (on the resolved value): The *replacer* function is called. The value argument passed to the replacer is the result of the `__tojson` call from the first step.
+- Read __jsonhint (Final Table): After the replacer returns its final value, the encoder processes it. If the final value is a table, the encoder looks at the metatable of this final table for a `__jsonhint`.
+- Serialize: The table is serialized according to the hint found in the previous step (or auto-detected if no hint exists).
+
+Why this order?  
+It ensures that your replacer function always receives the exact, final data that an object intends to serialize, rather than forcing the replacer to try and understand the object's complex internal structure.
+It also guarantees strict compatibility with the JavaScript JSON.stringify specification, which requires an object's toJSON method to fully resolve its serializable value before that value is ever passed to the replacer function.
 
 ##### Changes in `slencode()`/ `sldecode()`encoding
 
