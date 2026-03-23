@@ -218,7 +218,7 @@ Return value: The value we return from the replacer determines what gets written
 - the constant `lljson.remove`: This constant instructs the encoder to completely omit the key-value pair from the final JSON. This is used for filtering.
 - `nil`: it's a valid value to return. It will be serialized as null in `encode()` or *"!n"* in `slencode`.
 
-A return value of `lljson.remove` for the root value will be encoded as `lljson.null`.
+A return value of `lljson.remove` for the root value evaluates to `lljson.null` and will be serialized as *null*.
 
 If a table has a `__tojson` metamethod, it is called before passing the values to the replacer function.
 
@@ -233,11 +233,13 @@ Parameters:
 - *value*: The value that was just parsed from the JSON.
 - *parent*: The table that the value will be placed into. The parent is nil for the root value.
 - *ctx*: A table containing metadata about the parse operation.
-- *ctx.path*: A table representing the traversal path to the current value. For a value at data.users[2], the path would be {"data", "users", 2}. This is only populated if we enable it with the { track_path = true } option.
+- *ctx.path*: A table representing the traversal path to the current value. For a value at data.users[20], the path would be {"data", "users", 20}. This is only populated if we enable it with the { track_path = true } option.
 
 Return value: The value we return from the reviver determines what gets written to the tables.
 - any value: The returned value will be inserted into the parent table instead of the original parsed value.
 - the constant `lljson.remove`: This constant prevents the value from being added to its parent. In an array the element is skipped, and subsequent elements are shifted down to fill the gap, resulting in a shorter array.
+
+A return value of `lljson.remove` for the root value will return `lljson.null`.
 
 The reviver processes nested structures from the inside out. The children of an object or array are revived before the parent object or array itself is revived. This means when we are processing a table, all of its nested tables have already been transformed by the reviver.
 
@@ -303,9 +305,9 @@ These shaping tables are not used by `slencode()`. `slencode()` uses the encodin
 
 With the new improvements they are not needed.
 
-`__len` was useful to encode excessively sparse arrays. Now we can use `__jsontype="array"` or the parameter `allow_sparse=true`.
+`__len` was useful to encode excessively sparse arrays. Now we can use `__jsonhint="array"` or the parameter `allow_sparse=true`.
 
-`__len` and `__index` together were useful to add calculated elements to an array. We can use `__tojson` and now a *reviver* function.
+`__len` and `__index` together were useful to add calculated elements to an array. We can use `__tojson` and now a *replacer* function.
 
 ##### Objects
 
@@ -318,7 +320,7 @@ A table is encoded as a JSON object if it meets any of the following conditions:
 An array table is encoded as a JSON array if it satisfies any of the following conditions, provided it is not explicitly forced to be an object via `__jsonhint = "object"`.
 - Explicit hint: It has a metatable with `__jsonhint = "array"` and contains only array-compatible keys.
 - Empty table default: It is an empty table ({}) and does not have an "object" hint.
-- Automatic Detection: It all its keys are positive integers and it's not excessively sparsed.
+- Automatic Detection: If all its keys are positive integers and it's not excessively sparse.
 
 An excessively sparse array table is encoded as a JSON array if:
 - Explicit hint: It has a metatable with `__jsonhint = "array"`.
