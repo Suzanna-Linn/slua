@@ -176,17 +176,33 @@ The description of **start** is *Index of the first match to return.* (instead o
 
 ### lljson library
 
-
+Many changes here. There are the same library functions but with many more options to deal with the contents and its shape (as JSON arrays or JSON objects) and improvements on the encoding.
 
 ##### New parameters when encoding
 
-`allow_sparse`
-`skip_tojson`
-`track_path`
+`encode()` and `slencode()` have a second parameter which is a table with named parameters.
+
+`allow_sparse`: boolean, `false` by default, if `true` all sparse array are encoded as arrays, no matter how sparse they are, instead of throwing a "excessively sparse array" error.
+
+`skip_tojson`: boolean, `false` by default, if `true` the metamethod `__tojson` is not called.
+
+`replacer`: call back function to modify the data to be encoded, explained below.
+
+<pre class="language-sluab"><code class="language-sluab">local myJson = lljson.encode(myTab, { allow_sparse = true, skip_tojson = true, replacer = myReplacerFunc })</code></pre>
+
+##### New parameters when decoding
+
+`decode()` and `sldecode()` have a second parameter which is a table with named parameters.
+
+`track_path`: boolean, `false` by default, if `true` the `reviver` function will be passed an array table representing the traversal path across the nested tables from the root to the current value. 
+
+`reviver`: call back function to modify the data being decoded, explained below.
+
+<pre class="language-sluab"><code class="language-sluab">local myTab = lljson.decode(myJson, { track_path = true, reviver = myReviverFunc })</code></pre>
 
 ##### New callbacks `replacer` / `reviver` when encoding and decoding
 
-replacer(key. value. parent)
+replacer(key, value, parent)
 return value
 retun nil encode as null
 return lljson.remove to ignore the key
@@ -195,7 +211,7 @@ return lljson.remove to ignore the key
 key == nil and parent == nil in main table
 __tojson is previously executed
 
-reviver(key. value)
+reviver(key, value)
 return value
 return nil decodes as nil
 return lljson.remove to ignore the key
@@ -205,7 +221,7 @@ key == nil in main table
 key, value are previously decoded in sldecode()
 ctx.path in reviver, with track_path = true parameter, with the tables path
 
-ctx  (mode, tight, alllow_sparse, path)
+ctx  (path)
 
 `lljson.remove`
 
@@ -221,7 +237,7 @@ array_mt and object_mt added to all tables in decode()
 
 ##### Changes in `__tojson`
 
-parameter ctx (mode, tight, alllow_sparse, path)
+parameter ctx (mode, tight)
 
 mode = "json" / "sljson"
 
@@ -254,7 +270,7 @@ no `empty_array_mt`
 
 ##### Sequence of execution
 
-##### Chamges in `slencode()`/ `sldecode()`encoding
+##### Changes in `slencode()`/ `sldecode()`encoding
 
 `slencode()`ignores `__jsonhint` and shape metatables
 
@@ -264,7 +280,9 @@ nan
 
 !v, !q
 
-##### Constants _NAME and _VERSION don't exist
+##### Constants ' _NAME` and `_VERSION` don't exist
+
+The lljson constants ' _NAME` and `_VERSION` had few use and have been removed.
 
 ### Yieldability
 
