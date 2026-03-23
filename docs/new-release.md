@@ -186,7 +186,7 @@ Many changes here. There are the same library functions but with many more optio
 
 `skip_tojson`: boolean, `false` by default, if `true` the metamethod `__tojson` is not called.
 
-`replacer`: call back function to modify the data to be encoded, explained below.
+`replacer`: call back function used to transform values during encoding, explained below.
 
 <pre class="language-sluab"><code class="language-sluab">local myJson = lljson.encode(myTab, { allow_sparse = true, skip_tojson = true, replacer = myReplacerFunc })</code></pre>
 
@@ -194,36 +194,50 @@ Many changes here. There are the same library functions but with many more optio
 
 `decode()` and `sldecode()` have a second parameter which is a table with named parameters.
 
-`track_path`: boolean, `false` by default, if `true` the `reviver` function will be passed an array table representing the traversal path across the nested tables from the root to the current value. 
+`track_path`: boolean, `false` by default, if `true` the `reviver` function will be passed an array table representing the traversal path across the nested tables from the root to the current value, allowing the reviver to know where it is in the tree.
 
-`reviver`: call back function to modify the data being decoded, explained below.
+`reviver`: call back function used to transform values after they are parsed, explained below.
 
 <pre class="language-sluab"><code class="language-sluab">local myTab = lljson.decode(myJson, { track_path = true, reviver = myReviverFunc })</code></pre>
 
 ##### New callbacks `replacer` / `reviver` when encoding and decoding
 
-replacer(key, value, parent)
-return value
-retun nil encode as null
-return lljson.remove to ignore the key
-	in array result is compacted, no index to nil
-	in main table encodes lljson.null
-key == nil and parent == nil in main table
-__tojson is previously executed
+**Replacer**
 
-reviver(key, value)
-return value
-return nil decodes as nil
-return lljson.remove to ignore the key
-	in array result is compacted, no index to nil
-	in main table decodes lljson.null
-key == nil in main table
-key, value are previously decoded in sldecode()
-ctx.path in reviver, with track_path = true parameter, with the tables path
+A replacer is a callback function that allows us to intercept and modify values during the serialization process. It gives us fine-grained control over the final JSON output, making it ideal for filtering data, formatting custom types, or censoring sensitive information.
 
-ctx  (path)
+**replacer(key, value, parent)**: callback function to modify the contents before encoding them with `encode()` or `slencode()`.
+Parameters:
+- *key*: The key or index of the value being processed. The key is nil for the root value.
+- *value*: The value associated with the key.
+- *parent*: The table that contains the current value. The parent is nil for the root value.
+Return value: The value we return from the replacer determines what gets written to the JSON string.
+- any value: The returned value will be serialized in place of the original value. This is used for transformation.
+- the constant `lljson.remove`: This constant instructs the encoder to completely omit the key-value pair from the final JSON. This is used for filtering.
+- `nil`: `nil` is a valid value to return. It will be serialized as null in `encode()` or "!n" in `slencode`.
 
-`lljson.remove`
+A return value of `lljson.remove` for the root value will be encoded as `lljson.null`.
+
+If a table has a `__tojson` metamethod, it is called before passing the values to the replacer function.
+
+**Reviver**
+
+A reviver is a callback function that lets us inspect and transform data as it is being parsed from a JSON string. It is called for every key-value pair after it has been parsed but before it's added to its parent container. This is useful for "reviving" data into custom types (like dates or vectors) or restructuring the data on the fly.
+
+**reviver(key, value, parent, ctx)**: callback function to modify the contents while decoding them with `decode()` or `sldecode()`.
+Parameters:
+- *key*: The key or index of the value being processed. The key is nil for the root value.
+- *value*: The value that was just parsed from the JSON.
+- *parent*: The table that the value will be placed into. The parent is nil for the root value.
+- *ctx*: A table containing metadata about the parse operation.
+- *ctx.path*: A table representing the traversal path to the current value. For a value at data.users[2], the path would be {"data", "users", 2}. This is only populated if we enable it with the { track_path = true } option.
+Return value: The value we return from the reviver determines what gets written to the tables.
+- any value: The returned value will be inserted into the parent table instead of the original parsed value.
+- the constant `lljson.remove`: This constant prevents the value from being added to its parent. In an array the element is skipped, and subsequent elements are shifted down to fill the gap, resulting in a shorter array.
+
+The reviver processes nested structures from the inside out. The children of an object or array are revived before the parent object or array itself is revived. This means when we are processing a table, all of its nested tables have already been transformed by the reviver.
+
+In `sldecode()` the reviver receives keys and values already converted to SLua datatypes from the internal format.
 
 ##### Changes in `encode()`encoding
 
