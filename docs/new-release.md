@@ -241,9 +241,11 @@ In `sldecode()` the reviver receives keys and values already converted to SLua d
 
 ##### Changes in encoding with `encode()`
 
-Empty tables are encoded as array by default.
+Keys of type *uuid* are encoded as *string*, instead of throwing a "table key must be a number or string" error.
 
 **NaN** is encoded as `lljson.null` (instead of *Nan*, that is not standard JSON).
+
+Empty tables are encoded as arrays by default.
 
 ##### Changes in decoding with `decode()`
 
@@ -296,25 +298,42 @@ These shaping tables are not used by `slencode()`. `slencode()` uses the encodin
 
 With the new improvements they are not needed.
 
+`__len` was useful to encode excessively sparse arrays. Now we can use `__jsontype="array"` or the parameter `allow_sparse=true`.
 
+`__len` and `__index` together were useful to add calculated elements to an array. We can use `__tojson` and now a *reviver* function.
 
 ##### Objects
 
+A table is encoded as a JSON object if it meets any of the following conditions:
+- Explicit hint: It has a metatable with `__jsonhint = "object"`.
+- Array incompatible keys: It contains at least one key that is not a positive integer.
+
 ##### Arrays
 
-##### Sparse arrays
+An array table is encoded as a JSON array if it satisfies any of the following conditions, provided it is not explicitly forced to be an object via `__jsonhint = "object"`.
+- Explicit hint: It has a metatable with `__jsonhint = "array"` and contains only array-compatible keys.
+- Empty table default: It is an empty table ({}) and does not have an "object" hint.
+- Automatic Detection: It all its keys are positive integers and it's not excessively sparsed.
+
+An excessively sparse array table is encoded as a JSON array if:
+- Explicit hint: It has a metatable with `__jsonhint = "array"`.
+- *allow_sparse* parameter: If we pass the `allow_sparse=true` option.
+
+`__jsonhint` has priority over *allow_sparse*. With `__jsonhint = "array"` an excessively sparse array will be encoded as an error even if we have passed `allow_sparse=false`.
 
 ##### Sequence of execution
 
 ##### Changes in `slencode()`/ `sldecode()`encoding
 
-`slencode()`ignores `__jsonhint` and shape metatables
+**nil** is encoded as *"!n" and is decoded back to **nil** (instead of *null* that was decoded to `lljson.null`).
 
-nil
+**NaN** is encoded as `!fNaN` (instead of *Nan*, that is not standard JSON).
 
-nan
+In tigh encoding (with the parameter `tight=true`):
+- `ZERO_VECTOR` is encoded as *"!v*.
+- `ZERO_ROTATION` is encoded as *"!q*.
 
-!v, !q
+`slencode()` ignores `__jsonhint` and the shaping metatables.
 
 ##### Constants ' _NAME` and `_VERSION` don't exist
 
