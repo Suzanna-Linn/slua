@@ -2,6 +2,7 @@
 layout: default
 title: New Release
 slua_beta: true
+json : true
 ---
 
 ## What is new in the release 2026-03-23
@@ -12,7 +13,7 @@ I’ve gathered all the info I could find about the changes coming in this relea
 
 The scripts need to be recompiled, saving them again, to work with this release. 
 
-*(this page updated on Monday, Mar 23th)*
+*(this page updated on Tuesday, Mar 24th)*
 
 ### LLEvents
 
@@ -245,6 +246,127 @@ The reviver processes nested structures from the inside out. The children of an 
 
 In `sldecode()` the reviver receives keys and values already converted to SLua datatypes from the internal format.
 
+##### Example with *replacer* and *reviver*
+
+This example converts datetimes stored as timestamps (returned by `os.clock()`) into JSON objects with "date" and "hour". The keys containing a timestamp are identified by their names starting with "time".
+
+<pre class="language-sluab"><code class="language-sluab">-- a table for the replacer/reviver exampler with 5 timestamps
+local shelter = {
+    name = "Happy Tails",
+    timeCreated = 1770112800,    
+    animals = {
+        {
+            type = "dog",
+            name = "Buddy",
+            health = {
+                vaccinated = true,
+                timeLastCheckup = 1772275380 
+            },
+            adoption = {
+                available = true,
+                timeListed = 1771158400 
+            }
+        },
+        {
+            type = "cat",
+            name = "Whiskers",
+            health = {
+                vaccinated = true,
+                timeLastCheckup = 1772372000 
+            },
+            adoption = {
+                available = false,
+                timeAdopted = 1771658400 
+            }
+        }
+    }
+}</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- Converts numeric fields starting with "time" into a { date, hour } table.
+local function timeReplacer(key, value, parent)
+    if type(key) == "string" and string.sub(key, 1, 4) == "time" and type(value) == "number" then
+        local d = os.date("!*t", value)
+        return {
+            date = string.format("%04d-%02d-%02d", d.year, d.month, d.day),
+            hour = string.format("%02d:%02d:%02d", d.hour, d.min, d.sec)
+        }
+    end
+    return value
+end
+
+local jsonShelter = lljson.encode(shelter, { replacer = timeReplacer })</code></pre>
+
+Resulting JSON:
+<pre class="language-json"><code class="language-json">{
+  "name": "Happy Tails",
+  "timeCreated": { "date": "2026-02-03", "hour": "10:00:00" },
+  "animals": [
+    {
+      "type": "dog",
+      "name": "Buddy",
+      "health": {
+        "vaccinated": true,
+        "timeLastCheckup": { "date": "2026-02-28", "hour": "10:43:00" }
+      },
+      "adoption": {
+        "available": true,
+        "timeListed": { "date": "2026-02-15", "hour": "12:26:40" }
+      }
+    },
+    {
+      "type": "cat",
+      "name": "Whiskers",
+      "health": {
+        "vaccinated": true,
+        "timeLastCheckup": { "date": "2026-03-01", "hour": "13:33:20" }
+      },
+      "adoption": {
+        "available": false,
+        "timeAdopted": { "date": "2026-02-21", "hour": "07:20:00" }
+      }
+    }
+  ]
+}
+</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- Looks for objects under keys starting with "time" and parses them back into timestamps.
+local function timeReviver(key, value, parent, ctx)
+    if type(key) == "string" and string.sub(key, 1, 4) == "time" and type(value) == "table" then
+        if value.date and value.hour then
+            local year, month, day = string.match(value.date, "(%d+)-(%d+)-(%d+)")
+            local hour, min, sec = string.match(value.hour, "(%d+):(%d+):(%d+)")
+            if year and month and day and hour and min and sec then
+                return os.time({
+                    year = tonumber(year),
+                    month = tonumber(month),
+                    day = tonumber(day),
+                    hour = tonumber(hour),
+                    min = tonumber(min),
+                    sec = tonumber(sec)
+                })
+            end
+        end
+    end
+    return value
+end
+
+local newShelter = lljson.decode(jsonShelter, { reviver = timeReviver })</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- comparing the resulting table with the original
+local function deepCompare(t1, t2):
+    if t1 == t2 then return true end
+    if type(t1) ~= "table" or type(t2) ~= "table" then return false end
+    for key, value in t1 do
+        if not deepCompare(value, t2[key]) then return false end
+    end
+    for key in t2 do
+        if t1[key] == nil then return false end
+    end
+    return true
+end
+
+print(deepCompare(shelter, newShelter))  -- > true</code></pre>
+
 ##### Changes in encoding with `encode()`
 
 Keys of type *uuid* are encoded as *string*, instead of throwing a "table key must be a number or string" error.
@@ -303,7 +425,7 @@ These shaping tables are not used by `slencode()`. `slencode()` uses the encodin
 
 ##### Metamethods `__len` and `__index` are not used
 
-With the new improvements they are not needed.
+With the new improvements they are not needed. Not calling them avoid issues in the cases where `__len` was used for another purpose.
 
 `__len` was useful to encode excessively sparse arrays. Now we can use `__jsonhint="array"` or the parameter `allow_sparse=true`.
 
