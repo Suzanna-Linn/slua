@@ -456,7 +456,18 @@ They are empty tables with a metatable with a `__jsonhint` metamethod set to "ar
 **`empty_array_mt` doesn't exist**  
 It's not needed since an empty table becomes a JSON array by default. We have `object_mt` or `__jsonhint="object"` to generate an empty JSON object.
 
-These shaping tables are not used by `slencode()`. `slencode()` uses the encoding that is more efficient. 
+These shaping tables are not used by `slencode()`. `slencode()` uses the encoding that is more efficient.
+
+<pre class="language-sluab"><code class="language-sluab">-- internal values of the shaping lljson constants
+
+array_mt = { __jsonhint = "array" }
+object_mt = { __jsonhint = "object" }
+
+empty_array = setmetatable( {}, array_mt )
+empty_object = setmetatable( {}, object_mt )
+
+empty_array = setmetatable( {}, { __jsonhint = "array" } )
+empty_object = setmetatable( {}, { __jsonhint = "object" } )</code></pre>
 
 ##### Metamethods `__len` and `__index` are not used
 
@@ -465,6 +476,17 @@ With the new improvements they are not needed. Not calling them avoid issues in 
 `__len` was useful to encode excessively sparse arrays. Now we can use `__jsonhint="array"` or the parameter `allow_sparse=true`.
 
 `__len` and `__index` together were useful to add calculated elements to an array. We can use `__tojson` and now a *replacer* function.
+
+`__len` was useful to encode only the array part of a table. There is no shaping option now, but we can use `__tojson`.
+<pre class="language-sluab"><code class="language-sluab">-- array part of the table
+local fruits = { "apples", "bananas", "oranges", ["n"] = 4 }
+setmetatable(fruits, {
+    __tojson = function(t, ctx)
+        return table.move(t, 1, #t, 1, {})
+    end
+})
+print(lljson.encode(fruits))
+-- > ["apples","bananas","oranges"]</code></pre>
 
 ##### Objects
 
