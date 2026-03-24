@@ -250,7 +250,7 @@ In `sldecode()` the reviver receives keys and values already converted to SLua d
 
 This example converts datetimes stored as timestamps (returned by `os.clock()`) into JSON objects with "date" and "hour". The keys containing a timestamp are identified by their names starting with "time".
 
-<pre class="language-sluab"><code class="language-sluab">-- a table for the replacer/reviver exampler with 5 timestamps
+<pre class="language-sluab"><code class="language-sluab">-- a table for the replacer/reviver example with 5 timestamps
 local shelter = {
     name = "Happy Tails",
     timeCreated = 1770112800,    
@@ -337,12 +337,8 @@ local function timeReviver(key, value, parent, ctx)
             local hour, min, sec = string.match(value.hour, "(%d+):(%d+):(%d+)")
             if year and month and day and hour and min and sec then
                 return os.time({
-                    year = tonumber(year),
-                    month = tonumber(month),
-                    day = tonumber(day),
-                    hour = tonumber(hour),
-                    min = tonumber(min),
-                    sec = tonumber(sec)
+                    year = tonumber(year), month = tonumber(month), day = tonumber(day),
+                    hour = tonumber(hour), min = tonumber(min), sec = tonumber(sec)
                 })
             end
         end
@@ -388,6 +384,17 @@ This is useful in case of re-encoding the data or to know the JSON type in a *re
 - *ctx.tight*: A boolean indicating if the *tight* encoding option is enabled (only relevant for `slencode()`).
 
 If `__tojson` returns a table that has a metamethod `__tojson`, this other one is not called. We can return the same table without going into infinite recursion.
+
+<pre class="language-sluab"><code class="language-sluab">-- __tojson to format the table only for encode()
+local tab = setmetatable({}, {
+    __tojson = function(t, ctx)
+        if ctx.mode == "sljson" then
+            return t
+        else
+            -- return a formated table
+        end
+    end
+})</code></pre>
 
 ##### New metamethod `__jsonhint` for `encode()`
 
