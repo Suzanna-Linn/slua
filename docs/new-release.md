@@ -479,7 +479,7 @@ With the new improvements they are not needed. Not calling them avoid issues in 
 
 `__len` was useful to encode only the array part of a table. There is no shaping option now, but we can use `__tojson`.
 <pre class="language-sluab"><code class="language-sluab">-- array part of the table
-local fruits = { "apples", "bananas", "oranges", ["n"] = 4 }
+local fruits = { "apples", "bananas", "oranges", ["n"] = 3 }
 setmetatable(fruits, {
     __tojson = function(t, ctx)
         return table.move(t, 1, #t, 1, {})
