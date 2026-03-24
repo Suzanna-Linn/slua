@@ -417,6 +417,34 @@ For convenience, the lljson library provides pre-configured, read-only metatable
 
 `__jsonhint` is not used by `slencode()`. `slencode()` uses the encoding that is more efficient. 
 
+<pre class="language-sluab"><code class="language-sluab">-- without hint: too sparse
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+print(lljson.encode(sparseData))  -- >
+Error: Cannot serialise table: excessively sparse array
+
+-- with array hint: array
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+setmetatable(sparseData, { __jsonhint = "array" })
+print(lljson.encode(sparseData))  -- >
+["Level 1",null,null,null,"Level 5",null,null,null,null,null,null,"Level 12"]
+
+-- with object hint: object
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+setmetatable(sparseData, { __jsonhint = "object" })
+print(lljson.encode(sparseData))  -- >
+{"1":"Level 1","5":"Level 5","12":"Level 12"}
+
+-- without hint but allowing sparse: array
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+print(lljson.encode(sparseData, { allow_sparse = true }))  -- >
+["Level 1",null,null,null,"Level 5",null,null,null,null,null,null,"Level 12"]
+
+-- with array hint but non-array keys: object
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12", ["others"] = "Other levels" }
+setmetatable(sparseData, { __jsonhint = "array" })
+print(lljson.encode(sparseData))  -- >
+{"1":"Level 1","5":"Level 5","12":"Level 12","others":"Other levels"}</code></pre>
+
 ##### Changes in tables and metatables to encode to array or object
 
 **`array_mt` and the new `object_mt`**  
