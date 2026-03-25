@@ -1,0 +1,74 @@
+
+local StringBuilder = {}
+StringBuilder.__index = StringBuilder
+
+setmetatable(StringBuilder, {
+	__call = function(_, ...)
+		return StringBuilder:new(...)
+	end
+})
+
+function StringBuilder:new(initialCapacity)
+	initialCapacity = initialCapacity or 256
+	local self = {
+		_buf = buffer.create(initialCapacity),
+		_capacity = initialCapacity,
+		_length = 0
+	}
+	setmetatable(self, StringBuilder)
+	return self
+end
+
+function StringBuilder:_grow(minSize)
+	local newCapacity = self._capacity
+	while newCapacity < minSize do
+		newCapacity = newCapacity * 2
+	end
+	local newBuf = buffer.create(newCapacity)
+	buffer.writestring(newBuf, self._length, buffer.tostring(self._buf))
+	self._buf = newBuf
+	self._capacity = newCapacity
+end
+
+function StringBuilder:append(value)
+	local str = tostring(value)
+	local newLength = self._length + #str
+	if newLength > self._capacity then
+		self:_grow(newLength)
+	end
+	buffer.writestring(self._buf, self._length, str)
+	self._length = newLength
+	return self
+end
+
+function StringBuilder:tostring()
+	return buffer.readstring(self._buf, 0, self._length)
+end
+
+function StringBuilder:len()
+	return self._length
+end
+
+function StringBuilder:clear()
+	self._buf = buffer.create(self._capacity)
+	self._length = 0
+end
+
+function StringBuilder:__tostring()
+	return self:tostring()
+end
+
+function StringBuilder:__len()
+	return self:len()
+end
+
+
+local strbuf = StringBuilder(1000)
+
+for i = 1, 5000 do
+	strbuf:append(i)
+end
+
+local str = strbuf:tostring()
+
+print(#str)
