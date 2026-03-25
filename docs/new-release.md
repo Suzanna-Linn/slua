@@ -5,7 +5,7 @@ slua_beta: true
 json : true
 ---
 
-## What is new in the release 2026-03-23
+## What is new in the release 2026-03-24
 
 There is a new SLua release in the SLua regions on the Beta Grid!
 
@@ -110,12 +110,14 @@ print(bit32.smul(2000000000, 2))
 --> -294967296 (The math overflows into the negative range)
 print(bit32.smul(10.5, 10.9)) 
 --> 100 (Decimals are ignored before multiplying, acts like 10 * 10)
---
+
 -- The Precision Loss problem (Why smul is necessary):
 -- If we do native math, precision is lost and bit32.s32() fails:
--- bit32.s32(0x10000 * 0x10000) yields an inaccurate result
+print(bit32.s32(123456789 * 123456789))
+--> -1757895752 (inaccurate result)
 -- smul() guarantees perfect math and wrapping:
-print(bit32.smul(0x10000, 0x10000)) --> 0</code></pre>
+print(bit32.smul(123456789, 123456789))
+--> -1757895751 (correct result)</code></pre>
 
 ### vector library
 
@@ -136,8 +138,12 @@ Behaviors:
 - Extrapolation: The function does not clamp *t* between 0 and 1. If we pass a *t* value less than 0 or greater than 1, it will "extrapolate," meaning the point will continue past the start or end vectors along the same line.
 - Component-wise operation: The operation evaluates the X, Y, and Z axes independently. It does not curve or track rotation; it simply draws a straight line between the two points.
 
+pre class="language-sluab"><code class="language-sluab">-- vector.lerp()
+print(vector.lerp(vector(10, 50, 20),vector(60, 60, 20), 0.5))
+-- > <35, 55, 20></code></pre>
+
 It's equivalent to:
-<pre class="language-sluab"><code class="language-sluab">-- vector.lerp()
+<pre class="language-sluab"><code class="language-sluab">-- vector.lerp() in SLua
 local function vectorLerp(vec1: vector, vec2: vector, t: number): vector
     -- (vec2 - vec1) gets the directional distance between the two vectors
     -- * t scales that distance
@@ -164,16 +170,14 @@ For any number, one of the functions is true and the other two functions are fal
 
 ### global library
 
-**tovector()**, **torotation()**/**toquaternion()**, **touuid()**/**uuid()** : Return **nil** when called with a value that is not a string (instead of throwing an error).
+**tovector()**, **torotation()**/**toquaternion()**, **touuid()** : Return **nil** when called with a value that is not a string (instead of throwing an error).
 
 This way they behave the same than **tonumber()**
 
 ### LL functions
 
 **ll.List2Key()** : Returns **NULL_KEY** when the parameter has not a valid uuid format (instead of returning a string).
-
-**ll.FindNotecardTextSync()** : Its parameter **start** is 1-based.  
-The description of **start** is *Index of the first match to return.* (instead of *The number of matches to skip before returning values.*).
+- **llcompat.List2Key()** also returns **NULL_KEY** with a not valid uuid format.
 
 ### lljson library
 
@@ -298,36 +302,35 @@ local jsonShelter = lljson.encode(shelter, { replacer = timeReplacer })</code></
 
 Resulting JSON:
 <pre class="language-json"><code class="language-json">{
-  "name": "Happy Tails",
-  "timeCreated": { "date": "2026-02-03", "hour": "10:00:00" },
   "animals": [
     {
-      "type": "dog",
-      "name": "Buddy",
       "health": {
         "vaccinated": true,
         "timeLastCheckup": { "date": "2026-02-28", "hour": "10:43:00" }
       },
+      "type": "dog",
+      "name": "Buddy",
       "adoption": {
-        "available": true,
-        "timeListed": { "date": "2026-02-15", "hour": "12:26:40" }
+        "timeListed": { "date": "2026-02-15", "hour": "12:26:40" },
+        "available": true
       }
     },
     {
-      "type": "cat",
-      "name": "Whiskers",
       "health": {
         "vaccinated": true,
         "timeLastCheckup": { "date": "2026-03-01", "hour": "13:33:20" }
       },
+      "type": "cat",
+      "name": "Whiskers",
       "adoption": {
-        "available": false,
-        "timeAdopted": { "date": "2026-02-21", "hour": "07:20:00" }
+        "timeAdopted": { "date": "2026-02-21", "hour": "07:20:00" },
+        "available": false
       }
-    }
+    },
+  "name": "Happy Tails",
+  "timeCreated": { "date": "2026-02-03", "hour": "10:00:00" },
   ]
-}
-</code></pre>
+}</code></pre>
 
 <pre class="language-sluab"><code class="language-sluab">-- Looks for objects under keys starting with "time" and parses them back into timestamps.
 local function timeReviver(key, value, parent, ctx)
@@ -349,7 +352,7 @@ end
 local newShelter = lljson.decode(jsonShelter, { reviver = timeReviver })</code></pre>
 
 <pre class="language-sluab"><code class="language-sluab">-- comparing the resulting table with the original
-local function deepCompare(t1, t2):
+local function deepCompare(t1, t2)
     if t1 == t2 then return true end
     if type(t1) ~= "table" or type(t2) ~= "table" then return false end
     for key, value in t1 do
@@ -417,11 +420,8 @@ For convenience, the lljson library provides pre-configured, read-only metatable
 
 `__jsonhint` is not used by `slencode()`. `slencode()` uses the encoding that is more efficient. 
 
-<pre class="language-sluab"><code class="language-sluab">-- without hint: too sparse
-local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
-print(lljson.encode(sparseData))
--- > Error: Cannot serialise table: excessively sparse array
-
+<pre class="language-sluab"><code class="language-sluab">-- using __jsonhint
+  
 -- with array hint: array
 local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
 setmetatable(sparseData, { __jsonhint = "array" })
@@ -443,7 +443,12 @@ print(lljson.encode(sparseData, { allow_sparse = true }))
 local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12", ["others"] = "Other levels" }
 setmetatable(sparseData, { __jsonhint = "array" })
 print(lljson.encode(sparseData))
--- > {"1":"Level 1","5":"Level 5","12":"Level 12","others":"Other levels"}</code></pre>
+-- > {"1":"Level 1","12":"Level 12","5":"Level 5","others":"Other levels"}
+
+-- without hint: too sparse error
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+print(pcall(lljson.encode(sparseData)))
+-- > runtime error: Cannot serialise table: excessively sparse array</code></pre>
 
 ##### Changes in tables and metatables to encode to array or object
 
@@ -577,7 +582,7 @@ Are not yieldable:
 
 Examples of yieldable:
 <pre class="language-sluab"><code class="language-sluab">-- yielding in an iterator
-local t = { ll.GetOwner() }
+local t = { uuid("552e76a0-8ed8-499f-ba2e-0ab1ba0fa018"), uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41") }
 local function iterNames(tab)
     local count = 0
     return function()
@@ -587,6 +592,7 @@ local function iterNames(tab)
         if id then
             name = ll.GetDisplayName(id)
             if name == "" then
+                print("yielding...", coroutine.isyieldable())
                 name = coroutine.yield(ll.RequestDisplayName(id))
             end
         end
@@ -603,14 +609,16 @@ LLEvents:on("dataserver", function(queryId, data)
 end)
 coroutine.resume(co)</code></pre>
 
-<pre class="language-sluab"><code class="language-sluab">-- a very long sort
+<pre class="language-sluab"><code class="language-sluab">-- a very long sort yielding internally at the end of the time slice
 local t = {}
 for i = 1, 1000 do
     table.insert(t, math.random(1000))
 end
+local ti = os.clock()
 table.sort(t, function(a,b)
     return a > b
-end)</code></pre>
+end)
+print(os.clock() - ti)</code></pre>
 
 Examples of not yieldable:
 <pre class="language-sluab"><code class="language-sluab">-- metamethods are not yieldable, "attempt to yield across metamethod/C-call boundary"
@@ -636,4 +644,4 @@ local t = setmetatable({}, {
 })
 print(t.test)
 -- > yieldable: false
--- > Error: Failed to perform mandatory yield</code></pre>
+-- > runtime error: Failed to perform mandatory yield</code></pre>
