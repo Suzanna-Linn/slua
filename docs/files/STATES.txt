@@ -1,0 +1,98 @@
+
+--[[
+default
+{
+    state_entry()
+    {
+        llSay(0,
+            "You either just saved the script after editing it"
+            + "\nand/or the script (re)entered the default state.");
+
+        // white and opaque text
+        llSetText("Click to change states", <1.0, 1.0, 1.0>, (float)TRUE);
+    }
+
+    touch_end(integer num_detected)
+    {
+        // Note: NEVER do a state change from within a touch_start event -
+        // - that can lead to the next touch_start on return to this state to be missed.
+        // Here we do the state change safely, from within touch_end
+        state two;
+    }
+
+    state_exit()
+    {
+        llSay(0, "The script leaves the default state.");
+    }
+}
+
+state two
+{
+    state_entry()
+    {
+        llSay(0, "The script entered state 'two'");
+        state default;
+    }
+
+    state_exit()
+    {
+        llSay(0, "The script leaves state 'two'");
+    }
+}
+]]
+
+local _currentState = {}  -- store the current "state" table
+local function state(newState)
+    if newState ~= _currentState then  -- the state is changing
+        if _currentState and _currentState.state_exit then  -- there is a current state with state_exit()
+            _currentState.state_exit()
+        end
+        for _, eventName in LLEvents:eventNames() do  -- all the events
+            for _, handler in LLEvents:handlers(eventName) do  -- all the handlers of the event
+                LLEvents:off(eventName, handler)  -- removing handler
+            end
+        end
+        for eventName, handler in newState do  -- all the functions in the "state" table
+            if eventName ~= "state_entry" and eventName ~= "state_exit" then  -- except "entry" and "exit"
+                LLEvents:on(eventName, handler)  -- adding handler
+            end
+        end
+        _currentState = newState  -- "state" changed
+        if _currentState.state_entry then  -- there is state_entry()
+            _currentState.state_entry()
+        end
+    end
+end
+
+local default, two = {}, {}
+
+function default.state_entry()
+    print(
+        "You either just saved the script after editing it"
+        .. "\nand/or the script (re)entered the default state.")
+
+    -- white and opaque text
+    ll.SetText("Click to change states", vector(1.0, 1.0, 1.0), 1)
+end
+
+function default.touch_end(num_detected)
+    -- Note: NEVER do a state change from within a touch_start event -
+    -- that can lead to the next touch_start on return to this state to be missed.
+    -- Here we do the state change safely, from within touch_end
+   state(two)
+end
+
+function default.state_exit()
+    print("The script leaves the default state.")
+end
+
+function two.state_entry()
+    print("The script entered state 'two'")
+    state(default)
+end
+
+function two.state_exit()
+    print("The script leaves state 'two'");
+end
+
+state(default)
