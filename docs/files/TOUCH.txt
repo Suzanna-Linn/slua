@@ -1,0 +1,21 @@
+
+local function printActiveEvents()
+    print("----------")
+    for _, eventName in LLEvents:eventNames() do
+        for _, myHandler in LLEvents:handlers(eventName) do
+            print(`{eventName} : {debug.info(myHandler,"n")}`)
+        end
+    end
+    print("----------")
+end
+
+local function start()
+    print("starting")
+    printActiveEvents()
+end
+
+LLEvents:once("touch_start", start)
+
+printActiveEvents()
+
+print("touch to start")
