@@ -11,9 +11,13 @@ There is a new SLua release in the SLua regions on the Beta Grid!
 
 I’ve gathered all the info I could find about the changes coming in this release. In the next days I will add more examples as I test them.
 
-The scripts need to be recompiled, saving them again, to work with this release. 
+In our scripts we have to change:
+- [**LLEvents**](new-release#LLEvents) : change **LLEvents:listeners()** to **LLEvents:handlers()**
+- [**lljson**](new-release#lljson)  : many changes on the use of metamethods and **lljson** constants.
 
-*(this page updated on Tuesday, Mar 24th)*
+The scripts need to be recompiled, saving them again, to work with this release.
+
+*(this page updated on Wednesday, Mar 25th)*
 
 ### LLEvents
 
