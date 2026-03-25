@@ -138,7 +138,7 @@ Behaviors:
 - Extrapolation: The function does not clamp *t* between 0 and 1. If we pass a *t* value less than 0 or greater than 1, it will "extrapolate," meaning the point will continue past the start or end vectors along the same line.
 - Component-wise operation: The operation evaluates the X, Y, and Z axes independently. It does not curve or track rotation; it simply draws a straight line between the two points.
 
-pre class="language-sluab"><code class="language-sluab">-- vector.lerp()
+<pre class="language-sluab"><code class="language-sluab">-- vector.lerp()
 print(vector.lerp(vector(10, 50, 20),vector(60, 60, 20), 0.5))
 -- > <35, 55, 20></code></pre>
 
