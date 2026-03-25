@@ -1,0 +1,18 @@
+
+local function onChannel1(channel, name, id, msg)
+    if channel == 1 then
+        print(`received {msg} on channel 1`)
+    end
+end
+
+local function onChannel2(channel, name, id, msg)
+    if channel == 2 then
+        print(`received {msg} on channel 2`)
+    end
+end
+
+LLEvents:on("listen", onChannel1)
+LLEvents:on("listen", onChannel2)
+
+ll.Listen(1, "", "", "")
+ll.Listen(2, "", "", "")
