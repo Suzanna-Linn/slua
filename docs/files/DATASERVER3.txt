@@ -1,0 +1,39 @@
+
+local ME = ll.GetOwner()
+
+local bornRequestId
+local payinfoRequestId
+
+local function printActiveEvents()
+    print("----------")
+    for _, eventName in LLEvents:eventNames() do
+        for _, myHandler in LLEvents:handlers(eventName) do
+            print(`{eventName} : {debug.info(myHandler,"n")}`)
+        end
+    end
+    print("----------")
+end
+
+local function born(queryid, data)
+    if queryid == bornRequestId then
+        print("Born: " .. data)
+        LLEvents:off("dataserver", born)
+        printActiveEvents()
+    end
+end
+
+local function payinfo(queryid, data)
+    if queryid == payinfoRequestId then
+        print("Pay Info: " .. select(data + 1, "none", "filed", "used", "filed & used"))
+        LLEvents:off("dataserver", payinfo)
+        printActiveEvents()
+    end
+end
+
+LLEvents:on("dataserver", born)
+LLEvents:on("dataserver", payinfo)
+
+printActiveEvents()
+
+bornRequestId = ll.RequestAgentData(ME, DATA_BORN)
+payinfoRequestId = ll.RequestAgentData(ME, DATA_PAYINFO)
