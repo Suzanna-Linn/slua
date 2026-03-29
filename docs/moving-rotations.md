@@ -186,8 +186,9 @@ for k, v in t do
 end
 -- >
 
--- updating the rotation
+-- storing again
 t[tostring(rotation(1, 0, 0, 0))] = true
+-- updating the rotation
 t[tostring(rotation(1, 0, 0, 0))] = true
 print(t[tostring(rotation(1, 0, 0, 0))])  -- > true
 for k, v in t do
@@ -199,7 +200,7 @@ end
 
 Why does it work with *string* and not with *rotation*?
 
-This works because *string* uses string interning ((explained here [string interning](moving-strings#string-interning)). All strings with the same value use the same reference.
+This works because *string* uses string interning (explained here [string interning](moving-strings#string-interning)). All strings with the same value use the same reference.
 
 Another solution is to use a metatable:
 <pre class="language-sluab"><code class="language-sluab">-- rotations (with a metatable) as table keys
