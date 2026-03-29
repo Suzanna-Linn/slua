@@ -255,7 +255,7 @@ The operator == compares the references in reference types.
 
 Why does it work with <code class="language-sluab">k == key</code> in the metatable but not when accessing the table with a rotation?
 
-Because a *rotation* is created with a metatable, with the metamethods: *__eq*, *__add*, *__sub*, *__mul*, *__div*, *__unm*, *__tostring*.
+This works because a *rotation* is created with a metatable, with the metamethods: *__eq*, *__add*, *__sub*, *__mul*, *__div*, *__unm*, *__tostring*.
 
 The operator == calls the *__eq* metamethod. Accessing a table only looks for the reference and doesn't use *__eq*.
 
@@ -265,8 +265,8 @@ local r1 = rotation(1, 0, 0, 0)
 local r2 = rotation(1, 0, 0, 0)
 local r3 = rotation(0, 1, 0, 0)
 
-print(getmetatable(r1).__eq(r1,r2))  -- > true
-print(getmetatable(r1).__eq(r2,r3))  -- > false</code></pre>
+print(getmetatable(r1).__eq(r1, r2))  -- > true
+print(getmetatable(r1).__eq(r2, r3))  -- > false</code></pre>
 
 A rotation uses 16 bytes in memory and another 16 bytes for its reference stored in a table or a variable.
 
