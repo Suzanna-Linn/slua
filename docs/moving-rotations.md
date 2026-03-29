@@ -116,8 +116,7 @@ local function slerp(a, b, u)
         beta * a.z + alpha * b.z,
         beta * a.s + alpha * b.s
     )
-end
-</code></pre>
+end</code></pre>
 
 **rotation.tofwd( rot )** : returns a vector, the Forward vector (local X-axis) of the rotation.
 - same as ll.Rot2Fwd( rot )
@@ -130,3 +129,166 @@ end
 
 **rotation.identity** : returns the identity rotation.
 - same as ZERO_ROTATION
+
+### Rotations in tables
+
+*rotation* is a reference type. Its value is stored on the memory heap, and variables or table nodes store a reference to this memory location.
+
+When we use a rotation as a key in a table its reference is stored in the table. When we access the table, SLua looks for the reference and not for its value.
+
+<pre class="language-sluab"><code class="language-sluab">-- rotations as table keys
+local t = {}
+
+-- storing a rotation
+t[rotation(1, 0, 0, 0)] = true
+print(t[rotation(1, 0, 0, 0)])  -- > nil
+for k, v in t do
+    print(k, v)
+end
+-- > <1, 0, 0, 0>    true
+
+-- removing the rotation by its value
+-- but rotation() creates a new rotation with a new reference
+-- the new reference is not in the table and setting to nil does nothing
+t[rotation(1, 0, 0, 0)] = nil
+for k, v in t do
+    print(k, v)
+end
+-- > <1, 0, 0, 0>    true
+
+-- updating the rotation by its value
+-- but again, it's a different reference
+-- instead of updating, a new key is created with a rotation of the same value
+t[rotation(1, 0, 0, 0)] = true
+print(t[rotation(1, 0, 0, 0)])  -- > nil
+for k, v in t do
+    print(k, v)
+end
+-- > <1, 0, 0, 0>    true
+-- > <1, 0, 0, 0>    true</code></pre>
+
+We can solve this by storing the rotations as strings:
+<pre class="language-sluab"><code class="language-sluab">-- rotations (as strings) as table keys
+local t = {}
+
+-- storing the rotation as string
+t[tostring(rotation(1, 0, 0, 0))] = true
+print(t[tostring(rotation(1, 0, 0, 0))])  -- > true
+for k, v in t do
+    print(torotation(k), v)
+end
+-- > <1, 0, 0, 0>    true
+
+-- removing the rotation
+t[tostring(rotation(1, 0, 0, 0))] = nil
+for k, v in t do
+    print(torotation(k), v)
+end
+-- >
+
+-- updating the rotation
+t[tostring(rotation(1, 0, 0, 0))] = true
+t[tostring(rotation(1, 0, 0, 0))] = true
+print(t[tostring(rotation(1, 0, 0, 0))])  -- > true
+for k, v in t do
+    print(torotation(k), v)
+end
+-- > <1, 0, 0, 0>    true</code></pre>
+
+*string* is also a reference type.
+
+Why does it work with *string* and not with *rotation*?
+
+This works because *string* uses string interning ((explained here [string interning](moving-strings#string-interning)). All strings with the same value use the same reference.
+
+Another solution is to use a metatable:
+<pre class="language-sluab"><code class="language-sluab">-- rotations (with a metatable) as table keys
+local rotation_mt = {
+    __index = function(t, key)  -- not found in the table when reading
+        for k, v in t do
+            if k == key then
+                return v  -- return the value if the key is in the table
+            end
+        end
+        return nil -- otherwise return nil
+    end,
+    __newindex = function(t, key, val)  -- not found in the table when writing
+        for k, v in t do
+            if k == key then
+                t[k] = val  -- update the value if the key is in the table
+                return
+            end
+        end
+        rawset(t, key, val)  -- otherwise create a new key
+    end
+}
+
+local t = setmetatable({}, rotation_mt)
+
+-- storing a rotation
+t[rotation(1, 0, 0, 0)] = true
+print(t[rotation(1, 0, 0, 0)])  -- > true  -- value from __index
+for k, v in t do
+    print(k, v)
+end
+-- > <1, 0, 0, 0>    true
+
+-- removing the rotation
+t[rotation(1, 0, 0, 0)] = nil  -- removed in __newindex
+for k, v in t do
+    print(k, v)
+end
+-- >
+
+-- storing again
+t[rotation(1, 0, 0, 0)] = true
+-- updating the rotation
+t[rotation(1, 0, 0, 0)] = true  -- updated in __newindex
+print(t[rotation(1, 0, 0, 0)])  -- > true  -- value from __index
+for k, v in t do
+    print(k, v)
+end
+-- > <1, 0, 0, 0>    true</code></pre>
+
+The operator == compares the references in reference types.
+
+Why does it work with <code class="language-sluab">k == key</code> in the metatable but not when accessing the table with a rotation?
+
+Because a *rotation* is created with a metatable, with the metamethods: *__eq*, *__add*, *__sub*, *__mul*, *__div*, *__unm*, *__tostring*.
+
+The operator == calls the *__eq* metamethod. Accessing a table only looks for the reference and doesn't use *__eq*.
+
+Data types, like tables, can have metatables.
+<pre class="language-sluab"><code class="language-sluab">-- just an example, don't do this!!!
+local r1 = rotation(1, 0, 0, 0)
+local r2 = rotation(1, 0, 0, 0)
+local r3 = rotation(0, 1, 0, 0)
+
+print(getmetatable(r1).__eq(r1,r2))  -- > true
+print(getmetatable(r1).__eq(r2,r3))  -- > false</code></pre>
+
+A rotation uses 16 bytes in memory and another 16 bytes for its reference stored in a table or a variable.
+
+Each call to *rotation()* creates a new reference, which consumes additional memory:
+<pre class="language-sluab"><code class="language-sluab">local t = {}
+local m = ll.GetUsedMemory()
+
+for i = 1, 16 do
+    table.insert(t, (select(math.random(3), rotation(0.707, 0, 0, 0.707), rotation(0, 0.707, 0, 0.707), rotation(0, 0, 0.707, 0.707))))
+end
+
+print(ll.GetUsedMemory() - m)  -- > 512 (16*16 indexes + 16*16 rotations)</code></pre>
+
+Storing rotations that are used several times in variables saves memory:
+<pre class="language-sluab"><code class="language-sluab">local t = {}
+local m = ll.GetUsedMemory()
+
+local X90 = rotation(0.707, 0, 0, 0.707)
+local Y90 = rotation(0, 0.707, 0, 0.707)
+local Z90 = rotation(0, 0, 0.707, 0.707)
+
+for i = 1, 16 do
+    table.insert(t, (select(math.random(3), X90, Y90, Z90)))
+end
+
+print(ll.GetUsedMemory() - m)  -- > 304  (16*16 indexes + 16*3 rotations)</code></pre>
