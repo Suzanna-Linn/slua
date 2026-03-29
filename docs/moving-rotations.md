@@ -251,7 +251,7 @@ for k, v in t do
 end
 -- > <1, 0, 0, 0>    true</code></pre>
 
-The operator == compares the references in reference types.
+The operator ==, with reference types, compares the references.
 
 Why does it work with <code class="language-sluab">k == key</code> in the metatable but not when accessing the table with a rotation?
 
