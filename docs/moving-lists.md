@@ -454,16 +454,16 @@ local before = ll.GetUsedMemory()
 for i = 10001, 11025 do tab[i] = i end  -- the table has 1025 keys, allocated space for 2048
 print(ll.GetUsedMemory() - before)  -- > 65536 (2048*32)
 
-tab[11025] = nil  -- now the table has 1024 keys
+for i = 11001, 11025 do tab[i] = nil end  -- now the table has 1000 keys, it can shrink to 1024
 
 table.shrink(tab)
 print(ll.GetUsedMemory() - before)  -- > 32768 (1024*32)</code></pre>
 
-A dictionary table can't have more than 2038 keys with the current script memory limit of 128k:
+A dictionary table can't have more than 2048 keys with the current script memory limit of 128k:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
-for i = 10001, 12048 do tab[i] = i end  -- the table has 2048 keys, allocated space for 2048
+for i = 10001, 12048 do tab[i] = i end
 print(ll.GetUsedMemory() - before)  -- > 65536 (2048*32)
 
 -- adding the 2049th key resizes the table to 4096 keys, there is not enough memory
