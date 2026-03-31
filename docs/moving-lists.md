@@ -335,15 +335,22 @@ If the element is from 1 to #t, it is deleted and the elements after it until #t
 
 - The memory for tables is allocated dynamically and optimized for speed.
 - Tables start with zero memory allocated. As elements are added, SLua allocates memory in chunks sized as powers of two (e.g., 4, 8, 16).
-- The array part of the table (consecutive integer indexes starting with 1) only stores TValue (16 bytes per element). We can use table.create() to preallocate its exact size.
-- Adding elements to an array with table.move() allocates for the exact size needed but keeps the current allocation if it is bigger than needed.
+- The array part of the table (consecutive integer indexes starting with 1) only stores TValue (16 bytes per element). We can use **table.create()** to preallocate its exact size.
+- Adding elements to an array with **table.move()** allocates for the exact size needed but keeps the current allocation if it is bigger than needed.
 - The array part grows to the next multiple of 128 when it exceeds 128 elements, instead of growing to the next power of two.
 - The dictionary part of the table stores TKey and TValue (32 bytes per element). There is no way to avoid allocation to the next power of two.
+- The maximum number of keys in a dictionary table is 2048. Adding another key would resize the table to 4096 and this would need 128k of memory.
 - Each part of the table has its own allocation space.
-- The allocation never shrinks, only grows.
-- To free memory from an array table after removing elements or clearing unused allocated space, we can use table.shrink().
-- In dictionary tables, the only way to free memory after removing elements is to copy the remaining elements to a new table. There is no way to free the unused allocated space.
+- The allocation doesn't shrink when removing keys, it only grows when adding keys.
+- We can use **table.shrink()** to free memory after removing elements.
+- **table.shrink()** with array tables clears all the unused allocated space, adjusting to the used space.
+- **table.shrink()** with dictionary tables can only shrink to a lower power of two.
 - A table uses 32 bytes to store its internal metadata, such as pointers to its array and hash memory, the length of the array part, and a reference to its metatable. These 32 bytes are not counted in the examples below, since this is a fixed size for all tables.
+
+Variables, values in an array table, and keys and values in a dictionary table, can store 16 bytes in the TValue/TKey.
+- Value types (*number*, *boolean*, *vector*, *nil*, *lljson_constant*) store their value in the 16 bytes.
+- Reference types (*string*, *uuid*, *quaternion*, *table*, *function*, *buffer*, *thread*) store their value in the memory heap and a reference to the memory in the 16 bytes.
+- *string* and *uuid* use string interning (explained here [string interning](moving-strings#string-interning)).
 
 Array with 32 elements:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
@@ -411,7 +418,7 @@ print(ll.GetUsedMemory() - before)  -- > 32768 (1024*32)
 tab[110250] = 110250
 print(ll.GetUsedMemory() - before)  -- > 65536 (+32768, 1024*32)</code></pre>
 
-For arrays, <code class="language-sluab">table.shrink(tab)</code> frees the unused allocated space:
+For arrays, <code class="language-sluab">table.shrink(tab)</code> frees all the unused allocated space:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
@@ -425,8 +432,8 @@ table.shrink(tab)
 print(#tab)  -- > 10
 print(ll.GetUsedMemory() - before)  -- > 160 (10*16)</code></pre>
 
-For sparse arrays, table.shrink() has a second optional parameter, "reorder", that is false by default.
-With reorder set to true, <code class="language-sluab">table.shrink(tab, true)</code> can move keys from the sparse array to the dictionary part if it saves memory:
+For sparse arrays, **table.shrink()** has a second optional parameter, **shrink_sparse**, that is false by default.
+With **shrink_sparse** set to true, <code class="language-sluab">table.shrink(tab, true)</code> can move keys from the sparse array to the dictionary part if it saves memory:
 <pre class="language-sluab"><code class="language-sluab">local tab = {}
 local before = ll.GetUsedMemory()
 
@@ -435,7 +442,29 @@ print(ll.GetUsedMemory() - before)  -- > 256 (16*16)
 
 for i = 2, 9 do tab[i] = nil end  -- now the table has only indexes 1 and 10
 
--- with reorder index 10 is moved to the dictionary part of the table
+-- with shrink_sparse index 10 is moved to the dictionary part of the table
 table.shrink(tab, true)
 print(#tab)  -- > 1
 print(ll.GetUsedMemory() - before)  -- > 48 (16+32)</code></pre>
+
+For dictionary tables, **table.shrink()** can only shrink to a lower power of two:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 10001, 11025 do tab[i] = i end  -- the table has 1025 keys, allocated space for 2048
+print(ll.GetUsedMemory() - before)  -- > 65536 (2048*32)
+
+tab[11025] = nil  -- now the table has 1024 keys
+
+table.shrink(tab)
+print(ll.GetUsedMemory() - before)  -- > 32768 (1024*32)</code></pre>
+
+A dictionary table can't have more than 2038 keys with the current script memory limit of 128k:
+<pre class="language-sluab"><code class="language-sluab">local tab = {}
+local before = ll.GetUsedMemory()
+
+for i = 10001, 12048 do tab[i] = i end  -- the table has 2048 keys, allocated space for 2048
+print(ll.GetUsedMemory() - before)  -- > 65536 (2048*32)
+
+-- adding the 2049th key resizes the table to 4096 keys, there is not enough memory
+tab[12049] = i  -- > error: not enough memory</code></pre>
