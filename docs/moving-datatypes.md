@@ -320,7 +320,7 @@ Memory used for each datatype:
     </tr>
 	<tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">36 + string length</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">32 + string length</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uses string interning</td>
     </tr>
 	<tr>
