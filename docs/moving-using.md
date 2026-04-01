@@ -7,15 +7,15 @@ These are the steps to follow before starting to script in SLua:
   This is a different viewer, with a different icon, than the "Second Life Viewer". We can keep our usual viewer for the main grid and use this one for the beta grid.
 
 - Teleport to one of the nine regions that have SLua activated. It doesn't work in the other regions:
-  - [SLua Beta Landing](http://maps.secondlife.com/secondlife/SLua%20Beta%20Landing/128/128/23)
-  - [SLua Beta Porridge](http://maps.secondlife.com/secondlife/SLua%20Beta%20Porridge/128/128/23)
-  - [SLua Beta Eraserhead](http://maps.secondlife.com/secondlife/SLua%20Beta%20Eraserhead/128/128/23)
-  - [SLua Beta Glass](http://maps.secondlife.com/secondlife/SLua%20Beta%20Glass/128/128/23)
-  - [SLua Beta Void](http://maps.secondlife.com/secondlife/SLua%20Beta%20Void/128/128/23) (this region is mostly water)
-  - [SLua Beta Anderson](http://maps.secondlife.com/secondlife/SLua%20Beta%20Anderson/128/128/23)
-  - [SLua Beta Sausage](http://maps.secondlife.com/secondlife/SLua%20Beta%20Sausage/128/128/23)
-  - [SLua Beta Nicoise](http://maps.secondlife.com/secondlife/SLua%20Beta%20Nicoise/128/128/23)
-  - [SLua Beta IsNeat](http://maps.secondlife.com/secondlife/SLua%20Beta%20IsNeat/128/128/23)
+  - [Lua Beta Landing](http://maps.secondlife.com/secondlife/Lua%20Beta%20Landing/128/128/23)
+  - [Lua Beta Porridge](http://maps.secondlife.com/secondlife/Lua%20Beta%20Porridge/128/128/23)
+  - [Lua Beta Eraserhead](http://maps.secondlife.com/secondlife/Lua%20Beta%20Eraserhead/128/128/23)
+  - [Lua Beta Glass](http://maps.secondlife.com/secondlife/Lua%20Beta%20Glass/128/128/23)
+  - [Lua Beta Void](http://maps.secondlife.com/secondlife/Lua%20Beta%20Void/128/128/23) (this region is mostly water)
+  - [Lua Beta Anderson](http://maps.secondlife.com/secondlife/Lua%20Beta%20Anderson/128/128/23)
+  - [Lua Beta Sausage](http://maps.secondlife.com/secondlife/Lua%20Beta%20Sausage/128/128/23)
+  - [Lua Beta Nicoise](http://maps.secondlife.com/secondlife/Lua%20Beta%20Nicoise/128/128/23)
+  - [Lua Beta IsNeat](http://maps.secondlife.com/secondlife/Lua%20Beta%20IsNeat/128/128/23)
 
 - Rez an object and add a new script as usual. The script editor has a "compiler" drop-down list, at bottom center. Choose "SLua":
   - LSL Legacy (LSO2) : LSL, with "Mono" unchecked.
