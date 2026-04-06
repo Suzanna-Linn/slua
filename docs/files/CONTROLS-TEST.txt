@@ -43,8 +43,8 @@ function LLEvents.on_rez(start_param)
     ll.ResetScript()
 end
 
-function LLEvents.edged(edge)
-    if bit32.btest(edge, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
 end
