@@ -1,0 +1,62 @@
+
+local MOVE_SPEED = 0.25  -- meters
+local ROT_SPEED = 5      -- degreees
+
+function LLEvents.run_time_permissions(perm)
+    if bit32.btest(PERMISSION_TAKE_CONTROLS, perm) then
+        ll.TakeControls(bit32.bor(CONTROL_FWD,      CONTROL_BACK,
+                                  CONTROL_LEFT,     CONTROL_RIGHT,
+                                  CONTROL_ROT_LEFT, CONTROL_ROT_RIGHT,
+                                  CONTROL_UP,       CONTROL_DOWN,
+                                  CONTROL_LBUTTON,  CONTROL_ML_LBUTTON
+                                 ), true, false)
+    end
+end
+
+function LLEvents.control(id, level, edge)
+    local pos = ll.GetPos()
+    local rot = ll.GetRot()
+    if bit32.btest(level, CONTROL_FWD) then
+        pos += ll.Rot2Left(rot) * MOVE_SPEED
+        ll.SetPos(pos)
+    elseif bit32.btest(level, CONTROL_BACK) then
+        pos += ll.Rot2Left(rot) * -MOVE_SPEED
+        ll.SetPos(pos)
+    elseif bit32.btest(level, CONTROL_LEFT) then
+        pos += ll.Rot2Fwd(rot) * -MOVE_SPEED
+        ll.SetPos(pos)
+    elseif bit32.btest(level, CONTROL_RIGHT) then
+        pos += ll.Rot2Fwd(rot) * MOVE_SPEED
+        ll.SetPos(pos)
+    elseif bit32.btest(level, CONTROL_ROT_LEFT) then
+        rot *= ll.Euler2Rot(vector(0, 0, ROT_SPEED) * DEG_TO_RAD)
+        ll.SetRot(rot)
+    elseif bit32.btest(level, CONTROL_ROT_RIGHT) then
+        rot *= ll.Euler2Rot(vector(0, 0, -ROT_SPEED) * DEG_TO_RAD)
+        ll.SetRot(rot)
+    elseif bit32.btest(level, CONTROL_UP) then
+        pos += ll.Rot2Up(rot) * MOVE_SPEED
+        ll.SetPos(pos)
+    elseif bit32.btest(level, CONTROL_DOWN) then
+        pos += ll.Rot2Up(rot) * -MOVE_SPEED
+        ll.SetPos(pos)
+    elseif bit32.btest(level, CONTROL_LBUTTON) then
+    --
+    elseif bit32.btest(level, CONTROL_ML_LBUTTON) then
+    --
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.edged(edge)
+    if bit32.btest(edge, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SitTarget(vector(0, -0.2, 0.3), ll.Euler2Rot(vector(0, 0, 270) * DEG_TO_RAD))
+ll.SetColor(vector(math.random(0,1), math.random(0,1), math.random(0,1)), ALL_SIDES)
+ll.RequestPermissions(ll.GetOwner(), PERMISSION_TAKE_CONTROLS)
