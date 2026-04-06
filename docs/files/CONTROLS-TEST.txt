@@ -1,0 +1,53 @@
+
+function LLEvents.run_time_permissions(perm)
+    if bit32.btest(PERMISSION_TAKE_CONTROLS, perm) then
+        ll.TakeControls(bit32.bor(CONTROL_FWD,      CONTROL_BACK,
+                                  CONTROL_LEFT,     CONTROL_RIGHT,
+                                  CONTROL_ROT_LEFT, CONTROL_ROT_RIGHT,
+                                  CONTROL_UP,       CONTROL_DOWN,
+                                  CONTROL_LBUTTON,  CONTROL_ML_LBUTTON
+                                 ), true, false)
+    end
+end
+
+function LLEvents.control(id, level, edge)
+    local controls =     { CONTROL_FWD,      CONTROL_BACK,       -- arrow UP,          arrow DOWN
+                           CONTROL_LEFT,     CONTROL_RIGHT,      -- shift+arrow LEFT,  shift+arrow RIGHT
+                           CONTROL_ROT_LEFT, CONTROL_ROT_RIGHT,  -- arrow LEFT,        arrow RIGHT
+                           CONTROL_UP,       CONTROL_DOWN,       -- PgUP,              PgDn
+                           CONTROL_LBUTTON,  CONTROL_ML_LBUTTON  -- left mouse button, left mouse button while in mouselook
+                         }
+    local controlNames = { "Move forward",   "Move back",
+                           "Move left",      "Move right",
+                           "Rotate left",    "Rotate right",
+                           "Move up",        "Move down",
+                           "Left button",    "Left button (mouselook)"
+                         }
+    for i = 1, #controls do
+        local controlBit = controls[i]
+        if bit32.btest(level, controlBit) then
+            if bit32.btest(edge, controlBit) then
+                ll.OwnerSay(controlNames[i] .. " started")
+            else
+                ll.OwnerSay(controlNames[i] .. " leveled")
+            end
+        else
+            if bit32.btest(edge, controlBit) then
+                ll.OwnerSay(controlNames[i] .. " ended")
+            end
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.edged(edge)
+    if bit32.btest(edge, bit32.bor(edgeD_OWNER, edgeD_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SetColor(vector(math.random(0,1), math.random(0,1), math.random(0,1)), ALL_SIDES)
+ll.RequestPermissions(ll.GetOwner(), PERMISSION_TAKE_CONTROLS)
