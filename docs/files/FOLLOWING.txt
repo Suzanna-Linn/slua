@@ -1,0 +1,89 @@
+
+local followed = ll.GetOwner()
+
+local peopleNear = {}
+local peopleNearName = {}
+
+local menuChannel = bit32.bor(0x80000000, tonumber("0x" .. tostring(ll.GetKey()):sub(-8)))
+menuChannel -= if menuChannel >= 2^31 then 2^32 else 0
+local menuListener = 0
+
+local function followTarget()
+    ll.StopMoveToTarget()
+    ll.StopLookAt()
+    local thisPos = ll.GetPos()
+    if ll.GetAgentSize(followed) ~= ZERO_VECTOR then
+        local personPos = ll.GetObjectDetails(followed, {OBJECT_POS})[1]
+        local distance = ll.VecDist(thisPos, personPos)
+        if distance < 20 then
+            if distance > 0.75 then
+                local targetPos = vector(
+                    personPos.x + if personPos.x - thisPos.x > 0 then -0.5 else 0.5,
+                    personPos.y + if personPos.y - thisPos.y > 0 then -0.5 else 0.5,
+                    thisPos.z
+                )
+                ll.MoveToTarget(targetPos, distance / 3)
+                personPos = vector(personPos.x, personPos.y, thisPos.z)
+                ll.LookAt(personPos, 1, 1)
+            end
+        else
+            followed = ll.GetOwner()
+        end
+    else
+        followed = ll.GetOwner()
+    end
+end
+
+local function newTarget()
+    peopleNear, peopleNearName = {}, {}
+    local people = ll.GetAgentList(AGENT_LIST_REGION, {})
+    for i = 1, #people do
+        local personId = ll.List2Key(people, i)
+        if personId ~= followed then
+            local pos = ll.GetObjectDetails(personId, {OBJECT_POS})[1]
+            local distance = ll.VecDist(ll.GetPos(), pos)
+            if distance < 20 then
+                table.insert(peopleNear, {distance = distance, id = personId, name = ll.GetDisplayName(personId):sub(1,24)})
+            end
+        end
+    end
+    if #peopleNear > 0 then
+        table.sort(peopleNear, function(a, b) return a.distance < b.distance end)
+        for i = 1, math.min(#peopleNear, 12) do
+            table.insert(peopleNearName, peopleNear[i].name)
+        end
+        menuListener = ll.Listen(menuChannel, "", "", "")
+        ll.Dialog(followed, "choose a person to follow", peopleNearName, menuChannel)
+    end
+end
+
+function LLEvents.touch_start(events)
+    if events[1]:getKey() == followed then
+        newTarget()
+    end
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == menuChannel and id == followed then
+        local index = table.find(peopleNearName, message)
+        if index then
+            followed = peopleNear[index].id
+        end
+    end
+    ll.ListenRemove(menuListener)
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SetStatus(STATUS_PHYSICS, true)
+ll.StopMoveToTarget()
+ll.StopLookAt()
+LLTimers:every(1, followTarget)
