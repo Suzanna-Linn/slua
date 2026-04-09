@@ -20,7 +20,7 @@ Scripts work without change in the release 2026-04-07, provided they were alread
 ##### Updates in release 2026-04-07 since 2026-03-24
 
 - **table.append()** is now equivalent to multiple **table.insert()** calls: [**table library**](new-release#table-library)
-- **table.find()**  can yield internally if execution takes too long: [**yieldability**](new-release#yieldabiliy)
+- **table.find()**  can yield internally if execution takes too long: [**yieldability**](new-release#yieldability)
 - Compiled scripts bytecode can use up to the 128k of script memory, it was limited to 64k for the bytecode.
 - Memory used internally when growing or shrinking a dictionary table is not counted as script memory: [**resizing tables**](new-release#resizing-tables)
 
@@ -584,7 +584,7 @@ In this release many of these cases has been solved. The following are now yield
 - iterators in a generic for loop
 - string library functions that use callbacks or complex pattern matching, which can be slow to execute.
 - *string.find()*, *string.match()*, *string.gmatch()*, *string.gsub()*
-- *table.sort()*
+- *table.sort()*, *table.find()*
 - lljson library functions and the *__tojson* metamethod
 
 Are not yieldable:
