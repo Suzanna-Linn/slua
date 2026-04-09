@@ -5,9 +5,9 @@ slua_beta: true
 json : true
 ---
 
-## What is new in the release 2026-03-24
+## What is new in the release 2026-04-07
 
-There is a new SLua release in the SLua regions on the Beta Grid!
+There is a new SLua release in the SLua regions on the Beta Grid, an update of the previous release 2026-03-24.
 
 I’ve gathered all the info I could find about the changes coming in this release. In the next days I will add more examples as I test them.
 
@@ -15,9 +15,16 @@ In our scripts we have to change:
 - [**LLEvents**](new-release#llevents) : change **LLEvents:listeners()** to **LLEvents:handlers()**
 - [**lljson**](new-release#lljson-library)  : many changes on the use of metamethods and **lljson** constants.
 
-The scripts need to be recompiled, saving them again, to work with this release.
+Scripts work without change in the release 2026-04-07, provided they were already recompiled in the previous release 2026-03-24. Otherwise, they must to be recompiled, saving them again, to work with this release.
 
-*(this page updated on Wednesday, Mar 25th)*
+##### Updates in release 2026-04-07 since 2026-03-24
+
+- **table.append()** is now equivalent to multiple **table.insert()** calls: [**table library**](new-release#table-library)
+- **table.find()**  can yield internally if execution takes too long: [**yieldability**](new-release#yieldabiliy)
+- Compiled scripts bytecode can use up to the 128k of script memory, it was limited to 64k for the bytecode.
+- Memory used internally when growing or shrinking a dictionary table is not counted as script memory: [**resizing tables**](new-release#resizing-tables)
+
+*(this page updated on Thursday, Apr 9th)*
 
 ### LLEvents
 
@@ -35,22 +42,15 @@ local t = { "a", "b", "c" }
 table.append(t, "d", "e", "f")
 print(table.concat(t,", "))  -- > a, b, c, d, e, f</code></pre>
 
-It differs from multiple table.insert() calls in that, when used with sparse arrays, it can overwrite values:
+It's the same than:
 <pre class="language-sluab"><code class="language-sluab">-- table.append()
--- overwriting sparse array
-local t1, t2 = { 1, 2 }, { 1 ,2 }
-t1[5], t2[5] = 5, 5
+function append(t, ...)
+    for i = 1, select("#", ...) do
+        table.insert(t, select(i, ...))
+    end
+end</code></pre>
 
-table.insert(t1, "a")
-table.insert(t1, "b")
-table.insert(t1, "c")
-print(table.concat(t1))  -- > 12ab5c
-
-table.append(t2, "a", "b", "c")
-print(table.concat(t2))  -- > 12abc</code></pre>
-
-**table.extend(t1, t2)**: Inserts the values of t2 into t1, starting at #t1 + 1.  
-It is the same as <code class="language-sluab">table.move(t2, 1, #t2, #t1 + 1, t1)</code>:
+**table.extend(t1, t2)**: Inserts the values of t2 into t1, starting at #t1 + 1:
 <pre class="language-sluab"><code class="language-sluab">-- table.extend()
 local t1 = { "a", "b", "c" }
 local t2 = { "d", "e", "f" }
@@ -65,6 +65,12 @@ local t2 = { "d", "e", "f" }
 local t3 = { "g", "h", "i" }
 local t4 = table.extend(table.extend(table.extend({}, t1), t2), t3)
 print(table.concat(t4,", "))  -- > a, b, c, d, e, f, g, h, i</code></pre>
+
+It's the same than:
+<pre class="language-sluab"><code class="language-sluab">-- table.extend()
+function extend(t1, t2)
+    return table.move(t2, 1, #t2, #t1 +1, t1)
+end</code></pre>
 
 **table.append()** is optimized for speed and **table.extend()** is optimized for memory.
 
@@ -649,3 +655,35 @@ local t = setmetatable({}, {
 print(t.test)
 -- > yieldable: false
 -- > runtime error: Failed to perform mandatory yield</code></pre>
+
+### Resizing tables
+
+When a dictionary table grows or shrinks, the table is recreated because the internal hash calculation must be adapted to the new size. The engine allocates space for the new table and copies the elements one by one. The original table's memory is freed only once the copy is complete; in the meantime, the table temporarily occupies double the memory.
+
+Now this internal overhead is not counted toward our script’s memory limit, and we do not need to manually reserve extra space to perform these resizes.
+
+Examples that now work and previously threw an out of memory error:
+<pre class="language-sluab"><code class="language-sluab">-- growing a table
+local t = {}
+for i = 1, 1024 do t[10000 + i] = 0 end
+
+local tt = table.create(3500, 0)  -- this simulates memory used with something else
+print(ll.GetFreeMemory())  -- > 39835
+
+-- growing the table from 1024 to 2048 keys, it needs 32k of memory, 
+-- and another 32k internally to copy the 1024 keys to the new, bigger, table
+t[11025] = 0
+print(ll.GetFreeMemory())  -- > 7067</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- shrinking a table
+local t = {}
+for i = 1, 1025 do t[10000 + i] = 0 end
+
+local tt = table.create(3500, 0)  -- this simulates memory used with something else
+print(ll.GetFreeMemory())  -- > 7031
+
+-- shrinking the table from 2048 to 1024 keys, it will free 32k of memory,
+-- but before it needs 32k internally to copy the 1024 keys to the new, smaller, table
+t[11025] = nil
+table.shrink(t)
+print(ll.GetFreeMemory())  -- > 39799</code></pre>
