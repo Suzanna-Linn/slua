@@ -1,0 +1,74 @@
+
+-- user parameters, you can change them
+
+local DISPLAY_SECONDS = 5  -- seconds with the slide fully displayed
+local FADE_SECONDS = 3     -- seconds of the fading process
+
+-- script parameters, don't change
+
+local FRONT_SLIDE = 2  -- link number
+local BACK_SLIDE = 3   -- link number
+-- root prim is behind them, in color black, as black background when fading
+local SLIDE_FACE = 4   -- face number
+local ROT = 0          -- rotation in radians
+local WHITE = vector(1, 1, 1)
+
+local Slides = {}
+local TotalSlides = 0
+local CurrentSlide = 1
+local FadingSteps = 0
+local FadingTicks = 0
+
+local function TimerSlice, TimerFading
+
+local function GetSlides()  -- get the slides from the contents at the start, they will be displayed in alphabetical order
+    for Texture = 1, ll.GetInventoryNumber(INVENTORY_TEXTURE) do
+        local TextureName = ll.GetInventoryName(INVENTORY_TEXTURE, Texture)
+        Slides = table.insert(Slides, TextureName)
+    end
+    TotalSlides = #Slides
+end
+
+local function ShowSlide()  -- show one slide at front and prepare the next one at back
+    local SlideName = Slides[CurrentSlide]
+    ll.SetLinkPrimitiveParamsFast(FRONT_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideName, vector(1, 1, 0), vector(0, 0, 0), ROT, PRIM_COLOR, SLIDE_FACE, WHITE, 1})  -- visible
+    CurrentSlide = if CurrentSlide < TotalSlides then currentSlide + 1 else 1
+    SlideName = Slides[CurrentSlide]
+    ll.SetLinkPrimitiveParamsFast(BACK_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideName, vector(1, 1, 0), vector(0, 0, 0), ROT, PRIM_COLOR, SLIDE_FACE, WHITE, 0})  -- transparent
+    FadingTicks = FadingSteps
+    LLTimers:once(DISPLAY_SECONDS, TimerSlide)
+end
+
+local function TimerSlide()
+    LLTimers:every(0.1, TimerFading)
+end
+
+local function TimerFading()
+    if FadingTicks == 0 then
+        LLTimers:off(TimerFading)
+        ShowSlide()  -- fading finished
+    else
+        FadingTicks -= 1
+        local Alpha = (1.0 / FadingSteps) * FadingTicks
+        ll.SetLinkPrimitiveParamsFast(FRONT_SLIDE, {PRIM_COLOR, SLIDE_FACE, WHITE, Alpha})  -- becoming more transparent
+        ll.SetLinkPrimitiveParamsFast(BACK_SLIDE, {PRIM_COLOR, SLIDE_FACE, WHITE, 1 - Alpha})  -- becoming more visible
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+FadingSteps = math.round(FADE_SECONDS / 0.1)  -- how many timer event will use for fading, counted with FadingTicks variable
+GetSlides()
+if TotalSlides > 0 then
+    ShowSlide()
+else
+    ll.OwnerSay("no textures to view, add some textures to the viewer contents")
+end
