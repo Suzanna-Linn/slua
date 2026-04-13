@@ -27,7 +27,7 @@ local TimerSlide, TimerMoving
 local function GetSlides()  -- get the slides from the contents at the start, they will be displayed in alphabetical order
     for Texture = 1, ll.GetInventoryNumber(INVENTORY_TEXTURE) do
         local TextureName = ll.GetInventoryName(INVENTORY_TEXTURE, Texture)
-        Slides = table.insert(Slides, TextureName)
+        table.insert(Slides, TextureName)
     end
     TotalSlides = #Slides
 end
@@ -35,18 +35,18 @@ end
 local function ShowSlide()  -- show one slide at front and prepare the next one at back
     SlideLeft = Slides[CurrentSlide]
     ll.SetLinkPrimitiveParamsFast(FRONT_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideLeft, vector(1, 1, 0), vector(0, 0, 0), ROT, PRIM_SIZE, Size, PRIM_POS_LOCAL, vector(-0.02, 0, 0)})  -- visible
-    CurrentSlide = if CurrentSlide < TotalSlides then currentSlide + 1 else 1
+    CurrentSlide = if CurrentSlide < TotalSlides then CurrentSlide + 1 else 1
     SlideRight = Slides[CurrentSlide]
     ll.SetLinkPrimitiveParamsFast(BACK_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideRight, vector(1, 1, 0), vector(0, 0, 0), ROT, PRIM_SIZE, Size, PRIM_POS_LOCAL, vector(-0.01, 0, 0)})  -- hidden
     MovingTicks = MovingSteps
     LLTimers:once(DISPLAY_SECONDS, TimerSlide)
 end
 
-local function TimerSlide()
+function TimerSlide()
     LLTimers:every(0.1, TimerMoving)
 end
 
-local function TimerMoving()
+function TimerMoving()
     if MovingTicks == 0 then
         FRONT_SLIDE, BACK_SLIDE = BACK_SLIDE, FRONT_SLIDE
         LLTimers:off(TimerMoving)
@@ -55,7 +55,7 @@ local function TimerMoving()
         MovingTicks -= 1
         local Movement = (1 / MovingSteps) * MovingTicks
         local MovingSize = vector(Size.x, Size.y * Movement, Size.z)
-        lcoal MovingPos = vector(-0.02, Size.y * (1 - Movement) / 2, 0)
+        local MovingPos = vector(-0.02, Size.y * (1 - Movement) / 2, 0)
         local ScaleTexture = vector(Movement, 1, 0)
         local OffsetTexture = vector((1 - Movement) / 2, 0, 0)
         ll.SetLinkPrimitiveParamsFast(FRONT_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideLeft, ScaleTexture, OffsetTexture, ROT, PRIM_SIZE, MovingSize, PRIM_POS_LOCAL, MovingPos})  -- left
