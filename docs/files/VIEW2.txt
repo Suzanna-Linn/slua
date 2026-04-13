@@ -18,7 +18,7 @@ local CurrentSlide = 1
 local function GetSlides()  -- get the slides from the contents at the start, they will be displayed in alphabetical order
     for Texture = 1, ll.GetInventoryNumber(INVENTORY_TEXTURE) do
         local TextureName = ll.GetInventoryName(INVENTORY_TEXTURE, Texture)
-        Slides = table.insert(Slides, TextureName)
+        table.insert(Slides, TextureName)
     end
     TotalSlides = #Slides
 end
@@ -26,7 +26,7 @@ end
 local function ShowSlide()  -- show one slide at front and prepare the next one at back
     local SlideName = Slides[CurrentSlide]
     ll.SetLinkPrimitiveParamsFast(FRONT_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideName, vector(1, 1, 0), vector(0, 0, 0), ROT})  -- front
-    CurrentSlide = if CurrentSlide < TotalSlides then currentSlide + 1 else 1
+    CurrentSlide = if CurrentSlide < TotalSlides then CurrentSlide + 1 else 1
     SlideName = Slides[CurrentSlide]
     ll.SetLinkPrimitiveParamsFast(BACK_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideName, vector(1, 1, 0), vector(0, 0, 0), ROT})  -- back
 end
@@ -44,7 +44,7 @@ end
 GetSlides()
 if TotalSlides > 0 then
     ShowSlide()
-    LLTimers:on(DISPLAY_SECONDS, ShowSlide)
+    LLTimers:every(DISPLAY_SECONDS, ShowSlide)
 else
     ll.OwnerSay("no textures to view, add some textures to the viewer contents")
 end
