@@ -15,7 +15,7 @@ local CurrentSlide = 1
 local function GetSlides()  -- get the slides from the contents at the start, they will be displayed in alphabetical order
     for Texture = 1, ll.GetInventoryNumber(INVENTORY_TEXTURE) do
         local TextureName = ll.GetInventoryName(INVENTORY_TEXTURE, Texture)
-        Slides = table.insert(Slides, TextureName)
+        table.insert(Slides, TextureName)
     end
     TotalSlides = #Slides
 end
@@ -23,7 +23,7 @@ end
 local function ShowSlide()  -- show one slide
     local SlideName = Slides[CurrentSlide]
     ll.SetPrimitiveParams({PRIM_TEXTURE, SLIDE_FACE, SlideName, vector(1, 1, 0), vector(0, 0, 0), ROT})
-    CurrentSlide = if CurrentSlide < TotalSlides then currentSlide + 1 else 1
+    CurrentSlide = if CurrentSlide < TotalSlides then CurrentSlide + 1 else 1
 end
 
 function LLEvents.on_rez(start_param)
