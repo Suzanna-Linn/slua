@@ -1,0 +1,87 @@
+
+-- user parameters, you can change them
+
+local DISPLAY_SECONDS = 5  -- seconds with the slide fully displayed
+local MOVE_SECONDS = 3     -- seconds of the moving process
+
+-- script parameters, don't change
+
+local FRONT_SLIDE = 2  -- link number
+local BACK_SLIDE = 3   -- link number
+-- root prim is behind them, in color black
+local SLIDE_FACE = 4   -- face number
+local ROT = 0          -- rotation in radians
+
+local Slides = {}
+local TotalSlides = 0
+local CurrentSlide = 1
+local MovingSteps = 0
+local MovingTicks = 0
+
+local Size = ZERO_VECTOR
+local SlideLeft = ""
+local SlideRight = ""
+
+local TimerSlide, TimerMoving
+
+local function GetSlides()  -- get the slides from the contents at the start, they will be displayed in alphabetical order
+    for Texture = 1, ll.GetInventoryNumber(INVENTORY_TEXTURE) do
+        local TextureName = ll.GetInventoryName(INVENTORY_TEXTURE, Texture)
+        Slides = table.insert(Slides, TextureName)
+    end
+    TotalSlides = #Slides
+end
+
+local function ShowSlide()  -- show one slide at front and prepare the next one at back
+    SlideLeft = Slides[CurrentSlide]
+    ll.SetLinkPrimitiveParamsFast(FRONT_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideLeft, vector(1, 1, 0), vector(0, 0, 0), ROT, PRIM_SIZE, Size, PRIM_POS_LOCAL, vector(-0.02, 0, 0)})  -- visible
+    CurrentSlide = if CurrentSlide < TotalSlides then currentSlide + 1 else 1
+    SlideRight = Slides[CurrentSlide]
+    ll.SetLinkPrimitiveParamsFast(BACK_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideRight, vector(1, 1, 0), vector(0, 0, 0), ROT, PRIM_SIZE, Size, PRIM_POS_LOCAL, vector(-0.01, 0, 0)})  -- hidden
+    MovingTicks = MovingSteps
+    LLTimers:once(DISPLAY_SECONDS, TimerSlide)
+end
+
+local function TimerSlide()
+    LLTimers:every(0.1, TimerMoving)
+end
+
+local function TimerMoving()
+    if MovingTicks == 0 then
+        FRONT_SLIDE, BACK_SLIDE = BACK_SLIDE, FRONT_SLIDE
+        LLTimers:off(TimerMoving)
+        ShowSlide()  -- Moving finished
+    else
+        MovingTicks -= 1
+        local Movement = (1 / MovingSteps) * MovingTicks
+        local MovingSize = vector(Size.x, Size.y * Movement, Size.z)
+        lcoal MovingPos = vector(-0.02, Size.y * (1 - Movement) / 2, 0)
+        local ScaleTexture = vector(Movement, 1, 0)
+        local OffsetTexture = vector((1 - Movement) / 2, 0, 0)
+        ll.SetLinkPrimitiveParamsFast(FRONT_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideLeft, ScaleTexture, OffsetTexture, ROT, PRIM_SIZE, MovingSize, PRIM_POS_LOCAL, MovingPos})  -- left
+        MovingSize = vector(Size.x, Size.y * (1 - Movement), Size.z)
+        MovingPos = vector(-0.02, -(Size.y * Movement / 2), 0)
+        ScaleTexture = vector(1 - Movement, 1, 0)
+        OffsetTexture = vector(-(Movement / 2), 0, 0)
+        ll.SetLinkPrimitiveParamsFast(BACK_SLIDE, {PRIM_TEXTURE, SLIDE_FACE, SlideRight, ScaleTexture, OffsetTexture, ROT, PRIM_SIZE, MovingSize, PRIM_POS_LOCAL, MovingPos})  -- right
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+MovingSteps = math.round(MOVE_SECONDS / 0.1)  -- how many timer event will use for moving, counted with MovingTicks variable
+Size = ll.GetScale()
+GetSlides()
+if TotalSlides > 0 then
+    ShowSlide()
+else
+    ll.OwnerSay("no textures to view, add some textures to the viewer contents")
+end
