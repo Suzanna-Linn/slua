@@ -1,0 +1,129 @@
+
+local NAME = "Painting"
+
+local castRayOptions = {RC_REJECT_TYPES, bit32.bor(RC_REJECT_PHYSICAL, RC_REJECT_AGENTS, RC_REJECT_LAND), RC_DETECT_PHANTOM, false, RC_MAX_HITS, 2}
+local gallerySize = ll.GetScale()
+local galleryPosMin = ll.GetPos() - (gallerySize / 2 * 1.5)
+local galleryPosMax = ll.GetPos() + (gallerySize / 2 * 1.5)
+local galleryPosMax = vector(galleryPosMax.x, galleryPosMax.y, galleryPosMax.z + 5)
+local objectName = ll.GetObjectName()
+
+local visitors = {}
+
+-- notecard
+local NOTECARD_NAME = "DESCRIPTIONS"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local title = ""
+
+local function readNotecardDescriptions()
+    if ll.GetInventoryType(NOTECARD_NAME) == INVENTORY_NOTECARD then
+        notecardLine = 1
+        requestLineId = ll.GetNotecardLine(NOTECARD_NAME, notecardLine)
+    end
+end
+
+local function writeDescriptions(data)
+    if data:sub(1,1) == "/" then
+        title = ll.StringTrim(data:sub(2, -1), STRING_TRIM)
+    else
+        if title ~= "" then
+            ll.LinksetDataWrite(title, ll.LinksetDataRead(title) .. "\n" .. data)
+        end
+    end
+end
+
+local function findVisitorPaintings(visitor)
+    local paintings = {}
+    local pos, rot = unpack(ll.GetObjectDetails(visitor, {OBJECT_POS, OBJECT_ROT}))
+    if not (pos.x < galleryPosMin.x or pos.y < galleryPosMin.y or pos.z < galleryPosMin.z or
+            pos.x > galleryPosMax.x or pos.y > galleryPosMax.y or pos.z > galleryPosMax.z) then
+        local angle = ll.Rot2Euler(rot).z
+        local start = pos
+        local end_t = start + vector(math.cos(angle) * gallerySize.x * 2, math.sin(angle) * gallerySize.y * 2, 0)
+        for i = 1, 4 do
+            local objects = ll.CastRay(start, end_t, castRayOptions)
+            for j = 1, objects[#objects] do
+                local name, desc = unpack(ll.GetObjectDetails(objects[j * 2 - 1], {OBJECT_NAME, OBJECT_DESC}))
+                if name == NAME and desc ~= "" and not table.find(paintings, desc) then
+                    table.insert(paintings, desc)
+                end
+            end
+            start = vector(start.x, start.y, start.z + 2)
+            end_t = vector(end_t.x, end_t.y, end_t.z + 2)
+        end
+    else
+        visitors[visitor] = nil
+    end
+    return paintings
+end
+
+local function sayPaintings(visitor, paintings)
+    local wallPositions = select(#paintings, {""}, {" (DOWN)", " (UP)"}, {" (DOWN)", " (MID)", " (UP)"})
+    for i, title in paintings do
+        local description = ll.LinksetDataRead(title)
+        if description ~= "" then
+            ll.SetObjectName(title .. wallPositions[i])
+            ll.RegionSayTo(visitor, 0, description)
+            ll.SetObjectName(objectName)
+        end
+    end
+end
+
+local function findPaintings()
+    for visitor, lastPaintings in visitors do
+        local currentPaintings = findVisitorPaintings(visitor)
+        if #currentPaintings > 0 and table.concat(currentPaintings, "|") ~= table.concat(lastPaintings, "|") then
+            sayPaintings(visitor, currentPaintings)
+        end
+        visitors[visitor] = currentPaintings
+    end
+end
+
+local function scan()
+    findPaintings()
+    if not next(visitors) then
+        LLTimers:off(scan)
+    end
+end
+
+function LLEvents.collision_start(detected)
+    for _, ev in detected do
+        if bit32.btest(ev:getType(), AGENT) then
+            if not next(visitors) then
+                LLTimers:every(2, scan)
+            end
+            visitors[ev:getKey()] = {}
+        end
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        repeat
+            if data ~= EOF then
+                writeDescriptions(data)
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(NOTECARD_NAME, notecardLine)
+                if data == NAK then
+                    requestLineId = ll.GetNotecardLine(NOTECARD_NAME, notecardLine)
+                end
+            end
+        until not (data ~= EOF and data ~= NAK)
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.VolumeDetect(true)
+ll.LinksetDataReset()
+readNotecardDescriptions()
