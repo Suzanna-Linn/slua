@@ -5,26 +5,28 @@ slua_beta: true
 json : true
 ---
 
-## What is new in the release 2026-04-07
+## What is new in the release 2026-04-09
 
-There is a new SLua release in the SLua regions on the Beta Grid, an update of the previous release 2026-03-24.
+There is a new SLua release in the SLua regions on the Main Grid!
 
-I’ve gathered all the info I could find about the changes coming in this release. In the next days I will add more examples as I test them.
+I’ve gathered all the info I could find about the changes coming in this release.
 
 In our scripts we have to change:
 - [**LLEvents**](new-release#llevents) : change **LLEvents:listeners()** to **LLEvents:handlers()**
 - [**lljson**](new-release#lljson-library)  : many changes on the use of metamethods and **lljson** constants.
 
-Scripts work without change in the release 2026-04-07, provided they were already recompiled in the previous release 2026-03-24. Otherwise, they must to be recompiled, saving them again, to work with this release.
+Scripts must to be recompiled, saving them again, to work with this release.
 
-##### Updates in release 2026-04-07 since 2026-03-24
+##### Updates in release 2026-04-09 since 2026-03-24
+
+(release 2026-03-24 was deployed on the Beta Grid only)
 
 - **table.append()** is now equivalent to multiple **table.insert()** calls: [**table library**](new-release#table-library)
 - **table.find()**  can yield internally if execution takes too long: [**yieldability**](new-release#yieldability)
 - Compiled scripts bytecode can use up to the 128k of script memory, it was limited to 64k for the bytecode.
 - Memory used internally when growing or shrinking a dictionary table is not counted as script memory: [**resizing tables**](new-release#resizing-tables)
 
-*(this page updated on Thursday, Apr 9th)*
+*(this page updated on Friday, Apr 17th)*
 
 ### LLEvents
 
