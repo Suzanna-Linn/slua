@@ -3,7 +3,7 @@
 ### Global namespace
 
 The global namespace is a table with the name "_G". It contains the global functions and libraries. Each library is a table with its functions.  
-SLua has added all the LL constants (1010 constants, currently) to the global namespace.
+SLua has added all the LL constants (1021 constants, currently) to the global namespace.
 
 <pre class="language-slua"><code class="language-slua">-- list of global functions (SLua)
 
@@ -44,23 +44,31 @@ for key, value in pairs(_G) do
 end</code></pre>
 
 There are 10 libraries that come from Luau, with all their Luau functions, also documented in [Standard Luau Libraries](https://luau.org/library):
-- table, string, math, bit32, os, vector (these ones have functions in common with the LSL functions, we will see them in the next pages)
+- table, string, math, bit32, os, vector ([Vectors](/slua/moving-vectors#the-vector-library))
 - coroutine, utf8, debug, buffer
 
 
 SLua has added:
-- ll : with all the functions coming from LSL (525 functions, currently).
+- ll : with all the functions coming from LSL (526 functions, currently).
 
 The functions have the same name, without the "ll" at the start (because "ll" is now the name of the library).  
 So <code class="language-lsl">llSay()</code> becomes the function <code class="language-slua">Say()</code> in the library <code class="language-slua">ll</code> and is used as <code class="language-slua">ll.Say()</code>.
 
-New functions that will be added to SLua in the future will be in other libraries, we already have two new libraries:
-- lljson: to convert tables to JSON string and back, with the functions:
-  - <code class="language-slua">str = lljson.encode( tab )</code>
-  - <code class="language-slua">tab = lljson.decode( str )</code>
-- llbase64: to convert string to base 64 strings and back, with functions with the same names:
+- rotation / quaternion ([Rotations](/slua/moving-rotations#the-rotation-or-quaternion-library))
+
+- lljson: to convert tables to JSON string and back [lljson library](/slua/moving-lljson)
+
+- llbase64: to convert string to base 64 strings and back, with these functions:
   - <code class="language-slua">str64 = llbase64.encode( str )</code>
   - <code class="language-slua">tab = llbase64.decode( str64 )</code>
+
+### New functions in the table library
+
+SLua has added 3 functions to the standard table library.
+
+### New functions in the bit32 library
+
+SLua has added 3 functions to the standard bit32 library.
   
 ### Expected SLua improvements
 
