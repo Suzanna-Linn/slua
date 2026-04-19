@@ -327,3 +327,8 @@ Linked messages have a string instead of an uuid in their fourth parameter.
 - the function ll.MessageLinked( link, num, str, str2 )
 - the event link_message( sender_num, num, str, str2 )
 - linked messages with LSL scripts are internally typecasted.
+
+### Others
+
+**ll.List2Key()** : Returns **NULL_KEY** when the parameter has not a valid uuid format (instead of returning a string).
+- **llcompat.List2Key()** also returns **NULL_KEY** when passed an invalid uuid format.
