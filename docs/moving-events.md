@@ -41,9 +41,9 @@ These are the methods in the object:
  
 - *eventsTable* = **LLEvents:eventNames**() : returns which events are active.
   - returns a table with all the event names that currently have functions handling them.
-    - It's useful for debugging and to remove all the events, using it with LLEvents:listeners().
+    - It's useful for debugging and to remove all the events, using it with LLEvents:handlers().
 
-- *handlersTable* = **LLEvents:listeners**(*name*) : returns which handlers are attached to an event.
+- *handlersTable* = **LLEvents:handlers**(*name*) : returns which handlers are attached to an event.
   - name : the name of the event.
   - returns a table with the functions currenty handling the event.
     -  It's useful for debugging and to remove all the functions handling an event.
@@ -91,13 +91,13 @@ local myListenHandler = LLEvents:once("listen", myListenFunction)
 LLEvents:off("listen", myListenHandler)
 
 -- remove all the handlers of an event
-for _, myListenHandler in LLEvents:listeners("listen") do
+for _, myListenHandler in LLEvents:handlers("listen") do
     LLEvents:off("listen", myListenHandler)
 end
 
 -- remove all the events
 for _, eventName in LLEvents:eventNames() do
-    for _, myHandler in LLEvents:listeners(eventName) do
+    for _, myHandler in LLEvents:handlers(eventName) do
         LLEvents:off(eventName, myHandler)
     end
 end</code></pre>
