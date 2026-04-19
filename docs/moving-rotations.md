@@ -25,6 +25,7 @@ local rotS = ll.GetRot().s</code></pre>
 
 **torotation()** or **toquaternion()** create a rotation from a string:  
 <code class="language-sluab">myRot = torotation("<1, 1, 1, 0>")</code> or <code class="language-sluab">myRot = quaternion( torotation("<1, 1, 1, 0>"))</code>.
+- they return *nil* when are passed an invalid rotation.
 
 We have the datatypes rotation and quaternion, but internally only exists the type quaternion, rotation is just an alias:
 <pre class="language-slua"><code class="language-slua">if typeof(myVar) == "quaternion" then  -- NOT "rotation", it would never happen!
