@@ -60,6 +60,34 @@ local function angle(a, b, axis)
     return angle
 end</code></pre>
 
+**vector.lerp(vec1, vec2, t)**: Performs linear interpolation between two vectors. It calculates a specific point along the straight, shortest line between vector *vec1* and vector *vec2*, based on a fractional value *t*.
+Parameters:
+- *vec1* (vector): The starting vector.
+- *vec2* (vector): The target/ending vector.
+- *t* (number): The interpolation fraction (alpha).
+Returns a new vector representing the interpolated position.
+
+Behaviors:
+- Fractional Movement (*t*):
+  - If t == 0, it returns the position of vector *vec1*.
+  - If t == 1, it returns the position of vector *vec2*.
+  - If t == 0.5, it returns a vector exactly halfway between *vec1* and *vec2*.
+- Extrapolation: The function does not clamp *t* between 0 and 1. If we pass a *t* value less than 0 or greater than 1, it will "extrapolate," meaning the point will continue past the start or end vectors along the same line.
+- Component-wise operation: The operation evaluates the X, Y, and Z axes independently. It does not curve or track rotation; it simply draws a straight line between the two points.
+
+<pre class="language-sluab"><code class="language-sluab">-- vector.lerp()
+print(vector.lerp(vector(10, 50, 20),vector(60, 60, 20), 0.5))
+-- > <35, 55, 20></code></pre>
+
+It's equivalent to:
+<pre class="language-sluab"><code class="language-sluab">-- vector.lerp() in SLua
+local function vectorLerp(vec1: vector, vec2: vector, t: number): vector
+    -- (vec2 - vec1) gets the directional distance between the two vectors
+    -- * t scales that distance
+    -- vec1 + adds that scaled distance to the starting point
+    return vec1 + (vec2 - vec1) * t
+end</code></pre>
+
 ### Vector operators
 
 **vec1 * vec2**
