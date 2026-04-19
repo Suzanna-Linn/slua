@@ -44,8 +44,8 @@ for key, value in pairs(_G) do
 end</code></pre>
 
 There are 10 libraries that come from Luau, with all their Luau functions, also documented in [Standard Luau Libraries](https://luau.org/library):
-- table, string, math, bit32, os, vector ([Vectors](/slua/moving-vectors#the-vector-library))
-- coroutine, utf8, debug, buffer
+- table, string, math, bit32, vector ([Vectors](/slua/moving-vectors#the-vector-library))
+- os, coroutine, utf8, debug, buffer
 
 
 SLua has added:
@@ -54,9 +54,10 @@ SLua has added:
 The functions have the same name, without the "ll" at the start (because "ll" is now the name of the library).  
 So <code class="language-lsl">llSay()</code> becomes the function <code class="language-slua">Say()</code> in the library <code class="language-slua">ll</code> and is used as <code class="language-slua">ll.Say()</code>.
 
+And:
 - rotation / quaternion ([Rotations](/slua/moving-rotations#the-rotation-or-quaternion-library))
 
-- lljson: to convert tables to JSON string and back [lljson library](/slua/moving-lljson)
+- lljson: to convert tables to JSON string and back ([lljson library](/slua/moving-lljson))
 
 - llbase64: to convert string to base 64 strings and back, with these functions:
   - <code class="language-slua">str64 = llbase64.encode( str )</code>
