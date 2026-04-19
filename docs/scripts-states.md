@@ -31,7 +31,7 @@ local function state(fnState)
             currentState.state_exit()
         end
         for _, eventName in LLEvents:eventNames() do
-            for _, handler in LLEvents:listeners(eventName) do
+            for _, handler in LLEvents:handlers(eventName) do
                 LLEvents:off(eventName, handler)
             end
         end
@@ -112,7 +112,7 @@ local function state(fnState)
             currentState.state_exit()
         end
         for _, eventName in LLEvents:eventNames() do
-            for _, handler in LLEvents:listeners(eventName) do
+            for _, handler in LLEvents:handlers(eventName) do
                 LLEvents:off(eventName, handler)
             end
         end
@@ -174,7 +174,7 @@ local state = (function()
                 currentState.state_exit()
             end
             for _, eventName in LLEvents:eventNames() do
-                for _, handler in LLEvents:listeners(eventName) do
+                for _, handler in LLEvents:handlers(eventName) do
                     LLEvents:off(eventName, handler)
                 end
             end
