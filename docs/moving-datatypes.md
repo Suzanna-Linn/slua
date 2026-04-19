@@ -75,7 +75,7 @@ key myId = "0f16c0e1-384e-4b5f-b7ce-886dda3bce41";</code></pre>
 local myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code></pre>
 </td></tr></table>
 
-They return nil if the string has not a valid uuid format.
+They return nil when are passed an invalid uuid format.
 
 This is different to LSL, where we can store any string in a variable of type key.  
 More info on the use of uuid's in linked messages here: [Linked messages and uuid's](/slua/moving-llfunctions#linked-messages-and-uuids).
