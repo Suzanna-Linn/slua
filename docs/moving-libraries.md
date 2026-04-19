@@ -1,3 +1,9 @@
+---
+layout: default
+title: Libraries
+slua_beta: true
+---
+
 ## Libraries
 
 ### Global namespace
@@ -5,7 +11,7 @@
 The global namespace is a table with the name "_G". It contains the global functions and libraries. Each library is a table with its functions.  
 SLua has added all the LL constants (1021 constants, currently) to the global namespace.
 
-<pre class="language-slua"><code class="language-slua">-- list of global functions (SLua)
+<pre class="language-sluab"><code class="language-sluab">-- list of global functions (SLua)
 
 for key, value in pairs(_G) do
     if type(value) == "function" then
@@ -35,7 +41,7 @@ We will see them in the Datatypes page below.
 
 The libraries are in the global namespace as tables.
 
-<pre class="language-slua"><code class="language-slua">-- list of global tables (SLua)
+<pre class="language-sluab"><code class="language-sluab">-- list of global tables (SLua)
 
 for key, value in pairs(_G) do
     if type(value) == "table" then
@@ -51,15 +57,15 @@ There are 10 libraries that come from Luau, with all their Luau functions, also 
 SLua has added:
 - ll : with all the functions coming from LSL (526 functions, currently).
   - The functions have the same name, without the "ll" at the start (because "ll" is now the name of the library).  
-  - So <code class="language-lsl">llSay()</code> becomes the function <code class="language-slua">Say()</code> in the library <code class="language-slua">ll</code> and is used as <code class="language-slua">ll.Say()</code>.
+  - So <code class="language-lsl">llSay()</code> becomes the function <code class="language-sluab">Say()</code> in the library <code class="language-sluab">ll</code> and is used as <code class="language-sluab">ll.Say()</code>.
 
 - rotation / quaternion ([Rotations](/slua/moving-rotations#the-rotation-or-quaternion-library))
 
 - lljson: to convert tables to JSON string and back ([lljson library](/slua/moving-lljson))
 
 - llbase64: to convert string to base 64 strings and back, with these functions:
-  - <code class="language-slua">str64 = llbase64.encode( str )</code>
-  - <code class="language-slua">tab = llbase64.decode( str64 )</code>
+  - <code class="language-sluab">str64 = llbase64.encode( str )</code>
+  - <code class="language-sluab">tab = llbase64.decode( str64 )</code>
 
 ### New functions in the table library
 
