@@ -22,6 +22,7 @@ myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a component
 local posZ = ll.GetPos().z</code></pre>
 
 **tovector()** creates a vector from a string: <code class="language-slua">myVec = tovector("<50, 50, 20>")</code>
+- it returns *nil* when is passed an invalid vector.
 
 ### The vector library
 
