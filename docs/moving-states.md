@@ -119,7 +119,7 @@ local function state(newState)
             _currentState.state_exit()
         end
         for _, eventName in LLEvents:eventNames() do  -- all the events
-            for _, handler in LLEvents:listeners(eventName) do  -- all the handlers of the event
+            for _, handler in LLEvents:handlers(eventName) do  -- all the handlers of the event
                 LLEvents:off(eventName, handler)  -- removing handler
             end
         end
@@ -209,7 +209,7 @@ local function state(newState)
             _currentState.state_exit()
         end
         for _, eventName in LLEvents:eventNames() do
-            for _, handler in LLEvents:listeners(eventName) do
+            for _, handler in LLEvents:handlers(eventName) do
                 LLEvents:off(eventName, handler)
             end
         end
