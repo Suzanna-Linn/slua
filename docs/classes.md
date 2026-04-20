@@ -4,7 +4,7 @@ New series of **SLua classes** starting in May 2026. SLua has arrived to the mai
 
 And going on with the **Study Groups**, now in the main grid! Builders Brewery's regions have SLua, no need to go to the SLua regions.
 
-**Starting on January 5th 2026**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
+**Starting on May 5th 2026**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
 ### SLua - Basics (12 classes)
 
