@@ -63,7 +63,7 @@ SLua adds the type uuid, which is the same than the LSL key.The change of name i
 - Or with <code class="language-sluab">myId = uuid.create("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
 - Or with <code class="language-sluab">myId = touuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code>.
 
-<code class="language-sluab">uuid()</code>, <code class="language-sluab">uuid.create()</code> and <code class="language-sluab">touuid()</code> are the same, we can use any of them.
+<code class="language-sluab">uuid()</code>, <code class="language-sluab">uuid.create()</code> and <code class="language-sluab">touuid()</code> all make an uuid, we can use any of them.
 
 <table><tr><td>
 <pre class="language-lsl"><code class="language-lsl">// keys (LSL)
@@ -75,7 +75,7 @@ key myId = "0f16c0e1-384e-4b5f-b7ce-886dda3bce41";</code></pre>
 local myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code></pre>
 </td></tr></table>
 
-They return nil when are passed an invalid uuid format.
+<code class="language-sluab">touuid()</code> returns nil when are passed an invalid uuid format. <code class="language-sluab">uuid()</code> and <code class="language-sluab">uuid.create() throw an error with an invalid uuid.
 
 This is different to LSL, where we can store any string in a variable of type key.  
 More info on the use of uuid's in linked messages here: [Linked messages and uuid's](/slua/moving-llfunctions#linked-messages-and-uuids).
