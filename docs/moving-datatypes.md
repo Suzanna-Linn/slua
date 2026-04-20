@@ -75,7 +75,8 @@ key myId = "0f16c0e1-384e-4b5f-b7ce-886dda3bce41";</code></pre>
 local myId = uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")</code></pre>
 </td></tr></table>
 
-<code class="language-sluab">touuid()</code> returns nil when are passed an invalid uuid format. <code class="language-sluab">uuid()</code> and <code class="language-sluab">uuid.create() throw an error with an invalid uuid.
+<code class="language-sluab">touuid()</code> returns nil when are passed an invalid uuid format.
+<code class="language-sluab">uuid()</code> and <code class="language-sluab">uuid.create() throw an error with an invalid uuid.
 
 This is different to LSL, where we can store any string in a variable of type key.  
 More info on the use of uuid's in linked messages here: [Linked messages and uuid's](/slua/moving-llfunctions#linked-messages-and-uuids).
