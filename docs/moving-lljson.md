@@ -138,12 +138,9 @@ print(lljson.encode(fruitsQuantity))
 -- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
 **encode()** has a second parameter which is a table with named parameters.
-
-**allow_sparse**: boolean, **false** by default, if **true** all sparse arrays are encoded as arrays, no matter how sparse they are, instead of throwing a "excessively sparse array" error.
-
-**skip_tojson**: boolean, **false** by default, if **true** the metamethod **__tojson** is not called.
-
-**replacer**: call back function used to transform values during encoding.
+- **allow_sparse**: boolean, **false** by default, if **true** all sparse arrays are encoded as arrays, no matter how sparse they are, instead of throwing a "excessively sparse array" error.
+- **skip_tojson**: boolean, **false** by default, if **true** the metamethod **__tojson** is not called.
+- **replacer**: call back function used to transform values during encoding.
 
 <pre class="language-sluab"><code class="language-sluab">local myJson = lljson.encode(myTab, { allow_sparse = true, skip_tojson = true, replacer = myReplacerFunc })</code></pre>
 
@@ -241,7 +238,7 @@ Empty tables are exported as arrays:
 local tab = {}
 print(lljson.encode(tab))
 --> []</code></pre>
-We can use the constant **lljson.empty_object** to generate an empty JSON object:
+We can use the table **lljson.empty_object** to generate an empty JSON object:
 <pre class="language-sluab"><code class="language-sluab">-- empty table as JSON object
 local tab = lljson.empty_object
 print(lljson.encode(tab))
@@ -277,7 +274,7 @@ tab[20] = "value 20"
 print(lljson.encode(tab))
 -- > Cannot serialise table: excessively sparse array</code></pre>
 
-We can export a very sparse array with any number of nils as a JSON array with the parameter **allow_sparse = true**:
+We can export a very sparse array with any number of nils as a JSON array passing the parameter **allow_sparse = true**:
 <pre class="language-sluab"><code class="language-sluab">-- very sparse array as JSON array, with allow_sparse = true
 local tab = {}
 tab[15] = "value 15"
@@ -540,10 +537,8 @@ The received JSON:
 </code></pre>
 
 **decode()** has a second parameter which is a table with named parameters.
-
-**reviver**: call back function used to transform values after they are parsed.
-
-**track_path**: boolean, **false** by default, if **true** the **reviver** function will be passed an array table representing the traversal path across the nested tables from the root to the current value, allowing the reviver to know where it is in the tree.
+- **reviver**: call back function used to transform values after they are parsed.
+- **track_path**: boolean, **false** by default, if **true** the **reviver** function will be passed an array table representing the traversal path across the nested tables from the root to the current value, allowing the reviver to know where it is in the tree.
 
 <pre class="language-sluab"><code class="language-sluab">local myTab = lljson.decode(myJson, { reviver = myReviverFunc, track_path = true })</code></pre>
 
@@ -674,21 +669,21 @@ The received JSON:
 
 A replacer is a callback function that allows us to intercept and modify values during the serialization process. It gives us fine-grained control over the final JSON output, making it ideal for filtering data, formatting custom types, or censoring sensitive information.
 
-**replacer(key, value, parent)**: callback function to modify the contents before encoding them with `encode()` or `slencode()`.
+**replacer(key, value, parent)**: callback function to modify the contents before encoding them with **encode()** or **slencode()**.
 
 Parameters:
-- *key*: The key or index of the value being processed. The key is nil for the root value.
-- *value*: The value associated with the key.
-- *parent*: The table that contains the current value. The parent is nil for the root value.
+- **key**: The key or index of the value being processed. The key is nil for the root value.
+- **value**: The value associated with the key.
+- **parent**: The table that contains the current value. The parent is nil for the root value.
 
 Return value: The value we return from the replacer determines what gets written to the JSON string.
 - any value: The returned value will be serialized in place of the original value. This is used for transformation.
-- the constant `lljson.remove`: This constant instructs the encoder to completely omit the key-value pair from the final JSON. This is used for filtering.
-- `nil`: it's a valid value to return. It will be serialized as null in `encode()` or *"!n"* in `slencode`.
+- the constant **lljson.remove**: This constant instructs the encoder to completely omit the key-value pair from the final JSON. This is used for filtering.
+- **nil**: it's a valid value to return. It will be serialized as **null** in **encode()** or **"!n"** in **slencode**.
 
-A return value of `lljson.remove` for the root value evaluates to `lljson.null` and will be serialized as *null*.
+A return value of **lljson.remove** for the root value evaluates to **lljson.null** and will be serialized as **null**.
 
-If a table has a `__tojson` metamethod, it is called before passing the values to the replacer function.
+If a table has a **__tojson** metamethod, it is called before passing the values to the replacer function.
 
 **Reviver**
 
@@ -833,7 +828,7 @@ print(deepCompare(shelter, newShelter))  -- > true</code></pre>
 
 When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate the JSON representation of the table, instead of reading the table.
 
-**__tojson** will not be called if we use the parameter **skip_tojson = true**.
+**__tojson** will not be called if we passed the parameter **skip_tojson = true**.
 
 It's useful to adapt the contents of the table to the format that the external language or website expects:
 <pre class="language-sluab"><code class="language-sluab">-- exporting a table formatted with __tojson
@@ -935,7 +930,7 @@ local tab = setmetatable({}, {
     end
 })</code></pre>
 
-### Metafield **__jsonhint** for **encode()**
+### Metafield __jsonhint for encode()
 
 The **__jsonhint** metamfield is a special directive used during serialization to resolve ambiguity in SLua tables. Because a SLua table can represent both a key-value map (object) and a sequential list (array), the encoder must guess the user's intent. The **__jsonhint** gives us explicit control over this process, hinting a table to be encoded as either a JSON object ({}) or a JSON array ([]).
 
