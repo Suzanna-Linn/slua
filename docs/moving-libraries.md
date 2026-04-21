@@ -27,11 +27,9 @@ There are 22 functions that come from Luau, they are documented in [Standard Lua
 - assert, error, pcall, xpcall, gcinfo
 - print, unpack, newproxy
 
-And 7 functions added by Slua:
-- integer, uuid, rotation, quaternion
-- tovector, torotation, toquaternion
-
-We will see them in the Datatypes page below.
+And 7 functions added by Slua, they are explained in [Datatypes](/slua/moving-datatypes);
+- uuid, rotation, quaternion
+- tovector, touuid, torotation, toquaternion
 
 3 Luau functions are not in SLua:
 - getfenv, setfenv: old Lua functions out of use.
@@ -49,7 +47,7 @@ for key, value in pairs(_G) do
     end
 end</code></pre>
 
-There are 10 libraries that come from Luau, with all their Luau functions, also documented in [Standard Luau Libraries](https://luau.org/library):
+There are 10 libraries that come from Luau, with all their Luau functions, documented in [Standard Luau Libraries](https://luau.org/library):
 - table, string, math, bit32, vector ([Vectors](/slua/moving-vectors#the-vector-library))
 - os, coroutine, utf8, debug, buffer
 
