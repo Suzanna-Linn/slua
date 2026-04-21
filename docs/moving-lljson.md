@@ -126,6 +126,8 @@ There are two pairs of functions:
 
 It takes an SLua table and generates standard JSON to send to an external website or for use with another scripting language.
 
+To work in SLua scripts with JSON strings that can be encoded and decoded as the same table use **slencode()**/**sldecode()**.
+
 <pre class="language-sluab"><code class="language-sluab">-- array table, encodes to a JSON array
 local fruits = { "apples", "bananas", "oranges" }
 print(lljson.encode(fruits))
@@ -135,7 +137,15 @@ local fruitsQuantity = { Apple = 50, Banana = 30, Cherry = 20, Orange = 15 }
 print(lljson.encode(fruitsQuantity))
 -- > {"Apple":50,"Cherry":20,"Orange":15,"Banana":30}</code></pre>
 
-To work in SLua scripts with JSON strings that can be encoded and decoded as the same table use **slencode()**/**sldecode()**.
+**encode()** has a second parameter which is a table with named parameters.
+
+**allow_sparse**: boolean, **false** by default, if **true** all sparse arrays are encoded as arrays, no matter how sparse they are, instead of throwing a "excessively sparse array" error.
+
+**skip_tojson**: boolean, **false** by default, if **true** the metamethod **__tojson** is not called.
+
+**replacer**: call back function used to transform values during encoding.
+
+<pre class="language-sluab"><code class="language-sluab">local myJson = lljson.encode(myTab, { allow_sparse = true, skip_tojson = true, replacer = myReplacerFunc })</code></pre>
 
 Datatypes mapping with **lljson.encode()**:
 <table style="width: 50%; border-collapse: collapse;">
@@ -226,26 +236,16 @@ print(lljson.encode(fruitsQuantity))
 
 #### Empty tables
 
-Empty tables are exported as objects:
-<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON object
+Empty tables are exported as arrays:
+<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON array
 local tab = {}
 print(lljson.encode(tab))
+--> []</code></pre>
+We can use the constant **lljson.empty_object** to generate an empty JSON object:
+<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON object
+local tab = lljson.empty_object
+print(lljson.encode(tab))
 --> {}</code></pre>
-We can use the constant **lljson.empty_array** to generate an empty JSON array:
-<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON array
-local tab = lljson.empty_array
-print(lljson.encode(tab))
---> []</code></pre>
-We can export an empty table as JSON array setting the table **lljson.empty_array_mt** as its metatable:
-<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON array
-local tab = { "hello" }
-setmetatable(tab, lljson.empty_array_mt)
-print(lljson.encode(tab))
---> ["hello"]
-table.remove(tab, 1)
-print(lljson.encode(tab))
---> []</code></pre>
-**issue** : with mixed tables only the array part of the table is exported. This will be fixed to export all the table.
 
 #### Sparse arrays
 
@@ -277,31 +277,37 @@ tab[20] = "value 20"
 print(lljson.encode(tab))
 -- > Cannot serialise table: excessively sparse array</code></pre>
 
-**possible improvement** : it is requested that excessively sparse arrays are exported as objects, or to have an option to export array tables as objects.
+We can export a very sparse array with any number of nils as a JSON array with the parameter **allow_sparse = true**:
+<pre class="language-sluab"><code class="language-sluab">-- very sparse array as JSON array, with allow_sparse = true
+local tab = {}
+tab[15] = "value 15"
+print(lljson.encode(tab, { allow_sparse = true }))
+-- > [null,null,null,null,null,null,null,null,null,null,null,null,null,null,"value 15"]</code></pre>
+
+We can export a very sparse array as a JSON object with the lljson table **object_mt** as its metatable:
+<pre class="language-sluab"><code class="language-sluab">-- very sparse array as JSON object, with object_mt
+local tab = {}
+setmetatable(tab, lljson.object_mt)
+tab[15] = "value 15"
+print(lljson.encode(tab))
+-- > {"15":"value 15"}</code></pre>
 
 #### Mixed tables
 
 Mixed tables are exported as JSON objects.  
-Numeric keys are exported as strings:
+Numeric and uuid keys are exported as strings:
 <pre class="language-sluab"><code class="language-sluab">-- mixed table to JSON object with string keys
 local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
 print(lljson.encode(vegetables))
 -- > {"1":"Carrot","2":"Tomato","3":"Potato","Lettuce":"favorite"}</code></pre>
-We can export only the array part of a mixed table as JSON array setting the table **lljson.array_mt** as its metatable:
-<pre class="language-sluab"><code class="language-sluab">-- array part of mixed table to JSON array
-local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
-setmetatable(vegetables, lljson.array_mt)
-print(lljson.encode(vegetables))
--- > ["Carrot","Tomato","Potato"]</code></pre>
 
 #### Dictionary tables
 
-Keys with data types other than numbers and strings throw the run-time error "Cannot serialise userdata: table key must be a number or string":
+Keys with data types other than strings, numbers and uuids throw the run-time error "Cannot serialise userdata: table key must be a number or string":
 <pre class="language-sluab"><code class="language-sluab">-- dictionary table with other data types
-local staff = { [ll.GetOwner()] = "VIP" }
+local staff = { [vector(20, 50, 10)] = true }
 print(lljson.encode(staff))
--- > Cannot serialise userdata: table key must be a number or string</code></pre>
-**possible improvement** : it is requested that all datatypes (except functions and threads) are exported as strings.
+-- > Cannot serialise vector: table key must be a number, string, or uuid</code></pre>
 
 #### inf and -inf
 
@@ -312,12 +318,11 @@ print(lljson.encode(bigNumbers))
 -- > [1e9999,-1e9999]</code></pre>
 
 #### nan
-**nan** is exported as the literal **NaN** (a literal, not a string).
-<pre class="language-sluab"><code class="language-sluab">-- nan to the literal NaN
+**nan** is exported as **null**.
+<pre class="language-sluab"><code class="language-sluab">-- nan to null
 local puffedNumbers = { 0/0 }
 print(lljson.encode(puffedNumbers))
--- > [NaN]</code></pre>
-**issue** : this is not standard JSON. This will be changed to export as **null**.
+-- > [null]</code></pre>
 
 #### Special characters
 
@@ -504,6 +509,8 @@ Generated JSON:
 
 It takes standard JSON received from an external website and generates an SLua table.
 
+To work in SLua scripts with JSON strings that can be encoded and decoded as the same table use **slencode()**/**sldecode()**.
+
 An example sending a request to a website that returns JSON data containing a random quote:
 <pre class="language-sluab"><code class="language-sluab">local url  = "https://zenquotes.io/api/random"
 
@@ -532,7 +539,13 @@ The received JSON:
 ]
 </code></pre>
 
-To work in SLua scripts with JSON strings that can be encoded and decoded as the same table use **slencode()**/**sldecode()**.
+**decode()** has a second parameter which is a table with named parameters.
+
+**reviver**: call back function used to transform values after they are parsed.
+
+**track_path**: boolean, **false** by default, if **true** the **reviver** function will be passed an array table representing the traversal path across the nested tables from the root to the current value, allowing the reviver to know where it is in the tree.
+
+<pre class="language-sluab"><code class="language-sluab">local myTab = lljson.decode(myJson, { reviver = myReviverFunc, track_path = true })</code></pre>
 
 Datatypes mapping with **lljson.decode()**:
 <table style="width: 30%; border-collapse: collapse;">
@@ -569,6 +582,10 @@ Datatypes mapping with **lljson.decode()**:
     </tr>
   </tbody>
 </table>
+
+All tables are decoded with its metatable set to **array_mt** or **object_mt** depending on the JSON type.
+
+This is useful in case of re-encoding the data or to know the JSON type in a **reviver** function.
 
 #### lljson.null
 
@@ -651,9 +668,172 @@ The received JSON:
 }
 </code></pre>
 
+### replacer / reviver
+
+**Replacer**
+
+A replacer is a callback function that allows us to intercept and modify values during the serialization process. It gives us fine-grained control over the final JSON output, making it ideal for filtering data, formatting custom types, or censoring sensitive information.
+
+**replacer(key, value, parent)**: callback function to modify the contents before encoding them with `encode()` or `slencode()`.
+
+Parameters:
+- *key*: The key or index of the value being processed. The key is nil for the root value.
+- *value*: The value associated with the key.
+- *parent*: The table that contains the current value. The parent is nil for the root value.
+
+Return value: The value we return from the replacer determines what gets written to the JSON string.
+- any value: The returned value will be serialized in place of the original value. This is used for transformation.
+- the constant `lljson.remove`: This constant instructs the encoder to completely omit the key-value pair from the final JSON. This is used for filtering.
+- `nil`: it's a valid value to return. It will be serialized as null in `encode()` or *"!n"* in `slencode`.
+
+A return value of `lljson.remove` for the root value evaluates to `lljson.null` and will be serialized as *null*.
+
+If a table has a `__tojson` metamethod, it is called before passing the values to the replacer function.
+
+**Reviver**
+
+A reviver is a callback function that lets us inspect and transform data as it is being parsed from a JSON string. It is called for every key-value pair after it has been parsed but before it's added to its parent container. This is useful for "reviving" data into custom types (like dates or vectors) or restructuring the data on the fly.
+
+**reviver(key, value, parent, ctx)**: callback function to modify the contents while decoding them with `decode()` or `sldecode()`.
+
+Parameters:
+- **key**: The key or index of the value being processed. The key is nil for the root value.
+- **value**: The value that was just parsed from the JSON.
+- **parent**: The table that the value will be placed into. The parent is nil for the root value.
+- **ctx**: A table containing metadata about the parse operation.
+- **ctx.path**: A table representing the traversal path to the current value. For a value at data.users[20], the path would be {"data", "users", 20}. This is only populated if we enable it with the { track_path = true } option.
+
+Return value: The value we return from the reviver determines what gets written to the tables.
+- any value: The returned value will be inserted into the parent table instead of the original parsed value.
+- the constant **lljson.remove**: This constant prevents the value from being added to its parent. In an array the element is skipped, and subsequent elements are shifted down to fill the gap, resulting in a shorter array.
+
+A return value of **lljson.remove** for the root value will return **lljson.null**.
+
+The reviver processes nested structures from the inside out. The children of an object or array are revived before the parent object or array itself is revived. This means when we are processing a table, all of its nested tables have already been transformed by the reviver.
+
+In **sldecode()** the reviver receives keys and values already converted to SLua datatypes from the internal format.
+
+##### Example with **replacer** and **reviver**
+
+This example converts datetimes stored as timestamps (returned by **os.time()**) into JSON objects with "date" and "hour". The keys containing a timestamp are identified by their names starting with "time".
+
+<pre class="language-sluab"><code class="language-sluab">-- a table for the replacer/reviver example with 5 timestamps
+local shelter = {
+    name = "Happy Tails",
+    timeCreated = 1770112800,    
+    animals = {
+        {
+            type = "dog",
+            name = "Buddy",
+            health = {
+                vaccinated = true,
+                timeLastCheckup = 1772275380 
+            },
+            adoption = {
+                available = true,
+                timeListed = 1771158400 
+            }
+        },
+        {
+            type = "cat",
+            name = "Whiskers",
+            health = {
+                vaccinated = true,
+                timeLastCheckup = 1772372000 
+            },
+            adoption = {
+                available = false,
+                timeAdopted = 1771658400 
+            }
+        }
+    }
+}</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- Converts numeric fields starting with "time" into a { date, hour } table.
+local function timeReplacer(key, value, parent)
+    if type(key) == "string" and string.sub(key, 1, 4) == "time" and type(value) == "number" then
+        local d = os.date("!*t", value)
+        return {
+            date = string.format("%04d-%02d-%02d", d.year, d.month, d.day),
+            hour = string.format("%02d:%02d:%02d", d.hour, d.min, d.sec)
+        }
+    end
+    return value
+end
+
+local jsonShelter = lljson.encode(shelter, { replacer = timeReplacer })</code></pre>
+
+Resulting JSON:
+<pre class="language-json"><code class="language-json">{
+  "animals": [
+    {
+      "health": {
+        "vaccinated": true,
+        "timeLastCheckup": { "date": "2026-02-28", "hour": "10:43:00" }
+      },
+      "type": "dog",
+      "name": "Buddy",
+      "adoption": {
+        "timeListed": { "date": "2026-02-15", "hour": "12:26:40" },
+        "available": true
+      }
+    },
+    {
+      "health": {
+        "vaccinated": true,
+        "timeLastCheckup": { "date": "2026-03-01", "hour": "13:33:20" }
+      },
+      "type": "cat",
+      "name": "Whiskers",
+      "adoption": {
+        "timeAdopted": { "date": "2026-02-21", "hour": "07:20:00" },
+        "available": false
+      }
+    },
+  "name": "Happy Tails",
+  "timeCreated": { "date": "2026-02-03", "hour": "10:00:00" },
+  ]
+}</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- Looks for objects under keys starting with "time" and parses them back into timestamps.
+local function timeReviver(key, value, parent, ctx)
+    if type(key) == "string" and string.sub(key, 1, 4) == "time" and type(value) == "table" then
+        if value.date and value.hour then
+            local year, month, day = string.match(value.date, "(%d+)-(%d+)-(%d+)")
+            local hour, min, sec = string.match(value.hour, "(%d+):(%d+):(%d+)")
+            if year and month and day and hour and min and sec then
+                return os.time({
+                    year = tonumber(year), month = tonumber(month), day = tonumber(day),
+                    hour = tonumber(hour), min = tonumber(min), sec = tonumber(sec)
+                })
+            end
+        end
+    end
+    return value
+end
+
+local newShelter = lljson.decode(jsonShelter, { reviver = timeReviver })</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- comparing the resulting table with the original
+local function deepCompare(t1, t2)
+    if t1 == t2 then return true end
+    if type(t1) ~= "table" or type(t2) ~= "table" then return false end
+    for key, value in t1 do
+        if not deepCompare(value, t2[key]) then return false end
+    end
+    for key in t2 do
+        if t1[key] == nil then return false end
+    end
+    return true
+end
+
+print(deepCompare(shelter, newShelter))  -- > true</code></pre>
+
 ### metamethod __tojson
 
 When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate the JSON representation of the table, instead of reading the table.
+
+**__tojson** will not be called if we use the parameter **skip_tojson = true**.
 
 It's useful to adapt the contents of the table to the format that the external language or website expects:
 <pre class="language-sluab"><code class="language-sluab">-- exporting a table formatted with __tojson
@@ -711,10 +891,9 @@ setmetatable(fruitsQuantity, fruitsQuantity_mt)
 print(lljson.encode(fruitsQuantity))
 -- > "non exportable table"</code></pre>
 
-We can export a sparse array as a JSON object, avoiding the "Cannot serialise table: excessively sparse array" error:
-<pre class="language-sluab"><code class="language-sluab">-- sparse array to JSON object with __tojson
-local tab = {}
-tab[25], tab[50] = "value 25", "value 50"
+We can typecast vectors to string, avoiding the "Cannot serialise userdata: table key must be a number or string" error:
+<pre class="language-sluab"><code class="language-sluab">-- vector keys as string to JSON object with __tojson
+local tab = { [vector(20, 50, 10)] = true }
 local mt = {
     __tojson = function(t)
         local jsonTab = {}
@@ -726,240 +905,156 @@ local mt = {
 }
 setmetatable(tab, mt)
 print(lljson.encode(tab))
--- > {"25":"value 25","50":"value 50"}</code></pre>
+-- > {"<20, 50, 10>":true}</code></pre>
 
-We can improve the previous script for a more general use to export proper arrays as JSON arrays and sparse arrays as JSON objects.  
-The idea is that if the array isn't sparse the metamethod will return the unchanged table.  
-But it can return the same table, because **lljson.encode()** would call **__tojson** on it and go into infinite recursion, until throwing the error "Cannot serialise, excessive nesting (101)".  
-It returns a cloned table (cloned along with its metatable) with its metatable subsequently set to nil:
-<pre class="language-sluab"><code class="language-sluab">-- array to JSON array and sparse array to JSON object with __tojson
-local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
-local mt = {
+We can encode only the array part of a table:
+<pre class="language-sluab"><code class="language-sluab">-- array part of the table
+local fruits = { "apples", "bananas", "oranges", ["n"] = 3 }
+setmetatable(fruits, {
     __tojson = function(t)
-        if table.maxn(t) > #t then
-            local jsonVegetables = {}
-            for k, v in t do
-                jsonVegetables[tostring(k)] = v
-            end
-            return jsonVegetables
+        return table.move(t, 1, #t, 1, {})
+    end
+})
+print(lljson.encode(fruits))
+-- > ["apples","bananas","oranges"]</code></pre>
+
+**__tojson** has a second parameter **ctx** which is a table providing information about the encoding mode. It contains two keys:
+- **ctx.mode**: A string, either "json" (for **encode()**) or "sljson" (for **slencode()**).
+- **ctx.tight**: A boolean indicating if the **tight** encoding option is enabled (only relevant for **slencode()**).
+
+If **__tojson** returns a table that has a metamethod **__tojson** this other one is not called. We can return the same table without going into infinite recursion.
+
+<pre class="language-sluab"><code class="language-sluab">-- __tojson to format the table only for encode()
+local tab = setmetatable({}, {
+    __tojson = function(t, ctx)
+        if ctx.mode == "sljson" then
+            return t
         else
-			-- return t  -- WRONG! __tojson is called again and goes into infinite recursion
-			-- return table.clone(t)  -- WRONG! the table is cloned with its metatable
-            return setmetatable(table.clone(t), nil)
+            -- return a formated table
         end
     end
-}
-setmetatable(vegetables, mt)
-print(lljson.encode(vegetables))
--- > ["Carrot","Tomato","Potato","Onion","Lettuce"]</code></pre>
+})</code></pre>
 
-We can typecast keys to string, avoiding the "Cannot serialise userdata: table key must be a number or string" error:
-<pre class="language-sluab"><code class="language-sluab">-- dictionary keys as string to JSON object with __tojson
-local tab = { [ll.GetOwner()] = true }
-local mt = {
-    __tojson = function(t)
-        local jsonTab = {}
-        for k, v in t do
-            jsonTab[tostring(k)] = v
-        end
-        return jsonTab
-    end
-}
-setmetatable(tab, mt)
-print(lljson.encode(tab))
--- > {"0f16c0e1-384e-4b5f-b7ce-886dda3bce41":true}</code></pre>
+### Metafield **__jsonhint** for **encode()**
 
-### metamethod __len
+The **__jsonhint** metamfield is a special directive used during serialization to resolve ambiguity in SLua tables. Because a SLua table can represent both a key-value map (object) and a sequential list (array), the encoder must guess the user's intent. The **__jsonhint** gives us explicit control over this process, hinting a table to be encoded as either a JSON object ({}) or a JSON array ([]).
 
-When there is a **__len** metamethod, **lljson.encode()** generates an array with the array part of the table and the length returned by **__len**. It uses **null** for the **nil** indexes, and adds **null**s at the end if there are not enough elements:
-<pre class="language-sluab"><code class="language-sluab">-- table to JSON array with __len length
-local tab = { 1, 2, 3, a = "a", b = "b" }
-local mt = {
-	__len = function(t)  -- nonsense function for testing
-		return math.random(0, 10)
-	end
-}
-setmetatable(tab, mt)
-print(lljson.encode(tab))
--- > [1,2,3,null]
-print(lljson.encode(tab))
--- > [1,2]
-print(lljson.encode(tab))
--- > [1,2,3,null,null,null,null]</code></pre>
+We set **__jsonhint** as a key within a table's metatable. The value must be one of the string values that "hint" at the desired JSON structure.
 
-There is no limit to the quantity of **null**s used.
+Valid Values for **__jsonhint**
+- **"array"**: Hints the table to be encoded as a JSON array. This is a soft hint. If the table contains keys that are not positive integers, it cannot be a valid JSON array. In this case, the encoder will ignore the hint and serialize it as a JSON object to preserve all the data.
+- **"object"**: Hints the table to be encoded as a JSON object. This is a strong hint. It will always produce a JSON object, converting any numeric keys into string keys in the final output.
 
-We can export a sparse array as a JSON array, avoiding the "Cannot serialise table: excessively sparse array" error:
-<pre class="language-sluab"><code class="language-sluab">-- excessively sparse array to JSON array with __len
-local tab = {}
-tab[25], tab[50] = "value 25", "value 50"
-local mt = { 
-	__len = function(t)
-		return table.maxn(t)
-	end
-}
-setmetatable(tab, mt)
-print(lljson.encode(tab))
--- > [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
--- > null,null,null,null,"value 25",null,null,null,null,null,null,null,null,null,null,null,null,null,null,
--- > null,null,null,null,null,null,null,null,null,null,"value 50"]</code></pre>
+This is useful for:
+- Empty tables: An empty SLua table {} could be either {} or [] in JSON. Without a hint they are encoded as JSON arrays.
+- Tables with only numeric keys: A table like { [1] = "a" } would normally become an array, but we might intend for it to be an object {"1": "a"}.
+- Sparse array: An excessively sparse array will be encoded as a JSON array with **__jsonhint = "array"**, instead of throwing a "excessively sparse array" error. 
 
-But we need to be careful if we are using **__len** for something else:
-<pre class="language-sluab"><code class="language-sluab"> -- dictionary table to JSON object generates array of nulls with __len
-local tab = { a = 1, b = 2, c = 3 }
-local mt = { 
-	__len = function(t)
-		local len = 0 
-		for _ in t do 
-			len += 1 
-		end 
-		return len 
-	end
-}
-setmetatable(tab, mt)
-print(lljson.encode(tab))
--- > [null,null,null]</code></pre>
+For convenience, the lljson library provides pre-configured, read-only metatables that we can use directly:
+- **lljson.array_mt**: Use this to hint that a table should be an array.
+- **lljson.object_mt**: Use this to hint that a table should be an object.
 
-The solution is to use **__tojson** to return the same table without its metatable:
-<pre class="language-sluab"><code class="language-sluab">-- dictionary table to JSON object with __tojson to avoid __len
-local tab = { a = 1, b = 2, c = 3 }
-local mt = {
-	__len = function(t)
-		local len = 0 
-		for _ in t do 
-			len += 1 
-		end 
-		return len 
-	end,
-    __tojson = function(t)
-		return setmetatable(table.clone(t), nil) 
-	end
-}
-setmetatable(tab, mt)
-print(lljson.encode(tab))
--- > {"a":1,"c":3,"b":2}</code></pre>
+**__jsonhint** is not used by **slencode()**. **slencode()** uses the encoding that is more efficient.
 
-### metamethod __index
+<pre class="language-sluab"><code class="language-sluab">-- using __jsonhint
+  
+-- with array hint: array
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+setmetatable(sparseData, { __jsonhint = "array" })
+print(lljson.encode(sparseData))
+-- > ["Level 1",null,null,null,"Level 5",null,null,null,null,null,null,"Level 12"]
 
-The metamethod **__index** is called in the usual way when **lljson.encode()** reads a nil array index.
+-- with object hint: object
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+setmetatable(sparseData, { __jsonhint = "object" })
+print(lljson.encode(sparseData))
+-- > {"1":"Level 1","5":"Level 5","12":"Level 12"}
 
-The check for sparse arrays is done previously and we can't use **__index** to avoid the "excessively sparse array" error.
+-- without hint but allowing sparse: array
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+print(lljson.encode(sparseData, { allow_sparse = true }))
+-- > ["Level 1",null,null,null,"Level 5",null,null,null,null,null,null,"Level 12"]
 
-We can use **__index** to replace **nil** with another value:
-<pre class="language-sluab"><code class="language-sluab">-- __index to use "" instead of null
-local vegetables = { "Carrot", "Tomato", "Potato", "Onion", "Lettuce" }
-vegetables[4] = nil
-local vegetables_mt = {
-    __index = function(t, k)
-        return ""
-    end
-}
-setmetatable(vegetables, vegetables_mt)
-print(lljson.encode(vegetables))
--- > ["Carrot","Tomato","Potato","","Lettuce"]</code></pre>
+-- with array hint but non-array keys: object
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12", ["others"] = "Other levels" }
+setmetatable(sparseData, { __jsonhint = "array" })
+print(lljson.encode(sparseData))
+-- > {"1":"Level 1","12":"Level 12","5":"Level 5","others":"Other levels"}
 
-With **__len** to get data from other tables:
-<pre class="language-sluab"><code class="language-sluab">
--- __index and __len to merge data from several tables
-local fruits = { "Apple", "Banana", "Orange" }
-local fruitsColors = { Apple = "Red", Banana = "Yellow", Orange = "Orange" }
-local fruitsPrices = { Apple = 1.20, Banana = 0.80, Orange = 1.50 }
+-- without hint: too sparse error
+local sparseData = { [1] = "Level 1", [5] = "Level 5", [12] = "Level 12" }
+print(pcall(lljson.encode(sparseData)))
+-- > runtime error: Cannot serialise table: excessively sparse array</code></pre>
 
-local fruits_mt = {
-    __index = function(t, k)
-        local fruit = fruits[k]
-        return { fruit = fruit, color = fruitsColors[fruit], price = fruitsPrices[fruit] }
-    end,
-    __len = function(t)
-        return #fruits
-    end
-}
+**Objects**
 
-print(lljson.encode(setmetatable({}, fruits_mt)))
---> [{"color":"Red","fruit":"Apple","price":1.2},{"color":"Yellow","fruit":"Banana","price":0.8},{"color":"Orange","fruit":"Orange","price":1.5}]</code></pre>
+A table is encoded as a JSON object if it meets any of the following conditions:
+- Explicit hint: It has a metatable with **__jsonhint = "object"**.
+- Array incompatible keys: It contains at least one key that is not a positive integer.
 
-With **__tojson** and **__len** to generate new data. Using **__tojson** to get parameters, **__index** as an iterator and **__len** as the limit of the iteration:
-<pre class="language-sluab"><code class="language-sluab">-- __tojson, __index and __len to generate calculated JSON
-local mt = {
-    __tojson = function(t)
-        return setmetatable({}, {
-            __index = (function()
-                local a, b = 1, 1
-                local count = 0
-                return function()
-                    local res = a
-                    a, b = b, a + b 
-                    count += 1
-                    return res
-                end
-            end)(),
-            __len = function()
-                return t[1]
-            end
-        })
-    end
-}
+**Arrays**
 
-print(lljson.encode(setmetatable({ 15 }, mt)))
--- > [1,1,2,3,5,8,13,21,34,55,89,144,233,377,610]
-</code></pre>
+An array table is encoded as a JSON array if it satisfies any of the following conditions, provided it is not explicitly forced to be an object via **__jsonhint = "object"**.
+- Explicit hint: It has a metatable with **__jsonhint = "array"** and contains only array-compatible keys.
+- Empty table default: It is an empty table ({}) and does not have an "object" hint.
+- Automatic Detection: If all its keys are positive integers and it's not excessively sparse.
 
-### lljson constants
+An excessively sparse array table is encoded as a JSON array if:
+- Explicit hint: It has a metatable with **__jsonhint = "array"**.
+- **allow_sparse** parameter: If we pass the **allow_sparse = true** option.
 
-Asides from the 4 functions, there are 6 constants to give instructions for encoding and for information.
+**__jsonhint** has priority over **allow_sparse**. With **__jsonhint = "array"** an excessively sparse array will be encoded as an array even if we have passed **allow_sparse = false**.
 
-#### null and empty_array
+### Encoding sequence of execution
 
-They are two values that can't be represented with SLua values.
+**encode()** uses two different execution pipelines depending on whether we provided a replacer function in our options.
 
-**lljson.null** : encodes to a JSON null. Useful to add null keys to a JSON object.
-<pre class="language-sluab"><code class="language-sluab">-- lljson.null as null JSON key
-local animals = { { kind = "dog", name = "Dufa", color = "white", wingspan = lljson.null } }
-print(lljson.encode(animals))
--- > [{"color":"white","kind":"dog","name":"Dufa","wingspan":null}]</code></pre>
+**Without a Replacer**
 
-**lljson.empty_array** : encodes a JSON empty array (instead of a JSON empty object, that is the default for an empty table).
-<pre class="language-sluab"><code class="language-sluab">-- lljson.empty_array as empty JSON array
-local animals = { { kind = "dog", name = "Dufa", color = "white", puppies = lljson.empty_array } }
-print(lljson.encode(animals))
--- > [{"color":"white","kind":"dog","name":"Dufa","puppies":[]}]</code></pre>
+When no replacer is used,  **__jsonhint** is read before **__tojson** is executed:
+- Read **__jsonhint** (Original Table): The encoder looks at the original table's metatable and reads the **__jsonhint**. It saves this shape intent.
+- Execute **__tojson** (Original Table): Next, it checks if the original table has a **__tojson** metamethod. If it does, it calls it and takes the returned value. (The original table is now discarded).
+- Apply shape and serialize:
+  - If **__tojson** returned a non-table (e.g., a string), it serializes it directly (ignoring hints).
+  - If **__tojson** returned a table, the encoder takes the shape hint saved in the first step and applies it to this new table, forcing it to serialize as that shape.
 
-They have type "lljson_constant" derived from "userdata" (internally a value type derived from light userdata). They can't be confused with any other value of another type:
-<pre class="language-sluab"><code class="language-sluab">print( type(lljson.null), typeof(lljson.null), lljson.null )
+Why this order?  
+It allows a table to dictate its content via **__tojson**, but dictate its shape via its own **__jsonhint**, without requiring us to attach a metatable to the temporary table returned by **__tojson**.
+
+**With a Replacer**
+
+When a replacer is provided, **__tojson** executes first, then the **replacer** function, and **__jsonhint** is read last:
+- Execute **__tojson** (Original Table): Before the replacer sees the value, the encoder checks for **__tojson** on the original table and executes it.
+- Execute replacer (on the resolved value): The **replacer** function is called. The value argument passed to the replacer is the result of the **__tojson** call from the first step.
+- Read **__jsonhint** (Final Table): After the replacer returns its final value, the encoder processes it. If the final value is a table, the encoder looks at the metatable of this final table for a **__jsonhint**.
+- Serialize: The table is serialized according to the hint found in the previous step (or auto-detected if no hint exists).
+
+Why this order?  
+It ensures that our replacer function always receives the final data that an object intends to serialize, rather than forcing the replacer to try and understand the object's complex internal structure.  
+It also guarantees strict compatibility with the JavaScript JSON.stringify specification, which requires an object's toJSON method to fully resolve its serializable value before that value is passed to the replacer function.
+
+### lljson constants and tables
+
+Asides from the 4 functions, there are 2 constants and 4 tables to give instructions for encoding and for information.
+
+The 2 constants have type "lljson_constant" derived from "userdata" (internally a value type derived from light userdata). They can't be confused with any other value of another type:
+<pre class="language-sluab"><code class="language-sluab">-- lljson constants have its own datatype
+print( type(lljson.null), typeof(lljson.null), lljson.null )
 -- > userdata    lljson_constant    lljson_constant: 0x0000000000000003
-print( type(lljson.empty_array), typeof(lljson.empty_array), lljson.empty_array )
--- > userdata    lljson_constant    lljson_constant: 0x0000000000000005</code></pre>
+print( type(lljson.remove), typeof(lljson.remove), lljson.remove )
+-- > userdata    lljson_constant    lljson_constant: 0x0000000000000006</code></pre>
 
-#### array_mt and empty_array_mt
+The 4 shaping tables:
+<pre class="language-sluab"><code class="language-sluab">-- internal values of the shaping lljson tables
 
-They are two metatables that can be set to the table to give encoding instructions
+array_mt = { __jsonhint = "array" }
+object_mt = { __jsonhint = "object" }
 
-**lljson.array_mt** : encodes the array part of the table as JSON array.
-<pre class="language-sluab"><code class="language-sluab">-- array part of mixed table to JSON array
-local vegetables = { "Carrot", "Tomato", "Potato", Lettuce = "favorite" }
-setmetatable(vegetables, lljson.array_mt)
-print(lljson.encode(vegetables))
--- > ["Carrot","Tomato","Potato"]</code></pre>
+empty_array = setmetatable( {}, array_mt )
+empty_object = setmetatable( {}, object_mt )
 
-**lljson.empty_array_mt** : if the table is empty, encodes a JSON empty array (instead of a JSON empty object, that is the default for an empty table).
-<pre class="language-sluab"><code class="language-sluab">-- empty table as JSON array
-local tab = { "hello" }
-setmetatable(tab, lljson.empty_array_mt)
-print(lljson.encode(tab))
---> ["hello"]
-table.remove(tab, 1)
-print(lljson.encode(tab))
---> []</code></pre>
-
-They are empty tables, used as markers. **lljson.encode()** gets the metatable and uses it as a parameter.
-
-#### _NAME and _VERSION
-
-They are two string constants with the name and version of the library:
-<pre class="language-sluab"><code class="language-sluab">print(lljson._NAME)
---> lljson
-print(lljson._VERSION)
---> 2.1.0.11</code></pre>
+empty_array = setmetatable( {}, { __jsonhint = "array" } )
+empty_object = setmetatable( {}, { __jsonhint = "object" } )</code></pre>
 
 ### slencode() / sldecode()
 
@@ -990,61 +1085,16 @@ The generated code doesn't contain any special character so we can store it safe
 
 A table's metatable can't be encoded. We have to set it again after decoding the table. If it is decoded in another script, the metatable has to be defined there too.
 
-**issue** : **nil**s are decoded as **lljson.null**. This will be resolved.
-**issue** : **lljson.empty_array** is decoded as an empty table. This will be resolved.
-
-**slencode()** uses the metamethods **__tojson** and **__len** and the metatables **lljson.array_mt** and **lljson.empty_array_mt**, like **encode()**.  
-We can use them to export to an external resource and also be able to use it internally:
-<pre class="language-sluab"><code class="language-sluab">-- encoding for external and internal use
-local slEncode
-local fruits = { "apples", "bananas", "oranges" }
-local fruits_mt = {
-    __tojson = function(t)
-        if slEncode then
-            return setmetatable(table.clone(t), nil)
-        end
-        local jsonFruits = {}
-        for _, v in t do
-            table.insert(jsonFruits, v:upper())
-        end
-        return jsonFruits
-    end
-}
-setmetatable(fruits, fruits_mt)
-slEncode = false
-print(lljson.encode(fruits))  -- external use
--- > ["APPLES","BANANAS","ORANGES"]  -- ready to export
-slEncode = true
-print(lljson.slencode(fruits))  -- internal use
--- > ["apples","bananas","oranges"]  -- ready to be decoded</code></pre>
-
-If the table has a **__len** metamethod we have to add a **__tojson** to return the table without the metatable:
-<pre class="language-sluab"><code class="language-sluab">-- using __tojson to avoid __len
-local tab = { a = 1, b = 2, c = 3 }
-local mt = {
-	__len = function(t)
-		local len = 0 
-		for _ in t do 
-			len += 1 
-		end 
-		return len 
-	end,
-    __tojson = function(t)
-		return setmetatable(table.clone(t), nil) 
-	end
-}
-setmetatable(tab, mt)
-print(lljson.slencode(tab))
--- > {"a":1,"c":3,"b":2}</code></pre>
-
-**possible improvement** : It is requested that **slencode()** not use metatables and metamethods.
+**slencode()** uses the metamethods **__tojson**, like **encode()**, but not the metafield **___jsonhint**.
 
 #### Tight encoding
 
-**slencode()** has a second parameter for tight encoding, **false** by default. With **true** some data types are encoded with less characters.
+**slencode()** has a second parameter for tight encoding, **false** by default. With **true** some data types are encoded with less characters:
+<pre class="language-sluab"><code class="language-sluab">local myJson = lljson.slencode(myTab, { tight = true })</code></pre>
 
-Changes are:
+Changes with tight encoding are:
 - vectors and rotations: encoded without "<" and ">" and coordinates with value 0 as empty.
+  - ZERO_VECTOR and ZERO_ROTATION are encoded as "!v" and "!q".
 - uuids : encoded in numeric format as base64 strings in 22 characters instead of 36 (plus the 2 characters of the "!u" tag).
 
 <pre class="language-sluab"><code class="language-sluab">-- encoding tight
@@ -1154,8 +1204,8 @@ Encoding of data types, some of them change depending on wether they are used as
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nil (value)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">null</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode will change, now decodes to lljson.null</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!n"</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nil (key)</td>
@@ -1173,16 +1223,6 @@ Encoding of data types, some of them change depending on wether they are used as
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
     </tr>
     <tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.empty_array (value)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">[]</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode will change, now decodes to {}</td>
-    </tr>
-    <tr>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">lljson.empty_array (key)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">not allowed</td>
-    </tr>
-    <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">inf, -inf (value) </td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">1e9999, -1e9999</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
@@ -1194,8 +1234,8 @@ Encoding of data types, some of them change depending on wether they are used as
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nan (value)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">NaN (literal, not string)</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">encode could change, now is non-standard JSON</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!fNaN"</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;"></td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">nan (key)</td>
