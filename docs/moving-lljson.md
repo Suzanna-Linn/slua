@@ -824,7 +824,7 @@ end
 
 print(deepCompare(shelter, newShelter))  -- > true</code></pre>
 
-### metamethod __tojson
+### Metamethod __tojson
 
 When there is a metamethod **__tojson**, **lljson.encode()** calls it and uses the returned data to generate the JSON representation of the table, instead of reading the table.
 
