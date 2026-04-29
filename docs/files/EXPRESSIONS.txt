@@ -1,0 +1,308 @@
+
+local OPER = { ["+"] = true, ["-"] = true,
+               ["*"] = true, ["/"] = true, ["%"] = true, ["//"] = true,
+               ["^"] = true, 
+               ["("] = true, [")"] = true,
+}
+
+local TOKEN = { NUMBER = 1, VECTOR = 2, ROTATION = 3, 
+                OPER = 4,   UNARY = 5,  BINARY = 6,
+                IDENT = 7,  END = 8,
+}
+
+local function Lexer(text)
+    local Tokens = {}
+    local pos = 1
+
+    local function isDigit(char) return string.match(char, "%d") end
+    local function isAlpha(char) return string.match(char, "[%a_]") end
+    local function isAlphaNum(char) return string.match(char, "[%w_]") end
+    local function isWhitespace(char) return string.match(char, "%s") end
+    local function isAtEnd() return pos > #text end
+
+    local function peek()
+        return string.sub(text, pos, pos)
+    end
+
+    local function peekNext()
+        if pos + 1 > #text then return "" end
+        return string.sub(text, pos + 1, pos + 1)
+    end
+
+    local function advance()
+        if isAtEnd() then return nil end
+        local char = peek()
+        pos = pos + 1
+        return char
+    end
+
+    local function makeToken(tokenType, lexeme, startPos)
+        return { type = tokenType, lex = lexeme, pos = startPos }
+    end
+
+    local function skipWhitespace()
+        while not isAtEnd() and isWhitespace(peek()) do
+            advance()
+        end
+    end
+
+    local function scanIdentifier(startPos)
+        while not isAtEnd() and isAlphaNum(peek()) do
+            advance()
+        end
+        local lexeme = string.sub(text, startPos, pos - 1)
+        if OPER[lexeme] then
+            return makeToken(TOKEN.OPER, lexeme, startPos)
+        else
+            return makeToken(TOKEN.IDENT, lexeme, startPos)
+        end
+    end
+
+    local function scanNumber(startPos)
+        -- integer part
+        while not isAtEnd() and isDigit(peek()) do advance() end
+        -- decimal part
+        if peek() == '.' and isDigit(peekNext()) then
+            advance()
+            while not isAtEnd() and isDigit(peek()) do advance() end
+        end
+        -- scientific notation
+        local nextChar = peek()
+        if nextChar == 'e' or nextChar == 'E' then
+            advance()
+            local sign = peek()
+            if sign == '+' or sign == '-' then advance() end
+            if isDigit(peek()) then
+                while not isAtEnd() and isDigit(peek()) do advance() end
+            else
+                error("Malformed scientific notation at position " .. startPos)
+            end
+        end
+        --
+        return makeToken(TOKEN.NUMBER, string.sub(text, startPos, pos - 1), startPos)
+    end
+
+    local function scanNextToken()
+        skipWhitespace()
+
+        local startPos = pos
+
+        if isAtEnd() then
+            return makeToken(TOKEN.END, "<EOF>", startPos)
+        end
+
+        local char = peek()
+
+        if isAlpha(char) then
+            return scanIdentifier(startPos)
+        end
+
+        if isDigit(char) or (char == '.' and isDigit(peekNext())) then
+            return scanNumber(startPos)
+        end
+
+        local op2 = peek() .. peekNext()
+        if OPER[op2] then
+            advance()
+            advance()
+            return makeToken(TOKEN.OPER, op2, startPos)
+        end
+
+        local op1 = peek()
+        if OPER[op1] then
+            advance()
+            return makeToken(TOKEN.OPER, op1, startPos)
+        end
+
+        advance()
+        error("Unexpected character '" .. char .. "' at position ".. startPos)
+    end
+
+    while true do
+        local tok = scanNextToken()
+        table.insert(Tokens, tok)
+        if tok.type == TOKEN.END then
+            return Tokens
+        end
+    end
+end
+
+local function Parser(tokens)
+    local pos = 1
+
+    local function peek()
+        return tokens[pos]
+    end
+
+    local function isAtEnd()
+        return peek().type == TOKEN.END
+    end
+
+    local function advance()
+        if not isAtEnd() then pos = pos + 1 end
+        return tokens[pos - 1]
+    end
+
+    local function match(lexMatch)
+        if peek().type == TOKEN.OPER and peek().lex == lexMatch then
+            advance()
+            return true
+        end
+        return false
+    end
+
+    local parseExpression, parsePrimary, parseExponent, parseUnary, parseFactor, parseTerm, parseComparison
+
+    -- Level 1: Primary (Numbers, Identifiers, Grouping)
+    function parsePrimary()
+        local tok = advance()
+        if tok.type == TOKEN.NUMBER then
+            return { type = TOKEN.NUMBER, value = tonumber(tok.lex) }
+        elseif tok.type == TOKEN.IDENT then
+            return { type = TOKEN.IDENT, name = tok.lex }
+        elseif tok.type == TOKEN.OPER and tok.lex == "(" then
+            local expr = parseExpression()
+            if peek().lex == ")" then
+                advance()
+            else
+                error("Expected ')' after expression at position " .. tok.pos)
+            end
+            return expr
+        end
+        error("Unexpected token '" .. tok.lex .. "' at position " .. tok.pos)
+    end
+
+    -- Level 2: Exponentiation (^)
+    function parseExponent()
+        local expr = parsePrimary()
+        if match("^") then
+            local opToken = tokens[pos - 1]
+            local right = parseUnary() 
+            expr = { type = TOKEN.BINARY, operator = opToken.lex, opPos = opToken.pos, left = expr, right = right }
+        end
+        return expr
+    end
+
+    -- Level 3: Unary (-x)
+    function parseUnary()
+        if match("-") then
+            local opToken = tokens[pos - 1]
+            local right = parseUnary()
+            return { type = TOKEN.UNARY, operator = opToken.lex, opPos = opToken.pos, right = right }
+        end
+        return parseExponent()
+    end
+
+    -- Level 4: Factor (*, /, %, //)
+    function parseFactor()
+        local expr = parseUnary()
+        while match("*") or match("/") or match("%") or match("//") do
+            local opToken = tokens[pos - 1]
+            local right = parseUnary()
+            expr = { type = TOKEN.BINARY, operator = opToken.lex, opPos = opToken.pos, left = expr, right = right }
+        end
+        return expr
+    end
+
+    -- Level 5: Term (+, -)
+    function parseTerm()
+        local expr = parseFactor()
+        while match("+") or match("-") do
+            local opToken = tokens[pos - 1]
+            local right = parseFactor()
+            expr = { type = TOKEN.BINARY, operator = opToken.lex, opPos = opToken.pos, left = expr, right = right }
+        end
+        return expr
+    end
+
+    function parseExpression()
+        return parseTerm()
+    end
+
+    local ast = parseExpression()
+    if not isAtEnd() then
+        error("Unexpected token '" .. peek().lex .. "' at end of expression.")
+    end
+    return ast
+end
+
+local UNARY = {
+    ["-"] = function(right) return -right end,
+}
+
+local BINARY = {
+    ["+"] = function(left, right) return left + right end,
+    ["-"] = function(left, right) return left - right end,
+    ["*"] = function(left, right) return left * right end,
+    ["/"] = function(left, right) return left / right end,
+    ["%"] = function(left, right) return left % right end,
+    ["//"] = function(left, right) return left // right end,
+    ["^"] = function(left, right) return left ^ right end,
+}
+
+local function Evaluate(node)
+
+    if node.type == TOKEN.NUMBER then
+        return node.value
+
+    elseif node.type == TOKEN.IDENT then
+        error("Variables are not implemented yet.")
+
+    elseif node.type == TOKEN.UNARY then
+        local right = Evaluate(node.right)
+        local operation = UNARY[node.operator]
+        if operation then
+            local ok, result = pcall(operation, right)
+            if ok then
+                return result
+            else
+                error(`non existing operation: {node.operator} {typeof(right)} at position {node.opPos}`)
+            end
+        else
+            error(`non existing unary operator: {node.operator} at position {node.opPos}`)
+        end
+
+    elseif node.type == TOKEN.BINARY then
+        local left = Evaluate(node.left)
+        local right = Evaluate(node.right)
+        local operation = BINARY[node.operator]
+        if operation then
+            local ok, result = pcall(operation, left, right)
+            if ok then
+                return result
+            else
+                error(`non existing operation: {typeof(left)} {node.operator} {typeof(right)} at position {node.opPos}`)
+            end
+        else
+            error(`non existing binary operator: {node.operator} at position {node.opPos}`)
+        end
+
+    end
+end
+
+LLEvents:on("listen", function(channel, name, id, message)
+    local function printError(process, msgError)
+        local pos = tonumber(string.split(msgError," at position ")[2])
+        print(process .. " error:\n", msgError)
+        print(if pos then string.sub(message, 1, pos - 1) .. " <err> " .. string.sub(message, pos) else message)
+    end
+
+    local ok, tokens = pcall(Lexer, message)
+    if ok then
+        local ok, ast = pcall(Parser, tokens)
+        if ok then 
+            local ok, result = pcall(Evaluate, ast)
+            if ok then
+                print(result)
+            else
+                printError("Evaluate", result)
+            end
+        else
+            printError("Parser", ast)
+        end
+    else
+        printError("Lexer", tokens)
+    end 
+end)
+
+ll.Listen(1, "", ll.GetOwner(), "")
