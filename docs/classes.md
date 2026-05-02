@@ -36,8 +36,7 @@ Already scripting in SLua? This advanced series unlocks powerful features and te
   - Thursdays
   - Saturdays
 - **Time:**
-  - April: 11:00am – 1:00pm SLT
-  - May, June, July: 09:00am – 11:00am SLT 
+  - 09:00am – 11:00am SLT 
 - **Level:** All levels  
 - **Teachers:** Ali (sungali) & Suzanna (suzannalinn)  
 - **Format:** Text-only  
