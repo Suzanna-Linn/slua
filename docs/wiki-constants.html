@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LSL Constants by Category</title>
+  <style>
+    body { font-family: sans-serif; line-height: 1.6; padding: 20px; color: #333; background: #f4f4f9; }
+    h1 { text-align: center; color: #2c3e50; }
+
+    a,
+    a:visited,
+    a:hover,
+    a:active {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 50px;
+    }
+    .cat-link {
+      display: block;
+      background: #27ae60;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85em;
+      transition: transform 0.1s, background 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .cat-link:hover { background: #219150; transform: translateY(-2px); }
+
+    /* Content Sections */
+    .category-section {
+      background: white;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      scroll-margin-top: 20px;
+    }
+    .category-section h2 {
+      margin-top: 0;
+      border-left: 5px solid #27ae60;
+      padding-left: 15px;
+      color: #2c3e50;
+      font-size: 1.4em;
+    }
+    .const-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .const-item {
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9em;
+      color: #2980b9;
+      background: #f8f9fa;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .back-top {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 0.8em;
+      color: #27ae60;
+      text-decoration: none;
+    }
+    .back-top:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <h1>LSL Constants Reference</h1>
+
+  <div class="category-grid">
+    <a href="#cat_AgentData" class="cat-link">AgentData</a>
+    <a href="#cat_AgentDataPaymentInfo" class="cat-link">AgentDataPaymentInfo</a>
+    <a href="#cat_AgentInfo" class="cat-link">AgentInfo</a>
+    <a href="#cat_AgentListScope" class="cat-link">AgentListScope</a>
+    <a href="#cat_AlphaMode" class="cat-link">AlphaMode</a>
+    <a href="#cat_AssetPermission" class="cat-link">AssetPermission</a>
+    <a href="#cat_AssetPermissionCategory" class="cat-link">AssetPermissionCategory</a>
+    <a href="#cat_AssetPermissionCategoryFlag" class="cat-link">AssetPermissionCategoryFlag</a>
+    <a href="#cat_AttachPoint" class="cat-link">AttachPoint</a>
+    <a href="#cat_AttachedListFilterFlag" class="cat-link">AttachedListFilterFlag</a>
+    <a href="#cat_AttachedListFilterParam" class="cat-link">AttachedListFilterParam</a>
+    <a href="#cat_CameraParam" class="cat-link">CameraParam</a>
+    <a href="#cat_ChangeType" class="cat-link">ChangeType</a>
+    <a href="#cat_CharacterAvoidanceMode" class="cat-link">CharacterAvoidanceMode</a>
+    <a href="#cat_CharacterCommand" class="cat-link">CharacterCommand</a>
+    <a href="#cat_CharacterNavigateParam" class="cat-link">CharacterNavigateParam</a>
+    <a href="#cat_CharacterOrientation" class="cat-link">CharacterOrientation</a>
+    <a href="#cat_CharacterParam" class="cat-link">CharacterParam</a>
+    <a href="#cat_CharacterParam, GetClosestNavPointParam" class="cat-link">CharacterParam, GetClosestNavPointParam</a>
+    <a href="#cat_CharacterPathUpdateType" class="cat-link">CharacterPathUpdateType</a>
+    <a href="#cat_CharacterPatrolPointsParam" class="cat-link">CharacterPatrolPointsParam</a>
+    <a href="#cat_CharacterPursueParam" class="cat-link">CharacterPursueParam</a>
+    <a href="#cat_CharacterTraversalType" class="cat-link">CharacterTraversalType</a>
+    <a href="#cat_CharacterType" class="cat-link">CharacterType</a>
+    <a href="#cat_CharacterWanderWithinParam" class="cat-link">CharacterWanderWithinParam</a>
+    <a href="#cat_ClickAction" class="cat-link">ClickAction</a>
+    <a href="#cat_ControlButton" class="cat-link">ControlButton</a>
+    <a href="#cat_DamageType" class="cat-link">DamageType</a>
+    <a href="#cat_DerezMode" class="cat-link">DerezMode</a>
+    <a href="#cat_DetectType" class="cat-link">DetectType</a>
+    <a href="#cat_EmailTarget" class="cat-link">EmailTarget</a>
+    <a href="#cat_EnvironmentError" class="cat-link">EnvironmentError</a>
+    <a href="#cat_EnvironmentParamReadOnly" class="cat-link">EnvironmentParamReadOnly</a>
+    <a href="#cat_EnvironmentParamReadOnly, EnvironmentParam" class="cat-link">EnvironmentParamReadOnly, EnvironmentParam</a>
+    <a href="#cat_EstateAccessParam" class="cat-link">EstateAccessParam</a>
+    <a href="#cat_ExperienceError" class="cat-link">ExperienceError</a>
+    <a href="#cat_Faces" class="cat-link">Faces</a>
+    <a href="#cat_GLTFAlphaMode" class="cat-link">GLTFAlphaMode</a>
+    <a href="#cat_GLTFOverride" class="cat-link">GLTFOverride</a>
+    <a href="#cat_GameControlAxis" class="cat-link">GameControlAxis</a>
+    <a href="#cat_GameControlButton" class="cat-link">GameControlButton</a>
+    <a href="#cat_General" class="cat-link">General</a>
+    <a href="#cat_GetClosestNavPointParam" class="cat-link">GetClosestNavPointParam</a>
+    <a href="#cat_GiveAgentInventoryParam" class="cat-link">GiveAgentInventoryParam</a>
+    <a href="#cat_GroundTextureParam" class="cat-link">GroundTextureParam</a>
+    <a href="#cat_HTTPContentType" class="cat-link">HTTPContentType</a>
+    <a href="#cat_HTTPRequestParam" class="cat-link">HTTPRequestParam</a>
+    <a href="#cat_HTTPResponseError" class="cat-link">HTTPResponseError</a>
+    <a href="#cat_InventoryType" class="cat-link">InventoryType</a>
+    <a href="#cat_KeyframedMotionCommand" class="cat-link">KeyframedMotionCommand</a>
+    <a href="#cat_KeyframedMotionData" class="cat-link">KeyframedMotionData</a>
+    <a href="#cat_KeyframedMotionMode" class="cat-link">KeyframedMotionMode</a>
+    <a href="#cat_KeyframedMotionParam" class="cat-link">KeyframedMotionParam</a>
+    <a href="#cat_Link, Links" class="cat-link">Link, Links</a>
+    <a href="#cat_Links" class="cat-link">Links</a>
+    <a href="#cat_LinksetDataAction" class="cat-link">LinksetDataAction</a>
+    <a href="#cat_LinksetDataError" class="cat-link">LinksetDataError</a>
+    <a href="#cat_ListEntryType" class="cat-link">ListEntryType</a>
+    <a href="#cat_ListStatisticsOperation" class="cat-link">ListStatisticsOperation</a>
+    <a href="#cat_MapBeaconParam" class="cat-link">MapBeaconParam</a>
+    <a href="#cat_ModifyLandAction" class="cat-link">ModifyLandAction</a>
+    <a href="#cat_ModifyLandBrush" class="cat-link">ModifyLandBrush</a>
+    <a href="#cat_ObjectDetailsParam" class="cat-link">ObjectDetailsParam</a>
+    <a href="#cat_ObjectPathfindingType" class="cat-link">ObjectPathfindingType</a>
+    <a href="#cat_ObjectStatusParam" class="cat-link">ObjectStatusParam</a>
+    <a href="#cat_ParcelDetailsParam" class="cat-link">ParcelDetailsParam</a>
+    <a href="#cat_ParcelFlag" class="cat-link">ParcelFlag</a>
+    <a href="#cat_ParcelMediaCommand" class="cat-link">ParcelMediaCommand</a>
+    <a href="#cat_ParcelMediaCommand, ParcelMediaQuery" class="cat-link">ParcelMediaCommand, ParcelMediaQuery</a>
+    <a href="#cat_ParcelPrimCountCategory" class="cat-link">ParcelPrimCountCategory</a>
+    <a href="#cat_ParcelSaleError" class="cat-link">ParcelSaleError</a>
+    <a href="#cat_ParcelSaleParam" class="cat-link">ParcelSaleParam</a>
+    <a href="#cat_ParcelTeleportRouting" class="cat-link">ParcelTeleportRouting</a>
+    <a href="#cat_ParticleBlendFunc" class="cat-link">ParticleBlendFunc</a>
+    <a href="#cat_ParticleFlag" class="cat-link">ParticleFlag</a>
+    <a href="#cat_ParticleParam" class="cat-link">ParticleParam</a>
+    <a href="#cat_ParticleSourcePattern" class="cat-link">ParticleSourcePattern</a>
+    <a href="#cat_PassMode" class="cat-link">PassMode</a>
+    <a href="#cat_PayButton" class="cat-link">PayButton</a>
+    <a href="#cat_PhysicsMaterialParam" class="cat-link">PhysicsMaterialParam</a>
+    <a href="#cat_PhysicsMaterialPreset" class="cat-link">PhysicsMaterialPreset</a>
+    <a href="#cat_PhysicsShapeType" class="cat-link">PhysicsShapeType</a>
+    <a href="#cat_PlaySoundFlag" class="cat-link">PlaySoundFlag</a>
+    <a href="#cat_PrimBump" class="cat-link">PrimBump</a>
+    <a href="#cat_PrimMediaControl" class="cat-link">PrimMediaControl</a>
+    <a href="#cat_PrimMediaError" class="cat-link">PrimMediaError</a>
+    <a href="#cat_PrimMediaParam" class="cat-link">PrimMediaParam</a>
+    <a href="#cat_PrimMediaPerm" class="cat-link">PrimMediaPerm</a>
+    <a href="#cat_PrimParam" class="cat-link">PrimParam</a>
+    <a href="#cat_PrimShiny" class="cat-link">PrimShiny</a>
+    <a href="#cat_PrimTexgen" class="cat-link">PrimTexgen</a>
+    <a href="#cat_PrimType" class="cat-link">PrimType</a>
+    <a href="#cat_PrimTypeHole" class="cat-link">PrimTypeHole</a>
+    <a href="#cat_PrimTypeSculptFlag" class="cat-link">PrimTypeSculptFlag</a>
+    <a href="#cat_PrimTypeSculptType" class="cat-link">PrimTypeSculptType</a>
+    <a href="#cat_RayCastData" class="cat-link">RayCastData</a>
+    <a href="#cat_RayCastError" class="cat-link">RayCastError</a>
+    <a href="#cat_RayCastParam" class="cat-link">RayCastParam</a>
+    <a href="#cat_RayCastRejectType" class="cat-link">RayCastRejectType</a>
+    <a href="#cat_ReflectionProbeType" class="cat-link">ReflectionProbeType</a>
+    <a href="#cat_RegionFlag" class="cat-link">RegionFlag</a>
+    <a href="#cat_RemoteDataEventType" class="cat-link">RemoteDataEventType</a>
+    <a href="#cat_ReturnObjectsError" class="cat-link">ReturnObjectsError</a>
+    <a href="#cat_ReturnObjectsScope" class="cat-link">ReturnObjectsScope</a>
+    <a href="#cat_RezFlag" class="cat-link">RezFlag</a>
+    <a href="#cat_RezParam" class="cat-link">RezParam</a>
+    <a href="#cat_ScriptPermission" class="cat-link">ScriptPermission</a>
+    <a href="#cat_ScriptProfileMode" class="cat-link">ScriptProfileMode</a>
+    <a href="#cat_SimulatorData" class="cat-link">SimulatorData</a>
+    <a href="#cat_SimulatorStat" class="cat-link">SimulatorStat</a>
+    <a href="#cat_SitError" class="cat-link">SitError</a>
+    <a href="#cat_SitFlag" class="cat-link">SitFlag</a>
+    <a href="#cat_StringTrimType" class="cat-link">StringTrimType</a>
+    <a href="#cat_TextureAnimMode" class="cat-link">TextureAnimMode</a>
+    <a href="#cat_TransferError" class="cat-link">TransferError</a>
+    <a href="#cat_TransferOwnershipFlag" class="cat-link">TransferOwnershipFlag</a>
+    <a href="#cat_VehicleFlag" class="cat-link">VehicleFlag</a>
+    <a href="#cat_VehicleFloatParam" class="cat-link">VehicleFloatParam</a>
+    <a href="#cat_VehicleRotationParam" class="cat-link">VehicleRotationParam</a>
+    <a href="#cat_VehicleType" class="cat-link">VehicleType</a>
+    <a href="#cat_VehicleVectorParam" class="cat-link">VehicleVectorParam</a>
+  </div>
+  <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 40px;">
+  <section id="cat_AgentData" class="category-section">
+    <h2>AgentData</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=DATA_BORN">DATA_BORN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DATA_NAME">DATA_NAME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DATA_ONLINE">DATA_ONLINE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DATA_PAYINFO">DATA_PAYINFO</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DATA_RATING">DATA_RATING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DATA_RESERVED_0">DATA_RESERVED_0</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AgentDataPaymentInfo" class="category-section">
+    <h2>AgentDataPaymentInfo</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PAYMENT_INFO_ON_FILE">PAYMENT_INFO_ON_FILE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PAYMENT_INFO_USED">PAYMENT_INFO_USED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AgentInfo" class="category-section">
+    <h2>AgentInfo</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_ALWAYS_RUN">AGENT_ALWAYS_RUN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_ATTACHMENTS">AGENT_ATTACHMENTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_AUTOMATED">AGENT_AUTOMATED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_AUTOPILOT">AGENT_AUTOPILOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_AWAY">AGENT_AWAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_BUSY">AGENT_BUSY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_CROUCHING">AGENT_CROUCHING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_FLOATING_VIA_SCRIPTED_ATTACHMENT">AGENT_FLOATING_VIA_SCRIPTED_ATTACHMENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_FLYING">AGENT_FLYING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_IN_AIR">AGENT_IN_AIR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_MOUSELOOK">AGENT_MOUSELOOK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_ON_OBJECT">AGENT_ON_OBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_SCRIPTED">AGENT_SCRIPTED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_SITTING">AGENT_SITTING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_TYPING">AGENT_TYPING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_WALKING">AGENT_WALKING</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AgentListScope" class="category-section">
+    <h2>AgentListScope</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_LIST_PARCEL">AGENT_LIST_PARCEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_LIST_PARCEL_OWNER">AGENT_LIST_PARCEL_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_LIST_REGION">AGENT_LIST_REGION</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AlphaMode" class="category-section">
+    <h2>AlphaMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ALPHA_MODE_BLEND">PRIM_ALPHA_MODE_BLEND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ALPHA_MODE_EMISSIVE">PRIM_ALPHA_MODE_EMISSIVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ALPHA_MODE_MASK">PRIM_ALPHA_MODE_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ALPHA_MODE_NONE">PRIM_ALPHA_MODE_NONE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AssetPermission" class="category-section">
+    <h2>AssetPermission</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PERM_ALL">PERM_ALL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERM_COPY">PERM_COPY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERM_MODIFY">PERM_MODIFY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERM_MOVE">PERM_MOVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERM_TRANSFER">PERM_TRANSFER</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AssetPermissionCategory" class="category-section">
+    <h2>AssetPermissionCategory</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=MASK_BASE">MASK_BASE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=MASK_EVERYONE">MASK_EVERYONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=MASK_GROUP">MASK_GROUP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=MASK_NEXT">MASK_NEXT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=MASK_OWNER">MASK_OWNER</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AssetPermissionCategoryFlag" class="category-section">
+    <h2>AssetPermissionCategoryFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=MASK_COMBINED">MASK_COMBINED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AttachPoint" class="category-section">
+    <h2>AttachPoint</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_ANY_HUD">ATTACH_ANY_HUD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_AVATAR_CENTER">ATTACH_AVATAR_CENTER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_BACK">ATTACH_BACK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_BELLY">ATTACH_BELLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_CHEST">ATTACH_CHEST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_CHIN">ATTACH_CHIN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_FACE_JAW">ATTACH_FACE_JAW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_FACE_LEAR">ATTACH_FACE_LEAR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_FACE_LEYE">ATTACH_FACE_LEYE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_FACE_REAR">ATTACH_FACE_REAR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_FACE_REYE">ATTACH_FACE_REYE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_FACE_TONGUE">ATTACH_FACE_TONGUE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_GROIN">ATTACH_GROIN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HEAD">ATTACH_HEAD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HIND_LFOOT">ATTACH_HIND_LFOOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HIND_RFOOT">ATTACH_HIND_RFOOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_BOTTOM">ATTACH_HUD_BOTTOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_BOTTOM_LEFT">ATTACH_HUD_BOTTOM_LEFT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_BOTTOM_RIGHT">ATTACH_HUD_BOTTOM_RIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_CENTER_1">ATTACH_HUD_CENTER_1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_CENTER_2">ATTACH_HUD_CENTER_2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_TOP_CENTER">ATTACH_HUD_TOP_CENTER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_TOP_LEFT">ATTACH_HUD_TOP_LEFT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_HUD_TOP_RIGHT">ATTACH_HUD_TOP_RIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LEAR">ATTACH_LEAR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LEFT_PEC">ATTACH_LEFT_PEC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LEYE">ATTACH_LEYE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LFOOT">ATTACH_LFOOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LHAND">ATTACH_LHAND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LHAND_RING1">ATTACH_LHAND_RING1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LHIP">ATTACH_LHIP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LLARM">ATTACH_LLARM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LLLEG">ATTACH_LLLEG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LPEC">ATTACH_LPEC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LSHOULDER">ATTACH_LSHOULDER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LUARM">ATTACH_LUARM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LULEG">ATTACH_LULEG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_LWING">ATTACH_LWING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_MOUTH">ATTACH_MOUTH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_NECK">ATTACH_NECK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_NOSE">ATTACH_NOSE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_PELVIS">ATTACH_PELVIS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_REAR">ATTACH_REAR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_REYE">ATTACH_REYE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RFOOT">ATTACH_RFOOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RHAND">ATTACH_RHAND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RHAND_RING1">ATTACH_RHAND_RING1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RHIP">ATTACH_RHIP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RIGHT_PEC">ATTACH_RIGHT_PEC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RLARM">ATTACH_RLARM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RLLEG">ATTACH_RLLEG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RPEC">ATTACH_RPEC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RSHOULDER">ATTACH_RSHOULDER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RUARM">ATTACH_RUARM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RULEG">ATTACH_RULEG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_RWING">ATTACH_RWING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_TAIL_BASE">ATTACH_TAIL_BASE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ATTACH_TAIL_TIP">ATTACH_TAIL_TIP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AttachedListFilterFlag" class="category-section">
+    <h2>AttachedListFilterFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=FILTER_FLAG_HUDS">FILTER_FLAG_HUDS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_AttachedListFilterParam" class="category-section">
+    <h2>AttachedListFilterParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=FILTER_FLAGS">FILTER_FLAGS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=FILTER_INCLUDE">FILTER_INCLUDE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CameraParam" class="category-section">
+    <h2>CameraParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_ACTIVE">CAMERA_ACTIVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_BEHINDNESS_ANGLE">CAMERA_BEHINDNESS_ANGLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_BEHINDNESS_LAG">CAMERA_BEHINDNESS_LAG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_DISTANCE">CAMERA_DISTANCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_FOCUS">CAMERA_FOCUS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_FOCUS_LAG">CAMERA_FOCUS_LAG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_FOCUS_LOCKED">CAMERA_FOCUS_LOCKED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_FOCUS_OFFSET">CAMERA_FOCUS_OFFSET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_FOCUS_THRESHOLD">CAMERA_FOCUS_THRESHOLD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_PITCH">CAMERA_PITCH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_POSITION">CAMERA_POSITION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_POSITION_LAG">CAMERA_POSITION_LAG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_POSITION_LOCKED">CAMERA_POSITION_LOCKED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CAMERA_POSITION_THRESHOLD">CAMERA_POSITION_THRESHOLD</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ChangeType" class="category-section">
+    <h2>ChangeType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_ALLOWED_DROP">CHANGED_ALLOWED_DROP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_COLOR">CHANGED_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_INVENTORY">CHANGED_INVENTORY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_LINK">CHANGED_LINK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_MEDIA">CHANGED_MEDIA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_OWNER">CHANGED_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_REGION">CHANGED_REGION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_REGION_START">CHANGED_REGION_START</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_RENDER_MATERIAL">CHANGED_RENDER_MATERIAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_SCALE">CHANGED_SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_SHAPE">CHANGED_SHAPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_TELEPORT">CHANGED_TELEPORT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHANGED_TEXTURE">CHANGED_TEXTURE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterAvoidanceMode" class="category-section">
+    <h2>CharacterAvoidanceMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=AVOID_CHARACTERS">AVOID_CHARACTERS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AVOID_DYNAMIC_OBSTACLES">AVOID_DYNAMIC_OBSTACLES</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AVOID_NONE">AVOID_NONE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterCommand" class="category-section">
+    <h2>CharacterCommand</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_CMD_JUMP">CHARACTER_CMD_JUMP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_CMD_SMOOTH_STOP">CHARACTER_CMD_SMOOTH_STOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_CMD_STOP">CHARACTER_CMD_STOP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterNavigateParam" class="category-section">
+    <h2>CharacterNavigateParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=FORCE_DIRECT_PATH">FORCE_DIRECT_PATH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=NAVIGATE_TO_GOAL_REACHED_DIST">NAVIGATE_TO_GOAL_REACHED_DIST</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterOrientation" class="category-section">
+    <h2>CharacterOrientation</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=HORIZONTAL">HORIZONTAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VERTICAL">VERTICAL</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterParam" class="category-section">
+    <h2>CharacterParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES">CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_AVOIDANCE_MODE">CHARACTER_AVOIDANCE_MODE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_DESIRED_SPEED">CHARACTER_DESIRED_SPEED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_DESIRED_TURN_SPEED">CHARACTER_DESIRED_TURN_SPEED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_LENGTH">CHARACTER_LENGTH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_MAX_ACCEL">CHARACTER_MAX_ACCEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_MAX_DECEL">CHARACTER_MAX_DECEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_MAX_SPEED">CHARACTER_MAX_SPEED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_MAX_TURN_RADIUS">CHARACTER_MAX_TURN_RADIUS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_ORIENTATION">CHARACTER_ORIENTATION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_RADIUS">CHARACTER_RADIUS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_STAY_WITHIN_PARCEL">CHARACTER_STAY_WITHIN_PARCEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRAVERSAL_TYPE">TRAVERSAL_TYPE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterParam, GetClosestNavPointParam" class="category-section">
+    <h2>CharacterParam, GetClosestNavPointParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE">CHARACTER_TYPE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterPathUpdateType" class="category-section">
+    <h2>CharacterPathUpdateType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PU_EVADE_HIDDEN">PU_EVADE_HIDDEN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_EVADE_SPOTTED">PU_EVADE_SPOTTED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_DYNAMIC_PATHFINDING_DISABLED">PU_FAILURE_DYNAMIC_PATHFINDING_DISABLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_INVALID_GOAL">PU_FAILURE_INVALID_GOAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_INVALID_START">PU_FAILURE_INVALID_START</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_NO_NAVMESH">PU_FAILURE_NO_NAVMESH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_NO_VALID_DESTINATION">PU_FAILURE_NO_VALID_DESTINATION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_OTHER">PU_FAILURE_OTHER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_PARCEL_UNREACHABLE">PU_FAILURE_PARCEL_UNREACHABLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_TARGET_GONE">PU_FAILURE_TARGET_GONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_FAILURE_UNREACHABLE">PU_FAILURE_UNREACHABLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_GOAL_REACHED">PU_GOAL_REACHED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PU_SLOWDOWN_DISTANCE_REACHED">PU_SLOWDOWN_DISTANCE_REACHED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterPatrolPointsParam" class="category-section">
+    <h2>CharacterPatrolPointsParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PATROL_PAUSE_AT_WAYPOINTS">PATROL_PAUSE_AT_WAYPOINTS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterPursueParam" class="category-section">
+    <h2>CharacterPursueParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PURSUIT_FUZZ_FACTOR">PURSUIT_FUZZ_FACTOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PURSUIT_GOAL_TOLERANCE">PURSUIT_GOAL_TOLERANCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PURSUIT_INTERCEPT">PURSUIT_INTERCEPT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PURSUIT_OFFSET">PURSUIT_OFFSET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REQUIRE_LINE_OF_SIGHT">REQUIRE_LINE_OF_SIGHT</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterTraversalType" class="category-section">
+    <h2>CharacterTraversalType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TRAVERSAL_TYPE_FAST">TRAVERSAL_TYPE_FAST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRAVERSAL_TYPE_NONE">TRAVERSAL_TYPE_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRAVERSAL_TYPE_SLOW">TRAVERSAL_TYPE_SLOW</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterType" class="category-section">
+    <h2>CharacterType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE_A">CHARACTER_TYPE_A</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE_B">CHARACTER_TYPE_B</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE_C">CHARACTER_TYPE_C</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE_D">CHARACTER_TYPE_D</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE_NONE">CHARACTER_TYPE_NONE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_CharacterWanderWithinParam" class="category-section">
+    <h2>CharacterWanderWithinParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=WANDER_PAUSE_AT_WAYPOINTS">WANDER_PAUSE_AT_WAYPOINTS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ClickAction" class="category-section">
+    <h2>ClickAction</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_BUY">CLICK_ACTION_BUY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_DISABLED">CLICK_ACTION_DISABLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_IGNORE">CLICK_ACTION_IGNORE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_NONE">CLICK_ACTION_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_OPEN">CLICK_ACTION_OPEN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_OPEN_MEDIA">CLICK_ACTION_OPEN_MEDIA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_PAY">CLICK_ACTION_PAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_PLAY">CLICK_ACTION_PLAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_SIT">CLICK_ACTION_SIT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_TOUCH">CLICK_ACTION_TOUCH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CLICK_ACTION_ZOOM">CLICK_ACTION_ZOOM</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ControlButton" class="category-section">
+    <h2>ControlButton</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_BACK">CONTROL_BACK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_DOWN">CONTROL_DOWN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_FWD">CONTROL_FWD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_LBUTTON">CONTROL_LBUTTON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_LEFT">CONTROL_LEFT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_ML_LBUTTON">CONTROL_ML_LBUTTON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_RIGHT">CONTROL_RIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_ROT_LEFT">CONTROL_ROT_LEFT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_ROT_RIGHT">CONTROL_ROT_RIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTROL_UP">CONTROL_UP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_DamageType" class="category-section">
+    <h2>DamageType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_ACID">DAMAGE_TYPE_ACID</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_BLUDGEONING">DAMAGE_TYPE_BLUDGEONING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_COLD">DAMAGE_TYPE_COLD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_ELECTRIC">DAMAGE_TYPE_ELECTRIC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_EMOTIONAL">DAMAGE_TYPE_EMOTIONAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_FIRE">DAMAGE_TYPE_FIRE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_FORCE">DAMAGE_TYPE_FORCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_GENERIC">DAMAGE_TYPE_GENERIC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_IMPACT">DAMAGE_TYPE_IMPACT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_NECROTIC">DAMAGE_TYPE_NECROTIC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_PIERCING">DAMAGE_TYPE_PIERCING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_POISON">DAMAGE_TYPE_POISON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_PSYCHIC">DAMAGE_TYPE_PSYCHIC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_RADIANT">DAMAGE_TYPE_RADIANT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_SLASHING">DAMAGE_TYPE_SLASHING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGE_TYPE_SONIC">DAMAGE_TYPE_SONIC</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_DerezMode" class="category-section">
+    <h2>DerezMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=DEREZ_DIE">DEREZ_DIE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DEREZ_MAKE_TEMP">DEREZ_MAKE_TEMP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DEREZ_TO_INVENTORY">DEREZ_TO_INVENTORY</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_DetectType" class="category-section">
+    <h2>DetectType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ACTIVE">ACTIVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT">AGENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_BY_LEGACY_NAME">AGENT_BY_LEGACY_NAME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=AGENT_BY_USERNAME">AGENT_BY_USERNAME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DAMAGEABLE">DAMAGEABLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PASSIVE">PASSIVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SCRIPTED">SCRIPTED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_EmailTarget" class="category-section">
+    <h2>EmailTarget</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TARGETED_EMAIL_OBJECT_OWNER">TARGETED_EMAIL_OBJECT_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TARGETED_EMAIL_ROOT_CREATOR">TARGETED_EMAIL_ROOT_CREATOR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_EnvironmentError" class="category-section">
+    <h2>EnvironmentError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ENV_INVALID_AGENT">ENV_INVALID_AGENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_INVALID_RULE">ENV_INVALID_RULE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_NOT_EXPERIENCE">ENV_NOT_EXPERIENCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_NO_ENVIRONMENT">ENV_NO_ENVIRONMENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_NO_EXPERIENCE_LAND">ENV_NO_EXPERIENCE_LAND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_NO_EXPERIENCE_PERMISSION">ENV_NO_EXPERIENCE_PERMISSION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_NO_PERMISSIONS">ENV_NO_PERMISSIONS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_OK">ENV_OK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_THROTTLE">ENV_THROTTLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ENV_VALIDATION_FAIL">ENV_VALIDATION_FAIL</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_EnvironmentParamReadOnly" class="category-section">
+    <h2>EnvironmentParamReadOnly</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ENVIRONMENT_DAYINFO">ENVIRONMENT_DAYINFO</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_LIGHT">SKY_LIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_TEXTURE_DEFAULTS">SKY_TEXTURE_DEFAULTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_TRACKS">SKY_TRACKS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_TEXTURE_DEFAULTS">WATER_TEXTURE_DEFAULTS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_EnvironmentParamReadOnly, EnvironmentParam" class="category-section">
+    <h2>EnvironmentParamReadOnly, EnvironmentParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=SKY_ABSORPTION_CONFIG">SKY_ABSORPTION_CONFIG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_AMBIENT">SKY_AMBIENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_BLUE">SKY_BLUE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_CLOUDS">SKY_CLOUDS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_CLOUD_TEXTURE">SKY_CLOUD_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_DENSITY_PROFILE_COUNTS">SKY_DENSITY_PROFILE_COUNTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_DOME">SKY_DOME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_GAMMA">SKY_GAMMA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_GLOW">SKY_GLOW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_HAZE">SKY_HAZE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_MIE_CONFIG">SKY_MIE_CONFIG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_MOON">SKY_MOON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_MOON_TEXTURE">SKY_MOON_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_PLANET">SKY_PLANET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_RAYLEIGH_CONFIG">SKY_RAYLEIGH_CONFIG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_REFLECTION_PROBE_AMBIANCE">SKY_REFLECTION_PROBE_AMBIANCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_REFRACTION">SKY_REFRACTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_STAR_BRIGHTNESS">SKY_STAR_BRIGHTNESS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_SUN">SKY_SUN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_SUN_TEXTURE">SKY_SUN_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_BLUR_MULTIPLIER">WATER_BLUR_MULTIPLIER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_FOG">WATER_FOG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_FRESNEL">WATER_FRESNEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_NORMAL_SCALE">WATER_NORMAL_SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_NORMAL_TEXTURE">WATER_NORMAL_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_REFRACTION">WATER_REFRACTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_WAVE_DIRECTION">WATER_WAVE_DIRECTION</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_EstateAccessParam" class="category-section">
+    <h2>EstateAccessParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ESTATE_ACCESS_ALLOWED_AGENT_ADD">ESTATE_ACCESS_ALLOWED_AGENT_ADD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ESTATE_ACCESS_ALLOWED_AGENT_REMOVE">ESTATE_ACCESS_ALLOWED_AGENT_REMOVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ESTATE_ACCESS_ALLOWED_GROUP_ADD">ESTATE_ACCESS_ALLOWED_GROUP_ADD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ESTATE_ACCESS_ALLOWED_GROUP_REMOVE">ESTATE_ACCESS_ALLOWED_GROUP_REMOVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ESTATE_ACCESS_BANNED_AGENT_ADD">ESTATE_ACCESS_BANNED_AGENT_ADD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ESTATE_ACCESS_BANNED_AGENT_REMOVE">ESTATE_ACCESS_BANNED_AGENT_REMOVE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ExperienceError" class="category-section">
+    <h2>ExperienceError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_EXPERIENCES_DISABLED">XP_ERROR_EXPERIENCES_DISABLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_EXPERIENCE_DISABLED">XP_ERROR_EXPERIENCE_DISABLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_EXPERIENCE_SUSPENDED">XP_ERROR_EXPERIENCE_SUSPENDED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_INVALID_EXPERIENCE">XP_ERROR_INVALID_EXPERIENCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_INVALID_PARAMETERS">XP_ERROR_INVALID_PARAMETERS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_KEY_NOT_FOUND">XP_ERROR_KEY_NOT_FOUND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_MATURITY_EXCEEDED">XP_ERROR_MATURITY_EXCEEDED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_NONE">XP_ERROR_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_NOT_FOUND">XP_ERROR_NOT_FOUND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_NOT_PERMITTED">XP_ERROR_NOT_PERMITTED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_NOT_PERMITTED_LAND">XP_ERROR_NOT_PERMITTED_LAND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_NO_EXPERIENCE">XP_ERROR_NO_EXPERIENCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_QUOTA_EXCEEDED">XP_ERROR_QUOTA_EXCEEDED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_REQUEST_PERM_TIMEOUT">XP_ERROR_REQUEST_PERM_TIMEOUT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_RETRY_UPDATE">XP_ERROR_RETRY_UPDATE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_STORAGE_EXCEPTION">XP_ERROR_STORAGE_EXCEPTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_STORE_DISABLED">XP_ERROR_STORE_DISABLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_THROTTLED">XP_ERROR_THROTTLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=XP_ERROR_UNKNOWN_ERROR">XP_ERROR_UNKNOWN_ERROR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_Faces" class="category-section">
+    <h2>Faces</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ALL_SIDES">ALL_SIDES</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_GLTFAlphaMode" class="category-section">
+    <h2>GLTFAlphaMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLTF_ALPHA_MODE_BLEND">PRIM_GLTF_ALPHA_MODE_BLEND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLTF_ALPHA_MODE_MASK">PRIM_GLTF_ALPHA_MODE_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLTF_ALPHA_MODE_OPAQUE">PRIM_GLTF_ALPHA_MODE_OPAQUE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_GLTFOverride" class="category-section">
+    <h2>GLTFOverride</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_BASE_ALPHA">OVERRIDE_GLTF_BASE_ALPHA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_BASE_ALPHA_MASK">OVERRIDE_GLTF_BASE_ALPHA_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_BASE_ALPHA_MODE">OVERRIDE_GLTF_BASE_ALPHA_MODE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_BASE_COLOR_FACTOR">OVERRIDE_GLTF_BASE_COLOR_FACTOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_BASE_DOUBLE_SIDED">OVERRIDE_GLTF_BASE_DOUBLE_SIDED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_EMISSIVE_FACTOR">OVERRIDE_GLTF_EMISSIVE_FACTOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_METALLIC_FACTOR">OVERRIDE_GLTF_METALLIC_FACTOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OVERRIDE_GLTF_ROUGHNESS_FACTOR">OVERRIDE_GLTF_ROUGHNESS_FACTOR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_GameControlAxis" class="category-section">
+    <h2>GameControlAxis</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_AXIS_LEFTX">GAME_CONTROL_AXIS_LEFTX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_AXIS_LEFTY">GAME_CONTROL_AXIS_LEFTY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_AXIS_RIGHTX">GAME_CONTROL_AXIS_RIGHTX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_AXIS_RIGHTY">GAME_CONTROL_AXIS_RIGHTY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_AXIS_TRIGGERLEFT">GAME_CONTROL_AXIS_TRIGGERLEFT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_AXIS_TRIGGERRIGHT">GAME_CONTROL_AXIS_TRIGGERRIGHT</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_GameControlButton" class="category-section">
+    <h2>GameControlButton</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_A">GAME_CONTROL_BUTTON_A</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_B">GAME_CONTROL_BUTTON_B</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_BACK">GAME_CONTROL_BUTTON_BACK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_DPAD_DOWN">GAME_CONTROL_BUTTON_DPAD_DOWN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_DPAD_LEFT">GAME_CONTROL_BUTTON_DPAD_LEFT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_DPAD_RIGHT">GAME_CONTROL_BUTTON_DPAD_RIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_DPAD_UP">GAME_CONTROL_BUTTON_DPAD_UP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_GUIDE">GAME_CONTROL_BUTTON_GUIDE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_LEFTSHOULDER">GAME_CONTROL_BUTTON_LEFTSHOULDER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_LEFTSTICK">GAME_CONTROL_BUTTON_LEFTSTICK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_MISC1">GAME_CONTROL_BUTTON_MISC1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_PADDLE1">GAME_CONTROL_BUTTON_PADDLE1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_PADDLE2">GAME_CONTROL_BUTTON_PADDLE2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_PADDLE3">GAME_CONTROL_BUTTON_PADDLE3</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_PADDLE4">GAME_CONTROL_BUTTON_PADDLE4</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_RIGHTSHOULDER">GAME_CONTROL_BUTTON_RIGHTSHOULDER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_RIGHTSTICK">GAME_CONTROL_BUTTON_RIGHTSTICK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_START">GAME_CONTROL_BUTTON_START</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_TOUCHPAD">GAME_CONTROL_BUTTON_TOUCHPAD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_X">GAME_CONTROL_BUTTON_X</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GAME_CONTROL_BUTTON_Y">GAME_CONTROL_BUTTON_Y</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_General" class="category-section">
+    <h2>General</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=COMBAT_CHANNEL">COMBAT_CHANNEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=COMBAT_LOG_ID">COMBAT_LOG_ID</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DEBUG_CHANNEL">DEBUG_CHANNEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DEG_TO_RAD">DEG_TO_RAD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=EOF">EOF</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_AUX1">IMG_USE_BAKED_AUX1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_AUX2">IMG_USE_BAKED_AUX2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_AUX3">IMG_USE_BAKED_AUX3</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_EYES">IMG_USE_BAKED_EYES</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_HAIR">IMG_USE_BAKED_HAIR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_HEAD">IMG_USE_BAKED_HEAD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_LEFTARM">IMG_USE_BAKED_LEFTARM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_LEFTLEG">IMG_USE_BAKED_LEFTLEG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_LOWER">IMG_USE_BAKED_LOWER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_SKIRT">IMG_USE_BAKED_SKIRT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=IMG_USE_BAKED_UPPER">IMG_USE_BAKED_UPPER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_APPEND">JSON_APPEND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_ARRAY">JSON_ARRAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_DELETE">JSON_DELETE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_FALSE">JSON_FALSE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_INVALID">JSON_INVALID</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_NULL">JSON_NULL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_NUMBER">JSON_NUMBER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_OBJECT">JSON_OBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_STRING">JSON_STRING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=JSON_TRUE">JSON_TRUE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LEGACY_MASS_FACTOR">LEGACY_MASS_FACTOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=NAK">NAK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=NULL_KEY">NULL_KEY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_UNKNOWN_DETAIL">OBJECT_UNKNOWN_DETAIL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PI">PI</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PI_BY_TWO">PI_BY_TWO</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_MAX_HEIGHT_PIXELS">PRIM_MEDIA_MAX_HEIGHT_PIXELS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_MAX_URL_LENGTH">PRIM_MEDIA_MAX_URL_LENGTH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_MAX_WHITELIST_COUNT">PRIM_MEDIA_MAX_WHITELIST_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_MAX_WHITELIST_SIZE">PRIM_MEDIA_MAX_WHITELIST_SIZE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_MAX_WIDTH_PIXELS">PRIM_MEDIA_MAX_WIDTH_PIXELS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_PARAM_MAX">PRIM_MEDIA_PARAM_MAX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PUBLIC_CHANNEL">PUBLIC_CHANNEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RAD_TO_DEG">RAD_TO_DEG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SQRT2">SQRT2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TEXTURE_BLANK">TEXTURE_BLANK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TEXTURE_DEFAULT">TEXTURE_DEFAULT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TEXTURE_MEDIA">TEXTURE_MEDIA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TEXTURE_PLYWOOD">TEXTURE_PLYWOOD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TEXTURE_TRANSPARENT">TEXTURE_TRANSPARENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TOUCH_INVALID_FACE">TOUCH_INVALID_FACE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TOUCH_INVALID_TEXCOORD">TOUCH_INVALID_TEXCOORD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TOUCH_INVALID_VECTOR">TOUCH_INVALID_VECTOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TWO_PI">TWO_PI</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=URL_REQUEST_DENIED">URL_REQUEST_DENIED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=URL_REQUEST_GRANTED">URL_REQUEST_GRANTED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ZERO_ROTATION">ZERO_ROTATION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ZERO_VECTOR">ZERO_VECTOR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_GetClosestNavPointParam" class="category-section">
+    <h2>GetClosestNavPointParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=GCNP_GET_WALKABILITY">GCNP_GET_WALKABILITY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GCNP_RADIUS">GCNP_RADIUS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GCNP_STATIC">GCNP_STATIC</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_GiveAgentInventoryParam" class="category-section">
+    <h2>GiveAgentInventoryParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_DEST">TRANSFER_DEST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_FLAGS">TRANSFER_FLAGS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_GroundTextureParam" class="category-section">
+    <h2>GroundTextureParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_DETAIL_1">TERRAIN_DETAIL_1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_DETAIL_2">TERRAIN_DETAIL_2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_DETAIL_3">TERRAIN_DETAIL_3</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_DETAIL_4">TERRAIN_DETAIL_4</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_HEIGHT_RANGE_NE">TERRAIN_HEIGHT_RANGE_NE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_HEIGHT_RANGE_NW">TERRAIN_HEIGHT_RANGE_NW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_HEIGHT_RANGE_SE">TERRAIN_HEIGHT_RANGE_SE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_HEIGHT_RANGE_SW">TERRAIN_HEIGHT_RANGE_SW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_OFFSET_1">TERRAIN_PBR_OFFSET_1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_OFFSET_2">TERRAIN_PBR_OFFSET_2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_OFFSET_3">TERRAIN_PBR_OFFSET_3</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_OFFSET_4">TERRAIN_PBR_OFFSET_4</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_ROTATION_1">TERRAIN_PBR_ROTATION_1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_ROTATION_2">TERRAIN_PBR_ROTATION_2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_ROTATION_3">TERRAIN_PBR_ROTATION_3</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_ROTATION_4">TERRAIN_PBR_ROTATION_4</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_SCALE_1">TERRAIN_PBR_SCALE_1</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_SCALE_2">TERRAIN_PBR_SCALE_2</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_SCALE_3">TERRAIN_PBR_SCALE_3</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TERRAIN_PBR_SCALE_4">TERRAIN_PBR_SCALE_4</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_HTTPContentType" class="category-section">
+    <h2>HTTPContentType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_ATOM">CONTENT_TYPE_ATOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_FORM">CONTENT_TYPE_FORM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_HTML">CONTENT_TYPE_HTML</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_JSON">CONTENT_TYPE_JSON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_LLSD">CONTENT_TYPE_LLSD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_RSS">CONTENT_TYPE_RSS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_TEXT">CONTENT_TYPE_TEXT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_XHTML">CONTENT_TYPE_XHTML</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=CONTENT_TYPE_XML">CONTENT_TYPE_XML</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_HTTPRequestParam" class="category-section">
+    <h2>HTTPRequestParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_ACCEPT">HTTP_ACCEPT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_BODY_MAXLENGTH">HTTP_BODY_MAXLENGTH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_CUSTOM_HEADER">HTTP_CUSTOM_HEADER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_EXTENDED_ERROR">HTTP_EXTENDED_ERROR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_METHOD">HTTP_METHOD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_MIMETYPE">HTTP_MIMETYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_PRAGMA_NO_CACHE">HTTP_PRAGMA_NO_CACHE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_USER_AGENT">HTTP_USER_AGENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_VERBOSE_THROTTLE">HTTP_VERBOSE_THROTTLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_VERIFY_CERT">HTTP_VERIFY_CERT</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_HTTPResponseError" class="category-section">
+    <h2>HTTPResponseError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=HTTP_BODY_TRUNCATED">HTTP_BODY_TRUNCATED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_InventoryType" class="category-section">
+    <h2>InventoryType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_ALL">INVENTORY_ALL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_ANIMATION">INVENTORY_ANIMATION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_BODYPART">INVENTORY_BODYPART</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_CLOTHING">INVENTORY_CLOTHING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_GESTURE">INVENTORY_GESTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_LANDMARK">INVENTORY_LANDMARK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_MATERIAL">INVENTORY_MATERIAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_NONE">INVENTORY_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_NOTECARD">INVENTORY_NOTECARD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_OBJECT">INVENTORY_OBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_SCRIPT">INVENTORY_SCRIPT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_SETTING">INVENTORY_SETTING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_SOUND">INVENTORY_SOUND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=INVENTORY_TEXTURE">INVENTORY_TEXTURE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_KeyframedMotionCommand" class="category-section">
+    <h2>KeyframedMotionCommand</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=KFM_CMD_PAUSE">KFM_CMD_PAUSE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_CMD_PLAY">KFM_CMD_PLAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_CMD_STOP">KFM_CMD_STOP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_KeyframedMotionData" class="category-section">
+    <h2>KeyframedMotionData</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=KFM_ROTATION">KFM_ROTATION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_TRANSLATION">KFM_TRANSLATION</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_KeyframedMotionMode" class="category-section">
+    <h2>KeyframedMotionMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=KFM_FORWARD">KFM_FORWARD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_LOOP">KFM_LOOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_PING_PONG">KFM_PING_PONG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_REVERSE">KFM_REVERSE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_KeyframedMotionParam" class="category-section">
+    <h2>KeyframedMotionParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=KFM_COMMAND">KFM_COMMAND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_DATA">KFM_DATA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=KFM_MODE">KFM_MODE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_Link, Links" class="category-section">
+    <h2>Link, Links</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=LINK_ROOT">LINK_ROOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINK_THIS">LINK_THIS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_Links" class="category-section">
+    <h2>Links</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=LINK_ALL_CHILDREN">LINK_ALL_CHILDREN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINK_ALL_OTHERS">LINK_ALL_OTHERS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINK_SET">LINK_SET</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_LinksetDataAction" class="category-section">
+    <h2>LinksetDataAction</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_DELETE">LINKSETDATA_DELETE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_MULTIDELETE">LINKSETDATA_MULTIDELETE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_RESET">LINKSETDATA_RESET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_UPDATE">LINKSETDATA_UPDATE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_LinksetDataError" class="category-section">
+    <h2>LinksetDataError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_EMEMORY">LINKSETDATA_EMEMORY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_ENOKEY">LINKSETDATA_ENOKEY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_EPROTECTED">LINKSETDATA_EPROTECTED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_NOTFOUND">LINKSETDATA_NOTFOUND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_NOUPDATE">LINKSETDATA_NOUPDATE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINKSETDATA_OK">LINKSETDATA_OK</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ListEntryType" class="category-section">
+    <h2>ListEntryType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TYPE_FLOAT">TYPE_FLOAT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TYPE_INTEGER">TYPE_INTEGER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TYPE_INVALID">TYPE_INVALID</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TYPE_KEY">TYPE_KEY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TYPE_ROTATION">TYPE_ROTATION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TYPE_STRING">TYPE_STRING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TYPE_VECTOR">TYPE_VECTOR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ListStatisticsOperation" class="category-section">
+    <h2>ListStatisticsOperation</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_GEOMETRIC_MEAN">LIST_STAT_GEOMETRIC_MEAN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_MAX">LIST_STAT_MAX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_MEAN">LIST_STAT_MEAN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_MEDIAN">LIST_STAT_MEDIAN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_MIN">LIST_STAT_MIN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_NUM_COUNT">LIST_STAT_NUM_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_RANGE">LIST_STAT_RANGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_STD_DEV">LIST_STAT_STD_DEV</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_SUM">LIST_STAT_SUM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LIST_STAT_SUM_SQUARES">LIST_STAT_SUM_SQUARES</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_MapBeaconParam" class="category-section">
+    <h2>MapBeaconParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=BEACON_MAP">BEACON_MAP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ModifyLandAction" class="category-section">
+    <h2>ModifyLandAction</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=LAND_LEVEL">LAND_LEVEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_LOWER">LAND_LOWER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_NOISE">LAND_NOISE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_RAISE">LAND_RAISE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_REVERT">LAND_REVERT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_SMOOTH">LAND_SMOOTH</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ModifyLandBrush" class="category-section">
+    <h2>ModifyLandBrush</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=LAND_BRUSH_LARGE">LAND_BRUSH_LARGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_BRUSH_MEDIUM">LAND_BRUSH_MEDIUM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_BRUSH_SMALL">LAND_BRUSH_SMALL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_LARGE_BRUSH">LAND_LARGE_BRUSH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_MEDIUM_BRUSH">LAND_MEDIUM_BRUSH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LAND_SMALL_BRUSH">LAND_SMALL_BRUSH</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ObjectDetailsParam" class="category-section">
+    <h2>ObjectDetailsParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_ACCOUNT_LEVEL">OBJECT_ACCOUNT_LEVEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_ANIMATED_COUNT">OBJECT_ANIMATED_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_ANIMATED_SLOTS_AVAILABLE">OBJECT_ANIMATED_SLOTS_AVAILABLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_ATTACHED_POINT">OBJECT_ATTACHED_POINT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_ATTACHED_SLOTS_AVAILABLE">OBJECT_ATTACHED_SLOTS_AVAILABLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_BODY_SHAPE_TYPE">OBJECT_BODY_SHAPE_TYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_CHARACTER_TIME">OBJECT_CHARACTER_TIME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_CLICK_ACTION">OBJECT_CLICK_ACTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_CREATION_TIME">OBJECT_CREATION_TIME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_CREATOR">OBJECT_CREATOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_DAMAGE">OBJECT_DAMAGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_DAMAGE_TYPE">OBJECT_DAMAGE_TYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_DESC">OBJECT_DESC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_GROUP">OBJECT_GROUP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_GROUP_TAG">OBJECT_GROUP_TAG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_HEALTH">OBJECT_HEALTH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_HOVER_HEIGHT">OBJECT_HOVER_HEIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_LAST_OWNER_ID">OBJECT_LAST_OWNER_ID</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_LINK_NUMBER">OBJECT_LINK_NUMBER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_MASS">OBJECT_MASS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_MATERIAL">OBJECT_MATERIAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_NAME">OBJECT_NAME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_OMEGA">OBJECT_OMEGA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_OWNER">OBJECT_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PATHFINDING_TYPE">OBJECT_PATHFINDING_TYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PERMS">OBJECT_PERMS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PERMS_COMBINED">OBJECT_PERMS_COMBINED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PHANTOM">OBJECT_PHANTOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PHYSICS">OBJECT_PHYSICS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PHYSICS_COST">OBJECT_PHYSICS_COST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_POS">OBJECT_POS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PRIM_COUNT">OBJECT_PRIM_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_PRIM_EQUIVALENCE">OBJECT_PRIM_EQUIVALENCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_RENDER_WEIGHT">OBJECT_RENDER_WEIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_REZZER_KEY">OBJECT_REZZER_KEY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_REZ_TIME">OBJECT_REZ_TIME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_ROOT">OBJECT_ROOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_ROT">OBJECT_ROT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_RUNNING_SCRIPT_COUNT">OBJECT_RUNNING_SCRIPT_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_SCALE">OBJECT_SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_SCRIPT_MEMORY">OBJECT_SCRIPT_MEMORY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_SCRIPT_TIME">OBJECT_SCRIPT_TIME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_SELECT_COUNT">OBJECT_SELECT_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_SERVER_COST">OBJECT_SERVER_COST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_SIT_COUNT">OBJECT_SIT_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_STREAMING_COST">OBJECT_STREAMING_COST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_TEMP_ATTACHED">OBJECT_TEMP_ATTACHED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_TEMP_ON_REZ">OBJECT_TEMP_ON_REZ</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_TEXT">OBJECT_TEXT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_TEXT_ALPHA">OBJECT_TEXT_ALPHA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_TEXT_COLOR">OBJECT_TEXT_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_TOTAL_INVENTORY_COUNT">OBJECT_TOTAL_INVENTORY_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_TOTAL_SCRIPT_COUNT">OBJECT_TOTAL_SCRIPT_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_VELOCITY">OBJECT_VELOCITY</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ObjectPathfindingType" class="category-section">
+    <h2>ObjectPathfindingType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=OPT_AVATAR">OPT_AVATAR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OPT_CHARACTER">OPT_CHARACTER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OPT_EXCLUSION_VOLUME">OPT_EXCLUSION_VOLUME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OPT_LEGACY_LINKSET">OPT_LEGACY_LINKSET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OPT_MATERIAL_VOLUME">OPT_MATERIAL_VOLUME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OPT_OTHER">OPT_OTHER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OPT_STATIC_OBSTACLE">OPT_STATIC_OBSTACLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OPT_WALKABLE">OPT_WALKABLE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ObjectStatusParam" class="category-section">
+    <h2>ObjectStatusParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_BLOCK_GRAB">STATUS_BLOCK_GRAB</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_BLOCK_GRAB_OBJECT">STATUS_BLOCK_GRAB_OBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_CAST_SHADOWS">STATUS_CAST_SHADOWS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_DIE_AT_EDGE">STATUS_DIE_AT_EDGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_DIE_AT_NO_ENTRY">STATUS_DIE_AT_NO_ENTRY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_PHANTOM">STATUS_PHANTOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_PHYSICS">STATUS_PHYSICS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_RETURN_AT_EDGE">STATUS_RETURN_AT_EDGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_ROTATE_X">STATUS_ROTATE_X</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_ROTATE_Y">STATUS_ROTATE_Y</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_ROTATE_Z">STATUS_ROTATE_Z</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_SANDBOX">STATUS_SANDBOX</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelDetailsParam" class="category-section">
+    <h2>ParcelDetailsParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_AREA">PARCEL_DETAILS_AREA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_DESC">PARCEL_DETAILS_DESC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_FLAGS">PARCEL_DETAILS_FLAGS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_GROUP">PARCEL_DETAILS_GROUP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_ID">PARCEL_DETAILS_ID</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_LANDING_LOOKAT">PARCEL_DETAILS_LANDING_LOOKAT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_LANDING_POINT">PARCEL_DETAILS_LANDING_POINT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_NAME">PARCEL_DETAILS_NAME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_OWNER">PARCEL_DETAILS_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_PRIM_CAPACITY">PARCEL_DETAILS_PRIM_CAPACITY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_PRIM_USED">PARCEL_DETAILS_PRIM_USED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_SCRIPT_DANGER">PARCEL_DETAILS_SCRIPT_DANGER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_SEE_AVATARS">PARCEL_DETAILS_SEE_AVATARS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_DETAILS_TP_ROUTING">PARCEL_DETAILS_TP_ROUTING</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelFlag" class="category-section">
+    <h2>ParcelFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_ALL_OBJECT_ENTRY">PARCEL_FLAG_ALLOW_ALL_OBJECT_ENTRY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_CREATE_GROUP_OBJECTS">PARCEL_FLAG_ALLOW_CREATE_GROUP_OBJECTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_CREATE_OBJECTS">PARCEL_FLAG_ALLOW_CREATE_OBJECTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_DAMAGE">PARCEL_FLAG_ALLOW_DAMAGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_FLY">PARCEL_FLAG_ALLOW_FLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_GROUP_OBJECT_ENTRY">PARCEL_FLAG_ALLOW_GROUP_OBJECT_ENTRY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_GROUP_SCRIPTS">PARCEL_FLAG_ALLOW_GROUP_SCRIPTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_LANDMARK">PARCEL_FLAG_ALLOW_LANDMARK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_SCRIPTS">PARCEL_FLAG_ALLOW_SCRIPTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_ALLOW_TERRAFORM">PARCEL_FLAG_ALLOW_TERRAFORM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_LINDEN_HOMES">PARCEL_FLAG_LINDEN_HOMES</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_LOCAL_SOUND_ONLY">PARCEL_FLAG_LOCAL_SOUND_ONLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_RESTRICT_PUSHOBJECT">PARCEL_FLAG_RESTRICT_PUSHOBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_USE_ACCESS_GROUP">PARCEL_FLAG_USE_ACCESS_GROUP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_USE_ACCESS_LIST">PARCEL_FLAG_USE_ACCESS_LIST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_USE_BAN_LIST">PARCEL_FLAG_USE_BAN_LIST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_FLAG_USE_LAND_PASS_LIST">PARCEL_FLAG_USE_LAND_PASS_LIST</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelMediaCommand" class="category-section">
+    <h2>ParcelMediaCommand</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_AGENT">PARCEL_MEDIA_COMMAND_AGENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_AUTO_ALIGN">PARCEL_MEDIA_COMMAND_AUTO_ALIGN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_LOOP">PARCEL_MEDIA_COMMAND_LOOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_PAUSE">PARCEL_MEDIA_COMMAND_PAUSE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_PLAY">PARCEL_MEDIA_COMMAND_PLAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_STOP">PARCEL_MEDIA_COMMAND_STOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_TIME">PARCEL_MEDIA_COMMAND_TIME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_UNLOAD">PARCEL_MEDIA_COMMAND_UNLOAD</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelMediaCommand, ParcelMediaQuery" class="category-section">
+    <h2>ParcelMediaCommand, ParcelMediaQuery</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_DESC">PARCEL_MEDIA_COMMAND_DESC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_LOOP_SET">PARCEL_MEDIA_COMMAND_LOOP_SET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_SIZE">PARCEL_MEDIA_COMMAND_SIZE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_TEXTURE">PARCEL_MEDIA_COMMAND_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_TYPE">PARCEL_MEDIA_COMMAND_TYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_URL">PARCEL_MEDIA_COMMAND_URL</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelPrimCountCategory" class="category-section">
+    <h2>ParcelPrimCountCategory</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_COUNT_GROUP">PARCEL_COUNT_GROUP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_COUNT_OTHER">PARCEL_COUNT_OTHER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_COUNT_OWNER">PARCEL_COUNT_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_COUNT_SELECTED">PARCEL_COUNT_SELECTED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_COUNT_TEMP">PARCEL_COUNT_TEMP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_COUNT_TOTAL">PARCEL_COUNT_TOTAL</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelSaleError" class="category-section">
+    <h2>ParcelSaleError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_ERROR_BAD_PARAMS">PARCEL_SALE_ERROR_BAD_PARAMS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_ERROR_INVALID_PRICE">PARCEL_SALE_ERROR_INVALID_PRICE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_ERROR_IN_ESCROW">PARCEL_SALE_ERROR_IN_ESCROW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_ERROR_NO_PARCEL">PARCEL_SALE_ERROR_NO_PARCEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_ERROR_NO_PERMISSIONS">PARCEL_SALE_ERROR_NO_PERMISSIONS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_OK">PARCEL_SALE_OK</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelSaleParam" class="category-section">
+    <h2>ParcelSaleParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_AGENT">PARCEL_SALE_AGENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_OBJECTS">PARCEL_SALE_OBJECTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_SALE_PRICE">PARCEL_SALE_PRICE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParcelTeleportRouting" class="category-section">
+    <h2>ParcelTeleportRouting</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TP_ROUTING_BLOCKED">TP_ROUTING_BLOCKED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TP_ROUTING_FREE">TP_ROUTING_FREE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TP_ROUTING_LANDINGP">TP_ROUTING_LANDINGP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParticleBlendFunc" class="category-section">
+    <h2>ParticleBlendFunc</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_DEST_COLOR">PSYS_PART_BF_DEST_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_ONE">PSYS_PART_BF_ONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_ONE_MINUS_DEST_COLOR">PSYS_PART_BF_ONE_MINUS_DEST_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA">PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_ONE_MINUS_SOURCE_COLOR">PSYS_PART_BF_ONE_MINUS_SOURCE_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_SOURCE_ALPHA">PSYS_PART_BF_SOURCE_ALPHA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_SOURCE_COLOR">PSYS_PART_BF_SOURCE_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BF_ZERO">PSYS_PART_BF_ZERO</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParticleFlag" class="category-section">
+    <h2>ParticleFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BOUNCE_MASK">PSYS_PART_BOUNCE_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_EMISSIVE_MASK">PSYS_PART_EMISSIVE_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_FOLLOW_SRC_MASK">PSYS_PART_FOLLOW_SRC_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_FOLLOW_VELOCITY_MASK">PSYS_PART_FOLLOW_VELOCITY_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_INTERP_COLOR_MASK">PSYS_PART_INTERP_COLOR_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_INTERP_SCALE_MASK">PSYS_PART_INTERP_SCALE_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_RIBBON_MASK">PSYS_PART_RIBBON_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_TARGET_LINEAR_MASK">PSYS_PART_TARGET_LINEAR_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_TARGET_POS_MASK">PSYS_PART_TARGET_POS_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_WIND_MASK">PSYS_PART_WIND_MASK</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParticleParam" class="category-section">
+    <h2>ParticleParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BLEND_FUNC_DEST">PSYS_PART_BLEND_FUNC_DEST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_BLEND_FUNC_SOURCE">PSYS_PART_BLEND_FUNC_SOURCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_END_ALPHA">PSYS_PART_END_ALPHA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_END_COLOR">PSYS_PART_END_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_END_GLOW">PSYS_PART_END_GLOW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_END_SCALE">PSYS_PART_END_SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_FLAGS">PSYS_PART_FLAGS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_MAX_AGE">PSYS_PART_MAX_AGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_START_ALPHA">PSYS_PART_START_ALPHA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_START_COLOR">PSYS_PART_START_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_START_GLOW">PSYS_PART_START_GLOW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_PART_START_SCALE">PSYS_PART_START_SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_ACCEL">PSYS_SRC_ACCEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_ANGLE_BEGIN">PSYS_SRC_ANGLE_BEGIN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_ANGLE_END">PSYS_SRC_ANGLE_END</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_BURST_PART_COUNT">PSYS_SRC_BURST_PART_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_BURST_RADIUS">PSYS_SRC_BURST_RADIUS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_BURST_RATE">PSYS_SRC_BURST_RATE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_BURST_SPEED_MAX">PSYS_SRC_BURST_SPEED_MAX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_BURST_SPEED_MIN">PSYS_SRC_BURST_SPEED_MIN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_INNERANGLE">PSYS_SRC_INNERANGLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_MAX_AGE">PSYS_SRC_MAX_AGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_OBJ_REL_MASK">PSYS_SRC_OBJ_REL_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_OMEGA">PSYS_SRC_OMEGA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_OUTERANGLE">PSYS_SRC_OUTERANGLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_PATTERN">PSYS_SRC_PATTERN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_TARGET_KEY">PSYS_SRC_TARGET_KEY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_TEXTURE">PSYS_SRC_TEXTURE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ParticleSourcePattern" class="category-section">
+    <h2>ParticleSourcePattern</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_PATTERN_ANGLE">PSYS_SRC_PATTERN_ANGLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_PATTERN_ANGLE_CONE">PSYS_SRC_PATTERN_ANGLE_CONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_PATTERN_ANGLE_CONE_EMPTY">PSYS_SRC_PATTERN_ANGLE_CONE_EMPTY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_PATTERN_DROP">PSYS_SRC_PATTERN_DROP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PSYS_SRC_PATTERN_EXPLODE">PSYS_SRC_PATTERN_EXPLODE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PassMode" class="category-section">
+    <h2>PassMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PASS_ALWAYS">PASS_ALWAYS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PASS_IF_NOT_HANDLED">PASS_IF_NOT_HANDLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PASS_NEVER">PASS_NEVER</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PayButton" class="category-section">
+    <h2>PayButton</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PAY_DEFAULT">PAY_DEFAULT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PAY_HIDE">PAY_HIDE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PhysicsMaterialParam" class="category-section">
+    <h2>PhysicsMaterialParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=DENSITY">DENSITY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=FRICTION">FRICTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=GRAVITY_MULTIPLIER">GRAVITY_MULTIPLIER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_DENSITY">PRIM_MATERIAL_DENSITY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_FRICTION">PRIM_MATERIAL_FRICTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_GRAVITY_MULTIPLIER">PRIM_MATERIAL_GRAVITY_MULTIPLIER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_RESTITUTION">PRIM_MATERIAL_RESTITUTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RESTITUTION">RESTITUTION</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PhysicsMaterialPreset" class="category-section">
+    <h2>PhysicsMaterialPreset</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_FLESH">PRIM_MATERIAL_FLESH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_GLASS">PRIM_MATERIAL_GLASS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_LIGHT">PRIM_MATERIAL_LIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_METAL">PRIM_MATERIAL_METAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_PLASTIC">PRIM_MATERIAL_PLASTIC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_RUBBER">PRIM_MATERIAL_RUBBER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_STONE">PRIM_MATERIAL_STONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL_WOOD">PRIM_MATERIAL_WOOD</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PhysicsShapeType" class="category-section">
+    <h2>PhysicsShapeType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_PHYSICS_SHAPE_CONVEX">PRIM_PHYSICS_SHAPE_CONVEX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_PHYSICS_SHAPE_NONE">PRIM_PHYSICS_SHAPE_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_PHYSICS_SHAPE_PRIM">PRIM_PHYSICS_SHAPE_PRIM</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PlaySoundFlag" class="category-section">
+    <h2>PlaySoundFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=SOUND_LOOP">SOUND_LOOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SOUND_PLAY">SOUND_PLAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SOUND_SYNC">SOUND_SYNC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SOUND_TRIGGER">SOUND_TRIGGER</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimBump" class="category-section">
+    <h2>PrimBump</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_BARK">PRIM_BUMP_BARK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_BLOBS">PRIM_BUMP_BLOBS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_BRICKS">PRIM_BUMP_BRICKS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_BRIGHT">PRIM_BUMP_BRIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_CHECKER">PRIM_BUMP_CHECKER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_CONCRETE">PRIM_BUMP_CONCRETE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_DARK">PRIM_BUMP_DARK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_DISKS">PRIM_BUMP_DISKS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_GRAVEL">PRIM_BUMP_GRAVEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_LARGETILE">PRIM_BUMP_LARGETILE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_NONE">PRIM_BUMP_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_SIDING">PRIM_BUMP_SIDING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_STONE">PRIM_BUMP_STONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_STUCCO">PRIM_BUMP_STUCCO</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_SUCTION">PRIM_BUMP_SUCTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_TILE">PRIM_BUMP_TILE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_WEAVE">PRIM_BUMP_WEAVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_WOOD">PRIM_BUMP_WOOD</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimMediaControl" class="category-section">
+    <h2>PrimMediaControl</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_CONTROLS_MINI">PRIM_MEDIA_CONTROLS_MINI</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_CONTROLS_STANDARD">PRIM_MEDIA_CONTROLS_STANDARD</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimMediaError" class="category-section">
+    <h2>PrimMediaError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_BOUNDS_ERROR">STATUS_BOUNDS_ERROR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_INTERNAL_ERROR">STATUS_INTERNAL_ERROR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_MALFORMED_PARAMS">STATUS_MALFORMED_PARAMS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_NOT_FOUND">STATUS_NOT_FOUND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_NOT_SUPPORTED">STATUS_NOT_SUPPORTED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_OK">STATUS_OK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_TYPE_MISMATCH">STATUS_TYPE_MISMATCH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STATUS_WHITELIST_FAILED">STATUS_WHITELIST_FAILED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimMediaParam" class="category-section">
+    <h2>PrimMediaParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_ALT_IMAGE_ENABLE">PRIM_MEDIA_ALT_IMAGE_ENABLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_AUTO_LOOP">PRIM_MEDIA_AUTO_LOOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_AUTO_PLAY">PRIM_MEDIA_AUTO_PLAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_AUTO_SCALE">PRIM_MEDIA_AUTO_SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_AUTO_ZOOM">PRIM_MEDIA_AUTO_ZOOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_CONTROLS">PRIM_MEDIA_CONTROLS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_CURRENT_URL">PRIM_MEDIA_CURRENT_URL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_FIRST_CLICK_INTERACT">PRIM_MEDIA_FIRST_CLICK_INTERACT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_HEIGHT_PIXELS">PRIM_MEDIA_HEIGHT_PIXELS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_HOME_URL">PRIM_MEDIA_HOME_URL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_PERMS_CONTROL">PRIM_MEDIA_PERMS_CONTROL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_PERMS_INTERACT">PRIM_MEDIA_PERMS_INTERACT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_WHITELIST">PRIM_MEDIA_WHITELIST</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_WHITELIST_ENABLE">PRIM_MEDIA_WHITELIST_ENABLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_WIDTH_PIXELS">PRIM_MEDIA_WIDTH_PIXELS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimMediaPerm" class="category-section">
+    <h2>PrimMediaPerm</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_PERM_ANYONE">PRIM_MEDIA_PERM_ANYONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_PERM_GROUP">PRIM_MEDIA_PERM_GROUP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_PERM_NONE">PRIM_MEDIA_PERM_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MEDIA_PERM_OWNER">PRIM_MEDIA_PERM_OWNER</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimParam" class="category-section">
+    <h2>PrimParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ALLOW_UNSIT">PRIM_ALLOW_UNSIT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ALPHA_MODE">PRIM_ALPHA_MODE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_BUMP_SHINY">PRIM_BUMP_SHINY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_CAST_SHADOWS">PRIM_CAST_SHADOWS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_CLICK_ACTION">PRIM_CLICK_ACTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_COLLISION_SOUND">PRIM_COLLISION_SOUND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_COLOR">PRIM_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_DAMAGE">PRIM_DAMAGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_DESC">PRIM_DESC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_FLEXIBLE">PRIM_FLEXIBLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_FULLBRIGHT">PRIM_FULLBRIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLOW">PRIM_GLOW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLTF_BASE_COLOR">PRIM_GLTF_BASE_COLOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLTF_EMISSIVE">PRIM_GLTF_EMISSIVE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLTF_METALLIC_ROUGHNESS">PRIM_GLTF_METALLIC_ROUGHNESS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_GLTF_NORMAL">PRIM_GLTF_NORMAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_HEALTH">PRIM_HEALTH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_LINK_TARGET">PRIM_LINK_TARGET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_MATERIAL">PRIM_MATERIAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_NAME">PRIM_NAME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_NORMAL">PRIM_NORMAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_OMEGA">PRIM_OMEGA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_PHANTOM">PRIM_PHANTOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_PHYSICS">PRIM_PHYSICS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_PHYSICS_SHAPE_TYPE">PRIM_PHYSICS_SHAPE_TYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_POINT_LIGHT">PRIM_POINT_LIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_POSITION">PRIM_POSITION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_POS_LOCAL">PRIM_POS_LOCAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_PROJECTOR">PRIM_PROJECTOR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_REFLECTION_PROBE">PRIM_REFLECTION_PROBE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_RENDER_MATERIAL">PRIM_RENDER_MATERIAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ROTATION">PRIM_ROTATION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_ROT_LOCAL">PRIM_ROT_LOCAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCRIPTED_SIT_ONLY">PRIM_SCRIPTED_SIT_ONLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SIT_FLAGS">PRIM_SIT_FLAGS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SIT_TARGET">PRIM_SIT_TARGET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SIZE">PRIM_SIZE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SLICE">PRIM_SLICE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SPECULAR">PRIM_SPECULAR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TEMP_ON_REZ">PRIM_TEMP_ON_REZ</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TEXGEN">PRIM_TEXGEN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TEXT">PRIM_TEXT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TEXTURE">PRIM_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE">PRIM_TYPE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimShiny" class="category-section">
+    <h2>PrimShiny</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SHINY_HIGH">PRIM_SHINY_HIGH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SHINY_LOW">PRIM_SHINY_LOW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SHINY_MEDIUM">PRIM_SHINY_MEDIUM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SHINY_NONE">PRIM_SHINY_NONE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimTexgen" class="category-section">
+    <h2>PrimTexgen</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TEXGEN_DEFAULT">PRIM_TEXGEN_DEFAULT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TEXGEN_PLANAR">PRIM_TEXGEN_PLANAR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimType" class="category-section">
+    <h2>PrimType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_BOX">PRIM_TYPE_BOX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_CYLINDER">PRIM_TYPE_CYLINDER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_PRISM">PRIM_TYPE_PRISM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_RING">PRIM_TYPE_RING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_SCULPT">PRIM_TYPE_SCULPT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_SPHERE">PRIM_TYPE_SPHERE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_TORUS">PRIM_TYPE_TORUS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_TYPE_TUBE">PRIM_TYPE_TUBE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimTypeHole" class="category-section">
+    <h2>PrimTypeHole</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_HOLE_CIRCLE">PRIM_HOLE_CIRCLE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_HOLE_DEFAULT">PRIM_HOLE_DEFAULT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_HOLE_SQUARE">PRIM_HOLE_SQUARE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_HOLE_TRIANGLE">PRIM_HOLE_TRIANGLE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimTypeSculptFlag" class="category-section">
+    <h2>PrimTypeSculptFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_FLAG_ANIMESH">PRIM_SCULPT_FLAG_ANIMESH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_FLAG_INVERT">PRIM_SCULPT_FLAG_INVERT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_FLAG_MIRROR">PRIM_SCULPT_FLAG_MIRROR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_PrimTypeSculptType" class="category-section">
+    <h2>PrimTypeSculptType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_TYPE_CYLINDER">PRIM_SCULPT_TYPE_CYLINDER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_TYPE_MASK">PRIM_SCULPT_TYPE_MASK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_TYPE_MESH">PRIM_SCULPT_TYPE_MESH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_TYPE_PLANE">PRIM_SCULPT_TYPE_PLANE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_TYPE_SPHERE">PRIM_SCULPT_TYPE_SPHERE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_SCULPT_TYPE_TORUS">PRIM_SCULPT_TYPE_TORUS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RayCastData" class="category-section">
+    <h2>RayCastData</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=RC_GET_LINK_NUM">RC_GET_LINK_NUM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_GET_NORMAL">RC_GET_NORMAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_GET_ROOT_KEY">RC_GET_ROOT_KEY</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RayCastError" class="category-section">
+    <h2>RayCastError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=RCERR_CAST_TIME_EXCEEDED">RCERR_CAST_TIME_EXCEEDED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RCERR_SIM_PERF_LOW">RCERR_SIM_PERF_LOW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RCERR_UNKNOWN">RCERR_UNKNOWN</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RayCastParam" class="category-section">
+    <h2>RayCastParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=RC_DATA_FLAGS">RC_DATA_FLAGS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_DETECT_PHANTOM">RC_DETECT_PHANTOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_MAX_HITS">RC_MAX_HITS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_REJECT_TYPES">RC_REJECT_TYPES</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RayCastRejectType" class="category-section">
+    <h2>RayCastRejectType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=RC_REJECT_AGENTS">RC_REJECT_AGENTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_REJECT_LAND">RC_REJECT_LAND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_REJECT_NONPHYSICAL">RC_REJECT_NONPHYSICAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=RC_REJECT_PHYSICAL">RC_REJECT_PHYSICAL</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ReflectionProbeType" class="category-section">
+    <h2>ReflectionProbeType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_REFLECTION_PROBE_BOX">PRIM_REFLECTION_PROBE_BOX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_REFLECTION_PROBE_DYNAMIC">PRIM_REFLECTION_PROBE_DYNAMIC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PRIM_REFLECTION_PROBE_MIRROR">PRIM_REFLECTION_PROBE_MIRROR</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RegionFlag" class="category-section">
+    <h2>RegionFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_ALLOW_DAMAGE">REGION_FLAG_ALLOW_DAMAGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_ALLOW_DIRECT_TELEPORT">REGION_FLAG_ALLOW_DIRECT_TELEPORT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_BLOCK_FLY">REGION_FLAG_BLOCK_FLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_BLOCK_FLYOVER">REGION_FLAG_BLOCK_FLYOVER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_BLOCK_TERRAFORM">REGION_FLAG_BLOCK_TERRAFORM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_DISABLE_COLLISIONS">REGION_FLAG_DISABLE_COLLISIONS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_DISABLE_PHYSICS">REGION_FLAG_DISABLE_PHYSICS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_FIXED_SUN">REGION_FLAG_FIXED_SUN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_RESTRICT_PUSHOBJECT">REGION_FLAG_RESTRICT_PUSHOBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REGION_FLAG_SANDBOX">REGION_FLAG_SANDBOX</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RemoteDataEventType" class="category-section">
+    <h2>RemoteDataEventType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=REMOTE_DATA_CHANNEL">REMOTE_DATA_CHANNEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REMOTE_DATA_REPLY">REMOTE_DATA_REPLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REMOTE_DATA_REQUEST">REMOTE_DATA_REQUEST</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ReturnObjectsError" class="category-section">
+    <h2>ReturnObjectsError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ERR_GENERIC">ERR_GENERIC</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ERR_MALFORMED_PARAMS">ERR_MALFORMED_PARAMS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ERR_PARCEL_PERMISSIONS">ERR_PARCEL_PERMISSIONS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ERR_RUNTIME_PERMISSIONS">ERR_RUNTIME_PERMISSIONS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ERR_THROTTLED">ERR_THROTTLED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ReturnObjectsScope" class="category-section">
+    <h2>ReturnObjectsScope</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_RETURN_PARCEL">OBJECT_RETURN_PARCEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_RETURN_PARCEL_OWNER">OBJECT_RETURN_PARCEL_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=OBJECT_RETURN_REGION">OBJECT_RETURN_REGION</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RezFlag" class="category-section">
+    <h2>RezFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_BLOCK_GRAB_OBJECT">REZ_FLAG_BLOCK_GRAB_OBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_DIE_ON_COLLIDE">REZ_FLAG_DIE_ON_COLLIDE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_DIE_ON_NOENTRY">REZ_FLAG_DIE_ON_NOENTRY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_NO_COLLIDE_FAMILY">REZ_FLAG_NO_COLLIDE_FAMILY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_NO_COLLIDE_OWNER">REZ_FLAG_NO_COLLIDE_OWNER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_PHANTOM">REZ_FLAG_PHANTOM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_PHYSICAL">REZ_FLAG_PHYSICAL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAG_TEMP">REZ_FLAG_TEMP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_RezParam" class="category-section">
+    <h2>RezParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=REZ_ACCEL">REZ_ACCEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_DAMAGE">REZ_DAMAGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_DAMAGE_TYPE">REZ_DAMAGE_TYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_FLAGS">REZ_FLAGS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_LOCK_AXES">REZ_LOCK_AXES</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_OMEGA">REZ_OMEGA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_PARAM">REZ_PARAM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_PARAM_STRING">REZ_PARAM_STRING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_POS">REZ_POS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_ROT">REZ_ROT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_SOUND">REZ_SOUND</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_SOUND_COLLIDE">REZ_SOUND_COLLIDE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_TORQUE">REZ_TORQUE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REZ_VEL">REZ_VEL</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ScriptPermission" class="category-section">
+    <h2>ScriptPermission</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_ATTACH">PERMISSION_ATTACH</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_CHANGE_JOINTS">PERMISSION_CHANGE_JOINTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_CHANGE_LINKS">PERMISSION_CHANGE_LINKS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_CHANGE_PERMISSIONS">PERMISSION_CHANGE_PERMISSIONS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_CONTROL_CAMERA">PERMISSION_CONTROL_CAMERA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_DEBIT">PERMISSION_DEBIT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_OVERRIDE_ANIMATIONS">PERMISSION_OVERRIDE_ANIMATIONS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_PRIVILEGED_LAND_ACCESS">PERMISSION_PRIVILEGED_LAND_ACCESS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_RELEASE_OWNERSHIP">PERMISSION_RELEASE_OWNERSHIP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_REMAP_CONTROLS">PERMISSION_REMAP_CONTROLS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_RETURN_OBJECTS">PERMISSION_RETURN_OBJECTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_SILENT_ESTATE_MANAGEMENT">PERMISSION_SILENT_ESTATE_MANAGEMENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_TAKE_CONTROLS">PERMISSION_TAKE_CONTROLS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_TELEPORT">PERMISSION_TELEPORT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_TRACK_CAMERA">PERMISSION_TRACK_CAMERA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PERMISSION_TRIGGER_ANIMATION">PERMISSION_TRIGGER_ANIMATION</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_ScriptProfileMode" class="category-section">
+    <h2>ScriptProfileMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=PROFILE_NONE">PROFILE_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PROFILE_SCRIPT_MEMORY">PROFILE_SCRIPT_MEMORY</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_SimulatorData" class="category-section">
+    <h2>SimulatorData</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=DATA_SIM_POS">DATA_SIM_POS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DATA_SIM_RATING">DATA_SIM_RATING</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=DATA_SIM_STATUS">DATA_SIM_STATUS</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_SimulatorStat" class="category-section">
+    <h2>SimulatorStat</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_ACTIVE_SCRIPT_COUNT">SIM_STAT_ACTIVE_SCRIPT_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_AGENT_COUNT">SIM_STAT_AGENT_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_AGENT_MS">SIM_STAT_AGENT_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_AGENT_UPDATES">SIM_STAT_AGENT_UPDATES</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_AI_MS">SIM_STAT_AI_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_ASSET_DOWNLOADS">SIM_STAT_ASSET_DOWNLOADS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_ASSET_UPLOADS">SIM_STAT_ASSET_UPLOADS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_CHILD_AGENT_COUNT">SIM_STAT_CHILD_AGENT_COUNT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_FRAME_MS">SIM_STAT_FRAME_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_IMAGE_MS">SIM_STAT_IMAGE_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_IO_PUMP_MS">SIM_STAT_IO_PUMP_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_NET_MS">SIM_STAT_NET_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_OTHER_MS">SIM_STAT_OTHER_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PACKETS_IN">SIM_STAT_PACKETS_IN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PACKETS_OUT">SIM_STAT_PACKETS_OUT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PCT_CHARS_STEPPED">SIM_STAT_PCT_CHARS_STEPPED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PHYSICS_FPS">SIM_STAT_PHYSICS_FPS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PHYSICS_MS">SIM_STAT_PHYSICS_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PHYSICS_OTHER_MS">SIM_STAT_PHYSICS_OTHER_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PHYSICS_SHAPE_MS">SIM_STAT_PHYSICS_SHAPE_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_PHYSICS_STEP_MS">SIM_STAT_PHYSICS_STEP_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_SCRIPT_EPS">SIM_STAT_SCRIPT_EPS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_SCRIPT_MS">SIM_STAT_SCRIPT_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_SCRIPT_RUN_PCT">SIM_STAT_SCRIPT_RUN_PCT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_SLEEP_MS">SIM_STAT_SLEEP_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_SPARE_MS">SIM_STAT_SPARE_MS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIM_STAT_UNACKED_BYTES">SIM_STAT_UNACKED_BYTES</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_SitError" class="category-section">
+    <h2>SitError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=SIT_INVALID_AGENT">SIT_INVALID_AGENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_INVALID_LINK">SIT_INVALID_LINK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_INVALID_OBJECT">SIT_INVALID_OBJECT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_NOT_EXPERIENCE">SIT_NOT_EXPERIENCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_NO_ACCESS">SIT_NO_ACCESS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_NO_EXPERIENCE_PERMISSION">SIT_NO_EXPERIENCE_PERMISSION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_NO_SIT_TARGET">SIT_NO_SIT_TARGET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_OK">SIT_OK</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_SitFlag" class="category-section">
+    <h2>SitFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=SIT_FLAG_ALLOW_UNSIT">SIT_FLAG_ALLOW_UNSIT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_FLAG_NO_COLLIDE">SIT_FLAG_NO_COLLIDE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_FLAG_NO_DAMAGE">SIT_FLAG_NO_DAMAGE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_FLAG_SCRIPTED_ONLY">SIT_FLAG_SCRIPTED_ONLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SIT_FLAG_SIT_TARGET">SIT_FLAG_SIT_TARGET</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_StringTrimType" class="category-section">
+    <h2>StringTrimType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=STRING_TRIM">STRING_TRIM</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STRING_TRIM_HEAD">STRING_TRIM_HEAD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=STRING_TRIM_TAIL">STRING_TRIM_TAIL</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_TextureAnimMode" class="category-section">
+    <h2>TextureAnimMode</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ANIM_ON">ANIM_ON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LOOP">LOOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PING_PONG">PING_PONG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=REVERSE">REVERSE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=ROTATE">ROTATE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SCALE">SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SMOOTH">SMOOTH</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_TransferError" class="category-section">
+    <h2>TransferError</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_BAD_OPTS">TRANSFER_BAD_OPTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_BAD_ROOT">TRANSFER_BAD_ROOT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_NO_ATTACHMENT">TRANSFER_NO_ATTACHMENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_NO_ITEMS">TRANSFER_NO_ITEMS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_NO_PERMS">TRANSFER_NO_PERMS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_NO_TARGET">TRANSFER_NO_TARGET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_OK">TRANSFER_OK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_THROTTLE">TRANSFER_THROTTLE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_TransferOwnershipFlag" class="category-section">
+    <h2>TransferOwnershipFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_FLAG_COPY">TRANSFER_FLAG_COPY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_FLAG_RESERVED">TRANSFER_FLAG_RESERVED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRANSFER_FLAG_TAKE">TRANSFER_FLAG_TAKE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_VehicleFlag" class="category-section">
+    <h2>VehicleFlag</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_BLOCK_INTERFERENCE">VEHICLE_FLAG_BLOCK_INTERFERENCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_CAMERA_DECOUPLED">VEHICLE_FLAG_CAMERA_DECOUPLED</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_HOVER_GLOBAL_HEIGHT">VEHICLE_FLAG_HOVER_GLOBAL_HEIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_HOVER_TERRAIN_ONLY">VEHICLE_FLAG_HOVER_TERRAIN_ONLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_HOVER_UP_ONLY">VEHICLE_FLAG_HOVER_UP_ONLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_HOVER_WATER_ONLY">VEHICLE_FLAG_HOVER_WATER_ONLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_LIMIT_MOTOR_UP">VEHICLE_FLAG_LIMIT_MOTOR_UP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_LIMIT_ROLL_ONLY">VEHICLE_FLAG_LIMIT_ROLL_ONLY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_MOUSELOOK_BANK">VEHICLE_FLAG_MOUSELOOK_BANK</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_MOUSELOOK_STEER">VEHICLE_FLAG_MOUSELOOK_STEER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_NO_DEFLECTION_UP">VEHICLE_FLAG_NO_DEFLECTION_UP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_FLAG_NO_FLY_UP">VEHICLE_FLAG_NO_FLY_UP</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_VehicleFloatParam" class="category-section">
+    <h2>VehicleFloatParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_ANGULAR_DEFLECTION_EFFICIENCY">VEHICLE_ANGULAR_DEFLECTION_EFFICIENCY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_ANGULAR_DEFLECTION_TIMESCALE">VEHICLE_ANGULAR_DEFLECTION_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_ANGULAR_MOTOR_DECAY_TIMESCALE">VEHICLE_ANGULAR_MOTOR_DECAY_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_ANGULAR_MOTOR_TIMESCALE">VEHICLE_ANGULAR_MOTOR_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_BANKING_EFFICIENCY">VEHICLE_BANKING_EFFICIENCY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_BANKING_MIX">VEHICLE_BANKING_MIX</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_BANKING_TIMESCALE">VEHICLE_BANKING_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_BUOYANCY">VEHICLE_BUOYANCY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_HOVER_EFFICIENCY">VEHICLE_HOVER_EFFICIENCY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_HOVER_HEIGHT">VEHICLE_HOVER_HEIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_HOVER_TIMESCALE">VEHICLE_HOVER_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_LINEAR_DEFLECTION_EFFICIENCY">VEHICLE_LINEAR_DEFLECTION_EFFICIENCY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_LINEAR_DEFLECTION_TIMESCALE">VEHICLE_LINEAR_DEFLECTION_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_LINEAR_MOTOR_DECAY_TIMESCALE">VEHICLE_LINEAR_MOTOR_DECAY_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_LINEAR_MOTOR_TIMESCALE">VEHICLE_LINEAR_MOTOR_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_VERTICAL_ATTRACTION_EFFICIENCY">VEHICLE_VERTICAL_ATTRACTION_EFFICIENCY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_VERTICAL_ATTRACTION_TIMESCALE">VEHICLE_VERTICAL_ATTRACTION_TIMESCALE</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_VehicleRotationParam" class="category-section">
+    <h2>VehicleRotationParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_REFERENCE_FRAME">VEHICLE_REFERENCE_FRAME</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_VehicleType" class="category-section">
+    <h2>VehicleType</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_TYPE_AIRPLANE">VEHICLE_TYPE_AIRPLANE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_TYPE_BALLOON">VEHICLE_TYPE_BALLOON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_TYPE_BOAT">VEHICLE_TYPE_BOAT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_TYPE_CAR">VEHICLE_TYPE_CAR</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_TYPE_NONE">VEHICLE_TYPE_NONE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_TYPE_SLED">VEHICLE_TYPE_SLED</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_VehicleVectorParam" class="category-section">
+    <h2>VehicleVectorParam</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_ANGULAR_FRICTION_TIMESCALE">VEHICLE_ANGULAR_FRICTION_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_ANGULAR_MOTOR_DIRECTION">VEHICLE_ANGULAR_MOTOR_DIRECTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_LINEAR_FRICTION_TIMESCALE">VEHICLE_LINEAR_FRICTION_TIMESCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_LINEAR_MOTOR_DIRECTION">VEHICLE_LINEAR_MOTOR_DIRECTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=VEHICLE_LINEAR_MOTOR_OFFSET">VEHICLE_LINEAR_MOTOR_OFFSET</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+</body>
+</html>
