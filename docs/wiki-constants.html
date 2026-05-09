@@ -14,7 +14,7 @@
       color: inherit;
       text-decoration: none;
     }
-    
+
     .category-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -99,7 +99,6 @@
     <a href="#cat_CharacterNavigateParam" class="cat-link">CharacterNavigateParam</a>
     <a href="#cat_CharacterOrientation" class="cat-link">CharacterOrientation</a>
     <a href="#cat_CharacterParam" class="cat-link">CharacterParam</a>
-    <a href="#cat_CharacterParam, GetClosestNavPointParam" class="cat-link">CharacterParam, GetClosestNavPointParam</a>
     <a href="#cat_CharacterPathUpdateType" class="cat-link">CharacterPathUpdateType</a>
     <a href="#cat_CharacterPatrolPointsParam" class="cat-link">CharacterPatrolPointsParam</a>
     <a href="#cat_CharacterPursueParam" class="cat-link">CharacterPursueParam</a>
@@ -113,8 +112,8 @@
     <a href="#cat_DetectType" class="cat-link">DetectType</a>
     <a href="#cat_EmailTarget" class="cat-link">EmailTarget</a>
     <a href="#cat_EnvironmentError" class="cat-link">EnvironmentError</a>
+    <a href="#cat_EnvironmentParam" class="cat-link">EnvironmentParam</a>
     <a href="#cat_EnvironmentParamReadOnly" class="cat-link">EnvironmentParamReadOnly</a>
-    <a href="#cat_EnvironmentParamReadOnly, EnvironmentParam" class="cat-link">EnvironmentParamReadOnly, EnvironmentParam</a>
     <a href="#cat_EstateAccessParam" class="cat-link">EstateAccessParam</a>
     <a href="#cat_ExperienceError" class="cat-link">ExperienceError</a>
     <a href="#cat_Faces" class="cat-link">Faces</a>
@@ -134,7 +133,7 @@
     <a href="#cat_KeyframedMotionData" class="cat-link">KeyframedMotionData</a>
     <a href="#cat_KeyframedMotionMode" class="cat-link">KeyframedMotionMode</a>
     <a href="#cat_KeyframedMotionParam" class="cat-link">KeyframedMotionParam</a>
-    <a href="#cat_Link, Links" class="cat-link">Link, Links</a>
+    <a href="#cat_Link" class="cat-link">Link</a>
     <a href="#cat_Links" class="cat-link">Links</a>
     <a href="#cat_LinksetDataAction" class="cat-link">LinksetDataAction</a>
     <a href="#cat_LinksetDataError" class="cat-link">LinksetDataError</a>
@@ -149,7 +148,7 @@
     <a href="#cat_ParcelDetailsParam" class="cat-link">ParcelDetailsParam</a>
     <a href="#cat_ParcelFlag" class="cat-link">ParcelFlag</a>
     <a href="#cat_ParcelMediaCommand" class="cat-link">ParcelMediaCommand</a>
-    <a href="#cat_ParcelMediaCommand, ParcelMediaQuery" class="cat-link">ParcelMediaCommand, ParcelMediaQuery</a>
+    <a href="#cat_ParcelMediaQuery" class="cat-link">ParcelMediaQuery</a>
     <a href="#cat_ParcelPrimCountCategory" class="cat-link">ParcelPrimCountCategory</a>
     <a href="#cat_ParcelSaleError" class="cat-link">ParcelSaleError</a>
     <a href="#cat_ParcelSaleParam" class="cat-link">ParcelSaleParam</a>
@@ -461,14 +460,8 @@
       <div class="const-item"><a href="/slua/wiki?item=CHARACTER_ORIENTATION">CHARACTER_ORIENTATION</a></div>
       <div class="const-item"><a href="/slua/wiki?item=CHARACTER_RADIUS">CHARACTER_RADIUS</a></div>
       <div class="const-item"><a href="/slua/wiki?item=CHARACTER_STAY_WITHIN_PARCEL">CHARACTER_STAY_WITHIN_PARCEL</a></div>
-      <div class="const-item"><a href="/slua/wiki?item=TRAVERSAL_TYPE">TRAVERSAL_TYPE</a></div>
-    </div>
-    <a href="#" class="back-top">↑ Back to categories</a>
-  </section>
-  <section id="cat_CharacterParam, GetClosestNavPointParam" class="category-section">
-    <h2>CharacterParam, GetClosestNavPointParam</h2>
-    <div class="const-list">
       <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE">CHARACTER_TYPE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=TRAVERSAL_TYPE">TRAVERSAL_TYPE</a></div>
     </div>
     <a href="#" class="back-top">↑ Back to categories</a>
   </section>
@@ -637,19 +630,8 @@
     </div>
     <a href="#" class="back-top">↑ Back to categories</a>
   </section>
-  <section id="cat_EnvironmentParamReadOnly" class="category-section">
-    <h2>EnvironmentParamReadOnly</h2>
-    <div class="const-list">
-      <div class="const-item"><a href="/slua/wiki?item=ENVIRONMENT_DAYINFO">ENVIRONMENT_DAYINFO</a></div>
-      <div class="const-item"><a href="/slua/wiki?item=SKY_LIGHT">SKY_LIGHT</a></div>
-      <div class="const-item"><a href="/slua/wiki?item=SKY_TEXTURE_DEFAULTS">SKY_TEXTURE_DEFAULTS</a></div>
-      <div class="const-item"><a href="/slua/wiki?item=SKY_TRACKS">SKY_TRACKS</a></div>
-      <div class="const-item"><a href="/slua/wiki?item=WATER_TEXTURE_DEFAULTS">WATER_TEXTURE_DEFAULTS</a></div>
-    </div>
-    <a href="#" class="back-top">↑ Back to categories</a>
-  </section>
-  <section id="cat_EnvironmentParamReadOnly, EnvironmentParam" class="category-section">
-    <h2>EnvironmentParamReadOnly, EnvironmentParam</h2>
+  <section id="cat_EnvironmentParam" class="category-section">
+    <h2>EnvironmentParam</h2>
     <div class="const-list">
       <div class="const-item"><a href="/slua/wiki?item=SKY_ABSORPTION_CONFIG">SKY_ABSORPTION_CONFIG</a></div>
       <div class="const-item"><a href="/slua/wiki?item=SKY_AMBIENT">SKY_AMBIENT</a></div>
@@ -677,6 +659,44 @@
       <div class="const-item"><a href="/slua/wiki?item=WATER_NORMAL_SCALE">WATER_NORMAL_SCALE</a></div>
       <div class="const-item"><a href="/slua/wiki?item=WATER_NORMAL_TEXTURE">WATER_NORMAL_TEXTURE</a></div>
       <div class="const-item"><a href="/slua/wiki?item=WATER_REFRACTION">WATER_REFRACTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_WAVE_DIRECTION">WATER_WAVE_DIRECTION</a></div>
+    </div>
+    <a href="#" class="back-top">↑ Back to categories</a>
+  </section>
+  <section id="cat_EnvironmentParamReadOnly" class="category-section">
+    <h2>EnvironmentParamReadOnly</h2>
+    <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=ENVIRONMENT_DAYINFO">ENVIRONMENT_DAYINFO</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_ABSORPTION_CONFIG">SKY_ABSORPTION_CONFIG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_AMBIENT">SKY_AMBIENT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_BLUE">SKY_BLUE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_CLOUDS">SKY_CLOUDS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_CLOUD_TEXTURE">SKY_CLOUD_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_DENSITY_PROFILE_COUNTS">SKY_DENSITY_PROFILE_COUNTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_DOME">SKY_DOME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_GAMMA">SKY_GAMMA</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_GLOW">SKY_GLOW</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_HAZE">SKY_HAZE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_LIGHT">SKY_LIGHT</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_MIE_CONFIG">SKY_MIE_CONFIG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_MOON">SKY_MOON</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_MOON_TEXTURE">SKY_MOON_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_PLANET">SKY_PLANET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_RAYLEIGH_CONFIG">SKY_RAYLEIGH_CONFIG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_REFLECTION_PROBE_AMBIANCE">SKY_REFLECTION_PROBE_AMBIANCE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_REFRACTION">SKY_REFRACTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_STAR_BRIGHTNESS">SKY_STAR_BRIGHTNESS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_SUN">SKY_SUN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_SUN_TEXTURE">SKY_SUN_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_TEXTURE_DEFAULTS">SKY_TEXTURE_DEFAULTS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=SKY_TRACKS">SKY_TRACKS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_BLUR_MULTIPLIER">WATER_BLUR_MULTIPLIER</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_FOG">WATER_FOG</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_FRESNEL">WATER_FRESNEL</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_NORMAL_SCALE">WATER_NORMAL_SCALE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_NORMAL_TEXTURE">WATER_NORMAL_TEXTURE</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_REFRACTION">WATER_REFRACTION</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=WATER_TEXTURE_DEFAULTS">WATER_TEXTURE_DEFAULTS</a></div>
       <div class="const-item"><a href="/slua/wiki?item=WATER_WAVE_DIRECTION">WATER_WAVE_DIRECTION</a></div>
     </div>
     <a href="#" class="back-top">↑ Back to categories</a>
@@ -850,6 +870,7 @@
   <section id="cat_GetClosestNavPointParam" class="category-section">
     <h2>GetClosestNavPointParam</h2>
     <div class="const-list">
+      <div class="const-item"><a href="/slua/wiki?item=CHARACTER_TYPE">CHARACTER_TYPE</a></div>
       <div class="const-item"><a href="/slua/wiki?item=GCNP_GET_WALKABILITY">GCNP_GET_WALKABILITY</a></div>
       <div class="const-item"><a href="/slua/wiki?item=GCNP_RADIUS">GCNP_RADIUS</a></div>
       <div class="const-item"><a href="/slua/wiki?item=GCNP_STATIC">GCNP_STATIC</a></div>
@@ -984,8 +1005,8 @@
     </div>
     <a href="#" class="back-top">↑ Back to categories</a>
   </section>
-  <section id="cat_Link, Links" class="category-section">
-    <h2>Link, Links</h2>
+  <section id="cat_Link" class="category-section">
+    <h2>Link</h2>
     <div class="const-list">
       <div class="const-item"><a href="/slua/wiki?item=LINK_ROOT">LINK_ROOT</a></div>
       <div class="const-item"><a href="/slua/wiki?item=LINK_THIS">LINK_THIS</a></div>
@@ -997,7 +1018,9 @@
     <div class="const-list">
       <div class="const-item"><a href="/slua/wiki?item=LINK_ALL_CHILDREN">LINK_ALL_CHILDREN</a></div>
       <div class="const-item"><a href="/slua/wiki?item=LINK_ALL_OTHERS">LINK_ALL_OTHERS</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINK_ROOT">LINK_ROOT</a></div>
       <div class="const-item"><a href="/slua/wiki?item=LINK_SET">LINK_SET</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=LINK_THIS">LINK_THIS</a></div>
     </div>
     <a href="#" class="back-top">↑ Back to categories</a>
   </section>
@@ -1223,17 +1246,23 @@
     <div class="const-list">
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_AGENT">PARCEL_MEDIA_COMMAND_AGENT</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_AUTO_ALIGN">PARCEL_MEDIA_COMMAND_AUTO_ALIGN</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_DESC">PARCEL_MEDIA_COMMAND_DESC</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_LOOP">PARCEL_MEDIA_COMMAND_LOOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_LOOP_SET">PARCEL_MEDIA_COMMAND_LOOP_SET</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_PAUSE">PARCEL_MEDIA_COMMAND_PAUSE</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_PLAY">PARCEL_MEDIA_COMMAND_PLAY</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_SIZE">PARCEL_MEDIA_COMMAND_SIZE</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_STOP">PARCEL_MEDIA_COMMAND_STOP</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_TEXTURE">PARCEL_MEDIA_COMMAND_TEXTURE</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_TIME">PARCEL_MEDIA_COMMAND_TIME</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_TYPE">PARCEL_MEDIA_COMMAND_TYPE</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_UNLOAD">PARCEL_MEDIA_COMMAND_UNLOAD</a></div>
+      <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_URL">PARCEL_MEDIA_COMMAND_URL</a></div>
     </div>
     <a href="#" class="back-top">↑ Back to categories</a>
   </section>
-  <section id="cat_ParcelMediaCommand, ParcelMediaQuery" class="category-section">
-    <h2>ParcelMediaCommand, ParcelMediaQuery</h2>
+  <section id="cat_ParcelMediaQuery" class="category-section">
+    <h2>ParcelMediaQuery</h2>
     <div class="const-list">
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_DESC">PARCEL_MEDIA_COMMAND_DESC</a></div>
       <div class="const-item"><a href="/slua/wiki?item=PARCEL_MEDIA_COMMAND_LOOP_SET">PARCEL_MEDIA_COMMAND_LOOP_SET</a></div>
