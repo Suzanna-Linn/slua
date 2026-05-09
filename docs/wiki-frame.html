@@ -107,7 +107,7 @@
             contentArea.innerHTML = `<div style="text-align:center; padding:50px;">Fetching <b>${item}</b>...</div>`;
 
             try {
-                const response = await fetch(`${SCRIPT_URL}?Action=wiki&item=${item}`);
+                const response = await fetch(`${SCRIPT_URL}?Action=wiki&Item=${item}`);
                 const data = await response.text();
                 contentArea.innerHTML = data;
             } catch (err) {
