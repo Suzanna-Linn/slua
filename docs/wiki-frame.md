@@ -102,7 +102,7 @@
             try {
                 const response = await fetch(`${SCRIPT_URL}?item=${item}`);
                 const data = await response.text();
-                content.innerHTML = data.text;
+                content.innerHTML = data;
             } catch (err) {
                 content.innerHTML = "<h1>Error</h1><p>Failed to load data from script.</p>";
                 console.error(err);
