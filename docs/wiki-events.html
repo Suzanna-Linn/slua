@@ -17,7 +17,6 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
-    /* Multi-column layout for the single list */
     .event-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -29,7 +28,7 @@
     .event-item {
       font-family: 'Consolas', 'Monaco', monospace;
       font-size: 1.05em;
-      color: #8e44ad; /* Purple for events */
+      color: #8e44ad;
       background: #f8f5fa;
       padding: 10px 15px;
       border-radius: 6px;
@@ -47,6 +46,11 @@
       text-align: center;
       color: #7f8c8d;
       margin-bottom: 30px;
+    }
+
+    a:active {
+      color: inherit;
+      text-decoration: none;
     }
   </style>
 </head>
