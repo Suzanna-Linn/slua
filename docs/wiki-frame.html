@@ -50,15 +50,15 @@
         </div>
     </header>
 
-    <main id="content">
-        <div id="loader">Fetching data...</div>
+    <main id="content-container">
+        <div id="status-message" style="text-align:center; padding: 50px; color: #888;">Preparing page...</div>
     </main>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWVwgYOTSqZW-uc_1ND_DVY7rQV3R33bykutdGJjBmp6nAI6ks5-bsyyhBOq_b-ipn/exec";
 
         const body = document.getElementById('page-body');
-        const content = document.getElementById('content');
+        const contentArea = document.getElementById('content-container');
 
         // 1. Initial State from Storage
         function initSettings() {
@@ -94,17 +94,29 @@
             const item = params.get('item');
 
             if (!item) {
-                content.innerHTML = "<h1>Explorer</h1><p>Append <code>?item=NAME</code> to the URL.</p>";
+                // Landing state - Header stays because we only touch contentArea
+                contentArea.innerHTML = `
+                    <div class="landing-box">
+                        <h1>LSL & SLua Explorer</h1>
+                        <p>Search for a function, constant, or event above, or use the URL parameter:<br>
+                        <code>?item=llSay</code></p>
+                    </div>`;
                 return;
             }
+
+            contentArea.innerHTML = `<div style="text-align:center; padding:50px;">Fetching <b>${item}</b>...</div>`;
 
             try {
                 const response = await fetch(`${SCRIPT_URL}?Action=wiki&item=${item}`);
                 const data = await response.text();
-                content.innerHTML = data;
+                contentArea.innerHTML = data;
             } catch (err) {
-                content.innerHTML = "<h1>Error</h1><p>Failed to load data from script.</p>";
-                console.error(err);
+                contentArea.innerHTML = `
+                    <div class="item-card">
+                        <h1 style="color:#e74c3c">Connection Error</h1>
+                        <p>Could not connect to the data script. Please check your Script URL and Permissions.</p>
+                        <p><small>${err.message}</small></p>
+                    </div>`;
             }
         }
 
