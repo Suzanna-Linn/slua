@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LSL Events List</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; padding: 40px; color: #333; background: #fdfdfd; }
+    h1 { text-align: center; color: #2c3e50; border-bottom: 2px solid #8e44ad; padding-bottom: 10px; }
+    
+    .event-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    /* Multi-column layout for the single list */
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .event-item {
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 1.05em;
+      color: #8e44ad; /* Purple for events */
+      background: #f8f5fa;
+      padding: 10px 15px;
+      border-radius: 6px;
+      border: 1px solid #f0eaf5;
+      transition: all 0.2s;
+    }
+
+    .event-item:hover {
+      background: #8e44ad;
+      color: white;
+      transform: scale(1.02);
+    }
+
+    .info-text {
+      text-align: center;
+      color: #7f8c8d;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="event-container">
+    <h1>LSL Events</h1>
+    <p class="info-text">Total Events Found: 43</p>
+
+    <div class="event-grid">
+      <div class="event-item">at_rot_target</div>
+      <div class="event-item">at_target</div>
+      <div class="event-item">attach</div>
+      <div class="event-item">changed</div>
+      <div class="event-item">collision</div>
+      <div class="event-item">collision_end</div>
+      <div class="event-item">collision_start</div>
+      <div class="event-item">control</div>
+      <div class="event-item">dataserver</div>
+      <div class="event-item">email</div>
+      <div class="event-item">experience_permissions</div>
+      <div class="event-item">experience_permissions_denied</div>
+      <div class="event-item">final_damage</div>
+      <div class="event-item">game_control</div>
+      <div class="event-item">http_request</div>
+      <div class="event-item">http_response</div>
+      <div class="event-item">land_collision</div>
+      <div class="event-item">land_collision_end</div>
+      <div class="event-item">land_collision_start</div>
+      <div class="event-item">link_message</div>
+      <div class="event-item">linkset_data</div>
+      <div class="event-item">listen</div>
+      <div class="event-item">money</div>
+      <div class="event-item">moving_end</div>
+      <div class="event-item">moving_start</div>
+      <div class="event-item">no_sensor</div>
+      <div class="event-item">not_at_rot_target</div>
+      <div class="event-item">not_at_target</div>
+      <div class="event-item">object_rez</div>
+      <div class="event-item">on_damage</div>
+      <div class="event-item">on_death</div>
+      <div class="event-item">on_rez</div>
+      <div class="event-item">path_update</div>
+      <div class="event-item">remote_data</div>
+      <div class="event-item">run_time_permissions</div>
+      <div class="event-item">sensor</div>
+      <div class="event-item">state_entry</div>
+      <div class="event-item">state_exit</div>
+      <div class="event-item">timer</div>
+      <div class="event-item">touch</div>
+      <div class="event-item">touch_end</div>
+      <div class="event-item">touch_start</div>
+      <div class="event-item">[transaction_result](/slua/wiki?item=transaction_result)</div>
+    </div>
+  </div>
+
+</body>
+</html>
