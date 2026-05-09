@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSL/SLua Wiki Navigation</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --text-color: #2c3e50;
+            --header-bg: #ffffff;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --accent-color: #3498db;
+        }
+
+        /* Dark mode support - works if the body has class "dark-mode" */
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1f1f1f;
+            --border-color: #333333;
+            --card-bg: #1e1e1e;
+            --accent-color: #3796ff;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        /* Grid Layout */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Link Card Styles */
+        .nav-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-card span.icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .nav-card span.label {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-transform: capitalize;
+        }
+
+        .nav-card span.description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .nav-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body id="page-body">
+
+    <header>
+        <h1>LSL/SLua Wiki</h1>
+        <p class="subtitle">Select a reference section below</p>
+    </header>
+
+    <div class="nav-grid">
+        <!-- FUNCTIONS -->
+        <a href="/slua/wiki-functions" class="nav-card">
+            <span class="icon">ƒ</span>
+            <span class="label">Functions</span>
+            <span class="description">Global ll-prefixed methods and operations.</span>
+        </a>
+
+        <!-- CONSTANTS -->
+        <a href="/slua/wiki-constants" class="nav-card">
+            <span class="icon">▤</span>
+            <span class="label">Constants</span>
+            <span class="description">Uppercase flags, bitmasks, and fixed values.</span>
+        </a>
+
+        <!-- EVENTS -->
+        <a href="/slua/wiki-events" class="nav-card">
+            <span class="icon">⚡</span>
+            <span class="label">Events</span>
+            <span class="description">State handlers and triggered callbacks.</span>
+        </a>
+    </div>
+
+    <script>
+        // Optional: Inherit the theme from your other pages if using the same domain
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+</body>
+</html>
