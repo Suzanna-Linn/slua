@@ -55,7 +55,6 @@
     </main>
 
     <script>
-        // REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWVwgYOTSqZW-uc_1ND_DVY7rQV3R33bykutdGJjBmp6nAI6ks5-bsyyhBOq_b-ipn/exec";
 
         const body = document.getElementById('page-body');
@@ -100,7 +99,7 @@
             }
 
             try {
-                const response = await fetch(`${SCRIPT_URL}?item=${item}`);
+                const response = await fetch(`${SCRIPT_URL}?Action=wiki&item=${item}`);
                 const data = await response.text();
                 content.innerHTML = data;
             } catch (err) {
