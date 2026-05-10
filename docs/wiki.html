@@ -40,6 +40,114 @@
         .lua-tag { background: var(--accent-lua); }
         
         #loader { text-align: center; margin-top: 100px; font-size: 1.2em; color: #888; }
+
+          .dashboard {
+              display: flex;
+              flex-direction: column;
+              background: var(--card-bg);
+              border: 1px solid var(--border-color);
+              border-radius: 12px;
+              overflow: hidden;
+              margin-bottom: 30px;
+              box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+          }
+          .dashboard.summary-function { border-left: 6px solid #3498db; }
+          .dashboard.summary-constant { border-left: 6px solid #27ae60; }
+          .dashboard.summary-event    { border-left: 6px solid #8e44ad; }
+          .dashboard-header {
+              padding: 20px;
+              background: rgba(128,128,128,0.05);
+              border-bottom: 1px solid var(--border-color);
+          }
+          .dashboard-body {
+              display: grid;
+              grid-template-columns: 4fr 1fr 1fr; 
+              gap: 25px;
+              padding: 25px;
+          }
+          .dash-section-title {
+              font-size: 0.7em;
+              font-weight: bold;
+              text-transform: uppercase;
+              color: #95a5a6;
+              margin-bottom: 12px;
+              border-bottom: 1px solid var(--border-color);
+              padding-bottom: 4px;
+              letter-spacing: 0.5px;
+          }
+        
+          /* Left Column Styles */
+          .description-text { 
+              margin-top: 0; 
+              font-style: italic; 
+              font-size: 1.05em; 
+              line-height: 1.5;
+              margin-bottom: 25px;
+          }
+          .param-table { 
+              border-collapse: collapse; 
+              border: none; 
+              width: auto; 
+          }
+          .param-table td { 
+              border: none; 
+              padding: 0 15px 12px 0; 
+              vertical-align: top; 
+          }
+        
+          /* Middle Column Styles */
+          .meta-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
+          .meta-list li { 
+              padding: 5px 10px; 
+              margin-bottom: 5px; 
+              background: rgba(128,128,128,0.08); 
+              border-radius: 4px; 
+              font-size: 0.85em; 
+              border: 1px solid rgba(128,128,128,0.1);
+          }
+        
+          /* Right Column Styles */
+          .tech-item { display: flex; justify-content: space-between; font-size: 0.85em; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px inset rgba(128,128,128,0.05); }
+          .tech-label { color: #7f8c8d; font-weight: 500; }
+          .tech-val { font-family: monospace; font-weight: bold; }
+          
+          .label-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
+          .attr-label { 
+              font-size: 0.65em; 
+              font-weight: bold; 
+              padding: 4px 8px; 
+              border-radius: 4px; 
+              color: white; 
+              text-transform: uppercase;
+              white-space: nowrap;
+          }
+          .bg-pure       { background: #27ae60; }
+          .bg-mandatory  { background: #e67e22; }
+          .bg-native     { background: #2980b9; }
+          .bg-experience { background: #d35400; }
+          .bg-detected   { background: #8e44ad; }
+          .bg-deprecated { background: #c0392b; }
+        
+          .alt-code {
+              display: block;
+              background: #fdf2f2;
+              color: #c0392b;
+              padding: 8px;
+              border-radius: 4px;
+              font-family: monospace;
+              font-size: 0.9em;
+              border: 1px solid #f5c6cb;
+          }
+          body.dark-mode .alt-code { background: #2d1a1a; border-color: #602020; color: #ff8080; }
+        
+          @media (max-width: 1000px) {
+              .dashboard-body { grid-template-columns: 1.5fr 1fr; }
+              .dash-col:last-child { grid-column: span 2; }
+          }
+          @media (max-width: 700px) {
+              .dashboard-body { grid-template-columns: 1fr; }
+              .dash-col:last-child { grid-column: span 1; }
+          }
     </style>
 
     <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
