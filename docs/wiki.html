@@ -138,7 +138,7 @@
                 const response = await fetch(`${SCRIPT_URL}?Action=wiki&Item=${item}`);
                 const data = await response.text();
                 contentArea.innerHTML = data;
-                Prism.highlightAll();
+                // Prism.highlightAll();
             } catch (err) {
                 contentArea.innerHTML = `
                     <div class="item-card">
