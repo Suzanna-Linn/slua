@@ -10,6 +10,11 @@
             --border-color: #dee2e6; --accent-lsl: #007bff; --accent-lua: #e67e22;
             --table-head: #f2f2f2; --card-bg: #ffffff; --code-bg: #f1f1f1;
         }
+        body.dark-mode {
+            --bg-color: #121212; --text-color: #e0e0e0; --header-bg: #1f1f1f;
+            --border-color: #333; --accent-lsl: #3796ff; --accent-lua: #ff9f43;
+            --table-head: #2a2a2a; --card-bg: #1e1e1e; --code-bg: #2d2d2d;
+        }
 
         body { font-family: system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; transition: background 0.3s; line-height: 1.5; }
         header { position: sticky; top: 0; background: var(--header-bg); border-bottom: 1px solid var(--border-color); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
@@ -71,6 +76,7 @@
 
         // 1. Initial State from Storage
         function initSettings() {
+            if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
             const savedTheme = localStorage.getItem('theme') || 'dark';
             if (savedTheme === 'light') {
                 themeNight.disabled = true;
@@ -98,15 +104,15 @@
             localStorage.setItem('lua', e.target.checked ? 'on' : 'off');
         };
         document.getElementById('theme-toggle').onclick = () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
             const isDark = !themeNight.disabled;
             if (isDark) {
                 themeNight.disabled = true;
                 themeDay.disabled = false;
-                localStorage.setItem('theme', 'light');
             } else {
                 themeNight.disabled = false;
                 themeDay.disabled = true;
-                localStorage.setItem('theme', 'dark');
             }
         };
 
@@ -121,6 +127,13 @@
                     <div class="landing-box">
                         <h1>LSL & Lua Explorer</h1>
                         <p>Search for a function, constant, or event above, or use the URL parameter:<br>
+                        <pre class="language-lua"><code class="language-lua">-- vectors
+                                                        
+local myVec = vector(50, 50, 0)
+                                                        
+myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a component
+                                                        
+local posZ = ll.GetPos().z</code></pre>
                         <code>?item=llSay</code></p>
                     </div>`;
                 return;
