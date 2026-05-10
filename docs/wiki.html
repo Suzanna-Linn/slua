@@ -127,13 +127,6 @@
                     <div class="landing-box">
                         <h1>LSL & Lua Explorer</h1>
                         <p>Search for a function, constant, or event above, or use the URL parameter:<br>
-                        <pre class="language-lua"><code class="language-lua">-- vectors
-                                                        
-local myVec = vector(50, 50, 0)
-                                                        
-myVec = vector(myVec.x, myVec.y, 20)  -- we can't assign a value to a component
-                                                        
-local posZ = ll.GetPos().z</code></pre>
                         <code>?item=llSay</code></p>
                     </div>`;
                 return;
@@ -145,6 +138,7 @@ local posZ = ll.GetPos().z</code></pre>
                 const response = await fetch(`${SCRIPT_URL}?Action=wiki&Item=${item}`);
                 const data = await response.text();
                 contentArea.innerHTML = data;
+                Prism.highlightAll();
             } catch (err) {
                 contentArea.innerHTML = `
                     <div class="item-card">
