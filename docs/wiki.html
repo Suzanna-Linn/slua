@@ -161,7 +161,8 @@
 <body id="page-body">
 
     <header>
-        <div>LSL Reference</div>
+        <div>Lua / LSL Reference</div>
+        <div id = "header-item"></div>
         <div class="controls">
             <label><input type="checkbox" id="lsl-toggle" checked> LSL</label>
             <label><input type="checkbox" id="lua-toggle" checked> Lua</label>
@@ -185,6 +186,7 @@
 
         const body = document.getElementById('page-body');
         const contentArea = document.getElementById('content-container');
+        const headerItem = document.getElementById('header-item');
 
         const themeNight = document.getElementById('theme-night');
         const themeDay = document.getElementById('theme-day');
@@ -247,7 +249,15 @@
                 return;
             }
 
-            contentArea.innerHTML = `<div style="text-align:center; padding:50px;">Fetching <b>${item}</b>...</div>`;
+            contentArea.innerHTML = `<div style="text-align:center; padding:50px;">Reading <b>${item}</b>...</div>`;
+
+            let typeItem = "Event: ";
+            if (item.startsWith("ll")) {
+                typeItem = "Function: ";
+            } else if (item === item.toUpperCase()) {
+                typeItem = "Constant:";
+            }
+            headerItem.innerHTML = typeItem + item;
 
             try {
                 const response = await fetch(`${SCRIPT_URL}?Action=wiki&Item=${item}`);
