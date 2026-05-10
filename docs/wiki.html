@@ -10,11 +10,7 @@
             --border-color: #dee2e6; --accent-lsl: #007bff; --accent-lua: #e67e22;
             --table-head: #f2f2f2; --card-bg: #ffffff; --code-bg: #f1f1f1;
         }
-        body.dark-mode {
-            --bg-color: #121212; --text-color: #e0e0e0; --header-bg: #1f1f1f;
-            --border-color: #333; --accent-lsl: #3796ff; --accent-lua: #ff9f43;
-            --table-head: #2a2a2a; --card-bg: #1e1e1e; --code-bg: #2d2d2d;
-        }
+
         body { font-family: system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; transition: background 0.3s; line-height: 1.5; }
         header { position: sticky; top: 0; background: var(--header-bg); border-bottom: 1px solid var(--border-color); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
         .controls { display: flex; gap: 15px; font-size: 0.9em; font-weight: bold; }
@@ -23,6 +19,8 @@
         /* State Hiding */
         body.hide-lua .lua-block { display: none !important; }
         body.hide-lsl .lsl-block { display: none !important; }
+        body.hide-lua .lua-section { display: none !important; }
+        body.hide-lsl .lsl-section { display: none !important; }
 
         .item-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .lsl-block, .lua-block { border-left: 4px solid var(--accent-lsl); padding: 10px 15px; margin: 20px 0; background: rgba(128,128,128,0.05); }
@@ -38,6 +36,14 @@
         
         #loader { text-align: center; margin-top: 100px; font-size: 1.2em; color: #888; }
     </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
 </head>
 <body id="page-body">
 
@@ -60,16 +66,24 @@
         const body = document.getElementById('page-body');
         const contentArea = document.getElementById('content-container');
 
+        const themeNight = document.getElementById('theme-night');
+        const themeDay = document.getElementById('theme-day');
+
         // 1. Initial State from Storage
         function initSettings() {
-            if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                themeNight.disabled = true;
+                themeDay.disabled = false;
+            } else {
+                themeNight.disabled = false;
+                themeDay.disabled = true;
+            }
             
             const lsl = localStorage.getItem('lsl') !== 'off';
             const lua = localStorage.getItem('lua') !== 'off';
-            
             document.getElementById('lsl-toggle').checked = lsl;
             document.getElementById('lua-toggle').checked = lua;
-            
             if (!lsl) body.classList.add('hide-lsl');
             if (!lua) body.classList.add('hide-lua');
         }
@@ -84,8 +98,16 @@
             localStorage.setItem('lua', e.target.checked ? 'on' : 'off');
         };
         document.getElementById('theme-toggle').onclick = () => {
-            body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            const isDark = !themeNight.disabled;
+            if (isDark) {
+                themeNight.disabled = true;
+                themeDay.disabled = false;
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeNight.disabled = false;
+                themeDay.disabled = true;
+                localStorage.setItem('theme', 'dark');
+            }
         };
 
         // 3. The Fetch Logic
@@ -123,5 +145,13 @@
         initSettings();
         fetchItem();
     </script>
+    
+    <script src="/slua/assets/language-sluab.js"></script>
+    <script src="/slua/assets/language-lsl.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    
 </body>
 </html>
