@@ -173,6 +173,13 @@
         <div id="status-message" style="text-align:center; padding: 50px; color: #888;">Preparing page...</div>
     </main>
 
+    <script src="/slua/assets/language-sluab.js"></script>
+    <script src="/slua/assets/language-lsl.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWVwgYOTSqZW-uc_1ND_DVY7rQV3R33bykutdGJjBmp6nAI6ks5-bsyyhBOq_b-ipn/exec";
 
@@ -246,7 +253,7 @@
                 const response = await fetch(`${SCRIPT_URL}?Action=wiki&Item=${item}`);
                 const data = await response.text();
                 contentArea.innerHTML = data;
-                // Prism.highlightAll();
+                Prism.highlightAll();
             } catch (err) {
                 contentArea.innerHTML = `
                     <div class="item-card">
@@ -260,13 +267,6 @@
         initSettings();
         fetchItem();
     </script>
-    
-    <script src="/slua/assets/language-sluab.js"></script>
-    <script src="/slua/assets/language-lsl.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
     
 </body>
 </html>
