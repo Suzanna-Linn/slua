@@ -69,7 +69,7 @@
           }
           .dashboard-body {
               display: grid;
-              grid-template-columns: 4fr 1fr 1fr; 
+              grid-template-columns: 1fr 150px 100px;
               gap: 25px;
               padding: 25px;
           }
@@ -263,7 +263,7 @@
             if (item.startsWith("ll")) {
                 typeItem = "Function: ";
             } else if (item === item.toUpperCase()) {
-                typeItem = "Constant:";
+                typeItem = "Constant: ";
             }
             headerItem.innerHTML = typeItem + item;
 
