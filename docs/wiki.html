@@ -219,15 +219,27 @@
             if (!lua) body.classList.add('hide-lua');
         }
 
-        // 2. Event Listeners
-        document.getElementById('lsl-toggle').onchange = (e) => {
-            body.classList.toggle('hide-lsl', !e.target.checked);
-            localStorage.setItem('lsl', e.target.checked ? 'on' : 'off');
+        const updateToggleState = (key, isChecked) => {
+            body.classList.toggle(`hide-${key}`, !isChecked);
+            localStorage.setItem(key, isChecked ? 'on' : 'off');
         };
-        document.getElementById('lua-toggle').onchange = (e) => {
-            body.classList.toggle('hide-lua', !e.target.checked);
-            localStorage.setItem('lua', e.target.checked ? 'on' : 'off');
+        const lslToggle = document.getElementById('lsl-toggle');
+        const luaToggle = document.getElementById('lua-toggle');
+        lslToggle.onchange = (e) => {
+            if (!e.target.checked) {
+                luaToggle.checked = true;
+                updateToggleState('lua', true);
+            }
+            updateToggleState('lsl', e.target.checked);
         };
+        luaToggle.onchange = (e) => {
+            if (!e.target.checked) {
+                lslToggle.checked = true;
+                updateToggleState('lsl', true);
+            }
+            updateToggleState('lua', e.target.checked);
+        };
+
         document.getElementById('theme-toggle').onclick = () => {
             body.classList.toggle('dark-mode');
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
