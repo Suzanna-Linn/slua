@@ -1,114 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>LSL Events List</title>
-  <style>
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; padding: 40px; color: #333; background: #fdfdfd; }
-    h1 { text-align: center; color: #2c3e50; border-bottom: 2px solid #8e44ad; padding-bottom: 10px; }
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Lua / LSL Events</title>
+      <style>
+        /* Dynamic Theme Variables */
+        :root {
+          --bg-color: #fdfdfd;
+          --btn-color: #8e44ad;
+          --btn-hover: #732d91;
+          --item-text: #8e44ad;
+          --btn-min-width: 150px;
+        }
 
-    a,
-    a:visited,
-    a:hover,
-    a:active {
-      color: inherit;
-      text-decoration: none;
-    }
-    
-    .event-container {
-      max-width: 1000px;
-      margin: 40px auto;
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; color: #333; background: var(--bg-color); }
+        h1 { text-align: center; color: #2c3e50; }
+        .info-text { text-align: center; color: #7f8c8d; margin-bottom: 20px; }
 
-    .event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 15px;
-      list-style: none;
-      padding: 0;
-    }
+        a,
+        a:visited,
+        a:hover,
+        a:active {
+          color: inherit;
+          text-decoration: none;
+        }
+        
+        .category-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(var(--btn-min-width), 1fr));
+          gap: 10px;
+          margin-bottom: 50px;
+        }
+        .cat-button {
+          display: block;
+          background: var(--btn-color);
+          color: white;
+          text-decoration: none;
+          padding: 15px 10px;
+          text-align: center;
+          border-radius: 5px;
+          font-weight: bold;
+          font-size: 0.9em;
+          transition: background 0.2s;
+        }
+        .cat-button:hover { background: var(--btn-hover); }
 
-    .event-item {
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 1.05em;
-      color: #8e44ad;
-      background: #f8f5fa;
-      padding: 10px 15px;
-      border-radius: 6px;
-      border: 1px solid #f0eaf5;
-      transition: all 0.2s;
-    }
+        .category-section {
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 20px;
+          margin-bottom: 30px;
+          scroll-margin-top: 20px;
+        }
+        .category-section h2 {
+          margin-top: 0;
+          border-bottom: 2px solid var(--btn-color);
+          padding-bottom: 5px;
+          text-transform: uppercase;
+          color: #2c3e50;
+        }
+        .item-list {
+          display: flex;
+          flex-wrap: wrap;
+          list-style: none;
+          padding: 0;
+        }
+        .item {
+          flex: 0 0 33.33%; /* 3 columns */
+          font-family: monospace;
+          padding: 5px 0;
+          color: var(--item-text);
+        }
+        .back-to-top {
+          display: inline-block;
+          margin-top: 10px;
+          font-size: 0.8em;
+          color: #999;
+        }
+        @media (max-width: 600px) { .item { flex: 0 0 100%; } }
+      </style>
+    </head>
+    <body>
 
-    .event-item:hover {
-      background: #8e44ad;
-      color: white;
-      transform: scale(1.02);
-    }
-
-    .info-text {
-      text-align: center;
-      color: #7f8c8d;
-      margin-bottom: 30px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="event-container">
-    <h1>LSL Events</h1>
-    <p class="info-text">Total Events Found: 43</p>
-
-    <div class="event-grid">
-      <div class="event-item"><a href="/slua/wiki?item=at_rot_target">at_rot_target</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=at_target">at_target</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=attach">attach</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=changed">changed</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=collision">collision</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=collision_end">collision_end</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=collision_start">collision_start</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=control">control</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=dataserver">dataserver</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=email">email</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=experience_permissions">experience_permissions</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=experience_permissions_denied">experience_permissions_denied</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=final_damage">final_damage</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=game_control">game_control</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=http_request">http_request</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=http_response">http_response</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=land_collision">land_collision</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=land_collision_end">land_collision_end</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=land_collision_start">land_collision_start</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=link_message">link_message</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=linkset_data">linkset_data</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=listen">listen</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=money">money</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=moving_end">moving_end</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=moving_start">moving_start</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=no_sensor">no_sensor</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=not_at_rot_target">not_at_rot_target</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=not_at_target">not_at_target</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=object_rez">object_rez</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=on_damage">on_damage</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=on_death">on_death</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=on_rez">on_rez</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=path_update">path_update</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=remote_data">remote_data</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=run_time_permissions">run_time_permissions</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=sensor">sensor</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=state_entry">state_entry</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=state_exit">state_exit</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=timer">timer</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=touch">touch</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=touch_end">touch_end</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=touch_start">touch_start</a></div>
-      <div class="event-item"><a href="/slua/wiki?item=transaction_result">transaction_result</a></div>
+    <h1>Lua / LSL Events</h1>
+  
+  <div id="section_All Events" class="category-section">
+    <div class="item-list">
+      <div class="item"><a href="/slua/wiki?item=at_rot_target">at_rot_target</a></div>
+      <div class="item"><a href="/slua/wiki?item=at_target">at_target</a></div>
+      <div class="item"><a href="/slua/wiki?item=attach">attach</a></div>
+      <div class="item"><a href="/slua/wiki?item=changed">changed</a></div>
+      <div class="item"><a href="/slua/wiki?item=collision">collision</a></div>
+      <div class="item"><a href="/slua/wiki?item=collision_end">collision_end</a></div>
+      <div class="item"><a href="/slua/wiki?item=collision_start">collision_start</a></div>
+      <div class="item"><a href="/slua/wiki?item=control">control</a></div>
+      <div class="item"><a href="/slua/wiki?item=dataserver">dataserver</a></div>
+      <div class="item"><a href="/slua/wiki?item=email">email</a></div>
+      <div class="item"><a href="/slua/wiki?item=experience_permissions">experience_permissions</a></div>
+      <div class="item"><a href="/slua/wiki?item=experience_permissions_denied">experience_permissions_denied</a></div>
+      <div class="item"><a href="/slua/wiki?item=final_damage">final_damage</a></div>
+      <div class="item"><a href="/slua/wiki?item=game_control">game_control</a></div>
+      <div class="item"><a href="/slua/wiki?item=http_request">http_request</a></div>
+      <div class="item"><a href="/slua/wiki?item=http_response">http_response</a></div>
+      <div class="item"><a href="/slua/wiki?item=land_collision">land_collision</a></div>
+      <div class="item"><a href="/slua/wiki?item=land_collision_end">land_collision_end</a></div>
+      <div class="item"><a href="/slua/wiki?item=land_collision_start">land_collision_start</a></div>
+      <div class="item"><a href="/slua/wiki?item=link_message">link_message</a></div>
+      <div class="item"><a href="/slua/wiki?item=linkset_data">linkset_data</a></div>
+      <div class="item"><a href="/slua/wiki?item=listen">listen</a></div>
+      <div class="item"><a href="/slua/wiki?item=money">money</a></div>
+      <div class="item"><a href="/slua/wiki?item=moving_end">moving_end</a></div>
+      <div class="item"><a href="/slua/wiki?item=moving_start">moving_start</a></div>
+      <div class="item"><a href="/slua/wiki?item=no_sensor">no_sensor</a></div>
+      <div class="item"><a href="/slua/wiki?item=not_at_rot_target">not_at_rot_target</a></div>
+      <div class="item"><a href="/slua/wiki?item=not_at_target">not_at_target</a></div>
+      <div class="item"><a href="/slua/wiki?item=object_rez">object_rez</a></div>
+      <div class="item"><a href="/slua/wiki?item=on_damage">on_damage</a></div>
+      <div class="item"><a href="/slua/wiki?item=on_death">on_death</a></div>
+      <div class="item"><a href="/slua/wiki?item=on_rez">on_rez</a></div>
+      <div class="item"><a href="/slua/wiki?item=path_update">path_update</a></div>
+      <div class="item"><a href="/slua/wiki?item=remote_data">remote_data</a></div>
+      <div class="item"><a href="/slua/wiki?item=run_time_permissions">run_time_permissions</a></div>
+      <div class="item"><a href="/slua/wiki?item=sensor">sensor</a></div>
+      <div class="item"><a href="/slua/wiki?item=state_entry">state_entry</a></div>
+      <div class="item"><a href="/slua/wiki?item=state_exit">state_exit</a></div>
+      <div class="item"><a href="/slua/wiki?item=timer">timer</a></div>
+      <div class="item"><a href="/slua/wiki?item=touch">touch</a></div>
+      <div class="item"><a href="/slua/wiki?item=touch_end">touch_end</a></div>
+      <div class="item"><a href="/slua/wiki?item=touch_start">touch_start</a></div>
+      <div class="item"><a href="/slua/wiki?item=transaction_result">transaction_result</a></div>
     </div>
   </div>
-
 </body>
 </html>
