@@ -215,7 +215,7 @@ These are the functions and the parameters that change. The "*" added to the par
     <td style="width:50%; padding-left: 10px;">&lt;return&gt;, instance*</td>
   </tr>
   <tr style="vertical-align: top;">
-    <td style="width:50%; padding-right: 10px;">ll.ListFindStrided((src, test, start, end, stride)</td>
+    <td style="width:50%; padding-right: 10px;">ll.ListFindStrided(src, test, start, end, stride)</td>
     <td style="width:50%; padding-left: 10px;">&lt;return&gt;, start*, end*</td>
   </tr>
   <tr style="vertical-align: top;">
