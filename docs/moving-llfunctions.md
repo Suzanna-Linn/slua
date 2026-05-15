@@ -330,5 +330,8 @@ Linked messages have a string instead of an uuid in their fourth parameter.
 
 ### Others
 
-**ll.List2Key()** : Returns **NULL_KEY** when the parameter has not a valid uuid format (instead of returning a string).
+**ll.List2Key()** : Returns **NULL_KEY** when the parameter has not a valid uuid format (instead of returning an empty string).
 - **llcompat.List2Key()** also returns **NULL_KEY** when passed an invalid uuid format.
+
+**ll.RezObjectWithParams()** : Returns **NULL_KEY** when the object fails to rezz (instead of returning an empty string).
+- **llcompat.RezObjectWithParams()** also returns **NULL_KEY** when the object fails to rezz.
