@@ -1,3 +1,4 @@
+
 local function constantTable(data)
     local mt = {
         __index = data,
