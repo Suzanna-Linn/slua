@@ -1,0 +1,109 @@
+
+-- TABLES
+
+
+-- Array Tables
+
+
+-- create an empty table
+local myTab = {}
+
+
+-- Create an array-like table of fruits
+local tabFruits = { "Apple", "Orange", "Banana" }
+
+
+-- Print the number of fruits in the table
+print( "We have " .. tostring( #tabFruits ) .. " fruits")
+-- > We have 3 fruits
+
+
+-- Access and print the second fruit (at index 2)
+print( tabFruits[2] )  -- > Orange
+
+
+-- Modify and print the third fruit (at index 3)
+tabFruits[3] =  "Melon"
+print( tabFruits[3] )  -- > Melon
+
+
+-- Join the fruits into a string, separated by ", "
+local myFruits = table.concat( tabFruits, ", " )
+print( myFruits )
+-- > Apple, Orange, Melon
+
+
+-- Add one element to the end of the list
+tabFruits[ #tabFruits + 1 ] = "Pear"
+print( "We have " .. tostring( #tabFruits ) .. " fruits")
+-- > We have 4 fruits
+
+
+-- Add one element to the end of the list
+table.insert( tabFruits, "Mango" )
+print( "We have " .. tostring( #tabFruits ) .. " fruits")
+-- > We have 5 fruits
+
+
+-- Add one element to the start of the list
+table.insert( tabFruits, 1, "Lemon" )
+print( table.concat( tabFruits, ", " ) )
+-- > Lemon, Apple, Orange, Melon, Pear, Mango
+
+
+-- Add one element at index 3 of the list
+table.insert( tabFruits, 3, "Grape" )
+print( table.concat( tabFruits, ", " ) )
+-- > Lemon, Apple, Grape, Orange, Melon, Pear, Mango 
+
+
+-- Remove the last fruit
+table.remove( tabFruits )
+
+
+-- Remove the fruit at position 3
+table.remove( tabFruits, 3 )
+print( table.concat( tabFruits, ", " ) )
+-- > Lemon, Apple, Orange, Melon, Pear
+
+
+-- Find a fruit in the table
+local indexOrange = table.find( tabFruits, "Orange" )
+print( indexOrange, tabFruits[ indexOrange ])  -- > 3  Orange
+
+
+-- Sort the table alphabetically
+table.sort( tabFruits )
+print( table.concat( tabFruits, ", " ) )
+-- > Apple, Lemon, Melon, Orange, Pear
+
+
+-- Add several fruits
+table.append( tabFruits, "Mango", "Peach", "Pineapple")
+print( table.concat( tabFruits, ", " ) )
+-- > Apple, Lemon, Melon, Orange, Pear, Mango, Peach, Pineapple
+
+
+-- A new table with Japanese fruits
+local tabJapaneseFruits = { "Yuzu", "Satsuma Mandarin", "Fuji Apple", "Nashi Pear", "Dekopon" }
+
+-- Add them to our table of fruits
+table.extend( tabFruits, tabJapaneseFruits)
+print( table.concat( tabFruits, ", " ) )
+-- > Apple, Lemon, Melon, Orange, Pear, Mango, Peach, Pineapple, Yuzu, Satsuma Mandarin, Fuji Apple, Nashi Pear, Dekopon
+
+
+local tabFruits = { "Apple", "Lemon", "Melon", "Orange", "Pear" }
+-- A new table with exotic fruits
+local tabExoticFruits = { "DragonFruit", "Rambutan", "Lychee", "Durian", "Mangosteen" }
+
+-- Add them to our table of fruits
+table.move( tabExoticFruits, 1, #tabExoticFruits, #tabFruits + 1, tabFruits )
+print( table.concat( tabFruits, ", " ) )
+-- > Apple, Lemon, Melon, Orange, Pear, DragonFruit, Rambutan, Lychee, Durian, Mangosteen 
+
+
+-- create a new table someFruits with fruits from index 2 to 4
+someFruits = table.move( tabFruits, 2, 4, 1, {} )
+print( table.concat( someFruits, ", " ) )
+-- > Lemon, Melon, Orange
