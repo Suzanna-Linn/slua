@@ -7,7 +7,7 @@ json : true
 
 # Functions with lists/tables as parameter
 
-<pre class="line-numbers"><code class="language-json">
+<pre><code class="language-json">
 {
   "llCastRay": [
     {
@@ -7883,3 +7883,99 @@ json : true
   ]
 }
 </code></pre>
+
+<!-- Container for the dynamic buttons -->
+<div id="filter-controls"></div>
+
+<style>
+  /* Styling to make the buttons presentable and wrap cleanly */
+  #filter-controls {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 250px; /* Optional: adds scrolling if you want to save vertical space */
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+  }
+  .filter-btn {
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 0.85em;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .filter-btn:hover {
+    background-color: #e5e5e5;
+  }
+  .filter-btn.active {
+    background-color: #007acc;
+    color: white;
+    border-color: #005999;
+  }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const codeElement = document.querySelector('pre code.language-json');
+    if (!codeElement) return;
+
+    // Grab the raw JSON string before or after Prism processes it
+    const rawJsonText = codeElement.textContent.trim();
+    let parsedJson;
+    
+    try {
+        parsedJson = JSON.parse(rawJsonText);
+    } catch (e) {
+        console.error("Failed to parse JSON for filtering:", e);
+        return;
+    }
+
+    const buttonContainer = document.getElementById('filter-controls');
+    
+    // Helper function to update the displayed code block
+    function updateDisplay(key, activeBtn) {
+        // Manage active states on buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        activeBtn.classList.add('active');
+
+        let displayText = "";
+        if (key === 'all') {
+            displayText = JSON.stringify(parsedJson, null, 2);
+        } else {
+            // Isolate the chosen function but wrap it in an object to maintain valid JSON syntax
+            const isolatedObj = {};
+            isolatedObj[key] = parsedJson[key];
+            displayText = JSON.stringify(isolatedObj, null, 2);
+        }
+
+        // Update target element and trigger Prism highlight
+        codeElement.textContent = displayText;
+        if (window.Prism) {
+            Prism.highlightElement(codeElement);
+        }
+    }
+
+    // 1. Generate "Show All" button
+    const showAllBtn = document.createElement('button');
+    showAllBtn.textContent = "Show All";
+    showAllBtn.className = "filter-btn active";
+    showAllBtn.addEventListener('click', () => updateDisplay('all', showAllBtn));
+    buttonContainer.appendChild(showAllBtn);
+
+    // 2. Generate a button for each LSL function key in the JSON object
+    Object.keys(parsedJson).forEach(key => {
+        const btn = document.createElement('button');
+        btn.textContent = key;
+        btn.className = "filter-btn";
+        btn.addEventListener('click', () => updateDisplay(key, btn));
+        buttonContainer.appendChild(btn);
+    });
+});
+</script>
