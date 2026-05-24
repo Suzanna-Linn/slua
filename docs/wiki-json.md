@@ -232,6 +232,290 @@ json : true
       "description": "Stops any current pathfinding operation."
     }
   ],
+  "llGetAttachedListFiltered": [
+    {
+      "constant": "ATTACH_HEAD",
+      "value": "2",
+      "name": "Skull",
+      "comment": "head"
+    },
+    {
+      "constant": "ATTACH_NOSE",
+      "value": "17",
+      "name": "Nose",
+      "comment": "nose"
+    },
+    {
+      "constant": "ATTACH_MOUTH",
+      "value": "11",
+      "name": "Mouth",
+      "comment": "mouth"
+    },
+    {
+      "constant": "ATTACH_FACE_TONGUE",
+      "value": "52",
+      "name": "Tongue",
+      "comment": "tongue"
+    },
+    {
+      "constant": "ATTACH_CHIN",
+      "value": "12",
+      "name": "Chin",
+      "comment": "chin"
+    },
+    {
+      "constant": "ATTACH_FACE_JAW",
+      "value": "47",
+      "name": "Jaw",
+      "comment": "jaw"
+    },
+    {
+      "constant": "ATTACH_LEAR",
+      "value": "13",
+      "name": "Left Ear",
+      "comment": "left ear"
+    },
+    {
+      "constant": "ATTACH_REAR",
+      "value": "14",
+      "name": "Right Ear",
+      "comment": "right ear"
+    },
+    {
+      "constant": "ATTACH_FACE_LEAR",
+      "value": "48",
+      "name": "Alt Left Ear",
+      "comment": "left ear (extended)"
+    },
+    {
+      "constant": "ATTACH_FACE_REAR",
+      "value": "49",
+      "name": "Alt Right Ear",
+      "comment": "right ear (extended)"
+    },
+    {
+      "constant": "ATTACH_LEYE",
+      "value": "15",
+      "name": "Left Eye",
+      "comment": "left eye"
+    },
+    {
+      "constant": "ATTACH_REYE",
+      "value": "16",
+      "name": "Right Eye",
+      "comment": "right eye"
+    },
+    {
+      "constant": "ATTACH_FACE_LEYE",
+      "value": "50",
+      "name": "Alt Left Eye",
+      "comment": "left eye (extended)"
+    },
+    {
+      "constant": "ATTACH_FACE_REYE",
+      "value": "51",
+      "name": "Alt Right Eye",
+      "comment": "right eye (extended)"
+    },
+    {
+      "constant": "ATTACH_NECK",
+      "value": "39",
+      "name": "Neck",
+      "comment": "neck"
+    },
+    {
+      "constant": "ATTACH_LSHOULDER",
+      "value": "3",
+      "name": "Left Shoulder",
+      "comment": "left shoulder"
+    },
+    {
+      "constant": "ATTACH_RSHOULDER",
+      "value": "4",
+      "name": "Right Shoulder",
+      "comment": "right shoulder"
+    },
+    {
+      "constant": "ATTACH_LUARM",
+      "value": "20",
+      "name": "L Upper Arm",
+      "comment": "left upper arm"
+    },
+    {
+      "constant": "ATTACH_RUARM",
+      "value": "18",
+      "name": "R Upper Arm",
+      "comment": "right upper arm"
+    },
+    {
+      "constant": "ATTACH_LLARM",
+      "value": "21",
+      "name": "L Lower Arm",
+      "comment": "left lower arm"
+    },
+    {
+      "constant": "ATTACH_RLARM",
+      "value": "19",
+      "name": "R Lower Arm",
+      "comment": "right lower arm"
+    },
+    {
+      "constant": "ATTACH_LHAND",
+      "value": "5",
+      "name": "Left Hand",
+      "comment": "left hand"
+    },
+    {
+      "constant": "ATTACH_RHAND",
+      "value": "6",
+      "name": "Right Hand",
+      "comment": "right hand"
+    },
+    {
+      "constant": "ATTACH_LHAND_RING1",
+      "value": "41",
+      "name": "Left Ring Finger",
+      "comment": "left ring finger"
+    },
+    {
+      "constant": "ATTACH_RHAND_RING1",
+      "value": "42",
+      "name": "Right Ring Finger",
+      "comment": "right ring finger"
+    },
+    {
+      "constant": "ATTACH_LWING",
+      "value": "45",
+      "name": "Left Wing",
+      "comment": "left wing"
+    },
+    {
+      "constant": "ATTACH_RWING",
+      "value": "46",
+      "name": "Right Wing",
+      "comment": "right wing"
+    },
+    {
+      "constant": "ATTACH_CHEST",
+      "value": "1",
+      "name": "Chest",
+      "comment": "chest/sternum"
+    },
+    {
+      "constant": "ATTACH_LEFT_PEC",
+      "value": "29",
+      "name": "Left Pec",
+      "comment": "left pectoral"
+    },
+    {
+      "constant": "ATTACH_RIGHT_PEC",
+      "value": "30",
+      "name": "Right Pec",
+      "comment": "right pectoral"
+    },
+    {
+      "constant": "ATTACH_BELLY",
+      "value": "28",
+      "name": "Stomach",
+      "comment": "belly/stomach/tummy"
+    },
+    {
+      "constant": "ATTACH_BACK",
+      "value": "9",
+      "name": "Spine",
+      "comment": "back"
+    },
+    {
+      "constant": "ATTACH_TAIL_BASE",
+      "value": "43",
+      "name": "Tail Base",
+      "comment": "tail base"
+    },
+    {
+      "constant": "ATTACH_TAIL_TIP",
+      "value": "44",
+      "name": "Tail Tip",
+      "comment": "tail tip"
+    },
+    {
+      "constant": "ATTACH_AVATAR_CENTER",
+      "value": "40",
+      "name": "Avatar Center",
+      "comment": "avatar center/root"
+    },
+    {
+      "constant": "ATTACH_PELVIS",
+      "value": "10",
+      "name": "Pelvis",
+      "comment": "pelvis"
+    },
+    {
+      "constant": "ATTACH_GROIN",
+      "value": "53",
+      "name": "Groin",
+      "comment": "groin"
+    },
+    {
+      "constant": "ATTACH_LHIP",
+      "value": "25",
+      "name": "Left Hip",
+      "comment": "left hip"
+    },
+    {
+      "constant": "ATTACH_RHIP",
+      "value": "22",
+      "name": "Right Hip",
+      "comment": "right hip"
+    },
+    {
+      "constant": "ATTACH_LULEG",
+      "value": "26",
+      "name": "L Upper Leg",
+      "comment": "left upper leg"
+    },
+    {
+      "constant": "ATTACH_RULEG",
+      "value": "23",
+      "name": "R Upper Leg",
+      "comment": "right upper leg"
+    },
+    {
+      "constant": "ATTACH_RLLEG",
+      "value": "24",
+      "name": "R Lower Leg",
+      "comment": "right lower leg"
+    },
+    {
+      "constant": "ATTACH_LLLEG",
+      "value": "27",
+      "name": "L Lower Leg",
+      "comment": "left lower leg"
+    },
+    {
+      "constant": "ATTACH_LFOOT",
+      "value": "7",
+      "name": "Left Foot",
+      "comment": "left foot"
+    },
+    {
+      "constant": "ATTACH_RFOOT",
+      "value": "8",
+      "name": "Right Foot",
+      "comment": "right foot"
+    },
+    {
+      "constant": "ATTACH_HIND_LFOOT",
+      "value": "54",
+      "name": "Left Hind Foot",
+      "comment": "left hind foot"
+    },
+    {
+      "constant": "ATTACH_HIND_RFOOT",
+      "value": "55",
+      "name": "Right Hind Foot",
+      "comment": "right hind foot"
+    }
+  ],
   "llGetClosestNavPoint": [
     {
       "constant": "GCNP_RADIUS",
