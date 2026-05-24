@@ -15,12 +15,11 @@ json : true
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    max-height: 250px; 
-    overflow-y: auto;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #fcfcfc;
+    box-sizing: border-box;
   }
   .filter-btn {
     background-color: #f3f3f3;
