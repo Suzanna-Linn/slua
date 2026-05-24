@@ -22,35 +22,44 @@ json : true
     box-sizing: border-box;
   }
   .filter-btn {
-    background-color: #f7f9fc;
-    border: 1px solid #cfd8e3;
-    color: #44546a;
+    background: linear-gradient(135deg, #f6e7ff, #e7f0ff);
+    border: 1px solid #c7b7ff;
+    color: #5b4b8a;
+  
     padding: 6px 12px;
-    border-radius: 6px;
+    border-radius: 8px;
+  
     cursor: pointer;
     font-family: monospace;
     font-size: 0.85em;
+  
     transition:
-      background-color 0.2s,
-      border-color 0.2s,
-      color 0.2s,
-      transform 0.15s;
+      background 0.25s,
+      border-color 0.25s,
+      color 0.25s,
+      transform 0.15s,
+      box-shadow 0.2s;
   }
   
   .filter-btn:hover {
-    background-color: #eef5ff;
-    border-color: #9fc3ea;
-    color: #2f5f91;
+    background: linear-gradient(135deg, #efd6ff, #d8eaff);
+    border-color: #9c7dff;
+    color: #45306f;
+  
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(120, 100, 220, 0.18);
   }
   
   .filter-btn:active {
-    transform: translateY(1px);
+    transform: translateY(0);
   }
   
   .filter-btn.active {
-    background-color: #4d94d9;
-    border-color: #357abd;
+    background: linear-gradient(135deg, #8b5cf6, #4f8cff);
+    border-color: #6d3df0;
     color: white;
+  
+    box-shadow: 0 4px 12px rgba(79, 140, 255, 0.25);
   }
 </style>
 
