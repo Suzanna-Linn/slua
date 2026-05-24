@@ -22,22 +22,35 @@ json : true
     box-sizing: border-box;
   }
   .filter-btn {
-    background-color: #f3f3f3;
-    border: 1px solid #ccc;
+    background-color: #f7f9fc;
+    border: 1px solid #cfd8e3;
+    color: #44546a;
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-family: monospace;
     font-size: 0.85em;
-    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s,
+      transform 0.15s;
   }
+  
   .filter-btn:hover {
-    background-color: #e5e5e5;
+    background-color: #eef5ff;
+    border-color: #9fc3ea;
+    color: #2f5f91;
   }
+  
+  .filter-btn:active {
+    transform: translateY(1px);
+  }
+  
   .filter-btn.active {
-    background-color: #007acc;
+    background-color: #4d94d9;
+    border-color: #357abd;
     color: white;
-    border-color: #005999;
   }
 </style>
 
