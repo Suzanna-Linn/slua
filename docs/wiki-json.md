@@ -4391,6 +4391,141 @@ json : true
       "description": "Makes character navigate in a straight line toward pos. May be set to TRUE or FALSE."
     }
   ],
+  "llParcelMediaCommandList": [
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_STOP",
+      "value": "0",
+      "parameters": "",
+      "description": "Stop the media stream and go back to the first frame."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_PAUSE",
+      "value": "1",
+      "parameters": "",
+      "description": "Pause the media stream (stop playing but stay on current frame)."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_PLAY",
+      "value": "2",
+      "parameters": "",
+      "description": "Start the media stream playing from the current frame and stop when the end is reached."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_LOOP",
+      "value": "3",
+      "parameters": "",
+      "description": "Start the media stream playing from the current frame. When the end is reached, loop to the beginning and continue."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_TEXTURE",
+      "value": "4",
+      "parameters": [
+        {
+          "type": "key",
+          "name": "uuid"
+        }
+      ],
+      "description": "Used to get or set the parcel's media texture."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_URL",
+      "value": "5",
+      "parameters": [
+        {
+          "type": "string",
+          "name": "url"
+        }
+      ],
+      "description": "Used to get or set the parcel's media url."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_TIME",
+      "value": "6",
+      "parameters": [
+        {
+          "type": "float",
+          "name": "time"
+        }
+      ],
+      "description": "Move a media stream to a specific time in (floating point) seconds."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_AGENT",
+      "value": "7",
+      "parameters": [
+        {
+          "type": "key",
+          "name": "uuid"
+        }
+      ],
+      "description": "Applies the media command to the specified agent only."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_UNLOAD",
+      "value": "8",
+      "parameters": "",
+      "description": "Used to unload the movie and restores the original texture."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_AUTO_ALIGN",
+      "value": "9",
+      "parameters": [
+        {
+          "type": "integer",
+          "name": "boolean"
+        }
+      ],
+      "description": "Used to set the parcel option 'Auto scale content'."
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_TYPE",
+      "value": "10",
+      "parameters": [
+        {
+          "type": "string",
+          "name": "mime_type"
+        }
+      ],
+      "description": "Used to get or set the parcel media MIME type (e.g. 'text/html'). (1.19.1 RC0 or later)"
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_SIZE",
+      "value": "11",
+      "parameters": [
+        {
+          "type": "integer",
+          "name": "x"
+        },
+        {
+          "type": "integer",
+          "name": "y"
+        }
+      ],
+      "description": "Used to get or set the parcel media pixel resolution. (1.19.1 RC0 or later)"
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_DESC",
+      "value": "12",
+      "parameters": [
+        {
+          "type": "string",
+          "name": "desc"
+        }
+      ],
+      "description": "Used to get or set the parcel media description. (1.19.1 RC0 or later)"
+    },
+    {
+      "constant": "PARCEL_MEDIA_COMMAND_LOOP_SET",
+      "value": "13",
+      "parameters": [
+        {
+          "type": "float",
+          "name": "loop"
+        }
+      ],
+      "description": "Used to get or set the parcel's media loop duration. (1.19.1 RC0 or later)"
+    }
+  ],
   "llParcelMediaQuery": [
     {
       "constant": "PARCEL_MEDIA_COMMAND_TEXTURE",
