@@ -20,14 +20,22 @@ Prism.languages.sluab = {
     },
     'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?i?\b)|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
     'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
-    'const': {
-        pattern: /\bconst(?=[ \t]+(?:function\b|[a-zA-Z_]\w*[^=\r\n]*(?<![~<>=+*\/%^\-.])=(?!=)))/,
-        alias: 'keyword'
-    },
     'continue': {
         pattern: /\bcontinue\b(?!\s*(\.|\[|:|{|=|"|'|,|\())/,
         alias: 'keyword'
     },
+    'const': {
+        pattern: /\bconst(?=[ \t]+(?:function\b|[a-zA-Z_]\w*[^=\r\n]*(?<![~<>=+*\/%^\-.])=(?!=)))/,
+        alias: 'keyword'
+    },
+    'class': {
+        pattern: /\bclass(?=\s+[a-zA-Z_]\w*)/,
+        alias: 'keyword'
+    },
+    'public': {
+        pattern: /\bpublic(?=\s+(?:function\b|[a-zA-Z_]\w*))/,
+        alias: 'keyword'
+    }
     'builtin-math': {
         pattern: /\bmath\.(?:abs|acos|asin|atan|atan2|ceil|clamp|cos|cosh|deg|exp|floor|fmod|frexp|isfinite|isinf|isnan|ldexp|log|log10|max|min|modf|noise|pow|rad|random|randomseed|round|sign|sin|sinh|sqrt|tan|tanh)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
