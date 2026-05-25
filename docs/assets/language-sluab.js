@@ -18,8 +18,12 @@ Prism.languages.sluab = {
         pattern: /(["'])(?:(?!\1)[^\\\r\n]|\\z(?:\r\n|\s)|\\(?:\r\n|[^z]))*\1|\[(=*)\[[\s\S]*?\]\2\]/,
         greedy: true
     },
-    'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?\b|\b0b[01]+(?:_[01]+)*\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?\b)|\B\.\d+(?:e[+-]?\d+)?\b/i,
+    'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?i?\b)|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
     'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
+    'const': {
+        pattern: /\bconst(?=[ \t]+(?:function\b|[a-zA-Z_]\w*[^=\r\n]*(?<![~<>=+*/%^-.])=(?!=)))/
+        alias: 'keyword'
+    },
     'continue': {
         pattern: /\bcontinue\b(?!\s*(\.|\[|:|{|=|"|'|,|\())/,
         alias: 'keyword'
@@ -61,7 +65,19 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-buffer': {
-        pattern: /\bbuffer\.(?:copy|create|fill|fromstring|len|readf32|readf64|readi16|readi32|readi8|readstring|readu16|readu32|readu8|tostring|writef32|writef64|writei16|writei32|writei8|writestring|writeu16|writeu32|writeu8)\b(?=\s*(?:[({]))/,
+        pattern: /\bbuffer\.(?:copy|create|fill|fromstring|len|readf32|readf64|readi16|readi32|readi8|readinteger|readstring|readu16|readu32|readu8|tostring|writef32|writef64|writei16|writei32|writei8|writeinteger|writestring|writeu16|writeu32|writeu8)\b(?=\s*(?:[({]))/,
+        alias: 'builtin'
+    },
+    'builtin-integer': {
+        pattern: /\binteger\.(?:add|arshift|band|bnot|bor|bswap|btest|bxor|clamp|countlz|countrz|create|div|extract|fromstring|ge|gt|idiv|le|lrotate|lshift|lt|max|min|mod|mul|neg|rem|replace|rrotate|rshift|sub|tonumber|udiv|uge|ugt|ule|ult|urem)\b(?=\s*(?:[({]))/,
+        alias: 'builtin'
+    },
+    'builtin-integer-constant': {
+        pattern: /\binteger\.(?:maxsigned|minsigned)\b/,
+        alias: 'builtin'
+    },
+    'builtin-class': {
+        pattern: /\bclass\.(?:classof|isinstance)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-vector': {
