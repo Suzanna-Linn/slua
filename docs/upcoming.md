@@ -10,6 +10,8 @@ slua_beta: true
 
 ### const
 
+*status: released, we can use it in Luau.*
+
 The **const** keyword is designed for declaring local variables that cannot be reassigned after their initial value is set, providing a way to enforce read-only variables within a script.
 
 **const** offers several practical benefits for codebase maintenance, safety, and development workflow:
@@ -71,6 +73,8 @@ const const = 1
 print(const) --> 1</code></pre>
 
 ### integer
+
+*status: implemented, in testing, not released.*
 
 The **integer** library in Lua introduces native support for the new 64-bit integer built-in type and provides a suite of dedicated functions to perform arithmetic, bitwise, and logical operations with them.
 
@@ -300,6 +304,8 @@ local min_val = integer.minsigned -- -2^63</code></pre>
 
 ### class
 
+*status: implemented, in testing, not released.*
+
 The native **class** feature is a built-in language construct designed to define object-oriented class structures directly.
 
 It introduces dedicated contextual keywords (such as class, along with visibility modifiers like public) to natively declare constructor behaviors, instance fields, and methods.
@@ -396,10 +402,12 @@ Returns true if the object o is an instance of the class C.
 - **`class.classof(o: object): class`**  
 Returns the class of the object o.
 
-
-
+<pre class="language-sluab"><code class="language-sluab">-- example of a class
+</code></pre>
 
 ### export
+
+*status: ready for development, not implemented.*
 
 The **export** keyword serves as a mechanism to expose definitions from a module script so they can be accessed by other scripts that import it via require.
 
@@ -428,6 +436,8 @@ Advantages of **export** compared to **return**
 - Performance Optimizations: immutability unlocks cross-module inlining and constant folding.
 
 ## math library constants
+
+*status: released, we can use it in Luau.*
 
 New constants added to the math library:
 
