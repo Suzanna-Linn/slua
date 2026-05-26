@@ -403,7 +403,42 @@ Returns true if the object o is an instance of the class C.
 Returns the class of the object o.
 
 <pre class="language-sluab"><code class="language-sluab">-- example of a class
-</code></pre>
+class Spaceship
+    -- Properties
+    public name
+    public fuel
+    public shieldsActive
+
+    -- Methods
+    function toggleShields(self)
+        self.shieldsActive = not self.shieldsActive
+        local status = if self.shieldsActive then "ON" else "OFF"
+        print(`Shields for {self.name} are now {status}.`)
+    end
+
+    function travel(self, distance)
+        local fuelNeeded = distance * 0.5
+        if self.fuel >= fuelNeeded then
+            self.fuel -= fuelNeeded
+            print(`{self.name} traveled {distance} lightyears. Fuel remaining: {self.fuel}`)
+        else
+            print(`{self.name} lacks the fuel to travel {distance} lightyears!`)
+        end
+    end
+
+    -- Constructor
+    function new(name, fuel)
+		return Spaceship { name = name, fuel = fuel, shieldsActive = false }
+    end
+end
+
+-- Instantiation automatically utilizes the defined constructor
+local myShip = Spaceship.new("Galactica", 100)
+
+-- Calling methods on the instance
+myShip:toggleShields()      -- Output: Shields for Galactica are now ON.
+myShip:travel(40)           -- Output: Galactica traveled 40 lightyears. Fuel remaining: 80
+myShip:travel(200)          -- Output: Galactica lacks the fuel to travel 200 lightyears!</code></pre>
 
 ### export
 
