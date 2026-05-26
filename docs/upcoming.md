@@ -126,7 +126,7 @@ local h = -0b1000i</code></pre>
 
 Integers are never automatically converted to numbers or strings, and vice-versa. Passing an integer to a function expecting a number (or string) will result in a type error.
 
-#### Conversion and Creation
+**Conversion and Creation**
 Functions for converting other types to and from the `integer` type.
 
 - **`integer.create(n: number): integer?`**  
@@ -136,7 +136,7 @@ Functions for converting other types to and from the `integer` type.
 - **`integer.tonumber(n: integer): number`**  
   Converts an `integer` to a double-precision number (precision loss can occur).
 
-#### Signed Arithmetic
+**Signed Arithmetic**
 Basic mathematical operations using signed integer arithmetic.
 
 - **`integer.neg(a: integer): integer`**  
@@ -156,7 +156,7 @@ Basic mathematical operations using signed integer arithmetic.
 - **`integer.mod(a: integer, b: integer): integer`**  
   Performs signed floored modulus division of `a` by `b`. Errors on division by zero.
 
-#### Unsigned Arithmetic
+**Unsigned Arithmetic**
 Mathematical operations that treat the inputs as unsigned integers.
 
 - **`integer.udiv(a: integer, b: integer): integer`**  
@@ -164,7 +164,7 @@ Mathematical operations that treat the inputs as unsigned integers.
 - **`integer.urem(a: integer, b: integer): integer`**  
   Computes the remainder of the unsigned division of `a` by `b`. Errors on division by zero.
 
-#### Signed Comparisons
+**Signed Comparisons**
 Relational operators using signed comparison.
 
 - **`integer.lt(a: integer, b: integer): boolean`**  
@@ -176,7 +176,7 @@ Relational operators using signed comparison.
 - **`integer.ge(a: integer, b: integer): boolean`**  
   Performs a signed greater-than-or-equal (`>=`) comparison.
 
-#### Unsigned Comparisons
+**Unsigned Comparisons**
 Relational operators treating the inputs as unsigned integers.
 
 - **`integer.ult(a: integer, b: integer): boolean`**  
@@ -188,7 +188,7 @@ Relational operators treating the inputs as unsigned integers.
 - **`integer.uge(a: integer, b: integer): boolean`**  
   Performs an unsigned greater-than-or-equal (`>=`) comparison.
 
-#### Bitwise Logical Operations
+**Bitwise Logical Operations**
 Boolean logic operations executed at the bit level.
 
 - **`integer.bnot(a: integer): integer`**  
@@ -202,7 +202,7 @@ Boolean logic operations executed at the bit level.
 - **`integer.btest(...integer): boolean`**  
   Performs a bitwise AND of all arguments and returns `true` if the result is not zero. Returns `true` if there are no arguments.
 
-#### Bitwise Shifts and Rotations
+**Bitwise Shifts and Rotations**
 Functions for shifting and rotating bits.
 
 - **`integer.lshift(n: integer, i: integer): integer`**  
@@ -216,7 +216,7 @@ Functions for shifting and rotating bits.
 - **`integer.rrotate(n: integer, i: integer): integer`**  
   Rotates `n` to the right by `i` bits (interpreting `i` modulo 64).
 
-#### Bit Manipulation and Inspection
+**Bit Manipulation and Inspection**
 Functions to inspect, extract, or swap specific bits within an integer.
 
 - **`integer.extract(n: integer, f: integer, w: integer?): integer`**  
@@ -230,7 +230,7 @@ Functions to inspect, extract, or swap specific bits within an integer.
 - **`integer.bswap(n: integer): integer`**  
   Swaps the byte order of `n`.
 
-#### Range and Limit Operations
+**Range and Limit Operations**
 Helper functions to clamp values or find extremes.
 
 - **`integer.min(a: integer, ...integer): integer`**  
@@ -240,13 +240,13 @@ Helper functions to clamp values or find extremes.
 - **`integer.clamp(a: integer, min: integer, max: integer): integer`**  
   Clamps the value `a` to the range `[min, max]`. Errors if `min > max`.
 
-#### Constants
+**Constants**
 - **`integer.maxsigned: integer`**  
   Integer value representing 2^63-1 (9_223_372_036_854_775_807i)
 - **`integer.minsigned: integer`**  
   Integer value representing -2^63 (-9_223_372_036_854_775_808i)
 
-#### Buffer library
+**Buffer library**
 Functions added to the buffer library to work with integers.
 
 - **`buffer.readinteger(b: buffer, offset: number): integer`**  
@@ -254,7 +254,7 @@ Reads a 64-bit integer from the buffer at the specified byte offset.
 - **`buffer.writeinteger(b: buffer, offset: number, value: integer): ()`**  
 Writes a 64-bit integer into the buffer at the specified byte offset.
 
-#### Changes in existing functions
+**Changes in existing functions**
 - **`tostring`**  
   converts an integer to a string representation in signed form with no ‘i’ suffix.
 - **`rawequal`**  
