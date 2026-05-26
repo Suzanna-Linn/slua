@@ -18,7 +18,7 @@ Prism.languages.sluab = {
         pattern: /(["'])(?:(?!\1)[^\\\r\n]|\\z(?:\r\n|\s)|\\(?:\r\n|[^z]))*\1|\[(=*)\[[\s\S]*?\]\2\]/,
         greedy: true
     },
-    'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?i?\b)|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
+    'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*\.\B|\b\d+(?:_\d+)*(?:\.\d*)?(?:e[+-]?\d+)?i?\b|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
     'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
     'continue': {
         pattern: /\bcontinue\b(?!\s*(\.|\[|:|{|=|"|'|,|\())/,
@@ -105,7 +105,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-uuid': {
-        pattern: /\uuid\.(?:create)\b(?=\s*(?:[({]))/,
+        pattern: /\buuid\.(?:create)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
     },
     'builtin-ll': {
@@ -121,7 +121,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-lljson-constant': {
-        pattern: /\lljson\.(?:_NAME|_VERSION|array_mt|empty_array|empty_array_mt|empty_object|null|object_mt|remove)\b/,
+        pattern: /\blljson\.(?:_NAME|_VERSION|array_mt|empty_array|empty_array_mt|empty_object|null|object_mt|remove)\b/,
         alias: 'builtin'
     },
     'builtin-llevents': {
