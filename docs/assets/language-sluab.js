@@ -19,7 +19,6 @@ Prism.languages.sluab = {
         greedy: true
     },
     'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?i?\b)|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
-    'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
     'continue': {
         pattern: /\bcontinue\b(?!\s*(\.|\[|:|{|=|"|'|,|\())/,
         alias: 'keyword'
@@ -36,6 +35,7 @@ Prism.languages.sluab = {
         pattern: /\bpublic(?=\s+(?:function\b|[a-zA-Z_]\w*))/,
         alias: 'keyword'
     },
+    'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
     'builtin-math': {
         pattern: /\bmath\.(?:abs|acos|asin|atan|atan2|ceil|clamp|cos|cosh|deg|exp|floor|fmod|frexp|isfinite|isinf|isnan|ldexp|log|log10|max|min|modf|noise|pow|rad|random|randomseed|round|sign|sin|sinh|sqrt|tan|tanh)\b(?=\s*(?:[({]))/,
         alias: 'builtin'
