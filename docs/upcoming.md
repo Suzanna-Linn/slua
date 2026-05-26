@@ -49,25 +49,25 @@ Implementing the native integer library brings several benefits to developers wo
 - Rich Utility Set: It includes built-in functions designed for low-level diagnostics and manipulations, such as counting leading or trailing zeros, byte-swapping (for endianness conversion), and precise division behaviors.
 
 A character `i` may be specified at the end of numeric literals to signify a 64-bit integer literal. 64-bit integer literals support separators, hexadecimal, and binary values:
-<pre class="language-slua"><code class="language-slua">--creating integers
+<pre class="language-sluab"><code class="language-sluab">--creating integers
 local a = 123i
 local b = 1_000i
 local c = 0xABABi
 local d = 0b1000_1000i</code></pre>
 
 Binary and hexadecimal literals can specify the full value including the sign bit:
-<pre class="language-slua"><code class="language-slua">--creating integers
+<pre class="language-sluab"><code class="language-sluab">--creating integers
 local e = 0xFFFF_FFFF_FFFF_FFFFi -- -1i
 local f = 0b11111111_11111111_11111111_11111111_11111111_11111111_11111111_11111111i -- -1i</code></pre>
 
 Integer values have a built-in equality comparison, but do not have any other operators or metamethods defined.
-<pre class="language-slua"><code class="language-slua">--equality operators are the only operators available
+<pre class="language-sluab"><code class="language-sluab">--equality operators are the only operators available
 local myInt = 42i
 print(myInt == 100i)  -- > false
 print(myInt ~= 100i)  -- > true</code></pre>
 
 Negative integer literals are only allowed when unary - is applied to the literal directly:
-<pre class="language-slua"><code class="language-slua">--negative integer literals
+<pre class="language-sluab"><code class="language-sluab">--negative integer literals
 local g = -123i
 local h = -0b1000i</code></pre>
 
@@ -211,7 +211,7 @@ Writes a 64-bit integer into the buffer at the specified byte offset.
 - **`string.format`**  
   supports integer arguments.
 
-<pre class="language-slua"><code class="language-slua">-- Defining 64-bit integer literals using the 'i' suffix
+<pre class="language-sluab"><code class="language-sluab">-- Defining 64-bit integer literals using the 'i' suffix
 local a = 922337203685477580i    -- Signed 64-bit integer
 local b = 0xFFFF_FFFF_FFFF_FFFFi -- -1i in hexadecimal representation
 local mask = 0b0000_1111i        -- Binary format with digit separators
@@ -284,7 +284,7 @@ Standardized Syntax: By introducing dedicated keywords for class declarations, t
 
 New constants added to the math library:
 
-<pre class="language-slua"><code class="language-slua">-- new constants
+<pre class="language-slua"><code class="language-sluab">-- new constants
 print(math.nan)	   -- > nan                      -- 0/0
 print(math.e)		   -- > 2.71828182845904523536	 -- math.exp(1)
 print(math.phi)	   -- > 1.61803398874989484820	 -- the golden ratio
