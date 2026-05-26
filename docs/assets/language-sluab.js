@@ -18,7 +18,7 @@ Prism.languages.sluab = {
         pattern: /(["'])(?:(?!\1)[^\\\r\n]|\\z(?:\r\n|\s)|\\(?:\r\n|[^z]))*\1|\[(=*)\[[\s\S]*?\]\2\]/,
         greedy: true
     },
-    'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*\.\B|\b\d+(?:_\d+)*(?:\.\d*)?(?:e[+-]?\d+)?i?\b|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
+    'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?i?\b)|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
     'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
     'continue': {
         pattern: /\bcontinue\b(?!\s*(\.|\[|:|{|=|"|'|,|\())/,
@@ -41,7 +41,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-math-constant': {
-        pattern: /\bmath\.(?:pi|huge)\b/,
+        pattern: /\bmath\.(?:e|huge|nan|phi|pi|sqrt2|tau)\b/,
         alias: 'builtin'
     },
     'builtin-table': {
