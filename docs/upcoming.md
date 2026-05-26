@@ -211,6 +211,52 @@ Writes a 64-bit integer into the buffer at the specified byte offset.
 - **`string.format`**  
   supports integer arguments.
 
+<pre class="language-slua"><code class="language-slua">-- Defining 64-bit integer literals using the 'i' suffix
+local a = 922337203685477580i    -- Signed 64-bit integer
+local b = 0xFFFF_FFFF_FFFF_FFFFi -- -1i in hexadecimal representation
+local mask = 0b0000_1111i        -- Binary format with digit separators
+
+-- 2Parsing and converting safely
+-- integer.create converts a double 'number' to 'integer'. 
+-- It returns nil if the conversion isn't exact (e.g., fractional, NaN, or out of range).
+local num_val = 42.0
+local from_num = integer.create(num_val) 
+
+-- integer.fromstring parses strings (with optional bases between 2 and 36)
+local parsed_int = integer.fromstring("123456789012345", 10)
+
+-- Arithmetic operations (Since direct '+' or '*' operators are not supported)
+-- We must ensure the arguments are strictly 'integer' types.
+if from_num and parsed_int then
+    -- Addition
+    local sum = integer.add(from_num, parsed_int)
+    
+    -- Multiplication
+    local product = integer.mul(sum, 2i)
+    
+    -- Truncated signed division
+    local quotient = integer.div(product, 3i)
+    
+    -- Remainder of truncated division
+    local remainder = integer.rem(product, 3i)
+
+    print(string.format("Quotient: %d, Remainder: %d", quotient, remainder))
+end
+
+-- Unsigned division helpers (prefixed with 'u')
+local large_val = 0xFFFFFFFFFFFFFFFFi -- Interpreted as unsigned max
+local half_unsigned = integer.udiv(large_val, 2i)
+
+-- Bitwise Operations
+local bit_val = 1i
+-- Left shift (Note: the shift amount 'i' must also be an 'integer' type)
+local shifted = integer.lshift(bit_val, 4i) -- Represents 16i
+local bitwise_and = integer.band(shifted, mask) -- 16i AND 15i -> 0i
+
+-- Constants
+local max_val = integer.maxsigned -- 2^63 - 1
+local min_val = integer.minsigned -- -2^63</code></pre>
+
 ### class
 
 The native class feature in Luau is a built-in language construct designed to define object-oriented class structures directly. It introduces dedicated contextual keywords (such as class, along with visibility modifiers like public) to natively declare constructor behaviors, instance fields, and methods.
