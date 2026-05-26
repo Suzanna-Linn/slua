@@ -73,7 +73,7 @@ end
 const b = 1
 const b = 2 -- also ok: redeclaring a constant in same scope</code></pre>
 
-**const** is a contextual keyword that is only valid in positions where local is valid. This makes the introduction fully backwards compatible with existing code:
+**const** is a contextual keyword that is only valid in positions where **local** is valid. This makes the introduction fully backwards compatible with existing code:
 <pre class="language-sluab"><code class="language-sluab">-- using const as identifier (but better don't do it)
 const const = 1
 print(const) --> 1</code></pre>
@@ -84,7 +84,7 @@ print(const) --> 1</code></pre>
 
 *status: implemented, in testing, not released.*
 
-The **integer** library in Lua introduces native support for the new 64-bit integer built-in type and provides a suite of dedicated functions to perform arithmetic, bitwise, and logical operations with them.
+The **integer** library introduces native support for the new 64-bit integer built-in type and provides a suite of dedicated functions to perform arithmetic, bitwise, and logical operations with them.
 
 Historically, Lua represented all numeric values using 64-bit double-precision floating-point numbers, which limits lossless integer representation to 53 bits. The integer library addresses this limitation, offering full 64-bit precision for complex calculations, low-level data processing, and large-value tracking.
 
@@ -97,8 +97,8 @@ Using a library-driven design instead of operator overloading provides:
 
 Implementing the native integer library brings several benefits to developers working on performance-critical or low-level systems:
 - Full 64-bit Precision: By supporting the full range of 64-bit integers, the library allows for precise calculations involving values larger than 2^53.
-- Native Execution Performance: Utilizing a native value type rather than emulating 64-bit arithmetic through complex user-space alternatives improves execution speed. The underlying engine can translate these operations directly to native CPU instructions.
-- Low-Level Buffer and Binary Integration: The library integrates directly with Lua’s buffer utilities, facilitating efficient binary data parsing, custom serialization, and native format handling.
+- Native Execution Performance: Utilizing a native value type rather than emulating 64-bit arithmetic through complex user-space alternatives improves execution speed. The underlying engine can translate these operations directly to native instructions.
+- Low-Level Buffer and Binary Integration: The library integrates directly with buffer utilities, facilitating efficient binary data parsing, custom serialization, and native format handling.
 - Rich Utility Set: It includes built-in functions designed for low-level diagnostics and manipulations, such as counting leading or trailing zeros, byte-swapping (for endianness conversion), and precise division behaviors.
 
 A character `i` may be specified at the end of numeric literals to signify a 64-bit integer literal. 64-bit integer literals support separators, hexadecimal, and binary values:
@@ -264,7 +264,9 @@ Writes a 64-bit integer into the buffer at the specified byte offset.
 - **`string.format`**  
   supports integer arguments.
 
-<pre class="language-sluab"><code class="language-sluab">-- Defining 64-bit integer literals using the 'i' suffix
+<pre class="language-sluab"><code class="language-sluab">-- examples with integer
+
+-- Defining 64-bit integer literals using the 'i' suffix
 local a = 922337203685477580i    -- Signed 64-bit integer
 local b = 0xFFFF_FFFF_FFFF_FFFFi -- -1i in hexadecimal representation
 local mask = 0b0000_1111i        -- Binary format with digit separators
@@ -366,10 +368,10 @@ Class definitions are a block construct, enclosed in **class** and **end**:
 - They can only be written at the topmost scope.
 - Defining two classes with the same name in the same module is forbidden.
 - Within a class block, two declarations are allowed: Fields and methods.
-  - Fields are introduced with the new **public** keyword. In the future a `private` keyword will be added.
+  - Fields are introduced with the new **public** keyword. In the future **private** and **const** keywords will be added.
   - Methods are introduced with the function keyword. **public function** is also permitted.
 
-Methods defined on class objects can be accessed either via **Class.method()** or **instance:method()^^ syntax.
+Methods defined on class objects can be accessed either via **Class.method()** or **instance:method()** syntax.
 - If a method’s first argument is named **self**, it should be invoked with the **instance:method()** call syntax. This is not strictly required, but the compiler and optimizers may deoptimize code that doesn’t.
 - If a method accepts no arguments or if its first argument is not named self, it should be invoked via the **Class.method()** syntax. This is the same as “static methods” from other languages.
 
@@ -404,13 +406,15 @@ typeof(Cls) == "class"
 type(inst) == "object"
 typeof(inst) == "object"</code></pre>
 
-The **class** library
+The **class** library  
 A new library for classes.
 
 - **`class.isinstance(o: object, C: class): boolean`**  
 Returns true if the object o is an instance of the class C.
 - **`class.classof(o: object): class`**  
 Returns the class of the object o.
+
+Inheritance and generic classes might be added in the future.
 
 <pre class="language-sluab"><code class="language-sluab">-- example of a class
 class Spaceship
@@ -456,13 +460,13 @@ myShip:travel(200)          -- Output: Galactica lacks the fuel to travel 200 li
 
 *status: ready for development, not implemented.*
 
-The **export** keyword serves as a mechanism to expose definitions from a module script so they can be accessed by other scripts that import it via require.
+The **export** keyword serves as a mechanism to expose definitions from a module script so they can be accessed by other scripts that import it via **require()**.
 
-**export** support variables and functions (export local, export const, and export function). This eliminates the need to manually construct and return a table at the end of a module script.
+**export** support variables and functions (**export local**, **export const**, and **export function**). This eliminates the need to manually construct and return a table at the end of a module script.
 
 We can export types, variables, and functions at the top level of our module. The compiler automatically packages these into an exported module structure, meaning no return statement is needed at the bottom of the script.
 
-The **export** contextual keyword is allowed anywhere before variable and function declarations at the top level of a module, including local, const and function declarations.
+The **export** contextual keyword is allowed anywhere before variable and function declarations at the top level of a module, including **local**, **const** and **function** declarations.
 
 <pre class="language-sluab"><code class="language-sluab">-- exporting in a module script
 
@@ -476,7 +480,7 @@ export function areaOfCircle(radius)
 end</code></pre>
 
 Advantages of **export** compared to **return**
-- Boilerplate: just prefix top-level variables/functions with export, no need to define a local table, bind methods to it, and manually return it.
+- Boilerplate: we just prefix top-level variables/functions with export, no need to define a local table, bind methods to it, and manually return it.
 - Reassignability: exported values are immutable, protecting them from accidental reassignment.
 - Performance Optimizations: immutability unlocks cross-module inlining and constant folding.
 
