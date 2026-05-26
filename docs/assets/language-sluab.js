@@ -35,6 +35,10 @@ Prism.languages.sluab = {
         pattern: /\bpublic(?=\s+(?:function\b|[a-zA-Z_]\w*))/,
         alias: 'keyword'
     },
+    'export': {
+        pattern: /\bexport(?=\s+(?:local|const|function)\b)/,
+        alias: 'keyword'
+    },
     'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
     'builtin-math': {
         pattern: /\bmath\.(?:abs|acos|asin|atan|atan2|ceil|clamp|cos|cosh|deg|exp|floor|fmod|frexp|isfinite|isinf|isnan|ldexp|log|log10|max|min|modf|noise|pow|rad|random|randomseed|round|sign|sin|sinh|sqrt|tan|tanh)\b(?=\s*(?:[({]))/,
