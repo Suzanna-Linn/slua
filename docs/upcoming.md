@@ -486,7 +486,7 @@ Advantages of **export** compared to **return**
 
 *Luau RFC: [Export by Value](https://rfcs.luau.org/export-keyword.html)*
 
-## math library constants
+### math library constants
 
 *status: released, we can use it in Luau.*
 
