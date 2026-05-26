@@ -261,7 +261,7 @@ local a = 922337203685477580i    -- Signed 64-bit integer
 local b = 0xFFFF_FFFF_FFFF_FFFFi -- -1i in hexadecimal representation
 local mask = 0b0000_1111i        -- Binary format with digit separators
 
--- 2Parsing and converting safely
+-- Parsing and converting safely
 -- integer.create converts a 'number' to 'integer'. 
 -- It returns nil if the conversion isn't exact (e.g., fractional, NaN, or out of range).
 local num_val = 42.0
@@ -432,7 +432,7 @@ class Spaceship
     end
 end
 
--- Instantiation automatically utilizes the defined constructor
+-- Instantiation with the defined constructor
 local myShip = Spaceship.new("Galactica", 100)
 
 -- Calling methods on the instance
