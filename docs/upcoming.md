@@ -31,7 +31,7 @@ The **const** keyword offers several practical benefits for codebase maintenance
 
 ### integer
 
-The **integer** library in Luau introduces native support for 64-bit integer values and provides a suite of dedicated functions to perform arithmetic, bitwise, and logical operations with them.
+The **integer** library in Luau introduces native support for the new 64-bit integer built-in type and provides a suite of dedicated functions to perform arithmetic, bitwise, and logical operations with them.
 
 Historically, Lua represented all numeric values using 64-bit double-precision floating-point numbers, which limits lossless integer representation to 53 bits. The integer library addresses this limitation, offering full 64-bit precision for complex calculations, low-level data processing, and large-value tracking.
 
@@ -48,9 +48,30 @@ Implementing the native integer library brings several benefits to developers wo
 - Low-Level Buffer and Binary Integration: The library integrates directly with Lua’s buffer utilities, facilitating efficient binary data parsing, custom serialization, and native format handling.
 - Rich Utility Set: It includes built-in functions designed for low-level diagnostics and manipulations, such as counting leading or trailing zeros, byte-swapping (for endianness conversion), and precise division behaviors.
 
-Here is the reorganized list of Luau `integer` library functions, grouped by functional categories and formatted in Markdown.
+A character `i` may be specified at the end of numeric literals to signify a 64-bit integer literal. 64-bit integer literals support separators, hexadecimal, and binary values:
+<pre class="language-slua"><code class="language-slua">--creating integers
+local a = 123i
+local b = 1_000i
+local c = 0xABABi
+local d = 0b1000_1000i</code></pre>
 
----
+Binary and hexadecimal literals can specify the full value including the sign bit:
+<pre class="language-slua"><code class="language-slua">--creating integers
+local e = 0xFFFF_FFFF_FFFF_FFFFi -- -1i
+local f = 0b11111111_11111111_11111111_11111111_11111111_11111111_11111111_11111111i -- -1i</code></pre>
+
+Integer values have a built-in equality comparison, but do not have any other operators or metamethods defined.
+<pre class="language-slua"><code class="language-slua">--equality operators are the only operators available
+local myInt = 42i
+print(myInt == 100i)  -- > false
+print(myInt ~= 100i)  -- > true</code></pre>
+
+Negative integer literals are only allowed when unary - is applied to the literal directly:
+<pre class="language-slua"><code class="language-slua">--negative integer literals
+local g = -123i
+local h = -0b1000i</code></pre>
+
+Integers are never automatically converted to numbers or strings, and vice-versa. Passing an integer to a function expecting a number (or string) will result in a type error.
 
 #### Conversion and Creation
 Functions for converting other types to and from the `integer` type.
@@ -165,6 +186,30 @@ Helper functions to clamp values or find extremes.
   Returns the largest of the integer arguments.
 - **`integer.clamp(a: integer, min: integer, max: integer): integer`**  
   Clamps the value `a` to the range `[min, max]`. Errors if `min > max`.
+
+#### Constants
+- **`integer.maxsigned: integer`** 
+  Integer value representing 2^63-1 (9_223_372_036_854_775_807i)
+- **`integer.minsigned: integer`** 
+  Integer value representing -2^63 (-9_223_372_036_854_775_808i)
+
+#### Buffer library
+Functions added to the buffer library to work with integers.
+
+- **`buffer.readinteger(b: buffer, offset: number): integer`** 
+Reads a 64-bit integer from the buffer at the specified byte offset.
+- **`buffer.writeinteger(b: buffer, offset: number, value: integer): ()`** 
+Writes a 64-bit integer into the buffer at the specified byte offset.
+
+#### Changes in existing functions
+- **`tostring`** 
+  converts an integer to a string representation in signed form with no ‘i’ suffix.
+- **`rawequal`** 
+  compares integers for equality.
+- **`type`**  and **`typeof`** 
+  return “integer” for an integer value.
+- **`string.format`** 
+  supports integer arguments.
 
 ### class
 
