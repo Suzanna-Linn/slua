@@ -12,7 +12,7 @@ slua_beta: true
 
 The **const** keyword is designed for declaring local variables that cannot be reassigned after their initial value is set, providing a way to enforce read-only variables within a script.
 
-The **const** keyword offers several practical benefits for codebase maintenance, safety, and development workflow:
+**const** offers several practical benefits for codebase maintenance, safety, and development workflow:
 - Accidental Reassignment Protection: Restricting reassignment helps eliminate accidentally overwriting of variables or functions.
 - Clear Developer Intent: Using constant declarations makes code more self-documenting. It explicitly communicates which variables are intended to remain unchanged throughout their lifecycle.
 - Early Bug Detection: Because reassignment is checked at the compiler level, tools like linters and script analyzers can detect invalid reassignments immediately.
