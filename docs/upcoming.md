@@ -6,7 +6,13 @@ slua_beta: true
 
 ## Upcoming Luau Features in SLua
 
+**IMPORTANT!!!** These features are **NOT** in SLua yet. They will arrive in a more or less near future.
 
+Some of them are already released in Luau, they can be used here:
+- Roblox Studio: <https://create.roblox.com/docs/studio/setting-up-roblox-studio#installing-studio>
+- Luau Playground: <https://play.luau.org>
+
+Others are in development in Luau.
 
 ### const
 
@@ -71,6 +77,8 @@ const b = 2 -- also ok: redeclaring a constant in same scope</code></pre>
 <pre class="language-sluab"><code class="language-sluab">-- using const as identifier (but better don't do it)
 const const = 1
 print(const) --> 1</code></pre>
+
+*Luau RFC: [Const Keyword](https://rfcs.luau.org/const-keyword.html)*
 
 ### integer
 
@@ -302,6 +310,8 @@ local bitwise_and = integer.band(shifted, mask) -- 16i AND 15i -> 0i
 local max_val = integer.maxsigned -- 2^63 - 1
 local min_val = integer.minsigned -- -2^63</code></pre>
 
+*Luau RFC: [64-bit Integer Type](https://rfcs.luau.org/type-long-integer.html)*
+
 ### class
 
 *status: implemented, in testing, not released.*
@@ -440,6 +450,8 @@ myShip:toggleShields()      -- Output: Shields for Galactica are now ON.
 myShip:travel(40)           -- Output: Galactica traveled 40 lightyears. Fuel remaining: 80
 myShip:travel(200)          -- Output: Galactica lacks the fuel to travel 200 lightyears!</code></pre>
 
+*Luau RFC: [Classes](https://rfcs.luau.org/syntax-classes.html)*
+
 ### export
 
 *status: ready for development, not implemented.*
@@ -459,16 +471,16 @@ export local version = "1.0.0"
 export const PI = 3.14159
 
 -- Exporting a function (implicitly treated as const)
-export function getDistance(p1: Point, p2: Point)
-    local dx = p2.x - p1.x
-    local dy = p2.y - p1.y
-    return math.sqrt(dx * dx + dy * dy)
+export function areaOfCircle(radius)
+    return PI * (radius ^ 2)
 end</code></pre>
 
 Advantages of **export** compared to **return**
 - Boilerplate: just prefix top-level variables/functions with export, no need to define a local table, bind methods to it, and manually return it.
 - Reassignability: exported values are immutable, protecting them from accidental reassignment.
 - Performance Optimizations: immutability unlocks cross-module inlining and constant folding.
+
+*Luau RFC: [Export by Value](https://rfcs.luau.org/export-keyword.html)*
 
 ## math library constants
 
@@ -482,3 +494,5 @@ print(math.e)      -- > 2.71828182845904523536	 -- math.exp(1)
 print(math.phi)	   -- > 1.61803398874989484820	 -- the golden ratio
 print(math.sqrt2)  -- > 1.41421356237309504880	 -- math.sqrt(2)
 print(math.tau)	   -- > 6.28318530717958647692	 -- 2 * math.pi</code></pre>
+
+*Luau RFC: [Math constants](https://rfcs.luau.org/math-constants.html)*
