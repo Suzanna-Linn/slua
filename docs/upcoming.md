@@ -72,7 +72,7 @@ print(const) --> 1</code></pre>
 
 ### integer
 
-The **integer** library in Luau introduces native support for the new 64-bit integer built-in type and provides a suite of dedicated functions to perform arithmetic, bitwise, and logical operations with them.
+The **integer** library in Lua introduces native support for the new 64-bit integer built-in type and provides a suite of dedicated functions to perform arithmetic, bitwise, and logical operations with them.
 
 Historically, Lua represented all numeric values using 64-bit double-precision floating-point numbers, which limits lossless integer representation to 53 bits. The integer library addresses this limitation, offering full 64-bit precision for complex calculations, low-level data processing, and large-value tracking.
 
@@ -300,26 +300,132 @@ local min_val = integer.minsigned -- -2^63</code></pre>
 
 ### class
 
-The native class feature in Luau is a built-in language construct designed to define object-oriented class structures directly. It introduces dedicated contextual keywords (such as class, along with visibility modifiers like public) to natively declare constructor behaviors, instance fields, and methods.
-Comparison: Metatable-Based OOP vs. Native Classes
+The native **class** feature is a built-in language construct designed to define object-oriented class structures directly.
+
+It introduces dedicated contextual keywords (such as class, along with visibility modifiers like public) to natively declare constructor behaviors, instance fields, and methods.
+
+Comparing: Metatable-Based OOP vs. Native Classes
+
 The Metatable Way (Traditional)
-Traditionally, Luau emulates object-oriented programming (OOP) using prototype-based patterns via standard tables and metatables. An instance is created by assigning a table a metatable whose fallback metamethod points to a prototype table containing the class's methods.
-While functional, this approach has several drawbacks:
-Fragile Type Annotations: Type-checking metatables in Luau is historically complex. To make classes type-safe in strict mode, developers must often write verbose type aliases, manually separate instance properties from methods, and manage complex intersection types.
-No Built-in Encapsulation: Standard tables do not easily support private or protected fields without creating separate closures for every instance, which causes high memory overhead.
-Boilerplate Code: Every class requires repetitive boilerplate to hook up the metatable, configure the index fallback, and define custom instantiation behaviors.
-The Native class Way
-Instead of relying on runtime table manipulation, native classes allow you to declare the entire structure of an object within a single, cohesive block. Instance fields, accessibility modifiers, initialization parameters, and methods are defined formally. This shifts class definition from a dynamic, emulated runtime mechanism to a structured, compile-time construct.
-Key Advantages of Native Classes
-Direct Type-System Integration: Metatable-based classes are notoriously difficult for Luau's gradual type checker to analyze. Native classes resolve this by allowing the type checker to easily recognize and validate properties, method signatures, and constructor requirements out of the box, without requiring manual and fragile type-mapping boilerplate.
-Performance and Cache Locality: Standard tables are dynamically sized, hashed structures, and resolving methods through metatables requires traversing index chains at runtime. Native classes allow the virtual machine to allocate instances with a fixed, predictable memory layout. This improves cache locality and enables the compiler to optimize property and method lookups.
-Encapsulation and Access Control: The introduction of access modifiers (such as public and private designations) provides formal boundaries for class interfaces. This prevents external scripts from modifying or accessing internal class states, which was previously difficult to enforce cleanly using standard tables.
-Standardized Syntax: By introducing dedicated keywords for class declarations, the feature establishes a uniform way to write object-oriented code. This reduces the variety of custom class implementations across different libraries and frameworks, making large codebases easier to read, maintain, and share.
+- Traditionally, Lua emulates object-oriented programming (OOP) using prototype-based patterns via standard tables and metatables. An instance is created by assigning a table a metatable whose fallback metamethod points to a prototype table containing the class's methods.
+- While functional, this approach has several drawbacks:
+  - Boilerplate Code: Every class requires repetitive boilerplate to hook up the metatable, configure the index fallback, and define custom instantiation behaviors.
+  - No Built-in Encapsulation: Standard tables do not easily support private or protected fields without creating separate closures for every instance, which causes high memory overhead.
+  - Fragile Type Annotations: Type-checking metatables in Lua is complex. To make classes type-safe in strict mode, developers must often write verbose type aliases, manually separate instance properties from methods, and manage complex intersection types.
+
+The Native class Way (New)
+- Instead of relying on runtime table manipulation, native classes allow us to declare the entire structure of an object within a single, cohesive block. Instance fields, accessibility modifiers, initialization parameters, and methods are defined formally. This shifts class definition from a dynamic, emulated runtime mechanism to a structured, compile-time construct.
+- Key Advantages of Native Classes:
+  - Standardized Syntax: By introducing dedicated keywords for class declarations, the feature establishes a uniform way to write object-oriented code. This reduces the variety of custom class implementations across different libraries and frameworks, making large codebases easier to read, maintain, and share.
+  - Encapsulation and Access Control: The introduction of access modifiers (such as public and private designations) provides formal boundaries for class interfaces. This prevents external scripts from modifying or accessing internal class states, which was previously difficult to enforce cleanly using standard tables.
+  - Performance and Cache Locality: Standard tables are dynamically sized, hashed structures, and resolving methods through metatables requires traversing index chains at runtime. Native classes allow the virtual machine to allocate instances with a fixed, predictable memory layout. This improves cache locality and enables the compiler to optimize property and method lookups.
+  - Direct Type-System Integration: Metatable-based classes are difficult for Lua's gradual type checker to analyze. Native classes resolve this by allowing the type checker to easily recognize and validate properties, method signatures, and constructor requirements out of the box, without requiring manual and fragile type-mapping boilerplate.
+
+<pre class="language-sluab"><code class="language-sluab">-- example of class
+class Point
+    public x
+    public y
+
+    function length(self)
+        return math.sqrt(self.x * self.x + self.y * self.y)
+    end
+
+    function __add(self, other: Point)
+        return Point { x = self.x + other.x, y = self.y + other.y }
+    end
+
+    function __tostring(self)
+        return `Point \{ x = {self.x}, y = {self.y} \}`
+    end
+
+    function new(x, y)
+        return Point { x = x, y = y }
+    end
+end
+
+local p = Point.new(3, 4)
+print(`my point: {p}  length = {p:length()}`)</code></pre>
+
+Class definitions are a block construct, enclosed in **class** and **end**:
+- They can only be written at the topmost scope.
+- Defining two classes with the same name in the same module is forbidden.
+- Within a class block, two declarations are allowed: Fields and methods.
+  - Fields are introduced with the new **public** keyword. In the future a `private` keyword will be added.
+  - Methods are introduced with the function keyword. **public function** is also permitted.
+
+Methods defined on class objects can be accessed either via **Class.method()** or **instance:method()^^ syntax.
+- If a method’s first argument is named **self**, it should be invoked with the **instance:method()** call syntax. This is not strictly required, but the compiler and optimizers may deoptimize code that doesn’t.
+- If a method accepts no arguments or if its first argument is not named self, it should be invoked via the **Class.method()** syntax. This is the same as “static methods” from other languages.
+
+To create a new instance of a class, we invoke it as if it were a function. It accepts one argument: A table that describes the initial values of all its properties.
+- If more customization is desired, static factory functions (frequently named new() or create()) are an easy, familiar way to accomplish this.
+
+Classes can define the following metamethods. They all work just like they do on a metatable:
+- __unm, __add, __sub, __mul, __div, __idiv, __mod, __pow
+- __eq, __lt, __le
+- __concat, __tostring
+- __call, __iter
+- __len
+
+SLua might also define **__tojson**.
+
+There are two new datatypes: **"class"** and **"object"**:
+- The datatype **"class"** serves as a factory for instances of the class and as a namespace for any functions that are defined on the class.
+  - They are always const and frozen.
+  - To construct an instance of a class, we call the class as though it were a function. It accepts a single argument: a table that contains initial values for all the fields.
+- The datatype **"object"** is the instance of the class, similar but not quite the same as a table.
+  - **pairs**, **ipairs** , **getmetatable**, and **setmetatable** do not work on class instances. They also cannot be iterated over with the generic **for** loop. (unless the class implements **__iter**)
+  - Reading or writing a nonexistent class property throws an error. This makes it easy to disambiguate between a nonexistent property and a property whose value is nil.
+  - Comparisons between instances is the same as with tables: If **__eq** is not defined, object comparisons use reference equality. **__eq** is only invoked if both operands are the same type.
+
+<pre class="language-sluab"><code class="language-sluab">-- new datatypes "class" and "object"
+class Cls end
+local inst = Cls {}
+
+type(Cls) == "class"
+typeof(Cls) == "class"
+
+type(inst) == "object"
+typeof(inst) == "object"</code></pre>
+
+The **class** library
+A new library for classes.
+
+- **`class.isinstance(o: object, C: class): boolean`**  
+Returns true if the object o is an instance of the class C.
+- **`class.classof(o: object): class`**  
+Returns the class of the object o.
+
+
 
 
 ### export
 
+The **export** keyword serves as a mechanism to expose definitions from a module script so they can be accessed by other scripts that import it via require.
 
+**export** support variables and functions (export local, export const, and export function). This eliminates the need to manually construct and return a table at the end of a module script.
+
+We can export types, variables, and functions at the top level of our module. The compiler automatically packages these into an exported module structure, meaning no return statement is needed at the bottom of the script.
+
+The **export** contextual keyword is allowed anywhere before variable and function declarations at the top level of a module, including local, const and function declarations.
+
+<pre class="language-sluab"><code class="language-sluab">-- exporting in a module script
+
+-- Exporting variables (using local or const)
+export local version = "1.0.0"
+export const PI = 3.14159
+
+-- Exporting a function (implicitly treated as const)
+export function getDistance(p1: Point, p2: Point)
+    local dx = p2.x - p1.x
+    local dy = p2.y - p1.y
+    return math.sqrt(dx * dx + dy * dy)
+end</code></pre>
+
+Advantages of **export** compared to **return**
+- Boilerplate: just prefix top-level variables/functions with export, no need to define a local table, bind methods to it, and manually return it.
+- Reassignability: exported values are immutable, protecting them from accidental reassignment.
+- Performance Optimizations: immutability unlocks cross-module inlining and constant folding.
 
 ## math library constants
 
@@ -327,7 +433,7 @@ New constants added to the math library:
 
 <pre class="language-slua"><code class="language-sluab">-- new constants
 print(math.nan)	   -- > nan                      -- 0/0
-print(math.e)		   -- > 2.71828182845904523536	 -- math.exp(1)
+print(math.e)      -- > 2.71828182845904523536	 -- math.exp(1)
 print(math.phi)	   -- > 1.61803398874989484820	 -- the golden ratio
-print(math.sqrt2)	 -- > 1.41421356237309504880	 -- math.sqrt(2)
+print(math.sqrt2)  -- > 1.41421356237309504880	 -- math.sqrt(2)
 print(math.tau)	   -- > 6.28318530717958647692	 -- 2 * math.pi</code></pre>
