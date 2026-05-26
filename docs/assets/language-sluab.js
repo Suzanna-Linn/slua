@@ -23,8 +23,8 @@ Prism.languages.sluab = {
         pattern: /\bcontinue\b(?!\s*(\.|\[|:|{|=|"|'|,|\())/,
         alias: 'keyword'
     },
-    'const': {
-        pattern: /\bconst(?=[ \t]+(?:function\b|[a-zA-Z_]\w*[^=\r\n]*(?<![~<>=+*\/%^\-.])=(?!=)))/,
+    'export': {
+        pattern: /\bexport(?=\s+(?:local|const|function)\b)/,
         alias: 'keyword'
     },
     'class': {
@@ -35,8 +35,8 @@ Prism.languages.sluab = {
         pattern: /\bpublic(?=\s+(?:function\b|[a-zA-Z_]\w*))/,
         alias: 'keyword'
     },
-    'export': {
-        pattern: /\bexport(?=\s+(?:local|const|function)\b)/,
+    'const': {
+        pattern: /\bconst(?=[ \t]+(?:function\b|[a-zA-Z_]\w*[^=\r\n]*(?<![~<>=+*\/%^\-.])=(?!=)))/,
         alias: 'keyword'
     },
     'keyword': /\b(?:and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b/,
