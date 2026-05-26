@@ -20,7 +20,7 @@ The **const** keyword is designed for declaring local variables that cannot be r
 
 It can be used in any context where a local variable declaration is valid, with **const** instead of **local**. They must be initialized in the declaration:
 
-<pre class="language-sluab"><code class="language-slua">-- declaring constants
+<pre class="language-sluab"><code class="language-sluab">-- declaring constants
 const x = 5
 const tab = { a = 1 }
 
@@ -41,7 +41,7 @@ A key aspect of the const keyword is the distinction between binding immutabilit
   - For primitive types (such as numbers, booleans, and strings), the variable is effectively constant because the types themselves cannot be mutated.
   - For reference types (such as tables), the variable cannot be reassigned to point to a new table, but the internal elements or properties of the table can still be modified.
 
-<pre class="language-sluab"><code class="language-slua">-- constant tables
+<pre class="language-sluab"><code class="language-sluab">-- constant tables
 
 -- constant tables can be modified
 const tab = { count = 0 }
@@ -52,12 +52,11 @@ t.count += 1 -- ok (modifying the table)
 const t = table.freeze({
 	count = 0,
 })
-
 -- t.count += 1 -- error (modifying a frozen table)
 -- t = {}       -- error (reassigning the constant)</code></pre>
 
-Constant bindings support standard scoping and shadowing rules, meaning a constant can still be shadowed by a new declaration in a nested or subsequent scope:
-<pre class="language-sluab"><code class="language-slua">-- shadowing constants
+Constant support standard scoping and shadowing rules, meaning a constant can still be shadowed by a new declaration in a nested or subsequent scope:
+<pre class="language-sluab"><code class="language-sluab">-- shadowing constants
 const a = 1
 do
 	const a = 2 -- ok: new constant in inner scope
@@ -67,7 +66,7 @@ const b = 1
 const b = 2 -- also ok: redeclaring a constant in same scope</code></pre>
 
 **const** is a contextual keyword that is only valid in positions where local is valid. This makes the introduction fully backwards compatible with existing code:
-<pre class="language-sluab"><code class="language-slua">-- using const as identifier (but better don't do it)
+<pre class="language-sluab"><code class="language-sluab">-- using const as identifier (but better don't do it)
 const const = 1
 print(const) --> 1</code></pre>
 
