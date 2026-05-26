@@ -12,7 +12,28 @@ slua_beta: true
 
 The **const** keyword is designed for declaring local variables that cannot be reassigned after their initial value is set, providing a way to enforce read-only variables within a script.
 
-It can be used in any context where a local variable declaration is valid, with **const** instead of **local**.
+The **const** keyword offers several practical benefits for codebase maintenance, safety, and development workflow:
+- Accidental Reassignment Protection: Restricting reassignment helps eliminate accidentally overwriting of variables or functions.
+- Clear Developer Intent: Using constant declarations makes code more self-documenting. It explicitly communicates which variables are intended to remain unchanged throughout their lifecycle.
+- Early Bug Detection: Because reassignment is checked at the compiler level, tools like linters and script analyzers can detect invalid reassignments immediately.
+- Optimization Potential: When the compiler has a guarantee that a local variable will not be reassigned, it can optimize bytecode generation more effectively.
+
+It can be used in any context where a local variable declaration is valid, with **const** instead of **local**. They must be initialized in the declaration:
+
+<pre class="language-sluab"><code class="language-slua">-- declaring constants
+const x = 5
+const tab = { a = 1 }
+
+const a, b = 1, 2
+
+const function f()
+  -- do something
+end
+
+-- they can be initialized to nil
+const val = tab.b</code></pre>
+
+A **const** variable is equivalent to a variable declared with **local** however **const** variables cannot be reassigned after they are initialized.
 
 A key aspect of the const keyword is the distinction between binding immutability and value immutability:
 - Binding Immutability: Once a variable is declared with the **const** keyword, the variable name is permanently bound to the initialized reference. The compiler will prevent any subsequent attempt to reassign that variable to a different value.
@@ -20,14 +41,35 @@ A key aspect of the const keyword is the distinction between binding immutabilit
   - For primitive types (such as numbers, booleans, and strings), the variable is effectively constant because the types themselves cannot be mutated.
   - For reference types (such as tables), the variable cannot be reassigned to point to a new table, but the internal elements or properties of the table can still be modified.
 
-Constant bindings support standard  scoping and shadowing rules, meaning a constant can still be shadowed by a new declaration in a nested or subsequent scope.
+<pre class="language-sluab"><code class="language-slua">-- constant tables
 
-The **const** keyword offers several practical benefits for codebase maintenance, safety, and development workflow:
-- Accidental Reassignment Protection: Restricting reassignment helps eliminate accidentally overwriting of variables or functions.
-- Clear Developer Intent: Using constant declarations makes code more self-documenting. It explicitly communicates which variables are intended to remain unchanged throughout their lifecycle.
-- Early Bug Detection: Because reassignment is checked at the compiler level, tools like linters and script analyzers can detect invalid reassignments immediately.
-- Optimization Potential: When the compiler has a guarantee that a local variable will not be reassigned, it can optimize bytecode generation more effectively.
+-- constant tables can be modified
+const tab = { count = 0 }
+t.count += 1 -- ok (modifying the table)
+-- t = {}    -- error (reassigning the constant)
 
+-- we need to freeze the table for full immutability
+const t = table.freeze({
+	count = 0,
+})
+
+-- t.count += 1 -- error (modifying a frozen table)
+-- t = {}       -- error (reassigning the constant)</code></pre>
+
+Constant bindings support standard scoping and shadowing rules, meaning a constant can still be shadowed by a new declaration in a nested or subsequent scope:
+<pre class="language-sluab"><code class="language-slua">-- shadowing constants
+const a = 1
+do
+	const a = 2 -- ok: new constant in inner scope
+end
+
+const b = 1
+const b = 2 -- also ok: redeclaring a constant in same scope</code></pre>
+
+**const** is a contextual keyword that is only valid in positions where local is valid. This makes the introduction fully backwards compatible with existing code:
+<pre class="language-sluab"><code class="language-slua">-- using const as identifier (but better don't do it)
+const const = 1
+print(const) --> 1</code></pre>
 
 ### integer
 
@@ -217,7 +259,7 @@ local b = 0xFFFF_FFFF_FFFF_FFFFi -- -1i in hexadecimal representation
 local mask = 0b0000_1111i        -- Binary format with digit separators
 
 -- 2Parsing and converting safely
--- integer.create converts a double 'number' to 'integer'. 
+-- integer.create converts a 'number' to 'integer'. 
 -- It returns nil if the conversion isn't exact (e.g., fractional, NaN, or out of range).
 local num_val = 42.0
 local from_num = integer.create(num_val) 
@@ -249,7 +291,7 @@ local half_unsigned = integer.udiv(large_val, 2i)
 
 -- Bitwise Operations
 local bit_val = 1i
--- Left shift (Note: the shift amount 'i' must also be an 'integer' type)
+-- Left shift (Note: the shift amount must also be an 'integer' type)
 local shifted = integer.lshift(bit_val, 4i) -- Represents 16i
 local bitwise_and = integer.band(shifted, mask) -- 16i AND 15i -> 0i
 
