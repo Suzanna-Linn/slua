@@ -188,27 +188,27 @@ Helper functions to clamp values or find extremes.
   Clamps the value `a` to the range `[min, max]`. Errors if `min > max`.
 
 #### Constants
-- **`integer.maxsigned: integer`** 
+- **`integer.maxsigned: integer`**  
   Integer value representing 2^63-1 (9_223_372_036_854_775_807i)
-- **`integer.minsigned: integer`** 
+- **`integer.minsigned: integer`**  
   Integer value representing -2^63 (-9_223_372_036_854_775_808i)
 
 #### Buffer library
 Functions added to the buffer library to work with integers.
 
-- **`buffer.readinteger(b: buffer, offset: number): integer`** 
+- **`buffer.readinteger(b: buffer, offset: number): integer`**  
 Reads a 64-bit integer from the buffer at the specified byte offset.
-- **`buffer.writeinteger(b: buffer, offset: number, value: integer): ()`** 
+- **`buffer.writeinteger(b: buffer, offset: number, value: integer): ()`**  
 Writes a 64-bit integer into the buffer at the specified byte offset.
 
 #### Changes in existing functions
-- **`tostring`** 
+- **`tostring`**  
   converts an integer to a string representation in signed form with no ‘i’ suffix.
-- **`rawequal`** 
+- **`rawequal`**  
   compares integers for equality.
-- **`type`**  and **`typeof`** 
+- **`type`**  and **`typeof`**  
   return “integer” for an integer value.
-- **`string.format`** 
+- **`string.format`**  
   supports integer arguments.
 
 ### class
