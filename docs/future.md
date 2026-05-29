@@ -13,11 +13,11 @@ Let's look at some questions that we could have in mind about the future...
 
 **The release date is still unknown.**
 
-SLua is currently in its alpha stage on the beta grid.
+SLua is currently in its beta stage on the beta grid and some regions on the main grid.
 
-Residents can visit the beta grid to test it, report bugs, suggest improvements, and provide feedback on others' suggestions. Bugs are being fixed at a steady pace, and some suggestions are already being implemented. SLua is improving fast.
+Residents can test it, report bugs, suggest improvements, and provide feedback on others' suggestions. Bugs are being fixed at a steady pace, and some suggestions are already being implemented. SLua is improving fast.
 
-Once SLua reaches a stable state, it will move to a beta version, still on the beta grid, for further testing before its eventual release to the main grid. The entire process may take several months.
+Once SLua reaches a stable state, it will move to a finished version for further testing before its eventual general release to the main grid. The entire process may take a few months.
 
 
 ### Will LSL scripts benefit from being compiled to VM Luau instead of VM Mono?
@@ -31,9 +31,9 @@ The LSL scripts will run faster and we will have more free memory.
 
 ### Will SLua scripts have more memory?
 
-**Not for the moment.**
+**Yes.**
 
-Scripts will stay at 64k, but Luau’s efficiency means we can achieve more within the same memory constraints.
+Scripts in SLua (and also LSL compiled to Lua) will have 128k, and Luau’s efficiency means we can achieve more than double compared to LSL.
 
 
 ### Will LSL continue to exist?
