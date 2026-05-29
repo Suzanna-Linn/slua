@@ -47,6 +47,7 @@ title: Links
 
 ### SLua - Visual Studio Code extension
 
+* <https://marketplace.visualstudio.com/items?itemName=lindenlab.sl-vscode-plugin> Page to download the SL VSCode Plugin, from the Visual Studio marketplace.
 * <https://www.youtube.com/watch?v=kDUqf6adO28> WolfGang Senizen's tutorial to install the SL VSCode Plugin.
 * <https://github.com/secondlife/sl-vscode-plugin/releases> Page to download the SL VSCode Plugin, in development.
 * <https://github.com/JohnnyMorganz/luau-lsp> Luau-lsp by JohnnyMorganz, Luau VS Code extension (used with the SLua extension).
