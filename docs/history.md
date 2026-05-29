@@ -44,7 +44,7 @@ Lindens have chosen Luau (pronounced LOO-ow, "ow" like in "how" or "now").
 It's the scripting language used in Roblox, a platform for games developing, with more than 100 million users.
 Luau is also the name of a traditional Hawaiian party.
 So Lua is the language, and Luau is the implementation of the language. Probably we will be seeing both names indistinctly.
-Luau was developed in 2006, when Lua was at version 5.1. Since then, Luau has introduced its own new features, along with incorporating some of the updates from Lua, though not all. Standard Lua is currently at version 5.4.
+Luau was developed in 2006, when Lua was at version 5.1. Since then, Luau has introduced its own new features, along with incorporating some of the updates from Lua, though not all. Standard Lua is currently at version 5.5.
 
 ### SLua?
 
