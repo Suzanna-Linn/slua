@@ -458,7 +458,7 @@ myShip:travel(200)          -- Output: Galactica lacks the fuel to travel 200 li
 
 ### export
 
-*status: ready for development, not implemented.*
+*status: implemented, in testing, not released.*
 
 The **export** keyword serves as a mechanism to expose definitions from a module script so they can be accessed by other scripts that import it via **require()**.
 
