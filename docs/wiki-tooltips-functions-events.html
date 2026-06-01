@@ -23,16 +23,16 @@
             box-sizing: border-box;
         }
         
-        #jsonOutput {
-        margin-bottom: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #fcfcfc;
-        box-sizing: border-box;
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
         }
         
         .no-results {
@@ -56,7 +56,7 @@
 
     <input type="text" id="searchInput" placeholder="Search for functions and events...">
 
-    <pre><code id="jsonOutput" class="language-json"></code>
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
