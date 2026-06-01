@@ -12,7 +12,7 @@
             margin: 20px auto;
             background-color: #f4f4f9;
         }
-
+        
         #searchInput {
             width: 100%;
             padding: 12px;
@@ -22,12 +22,32 @@
             margin-bottom: 20px;
             box-sizing: border-box;
         }
-
+        
+        #jsonOutput {
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fcfcfc;
+        box-sizing: border-box;
+        }
+        
         .no-results {
             color: #888;
             font-style: italic;
         }
     </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
 </head>
 
 <body>
@@ -38,6 +58,11 @@
 
     <pre><code class="language-json"><div id="jsonOutput"></div></code></pre>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    
     <script>
         const lslData = {
   "llAbs": {
