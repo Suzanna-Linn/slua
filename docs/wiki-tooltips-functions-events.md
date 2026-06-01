@@ -1,10 +1,3 @@
----
-layout: default
-title: new tooltips for functions and events
-slua_beta: true
-json : true
----
-
 # New tooltips for functions and events
 
 <!DOCTYPE html>
@@ -4266,6 +4259,4703 @@ json : true
       }
     },
     "newtooltip": "Plays the attached sound looping indefinitely at the specified volume, synchronized to the most audible active Sync Master in ra
+nge."
+  },
+  "llMakeExplosion": {
+    "tooltip": "'Make a round explosion of particles. Deprecated: Use llParticleSystem instead.\\nMake a round explosion of particles using texture from the objects inventory. Deprecated: Use llParticleSystem instead.'",
+    "description": "Make a round explosion of particles",
+    "arguments": {
+      "Particles": {
+        "tooltip": "",
+        "newname": "particles",
+        "newtooltip": ""
+      },
+      "Scale": {
+        "tooltip": "",
+        "newname": "scale",
+        "newtooltip": ""
+      },
+      "Velocity": {
+        "tooltip": "",
+        "newname": "vel",
+        "newtooltip": ""
+      },
+      "Lifetime": {
+        "tooltip": "",
+        "newname": "lifetime",
+        "newtooltip": ""
+      },
+      "Arc": {
+        "tooltip": "",
+        "newname": "arc",
+        "newtooltip": ""
+      },
+      "Texture": {
+        "tooltip": "",
+        "newname": "texture",
+        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
+      },
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
+      }
+    },
+    "newtooltip": "Deprecated. Generates a circular explosion of particles. Use llParticleSystem instead."
+  },
+  "llMakeFire": {
+    "tooltip": "'Make fire like particles. Deprecated: Use llParticleSystem instead.\nMake fire particles using texture from the objects inventory. Deprecated: Use llParticleSystem instead.'",
+    "description": "Make fire like particles",
+    "arguments": {
+      "Particles": {
+        "tooltip": "",
+        "newname": "particles",
+        "newtooltip": ""
+      },
+      "Scale": {
+        "tooltip": "",
+        "newname": "scale",
+        "newtooltip": ""
+      },
+      "Velocity": {
+        "tooltip": "",
+        "newname": "vel",
+        "newtooltip": ""
+      },
+      "Lifetime": {
+        "tooltip": "",
+        "newname": "lifetime",
+        "newtooltip": ""
+      },
+      "Arc": {
+        "tooltip": "",
+        "newname": "arc",
+        "newtooltip": ""
+      },
+      "Texture": {
+        "tooltip": "",
+        "newname": "texture",
+        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
+      },
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
+      }
+    },
+    "newtooltip": "Deprecated. Generates fire-like particles. Use llParticleSystem instead."
+  },
+  "llMakeFountain": {
+    "tooltip": "'Make a fountain of particles. Deprecated: Use llParticleSystem instead.\nMake a fountain of particles using texture from the objects inventory. Deprecated: Use llParticleSystem instead.'",
+    "description": "Make a fountain of particles",
+    "arguments": {
+      "Particles": {
+        "tooltip": "",
+        "newname": "particles",
+        "newtooltip": ""
+      },
+      "Scale": {
+        "tooltip": "",
+        "newname": "scale",
+        "newtooltip": ""
+      },
+      "Velocity": {
+        "tooltip": "",
+        "newname": "vel",
+        "newtooltip": ""
+      },
+      "Lifetime": {
+        "tooltip": "",
+        "newname": "lifetime",
+        "newtooltip": ""
+      },
+      "Arc": {
+        "tooltip": "",
+        "newname": "arc",
+        "newtooltip": ""
+      },
+      "Bounce": {
+        "tooltip": "",
+        "newname": "bounce",
+        "newtooltip": ""
+      },
+      "Texture": {
+        "tooltip": "",
+        "newname": "texture",
+        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
+      },
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
+      },
+      "Bounce_Offset": {
+        "tooltip": "",
+        "newname": "bounce_offset",
+        "newtooltip": ""
+      }
+    },
+    "newtooltip": "Deprecated. Generates a fountain of particles. Use llParticleSystem instead."
+  },
+  "llMakeSmoke": {
+    "tooltip": "'Make smoke like particles. Deprecated: Use llParticleSystem instead.\nMake smoky particles using texture from the objects inventory. Deprecated: Use llParticleSystem instead.'",
+    "description": "Make smoke like particles",
+    "arguments": {
+      "Particles": {
+        "tooltip": "",
+        "newname": "particles",
+        "newtooltip": ""
+      },
+      "Scale": {
+        "tooltip": "",
+        "newname": "scale",
+        "newtooltip": ""
+      },
+      "Velocity": {
+        "tooltip": "",
+        "newname": "vel",
+        "newtooltip": ""
+      },
+      "Lifetime": {
+        "tooltip": "",
+        "newname": "lifetime",
+        "newtooltip": ""
+      },
+      "Arc": {
+        "tooltip": "",
+        "newname": "arc",
+        "newtooltip": ""
+      },
+      "Texture": {
+        "tooltip": "",
+        "newname": "texture",
+        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
+      },
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
+      }
+    },
+    "newtooltip": "Deprecated. Generates smoke-like particles. Use llParticleSystem instead."
+  },
+  "llManageEstateAccess": {
+    "tooltip": "Adds or removes agents from the estate's agent access or ban lists, or groups to the estate's group access list. Action is one of the ESTATE_ACCESS_ALLOWED_* operations to perform.\\nReturns an integer representing a boolean, TRUE if the call was successful; FALSE if throttled, invalid action, invalid or null id or object owner is not allowed to manage the estate.\\nThe object owner is notified of any changes, unless PERMISSION_SILENT_ESTATE_MANAGEMENT has been granted to the script.",
+    "description": "Use to add or remove agents from the estate's agent access or ban lists or groups from the estate's group access list.\n\n\n Returns a boolean (an integer) TRUE if the call was successful; FALSE if throttled, invalid action, invalid or null id or object owner is not allowed to manage the estate.",
+    "arguments": {
+      "Action": {
+        "tooltip": "One of the ESTATE_ACCESS_ALLOWED_* actions.",
+        "newname": "action",
+        "description": "ESTATE_ACCESS_* flag",
+        "newtooltip": "An ESTATE_ACCESS_* action flag specifying the operation to perform."
+      },
+      "AvatarID": {
+        "tooltip": "UUID of the avatar or group to act upon.",
+        "newname": "avatar",
+        "description": "avatar or group UUID",
+        "newtooltip": "The UUID of the avatar or group to add or remove."
+      }
+    },
+    "newtooltip": "Adds or removes agents from the estate's access or ban lists, or groups from the estate's group access list, specified by the action. Returns TRUE if successful, or FALSE if throttled, if the action/ID is invalid, or if the script owner lacks estate management rights."
+  },
+  "llMapBeacon": {
+    "tooltip": "Displays an in world beacon and optionally opens world map for avatar who touched the object or is wearing the script, centered on RegionName with Position highlighted. Only works for scripts attached to avatar, or during touch events.",
+    "description": "Asks the viewer to create a beacon for the user and optionally opens the world map centered on the location.",
+    "arguments": {
+      "RegionName": {
+        "tooltip": "Region in which to show the beacon.",
+        "newname": "region_name",
+        "description": "Region name",
+        "newtooltip": "The name of the region where the beacon is displayed."
+      },
+      "Position": {
+        "tooltip": "Position within region to show the beacon.",
+        "newname": "pos",
+        "description": "position in region coordinates",
+        "newtooltip": "The position vector in region coordinates to highlight."
+      },
+      "Options": {
+        "tooltip": "Options",
+        "newname": "options",
+        "newtooltip": "A list of options to configure the map beacon."
+      }
+    },
+    "newtooltip": "Displays an in-world beacon and optionally opens the world map for the avatar touching or wearing the object, centered on region_name with pos highlighted. Only works for attached scripts or during touch events."
+  },
+  "llMapDestination": {
+    "tooltip": "Opens world map for avatar who touched it or is wearing the script, centred on RegionName with Position highlighted. Only works for scripts attached to avatar, or during touch events.\\nDirection currently has no effect.",
+    "description": "Opens world map centered on simname with pos highlighted.\n\n\n Only works for scripts attached to avatar, or during touch events.",
+    "arguments": {
+      "RegionName": {
+        "tooltip": "",
+        "newname": "simname",
+        "description": "Region name",
+        "newtooltip": "The name of the target simulator region."
+      },
+      "Position": {
+        "tooltip": "",
+        "newname": "pos",
+        "description": "position in region coordinates",
+        "newtooltip": "The position vector in region coordinates to highlight."
+      },
+      "Direction": {
+        "tooltip": "",
+        "newname": "look_at",
+        "description": "position in local coordinates&#32;(not used)",
+        "newtooltip": "Position in local coordinates (currently unused/ignored)."
+      }
+    },
+    "newtooltip": "Opens the world map for the avatar touching or wearing the object, centered on simname with pos highlighted. Only works for attached scripts or during touch events. Note: look_at currently has no effect."
+  },
+  "llMD5String": {
+    "tooltip": "Returns a string of 32 hex characters that is an RSA Data Security Inc., MD5 Message-Digest Algorithm of Text with Nonce used as the salt.\\nReturns a 32-character hex string. (128-bit in binary.)",
+    "description": "Returns a string of 32 hex characters that is the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;MD5 checksum of src with a [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;salt) of '\":\"+**nonce**'.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "src",
+        "newtooltip": "The source string to hash."
+      },
+      "Nonce": {
+        "tooltip": "",
+        "newname": "nonce",
+        "newtooltip": "The nonce string used as a salt."
+      }
+    },
+    "newtooltip": "Returns a string of 32 hex characters representing the MD5 checksum of src salted with nonce (formatted as ':' + nonce)."
+  },
+  "llMessageLinked": {
+    "tooltip": "Sends Number, Text, and ID to members of the link set identified by LinkNumber.\nLinkNumber is either a linked number (available through llGetLinkNumber) or a LINK_* constant.",
+    "description": "The purpose of this function is to allow scripts in the same object to communicate. It triggers a link_message event with the same parameters num, str, and id in all scripts in the prim(s) described by link.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag, controls which prim(s) receive the link_message.&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag controlling which prim(s) receive the message."
+      },
+      "Number": {
+        "tooltip": "",
+        "newname": "num",
+        "description": "Value of the second parameter of the resulting link_message event.",
+        "newtooltip": "An integer value passed as the second parameter of the link_message event."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "str",
+        "description": "Value of the third parameter of the resulting link_message event.",
+        "newtooltip": "A string value passed as the third parameter of the link_message event."
+      },
+      "ID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "Value of the fourth parameter of the resulting link_message event.",
+        "newtooltip": "A key value passed as the fourth parameter of the link_message event."
+      }
+    },
+    "newtooltip": "Triggers a link_message event, sending num, str, and id to the scripts in the prim(s) specified by link to allow scripts within the same object to communicate."
+  },
+  "llMinEventDelay": {
+    "tooltip": "Set the minimum time between events being handled.",
+    "description": "Set the minimum time between events being handled.\n\n\n Defaults and minimums vary by the event type, see LSL Delay.",
+    "arguments": {
+      "Delay": {
+        "tooltip": "",
+        "newname": "delay",
+        "description": "time in seconds",
+        "newtooltip": "The minimum delay duration in seconds."
+      }
+    },
+    "newtooltip": "Sets the minimum delay time between events being handled (minimums and defaults vary by event type)."
+  },
+  "llModifyLand": {
+    "tooltip": "Modify land with action (LAND_LEVEL, LAND_RAISE, LAND_LOWER, LAND_SMOOTH, LAND_NOISE, LAND_REVERT) on size (0, 1, 2, corresponding to 2m x 2m, 4m x 4m, 8m x 8m).",
+    "description": "Modify land with action on brush",
+    "arguments": {
+      "Action": {
+        "tooltip": "LAND_LEVEL, LAND_RAISE, LAND_LOWER, LAND_SMOOTH, LAND_NOISE or LAND_REVERT",
+        "newname": "action",
+        "description": "LAND_* flag",
+        "newtooltip": "The LAND_* action flag to perform (e.g., LAND_LEVEL, LAND_RAISE, LAND_LOWER, LAND_SMOOTH, LAND_NOISE, or LAND_REVERT)."
+      },
+      "Area": {
+        "tooltip": "0, 1, 2 (2m x 2m, 4m x 4m, or 8m x 8m)",
+        "newname": "brush",
+        "description": "LAND_*_BRUSH flag",
+        "newtooltip": "The brush size (0, 1, or 2, representing 2m x 2m, 4m x 4m, or 8m x 8m)."
+      }
+    },
+    "newtooltip": "Modifies the terrain using the specified land action and brush size (0, 1, or 2, corresponding to 2m x 2m, 4m x 4m, or 8m x 8m)."
+  },
+  "llModPow": {
+    "tooltip": "Returns a Value raised to the Power, mod Modulus. ((a**b)%c) b is capped at 0xFFFF (16 bits).\\nReturns (Value ^ Power) % Modulus. (Value raised to the Power, Modulus). Value is capped at 0xFFFF (16 bits).",
+    "description": "Returns an integer that is a raised to the b power, mod c. ( (a**b)%c )",
+    "arguments": {
+      "Value": {
+        "tooltip": "",
+        "newname": "a",
+        "newtooltip": "The base integer value."
+      },
+      "Power": {
+        "tooltip": "",
+        "newname": "b",
+        "newtooltip": "The power exponent (capped at 0xFFFF / 16 bits)."
+      },
+      "Modulus": {
+        "tooltip": "",
+        "newname": "c",
+        "newtooltip": "The modulus integer value."
+      }
+    },
+    "newtooltip": "Returns an integer representing a raised to the power b, modulo c (i.e., (a**b)%c). The b value is capped at 0xFFFF (16 bits)."
+  },
+  "llMoveToTarget": {
+    "tooltip": "Critically damp to Target in Tau seconds (if the script is physical).\nCritically damp to position target in tau-seconds if the script is physical. Good tau-values are greater than 0.2. A tau of 0.0 stops the critical damping.",
+    "description": "Critically damp to target in tau seconds (if the script is physical)",
+    "arguments": {
+      "Target": {
+        "tooltip": "",
+        "newname": "target",
+        "description": "position in region coordinates",
+        "newtooltip": "The target position vector in region coordinates."
+      },
+      "Tau": {
+        "tooltip": "",
+        "newname": "tau",
+        "description": "seconds to critically damp in",
+        "newtooltip": "The timescale in seconds to critically damp the movement."
+      }
+    },
+    "newtooltip": "Critically damps the physical object's motion to position target in tau seconds. Setting tau to 0.0 stops the critical damping; recommended tau values are greater than 0.2."
+  },
+  "llName2Key": {
+    "tooltip": "Look up Agent ID for the named agent in the region.",
+    "description": "Returns a key the Agent ID for the named agent in the region. If there is no agent with the specified name currently signed onto the region, this function returns the value NULL_KEY. Names are always provided in the form \"First[ Last]\" or \"first[.last]\" (first name with an optional last name.) If the last name is omitted a last name of \"Resident\" is assumed. Case is not considered when resolving agent names.",
+    "arguments": {
+      "Name": {
+        "tooltip": "Name of agent in region to look up.",
+        "newname": "name",
+        "description": "Name of the avatar to retrieve the UUID of.",
+        "newtooltip": "The name of the avatar (e.g., 'First Last' or 'first.last')."
+      }
+    },
+    "newtooltip": "Requests the key (UUID) of the avatar name in the current region. Returns NULL_KEY if no matching agent is present. Formats are 'First Last' or 'first.last' (assumes 'Resident' if last name is omitted; case-insensitive)."
+  },
+  "llNavigateTo": {
+    "tooltip": "Navigate to destination.\nDirects an object to travel to a defined position in the region or adjacent regions.",
+    "description": "Directs an object to travel to a defined position in the region or adjacent regions.",
+    "arguments": {
+      "Location": {
+        "tooltip": "Region coordinates for the character to navigate to.",
+        "newname": "pos",
+        "description": "position in region coordinates&#32;for the character to navigate to.",
+        "newtooltip": "The destination position vector in region coordinates."
+      },
+      "Options": {
+        "tooltip": "List of parameters to control the type of path-finding used. Currently only FORCE_DIRECT_PATH supported.",
+        "newname": "options",
+        "description": "List of parameters to control the type of pathfinding used.",
+        "newtooltip": "A list of parameters to configure pathfinding behavior (currently only FORCE_DIRECT_PATH is supported)."
+      }
+    },
+    "newtooltip": "Directs a pathfinding character to navigate to the position pos (located in the current or adjacent regions) using the parameters specified in options."
+  },
+  "llOffsetTexture": {
+    "tooltip": "Sets the texture S and T offsets for the chosen Face.\nIf Face is ALL_SIDES this function sets the texture offsets for all faces.",
+    "description": "Sets the texture u & v offsets for the chosen face.",
+    "arguments": {
+      "OffsetS": {
+        "tooltip": "",
+        "newname": "u",
+        "description": "horizontal (x) offset in the interval [-1.0, 1.0]",
+        "newtooltip": "The horizontal (U) offset, typically in the interval [-1.0, 1.0]."
+      },
+      "OffsetT": {
+        "tooltip": "",
+        "newname": "v",
+        "description": "vertical (y) offset in the interval [-1.0, 1.0]",
+        "newtooltip": "The vertical (V) offset, typically in the interval [-1.0, 1.0]."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Sets the texture horizontal (u) and vertical (v) offsets for the chosen face. If face is ALL_SIDES, offsets all faces."
+  },
+  "llOpenFloater": {
+    "tooltip": "Returns the value for header for request_id.\nReturns a string that is the value of the Header for HTTPRequestID.",
+    "description": "Returns an integer Error code, or 0 if no error.",
+    "arguments": {
+      "floater_name": {
+        "tooltip": "Identifier for floater to open",
+        "newname": "floater_name",
+        "description": "Identifier of the viewer floater to open.",
+        "newtooltip": "The identifier string of the viewer floater to open."
+      },
+      "url": {
+        "tooltip": "URL to pass to floater",
+        "newname": "url",
+        "description": "URL to open in the floater.",
+        "newtooltip": "The URL to load within the opened floater."
+      },
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/params\" target=\"_blank\">params</a>": {
+        "tooltip": "Parameters to apply to open floater",
+        "newname": "params",
+        "description": "Options to apply to floater.",
+        "newtooltip": "Options or parameters to apply to the opened floater."
+      }
+    },
+    "newtooltip": "Opens the specified viewer floater_name loaded with url and configured via params. Returns an integer error code, or 0 if successful."
+  },
+  "llOpenRemoteDataChannel": {
+    "tooltip": "This function is deprecated.",
+    "description": "Creates a channel to listen for XML-RPC calls. Will trigger a remote_data event with channel id once it is available.",
+    "arguments": {},
+    "newtooltip": "Deprecated. Creates a channel to listen for incoming XML-RPC calls, triggering a remote_data event with the channel ID once available."
+  },
+  "llOrd": {
+    "tooltip": "Returns the unicode value of the indicated character in the string.",
+    "description": "Calculate the ordinal value for a character in a string.\n\n\n Returns an integer",
+    "arguments": {
+      "value": {
+        "tooltip": "The string to convert to Unicode.",
+        "newname": "val",
+        "description": "Source string for character ordinal.",
+        "newtooltip": "The source string containing the character."
+      },
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/index\" target=\"_blank\">index</a>": {
+        "tooltip": "Index of character to convert to unicode.",
+        "newname": "index",
+        "description": "Index of character ordinal to retrieve.",
+        "newtooltip": "The zero-based index of the character to convert."
+      }
+    },
+    "newtooltip": "Returns the integer Unicode (ordinal) value of the character at index in the string val."
+  },
+  "llOverMyLand": {
+    "tooltip": "Returns TRUE if id ID over land owned by the script owner, otherwise FALSE.\\nReturns TRUE if key ID is over land owned by the object owner, FALSE otherwise.",
+    "description": "Returns a boolean (an integer) boolean, TRUE if id is over land owned by the script owner, FALSE otherwise.",
+    "arguments": {
+      "ID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "group,&#32;avatar or object UUID that is in the same region",
+        "newtooltip": "The UUID of the group, avatar, or object to check."
+      }
+    },
+    "newtooltip": "Returns TRUE if the avatar or object specified by key id is over land owned by the script owner, or FALSE otherwise."
+  },
+  "llOwnerSay": {
+    "tooltip": "says Text to owner only (if owner is in region).\nSays Text to the owner of the object running the script, if the owner has been within the object's simulator since logging into Second Life, regardless of where they may be in-world.",
+    "description": "Says msg to the object's owner only, if the owner is currently in the same region.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "msg",
+        "description": "message to be transmitted",
+        "newtooltip": "The text message string to send."
+      }
+    },
+    "newtooltip": "Sends the chat message msg privately to the object owner (the owner must be currently in the same region for the message to be received)."
+  },
+  "llParcelMediaCommandList": {
+    "tooltip": "Controls the playback of multimedia resources on a parcel or for an agent, via one or more PARCEL_MEDIA_COMMAND_* arguments specified in CommandList.",
+    "description": "Controls the playback of movies and other multimedia resources on a parcel or for an agent.",
+    "arguments": {
+      "CommandList": {
+        "tooltip": "A list of PARCEL_MEDIA_COMMAND_* flags and their parameters",
+        "newname": "commandList",
+        "description": "A list of integer PARCEL_MEDIA_COMMAND_* flags and their parameters",
+        "newtooltip": "A list containing integer PARCEL_MEDIA_COMMAND_* flags and their corresponding parameters."
+      }
+    },
+    "newtooltip": "Controls the playback of movies and other multimedia resources on a parcel or for an agent, using the PARCEL_MEDIA_COMMAND_* settings specified in commandList."
+  },
+  "llParcelMediaQuery": {
+    "tooltip": "Queries the media properties of the parcel containing the script, via one or more PARCEL_MEDIA_COMMAND_* arguments specified in CommandList.\\nThis function will only work if the script is contained within an object owned by the land-owner (or if the land is owned by a group, only if the object has been deeded to the group).",
+    "description": "Returns a list containing results of query. The results are in the same order as the request.",
+    "arguments": {
+      "QueryList": {
+        "tooltip": "",
+        "newname": "query",
+        "newtooltip": "A list of PARCEL_MEDIA_COMMAND_* attributes to query."
+      }
+    },
+    "newtooltip": "Queries the media properties of the parcel containing the script, returning a list of values in the order requested by query. Only works if the object is owned by the landowner or deeded to the land's group."
+  },
+  "llParseString2List": {
+    "tooltip": "Converts Text into a list, discarding Separators, keeping Spacers (Separators and Spacers must be lists of strings, maximum of 8 each).\\nSeparators and Spacers are lists of strings with a maximum of 8 entries each.",
+    "description": "Returns a list that is src broken into a list of strings, discarding separators, keeping spacers, discards any null (empty string) values generated.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "src",
+        "description": "source string",
+        "newtooltip": "The source string to parse."
+      },
+      "Separators": {
+        "tooltip": "",
+        "newname": "separators",
+        "description": "separators to be discarded",
+        "newtooltip": "A list of up to 8 strings representing separators to be discarded."
+      },
+      "Spacers": {
+        "tooltip": "",
+        "newname": "spacers",
+        "description": "spacers to be kept",
+        "newtooltip": "A list of up to 8 strings representing spacers to be preserved in the list."
+      }
+    },
+    "newtooltip": "Breaks the string src into a list of substrings, discarding any separators, keeping spacers, and omitting any empty null values. separators and spacers accept up to 8 string entries each."
+  },
+  "llParseStringKeepNulls": {
+    "tooltip": "Breaks Text into a list, discarding separators, keeping spacers, keeping any null values generated. (separators and spacers must be lists of strings, maximum of 8 each).\\nllParseStringKeepNulls works almost exactly like llParseString2List, except that if a null is found it will add a null-string instead of discarding it like llParseString2List does.",
+    "description": "Returns a list that is src broken into a list, discarding separators, keeping spacers, keeping any null values generated.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "src",
+        "description": "source string",
+        "newtooltip": "The source string to parse."
+      },
+      "Separators": {
+        "tooltip": "",
+        "newname": "separators",
+        "description": "separators to be discarded",
+        "newtooltip": "A list of up to 8 strings representing separators to be discarded."
+      },
+      "Spacers": {
+        "tooltip": "",
+        "newname": "spacers",
+        "description": "spacers to be kept",
+        "newtooltip": "A list of up to 8 strings representing spacers to be preserved in the list."
+      }
+    },
+    "newtooltip": "Breaks the string src into a list, discarding separators and keeping spacers, while preserving empty null values (unlike llParseString2List). separators and spacers accept up to 8 string entries each."
+  },
+  "llParticleSystem": {
+    "tooltip": "Creates a particle system in the prim the script is attached to, based on Parameters. An empty list removes a particle system from object.\\nList format is [ rule-1, data-1, rule-2, data-2 ... rule-n, data-n ].",
+    "description": "Defines a particle system for the containing prim based on a list of rules.",
+    "arguments": {
+      "Parameters": {
+        "tooltip": "",
+        "newname": "rules",
+        "description": "Particle system rules list in the format [ rule1, data1, rule2, data2 . . . rulen, datan ]",
+        "newtooltip": "A list of particle system rules and data pairs [rule1, data1, ...]."
+      }
+    },
+    "newtooltip": "Creates or updates a particle system on the prim containing the script based on rules. An empty list removes the particle system."
+  },
+  "llPassCollisions": {
+    "tooltip": "Configures how collision events are passed to scripts in the linkset.\nIf Pass == TRUE, collisions involving collision-handling scripted child prims are also passed on to the root prim. If Pass == FALSE (default behavior), such collisions will only trigger events in the affected child prim.",
+    "description": "Sets the pass-collisions prim attribute.",
+    "arguments": {
+      "Pass": {
+        "tooltip": "Boolean, if TRUE, collisions are passed from children on to parents.",
+        "newname": "pass",
+        "description": "PASS_* flag&#32;",
+        "newtooltip": "A PASS_* flag (e.g., PASS_ALWAYS, PASS_IF_NOT_HANDLED, or PASS_NEVER)."
+      }
+    },
+    "newtooltip": "Sets the pass-collisions attribute. If pass is TRUE, collision events are passed from child prims to the root; if FALSE (default), they only trigger events in the affected child prim."
+  },
+  "llPassTouches": {
+    "tooltip": "Configures how touch events are passed to scripts in the linkset.\nIf Pass == TRUE, touches involving touch-handling scripted child prims are also passed on to the root prim. If Pass == FALSE (default behavior), such touches will only trigger events in the affected child prim.",
+    "description": "Sets whether touches detected on this prim are passed to the root prim.",
+    "arguments": {
+      "Pass": {
+        "tooltip": "Boolean, if TRUE, touches are passed from children on to parents.",
+        "newname": "pass",
+        "description": "PASS_* flag&#32;",
+        "newtooltip": "A PASS_* flag (e.g., PASS_ALWAYS, PASS_IF_NOT_HANDLED, or PASS_NEVER)."
+      }
+    },
+    "newtooltip": "Sets the pass-touches attribute. If pass is TRUE, touch events are passed from child prims to the root; if FALSE (default), they only trigger events in the affected child prim."
+  },
+  "llPatrolPoints": {
+    "tooltip": "Patrol a list of points.\nSets the points for a character (llCreateCharacter) to patrol along.",
+    "description": "Sets the object patrolling between the points specified in patrolPoints.",
+    "arguments": {
+      "Points": {
+        "tooltip": "A list of vectors for the character to travel through sequentially. The list must contain at least two entries.",
+        "newname": "patrolPoints",
+        "description": "A list of vectors for the character to travel through sequentially. The list must contain at least two entries.",
+        "newtooltip": "A list of at least two position vectors representing the patrol path."
+      },
+      "Options": {
+        "tooltip": "No options available at this time.",
+        "newname": "options",
+        "description": "PATROL_* flags and their parameters",
+        "newtooltip": "A list of PATROL_* flags and parameters to configure the patrol behavior."
+      }
+    },
+    "newtooltip": "Directs a pathfinding character to patrol sequentially through the coordinates specified in patrolPoints, configured by options."
+  },
+  "llPlaySound": {
+    "tooltip": "Plays Sound once, at Volume (0.0 - 1.0) and attached to the object.\nOnly one sound may be attached to an object at a time, and attaching a new sound or calling llStopSound will stop the previously attached sound.\\nA second call to llPlaySound with the same sound will not restart the sound, but the new volume will be used, which allows control over the volume of already playing sounds.\\nTo restart the sound from the beginning, call llStopSound before calling llPlaySound again.",
+    "description": "Plays attached sound once at volume",
+    "arguments": {
+      "Sound": {
+        "tooltip": "",
+        "newname": "sound",
+        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
+      },
+      "Volume": {
+        "tooltip": "",
+        "newname": "volume",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
+      }
+    },
+    "newtooltip": "Plays the specified sound once at volume, attached to the object. Only one sound can be attached to a prim at a time; new sounds or calling llStopSound stops previous playback. A second call with the same sound adjusts the volume without restarting it."
+  },
+  "llPlaySoundSlave": {
+    "tooltip": "Plays attached Sound once, at Volume (0.0 - 1.0), synced to next loop of most audible sync master.\\nBehaviour is identical to llPlaySound, unless there is a \"Sync Master\" present. If a Sync Master is already playing, the Slave sound will not be played until the Master hits its loop point and returns to the beginning.\\nllPlaySoundSlave will play the sound exactly once; if it is desired to have the sound play every time the Master loops, either use llLoopSoundSlave with extra silence padded on the end of the sound or ensure that llPlaySoundSlave is called at least once per loop of the Master.",
+    "description": "Plays attached sound once at volume, synced to next loop of most audible sync master declared by llLoopSoundMaster.",
+    "arguments": {
+      "Sound": {
+        "tooltip": "",
+        "newname": "sound",
+        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
+      },
+      "Volume": {
+        "tooltip": "",
+        "newname": "volume",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
+      }
+    },
+    "newtooltip": "Plays the attached sound once at volume, synchronized to the next loop point of the most audible active Sync Master."
+  },
+  "llPointAt": {
+    "tooltip": "",
+    "description": "Make agent that owns object point at pos",
+    "arguments": {
+      "Point": {
+        "tooltip": "",
+        "newname": "pos",
+        "newtooltip": "The position vector to point at."
+      }
+    },
+    "newtooltip": "Directs the avatar owning the object to point at the vector pos."
+  },
+  "llPow": {
+    "tooltip": "Returns the Value raised to the power Exponent, or returns 0 and triggers Math Error for imaginary results.\\nReturns the Value raised to the Exponent.",
+    "description": "Returns a float that is base raised to the power exponent (baseexponent)",
+    "arguments": {
+      "Value": {
+        "tooltip": "",
+        "newname": "base",
+        "newtooltip": "The base float value."
+      },
+      "Exponent": {
+        "tooltip": "",
+        "newname": "exponent",
+        "newtooltip": "The exponent float value."
+      }
+    },
+    "newtooltip": "Returns a float representing base raised to the power exponent. Returns 0 and triggers a Math Error for imaginary results."
+  },
+  "llPreloadSound": {
+    "tooltip": "Causes nearby viewers to preload the Sound from the object's inventory.\nThis is intended to prevent delays in starting new sounds when called upon.",
+    "description": "Preloads sound on viewers within range",
+    "arguments": {
+      "Sound": {
+        "tooltip": "",
+        "newname": "sound",
+        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "newtooltip": "The name of the sound in the prim's inventory, or a UUID."
+      }
+    },
+    "newtooltip": "Causes nearby viewers in range to preload the specified sound from the object's inventory to prevent playback delays."
+  },
+  "llPursue": {
+    "tooltip": "Chase after a target.\nCauses the character (llCharacter) to pursue the target defined by TargetID.",
+    "description": "Causes the object to pursue target.",
+    "arguments": {
+      "TargetID": {
+        "tooltip": "Agent or object to pursue.",
+        "newname": "target",
+        "description": "group,&#32;avatar or object UUID&#32;to pursue.",
+        "newtooltip": "The UUID of the group, avatar, or object to pursue."
+      },
+      "Options": {
+        "tooltip": "Parameters for pursuit.",
+        "newname": "options",
+        "description": "Parameters for pursuit; see below.",
+        "newtooltip": "A list of options to configure pursuit behavior."
+      }
+    },
+    "newtooltip": "Directs a pathfinding character to pursue and chase target, configured by the parameters specified in options."
+  },
+  "llPushObject": {
+    "tooltip": "Applies Impulse and AngularImpulse to ObjectID.\nApplies the supplied impulse and angular impulse to the object specified.",
+    "description": "Applies impulse and ang_impulse to object target",
+    "arguments": {
+      "ObjectID": {
+        "tooltip": "",
+        "newname": "target",
+        "description": "avatar or object UUID that is in the same region",
+        "newtooltip": "The UUID of the target avatar or object in the same region."
+      },
+      "Impulse": {
+        "tooltip": "",
+        "newname": "impulse",
+        "description": "Direction and force of push. Direction is affected by local.",
+        "newtooltip": "The linear impulse vector representing the direction and force of the push."
+      },
+      "AngularImpulse": {
+        "tooltip": "",
+        "newname": "ang_impulse",
+        "description": "Rotational force.",
+        "newtooltip": "The angular impulse vector representing the rotational force."
+      },
+      "Local": {
+        "tooltip": "",
+        "newname": "local",
+        "description": "boolean, if TRUE uses the local axis of target, if FALSE uses the region axis.",
+        "newtooltip": "Boolean. If TRUE, forces are applied relative to the target's local axes; if FALSE, relative to region axes."
+      }
+    },
+    "newtooltip": "Applies physical impulse (force) and ang_impulse (rotational force) to the specified target avatar or object."
+  },
+  "llReadKeyValue": {
+    "tooltip": "Starts an asychronous transaction to retrieve the value associated with the key given. Will fail with XP_ERROR_KEY_NOT_FOUND if the key does not exist. The dataserver callback will be executed with the key returned from this call and a string describing the result. The result is a two element commma-delimited list. The first item is an integer specifying if the transaction succeeded (1) or not (0). In the failure case, the second item will be an integer corresponding to one of the XP_ERROR_... constants. In the success case the second item will be the value associated with the key.\\n",
+    "description": "Start an asynchronous transaction to read the value associated with the specified key (k) and the script's Experience.\n\n\n Returns a handle (a key) that can be used to identify the corresponding dataserver event to determine if this command succeeded or failed and the results.",
+    "arguments": {
+      "Key": {
+        "tooltip": "",
+        "newname": "k",
+        "description": "The key for the key-value pair",
+        "newtooltip": "The key of the key-value pair to read."
+      }
+    },
+    "newtooltip": "Starts an asynchronous transaction to read the value associated with key k in the experience. Returns a key query handle for the dataserver event. Fails with XP_ERROR_KEY_NOT_FOUND if the key does not exist."
+  },
+  "llRefreshPrimURL": {
+    "tooltip": "Reloads the web page shown on the sides of the object.",
+    "description": "Reloads the web page shown on the sides of the object.\n\n\n This functions currently does nothing.",
+    "arguments": {},
+    "newtooltip": "Legacy function intended to reload the web page displayed on the prim's faces (currently non-functional)."
+  },
+  "llRegionSay": {
+    "tooltip": "Broadcasts Text to entire region on Channel (except for channel 0).",
+    "description": "Says the string msg on channel number channel that can be heard anywhere in the region by a script listening on channel.",
+    "arguments": {
+      "Channel": {
+        "tooltip": "Any integer value except zero.",
+        "newname": "channel",
+        "description": "output chat channel, any integer value except zero",
+        "newtooltip": "The output chat channel to broadcast on (must be non-zero)."
+      },
+      "Text": {
+        "tooltip": "Message to be transmitted.",
+        "newname": "msg",
+        "description": "message to be transmitted",
+        "newtooltip": "The text message string to broadcast."
+      }
+    },
+    "newtooltip": "Broadcasts the message msg on channel to the entire region (heard by any script listening on that channel; channel 0 is not permitted)."
+  },
+  "llRegionSayTo": {
+    "tooltip": "Says Text, on Channel, to avatar or object indicated by TargetID (if within region).\\nIf TargetID is an avatar and Channel is nonzero, Text can be heard by any attachment on the avatar.",
+    "description": "Says&#91;1&#93; the text supplied in string msg on channel supplied in integer channel to the object or avatar specified by target",
+    "arguments": {
+      "TargetID": {
+        "tooltip": "Avatar or object to say to.",
+        "newname": "target",
+        "description": "avatar or prim UUID that is in the same region",
+        "newtooltip": "The UUID of the destination avatar or prim in the same region."
+      },
+      "Channel": {
+        "tooltip": "Output channel, any integer value.",
+        "newname": "channel",
+        "newtooltip": "The output chat channel (any integer value)."
+      },
+      "Text": {
+        "tooltip": "Message to be transmitted.",
+        "newname": "msg",
+        "newtooltip": "The text message string to send."
+      }
+    },
+    "newtooltip": "Sends the message msg on channel privately to the targeted avatar or object (if within the region). If target is an avatar and channel is non-zero, the message can also be heard by any attachments worn by the avatar."
+  },
+  "llReleaseCamera": {
+    "tooltip": "Return camera to agent.\nDeprecated: Use llClearCameraParams instead.",
+    "description": "This function is recognized by the compiler, but was never implemented in Second Life.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "avatar",
+        "description": "avatar UUID that is in the same region",
+        "newtooltip": "The UUID of the avatar in the same region."
+      }
+    },
+    "newtooltip": "Deprecated. Intended to return camera control back to the avatar (use llClearCameraParams instead)."
+  },
+  "llReleaseControls": {
+    "tooltip": "Stop taking inputs.\nStop taking inputs from the avatar.",
+    "description": "Stop taking inputs (that were taken with llTakeControls), dequeues any remaining control events. If PERMISSION_TAKE_CONTROLS was previously granted, it will be revoked.",
+    "arguments": {},
+    "newtooltip": "Stops taking inputs (previously acquired via llTakeControls) from the avatar, dequeuing any remaining control events and revoking the PERMISSION_TAKE_CONTROLS permission."
+  },
+  "llReleaseURL": {
+    "tooltip": "Releases the specified URL, which was previously obtained using llRequestURL. Once released, the URL will no longer be usable.",
+    "description": "Releases the specified URL, it will no longer be usable.",
+    "arguments": {
+      "URL": {
+        "tooltip": "URL to release.",
+        "newname": "url",
+        "description": "URL to release",
+        "newtooltip": "The URL string to release."
+      }
+    },
+    "newtooltip": "Releases the specified url (previously obtained via llRequestURL), rendering it no longer usable."
+  },
+  "llRemoteDataReply": {
+    "tooltip": "This function is deprecated.",
+    "description": "Send an XML-RPC reply on channel to message_id with payload of string sdata and integer idata",
+    "arguments": {
+      "ChannelID": {
+        "tooltip": "",
+        "newname": "channel",
+        "newtooltip": "The XML-RPC channel ID."
+      },
+      "MessageID": {
+        "tooltip": "",
+        "newname": "message_id",
+        "newtooltip": "The XML-RPC message ID."
+      },
+      "sData": {
+        "tooltip": "String data to send",
+        "newname": "sdata",
+        "newtooltip": "The string payload data to reply with."
+      },
+      "iData": {
+        "tooltip": "Integer data to send",
+        "newname": "idata",
+        "newtooltip": "The integer payload data to reply with."
+      }
+    },
+    "newtooltip": "Deprecated. Sends an XML-RPC reply on channel to message_id with payload string sdata and integer idata."
+  },
+  "llRemoteDataSetRegion": {
+    "tooltip": "This function is deprecated.",
+    "description": "Used with XML-RPC. If an object using remote data channels changes regions, you must call this function to reregister the remote data channels.\n\n\n This call is not needed if the prim does not change regions.",
+    "arguments": {},
+    "newtooltip": "Deprecated. Used with XML-RPC to reregister remote data channels if the object moves to another region."
+  },
+  "llRemoteLoadScript": {
+    "tooltip": "",
+    "description": "Deprecated",
+    "arguments": {
+      "Target": {
+        "tooltip": "",
+        "newname": "target",
+        "description": "prim UUID that is in the same region",
+        "newtooltip": "The UUID of the target prim."
+      },
+      "ScriptName": {
+        "tooltip": "",
+        "newname": "name",
+        "description": "a script in the inventory of the prim this script is in",
+        "newtooltip": "The name of the script in the prim's inventory."
+      },
+      "Unknown1": {
+        "tooltip": "",
+        "newname": "running",
+        "newtooltip": "Whether the script should start running."
+      },
+      "Unknown2": {
+        "tooltip": "",
+        "newname": "start_param",
+        "newtooltip": "The start parameter passed to the script."
+      }
+    },
+    "newtooltip": "Deprecated."
+  },
+  "llRemoteLoadScriptPin": {
+    "tooltip": "If the owner of the object containing this script can modify the object identified by the specified object key, and if the PIN matches the PIN previously set using llSetRemoteScriptAccessPin (on the target prim), then the script will be copied into target. Running is a boolean specifying whether the script should be enabled once copied into the target object.",
+    "description": "Copy script name into target and set to running with a start_param only if target's pin matches pin",
+    "arguments": {
+      "ObjectID": {
+        "tooltip": "Target prim to attempt copying into.",
+        "newname": "target",
+        "description": "prim UUID that is in the same region",
+        "newtooltip": "The UUID of the target prim in the same region."
+      },
+      "ScriptName": {
+        "tooltip": "Name of the script in current inventory to copy.",
+        "newname": "name",
+        "description": "a script in the inventory of the prim this script is in",
+        "newtooltip": "The name of the script in the prim's inventory."
+      },
+      "PIN": {
+        "tooltip": "Integer set on target prim as a Personal Information Number code.",
+        "newname": "pin",
+        "description": "Must match pin set by llSetRemoteScriptAccessPin",
+        "newtooltip": "The integer PIN code (must match the PIN set on the target via llSetRemoteScriptAccessPin)."
+      },
+      "Running": {
+        "tooltip": "If the script should be set running in the target prim.",
+        "newname": "running",
+        "description": "boolean, if TRUE[[1]](#footnote_1) the script is set as running, if FALSE the script is not set as running",
+        "newtooltip": "Boolean. If TRUE, sets the copied script to run immediately; if FALSE, leaves it stopped."
+      },
+      "StartParameter": {
+        "tooltip": "Integer. Parameter passed to the script if set to be running.",
+        "newname": "start_param",
+        "description": "value returned by llGetStartParameter in the target script.",
+        "newtooltip": "The integer start parameter passed to the copied script (readable via llGetStartParameter)."
+      }
+    },
+    "newtooltip": "Copies the script name into target, setting it running (if running is TRUE) with the start_param, provided the script owner has modify permissions on target and target's PIN matches pin (set via llSetRemoteScriptAccessPin)."
+  },
+  "llRemoveFromLandBanList": {
+    "tooltip": "Remove avatar from the land ban list.\nRemove specified avatar from the land parcel ban list.",
+    "description": "Remove avatar from the land ban list",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "avatar",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the avatar to remove."
+      }
+    },
+    "newtooltip": "Removes the specified avatar from the land parcel's ban list."
+  },
+  "llRemoveFromLandPassList": {
+    "tooltip": "Remove avatar from the land pass list.\nRemove specified avatar from the land parcel pass list.",
+    "description": "Remove avatar from the land pass list.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "avatar",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the avatar to remove."
+      }
+    },
+    "newtooltip": "Removes the specified avatar from the land parcel's pass/access list."
+  },
+  "llRemoveInventory": {
+    "tooltip": "Remove the named inventory item.\nRemove the named inventory item from the object inventory.",
+    "description": "Remove the named inventory item",
+    "arguments": {
+      "InventoryItem": {
+        "tooltip": "",
+        "newname": "item",
+        "description": "an item in the inventory of the prim this script is in",
+        "newtooltip": "The name of the item in the prim's inventory to remove."
+      }
+    },
+    "newtooltip": "Permanently deletes the named inventory item from the prim's inventory."
+  },
+  "llRemoveVehicleFlags": {
+    "tooltip": "Removes the enabled bits in 'flags'.\nSets the vehicle flags to FALSE. Valid parameters can be found in the vehicle flags constants section.",
+    "description": "Disable the specified vehicle flags",
+    "arguments": {
+      "Vehiclelags": {
+        "tooltip": "",
+        "newname": "flags",
+        "description": "mask of VEHICLE_FLAG_* flags",
+        "newtooltip": "A bitwise mask of VEHICLE_FLAG_* constants to disable."
+      }
+    },
+    "newtooltip": "Disables the specified vehicle flags (sets them to FALSE) using the bitwise mask flags."
+  },
+  "llReplaceAgentEnvironment": {
+    "tooltip": "Replaces the entire environment for an agent. Must be used as part of an experience.",
+    "description": "The llReplaceAgentEnvironment function overrides the current region and parcel environment seen by an agent. The new environment persists until the agent crosses to a new region or this function is called with the NULL_KEY or empty string in the environment parameter for the particular agent, doing so will strip all environmental settings applied to this agent as part of the experience. This function must be executed as part of an experience.\n\n\n Returns an integer",
+    "arguments": {
+      "agent_id": {
+        "tooltip": "",
+        "newname": "agent_id",
+        "description": "The key for an agent in the region. The agent must be in the region and must be participating in the experience.",
+        "newtooltip": "The UUID of an agent in the region participating in the experience."
+      },
+      "transition": {
+        "tooltip": "",
+        "newname": "transition",
+        "description": "The number of seconds over which to transition to the new settings.",
+        "newtooltip": "The duration in seconds over which to transition to the new environment."
+      },
+      "environment": {
+        "tooltip": "",
+        "newname": "environment",
+        "description": "The name of an environmental setting in the object's inventory or the asset ID for an environment.",
+        "newtooltip": "The name of an environmental setting in inventory, or its asset UUID (or empty string/NULL_KEY to clear)."
+      }
+    },
+    "newtooltip": "Replaces the region and parcel environment seen by the specified agent_id as part of an experience, transitioning the settings over transition seconds. Passing NULL_KEY or an empty string for environment restores defaults."
+  },
+  "llReplaceEnvironment": {
+    "tooltip": "Replaces the environment for a parcel or region.",
+    "description": "The llReplaceEnvironment function replaces the environment in a parcel or a region. Either for a single elevation track or the entire environment. The owner of the script must have permission to edit the environment on the destination parcel, or be an estate manage in the case of an entire region.\nIn most cases errors are reported as a return value from the function (see table below). However, issues with the environment assets may be reported in the debug chat.\n\n\n Returns an integer",
+    "arguments": {
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/position\" target=\"_blank\">position</a>": {
+        "tooltip": "Location of parcel to change. Use <-1, -1, -1> for entire region.",
+        "newname": "position",
+        "description": "The position in the region of the parcel that will receive the new environment. To change the entire region use <-1, -1, -1>. The z component of the vector is ignored.",
+        "newtooltip": "The position vector of the target parcel (the Z component is ignored; use <-1.0, -1.0, -1.0> for the entire region)."
+      },
+      "environment": {
+        "tooltip": "Name of inventory item, or UUID of environment resource to apply. Use NULL_KEY or empty string to remove environment.",
+        "newname": "environment",
+        "description": "The name of an environmental setting in the object's inventory or the asset ID for an environment. NULL_KEY or empty string to remove the environment.",
+        "newtooltip": "The name of an environmental setting in inventory, or its asset UUID (or empty string/NULL_KEY to clear)."
+      },
+      "track_no": {
+        "tooltip": "Elevation zone of where to apply environment. Use -1 for all.",
+        "newname": "track_no",
+        "description": "The elevation zone to change. 0 for water, 1 for ground level, 2 for sky 1000m, 3 for sky 2000m, 4 for sky 3000m. -1 to change all tracks.",
+        "newtooltip": "The elevation track to change (0: water, 1: ground, 2: 1000m, 3: 2000m, 4: 3000m, -1: all tracks)."
+      },
+      "day_length": {
+        "tooltip": "Length of day cycle for this parcel or region. -1 to leave unchanged.",
+        "newname": "day_length",
+        "description": "The length in seconds for the day cycle. -1 to leave unchanged.",
+        "newtooltip": "The day cycle length in seconds (-1 to leave unchanged)."
+      },
+      "day_offset": {
+        "tooltip": "Offset from GMT for the day cycle on this parcel or region. -1 to leave unchanged.",
+        "newname": "day_offset",
+        "description": "The offset in positive seconds from UTC. -1 (or other negative number) to leave unchanged. 43200 for +12/-12h. 61200 for SLT (+17/-7). Both 0 and 86400 represent UTC.",
+        "newtooltip": "The day cycle offset in seconds from UTC (-1 to leave unchanged)."
+      }
+    },
+    "newtooltip": "Replaces the environment on the parcel containing position (or the entire region if position is <-1.0, -1.0, -1.0>) for the specified track_no. Modifies day_length and day_offset if specified. Requires edit permissions on the parcel or estate management rights."
+  },
+  "llReplaceSubString": {
+    "tooltip": "Searches InitialString and replaces instances of SubString with NewSubString. Zero Count means \"replace all\". Positive Count moves left to right. Negative moves right to left.",
+    "description": "Returns a string that is the result of replacing the first count matching instances pattern in src with replacement_pattern.",
+    "arguments": {
+      "InitialString": {
+        "tooltip": "The original string in which to hunt for substring matches.",
+        "newname": "src",
+        "newtooltip": "The original source string to search."
+      },
+      "SubString": {
+        "tooltip": "The original substring to find.",
+        "newname": "pattern",
+        "newtooltip": "The substring pattern to find and replace."
+      },
+      "NewSubString": {
+        "tooltip": "The new substring used to replace.",
+        "newname": "replacement_pattern",
+        "newtooltip": "The new substring used to replace the pattern."
+      },
+      "Count": {
+        "tooltip": "The max number of replacements to make. Zero Count means \"replace all\". Positive Count moves left to right. Negative moves right to left.",
+        "newname": "count",
+        "newtooltip": "The maximum number of replacements to make (0 for all, positive for left-to-right, negative for right-to-left)."
+      }
+    },
+    "newtooltip": "Returns a new string representing src with count occurrences of pattern replaced by replacement_pattern. Setting count to 0 replaces all occurrences; positive counts process left-to-right, while negative counts process right-to-left."
+  },
+  "llRequestAgentData": {
+    "tooltip": "Requests data about AvatarID. When data is available the dataserver event will be raised.\\nThis function requests data about an avatar. If and when the information is collected, the dataserver event is triggered with the key returned from this function passed in the requested parameter. See the agent data constants (DATA_*) for details about valid values of data and what each will return in the dataserver event.",
+    "description": "Requests data about agent id. When data is available the dataserver event will be raised\n\n\n Returns the handle (a key) for the dataserver event when it is raised.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the agent."
+      },
+      "Data": {
+        "tooltip": "",
+        "newname": "data",
+        "description": "DATA_* flag",
+        "newtooltip": "The DATA_* category flag of the requested information."
+      }
+    },
+    "newtooltip": "Asynchronously requests the specified data category (DATA_*) about the agent id. Triggers a dataserver event with the results and returns a key query handle."
+  },
+  "llRequestDisplayName": {
+    "tooltip": "Requests the display name of the agent. When the display name is available the dataserver event will be raised.\\nThe avatar identified does not need to be in the same region or online at the time of the request.\\nReturns a key that is used to identify the dataserver event when it is raised.",
+    "description": "Requests the Display Name of the agent identified by id. When the Display Name is available the dataserver event will be raised. The agent identified by id does not need to be in the same region or online at the time of the request.\n\n\n Returns the handle (a key) that is used to identify the dataserver event when it is raised.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "Avatar UUID",
+        "newname": "id",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the avatar to query."
+      }
+    },
+    "newtooltip": "Asynchronously requests the display name of the agent specified by id, triggering a dataserver event with the results. The agent does not need to be online or in the region. Returns a key query handle."
+  },
+  "llRequestExperiencePermissions": {
+    "tooltip": "Ask the agent for permission to participate in an experience. This request is similar to llRequestPermissions with the following permissions: PERMISSION_TAKE_CONTROLS, PERMISSION_TRIGGER_ANIMATION, PERMISSION_ATTACH, PERMISSION_TRACK_CAMERA, PERMISSION_CONTROL_CAMERA and PERMISSION_TELEPORT. However, unlike llRequestPermissions the decision to allow or block the request is persistent and applies to all scripts using the experience grid wide. Subsequent calls to llRequestExperiencePermissions from scripts in the experience will receive the same response automatically with no user interaction. One of experience_permissions or experience_permissions_denied will be generated in response to this call. Outstanding permission requests will be lost if the script is derezzed, moved to another region or reset.\\n",
+    "description": "Asks the agent for permission to participate in the script's Experience.",
+    "arguments": {
+      "AgentID": {
+        "tooltip": "",
+        "newname": "agent",
+        "description": "Key of the agent to request permissions from",
+        "newtooltip": "The UUID of the agent to request permissions from."
+      },
+      "unused": {
+        "tooltip": "Not used, should be \"",
+        "newname": "name",
+        "description": "Deprecated, no longer used",
+        "newtooltip": "Deprecated parameter (no longer used)."
+      }
+    },
+    "newtooltip": "Requests permission from the specified agent to participate in the experience. These permissions are persistent and apply grid-wide across all scripts in the experience, automatically triggering experience_permissions or experience_permissions_denied."
+  },
+  "llRequestInventoryData": {
+    "tooltip": "Requests data for the named InventoryItem.\nWhen data is available, the dataserver event will be raised with the key returned from this function in the requested parameter.\\nThe only request currently implemented is to request data from landmarks, where the data returned is in the form \"<float, float, float>\" which can be cast to a vector. This position is in region local coordinates.",
+    "description": "Requests data about the item name in the prim's inventory. When data is available the dataserver event will be raised.\n\n\n Returns the handle (a key) that is used to identify the dataserver event when it is raised.",
+    "arguments": {
+      "InventoryItem": {
+        "tooltip": "",
+        "newname": "name",
+        "description": "an item in the inventory of the prim this script is in",
+        "newtooltip": "The name of the item in the prim's inventory."
+      }
+    },
+    "newtooltip": "Asynchronously requests data for the inventory item specified by name, triggering a dataserver event. Currently, only landmark items are supported (which return local region coordinates). Returns a key query handle."
+  },
+  "llRequestPermissions": {
+    "tooltip": "Ask AvatarID to allow the script to perform certain actions, specified in the PermissionMask bitmask. PermissionMask should be one or more PERMISSION_* constants. Multiple permissions can be requested simultaneously by ORing the constants together. Many of the permissions requests can only go to object owner.\\nThis call will not stop script execution. If the avatar grants the requested permissions, the run_time_permissions event will be called.",
+    "description": "Ask agent for permissions to run certain classes of functions.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "agent",
+        "description": "avatar UUID that is in the same region",
+        "newtooltip": "The UUID of the agent in the same region."
+      },
+      "PermissionMask": {
+        "tooltip": "",
+        "newname": "permissions",
+        "description": "Permission mask (bitfield containing the permissions to request).",
+        "newtooltip": "The bitfield containing the PERMISSION_* constants to request."
+      }
+    },
+    "newtooltip": "Requests permissions (a bitfield specified by permissions) from the agent in the same region, calling run_time_permissions if granted. This call does not pause script execution."
+  },
+  "llRequestSecureURL": {
+    "tooltip": "Requests one HTTPS:// (SSL) URL for use by this object. The http_request event is triggered with results.\\nReturns a key that is the handle used for identifying the request in the http_request event.",
+    "description": "Requests one HTTPS:// ([](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;SSL) [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;URL for use by this object. The http_request event is triggered with result of the request. HTTPS-in uses port 12043.\n\n\n Returns a handle (a key) used for identifying the result of the request in the http_request event.",
+    "arguments": {},
+    "newtooltip": "Asynchronously requests one secure HTTPS (SSL, port 12043) URL for use by this object, triggering an http_request event. Returns a key query handle."
+  },
+  "llRequestSimulatorData": {
+    "tooltip": "Requests the specified Data about RegionName. When the specified data is available, the dataserver event is raised.\\nData should use one of the DATA_SIM_* constants.\\nReturns a dataserver query ID and triggers the dataserver event when data is found.",
+    "description": "Requests data about region. When data is available the dataserver event will be raised.\n\n\n Returns a handle (a key) for a dataserver event response.",
+    "arguments": {
+      "RegionName": {
+        "tooltip": "",
+        "newname": "region",
+        "description": "Case sensitive region name.",
+        "newtooltip": "The case-sensitive region name."
+      },
+      "Data": {
+        "tooltip": "",
+        "newname": "data",
+        "description": "DATA_* flag",
+        "newtooltip": "The DATA_SIM_* flag of the requested simulator data."
+      }
+    },
+    "newtooltip": "Asynchronously requests data (using a DATA_SIM_* constant) about the region. Triggers a dataserver event and returns a key query handle."
+  },
+  "llRequestURL": {
+    "tooltip": "Requests one HTTP:// URL for use by this script. The http_request event is triggered with the result of the request.\\nReturns a key that is the handle used for identifying the result in the http_request event.",
+    "description": "Requests one 'HTTP://' [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;URL for use by this script. The http_request event is triggered with the result of the request.\n\n\n Returns a handle (a key) used for identifying the result of the request in the http_request event.",
+    "arguments": {},
+    "newtooltip": "Asynchronously requests one HTTP URL for use by this script, triggering an http_request event. Returns a key query handle."
+  },
+  "llRequestUserKey": {
+    "tooltip": "Look up Agent ID for the named agent using a historical name.",
+    "description": "Requests the Agent ID for the agent identified by name from the dataserver. The name given may be either the current name of an avatar or a historical name that has been used in the past. If no agent can be found with the supplied name this function returns the value NULL_KEY.\n\n\n Returns a handle (a key) that can be used to identify the request when the dataserver event is raised.\n\n\n The agent being searched for with this function does not need to be signed on to Second Life.\n\n\n Returns a key",
+    "arguments": {
+      "Name": {
+        "tooltip": "Name of agent to look up.",
+        "newname": "username",
+        "description": "the username of the avatar to retrieve the UUID of.",
+        "newtooltip": "The current or historical username of the avatar to resolve."
+      }
+    },
+    "newtooltip": "Asynchronously requests the Agent ID key (UUID) for the agent specified by their current or historical username, returning NULL_KEY if not found. Returns a key query handle for the dataserver event."
+  },
+  "llRequestUsername": {
+    "tooltip": "Requests single-word user-name of an avatar. When data is available the dataserver event will be raised.\\nRequests the user-name of the identified agent. When the user-name is available the dataserver event is raised.\\nThe agent identified does not need to be in the same region or online at the time of the request.\\nReturns a key that is used to identify the dataserver event when it is raised.",
+    "description": "Requests the Username of the agent identified by id. When the Username is available the dataserver event will be raised. The agent identified by id does not need to be in the same region or online at the time of the request.\n\n\n Returns a handle (a key) that is used to identify the dataserver event when it is raised.\nIf id is not the UUID of an avatar, the dataserver event is not raised.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the avatar to query."
+      }
+    },
+    "newtooltip": "Asynchronously requests the unique single-word username of the agent identified by id, triggering a dataserver event. The agent does not need to be online or in the region. Returns a key query handle."
+  },
+  "llResetAnimationOverride": {
+    "tooltip": "Resets the animation of the specified animation state to the default value.\\nIf animation state equals \"ALL\", then all animation states are reset.\\nRequires the PERMISSION_OVERRIDE_ANIMATIONS permission (automatically granted to attached objects).",
+    "description": "Resets the animation override of the specified animation state (anim_state) to the corresponding default value.",
+    "arguments": {
+      "AnimationState": {
+        "tooltip": "",
+        "newname": "anim_state",
+        "description": "animation state to be reset",
+        "newtooltip": "The animation state string (or 'ALL') to reset."
+      }
+    },
+    "newtooltip": "Resets the animation override for anim_state to its default value (use 'ALL' to reset all states). Requires the PERMISSION_OVERRIDE_ANIMATIONS permission."
+  },
+  "llResetLandBanList": {
+    "tooltip": "Removes all residents from the land ban list.",
+    "description": "Removes all residents from the land ban list.",
+    "arguments": {},
+    "newtooltip": "Removes all blocked residents from the land parcel's ban list."
+  },
+  "llResetLandPassList": {
+    "tooltip": "Removes all residents from the land access/pass list.",
+    "description": "Removes all residents from the land access/pass list.",
+    "arguments": {},
+    "newtooltip": "Removes all residents from the land parcel's access/pass list."
+  },
+  "llResetOtherScript": {
+    "tooltip": "Resets the named script.",
+    "description": "Resets script name.",
+    "arguments": {
+      "ScriptName": {
+        "tooltip": "",
+        "newname": "name",
+        "description": "a script in the inventory of the prim this script is in",
+        "newtooltip": "The name of the target script in the prim's inventory."
+      }
+    },
+    "newtooltip": "Resets the script name located in the prim's inventory."
+  },
+  "llResetScript": {
+    "tooltip": "Resets the script.",
+    "description": "Resets the script.\n\n\n On script reset...",
+    "arguments": {},
+    "newtooltip": "Resets the current script."
+  },
+  "llResetTime": {
+    "tooltip": "Sets the time to zero.\nSets the internal timer to zero.",
+    "description": "Resets the script-time timer to zero.",
+    "arguments": {},
+    "newtooltip": "Resets the script's elapsed time timer back to zero."
+  },
+  "llReturnObjectsByID": {
+    "tooltip": "Return objects using their UUIDs.\nRequires the PERMISSION_RETURN_OBJECTS permission and that the script owner owns the parcel the returned objects are in, or is an estate manager or region owner.",
+    "description": "If the script is owned by an agent, PERMISSION_RETURN_OBJECTS may be granted by the owner. If the script is owned by a group, this permission may be granted by an agent belonging to the group's \"Owners\" role.\n\n\n Returns an integer that is the number of objects successfully returned to their owners or an ERR_* flag.",
+    "arguments": {
+      "ObjectIDs": {
+        "tooltip": "List of object UUIDs to be returned.",
+        "newname": "objects",
+        "description": "list of object uuids (keys)",
+        "newtooltip": "A list of object UUID keys to return."
+      }
+    },
+    "newtooltip": "Returns objects specified by the list of UUIDs objects to their owners. Requires the PERMISSION_RETURN_OBJECTS permission, and the script owner must own the parcel or be an estate manager/region owner."
+  },
+  "llReturnObjectsByOwner": {
+    "tooltip": "Return objects based upon their owner and a scope of parcel, parcel owner, or region.\\nRequires the PERMISSION_RETURN_OBJECTS permission and that the script owner owns the parcel the returned objects are in, or is an estate manager or region owner.",
+    "description": "If the script is owned by an agent, PERMISSION_RETURN_OBJECTS may be granted by the owner. If the script is owned by a group, this permission may be granted by an agent belonging to the group's \"Owners\" role.\n\n\n Returns an integer that is the number of objects successfully returned to their owners or an ERR_* flag.",
+    "arguments": {
+      "ID": {
+        "tooltip": "Object owner's UUID.",
+        "newname": "owner",
+        "description": "avatar or group UUID",
+        "newtooltip": "The UUID of the avatar or group whose objects will be returned."
+      },
+      "Scope": {
+        "tooltip": "",
+        "newname": "scope",
+        "description": "OBJECT_RETURN_* flag",
+        "newtooltip": "The OBJECT_RETURN_* scope flag (such as OBJECT_RETURN_PARCEL, OBJECT_RETURN_PARCEL_OWNER, or OBJECT_RETURN_REGION)."
+      }
+    },
+    "newtooltip": "Returns objects owned by owner within the specified scope (parcel, parcel owner, or region). Requires the PERMISSION_RETURN_OBJECTS permission, and the script owner must own the parcel or be an estate manager/region owner."
+  },
+  "llRezAtRoot": {
+    "tooltip": "Instantiate owner's InventoryItem at Position with Velocity, Rotation and with StartParameter. The last selected root object's location will be set to Position.\\nCreates object's inventory item at the given Position, with Velocity, Rotation, and StartParameter.",
+    "description": "Instantiate inventory object rotated to rot with its root at position, moving at velocity, using param as the start parameter",
+    "arguments": {
+      "InventoryItem": {
+        "tooltip": "",
+        "newname": "inventory",
+        "description": "an object in the inventory of the prim this script is in",
+        "newtooltip": "The name of the object in the prim's inventory."
+      },
+      "Position": {
+        "tooltip": "",
+        "newname": "position",
+        "description": "position in region coordinates&#32;to place the object",
+        "newtooltip": "The position vector in region coordinates where the root of the object will be placed."
+      },
+      "Velocity": {
+        "tooltip": "",
+        "newname": "velocity",
+        "description": "initial velocity",
+        "newtooltip": "The initial velocity vector for the rezzed object."
+      },
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "description": "initial rotation",
+        "newtooltip": "The initial rotation of the rezzed object."
+      },
+      "StartParameter": {
+        "tooltip": "",
+        "newname": "param",
+        "description": "on_rez event parameter and value returned by llGetStartParameter in the rezzed object (or by each of the items in a coalesced object).",
+        "newtooltip": "The start parameter passed to the rezzed object's on_rez event (accessible via llGetStartParameter)."
+      }
+    },
+    "newtooltip": "Instantiates the inventory object at position moving at velocity, rotated to rot with its root prim centered exactly on position, passing param as the on_rez start parameter."
+  },
+  "llRezObject": {
+    "tooltip": "Instantiate owners InventoryItem at Position with Velocity, Rotation and with start StartParameter.\\nCreates object's inventory item at Position with Velocity and Rotation supplied. The StartParameter value will be available to the newly created object in the on_rez event or through the llGetStartParameter function.\\nThe Velocity parameter is ignored if the rezzed object is not physical.",
+    "description": "Instantiate inventory object at pos with velocity vel and rotation rot with start parameter param",
+    "arguments": {
+      "InventoryItem": {
+        "tooltip": "",
+        "newname": "inventory",
+        "description": "an object in the inventory of the prim this script is in",
+        "newtooltip": "The name of the object in the prim's inventory."
+      },
+      "Position": {
+        "tooltip": "",
+        "newname": "pos",
+        "description": "position in region coordinates",
+        "newtooltip": "The position vector in region coordinates where the center of the object will be placed."
+      },
+      "Velocity": {
+        "tooltip": "",
+        "newname": "vel",
+        "description": "velocity (max magnitude is approximately 200m/s)",
+        "newtooltip": "The initial velocity vector (maximum magnitude ~200m/s)."
+      },
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "description": "rotation",
+        "newtooltip": "The initial rotation of the rezzed object."
+      },
+      "StartParameter": {
+        "tooltip": "",
+        "newname": "param",
+        "description": "on_rez event parameter and value returned by llGetStartParameter in the rezzed object (or by each of the items in a coalesced object).",
+        "newtooltip": "The start parameter passed to the rezzed object's on_rez event (accessible via llGetStartParameter)."
+      }
+    },
+    "newtooltip": "Instantiates the inventory object at pos with velocity vel and rotation rot, passing param as the on_rez start parameter. The vel parameter is ignored if the rezzed object is non-physical."
+  },
+  "llRezObjectWithParams": {
+    "tooltip": "Instantiate owner's InventoryItem with the given parameters.",
+    "description": "Instantiate inventory object at pos with an initial set of parameters specified in params.\n\n\n pos will default to the position of the object containing the script, unless REZ_POS is specified. (see below)\n\n\n Returns a key which will be the key of the object when it is successfully rezzed in the world. On failure, returns '(key)\"\"' (in LSL), or 'NULL_KEY' (in Lua).",
+    "arguments": {
+      "InventoryItem": {
+        "tooltip": "",
+        "newname": "inventory",
+        "description": "an object in the inventory of the prim this script is in",
+        "newtooltip": "The name of the object in the prim's inventory."
+      },
+      "Params": {
+        "tooltip": "",
+        "newname": "params",
+        "newtooltip": "A list of REZ_* parameters to configure the rezzed object's attributes."
+      }
+    },
+    "newtooltip": "Instantiates the inventory object (defaulting to the rezzing prim's position unless REZ_POS is specified) using the initial set of parameters specified in params. Returns the key of the rezzed object, or a blank key on failure."
+  },
+  "llRot2Angle": {
+    "tooltip": "Returns the rotation angle represented by Rotation.\nReturns the angle represented by the Rotation.",
+    "description": "Returns a float that is the rotation angle represented by rot",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "newtooltip": "The rotation value."
+      }
+    },
+    "newtooltip": "Returns a float representing the rotation angle of rot."
+  },
+  "llRot2Axis": {
+    "tooltip": "Returns the rotation axis represented by Rotation.\nReturns the axis represented by the Rotation.",
+    "description": "Returns a vector the rotation axis represented by rot",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "newtooltip": "The rotation value."
+      }
+    },
+    "newtooltip": "Returns a vector representing the rotation axis of rot."
+  },
+  "llRot2Euler": {
+    "tooltip": "Returns the Euler representation (roll, pitch, yaw) of Rotation.\nReturns the Euler Angle representation of the Rotation.",
+    "description": "Returns a vector that is the Euler representation (roll, pitch, yaw) of quat, with each component expressed in radians.",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "quat",
+        "description": "Any valid rotation",
+        "newtooltip": "The rotation value to convert."
+      }
+    },
+    "newtooltip": "Returns a vector representing the Euler rotation (roll, pitch, yaw) of quat, with each component expressed in radians."
+  },
+  "llRot2Fwd": {
+    "tooltip": "Returns the forward vector defined by Rotation.\nReturns the forward axis represented by the Rotation.",
+    "description": "Computes the orientation of the local x-axis relative to the parent (i.e. the root prim or the world).\n\n\n Returns a vector that is the forward vector defined by q, i.e. a unit vector pointing in the local positive X direction.",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "q",
+        "newtooltip": "The rotation value."
+      }
+    },
+    "newtooltip": "Returns a unit vector pointing in the local positive X direction (forward) relative to the parent (root prim or region) defined by rotation q."
+  },
+  "llRot2Left": {
+    "tooltip": "Returns the left vector defined by Rotation.\nReturns the left axis represented by the Rotation.",
+    "description": "Computes the orientation of the local y-axis relative to the parent (i.e. relative to the root prim or the world).\n\n\n Returns a vector that is the left vector defined by q, i.e. a unit vector pointing in the local positive Y direction",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "q",
+        "newtooltip": "The rotation value."
+      }
+    },
+    "newtooltip": "Returns a unit vector pointing in the local positive Y direction (left) relative to the parent (root prim or region) defined by rotation q."
+  },
+  "llRot2Up": {
+    "tooltip": "Returns the up vector defined by Rotation.\nReturns the up axis represented by the Rotation.",
+    "description": "Computes the orientation of the local z-axis relative to the parent (i.e. the root prim or the world).\n\n\n Returns a vector that is the up vector defined by q, i.e. a unit vector pointing in the positive Z direction",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "q",
+        "newtooltip": "The rotation value."
+      }
+    },
+    "newtooltip": "Returns a unit vector pointing in the local positive Z direction (up) relative to the parent (root prim or region) defined by rotation q."
+  },
+  "llRotateTexture": {
+    "tooltip": "Sets the texture rotation for the specified Face to angle Radians.\nIf Face is ALL_SIDES, rotates the texture of all sides.",
+    "description": "Sets the rotation of a texture on the chosen face to angle.",
+    "arguments": {
+      "Radians": {
+        "tooltip": "",
+        "newname": "angle",
+        "description": "angle expressed in radians",
+        "newtooltip": "The rotation angle expressed in radians."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Sets the texture rotation of face to the specified angle (in radians). If face is ALL_SIDES, rotates the texture on all faces."
+  },
+  "llRotBetween": {
+    "tooltip": "Returns the rotation to rotate Vector1 to Vector2.\nReturns the rotation needed to rotate Vector1 to Vector2.",
+    "description": "Returns a rotation that is the shortest rotation between the direction start and the direction end",
+    "arguments": {
+      "Vector1": {
+        "tooltip": "",
+        "newname": "start",
+        "newtooltip": "The starting vector."
+      },
+      "Vector2": {
+        "tooltip": "",
+        "newname": "end",
+        "newtooltip": "The target ending vector."
+      }
+    },
+    "newtooltip": "Returns a rotation representing the shortest path rotation from vector start to vector end."
+  },
+  "llRotLookAt": {
+    "tooltip": "Cause object to rotate to Rotation, with a force function defined by Strength and Damping parameters. Good strength values are around half the mass of the object and good damping values are less than 1/10th of the strength.\\nAsymmetrical shapes require smaller damping.\\nA strength of 0.0 cancels the look at.",
+    "description": "Causes an object to smoothly rotate to target_direction with strength resistance at damping force.\n\n\n Maintains rotation target_direction until stopped with llStopLookAt.",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "target_direction",
+        "newtooltip": "The target rotation to align the object with."
+      },
+      "Strength": {
+        "tooltip": "",
+        "newname": "strength",
+        "newtooltip": "The force of rotation (0.0 cancels the tracking; values around half the object's mass are typical)."
+      },
+      "Damping": {
+        "tooltip": "",
+        "newname": "damping",
+        "description": "seconds to critically damp in",
+        "newtooltip": "The timescale in seconds to critically damp the rotation."
+      }
+    },
+    "newtooltip": "Causes the object to smoothly rotate to target_direction with a force defined by strength and damping. A strength of 0.0 cancels the rotation target. Rotation is maintained until stopped with llStopLookAt."
+  },
+  "llRotTarget": {
+    "tooltip": "Set rotations with error of LeeWay radians as a rotational target, and return an ID for the rotational target.\\nThe returned number is a handle that can be used in at_rot_target and llRotTargetRemove.",
+    "description": "This function is to have the script know when it has reached a rotation.\n\n\n It registers a rot with a error that triggers at_rot_target and not_at_rot_target events continuously until unregistered.\n\n\n Returns a handle (an integer) to unregister the target with llRotTargetRemove",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "description": "target rotation",
+        "newtooltip": "The target rotation to track."
+      },
+      "LeeWay": {
+        "tooltip": "",
+        "newname": "error",
+        "description": "angle in radians, defines when rot has been reached",
+        "newtooltip": "The tolerance angle in radians defining when the target rotation is considered reached."
+      }
+    },
+    "newtooltip": "Registers the rotation rot with a leeway tolerance error (in radians) as a target, triggering at_rot_target and not_at_rot_target events. Returns an integer handle to unregister the target via llRotTargetRemove."
+  },
+  "llRotTargetRemove": {
+    "tooltip": "Removes rotational target number.\nRemove rotational target indicated by the handle.",
+    "description": "Removes rotational target handle registered with llRotTarget",
+    "arguments": {
+      "Handle": {
+        "tooltip": "",
+        "newname": "handle",
+        "description": "handle to control at_rot_target and not_at_rot_target events",
+        "newtooltip": "The integer target handle returned by llRotTarget to remove."
+      }
+    },
+    "newtooltip": "Removes the rotational target specified by the integer handle registered with llRotTarget."
+  },
+  "llRound": {
+    "tooltip": "Returns Value rounded to the nearest integer.\nReturns the Value rounded to the nearest integer.",
+    "description": "Returns the integer that val is closest to.",
+    "arguments": {
+      "Value": {
+        "tooltip": "",
+        "newname": "val",
+        "description": "Any valid float value",
+        "newtooltip": "The float value to round."
+      }
+    },
+    "newtooltip": "Returns the integer that float val is closest to."
+  },
+  "llSameGroup": {
+    "tooltip": "Returns TRUE if avatar ID is in the same region and has the same active group, otherwise FALSE.\\nReturns TRUE if the object or agent identified is in the same simulator and has the same active group as this object. Otherwise, returns FALSE.",
+    "description": "Returns a boolean (an integer) that is TRUE if uuid and the prim the script is in are of the same group, otherwise FALSE.",
+    "arguments": {
+      "ID": {
+        "tooltip": "",
+        "newname": "uuid",
+        "description": "group,&#32;avatar or prim UUID that is in the same region",
+        "newtooltip": "The UUID of the group, avatar, or prim to check."
+      }
+    },
+    "newtooltip": "Returns TRUE if the agent or object specified by uuid is in the same region (simulator) and shares the same active group as the prim containing the script; returns FALSE otherwise."
+  },
+  "llSay": {
+    "tooltip": "Says Text on Channel.\nThis chat method has a range of 20m radius.\nPUBLIC_CHANNEL is the public chat channel that all avatars see as chat text. DEBUG_CHANNEL is the script debug channel, and is also visible to nearby avatars. All other channels are are not sent to avatars, but may be used to communicate with scripts.",
+    "description": "Says the text supplied in string msg on channel supplied in integer channel. The message can be heard 20m away, usually (see caveats)",
+    "arguments": {
+      "Channel": {
+        "tooltip": "Channel to use to say text on.",
+        "newname": "channel",
+        "description": "output chat channel, any integer value",
+        "newtooltip": "The integer chat channel to transmit the message on."
+      },
+      "Text": {
+        "tooltip": "Text to say.",
+        "newname": "msg",
+        "description": "message to be transmitted",
+        "newtooltip": "The text message string to transmit."
+      }
+    },
+    "newtooltip": "Says the text message msg on the specified channel. The message can be heard up to a 20m radius. Channels other than PUBLIC_CHANNEL (0) and DEBUG_CHANNEL (2147483647) are not visible to avatars and can be used for script-to-script communication."
+  },
+  "llScaleByFactor": {
+    "tooltip": "Attempts to resize the entire object by ScalingFactor, maintaining the size-position ratios of the prims.\\n\\nResizing is subject to prim scale limits and linkability limits. This function can not resize the object if the linkset is physical, a pathfinding character, in a keyframed motion, or if resizing would cause the parcel to overflow.\\nReturns a boolean (an integer) TRUE if it succeeds, FALSE if it fails.",
+    "description": "Attempts to resize the entire object by scaling_factor, maintaining the size-position ratios of the prims.\n\n\n Resizing is subject to prim scale limits and linkability limits. This function can not resize the object if the linkset is physical, a pathfinding character, in a keyframed motion, or if resizing would cause the parcel to overflow.\n\n\n Returns a boolean (an integer) TRUE if it succeeds, FALSE if it fails.",
+    "arguments": {
+      "ScalingFactor": {
+        "tooltip": "The multiplier to be used with the prim sizes and their local positions.",
+        "newname": "scaling_factor",
+        "description": "The multiplier to be used with the prim sizes and their local positions.",
+        "newtooltip": "The multiplier scale factor to apply to the prim sizes and their local positions."
+      }
+    },
+    "newtooltip": "Attempts to uniformly resize the entire object by scaling_factor, maintaining size-position ratios of the prims. Fails if the linkset is physical, a pathfinding character, in keyframed motion, would exceed prim scale/linkability limits, or would overflow parcel capacity."
+  },
+  "llScaleTexture": {
+    "tooltip": "Sets the diffuse texture Horizontal and Vertical repeats on Face of the prim the script is attached to.\\nIf Face == ALL_SIDES, all sides are set in one call.\\nNegative values for horizontal and vertical will flip the texture.",
+    "description": "Sets the texture u & v scales for the chosen face.",
+    "arguments": {
+      "Horizontal": {
+        "tooltip": "",
+        "newname": "u",
+        "description": "horizontal (x) scale in the interval [-100.0, 100.0]",
+        "newtooltip": "The horizontal (U) texture repeats scale value, in the interval [-100.0, 100.0]."
+      },
+      "Vertical": {
+        "tooltip": "",
+        "newname": "v",
+        "description": "vertical (y) scale in the interval [-100.0, 100.0]",
+        "newtooltip": "The vertical (V) texture repeats scale value, in the interval [-100.0, 100.0]."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Sets the diffuse texture horizontal u and vertical v scales (repeats) on the specified face of the prim. Setting face to ALL_SIDES updates all sides. Negative scale values flip the texture."
+  },
+  "llScriptDanger": {
+    "tooltip": "Returns TRUE if Position is over public land, sandbox land, land that doesn't allow everyone to edit and build, or land that doesn't allow outside scripts.\\nReturns true if the position is over public land, land that doesn't allow everyone to edit and build, or land that doesn't allow outside scripts.",
+    "description": "Returns a boolean (an integer) that is TRUE if pos is over public land, sandbox land, land that doesn't allow everyone to edit and build, or land that doesn't allow outside scripts.",
+    "arguments": {
+      "Position": {
+        "tooltip": "",
+        "newname": "pos",
+        "description": "position in region coordinates",
+        "newtooltip": "The position vector in region coordinates to check."
+      }
+    },
+    "newtooltip": "Returns TRUE if the vector position pos is over public land, sandbox land, land restricting edit/build permissions, or land that disables outside scripts."
+  },
+  "llScriptProfiler": {
+    "tooltip": "Enables or disables script profiling options. Currently only supports PROFILE_SCRIPT_MEMORY (Mono only) and PROFILE_NONE.\\nMay significantly reduce script performance.",
+    "description": "Enables or disables the scripts profiling state.",
+    "arguments": {
+      "State": {
+        "tooltip": "PROFILE_NONE or PROFILE_SCRIPT_MEMORY flags to control the state.",
+        "newname": "flags",
+        "description": "PROFILE_* flags",
+        "newtooltip": "The PROFILE_* flag (such as PROFILE_NONE or PROFILE_SCRIPT_MEMORY) to set the profiling state."
+      }
+    },
+    "newtooltip": "Enables or disables the script's profiling state using flags (supports PROFILE_SCRIPT_MEMORY on Mono, or PROFILE_NONE). Active profiling can significantly reduce script performance."
+  },
+  "llSendRemoteData": {
+    "tooltip": "This function is deprecated.",
+    "description": "Send an XML-RPC request to dest through channel with payload of channel (in a string), integer idata and string sdata.\n\n\n Returns a key that is the message_id for the resulting remote_data events.",
+    "arguments": {
+      "ChannelID": {
+        "tooltip": "",
+        "newname": "channel",
+        "newtooltip": "The XML-RPC channel ID."
+      },
+      "Destination": {
+        "tooltip": "",
+        "newname": "dest",
+        "newtooltip": "The destination XML-RPC URL or server."
+      },
+      "Value": {
+        "tooltip": "",
+        "newname": "idata",
+        "newtooltip": "The integer payload data."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "sdata",
+        "newtooltip": "The string payload data."
+      }
+    },
+    "newtooltip": "Deprecated. Sends an XML-RPC request to dest on channel, containing the channel ID as a string, integer idata, and string sdata. Returns a key representing the message_id."
+  },
+  "llSensor": {
+    "tooltip": "Performs a single scan for Name and ID with Type (AGENT, ACTIVE, PASSIVE, and/or SCRIPTED) within Range meters and Arc radians of forward vector.\\nSpecifying a blank Name, 0 Type, or NULL_KEY ID will prevent filtering results based on that parameter. A range of 0.0 does not perform a scan.\\nResults are returned in the sensor and no_sensor events.",
+    "description": "Performs a single scan for name and id with type within radius meters and arc radians of forward vector.\n\n\n Script execution continues immediately. When the scan is completed, a sensor or no_sensor event is put in the event queue.",
+    "arguments": {
+      "Name": {
+        "tooltip": "Object or avatar name.",
+        "newname": "name",
+        "description": "object or avatar name!",
+        "newtooltip": "The specific object or avatar name to filter for (or empty string for no filter)."
+      },
+      "ID": {
+        "tooltip": "Object or avatar UUID.",
+        "newname": "id",
+        "description": "group,&#32;avatar or object UUID that is in the same region",
+        "newtooltip": "The UUID of the group, avatar, or object to filter by (or NULL_KEY for no filter)."
+      },
+      "Type": {
+        "tooltip": "Bit-field mask of AGENT, AGENT_BY_LEGACY_NAME, AGENT_BY_USERNAME, ACTIVE, PASSIVE, and/or SCRIPTED",
+        "newname": "type",
+        "description": "bit field (AGENT, AGENT_BY_LEGACY_NAME, AGENT_BY_USERNAME, ACTIVE, PASSIVE, and/or SCRIPTED)",
+        "newtooltip": "The integer bitfield type mask containing AGENT, AGENT_BY_LEGACY_NAME, AGENT_BY_USERNAME, ACTIVE, PASSIVE, or SCRIPTED (0 for no filter)."
+      },
+      "Range": {
+        "tooltip": "Distance to scan. 0.0 - 96.0m.",
+        "newname": "radius",
+        "description": "distance in meters from center, [0.0, 96.0]",
+        "newtooltip": "The maximum distance in meters to scan (range [0.0, 96.0])."
+      },
+      "Arc": {
+        "tooltip": "Angle, in radians, from the local x-axis of the prim to scan.",
+        "newname": "arc",
+        "description": "the max angle between the object's local X-axis and detectable objects, 0.0, [PI]",
+        "newtooltip": "The maximum angle in radians relative to the local X-axis to scan (range [0.0, PI])."
+      }
+    },
+    "newtooltip": "Performs a single scan from the prim's forward vector for name and id of type within radius meters and arc radians. Results trigger a sensor or no_sensor event. Passing empty filters (blank name, 0 type, or NULL_KEY id) disables that filter."
+  },
+  "llSensorRemove": {
+    "tooltip": "removes sensor.\nRemoves the sensor set by llSensorRepeat.",
+    "description": "Removes the sensor setup by llSensorRepeat.\n\n\n There are no parameters or return value for this function, as only one llSensorRepeat can be specified per script.",
+    "arguments": {},
+    "newtooltip": "Removes the periodic sensor previously configured by llSensorRepeat."
+  },
+  "llSensorRepeat": {
+    "tooltip": "Initiates a periodic scan every Rate seconds, for Name and ID with Type (AGENT, ACTIVE, PASSIVE, and/or SCRIPTED) within Range meters and Arc radians of forward vector.\\nSpecifying a blank Name, 0 Type, or NULL_KEY ID will prevent filtering results based on that parameter. A range of 0.0 does not perform a scan.\\nResults are returned in the sensor and no_sensor events.",
+    "description": "Performs a scan for name and id with type within range meters and arc radians of forward vector and repeats every rate seconds. The first scan is not performed until rate seconds have passed.\n\n\n Script execution continues immediately. Whenever a scan is completed, a sensor or no_sensor event is put in the event queue.",
+    "arguments": {
+      "Name": {
+        "tooltip": "Object or avatar name.",
+        "newname": "name",
+        "description": "Object or avatar name!",
+        "newtooltip": "The specific object or avatar name to filter for (or empty string for no filter)."
+      },
+      "ID": {
+        "tooltip": "Object or avatar UUID.",
+        "newname": "id",
+        "description": "group,&#32;avatar or object UUID",
+        "newtooltip": "The UUID of the group, avatar, or object to filter by (or NULL_KEY for no filter)."
+      },
+      "Type": {
+        "tooltip": "Bit-field mask of AGENT, AGENT_BY_LEGACY_NAME, AGENT_BY_USERNAME, ACTIVE, PASSIVE, and/or SCRIPTED",
+        "newname": "type",
+        "description": "mask (AGENT_BY_LEGACY_NAME, AGENT_BY_USERNAME, ACTIVE, PASSIVE, and/or SCRIPTED)",
+        "newtooltip": "The integer bitfield type mask containing AGENT, AGENT_BY_LEGACY_NAME, AGENT_BY_USERNAME, ACTIVE, PASSIVE, or SCRIPTED (0 for no filter)."
+      },
+      "Range": {
+        "tooltip": "Distance to scan. 0.0 - 96.0m.",
+        "newname": "radius",
+        "description": "distance in meters from center, [0.0, 96.0]",
+        "newtooltip": "The maximum distance in meters to scan (range [0.0, 96.0])."
+      },
+      "Arc": {
+        "tooltip": "Angle, in radians, from the local x-axis of the prim to scan.",
+        "newname": "arc",
+        "description": "the max angle between the object's local X-axis and detectable objects, 0.0, [PI]",
+        "newtooltip": "The maximum angle in radians relative to the local X-axis to scan (range [0.0, PI])."
+      },
+      "Rate": {
+        "tooltip": "Period, in seconds, between scans.",
+        "newname": "rate",
+        "description": "how often a scan is performed",
+        "newtooltip": "The interval in seconds between repeated scans."
+      }
+    },
+    "newtooltip": "Sets up a repeating periodic scan every rate seconds for name and id of type within radius meters and arc radians of the forward vector. Results trigger sensor or no_sensor events."
+  },
+  "llSetAgentEnvironment": {
+    "tooltip": "Sets an agent's environmental values to the specified values. Must be used as part of an experience.",
+    "description": "This function sets environment values for an individual agent in an experience. The changes to the environment persist until the agent moves to a new region or llSetAgentEnvironment is called for an agent with an empty list. Passing an empty list in params will strip all environmental settings applied to this agent as part of the experience\n\n\n Returns an integer",
+    "arguments": {
+      "agent_id": {
+        "tooltip": "Agent to receive new environment settings.",
+        "newname": "agent_id",
+        "description": "The key for an agent in the region. The agent must be in the region and must be participating in the experience.",
+        "newtooltip": "The UUID of the agent participating in the experience."
+      },
+      "transition": {
+        "tooltip": "Number of seconds over which to apply new settings.",
+        "newname": "transition",
+        "description": "The number of seconds over which to transition to the new settings.",
+        "newtooltip": "The transition duration in seconds."
+      },
+      "Settings": {
+        "tooltip": "List of environment settings to replace for agent.",
+        "newname": "params",
+        "description": "A list of parameters to retrieve from the current environment. See table below for details.",
+        "newtooltip": "A list of environmental parameters to apply."
+      }
+    },
+    "newtooltip": "Sets an individual agent's environmental settings using the attributes in params over a duration of transition seconds. Must be used as part of an experience; passing an empty list removes overrides."
+  },
+  "llSetAgentRot": {
+    "tooltip": "Sets the avatar rotation to the given value.",
+    "description": "Sets the rotation the avatar to rot.",
+    "arguments": {
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/rot\" target=\"_blank\">rot</a>": {
+        "tooltip": "Rotation to turn the avatar to face.",
+        "newname": "rot",
+        "description": "Rotation for avatar.",
+        "newtooltip": "The target rotation to turn the avatar to face."
+      },
+      "flags": {
+        "tooltip": "flags",
+        "newname": "flags",
+        "description": "Flags to control behavior of llSetAgentRot.",
+        "newtooltip": "Flags to configure the rotation behavior."
+      }
+    },
+    "newtooltip": "Sets the rotation of the avatar to rot, controlled by flags."
+  },
+  "llSetAlpha": {
+    "tooltip": "Sets the alpha (opacity) of Face.\nSets the alpha (opacity) value for Face. If Face is ALL_SIDES, sets the alpha for all faces. The alpha value is interpreted as an opacity percentage (1.0 is fully opaque, and 0.2 is mostly transparent). This function will clamp alpha values less than 0.1 to 0.1 and greater than 1.0 to 1.",
+    "description": "Sets the Blinn-Phong alpha on face",
+    "arguments": {
+      "Opacity": {
+        "tooltip": "",
+        "newname": "alpha",
+        "description": "from 0.0 (clear) to 1.0 (solid) (0.0 <= alpha <= 1.0)",
+        "newtooltip": "The transparency value to set, from 0.0 (clear) to 1.0 (solid; clamped to a minimum of 0.1)."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Sets the diffuse texture alpha (opacity) of face. If face is ALL_SIDES, applies to all faces. Values are clamped between 0.1 and 1.0 (where 1.0 is fully opaque)."
+  },
+  "llSetAngularVelocity": {
+    "tooltip": "Sets an object's angular velocity to AngVel, in local coordinates if Local == TRUE (if the script is physical).\\nHas no effect on non-physical objects.",
+    "description": "Applies rotational velocity to object.\nIt does the same job as llApplyRotationalImpulse but doesn't depend of the mass of object .",
+    "arguments": {
+      "AngVel": {
+        "tooltip": "The angular velocity to set the object to.",
+        "newname": "initial_omega",
+        "newtooltip": "The angular velocity vector to apply (in radians per second)."
+      },
+      "Local": {
+        "tooltip": "If TRUE, the AngVel is treated as a local directional vector instead of a regional directional vector.",
+        "newname": "local",
+        "description": "boolean, if TRUE force is treated as a local directional vector, if FALSE force is treated as a region directional vector",
+        "newtooltip": "Boolean. If TRUE, initial_omega is treated as a local vector; if FALSE, as a global region vector."
+      }
+    },
+    "newtooltip": "Sets the angular velocity of a physical object to initial_omega (mass-independent). If local is TRUE, applied in local coordinates; if FALSE, applied in global coordinates. Has no effect on non-physical objects."
+  },
+  "llSetAnimationOverride": {
+    "tooltip": "Sets the animation (in object inventory) that will play for the given animation state.\\nTo use this function the script must obtain the PERMISSION_OVERRIDE_ANIMATIONS permission.",
+    "description": "Set the animation (anim) that will play for the given animation state (anim_state).",
+    "arguments": {
+      "AnimationState": {
+        "tooltip": "",
+        "newname": "anim_state",
+        "description": "animation state to be overriden",
+        "newtooltip": "The animation state to override."
+      },
+      "AnimationName": {
+        "tooltip": "",
+        "newname": "anim",
+        "description": "an animation in the inventory of the prim this script is in&#32;or the name of a built-in animation",
+        "newtooltip": "The name of an animation in the prim's inventory, or a built-in animation name."
+      }
+    },
+    "newtooltip": "Overrides the default animation for anim_state with anim (which must be in the object's inventory or a built-in animation). Requires the PERMISSION_OVERRIDE_ANIMATIONS permission."
+  },
+  "llSetBuoyancy": {
+    "tooltip": "Set the tasks buoyancy (0 is none, < 1.0 sinks, 1.0 floats, > 1.0 rises).\nSet the object buoyancy. A value of 0 is none, less than 1.0 sinks, 1.0 floats, and greater than 1.0 rises.",
+    "description": "Sets the buoyancy of the task or object. Requires physics to be enabled.",
+    "arguments": {
+      "Buoyancy": {
+        "tooltip": "",
+        "newname": "buoyancy",
+        "newtooltip": "The float buoyancy value to set."
+      }
+    },
+    "newtooltip": "Sets the buoyancy of a physical object (requires physics to be enabled). A value of 0.0 offers no buoyancy, < 1.0 sinks, 1.0 counteracts gravity, and > 1.0 rises."
+  },
+  "llSetCameraAtOffset": {
+    "tooltip": "Sets the camera used in this object, at offset, if an avatar sits on it.\\nSets the offset that an avatar's camera will be moved to if the avatar sits on the object.",
+    "description": "Sets the point the camera is looking at to offset for avatars that sit on the object.",
+    "arguments": {
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates",
+        "newtooltip": "The offset position vector in local coordinates relative to the prim."
+      }
+    },
+    "newtooltip": "Sets the target offset vector (in local coordinates) that a seated avatar's camera will look at."
+  },
+  "llSetCameraEyeOffset": {
+    "tooltip": "Sets the camera eye offset used in this object if an avatar sits on it.",
+    "description": "Sets the camera eye offset for avatars that sit on the object.",
+    "arguments": {
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates",
+        "newtooltip": "The offset position vector in local coordinates relative to the prim."
+      }
+    },
+    "newtooltip": "Sets the eye offset vector (in local coordinates) where a seated avatar's camera is positioned."
+  },
+  "llSetCameraParams": {
+    "tooltip": "Sets multiple camera parameters at once. List format is [ rule-1, data-1, rule-2, data-2 . . . rule-n, data-n ].\\nRequires the PERMISSION_CONTROL_CAMERA runtime permission (automatically granted to attached or sat on objects).",
+    "description": "Sets multiple camera parameters at once.",
+    "arguments": {
+      "Parameters": {
+        "tooltip": "",
+        "newname": "rules",
+        "description": "Format is [ rule1, data1, rule2, data2 . . . rulen, datan ]",
+        "newtooltip": "A strided list of rules and data pairs configuring the camera."
+      }
+    },
+    "newtooltip": "Sets multiple camera parameters simultaneously using the list of rules. Requires the PERMISSION_CONTROL_CAMERA runtime permission."
+  },
+  "llSetClickAction": {
+    "tooltip": "Sets the action performed when a prim is clicked upon.",
+    "description": "Sets the action performed when a prim is clicked upon (aka click action).",
+    "arguments": {
+      "Action": {
+        "tooltip": "A CLICK_ACTION_* flag",
+        "newname": "action",
+        "description": "CLICK_ACTION_* flag",
+        "newtooltip": "The CLICK_ACTION_* flag representing the action to apply."
+      }
+    },
+    "newtooltip": "Sets the action (a CLICK_ACTION_* flag) performed when an avatar left-clicks the prim."
+  },
+  "llSetColor": {
+    "tooltip": "Sets the color, for the face.\nSets the color of the side specified. If Face is ALL_SIDES, sets the color on all faces.",
+    "description": "Sets the Blinn-Phong color on face of the prim.",
+    "arguments": {
+      "Color": {
+        "tooltip": "",
+        "newname": "color",
+        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> &#61; black, <1.0, 1.0, 1.0> &#61; white)",
+        "newtooltip": "The color vector in RGB <R, G, B> (values from 0.0 to 1.0)."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Sets the Blinn-Phong diffuse RGB color of face. If face is ALL_SIDES, applies the color to all faces."
+  },
+  "llSetContentType": {
+    "tooltip": "Set the media type of an LSL HTTP server response to ContentType.\nHTTPRequestID must be a valid http_request ID. ContentType must be one of the CONTENT_TYPE_* constants.",
+    "description": "Sets the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;Internet media type '\"Content-Type\"' header of any subsequent LSL HTTP server response via llHTTPResponse.",
+    "arguments": {
+      "HTTPRequestID": {
+        "tooltip": "A valid http_request() key",
+        "newname": "request_id",
+        "description": "a valid http_request() key",
+        "newtooltip": "The unique key identifying the incoming HTTP request."
+      },
+      "ContentType": {
+        "tooltip": "Media type to use with any following llHTTPResponse(HTTPRequestID, ...)",
+        "newname": "content_type",
+        "description": "Media type to use with any following llHTTPResponse(request_id, ...)",
+        "newtooltip": "The CONTENT_TYPE_* constant representing the Internet media type to use."
+      }
+    },
+    "newtooltip": "Sets the 'Content-Type' header of subsequent HTTP server responses (via llHTTPResponse) for request_id using the specified content_type (a CONTENT_TYPE_* constant)."
+  },
+  "llSetDamage": {
+    "tooltip": "Sets the amount of damage that will be done to an avatar that this task hits.\\tTask will be killed.\\\\nSets the amount of damage that will be done to an avatar that this object hits. This object will be destroyed on damaging an avatar, and no collision event is triggered.",
+    "description": "Sets the amount of damage that will be done when this object hits an avatar.",
+    "arguments": {
+      "Damage": {
+        "tooltip": "",
+        "newname": "damage",
+        "description": "range: -100.0 (full heal) ~ 100.0 (instant kill)",
+        "newtooltip": "The float damage value to set (range -100.0 for full heal to 100.0 for instant kill)."
+      }
+    },
+    "newtooltip": "Sets the amount of damage delivered when this object hits an avatar. The object is immediately destroyed upon inflicting damage, and no collision event is triggered."
+  },
+  "llSetEnvironment": {
+    "tooltip": "Returns a string with the requested data about the region.",
+    "description": "This function overrides the environmental settings for a region or a parcel. The owner of the script must have permission to modify the environment on the parcel or be an estate manager to change the entire region.\n\n\n An override for a given parameter can be set at the region scope or parcel scope. It can also be set for a single sky track, all sky tracks, or both. If an override of a given parameter is specified for both an individual track and all tracks, the individual track's override takes priority.\n\n\n Note that the list of valid parameters differs from those available for llGetEnvironment.\n\n\n Returns an integer",
+    "arguments": {
+      "Position": {
+        "tooltip": "Location within the region.",
+        "newname": "position",
+        "description": "The location on the region of the parcel to be changed. Use <-1, -1, z> for the entire region. The z-component specifies which sky track to change, based on elevation. Use z=-1 to set an override on the special 'all tracks' slot.",
+        "newtooltip": "The position vector in region coordinates to specify the target parcel, or <-1.0, -1.0, z> for the entire region (where z specifies the sky track, or -1 for all tracks)."
+      },
+      "EnvParams": {
+        "tooltip": "List of environment settings to change for the specified parcel location.",
+        "newname": "params",
+        "description": "A list of parameters to change for the parcel or region. Passing an empty list will remove any modifications from previous calls to llSetEnvironment.",
+        "newtooltip": "A list of environmental attributes and values to apply (or empty to clear)."
+      }
+    },
+    "newtooltip": "Overrides the environmental settings at position for a parcel (or region if position is <-1.0, -1.0, z>) using the parameters in params. Passing an empty params list removes previous overrides."
+  },
+  "llSetExperienceKey": {
+    "tooltip": "",
+    "arguments": {
+      "ExperienceID": {
+        "tooltip": "",
+        "newname": ""
+      }
+    },
+    "newtooltip": ""
+  },
+  "llSetForce": {
+    "tooltip": "Sets Force on object, in object-local coordinates if Local == TRUE (otherwise, the region reference frame is used).\\nOnly works on physical objects.",
+    "description": "Applies force to the object (if the object is physical)",
+    "arguments": {
+      "Force": {
+        "tooltip": "Directional force.",
+        "newname": "force",
+        "description": "directional force",
+        "newtooltip": "The directional force vector to apply."
+      },
+      "Local": {
+        "tooltip": "Boolean, if TRUE uses local axis, if FALSE uses region axis.",
+        "newname": "local",
+        "description": "boolean, if TRUE force is treated as a local directional vector, if FALSE force is treated as a region directional vector",
+        "newtooltip": "Boolean. If TRUE, force is treated as a local vector; if FALSE, as a global region vector."
+      }
+    },
+    "newtooltip": "Applies a constant linear force to a physical object. If local is TRUE, force is applied relative to local coordinates; if FALSE, applied relative to region coordinates."
+  },
+  "llSetForceAndTorque": {
+    "tooltip": "Sets the Force and Torque of object, in object-local coordinates if Local == TRUE (otherwise, the region reference frame is used).\\nOnly works on physical objects.",
+    "description": "Sets the force and torque of object (if the script is physical)",
+    "arguments": {
+      "Force": {
+        "tooltip": "Directional force.",
+        "newname": "force",
+        "description": "directional force",
+        "newtooltip": "The directional linear force vector."
+      },
+      "Torque": {
+        "tooltip": "Torque force.",
+        "newname": "torque",
+        "description": "torque force",
+        "newtooltip": "The torque rotational force vector."
+      },
+      "Local": {
+        "tooltip": "Boolean, if TRUE uses local axis, if FALSE uses region axis.",
+        "newname": "local",
+        "description": "boolean, if TRUE force is treated as a local directional vector, if FALSE force is treated as a region directional vector",
+        "newtooltip": "Boolean. If TRUE, force and torque are treated as local vectors; if FALSE, as global region vectors."
+      }
+    },
+    "newtooltip": "Sets both the constant linear force and constant torque acting on a physical object. If local is TRUE, forces are applied in local coordinates; if FALSE, in global coordinates."
+  },
+  "llSetGroundTexture": {
+    "tooltip": "Changes terrain texture properties in the region.",
+    "description": "Changes the textures used to paint the terrain of a region. The owner of the script must be able to manage the estate.\n\n\n Returns an integer",
+    "arguments": {
+      "Changes": {
+        "tooltip": "A list of ground texture properties to change.",
+        "newname": "changes",
+        "description": "List of changes to apply to ground textures on the region.",
+        "newtooltip": "A list of terrain detail properties and values to change."
+      }
+    },
+    "newtooltip": "Changes the painted terrain textures on the region based on changes. The script owner must have estate management rights. Returns an integer status."
+  },
+  "llSetHoverHeight": {
+    "tooltip": "Critically damps a physical object to a Height (either above ground level or above the higher of land and water if water == TRUE).\\nDo not use with vehicles. Use llStopHover to stop hovering.",
+    "description": "Critically damps to a height above the ground (or water) in tau seconds.",
+    "arguments": {
+      "Height": {
+        "tooltip": "Distance above the ground.",
+        "newname": "height",
+        "description": "Distance to hover above the ground (if negative, hovers below ground)",
+        "newtooltip": "The distance to hover above the ground or water."
+      },
+      "Water": {
+        "tooltip": "Boolean, if TRUE then hover above water too.",
+        "newname": "water",
+        "description": "boolean, if TRUE then hover above water too (or below if height is negative), if FALSE ignore water like it isn't there",
+        "newtooltip": "Boolean. If TRUE, hovers above water too; if FALSE, water is ignored."
+      },
+      "Tau": {
+        "tooltip": "Seconds to critically damp in.",
+        "newname": "tau",
+        "description": "seconds to critically damp in",
+        "newtooltip": "The timescale in seconds to critically damp the movement."
+      }
+    },
+    "newtooltip": "Critically damps the physical object's vertical movement to hover at height (above ground, or above water if water is TRUE) in tau seconds. Do not use with vehicles; call llStopHover to cancel."
+  },
+  "llSetInventoryPermMask": {
+    "tooltip": "Sets the given permission mask to the new value on the inventory item.",
+    "description": "Sets the given permission category to the new value on the inventory item.",
+    "arguments": {
+      "InventoryItem": {
+        "tooltip": "An item in the prim's inventory",
+        "newname": "item",
+        "description": "an item in the inventory of the prim this script is in",
+        "newtooltip": "The name of the item in the prim's inventory."
+      },
+      "PermissionFlag": {
+        "tooltip": "MASK_* flag",
+        "newname": "category",
+        "description": "MASK_* flag",
+        "newtooltip": "The MASK_* category flag (such as MASK_NEXT, MASK_OWNER, etc.)."
+      },
+      "PermissionMask": {
+        "tooltip": "Permission bit-field (PERM_* flags)",
+        "newname": "value",
+        "description": "Permission bit field (PERM_* flags)",
+        "newtooltip": "The bitfield of permissions (PERM_* flags) to set."
+      }
+    },
+    "newtooltip": "Sets the specified permission category of the inventory item to the value permissions mask."
+  },
+  "llSetKeyframedMotion": {
+    "tooltip": "Requests that a non-physical object be key-framed according to key-frame list.\\nSpecify a list of times, positions, and orientations to be followed by an object. The object will be smoothly moved between key-frames by the simulator. Collisions with other non-physical or key-framed objects will be ignored (no script events will fire and collision processing will not occur). Collisions with physical objects will be computed and reported, but the key-framed object will be unaffected by those collisions.\\nKeyframes is a strided list containing positional, rotational, and time data for each step in the motion. Options is a list containing optional arguments and parameters (specified by KFM_* constants).",
+    "description": "Specify a list of positions, orientations, and timings to be followed by an object. The object will be smoothly moved between those keyframes by the simulator.\n\n\n Collisions with other nonphysical or keyframed objects will be ignored (no script events will fire and collision processing will not occur). Collisions with physical objects will be computed and reported, but the keyframed object will be unaffected by those collisions. (The physical object will be affected, however.)",
+    "arguments": {
+      "Keyframes": {
+        "tooltip": "'Strided keyframe list of the form: position, orientation, time. Each keyframe is interpreted relative to the previous transform of the object.'",
+        "newname": "keyframes",
+        "description": "Strided keyframe list of the form:\nvector position (optional via KFM_TRANSLATION and KFM_DATA)\nrotation orientation (optional via KFM_ROTATION and KFM_DATA)\nfloat time\nEach keyframe is interpreted relative to the previous transform of the object. Translation positions are relative to the grid and are not affected by the object's rotation. Time values must be 1/9s. or greater. For example, consider the following list of keyframes:\n\n\n\nLua\n\nLSL, ZERO_ROTATION, 5, , ZERO_ROTATION, 5, , ZERO_ROTATION, 5]\n'} lang=\"lsl\" />\n\n\n\n\n\nThis would cause the object to move up 10m over the course of 5s. It would then remain at the location for 5s before moving down 10m over the course of another 5s.\nAn empty list will terminate any keyframed animation currently playing.",
+        "newtooltip": "A strided list of the form [vector position, rotation orientation, float time] representing sequential relative keyframes (minimum time is 1/9s)."
+      },
+      "Options": {
+        "tooltip": "",
+        "newname": "options",
+        "description": "modifiers and future options",
+        "newtooltip": "A list of options (KFM_* constants) to modify playback behavior."
+      }
+    },
+    "newtooltip": "Smoothly moves a non-physical object between the positions, orientations, and times specified in the keyframes list, configured via options. Collisions with keyframed objects are ignored. An empty keyframes list terminates the motion."
+  },
+  "llSetLinkAlpha": {
+    "tooltip": "If a prim exists in the link chain at LinkNumber, set Face to Opacity.\nSets the Face, on the linked prim specified, to the Opacity.",
+    "description": "If a prim exists in the link set at link, set the Blinn-Phong alpha on face of that prim.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "Opacity": {
+        "tooltip": "",
+        "newname": "alpha",
+        "description": "from 0.0 (clear) to 1.0 (solid) (0.0 <= alpha <= 1.0)",
+        "newtooltip": "The transparency value to set, from 0.0 (clear) to 1.0 (solid)."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Sets the Blinn-Phong alpha (transparency) of face on the linked prim link."
+  },
+  "llSetLinkCamera": {
+    "tooltip": "Sets the camera eye offset, and the offset that camera is looking at, for avatars that sit on the linked prim.",
+    "description": "Sets the camera eye offset, and the offset that camera is looking at, for avatars that sit on the linked prim.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "'Prim link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "EyeOffset": {
+        "tooltip": "Offset, relative to the object's centre and expressed in local coordinates, that the camera looks from.",
+        "newname": "eye",
+        "description": "offset relative to the prim's position and expressed in local coordinates",
+        "newtooltip": "The eye offset position vector in local coordinates relative to the prim."
+      },
+      "LookOffset": {
+        "tooltip": "Offset, relative to the object's centre and expressed in local coordinates, that the camera looks toward.",
+        "newname": "at",
+        "description": "offset relative to the prim's position and expressed in local coordinates",
+        "newtooltip": "The look-at offset position vector in local coordinates relative to the prim."
+      }
+    },
+    "newtooltip": "Sets the camera eye position offset eye and looking-at position offset at for avatars who sit on the linked prim link."
+  },
+  "llSetLinkColor": {
+    "tooltip": "If a task exists in the link chain at LinkNumber, set the Face to color.\nSets the color of the linked child's side, specified by LinkNumber.",
+    "description": "If a prim exists in the link set at link, set the Blinn-Phong color on face of that prim.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "Color": {
+        "tooltip": "Color in RGB <R.R, G.G, B.B>",
+        "newname": "color",
+        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> &#61; black, <1.0, 1.0, 1.0> &#61; white)",
+        "newtooltip": "The color vector in RGB <R, G, B> (values from 0.0 to 1.0)."
+      },
+      "Face": {
+        "tooltip": "Side number or ALL_SIDES.",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Sets the Blinn-Phong diffuse RGB color of face on the linked prim link."
+  },
+  "llSetLinkGLTFOverrides": {
+    "tooltip": "Sets or changes GLTF Overrides set on the selected faces.",
+    "description": "Sets or removes individual overrides applied to a PBR texture on a face",
+    "arguments": {
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/link\" target=\"_blank\">link</a>": {
+        "tooltip": "Link number to check.",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/face\" target=\"_blank\">face</a>": {
+        "tooltip": "Side to check for a PBR material. Use ALL_SIDES to check for all.",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      },
+      "options": {
+        "tooltip": "List of individual overrides to set.",
+        "newname": "params",
+        "description": "List of overrides and override values.",
+        "newtooltip": "A list of overrides and their corresponding values to set."
+      }
+    },
+    "newtooltip": "Sets or removes individual GLTF override parameters specified by params on face of the linked prim link."
+  },
+  "llSetLinkMedia": {
+    "tooltip": "Set the media parameters for a particular face on linked prim, specified by Link. Returns an integer that is a STATUS_* flag which details the success/failure of the operation(s).\\nMediaParameters is a set of name/value pairs in no particular order. Parameters not specified are unchanged, or if new media is added then set to the default specified.",
+    "description": "Set the media params for a particular face on the linked prim(s) without a delay.\n\n\n Returns a status (an integer) that is a STATUS_* flag which details the success/failure of the operation(s).",
+    "arguments": {
+      "Link": {
+        "tooltip": "Link number (0: unlinked, 1: root prim, >1: child prims).",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims) or a 'LINK_*' flag&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "Face": {
+        "tooltip": "Face number.",
+        "newname": "face",
+        "description": "face number",
+        "newtooltip": "The face number (side) of the prim."
+      },
+      "Parameters": {
+        "tooltip": "A set of name/value pairs (in no particular order)",
+        "newname": "params",
+        "description": "a set of name/value pairs (in no particular order)",
+        "newtooltip": "A set of property-value pairs (in no particular order) specifying media parameters."
+      }
+    },
+    "newtooltip": "Sets the media parameters specified by params on face of the linked prim link without a script delay. Returns an integer STATUS_* flag detailing success or failure."
+  },
+  "llSetLinkPrimitiveParams": {
+    "tooltip": "Deprecated: Use llSetLinkPrimitiveParamsFast instead.",
+    "description": "Sets the prims parameters according to rules.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
+        "newname": "link",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a LINK_* flag",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "Parameters": {
+        "tooltip": "",
+        "newname": "rules",
+        "newtooltip": "A list of PRIM_* rules and data to apply."
+      }
+    },
+    "newtooltip": "Deprecated (use llSetLinkPrimitiveParamsFast instead). Sets primitive parameters for the linked prim link according to rules."
+  },
+  "llSetLinkPrimitiveParamsFast": {
+    "tooltip": "Set primitive parameters for LinkNumber based on Parameters, without a delay.\\nSet parameters for link number, from the list of Parameters, with no built-in script sleep. This function is identical to llSetLinkPrimitiveParams, except without the delay.",
+    "description": "Sets the prims parameters according to rules.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
+        "newname": "link",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a LINK_* flag",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "Parameters": {
+        "tooltip": "",
+        "newname": "rules",
+        "newtooltip": "A list of PRIM_* rules and data to apply."
+      }
+    },
+    "newtooltip": "Sets primitive parameters for the linked prim link according to rules with no built-in script sleep delay."
+  },
+  "llSetLinkRenderMaterial": {
+    "tooltip": "Sets the Render Material of Face on a linked prim, specified by LinkNumber. Render Material may be a UUID or name of a material in prim inventory.",
+    "description": "If a prim exists in the link set at link, set material on face of that prim. This function will clear most PRIM_GLTF_* properties on the face, with the exceptions of repeats, offsets, and rotation_in_radians",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "RenderMaterial": {
+        "tooltip": "",
+        "newname": "material",
+        "description": "a material in the inventory of the prim this script is in&#32;or a UUID&#32;of a material",
+        "newtooltip": "The name of a material in the prim's inventory, or a UUID."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Applies material (UUID or inventory name) to face of the linked prim link. Note: This clears most PRIM_GLTF_* properties on the face except for repeats, offsets, and rotation."
+  },
+  "llSetLinkSitFlags": {
+    "tooltip": "Sets the sit flags for the specified prim in a linkset.",
+    "description": "Sets flags on the link's sittarget.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;The link ID",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "Flags": {
+        "tooltip": "The new set of sit flags to apply to the specified prims in this linkset.",
+        "newname": "flags",
+        "description": "Flags to set",
+        "newtooltip": "A bitfield of sit flags (SIT_FLAG_*) to apply."
+      }
+    },
+    "newtooltip": "Sets the sit target flags for the linked prim link inside the linkset."
+  },
+  "llSetLinkTexture": {
+    "tooltip": "Sets the Texture of Face on a linked prim, specified by LinkNumber. Texture may be a UUID or name of a texture in prim inventory.",
+    "description": "If a prim exists in the link set at link, set Blinn-Phong diffuse texture on face of that prim.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
+      },
+      "Texture": {
+        "tooltip": "",
+        "newname": "texture",
+        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Applies texture (UUID or inventory name) to face of the linked prim link."
+  },
+  "llSetLinkTextureAnim": {
+    "tooltip": "Animates a texture on the prim specified by LinkNumber, by setting the texture scale and offset.\\nMode is a bitmask of animation options.\\nFace specifies which object face to animate.\\nSizeX and SizeY specify the number of horizontal and vertical frames.Start specifes the animation start point.\\nLength specifies the animation duration.\\nRate specifies the animation playback rate.",
+    "description": "Animate the texture on the specified face/faces of the specified prim/prims by setting the texture scale and offset. Identical to llSetTextureAnim except able to modify any prim in the link set.",
+    "arguments": {
+      "LinkNumber": {
+        "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag to effect'",
+        "newname": "link",
+        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;to effect",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag to animate."
+      },
+      "Mode": {
+        "tooltip": "Bitmask of animation options.",
+        "newname": "mode",
+        "description": "bit field of Mode flags",
+        "newtooltip": "The bitfield of texture animation mode flags (ANIM_ON, LOOP, etc.)."
+      },
+      "Face": {
+        "tooltip": "Specifies which object face to animate or ALL_SIDES.",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      },
+      "SizeX": {
+        "tooltip": "Horizontal frames (ignored for ROTATE and SCALE).",
+        "newname": "sizex",
+        "description": "horizontal frames (ignored for ROTATE and SCALE)",
+        "newtooltip": "The number of horizontal frames (ignored for ROTATE and SCALE)."
+      },
+      "SizeY": {
+        "tooltip": "Vertical frames (ignored for ROTATE and SCALE).",
+        "newname": "sizey",
+        "description": "vertical frames (ignored for ROTATE and SCALE)",
+        "newtooltip": "The number of vertical frames (ignored for ROTATE and SCALE)."
+      },
+      "Start": {
+        "tooltip": "Start position/frame number (or radians for ROTATE).",
+        "newname": "start",
+        "description": "Start position/frame number (or radians for ROTATE)",
+        "newtooltip": "The start frame number (or radians for ROTATE)."
+      },
+      "Length": {
+        "tooltip": "Specifies the animation duration, in frames (or radians for ROTATE).",
+        "newname": "length",
+        "description": "number of frames to display (or radians for ROTATE)",
+        "newtooltip": "The number of frames to display (or radians for ROTATE)."
+      },
+      "Rate": {
+        "tooltip": "Specifies the animation playback rate, in frames per second (must be greater than zero).",
+        "newname": "rate",
+        "description": "Frames per second, or radians per second when ROTATE is set, or UV coordinates when SMOOTH is set (must not be zero)",
+        "newtooltip": "The playback rate in frames per second (or radians/sec for ROTATE, UV coords/sec for SMOOTH). Must not be zero."
+      }
+    },
+    "newtooltip": "Animates the texture on face of the linked prim link by setting the scale and offset according to mode. Parameters sizex/sizey define frames, start defines the start frame/angle, length defines duration, and rate defines playback speed."
+  },
+  "llSetLocalRot": {
+    "tooltip": "Sets the rotation of a child prim relative to the root prim.",
+    "description": "Sets the rotation of a child prim relative to the root prim",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "newtooltip": "The local rotation to set."
+      }
+    },
+    "newtooltip": "Sets the rotation of a child prim relative to its root prim using rot."
+  },
+  "llSetMemoryLimit": {
+    "tooltip": "Requests Limit bytes to be reserved for this script.\nReturns TRUE or FALSE indicating whether the limit was set successfully.\\nThis function has no effect if the script is running in the LSO VM.",
+    "description": "Request limit bytes to be reserved for this script.\n\n\n Returns the boolean (an integer) TRUE if the memory limit was successfully set (or FALSE if not).",
+    "arguments": {
+      "Limit": {
+        "tooltip": "The amount to reserve, which must be less than the allowed maximum (currently 64KB) and not already have been exceeded.",
+        "newname": "limit",
+        "newtooltip": "The integer memory limit in bytes to reserve (must be less than the 64KB maximum)."
+      }
+    },
+    "newtooltip": "Requests that limit bytes are reserved for the script. Returns TRUE on success or FALSE on failure (has no effect in LSO)."
+  },
+  "llSetObjectDesc": {
+    "tooltip": "Sets the description of the prim to Description.\nThe description field is limited to 127 characters.",
+    "description": "Sets the prims description",
+    "arguments": {
+      "Description": {
+        "tooltip": "",
+        "newname": "description",
+        "newtooltip": "The new description string (up to 127 characters)."
+      }
+    },
+    "newtooltip": "Sets the description of the prim containing the script to description (limited to 127 characters)."
+  },
+  "llSetObjectName": {
+    "tooltip": "Sets the prim's name to Name.",
+    "description": "Sets the prim's name according to the name parameter.",
+    "arguments": {
+      "Name": {
+        "tooltip": "",
+        "newname": "name",
+        "newtooltip": "The new name string."
+      }
+    },
+    "newtooltip": "Sets the name of the prim containing the script to name."
+  },
+  "llSetObjectPermMask": {
+    "tooltip": "Sets the specified PermissionFlag permission to the value specified by PermissionMask on the object the script is attached to.",
+    "description": "Sets the given permission mask to the new value on the root object the task is attached to.",
+    "arguments": {
+      "PermissionFlag": {
+        "tooltip": "MASK_* flag",
+        "newname": "mask",
+        "description": "MASK_* flag",
+        "newtooltip": "The MASK_* category flag (e.g., MASK_BASE, MASK_OWNER, etc.)."
+      },
+      "PermissionMask": {
+        "tooltip": "Permission bit-field (PERM_* flags)",
+        "newname": "value",
+        "description": "bit-field, PERM_* flags",
+        "newtooltip": "The bitfield of permissions (PERM_* flags) to set."
+      }
+    },
+    "newtooltip": "Sets the specified permission mask category to value on the root object containing the script."
+  },
+  "llSetParcelForSale": {
+    "tooltip": "Sets the parcel the object is on for sale.\nForSale is a boolean, if TRUE the parcel is put up for sale. Options is a list of options to set for the sale, such as price, authorized buyer, and whether to include objects on the parcel.\\n Setting ForSale to FALSE will remove the parcel from sale and clear any options that were set.\\nRequires the PERMISSION_PRIVILEGED_LAND_ACCESS permission.",
+    "description": "Sets the parcel the object is on for sale.\\nForSale is a boolean, if TRUE\nthe parcel is put up for sale. Options is a list of options to set for the sale,\nsuch as price, authorized buyer, and whether to include objects on the parcel.\\n\nSetting ForSale to FALSE will remove the parcel from sale and clear any options\nthat were set.\n\n\n This function requires that the script be owned by the parcel owner and that they have granted the PERMISSION_PRIVILEGED_LAND_ACCESS permission.\n\n\n Returns an integer Error code or 0 if successful.",
+    "arguments": {
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Integer/boolean\" target=\"_blank\">ForSale</a>": {
+        "tooltip": "If TRUE, the parcel is put up for sale.",
+        "newname": "ForSale",
+        "description": "If TRUE, the parcel is put up for sale.",
+        "newtooltip": "Boolean. If TRUE, puts the parcel up for sale; if FALSE, removes it from sale."
+      },
+      "Options": {
+        "tooltip": "A list of options to set for the sale.",
+        "newname": "Options",
+        "description": "A list of options to set for the sale.",
+        "newtooltip": "A list of options to configure the sale (e.g., price, authorized buyer, and object inclusion)."
+      }
+    },
+    "newtooltip": "Sets the parcel the object is on for sale. If ForSale is TRUE, puts the land up for sale using Options (price, buyer, objects included). Setting ForSale to FALSE removes the parcel from sale. Requires parcel ownership and the PERMISSION_PRIVILEGED_LAND_ACCESS permission. Returns an error code or 0 if successful."
+  },
+  "llSetParcelMusicURL": {
+    "tooltip": "Sets the streaming audio URL for the parcel the object is on.\nThe object must be owned by the owner of the parcel; if the parcel is group owned the object must be owned by that group.",
+    "description": "Sets the streaming audio URL for the parcel object is on",
+    "arguments": {
+      "URL": {
+        "tooltip": "",
+        "newname": "url",
+        "newtooltip": "The streaming audio URL string."
+      }
+    },
+    "newtooltip": "Sets the streaming audio (music) URL for the parcel containing the object. The object owner must match the landowner or land group."
+  },
+  "llSetPayPrice": {
+    "tooltip": "Sets the default amount when someone chooses to pay this object.\nPrice is the default price shown in the text input field. QuickButtons specifies the 4 payment values shown in the payment dialog's buttons.\\nInput field and buttons may be hidden with PAY_HIDE constant, and may be set to their default values using PAY_DEFAULT.",
+    "description": "Suggest default amounts for the pay text field and pay buttons of the appearing dialog when someone chooses to pay this object.",
+    "arguments": {
+      "Price": {
+        "tooltip": "The default price shown in the text input field.",
+        "newname": "price",
+        "description": "PAY_* constant or positive value (including zero)",
+        "newtooltip": "The default price integer shown in the text field (can accept PAY_* constants or positive values)."
+      },
+      "QuickButtons": {
+        "tooltip": "Specifies the 4 payment values shown in the payment dialog's buttons (or PAY_HIDE).",
+        "newname": "quick_pay_buttons",
+        "description": "Four PAY_* constants and/or positive integer values (zero is not shown)",
+        "newtooltip": "A list of four integer values or PAY_* constants specifying the button payment choices."
+      }
+    },
+    "newtooltip": "Suggests default amounts for the pay text input field price and the four payment dialog quick_pay_buttons when an avatar pays this object."
+  },
+  "llSetPhysicsMaterial": {
+    "tooltip": "Sets the selected parameters of the object's physics behavior.\nMaterialBits is a bitmask specifying which of the parameters in the other arguments should be applied to the object. GravityMultiplier, Restitution, Friction, and Density are the possible parameters to manipulate.",
+    "description": "Used to set the physical characteristics of an object.",
+    "arguments": {
+      "MaterialBits": {
+        "tooltip": "A bitmask specifying which of the parameters in the other arguments should be applied to the object.",
+        "newname": "mask",
+        "description": "bitwise combination of DENSITY, FRICTION, RESTITUTION, and GRAVITY_MULTIPLIER and specifies which floats to actually apply",
+        "newtooltip": "The bitwise mask combination specifying which of the floats (DENSITY, FRICTION, RESTITUTION, or GRAVITY_MULTIPLIER) to apply."
+      },
+      "GravityMultiplier": {
+        "tooltip": "",
+        "newname": "gravity_multiplier",
+        "description": "range [-1.0, +28.0], default: 1.0",
+        "newtooltip": "The gravity multiplier float value (range [-1.0, +28.0], default is 1.0)."
+      },
+      "Restitution": {
+        "tooltip": "",
+        "newname": "restitution",
+        "description": "range [0.0, 1.0], default: [0.3, 0.9] [[1]](#footnote_1)",
+        "newtooltip": "The elasticity restitution float value (range [0.0, 1.0])."
+      },
+      "Friction": {
+        "tooltip": "",
+        "newname": "friction",
+        "description": "range [0.0, 255.0], default: [0.2, 0.9][[1]](#footnote_1)",
+        "newtooltip": "The friction coefficient float value (range [0.0, 255.0])."
+      },
+      "Density": {
+        "tooltip": "",
+        "newname": "density",
+        "description": "range [1.0, 22587.0] kg/m^3, default: 1000.0",
+        "newtooltip": "The density float value in kg/m³ (range [1.0, 22587.0])."
+      }
+    },
+    "newtooltip": "Configures the physical characteristics of an object. The mask bitfield specifies which of the other parameters (gravity_multiplier, restitution, friction, or density) should be applied to the object."
+  },
+  "llSetPos": {
+    "tooltip": "If the object is not physical, this function sets the position of the prim.\\nIf the script is in a child prim, Position is treated as root relative and the link-set is adjusted.\\nIf the prim is the root prim, the entire object is moved (up to 10m) to Position in region coordinates.",
+    "description": "Moves the object or primitive towards pos without using physics.",
+    "arguments": {
+      "Position": {
+        "tooltip": "Region coordinates to move to (within 10m).",
+        "newname": "pos",
+        "description": "position in region or local coordinates depending upon the situation&#32;(see #Specification).",
+        "newtooltip": "The position vector to move to (in region coordinates, or local coordinates if in a child prim)."
+      }
+    },
+    "newtooltip": "Moves the non-physical object or prim toward the vector pos (up to 10m). If called in a child prim, pos is treated as root-relative; if called from the root prim, the entire object is moved."
+  },
+  "llSetPrimitiveParams": {
+    "tooltip": "Deprecated: Use llSetLinkPrimitiveParamsFast instead.",
+    "description": "Sets the prim's parameters according to rules.",
+    "arguments": {
+      "Parameters": {
+        "tooltip": "A list of changes.",
+        "newname": "rules",
+        "newtooltip": "A list of PRIM_* rules and data to apply."
+      }
+    },
+    "newtooltip": "Deprecated (use llSetLinkPrimitiveParamsFast instead). Sets the prim's attributes according to rules."
+  },
+  "llSetPrimMediaParams": {
+    "tooltip": "Sets the MediaParameters for a particular Face on the prim. Returns an integer that is a STATUS_* flag which details the success/failure of the operation(s).\\nMediaParameters is a set of name/value pairs in no particular order. Parameters not specified are unchanged, or if new media is added then set to the default specified.",
+    "description": "Set the media params for a particular face.\n\n\n Returns a status (an integer) that is a STATUS_* flag which details the success/failure of the operation(s).",
+    "arguments": {
+      "Face": {
+        "tooltip": "Face number",
+        "newname": "face",
+        "description": "face number",
+        "newtooltip": "The face number (side) of the prim."
+      },
+      "MediaParameters": {
+        "tooltip": "A set of name/value pairs (in no particular order)",
+        "newname": "params",
+        "description": "a set of name/value pairs (in no particular order)",
+        "newtooltip": "A set of property-value pairs (in no particular order) specifying media parameters."
+      }
+    },
+    "newtooltip": "Sets the media parameters specified by params on the designated face of the prim. Returns an integer STATUS_* flag detailing success or failure."
+  },
+  "llSetPrimURL": {
+    "tooltip": "Deprecated: Use llSetPrimMediaParams instead.",
+    "description": "Updates the URL for the web page shown on the sides of the object.",
+    "arguments": {
+      "URL": {
+        "tooltip": "",
+        "newname": "url",
+        "newtooltip": "The web URL to display."
+      }
+    },
+    "newtooltip": "Deprecated (use llSetPrimMediaParams instead). Updates the URL displayed on the prim's faces."
+  },
+  "llSetRegionPos": {
+    "tooltip": "Attempts to move the object so that the root prim is within 0.1m of Position.\nReturns an integer boolean, TRUE if the object is successfully placed within 0.1 m of Position, FALSE otherwise.\\nPosition may be any location within the region or up to 10m across a region border.\\nIf the position is below ground, it will be set to the ground level at that x,y location.",
+    "description": "Tries to move the entire object so that the root prim is within 0.1m of position.\n\n\n Returns a boolean (an integer) , TRUE if the object is successfully placed within 0.1 m of position, FALSE otherwise. See #Specification for details.",
+    "arguments": {
+      "Position": {
+        "tooltip": "Vector. The location to move to, in region coordinates.",
+        "newname": "position",
+        "description": "position in region coordinates",
+        "newtooltip": "The target position vector in region coordinates (can cross up to 10m over a region border)."
+      }
+    },
+    "newtooltip": "Tries to move the entire object so that its root prim is within 0.1m of the vector position (underground positions are set to ground level). Returns TRUE on success or FALSE on failure."
+  },
+  "llSetRemoteScriptAccessPin": {
+    "tooltip": "If PIN is set to a non-zero number, the task will accept remote script loads via llRemoteLoadScriptPin() if it passes in the correct PIN. Othersise, llRemoteLoadScriptPin() is ignored.",
+    "description": "Allows a prim to have scripts remotely loaded via llRemoteLoadScriptPin when it is passed the correct pin and the prim is set mod.",
+    "arguments": {
+      "PIN": {
+        "tooltip": "",
+        "newname": "pin",
+        "description": "zero disables (ie llRemoteLoadScriptPin will fail), non-zero enables.",
+        "newtooltip": "The integer PIN code (non-zero enables, zero disables)."
+      }
+    },
+    "newtooltip": "Sets the prim's remote script access PIN to pin (a non-zero value enables loading via llRemoteLoadScriptPin, while zero disables it)."
+  },
+  "llSetRenderMaterial": {
+    "tooltip": "Applies Render Material to Face of prim.\nRender Material may be a UUID or name of a material in prim inventory.\\nIf Face is ALL_SIDES, set the render material on all faces.",
+    "description": "Sets the material of this prim's face. This function will clear most PRIM_GLTF_* properties on the face, with the exceptions of repeats, offsets, and rotation_in_radians.",
+    "arguments": {
+      "Material": {
+        "tooltip": "",
+        "newname": "material",
+        "description": "a material in the inventory of the prim this script is in&#32;or a UUID&#32;of a material",
+        "newtooltip": "The name of a material in the prim's inventory, or a UUID."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Applies material (UUID or inventory name) to face of the prim. Note: This clears most PRIM_GLTF_* properties on the face except for repeats, offsets, and rotation."
+  },
+  "llSetRot": {
+    "tooltip": "If the object is not physical, this function sets the rotation of the prim.\\nIf the script is in a child prim, Rotation is treated as root relative and the link-set is adjusted.\\nIf the prim is the root prim, the entire object is rotated to Rotation in the global reference frame.",
+    "description": "Sets the rotation of the prim to rot.",
+    "arguments": {
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "newtooltip": "The target rotation."
+      }
+    },
+    "newtooltip": "Sets the rotation of the prim to rot. If in a child prim, rot is treated as root-relative; if in the root prim of a non-physical object, rotates the entire object."
+  },
+  "llSetScale": {
+    "tooltip": "Sets the prim's scale (size) to Scale.",
+    "description": "Sets the size of the prim according to size",
+    "arguments": {
+      "Scale": {
+        "tooltip": "",
+        "newname": "size",
+        "newtooltip": "The target size vector."
+      }
+    },
+    "newtooltip": "Sets the physical scale (dimensions) of the prim containing the script to size."
+  },
+  "llSetScriptState": {
+    "tooltip": "Enable or disable the script Running state of Script in the prim.",
+    "description": "Set the running state of the script name.",
+    "arguments": {
+      "ScriptName": {
+        "tooltip": "",
+        "newname": "name",
+        "description": "a script in the inventory of the prim this script is in",
+        "newtooltip": "The name of the script in the prim's inventory."
+      },
+      "Running": {
+        "tooltip": "",
+        "newname": "running",
+        "description": "boolean, if TRUE[[1]](#footnote_1) the script will be enabled, if FALSE the script will be disabled",
+        "newtooltip": "Boolean. If TRUE, enables the script; if FALSE, disables it."
+      }
+    },
+    "newtooltip": "Sets the running state of the script name in the prim's inventory. If running is TRUE, the script is enabled; if FALSE, it is disabled."
+  },
+  "llSetSitText": {
+    "tooltip": "Displays Text rather than 'Sit' in the viewer's context menu.",
+    "description": "Displays text rather than the default \"Sit Here\" in the right-click menu.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "text",
+        "newtooltip": "The context menu text to display."
+      }
+    },
+    "newtooltip": "Displays the string text instead of 'Sit' (or 'Sit Here') in the viewer's right-click context menu."
+  },
+  "llSetSoundQueueing": {
+    "tooltip": "Sets whether successive calls to llPlaySound, llLoopSound, etc., (attached sounds) interrupt the currently playing sound.\\nThe default for objects is FALSE. Setting this value to TRUE will make the sound wait until the current playing sound reaches its end. The queue is one level deep.",
+    "arguments": {
+      "QueueEnable": {
+        "tooltip": "Boolean, sound queuing: TRUE enables, FALSE disables (default).",
+        "newname": "queue",
+        "description": "boolean, sound queuing: TRUE enables, FALSE&#32;(default) disables",
+        "newtooltip": "Boolean. If TRUE, sound queuing is enabled; if FALSE, it is disabled."
+      }
+    },
+    "newtooltip": "Sets whether attached sounds wait for the current sound to end before playing (enables queuing if queue is TRUE, disables if FALSE). The queue is one level deep."
+  },
+  "llSetSoundRadius": {
+    "tooltip": "Limits radius for audibility of scripted sounds (both attached and triggered) to distance Radius.",
+    "arguments": {
+      "Radius": {
+        "tooltip": "Maximum distance that sounds can be heard.",
+        "newname": ""
+      }
+    },
+    "newtooltip": "Limits the audibility radius of attached and triggered scripted sounds to distance radius."
+  },
+  "llSetStatus": {
+    "tooltip": "Sets object status specified in Status bitmask (e.g. STATUS_PHYSICS|STATUS_PHANTOM) to boolean Value.\\nFor a full list of STATUS_* constants, see wiki documentation.",
+    "description": "Sets the object status attributes indicated in the status} mask to value",
+    "arguments": {
+      "Status": {
+        "tooltip": "",
+        "newname": "status",
+        "description": "bit mask, STATUS_* flags",
+        "newtooltip": "The bitmask representing the STATUS_* flag(s) to change."
+      },
+      "Value": {
+        "tooltip": "",
+        "newname": "value",
+        "description": "boolean, TRUE enables, FALSE disables",
+        "newtooltip": "Boolean. If TRUE, enables the status; if FALSE, disables it."
+      }
+    },
+    "newtooltip": "Sets the object status attributes specified by status to value."
+  },
+  "llSetText": {
+    "tooltip": "Causes Text to float above the prim, using the specified Color and Opacity.",
+    "description": "Displays text that hovers over the prim with specific color and translucency (specified with alpha).",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "text",
+        "description": "floating text to display",
+        "newtooltip": "The floating text string to display."
+      },
+      "Color": {
+        "tooltip": "",
+        "newname": "color",
+        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> &#61; black, <1.0, 1.0, 1.0> &#61; white)",
+        "newtooltip": "The color vector in RGB <R, G, B> (values from 0.0 to 1.0)."
+      },
+      "Opacity": {
+        "tooltip": "",
+        "newname": "alpha",
+        "description": "from 0.0 (clear) to 1.0 (solid) (0.0 <= alpha <= 1.0)",
+        "newtooltip": "The transparency value to set, from 0.0 (clear) to 1.0 (solid)."
+      }
+    },
+    "newtooltip": "Displays floating text above the prim with the specified color vector and transparency alpha."
+  },
+  "llSetTexture": {
+    "tooltip": "Applies Texture to Face of prim.\nTexture may be a UUID or name of a texture in prim inventory.\\nIf Face is ALL_SIDES, set the texture on all faces.",
+    "description": "Sets the Blinn-Phong diffuse texture of this prim's face.",
+    "arguments": {
+      "Texture": {
+        "tooltip": "",
+        "newname": "texture",
+        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
+      },
+      "Face": {
+        "tooltip": "",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      }
+    },
+    "newtooltip": "Applies the Blinn-Phong diffuse texture to face of the prim."
+  },
+  "llSetTextureAnim": {
+    "tooltip": "Animates a texture by setting the texture scale and offset.\nMode is a bitmask of animation options.\\nFace specifies which object face to animate.\\nSizeX and SizeY specify the number of horizontal and vertical frames.Start specifes the animation start point.\\nLength specifies the animation duration.\\nRate specifies the animation playback rate.",
+    "description": "Animate the texture on the specified face/faces by setting the texture scale and offset.",
+    "arguments": {
+      "Mode": {
+        "tooltip": "Mask of Mode flags.",
+        "newname": "mode",
+        "description": "Mask of Mode flags",
+        "newtooltip": "The bitfield of texture animation mode flags (ANIM_ON, LOOP, etc.)."
+      },
+      "Face": {
+        "tooltip": "Face number or ALL_SIDES.",
+        "newname": "face",
+        "description": "face number or ALL_SIDES",
+        "newtooltip": "The face number or ALL_SIDES."
+      },
+      "SizeX": {
+        "tooltip": "Horizontal frames (ignored for ROTATE and SCALE).",
+        "newname": "sizex",
+        "description": "Horizontal frames (ignored for ROTATE and SCALE)",
+        "newtooltip": "The number of horizontal frames (ignored for ROTATE and SCALE)."
+      },
+      "SizeY": {
+        "tooltip": "Vertical frames (ignored for ROTATE and SCALE).",
+        "newname": "sizey",
+        "description": "Vertical frames (ignored for ROTATE and SCALE)",
+        "newtooltip": "The number of vertical frames (ignored for ROTATE and SCALE)."
+      },
+      "Start": {
+        "tooltip": "Start position/frame number (or radians for ROTATE).",
+        "newname": "start",
+        "description": "Start position/frame number (or radians for ROTATE)",
+        "newtooltip": "The start frame number (or radians for ROTATE)."
+      },
+      "Length": {
+        "tooltip": "number of frames to display (or radians for ROTATE).",
+        "newname": "length",
+        "description": "Number of frames to display (or radians for ROTATE)",
+        "newtooltip": "The number of frames to display (or radians for ROTATE)."
+      },
+      "Rate": {
+        "tooltip": "Frames per second (must not greater than zero).",
+        "newname": "rate",
+        "description": "Frames per second, or radians per second when ROTATE is set, or UV coordinates when SMOOTH is set (must not be zero)",
+        "newtooltip": "The playback rate in frames per second (or radians/sec for ROTATE, UV coords/sec for SMOOTH). Must not be zero."
+      }
+    },
+    "newtooltip": "Animates the texture on face of the prim by setting its scale and offset. mode defines options, sizex/sizey define frames, start defines the start frame/angle, length defines duration, and rate defines playback speed."
+  },
+  "llSetTimerEvent": {
+    "tooltip": "Causes the timer event to be triggered every Rate seconds. Passing in 0.0 stops further timer events.",
+    "description": "Cause the timer event to be triggered a maximum of once every sec seconds. Passing in 0.0 stops further timer events.",
+    "arguments": {
+      "Rate": {
+        "tooltip": "",
+        "newname": "sec",
+        "description": "Any positive non-zero value to enable, zero (0.0) to disable.",
+        "newtooltip": "The interval in seconds between timer events (0.0 to disable)."
+      }
+    },
+    "newtooltip": "Sets a timer to trigger a timer event periodically every sec seconds. Passing 0.0 stops further timer events."
+  },
+  "llSetTorque": {
+    "tooltip": "Sets the Torque acting on the script's object, in object-local coordinates if Local == TRUE (otherwise, the region reference frame is used).\\nOnly works on physical objects.",
+    "description": "Sets the torque of object (if the script is physical)",
+    "arguments": {
+      "Torque": {
+        "tooltip": "Torque force.",
+        "newname": "torque",
+        "newtooltip": "The torque rotational force vector."
+      },
+      "Local": {
+        "tooltip": "Boolean, if TRUE uses local axis, if FALSE uses region axis.",
+        "newname": "local",
+        "description": "boolean, if TRUE uses the local axis, if FALSE uses the region region axis",
+        "newtooltip": "Boolean. If TRUE, torque is treated as a local vector; if FALSE, as a global region vector."
+      }
+    },
+    "newtooltip": "Applies a constant torque rotational force to a physical object. If local is TRUE, torque is applied in local coordinates; if FALSE, applied in global coordinates."
+  },
+  "llSetTouchText": {
+    "tooltip": "Displays Text in the viewer context menu that acts on a touch.",
+    "description": "Displays text rather than the default \"Touch\" in the right-click menu",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "text",
+        "newtooltip": "The context menu text to display."
+      }
+    },
+    "newtooltip": "Displays the string text instead of 'Touch' in the right-click context menu."
+  },
+  "llSetVehicleFlags": {
+    "tooltip": "Enables the vehicle flags specified in the Flags bitmask.\nValid parameters can be found in the wiki documentation.",
+    "description": "Enabled the specified vehicle flags",
+    "arguments": {
+      "Flags": {
+        "tooltip": "",
+        "newname": "flags",
+        "description": "mask of VEHICLE_FLAG_* flags",
+        "newtooltip": "A bitwise mask of VEHICLE_FLAG_* constants to enable."
+      }
+    },
+    "newtooltip": "Enables the vehicle flags specified in the Flags bitmask."
+  },
+  "llSetVehicleFloatParam": {
+    "tooltip": "Sets a vehicle float parameter.\nValid parameters can be found in the wiki documentation.",
+    "description": "Sets the vehicle float parameter param to value.",
+    "arguments": {
+      "ParameterName": {
+        "tooltip": "",
+        "newname": "param",
+        "description": "VEHICLE_* flag",
+        "newtooltip": "The VEHICLE_* float parameter constant to set."
+      },
+      "ParameterValue": {
+        "tooltip": "",
+        "newname": "value",
+        "newtooltip": "The float value to set."
+      }
+    },
+    "newtooltip": "Sets the specified vehicle float parameter param to value."
+  },
+  "llSetVehicleRotationParam": {
+    "tooltip": "Sets a vehicle rotation parameter.\nValid parameters can be found in the wiki documentation.",
+    "description": "Sets the vehicle rotation parameter param to rot.",
+    "arguments": {
+      "ParameterName": {
+        "tooltip": "",
+        "newname": "param",
+        "description": "VEHICLE_* flag",
+        "newtooltip": "The VEHICLE_* rotation parameter constant to set."
+      },
+      "ParameterValue": {
+        "tooltip": "",
+        "newname": "rot",
+        "newtooltip": "The rotation value to set."
+      }
+    },
+    "newtooltip": "Sets the specified vehicle rotation parameter param to rot."
+  },
+  "llSetVehicleType": {
+    "tooltip": "Activates the vehicle action on the object with vehicle preset Type.\nValid Types and an explanation of their characteristics can be found in wiki documentation.",
+    "description": "Sets the vehicle type to one of the default types.",
+    "arguments": {
+      "Type": {
+        "tooltip": "",
+        "newname": "type",
+        "newtooltip": "The VEHICLE_TYPE_* constant to set."
+      }
+    },
+    "newtooltip": "Sets the vehicle physics preset type to one of the default vehicle types."
+  },
+  "llSetVehicleVectorParam": {
+    "tooltip": "Sets a vehicle vector parameter.\nValid parameters can be found in the wiki documentation.",
+    "description": "Sets the vehicle vector parameter param to vec.",
+    "arguments": {
+      "ParameterName": {
+        "tooltip": "",
+        "newname": "param",
+        "description": "VEHICLE_* flag",
+        "newtooltip": "The VEHICLE_* vector parameter constant to set."
+      },
+      "ParameterValue": {
+        "tooltip": "",
+        "newname": "vec",
+        "newtooltip": "The vector value to set."
+      }
+    },
+    "newtooltip": "Sets the specified vehicle vector parameter param to vec."
+  },
+  "llSetVelocity": {
+    "tooltip": "If the object is physics-enabled, sets the object's linear velocity to Velocity.\\nIf Local==TRUE, Velocity is treated as a local directional vector; otherwise, Velocity is treated as a global directional vector.",
+    "description": "Applies velocity to object",
+    "arguments": {
+      "Velocity": {
+        "tooltip": "The velocity to apply.",
+        "newname": "velocity",
+        "newtooltip": "The linear velocity vector to apply (in meters per second)."
+      },
+      "Local": {
+        "tooltip": "If TRUE, the Velocity is treated as a local directional vector instead of a regional directional vector.",
+        "newname": "local",
+        "newtooltip": "Boolean. If TRUE, velocity is treated as a local directional vector; if FALSE, as a global region vector."
+      }
+    },
+    "newtooltip": "Sets the linear velocity of a physical object to velocity. If local is TRUE, velocity is treated as a local directional vector; if FALSE, as a global region directional vector. Has no effect on non-physical objects."
+  },
+  "llSHA1String": {
+    "tooltip": "Returns a string of 40 hex characters that is the SHA1 security hash of text.",
+    "description": "Returns a string of 40 hex characters that is the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;SHA-1 security hash of src.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "src",
+        "newtooltip": "The source string to hash."
+      }
+    },
+    "newtooltip": "Returns a string of 40 hex characters representing the SHA-1 security hash of src."
+  },
+  "llSHA256String": {
+    "tooltip": "Returns a string of 64 hex characters that is the SHA256 security hash of text.",
+    "description": "Returns a string of 64 hex characters that is the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;SHA-256 security hash of src.",
+    "arguments": {
+      "text": {
+        "tooltip": "",
+        "newname": "src",
+        "newtooltip": "The source string to hash."
+      }
+    },
+    "newtooltip": "Returns a string of 64 hex characters representing the SHA-256 security hash of src."
+  },
+  "llShout": {
+    "tooltip": "Shouts Text on Channel.\nThis chat method has a range of 100m radius.\nPUBLIC_CHANNEL is the public chat channel that all avatars see as chat text. DEBUG_CHANNEL is the script debug channel, and is also visible to nearby avatars. All other channels are are not sent to avatars, but may be used to communicate with scripts.",
+    "description": "Shouts the text supplied in string msg on channel supplied in integer channel.",
+    "arguments": {
+      "Channel": {
+        "tooltip": "",
+        "newname": "channel",
+        "description": "output chat channel, any integer value",
+        "newtooltip": "The integer chat channel to shout the message on."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "msg",
+        "description": "message to be transmitted",
+        "newtooltip": "The text message string to transmit."
+      }
+    },
+    "newtooltip": "Shouts the text message msg on the specified channel. The message can be heard up to a 100m radius. All channels other than PUBLIC_CHANNEL (0) and DEBUG_CHANNEL (2147483647) are not sent to avatars and are used to communicate with scripts."
+  },
+  "llSignRSA": {
+    "tooltip": "Returns the base64-encoded RSA signature of Message using PEM-formatted PrivateKey and digest Algorithm (sha1, sha224, sha256, sha384, sha512).",
+    "description": "Returns a string that is the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;Base64-encoded [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;RSA) signature of msg when using hash algorithm algorithm and secret key private_key. Can be paired with llVerifyRSA to pass verifiable messages.",
+    "arguments": {
+      "PrivateKey": {
+        "tooltip": "The PEM-formatted private key",
+        "newname": "private_key",
+        "newtooltip": "The PEM-formatted private key."
+      },
+      "Message": {
+        "tooltip": "The message contents to sign",
+        "newname": "msg",
+        "newtooltip": "The message contents to sign."
+      },
+      "Algorithm": {
+        "tooltip": "The digest algorithnm to use: sha1, sha224, sha256, sha384, sha512",
+        "newname": "algorithm",
+        "newtooltip": "The digest algorithm to use (sha1, sha224, sha256, sha384, or sha512)."
+      }
+    },
+    "newtooltip": "Returns the Base64-encoded RSA signature of msg using the PEM-formatted private_key and the specified digest algorithm (sha1, sha224, sha256, sha384, or sha512). Can be paired with llVerifyRSA to pass verifiable messages."
+  },
+  "llSin": {
+    "tooltip": "Returns the sine of Theta (Theta in radians).",
+    "description": "Returns a float that is the sine of theta.",
+    "arguments": {
+      "Theta": {
+        "tooltip": "",
+        "newname": "theta",
+        "description": "angle expressed in radians",
+        "newtooltip": "The angle expressed in radians."
+      }
+    },
+    "newtooltip": "Returns a float representing the sine of theta."
+  },
+  "llSitOnLink": {
+    "tooltip": "If agent identified by AvatarID is participating in the experience, sit them on the specified link's sit target.",
+    "description": "The avatar specified by agent_id is forced to sit on the sit target of the prim indicated by the link parameter. If the specified link is already occupied, the simulator searches down the chain of prims in the link set looking for an available sit target.\n\n\n Returns an integer",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "agent_id",
+        "description": "UUID of the avatar being forced to sit",
+        "newtooltip": "The UUID of the avatar being forced to sit."
+      },
+      "LinkID": {
+        "tooltip": "",
+        "newname": "link",
+        "description": "Link number for the prim containing the desired sit target",
+        "newtooltip": "The link number for the prim containing the desired sit target."
+      }
+    },
+    "newtooltip": "Forces the avatar specified by agent_id (who must be participating in the experience) to sit on the sit target of the prim indicated by link. If occupied, searches down the linkset for an available sit target. Returns an integer."
+  },
+  "llSitTarget": {
+    "tooltip": "Set the sit location for this object. If offset == ZERO_VECTOR, clears the sit target.",
+    "description": "Set the sit location for the prim. The sit location is relative to the prim's position and rotation.",
+    "arguments": {
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "Additional position for the sit target in local prim coordinates.",
+        "newtooltip": "The target position vector in local prim coordinates."
+      },
+      "Rotation": {
+        "tooltip": "",
+        "newname": "rot",
+        "description": "Additional rotation for the sit target relative to the prim rotation.",
+        "newtooltip": "The target rotation relative to the prim's rotation."
+      }
+    },
+    "newtooltip": "Sets the sit target position (offset) and rotation (rot) relative to the prim's position and orientation. Clears the sit target if offset is ZERO_VECTOR."
+  },
+  "llSleep": {
+    "tooltip": "Put script to sleep for Time seconds.",
+    "description": "Puts the script to sleep for sec seconds. The script will not do anything during this time.\n\n\n The script will sleep at least until the next server-frame, which happen every (1/45 = ~0.02222) seconds under normal conditions.\n\n\n If sec is zero or less, the script will not sleep at all.",
+    "arguments": {
+      "Time": {
+        "tooltip": "",
+        "newname": "sec",
+        "description": "seconds to sleep",
+        "newtooltip": "The duration in seconds to put the script to sleep."
+      }
+    },
+    "newtooltip": "Puts the script to sleep for sec seconds (at least until the next server-frame, ~0.02222 seconds). The script is inactive during this time. If sec is 0.0 or less, the script does not sleep."
+  },
+  "llSound": {
+    "tooltip": "'Deprecated: Use llPlaySound instead.\nPlays Sound at Volume and specifies whether the sound should loop and/or be enqueued.'",
+    "description": "Plays sound at volume and whether it should loop or not.",
+    "arguments": {
+      "Sound": {
+        "tooltip": "",
+        "newname": "sound",
+        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
+      },
+      "Volume": {
+        "tooltip": "",
+        "newname": "volume",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
+      },
+      "Queue": {
+        "tooltip": "",
+        "newname": "queue",
+        "description": "boolean, whether or not to queue the song (TRUE) or interrupt the playing song (FALSE).",
+        "newtooltip": "Boolean. If TRUE, queues the sound; if FALSE, interrupts the currently playing sound."
+      },
+      "Loop": {
+        "tooltip": "",
+        "newname": "loop",
+        "description": "boolean, whether or not to loop the song.",
+        "newtooltip": "Boolean. If TRUE, loops the sound."
+      }
+    },
+    "newtooltip": "Deprecated (use llPlaySound instead). Plays the specified sound at volume, with options to loop or queue the sound."
+  },
+  "llSoundPreload": {
+    "tooltip": "'Deprecated: Use llPreloadSound instead.\nPreloads a sound on viewers within range.'",
+    "description": "Preloads sound on viewers within range.",
+    "arguments": {
+      "Sound": {
+        "tooltip": "",
+        "newname": "sound",
+        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
+      }
+    },
+    "newtooltip": "Deprecated (use llPreloadSound instead). Preloads the specified sound on viewers within range."
+  },
+  "llSqrt": {
+    "tooltip": "Returns the square root of Value.\nTriggers a math runtime error for imaginary results (if Value < 0.0).",
+    "description": "Returns a float that is the square root of val.",
+    "arguments": {
+      "Value": {
+        "tooltip": "",
+        "newname": "val",
+        "description": "positive number (val >= 0.0)",
+        "newtooltip": "The positive float value (must be >= 0.0)."
+      }
+    },
+    "newtooltip": "Returns a float representing the square root of the positive value val. Triggers a math runtime error if val is less than 0.0 (imaginary results)."
+  },
+  "llsRGB2Linear": {
+    "tooltip": "Converts a color from the sRGB to the linear colorspace.",
+    "description": "Returns a vector Transforms a color specified in the sRGB colorspace to the linear RGB colorspace.",
+    "arguments": {
+      "srgb": {
+        "tooltip": "A color in the sRGB colorspace.",
+        "newname": "srgb",
+        "description": "Color in the sRGB color space.",
+        "newtooltip": "The color vector in the sRGB colorspace to convert."
+      }
+    },
+    "newtooltip": "Returns a vector representing the conversion of the color srgb from the sRGB colorspace into the linear RGB colorspace."
+  },
+  "llStartAnimation": {
+    "tooltip": "This function plays the specified animation from playing on the avatar who received the script's most recent permissions request.\\nAnimation may be an animation in task inventory or a built-in animation.\\nRequires the PERMISSION_TRIGGER_ANIMATION runtime permission (automatically granted to attached or sat on objects).",
+    "description": "Start animation anim for agent that granted PERMISSION_TRIGGER_ANIMATION if the permission has not been revoked.",
+    "arguments": {
+      "Animation": {
+        "tooltip": "",
+        "newname": "anim",
+        "description": "an item in the inventory of the prim this script is in&#32;or built-in animation",
+        "newtooltip": "The name of an animation in the prim's inventory, or a built-in animation."
+      }
+    },
+    "newtooltip": "Starts the animation anim (inventory or built-in) on the avatar who granted the script the PERMISSION_TRIGGER_ANIMATION permission (automatically granted for attached or sat-on objects)."
+  },
+  "llStartObjectAnimation": {
+    "tooltip": "This function plays the specified animation on the rigged mesh object associated with the current script.\\nAnimation may be an animation in task inventory or a built-in animation.\\n",
+    "description": "Start animation for the current object.",
+    "arguments": {
+      "Animation": {
+        "tooltip": "",
+        "newname": "anim",
+        "description": "an item in the inventory of the prim this script is inname of an animation in the inventory of the current object",
+        "newtooltip": "The name of an animation in the current object's inventory."
+      }
+    },
+    "newtooltip": "Starts the specified animation anim (inventory or built-in) on the rigged mesh object associated with the current script."
+  },
+  "llStopAnimation": {
+    "tooltip": "This function stops the specified animation on the avatar who received the script's most recent permissions request.\\nAnimation may be an animation in task inventory, a built-in animation, or the uuid of an animation.\\nRequires the PERMISSION_TRIGGER_ANIMATION runtime permission (automatically granted to attached or sat on objects).",
+    "description": "Stop animation anim for agent that granted PERMISSION_TRIGGER_ANIMATION if the permission has not been revoked.",
+    "arguments": {
+      "Animation": {
+        "tooltip": "",
+        "newname": "anim",
+        "description": "an animation in the inventory of the prim this script is in&#32;or a UUID&#32;of an animation&#32;or built in animation name",
+        "newtooltip": "The name of an animation in the prim's inventory, a UUID of an animation, or a built-in animation name."
+      }
+    },
+    "newtooltip": "Stops the specified animation anim (inventory, built-in, or UUID) on the avatar who granted the script the PERMISSION_TRIGGER_ANIMATION permission (automatically granted for attached or sat-on objects)."
+  },
+  "llStopHover": {
+    "tooltip": "Stop hovering to a height (due to llSetHoverHeight()).",
+    "description": "Stop hovering to a height",
+    "arguments": {},
+    "newtooltip": "Stops the hover behavior (such as that initiated by llSetHoverHeight)."
+  },
+  "llStopLookAt": {
+    "tooltip": "Stop causing object to point at a target (due to llLookAt() or llRotLookAt()).",
+    "description": "Stop causing object to point at a target\n\n\n Use in conjunction llLookAt or llRotLookAt.",
+    "arguments": {},
+    "newtooltip": "Stops causing the object to look at or point toward a target (canceling llLookAt or llRotLookAt)."
+  },
+  "llStopMoveToTarget": {
+    "tooltip": "Stops critically damped motion (due to llMoveToTarget()).",
+    "description": "Stops critically damped motion\n\n\n Use in conjunction with llMoveToTarget\n\n\n To stop rotation movement use llStopLookAt",
+    "arguments": {},
+    "newtooltip": "Stops the critically damped movement of the object toward a target (canceling llMoveToTarget). Use llStopLookAt to stop rotational tracking."
+  },
+  "llStopObjectAnimation": {
+    "tooltip": "This function stops the specified animation on the rigged mesh object associated with the current script.\\nAnimation may be an animation in task inventory, a built-in animation, or the uuid of an animation.\\n",
+    "description": "Stop an animation for the current object.",
+    "arguments": {
+      "Animation": {
+        "tooltip": "",
+        "newname": "anim",
+        "description": "name of an animation in the inventory of the current object, or an animation uuid",
+        "newtooltip": "The name of an animation in the current object's inventory, or an animation UUID."
+      }
+    },
+    "newtooltip": "Stops the specified animation anim (inventory, built-in, or UUID) on the rigged mesh object associated with the current script."
+  },
+  "llStopPointAt": {
+    "tooltip": "",
+    "description": "Stop agent that owns object pointing",
+    "arguments": {},
+    "newtooltip": "Stops the avatar who owns the object from pointing."
+  },
+  "llStopSound": {
+    "tooltip": "Stops playback of the currently attached sound.",
+    "description": "Function: llLinkStopSound( integer link );",
+    "arguments": {},
+    "newtooltip": "Stops playback of the currently playing attached sound."
+  },
+  "llStringLength": {
+    "tooltip": "Returns an integer that is the number of characters in Text (not counting the null).",
+    "description": "Returns an integer that is the number of characters in str.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "str",
+        "newtooltip": "The string to measure."
+      }
+    },
+    "newtooltip": "Returns an integer representing the number of characters in the string str (excluding the null terminator)."
+  },
+  "llStringToBase64": {
+    "tooltip": "Returns the string Base64 representation of the input string.",
+    "description": "Returns the string Base64 representation of the str interpreted as an UTF-8 byte sequence",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "str",
+        "newtooltip": "The source string to encode."
+      }
+    },
+    "newtooltip": "Returns the Base64 representation string of str, interpreting it as a UTF-8 byte sequence."
+  },
+  "llStringTrim": {
+    "tooltip": "'Outputs a string, eliminating white-space from the start and/or end of the input string Text.\\nValid options for TrimType:\\nSTRING_TRIM_HEAD: trim all leading spaces in Text\\nSTRING_TRIM_TAIL: trim all trailing spaces in Text\\nSTRING_TRIM: trim all leading and trailing spaces in Text.'",
+    "description": "Returns a string that is src with leading and/or trailing white space (spaces, tabs, and line feeds) trimmed from it.",
+    "arguments": {
+      "Text": {
+        "tooltip": "String to trim",
+        "newname": "src",
+        "newtooltip": "The string to trim."
+      },
+      "TrimType": {
+        "tooltip": "STRING_TRIM_HEAD, STRING_TRIM_TAIL, or STRING_TRIM.",
+        "newname": "type",
+        "description": "STRING_TRIM* flag(s)",
+        "newtooltip": "The trim type flag (STRING_TRIM_HEAD, STRING_TRIM_TAIL, or STRING_TRIM)."
+      }
+    },
+    "newtooltip": "Returns a copy of the string src with leading, trailing, or both types of whitespace (including spaces, tabs, and line feeds) eliminated, according to the specified trim type."
+  },
+  "llSubStringIndex": {
+    "tooltip": "Returns the first index where Sequence appears in Text. Returns -1 if not found.",
+    "description": "Returns an integer that is the index of the first instance of pattern in source.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "source",
+        "description": "what to search in (haystack)",
+        "newtooltip": "The source string to search within."
+      },
+      "Sequence": {
+        "tooltip": "",
+        "newname": "pattern",
+        "description": "what to search for (needle)",
+        "newtooltip": "The substring pattern to search for."
+      }
+    },
+    "newtooltip": "Returns the zero-based index of the first instance of the pattern substring inside the string source. Returns -1 if not found."
+  },
+  "llTakeCamera": {
+    "tooltip": "Deprecated: Use llSetCameraParams instead.",
+    "description": "This function is recognized by the compiler, but was never implemented in Second Life.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "avatar",
+        "description": "avatar UUID that is in the same region",
+        "newtooltip": "The UUID of the avatar in the same region."
+      }
+    },
+    "newtooltip": "Deprecated (use llSetCameraParams instead). Formerly used to take control of the agent's camera."
+  },
+  "llTakeControls": {
+    "tooltip": "Take controls from the agent the script has permissions for.\nIf (Accept == (Controls & input)), send input to the script. PassOn determines whether Controls also perform their normal functions.\\nRequires the PERMISSION_TAKE_CONTROLS runtime permission (automatically granted to attached or sat on objects).",
+    "description": "Allows for intercepting of keyboard and mouse clicks, specifically those specified by controls, from the agent the script has permissions for.",
+    "arguments": {
+      "Controls": {
+        "tooltip": "Bit-field of CONTROL_* flags.",
+        "newname": "controls",
+        "description": "bitfield of CONTROL_* flags",
+        "newtooltip": "The bitfield of CONTROL_* flags to intercept."
+      },
+      "Accept": {
+        "tooltip": "Boolean, determines whether control events are generated.",
+        "newname": "accept",
+        "description": "boolean, determines whether control events are generated",
+        "newtooltip": "Boolean. Determines whether control events are generated to trigger script handlers."
+      },
+      "PassOn": {
+        "tooltip": "Boolean, determines whether controls are disabled.",
+        "newname": "pass_on",
+        "description": "boolean, determines whether controls perform their normal functions",
+        "newtooltip": "Boolean. If TRUE, the keys also perform their default functions; if FALSE, default actions are suppressed."
+      }
+    },
+    "newtooltip": "Intercepts inputs (keyboard/mouse clicks) from the agent, specifically those specified by controls. The boolean accept determines if events are generated, and pass_on determines if inputs also perform their default functions. Requires the PERMISSION_TAKE_CONTROLS runtime permission."
+  },
+  "llTan": {
+    "tooltip": "Returns the tangent of Theta (Theta in radians).",
+    "description": "Returns a float that is the tangent of theta.",
+    "arguments": {
+      "Theta": {
+        "tooltip": "",
+        "newname": "theta",
+        "description": "angle expressed in radians",
+        "newtooltip": "The angle expressed in radians."
+      }
+    },
+    "newtooltip": "Returns a float representing the tangent of theta."
+  },
+  "llTarget": {
+    "tooltip": "This function is to have the script know when it has reached a position.\nIt registers a Position with a Range that triggers at_target and not_at_target events continuously until unregistered.",
+    "description": "This function is to have the script know when it has reached a position.\n\n\n It registers a position with a range that triggers at_target and not_at_target events continuously until unregistered.\n\n\n Returns a handle (an integer) to unregister the target with llTargetRemove.",
+    "arguments": {
+      "Position": {
+        "tooltip": "",
+        "newname": "position",
+        "description": "position in region coordinates",
+        "newtooltip": "The target position vector in region coordinates."
+      },
+      "Range": {
+        "tooltip": "",
+        "newname": "range",
+        "newtooltip": "The radius tolerance in meters surrounding the target position."
+      }
+    },
+    "newtooltip": "Registers a positional target at position with a leeway radius range. This triggers at_target and not_at_target events. Returns an integer handle to unregister the target via llTargetRemove."
+  },
+  "llTargetedEmail": {
+    "tooltip": "Sends an email with Subject and Message to the owner or creator of an object.",
+    "description": "Sends an email to the owner (selected by target) of an object with subject and message.",
+    "arguments": {
+      "Target": {
+        "tooltip": "",
+        "newname": "target",
+        "newtooltip": "The target constant (e.g., TARGETED_EMAIL_OBJECT_OWNER or TARGETED_EMAIL_ROOT_CREATOR)."
+      },
+      "Subject": {
+        "tooltip": "",
+        "newname": "subject",
+        "newtooltip": "The subject of the email."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "message",
+        "newtooltip": "The email message body."
+      }
+    },
+    "newtooltip": "Sends an email containing subject and message to the target (which can designate the owner or creator of the object)."
+  },
+  "llTargetOmega": {
+    "tooltip": "Attempt to spin at SpinRate with strength Gain on Axis.\nA spin rate of 0.0 cancels the spin. This function always works in object-local coordinates.",
+    "description": "Rotates the object/prim around axis at a rate of '**spinrate** * [llVecMag](https://wiki.secondlife.com/wiki/LlVecMag)(**axis**)' in radians per second with strength gain.",
+    "arguments": {
+      "Axis": {
+        "tooltip": "",
+        "newname": "axis",
+        "description": "arbitrary axis to rotate the object around",
+        "newtooltip": "The local axis vector around which the object rotates."
+      },
+      "SpinRate": {
+        "tooltip": "",
+        "newname": "spinrate",
+        "description": "rate of rotation in radians per second",
+        "newtooltip": "The rotation rate multiplier in radians per second."
+      },
+      "Gain": {
+        "tooltip": "",
+        "newname": "gain",
+        "description": "also modulates the final spinrate and disables the rotation behavior if zero",
+        "newtooltip": "A float modulating the rotational strength (disables the rotation if set to 0.0)."
+      }
+    },
+    "newtooltip": "Applies a smooth client-side rotation around the local axis at a rate equal to spinrate multiplied by the magnitude of axis (in radians per second) with a force defined by gain. Set spinrate to 0.0 to cancel."
+  },
+  "llTargetRemove": {
+    "tooltip": "Removes positional target Handle registered with llTarget.",
+    "description": "Removes positional target handle registered with llTarget",
+    "arguments": {
+      "Target": {
+        "tooltip": "",
+        "newname": "handle",
+        "description": "handle to control at_target and not_at_target events",
+        "newtooltip": "The integer target handle returned by llTarget to remove."
+      }
+    },
+    "newtooltip": "Removes the positional target specified by the integer handle registered with llTarget."
+  },
+  "llTeleportAgent": {
+    "tooltip": "Requests a teleport of avatar to a landmark stored in the object's inventory. If no landmark is provided (an empty string), the avatar is teleported to the location position in the current region. In either case, the avatar is turned to face the position given by look_at in local coordinates.\\nRequires the PERMISSION_TELEPORT runtime permission.\\nThis function can only teleport the owner of the object.",
+    "description": "Teleports an agent to a landmark stored in the object's inventory.\n\n\n If landmark is an empty string, the avatar is teleported to the location position in the current region.\n\n\n If the destination is in the current region, the avatar will land facing look_at as a position within that region. Otherwise, look_at is treated as a unit direction.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "UUID of avatar.",
+        "newname": "agent",
+        "description": "avatar UUID that is in the same region&#32;(the avatar to teleport, must be the owner)",
+        "newtooltip": "The UUID of the owning avatar to teleport."
+      },
+      "LandmarkName": {
+        "tooltip": "Name of landmark (in object contents), or empty string, to use.",
+        "newname": "landmark",
+        "description": "a landmark in the inventory of the prim this script is in&#32;or an empty string&#32;(for teleporting within the same region)",
+        "newtooltip": "The name of the landmark in the prim's inventory, or an empty string to teleport locally."
+      },
+      "Position": {
+        "tooltip": "If no landmark was provided, the position within the current region to teleport the avatar to.",
+        "newname": "position",
+        "description": "The position within the local region to teleport the avatar to if no landmark was provided.",
+        "newtooltip": "The position vector in local region coordinates to teleport to if landmark is empty."
+      },
+      "LookAtPoint": {
+        "tooltip": "The position within the target region that the avatar should be turned to face upon arrival.",
+        "newname": "look_at",
+        "description": "The position within the region that the avatar should be turned to face upon arrival.",
+        "newtooltip": "The position vector (or direction unit vector if teleporting out of region) the agent faces upon landing."
+      }
+    },
+    "newtooltip": "Teleports the owning agent (who must grant PERMISSION_TELEPORT) to a landmark in the object's inventory. If landmark is empty, teleports them to position within the current region. Upon arrival, the agent is turned to face look_at. Can only teleport the owner."
+  },
+  "llTeleportAgentGlobalCoords": {
+    "tooltip": "Teleports an agent to the RegionPosition local coordinates within a region which is specified by the GlobalPosition global coordinates. The agent lands facing the position defined by LookAtPoint local coordinates.\\nRequires the PERMISSION_TELEPORT runtime permission.\\nThis function can only teleport the owner of the object.",
+    "description": "Teleports an agent to region_coordinates within a region specified by global_coordinates.\n\n\n A region's global coordinates can be retrieved using '[llRequestSimulatorData](https://wiki.secondlife.com/wiki/LlRequestSimulatorData)(\"region name\", DATA_SIM_POS)'\n\n\n If the destination is in the current region, the avatar will land facing look_at as a position within that region. Otherwise, look_at is treated as a unit direction.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "UUID of avatar.",
+        "newname": "agent",
+        "description": "avatar UUID that is in the same region&#32;(the avatar to teleport, must be the owner)",
+        "newtooltip": "The UUID of the owning avatar to teleport."
+      },
+      "GlobalPosition": {
+        "tooltip": "Global coordinates of the destination region. Can be retrieved by using llRequestSimulatorData(region_name, DATA_SIM_POS).",
+        "newname": "global_coordinates",
+        "description": "Global coordinates of the destination region. Can be retrieved by using llRequestSimulatorData(region_name, DATA_SIM_POS).",
+        "newtooltip": "The global coordinates vector of the target region (obtained via llRequestSimulatorData)."
+      },
+      "RegionPosition": {
+        "tooltip": "The position within the target region to teleport the avatar to, if no landmark was provided.",
+        "newname": "region_coordinates",
+        "description": "position in region coordinates&#32;where the avatar should land.",
+        "newtooltip": "The target coordinates vector within the destination region."
+      },
+      "LookAtPoint": {
+        "tooltip": "The position within the target region that the avatar should be turned to face upon arrival.",
+        "newname": "look_at",
+        "description": "direction the avatar should be facing on landing (east, west, etc).",
+        "newtooltip": "The position vector within the region (or unit direction vector if out of region) that the agent faces upon landing."
+      }
+    },
+    "newtooltip": "Teleports the owning agent (who must grant PERMISSION_TELEPORT) to region_coordinates within a target region specified by global_coordinates. Upon landing, the agent faces the direction look_at. Can only teleport the owner."
+  },
+  "llTeleportAgentHome": {
+    "tooltip": "Teleport agent over the owner's land to agent's home location.",
+    "description": "Teleports avatar on owner's land to their home location without any warning, similar to a God Summons or dying.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "avatar",
+        "description": "avatar UUID that is in the same region",
+        "newtooltip": "The UUID of the avatar to teleport."
+      }
+    },
+    "newtooltip": "Teleports the avatar (who must be standing on land owned by the script owner) directly to their designated home location without warning (similar to a God Summons)."
+  },
+  "llTextBox": {
+    "tooltip": "Opens a dialog for the specified avatar with message Text, which contains a text box for input. Any text that is entered is said on the specified Channel (as if by the avatar) when the \"OK\" button is clicked.",
+    "description": "Shows a dialog box on avatar's screen with the text message. It contains a text box for input, any text that is entered is said by avatar on channel when the \"Submit\" button is clicked.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "avatar",
+        "description": "avatar UUID that is in the same region",
+        "newtooltip": "The UUID of the avatar in the same region."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "message",
+        "description": "message to be displayed in the text box",
+        "newtooltip": "The text message to display in the text box."
+      },
+      "Channel": {
+        "tooltip": "",
+        "newname": "channel",
+        "description": "output chat channel, any integer value",
+        "newtooltip": "The output chat channel (any integer value) where the input text is chatted."
+      }
+    },
+    "newtooltip": "Opens an input text box dialog displaying message to the avatar. Submitting text chats the input string on channel as if said by the avatar."
+  },
+  "llToLower": {
+    "tooltip": "Returns a string that is Text with all lower-case characters.",
+    "description": "Returns a string that is src with all lower-case letters",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "src",
+        "newtooltip": "The source string to convert."
+      }
+    },
+    "newtooltip": "Returns a copy of the string src converted entirely to lowercase."
+  },
+  "llToUpper": {
+    "tooltip": "Returns a string that is Text with all upper-case characters.",
+    "description": "Returns a string that is src with all upper-case characters.",
+    "arguments": {
+      "Text": {
+        "tooltip": "",
+        "newname": "src",
+        "newtooltip": "The source string to convert."
+      }
+    },
+    "newtooltip": "Returns a copy of the string src converted entirely to uppercase."
+  },
+  "llTransferLindenDollars": {
+    "tooltip": "Transfer Amount of linden dollars (L$) from script owner to AvatarID. Returns a key to a corresponding transaction_result event for the success of the transfer.\\nAttempts to send the amount of money to the specified avatar, and trigger a transaction_result event identified by the returned key. Requires the PERMISSION_DEBIT runtime permission.",
+    "description": "Transfer amount of L$ money from script owner to destination avatar.\n\n\n Returns a key used in a matching transaction_result event for the success or failure of the transfer. If the transaction is successful, this key will show in the transaction history.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "destination",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the destination avatar."
+      },
+      "Amount": {
+        "tooltip": "",
+        "newname": "amount",
+        "description": "number of L$, must be greater than zero, (amount > 0)",
+        "newtooltip": "The quantity of L$ to transfer (must be greater than 0)."
+      }
+    },
+    "newtooltip": "Transfers amount of L$ from the script owner to the destination avatar, requiring the PERMISSION_DEBIT permission. Returns a key query handle matching the resulting transaction_result event."
+  },
+  "llTransferOwnership": {
+    "tooltip": "Transfers ownership of an object, or a copy of the object to a new agent.",
+    "description": "Transfer ownership of the object containing this script to agent_id.\n\n\n Returns an integer indicating the result of the transfer.",
+    "arguments": {
+      "AgentID": {
+        "tooltip": "An agent in the region.",
+        "newname": "agent_id",
+        "description": "Agent ID for the avatar to receive ownership of the object",
+        "newtooltip": "The UUID of the avatar to receive ownership of the object."
+      },
+      "Flags": {
+        "tooltip": "Flags to control type of inventory transfer.",
+        "newname": "flags",
+        "description": "Flags controlling transfer behavior.",
+        "newtooltip": "Flags controlling the transfer type (such as TRANSFER_FLAG_COPY or TRANSFER_FLAG_TAKE)."
+      },
+      "Params": {
+        "tooltip": "Extra parameters to llTransferOwnership. None are defined at this time.",
+        "newname": "options",
+        "description": "Options applied to the ownership transfer. No options are defined at this time.",
+        "newtooltip": "Extra options applied to the transfer (currently unused)."
+      }
+    },
+    "newtooltip": "Transfers ownership of the object (or a copy of it, depending on flags) to the avatar agent_id. Returns an integer indicating the success or failure of the transfer."
+  },
+  "llTriggerSound": {
+    "tooltip": "Plays Sound at Volume (0.0 - 1.0), centered at but not attached to object.\nThere is no limit to the number of triggered sounds which can be generated by an object, and calling llTriggerSound does not affect the attached sounds created by llPlaySound and llLoopSound. This is very useful for things like collision noises, explosions, etc. There is no way to stop or alter the volume of a sound triggered by this function.",
+    "description": "Plays sound at volume, centered at but not attached to object.",
+    "arguments": {
+      "Sound": {
+        "tooltip": "",
+        "newname": "sound",
+        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
+      },
+      "Volume": {
+        "tooltip": "",
+        "newname": "volume",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
+      }
+    },
+    "newtooltip": "Plays specified sound once at volume, centered at the object's current position but not attached (does not move with the object and cannot be stopped or adjusted). Does not affect attached sounds."
+  },
+  "llTriggerSoundLimited": {
+    "tooltip": "Plays Sound at Volume (0.0 - 1.0), centered at but not attached to object, limited to axis-aligned bounding box defined by vectors top-north-east (TNE) and bottom-south-west (BSW).\\nThere is no limit to the number of triggered sounds which can be generated by an object, and calling llTriggerSound does not affect the attached sounds created by llPlaySound and llLoopSound. This is very useful for things like collision noises, explosions, etc. There is no way to stop or alter the volume of a sound triggered by this function.",
+    "description": "Plays sound at volume, centered at but not attached to the object, limited to the box defined by vectors top_north_east and bottom_south_west",
+    "arguments": {
+      "Sound": {
+        "tooltip": "",
+        "newname": "sound",
+        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
+      },
+      "Volume": {
+        "tooltip": "",
+        "newname": "volume",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
+      },
+      "TNE": {
+        "tooltip": "",
+        "newname": "top_north_east",
+        "description": "position in region coordinates",
+        "newtooltip": "The top-north-east boundary position vector in region coordinates."
+      },
+      "BSW": {
+        "tooltip": "",
+        "newname": "bottom_south_west",
+        "description": "position in region coordinates",
+        "newtooltip": "The bottom-south-west boundary position vector in region coordinates."
+      }
+    },
+    "newtooltip": "Plays the specified sound once at volume, centered at the object but not attached, restricted to the axis-aligned bounding box defined by the coordinates top_north_east and bottom_south_west."
+  },
+  "llUnescapeURL": {
+    "tooltip": "Returns the string that is the URL unescaped, replacing \"%20\" with spaces, etc., version of URL.\\nThis function can output raw UTF-8 strings.",
+    "description": "Returns a string that is an unescaped/unencoded version of url, replacing '\"%20\"' with spaces etc.",
+    "arguments": {
+      "URL": {
+        "tooltip": "",
+        "newname": "url",
+        "description": "A (preferably valid and escaped URL) string.",
+        "newtooltip": "The escaped URL string to decode."
+      }
+    },
+    "newtooltip": "Returns a string representing the unescaped/decoded version of url, replacing '%20' with spaces and decoding raw UTF-8 characters."
+  },
+  "llUnSit": {
+    "tooltip": "If agent identified by AvatarID is sitting on the object the script is attached to or is over land owned by the object's owner, the agent is forced to stand up.",
+    "description": "The agent identified by id is forced to stand up if any of the following apply:",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "avatar UUID that is in the same region",
+        "newtooltip": "The UUID of the avatar to unsit."
+      }
+    },
+    "newtooltip": "Forces the agent specified by id to stand up if they are sitting on the object containing the script, or are currently over land owned by the object's owner."
+  },
+  "llUpdateCharacter": {
+    "tooltip": "Updates settings for a pathfinding character.",
+    "description": "Updates settings for a character",
+    "arguments": {
+      "Options": {
+        "tooltip": "Character configuration options. Takes the same constants as llCreateCharacter().",
+        "newname": "options",
+        "description": "Character configuration options.",
+        "newtooltip": "A list of key-value pairs specifying the character's new configuration options (takes same constants as llCreateCharacter)."
+      }
+    },
+    "newtooltip": "Updates settings for a pathfinding character using the parameters specified in options."
+  },
+  "llUpdateKeyValue": {
+    "tooltip": "Starts an asychronous transaction to update the value associated with the key given. The dataserver callback will be executed with the key returned from this call and a string describing the result. The result is a two element commma-delimited list. The first item is an integer specifying if the transaction succeeded (1) or not (0). In the failure case, the second item will be an integer corresponding to one of the XP_ERROR_... constants. In the success case the second item will be the value associated with the key. If Checked is 1 the existing value in the data store must match the OriginalValue passed or XP_ERROR_RETRY_UPDATE will be returned. If Checked is 0 the key will be created if necessary.\\n",
+    "description": "Start an asynchronous transaction to update a key-value pair associated with the script's Experience with the given key (k) and value (v).\n\n\n Returns a handle (a key) that can be used to identify the corresponding dataserver event to determine if this command succeeded or failed and the results.",
+    "arguments": {
+      "Key": {
+        "tooltip": "",
+        "newname": "k",
+        "description": "The key for the key-value pair",
+        "newtooltip": "The key of the key-value pair to update."
+      },
+      "Value": {
+        "tooltip": "",
+        "newname": "v",
+        "description": "The value for the key-value pair. Maximum 2047 characters, or 4095 if using Mono.",
+        "newtooltip": "The new value for the key-value pair."
+      },
+      "Checked": {
+        "tooltip": "",
+        "newname": "checked",
+        "description": "If TRUE the update will only happen if original_value matches the value in the key-value store.",
+        "newtooltip": "Boolean. If TRUE, requires the existing value to match original_value to complete the update; if FALSE, creates the key if needed."
+      },
+      "OriginalValue": {
+        "tooltip": "",
+        "newname": "original_value",
+        "description": "The value to compare with the current value in the key-value store.",
+        "newtooltip": "The string value to compare against the existing value in the datastore."
+      }
+    },
+    "newtooltip": "Starts an asynchronous transaction to update the key k to value v inside the experience datastore. If checked is TRUE, the update fails with XP_ERROR_RETRY_UPDATE unless the existing value matches original_value."
+  },
+  "llVecDist": {
+    "tooltip": "Returns the distance between Location1 and Location2.",
+    "description": "Returns a float that is the undirected nonnegative distance between vec_a and vec_b.",
+    "arguments": {
+      "Location1": {
+        "tooltip": "",
+        "newname": "vec_a",
+        "description": "Any valid vector",
+        "newtooltip": "The first vector."
+      },
+      "Location2": {
+        "tooltip": "",
+        "newname": "vec_b",
+        "description": "Any valid vector",
+        "newtooltip": "The second vector."
+      }
+    },
+    "newtooltip": "Returns a float representing the undirected, non-negative distance between vectors vec_a and vec_b."
+  },
+  "llVecMag": {
+    "tooltip": "Returns the magnitude of the vector.",
+    "description": "Returns a float that is the magnitude of the vector (the undirected non-negative distance from vec to <0.0, 0.0, 0.0>).",
+    "arguments": {
+      "Vector": {
+        "tooltip": "",
+        "newname": "vec",
+        "newtooltip": "The vector to evaluate."
+      }
+    },
+    "newtooltip": "Returns a float representing the magnitude (geometric length) of the vector vec."
+  },
+  "llVecNorm": {
+    "tooltip": "Returns normalized vector.",
+    "description": "Returns the vector that is vec normalized (a unit vector sharing the same direction as vec).",
+    "arguments": {
+      "Vector": {
+        "tooltip": "",
+        "newname": "vec",
+        "description": "Any valid vector",
+        "newtooltip": "The vector to normalize."
+      }
+    },
+    "newtooltip": "Returns a normalized unit vector sharing the same direction as vec."
+  },
+  "llVerifyRSA": {
+    "tooltip": "Returns TRUE if PublicKey, Message, and Algorithm produce the same base64-formatted Signature.",
+    "description": "Returns a boolean (an integer) indicating whether the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;RSA) signature is valid for msg when using hash algorithm algorithm and public RSA key public_key. Returns TRUE if the signature is verified, and FALSE otherwise. Can be paired with llSignRSA to validate the authenticity of messages from other LSL scripts.",
+    "arguments": {
+      "PublicKey": {
+        "tooltip": "The PEM-formatted public key for signature verifiation.",
+        "newname": "public_key",
+        "newtooltip": "The PEM-formatted public key to use for signature verification."
+      },
+      "Message": {
+        "tooltip": "The message that was signed.",
+        "newname": "msg",
+        "newtooltip": "The message string that was signed."
+      },
+      "Signature": {
+        "tooltip": "The base64-formatted signature of the message.",
+        "newname": "signature",
+        "newtooltip": "The Base64-encoded signature to verify."
+      },
+      "Algorithm": {
+        "tooltip": "The digest algorithm: sha1, sha224, sha256, sha384, sha512.",
+        "newname": "algorithm",
+        "newtooltip": "The cryptographic digest algorithm to use."
+      }
+    },
+    "newtooltip": "Returns TRUE if the Base64-formatted signature is verified as valid for the message msg when using the digest algorithm and public_key. Returns FALSE otherwise."
+  },
+  "llVolumeDetect": {
+    "tooltip": "If DetectEnabled = TRUE, object becomes phantom but triggers collision_start and collision_end events when other objects start and stop interpenetrating.\\nIf another object (including avatars) interpenetrates it, it will get a collision_start event.\\nWhen an object stops interpenetrating, a collision_end event is generated. While the other is inter-penetrating, collision events are NOT generated.",
+    "description": "If detect is TRUE, VolumeDetect is enabled, physical object and avatars can pass through the object.",
+    "arguments": {
+      "DetectEnabled": {
+        "tooltip": "TRUE enables, FALSE disables.",
+        "newname": "detect",
+        "description": "TRUE enables, FALSE&#32;(default) disables",
+        "newtooltip": "Boolean. If TRUE, enables VolumeDetect; if FALSE (default), disables it."
+      }
+    },
+    "newtooltip": "If detect is TRUE, enables VolumeDetect (object becomes phantom and physical objects/avatars can pass through it). Triggers collision_start on initial intersection and collision_end when intersection stops (standard collision events are suppressed while intersecting)."
+  },
+  "llWanderWithin": {
+    "tooltip": "Wander within a specified volume.\nSets a character to wander about a central spot within a specified area.",
+    "description": "Sets a character to wander about a central spot within a specified radius.",
+    "arguments": {
+      "Origin": {
+        "tooltip": "Central point to wander about.",
+        "newname": "origin",
+        "description": "Central point to wander about",
+        "newtooltip": "The center coordinate position vector to wander about."
+      },
+      "Area": {
+        "tooltip": "Half-extents of an area the character may wander within. (i.e., it can wander from the specified origin by up to +/-Distance.x in x, +/-Distance.y in y, etc.)",
+        "newname": "dist",
+        "description": "Sets how far the character may wander from origin, along each world-aligned axis",
+        "newtooltip": "A vector specifying the maximum distance limits (half-extents) along each world-aligned axis from the origin."
+      },
+      "Options": {
+        "tooltip": "No options available at this time.",
+        "newname": "options",
+        "description": "WANDER_* flags and their parameters",
+        "newtooltip": "A list of WANDER_* flags and parameters to configure the wander behavior."
+      }
+    },
+    "newtooltip": "Directs a pathfinding character to wander around a central coordinate origin, restricted within the bounding distance limits of dist and configured by options."
+  },
+  "llWater": {
+    "tooltip": "Returns the water height below the object position + Offset.",
+    "description": "Returns a float that is the water height below the prim's position + offset",
+    "arguments": {
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates",
+        "newtooltip": "The offset relative to the prim's position, expressed in local coordinates."
+      }
+    },
+    "newtooltip": "Returns a float representing the water height directly below the prim's position offset by the vector offset."
+  },
+  "llWhisper": {
+    "tooltip": "Whispers Text on Channel.\nThis chat method has a range of 10m radius.\nPUBLIC_CHANNEL is the public chat channel that all avatars see as chat text. DEBUG_CHANNEL is the script debug channel, and is also visible to nearby avatars. All other channels are are not sent to avatars, but may be used to communicate with scripts.",
+    "description": "Whispers the text supplied in string msg on channel supplied in integer channel.",
+    "arguments": {
+      "Channel": {
+        "tooltip": "",
+        "newname": "channel",
+        "description": "output chat channel, any integer value",
+        "newtooltip": "The integer chat channel to whisper the message on."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "msg",
+        "description": "message to be transmitted",
+        "newtooltip": "The text message string to transmit."
+      }
+    },
+    "newtooltip": "Whispers the text message msg on the specified channel. The message can be heard up to a 10m radius. All channels other than PUBLIC_CHANNEL (0) and DEBUG_CHANNEL (2147483647) are not sent to avatars and are used to communicate with scripts."
+  },
+  "llWind": {
+    "tooltip": "Returns the wind velocity at the object position + Offset.",
+    "description": "Returns a vector that is the wind velocity at the prim's position + offset",
+    "arguments": {
+      "Offset": {
+        "tooltip": "",
+        "newname": "offset",
+        "description": "offset relative to the prim's position and expressed in local coordinates",
+        "newtooltip": "The offset relative to the prim's position, expressed in local coordinates."
+      }
+    },
+    "newtooltip": "Returns a vector representing the wind velocity at the prim's position offset by the vector offset."
+  },
+  "llWorldPosToHUD": {
+    "tooltip": "Returns the local position that would put the origin of a HUD object directly over world_pos as viewed by the current camera. Requires the PERMISSION_TRACK_CAMERA runtime permission (else will return zero vector).",
+    "description": "Returns a vector position in HUD frame that would place the center of the HUD object directly over world_pos as viewed by the current camera.",
+    "arguments": {
+      "world_pos": {
+        "tooltip": "The world-frame position to project into HUD space",
+        "newname": "world_pos",
+        "newtooltip": "The world-frame position vector to project into HUD space."
+      }
+    },
+    "newtooltip": "Returns the local position vector that places the center of the HUD object directly over the world coordinate world_pos as viewed by the current camera. Requires the PERMISSION_TRACK_CAMERA runtime permission."
+  },
+  "llXorBase64": {
+    "tooltip": "Performs an exclusive OR on two Base64 strings and returns a Base64 string. Text2 repeats if it is shorter than Text1.",
+    "description": "Correctly performs an exclusive or on two Base64 strings.\n\n\n Returns a string that is a Base64 XOR of str1 and str2.",
+    "arguments": {
+      "Text1": {
+        "tooltip": "",
+        "newname": "str1",
+        "description": "Base64 string",
+        "newtooltip": "The first Base64 string."
+      },
+      "Text2": {
+        "tooltip": "",
+        "newname": "str2",
+        "description": "Base64 string",
+        "newtooltip": "The second Base64 string (will repeat if shorter than str1)."
+      }
+    },
+    "newtooltip": "Correctly performs a bitwise exclusive OR (XOR) on Base64 strings str1 and str2, returning the result as a Base64 string. The string str2 repeats if it is shorter than str1."
+  },
+  "llXorBase64Strings": {
+    "tooltip": "'Deprecated: Please use llXorBase64 instead.\nIncorrectly performs an exclusive OR on two Base64 strings and returns a Base64 string. Text2 repeats if it is shorter than Text1.\\nRetained for backwards compatibility.'",
+    "description": "Returns a string that is a Base64 string of s1 xor'ed with s2.",
+    "arguments": {
+      "Text1": {
+        "tooltip": "",
+        "newname": "str1",
+        "description": "Base64 string",
+        "newtooltip": "The first Base64 string."
+      },
+      "Text2": {
+        "tooltip": "",
+        "newname": "str2",
+        "description": "Base64 string",
+        "newtooltip": "The second Base64 string (will repeat if shorter than str1)."
+      }
+    },
+    "newtooltip": "Deprecated (use llXorBase64 instead). Retained for backwards compatibility. Incorrectly performs a bitwise exclusive OR (XOR) on Base64 strings str1 and str2."
+  },
+  "llXorBase64StringsCorrect": {
+    "tooltip": "'Deprecated: Please use llXorBase64 instead.\nCorrectly (unless nulls are present) performs an exclusive OR on two Base64 strings and returns a Base64 string.\\nText2 repeats if it is shorter than Text1.'",
+    "description": "Correctly performs an exclusive or on two Base 64 strings.\n\n\n Returns a string that is a Base64 XOR of str1 and str2.",
+    "arguments": {
+      "Text1": {
+        "tooltip": "",
+        "newname": "str1",
+        "description": "Base64 string",
+        "newtooltip": "The first Base64 string."
+      },
+      "Text2": {
+        "tooltip": "",
+        "newname": "str2",
+        "description": "Base64 string",
+        "newtooltip": "The second Base64 string (will repeat if shorter than str1)."
+      }
+    },
+    "newtooltip": "Deprecated (use llXorBase64 instead). Correctly performs (unless nulls are present) a bitwise exclusive OR (XOR) on Base64 strings str1 and str2."
+  },
+  "at_rot_target": {
+    "tooltip": "This event is triggered when a script comes within a defined angle of a target rotation. The range and rotation are set by a call to llRotTarget.",
+    "description": "Result of llRotTarget library function call",
+    "arguments": {
+      "TargetNumber": {
+        "tooltip": "",
+        "newname": "handle",
+        "description": "llRotTarget return",
+        "newtooltip": "The integer handle returned by the llRotTarget call."
+      },
+      "TargetRotation": {
+        "tooltip": "",
+        "newname": "targetrot",
+        "description": "llRotTarget rot parameter",
+        "newtooltip": "The target rotation specified in the llRotTarget call."
+      },
+      "CurrentRotation": {
+        "tooltip": "",
+        "newname": "ourrot",
+        "description": "current rotation (similar to llGetRot)",
+        "newtooltip": "The current rotation of the object (similar to llGetRot)."
+      }
+    },
+    "newtooltip": "Triggered when the script's rotation (ourrot) comes within a defined angle (error) of the target rotation (targetrot) set by a call to llRotTarget (which returns the associated handle)."
+  },
+  "at_target": {
+    "tooltip": "This event is triggered when the scripted object comes within a defined range of the target position, defined by the llTarget function call.",
+    "description": "Result of llTarget library function call",
+    "arguments": {
+      "TargetNumber": {
+        "tooltip": "",
+        "newname": "tnum",
+        "description": "llTarget return",
+        "newtooltip": "The integer target handle returned by the llTarget call."
+      },
+      "TargetPosition": {
+        "tooltip": "",
+        "newname": "targetpos",
+        "description": "llTarget position parameter",
+        "newtooltip": "The target position vector specified in the llTarget call."
+      },
+      "CurrentPosition": {
+        "tooltip": "",
+        "newname": "ourpos",
+        "description": "current position (similar to llGetPos)",
+        "newtooltip": "The current position vector of the object (similar to llGetPos)."
+      }
+    },
+    "newtooltip": "Triggered when the scripted object's position (ourpos) comes within the defined range of the target position (targetpos) set by llTarget (which returns the associated handle tnum)."
+  },
+  "attach": {
+    "tooltip": "This event is triggered whenever an object is attached or detached from an avatar. If it is attached, the key of the avatar it is attached to is passed in, otherwise NULL_KEY is.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": ""
+      }
+    },
+    "newtooltip": "Triggered whenever the object is attached to or detached from an avatar. Passes the UUID key of the avatar (id) if attached, or NULL_KEY if detached."
+  },
+  "changed": {
+    "tooltip": "Triggered when various events change the object. The change argument will be a bit-field of CHANGED_* constants.",
+    "arguments": {
+      "Changed": {
+        "tooltip": "",
+        "newname": ""
+      }
+    },
+    "newtooltip": "Triggered when various properties of the object change. The parameter change is a bitfield of CHANGED_* constants."
+  },
+  "collision": {
+    "tooltip": "This event is raised while another object, or avatar, is colliding with the object the script is attached to.\\n\\t\\t\\tThe number of detected objects is passed to the script. Information on those objects may be gathered via the llDetected* functions.",
+    "description": "Triggered while task is colliding with another task.",
+    "arguments": {
+      "NumberOfCollisions": {
+        "tooltip": "",
+        "newname": "num_detected",
+        "newtooltip": "The total number of detected colliders (usable with llDetected* functions)."
+      }
+    },
+    "newtooltip": "Triggered continuously while an avatar or another object is colliding with the object containing the script. Passes num_detected, representing the number of detected collisions."
+  },
+  "collision_end": {
+    "tooltip": "This event is raised when another object, or avatar, stops colliding with the object the script is attached to.\\n\\t\\t\\tThe number of detected objects is passed to the script. Information on those objects may be gathered via the llDetected* library functions.",
+    "description": "Triggered when task stops colliding with another task",
+    "arguments": {
+      "NumberOfCollisions": {
+        "tooltip": "",
+        "newname": "num_detected",
+        "newtooltip": "The total number of detected colliders (usable with llDetected* functions)."
+      }
+    },
+    "newtooltip": "Triggered when an avatar or another object stops colliding with the object containing the script. Passes num_detected, representing the number of detected collisions."
+  },
+  "collision_start": {
+    "tooltip": "This event is raised when another object, or avatar, starts colliding with the object the script is attached to.\\n\\t\\t\\tThe number of detected objects is passed to the script. Information on those objects may be gathered via the llDetected* library functions.",
+    "description": "Triggered when task starts colliding with another task",
+    "arguments": {
+      "NumberOfCollisions": {
+        "tooltip": "",
+        "newname": "num_detected",
+        "newtooltip": "The total number of detected colliders (usable with llDetected* functions)."
+      }
+    },
+    "newtooltip": "Triggered when an avatar or another object first begins colliding with the object containing the script. Passes num_detected, representing the number of detected collisions."
+  },
+  "control": {
+    "tooltip": "Once a script has the ability to grab control inputs from the avatar, this event will be used to pass the commands into the script.\\n\\t\\t\\tThe levels and edges are bit-fields of control constants.",
+    "arguments": {
+      "AvatarID": {
+        "tooltip": "",
+        "newname": ""
+      },
+      "Levels": {
+        "tooltip": "",
+        "newname": ""
+      },
+      "Edges": {
+        "tooltip": "",
+        "newname": ""
+      }
+    },
+    "newtooltip": "Triggered to pass captured avatar control inputs into the script. The parameter level indicates held controls, and edge indicates change in controls (both are bitfields of CONTROL_* constants)."
+  },
+  "dataserver": {
+    "tooltip": "This event is triggered when the requested data is returned to the script. \\t\\t\\tData may be requested by the llRequestAgentData, llRequestInventoryData, and llGetNotecardLine function calls, for example.",
+    "arguments": {
+      "RequestID": {
+        "tooltip": "",
+        "newname": ""
+      },
+      "Data": {
+        "tooltip": "",
+        "newname": ""
+      }
+    },
+    "newtooltip": "Triggered when requested data is returned to the script (e.g., from llRequestAgentData, llRequestInventoryData, or llGetNotecardLine)."
+  },
+  "email": {
+    "tooltip": "This event is triggered when an email sent to this script arrives. \\t\\t\\tThe number remaining tells how many more emails are known to be still pending.",
+    "arguments": {
+      "Time": {
+        "tooltip": "",
+        "newname": ""
+      },
+      "Address": {
+        "tooltip": "",
+        "newname": ""
+      },
+      "Subject": {
+        "tooltip": "",
+        "newname": ""
+      },
+      "Body": {
+        "tooltip": "",
+        "newname": ""
+      },
+      "NumberRemaining": {
+        "tooltip": "",
+        "newname": ""
+      }
+    },
+    "newtooltip": "Triggered when an email sent to this script's address arrives. num_left indicates the number of pending emails remaining in the queue."
+  },
+  "experience_permissions": {
+    "tooltip": "Triggered when an agent has approved an experience permissions request.",
+    "description": "The agent has approved an experience permissions request. This may be through interaction with the experience permission dialog or the experience profile, or automatically if the agent has previously approved the experience.",
+    "arguments": {
+      "agent_id": {
+        "tooltip": "ID of the agent approving permission for the Experience.",
+        "newname": "agent_id",
+        "description": "avatar UUID&#32;approving permission",
+        "newtooltip": "The UUID of the avatar approving experience permissions."
+      }
+    },
+    "newtooltip": "Triggered when the agent specified by agent_id approves an experience permissions request (interactively or automatically if previously approved)."
+  },
+  "experience_permissions_denied": {
+    "tooltip": "Describes why the Experience permissions were denied for the agent.",
+    "description": "The agent has denied experience permission or generated under other cases.",
+    "arguments": {
+      "agent_id": {
+        "tooltip": "ID of the agent denying permission for the Experience.",
+        "newname": "agent_id",
+        "description": "avatar UUID&#32;that denied permission.",
+        "newtooltip": "The UUID of the avatar who denied or was blocked from granting permissions."
+      },
+      "Reason": {
+        "tooltip": "One of the XP_ERROR_... constants describing the reason why the Experience permissions were denied for the agent.",
+        "newname": "reason",
+        "description": "Reason for denial; one of the Experience Tools '[XP_ERROR_*](https://wiki.secondlife.com/wiki/Template:LSL_Constants/Experience_Tools_Errors)' errors flags.",
+        "newtooltip": "The XP_ERROR_* error constant describing why permissions were denied."
+      }
+    },
+    "newtooltip": "Triggered when the agent specified by agent_id denies experience permissions, or when permission is blocked for other reasons (specified by the error code reason)."
+  },
+  "final_damage": {
+    "tooltip": "Triggered as damage is applied to an avatar or task, after all on_damage events have been processed.",
+    "description": "This event is triggered after all on_damage events in all scripts and attachments have processed and damage has been applied to the avatar or distributed to all seated avatars.\n\n\n All llDetected* functions that are normally available within a collision event are available while processing this event. Additionally the llDetectedDamage methods may be called while processing this event.",
+    "arguments": {
+      "count": {
+        "tooltip": "The number of damage events queued.",
+        "newname": "num_detected",
+        "description": "The number of damage events applied to the avatar or task.",
+        "newtooltip": "The number of damage events applied to the avatar or task."
+      }
+    },
+    "newtooltip": "Triggered after all on_damage events across all scripts have completed and damage is actively applied to the avatar or distributed among seated avatars. Collision detected functions (llDetected*) and llDetectedDamage are available."
+  },
+  "game_control": {
+    "tooltip": "This event is raised when game controller input changes.",
+    "description": "Triggered when compatible viewer sends fresh GameControlInput message, but only for scripts on attachments or seat.",
+    "arguments": {
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/id\" target=\"_blank\">id</a>": {
+        "tooltip": "UUID of avatar supplying input",
+        "newname": "id",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the avatar supplying controller input."
+      },
+      "buttons": {
+        "tooltip": "32-bit mask of buttons pressed",
+        "newname": "button_levels",
+        "description": "bitfield of buttons held down",
+        "newtooltip": "A 32-bit mask representing the buttons currently held down on the controller."
+      },
+      "axes": {
+        "tooltip": "Six float values in range [-1, 1]",
+        "newname": "axes",
+        "description": "list of axes float values in range [-1, 1]",
+        "newtooltip": "A list of six float values in the range [-1.0, 1.0] representing controller axes."
+      }
+    },
+    "newtooltip": "Triggered when a compatible viewer sends game controller input changes for the avatar specified by id. Only triggers for scripts in attachments or seats."
+  },
+  "http_request": {
+    "tooltip": "Triggered when task receives an HTTP request.",
+    "description": "Triggered when task receives an HTTP request.",
+    "arguments": {
+      "HTTPRequestID": {
+        "tooltip": "",
+        "newname": "request_id",
+        "description": "HTTP request id for response use, and function response identification.",
+        "newtooltip": "The unique key identifying the incoming HTTP request (used with llHTTPResponse)."
+      },
+      "HTTPMethod": {
+        "tooltip": "",
+        "newname": "method",
+        "description": "'\"GET\"', '\"POST\"', '\"PUT\"', '\"DELETE\"', URL_REQUEST_GRANTED, URL_REQUEST_DENIED",
+        "newtooltip": "The HTTP method string ('GET', 'POST', 'PUT', 'DELETE') or URL request status constants."
+      },
+      "Body": {
+        "tooltip": "",
+        "newname": "body",
+        "description": "Contents of the request.",
+        "newtooltip": "The string payload of the incoming request body."
+      }
+    },
+    "newtooltip": "Triggered when the script's registered URL receives an incoming HTTP request identified by request_id."
+  },
+  "http_response": {
+    "tooltip": "This event handler is invoked when an HTTP response is received for a pending llHTTPRequest request or if a pending request fails or times out.",
+    "description": "Triggered when task receives a response to one of its llHTTPRequests",
+    "arguments": {
+      "HTTPRequestID": {
+        "tooltip": "",
+        "newname": "request_id",
+        "description": "Matches return from llHTTPRequest",
+        "newtooltip": "The key matching the handle returned by the initiating llHTTPRequest call."
+      },
+      "Status": {
+        "tooltip": "",
+        "newname": "status",
+        "description": "HTTP status code (like 404 or 200)",
+        "newtooltip": "The integer HTTP status code returned (such as 200 or 404)."
+      },
+      "Metadata": {
+        "tooltip": "",
+        "newname": "metadata",
+        "description": "List of HTTP_* constants and attributes",
+        "newtooltip": "A list of HTTP_* constants and response headers metadata."
+      },
+      "Body": {
+        "tooltip": "",
+        "newname": "body",
+        "newtooltip": "The string payload of the received response body."
+      }
+    },
+    "newtooltip": "Triggered when an HTTP response body is received for a pending request_id, or if the request fails or times out."
+  },
+  "land_collision": {
+    "tooltip": "This event is raised when the object the script is attached to is colliding with the ground.",
+    "description": "Triggered in the root when physical object or attached avatar is colliding with land",
+    "arguments": {
+      "Position": {
+        "tooltip": "",
+        "newname": "pos",
+        "description": "position of collision with the ground",
+        "newtooltip": "The vector position of collision with the ground."
+      }
+    },
+    "newtooltip": "Triggered in the root prim when a physical object or attached avatar is colliding with the ground at position pos."
+  },
+  "land_collision_end": {
+    "tooltip": "This event is raised when the object the script is attached to stops colliding with the ground.",
+    "description": "Triggered in the root when a physical object or attached avatar stops colliding with land",
+    "arguments": {
+      "Position": {
+        "tooltip": "",
+        "newname": "pos",
+        "description": "position of last collision with the ground",
+        "newtooltip": "The vector position of the last ground collision."
+      }
+    },
+    "newtooltip": "Triggered in the root prim when a physical object or attached avatar stops colliding with the ground at position pos."
+  },
+  "land_collision_start": {
+    "tooltip": "This event is raised when the object the script is attached to begins to collide with the ground.",
+    "description": "Triggered in the root when a physical object or attached avatar starts colliding with land",
+    "arguments": {
+      "Position": {
+        "tooltip": "",
+        "newname": "pos",
+        "description": "position of collision with the ground",
+        "newtooltip": "The vector position of collision with the ground."
+      }
+    },
+    "newtooltip": "Triggered in the root prim when a physical object or attached avatar first begins colliding with the ground at position pos."
+  },
+  "link_message": {
+    "tooltip": "Triggered when object receives a link message via llMessageLinked function call.",
+    "description": "Triggered when the script receives a link message that was sent by a call to llMessageLinked. llMessageLinked is used to send messages from one script to another.",
+    "arguments": {
+      "SendersLink": {
+        "tooltip": "",
+        "newname": "sender_num",
+        "description": "The link number of the prim that contained the script that called llMessageLinked.",
+        "newtooltip": "The link index of the prim containing the script that sent the message."
+      },
+      "Value": {
+        "tooltip": "",
+        "newname": "num",
+        "description": "Second parameter of the llMessageLinked call.",
+        "newtooltip": "An integer value passed from the sending script."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "str",
+        "description": "The message that was sent from the script that called llMessageLinked.",
+        "newtooltip": "A text string value passed from the sending script."
+      },
+      "ID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "Fourth parameter of the llMessageLinked call.",
+        "newtooltip": "A key value passed from the sending script."
+      }
+    },
+    "newtooltip": "Triggered when the script receives a link message from sender_num, containing the parameters num, str, and id sent via llMessageLinked."
+  },
+  "linkset_data": {
+    "tooltip": "Triggered when a script modifies the linkset datastore.",
+    "description": "The linkset_data event fires in all scripts in a linkset whenever the datastore has been modified through a call to one of the llLinksetData functions.",
+    "arguments": {
+      "action": {
+        "tooltip": "",
+        "newname": "action",
+        "description": "Action taken on the linkset Datastore",
+        "newtooltip": "An integer constant representing the action taken (e.g., LINKSETDATA_UPDATE, LINKSETDATA_DELETE, LINKSETDATA_RESET)."
+      },
+      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+        "tooltip": "",
+        "newname": "name",
+        "description": "The key of the name:value pair.",
+        "newtooltip": "The key name of the modified key-value pair."
+      },
+      "value": {
+        "tooltip": "",
+        "newname": "value",
+        "description": "The new value of the pair. Empty string if pair was deleted or is password-protected (see llLinksetDataWriteProtected).",
+        "newtooltip": "The new string value of the pair (empty if the pair was deleted or is password-protected)."
+      }
+    },
+    "newtooltip": "Fires in all scripts in the linkset whenever the datastore has been modified via an llLinksetData function. Passes the action taken, the affected key name, and the new value."
+  },
+  "listen": {
+    "tooltip": "This event is raised whenever a chat message matching the constraints set in the llListen command is received. The name and ID of the speaker, as well as the message, are passed in as parameters.\\n\\t\\t\\tChannel 0 is the public chat channel that all avatars see as chat text. Channels 1 through 2,147,483,648 are private channels that are not sent to avatars but other scripts can listen on those channels.",
+    "description": "Triggered by chat, use llListen to enable and filter",
+    "arguments": {
+      "Channel": {
+        "tooltip": "",
+        "newname": "channel",
+        "description": "channel that the message appeared on.",
+        "newtooltip": "The chat channel where the message appeared."
+      },
+      "Name": {
+        "tooltip": "",
+        "newname": "name",
+        "description": "prim name or avatar Legacy Name",
+        "newtooltip": "The name of the sending prim or the legacy name of the sending avatar."
+      },
+      "ID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "avatar or prim UUID",
+        "newtooltip": "The UUID of the sending avatar or prim."
+      },
+      "Text": {
+        "tooltip": "",
+        "newname": "message",
+        "description": "text spoken",
+        "newtooltip": "The spoken text string."
+      }
+    },
+    "newtooltip": "Triggered when a chat message matching active llListen filters is received on channel. Passes the sender's name and UUID key id, along with the spoken message string."
+  },
+  "money": {
+    "tooltip": "This event is triggered when a resident has given an amount of Linden dollars to the object.",
+    "description": "Triggered when money is paid to the prim in the amount by id.",
+    "arguments": {
+      "Payer": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "who paid",
+        "newtooltip": "The UUID of the paying resident."
+      },
+      "Amount": {
+        "tooltip": "",
+        "newname": "amount",
+        "description": "the amount paid",
+        "newtooltip": "The quantity of L$ paid to the prim."
+      }
+    },
+    "newtooltip": "Triggered when a resident specified by id pays an amount of Linden dollars (L$) to the prim."
+  },
+  "moving_end": {
+    "tooltip": "Triggered whenever an object with this script stops moving.",
+    "arguments": {},
+    "newtooltip": "Triggered whenever the physical or moving object containing the script stops moving."
+  },
+  "moving_start": {
+    "tooltip": "Triggered whenever an object with this script starts moving.",
+    "arguments": {},
+    "newtooltip": "Triggered whenever the physical or moving object containing the script starts moving."
+  },
+  "no_sensor": {
+    "tooltip": "This event is raised when sensors are active, via the llSensor function call, but are not sensing anything.",
+    "description": "Result of a call to llSensor or llSensorRepeat.",
+    "arguments": {},
+    "newtooltip": "Triggered when active sensors (from llSensor or llSensorRepeat) complete a scan without finding any matching targets."
+  },
+  "not_at_rot_target": {
+    "tooltip": "When a target is set via the llRotTarget function call, but the script is outside the specified angle this event is raised.",
+    "description": "Result of llRotTarget library function call",
+    "arguments": {},
+    "newtooltip": "Triggered continuously while the object's rotation is outside the leeway angle of targets set via llRotTarget."
+  },
+  "not_at_target": {
+    "tooltip": "When a target is set via the llTarget library call, but the script is outside the specified range this event is raised.",
+    "description": "Triggered if an object has not yet reached the target set by the call to llTarget.\n\n\n This event may be triggered multiple times if the target has not been reached.",
+    "arguments": {},
+    "newtooltip": "Triggered continuously while the object's position has not yet reached the range of targets set via llTarget."
+  },
+  "object_rez": {
+    "tooltip": "Triggered when an object rezzes another object from its inventory via the llRezObject, or similar, functions. The id is the globally unique key for the object rezzed.",
+    "description": "Triggered when the object rezzes an object.",
+    "arguments": {
+      "RezzedObjectsID": {
+        "tooltip": "",
+        "newname": "id",
+        "description": "UUID of object rezzed.",
+        "newtooltip": "The UUID of the newly rezzed object."
+      }
+    },
+    "newtooltip": "Triggered when this object successfully rezzes another object from its inventory. Passes the key (UUID) id of the newly rezzed object."
+  },
+  "on_damage": {
+    "tooltip": "Triggered when an avatar or object receives damage.",
+    "description": "This event is triggered when damage has been inflicted on an avatar or task in the world but before damage has been applied or distributed.\n\n\n All llDetected* functions that are normally available within a collision event are available while processing this event. Additionally the llDetectedDamage and llAdjustDamage methods may be called while processing this event.",
+    "arguments": {
+      "count": {
+        "tooltip": "The number of damage events queued.",
+        "newname": "num_detected",
+        "description": "The number of damage events pending against the avatar or task.",
+        "newtooltip": "The number of pending damage events."
+      }
+    },
+    "newtooltip": "Triggered when damage has been inflicted on an avatar or task, but before it is applied or distributed. Collision detected functions (llDetected*), llDetectedDamage, and llAdjustDamage are available. Passes num_detected, representing the number of pending damage events."
+  },
+  "on_death": {
+    "tooltip": "Triggered when an avatar reaches 0 health.",
+    "description": "This event is triggered on all attachments worn by an avatar when that avatar's health reaches 0.",
+    "arguments": {},
+    "newtooltip": "Triggered on all worn attachments when the wearing avatar's health reaches 0."
+  },
+  "on_rez": {
+    "tooltip": "Triggered whenever an object is rezzed from inventory or by another object. The start parameter is passed in from the llRezObject call, or zero if from inventory.",
+    "description": "Triggered when an object is rezzed (by script or by user). Also triggered in attachments when a user logs in, or when the object is attached from inventory.",
+    "arguments": {
+      "StartParameter": {
+        "tooltip": "",
+        "newname": "start_param",
+        "description": "parameter supplied to llRezObject or llRezAtRoot",
+        "newtooltip": "The integer start parameter passed from the rezzing call."
+      }
+    },
+    "newtooltip": "Triggered when the object is rezzed into the world (by a script or user). Passes start_param from the rezzing call (or 0 if rezzed from inventory). Also triggers on attachments during login or when attached from inventory."
+  },
+  "path_update": {
+    "tooltip": "This event is called to inform the script of changes within the object's path-finding status.",
+    "description": "Event description goes here.",
+    "arguments": {
+      "Type": {
+        "tooltip": "",
+        "newname": "type",
+        "description": "A 'PU_*', it's the path event type",
+        "newtooltip": "The path update status or failure code constant (PU_* flag)."
+      },
+      "Reserved": {
+        "tooltip": "",
+        "newname": "reserved",
+        "description": "Reserved; not currently used.",
+        "newtooltip": "Reserved parameter (currently unused)."
+      }
+    },
+    "newtooltip": "Triggered to inform the script of changes or failures in the pathfinding character's status."
+  },
+  "remote_data": {
+    "tooltip": "This event is deprecated.",
+    "description": "Triggered by various XML-RPC calls.",
+    "arguments": {
+      "EventType": {
+        "tooltip": "",
+        "newname": "event_type",
+        "newtooltip": "The integer constant representing the type of XML-RPC event."
+      },
+      "ChannelID": {
+        "tooltip": "",
+        "newname": "channel",
+        "newtooltip": "The XML-RPC channel ID key."
+      },
+      "MessageID": {
+        "tooltip": "",
+        "newname": "message_id",
+        "newtooltip": "The XML-RPC message ID key."
+      },
+      "Sender": {
+        "tooltip": "",
+        "newname": "sender",
+        "newtooltip": "The XML-RPC sender string."
+      },
+      "IData": {
+        "tooltip": "",
+        "newname": "idata",
+        "newtooltip": "The payload integer data."
+      },
+      "SData": {
+        "tooltip": "",
+        "newname": "sdata",
+        "newtooltip": "The payload string data."
+      }
+    },
+    "newtooltip": "Deprecated. Triggered by incoming XML-RPC calls, passing event_type, channel, message_id, sender, idata, and sdata."
+  },
+  "run_time_permissions": {
+    "tooltip": "Scripts need permission from either the owner or the avatar they wish to act on before they may perform certain functions, such as debiting money from their owners account, triggering an animation on an avatar, or capturing control inputs. The llRequestPermissions library function is used to request these permissions and the various permissions integer constants can be supplied.\\n \\t\\t\\tThe integer returned to this event handler contains the current set of permissions flags, so if permissions equal 0 then no permissions are set.",
+    "description": "Triggered when an agent grants run time permissions to this script.",
+    "arguments": {
+      "PermissionFlags": {
+        "tooltip": "",
+        "newname": "perm",
+        "description": "mask of PERMISSIONS_* flags granting permissions",
+        "newtooltip": "The bitfield of currently granted permissions (PERMISSION_* flags)."
+      }
+    },
+    "newtooltip": "Triggered when an agent grants or denies runtime permissions requested by llRequestPermissions. Passes the active integer permissions bitfield perm (returns 0 if no permissions are currently granted)."
+  },
+  "sensor": {
+    "tooltip": "This event is raised whenever objects matching the constraints of the llSensor command are detected.\\n\\t\\t\\tThe number of detected objects is passed to the script in the parameter. Information on those objects may be gathered via the llDetected* functions.",
+    "description": "Results from a call to either llSensor or llSensorRepeat.",
+    "arguments": {
+      "NumberDetected": {
+        "tooltip": "",
+        "newname": "num_detected",
+        "description": "number of objects/avatars found",
+        "newtooltip": "The total number of detected targets found (usable with llDetected* functions)."
+      }
+    },
+    "newtooltip": "Triggered when objects matching constraints of llSensor or llSensorRepeat are successfully detected. Passes num_detected, representing the number of detected targets."
+  },
+  "state_entry": {
+    "tooltip": "The state_entry event occurs whenever a new state is entered, including at program start, and is always the first event handled.",
+    "description": "Triggered on any state transition and startup",
+    "arguments": {},
+    "newtooltip": "Triggered immediately whenever a new state is entered (including at script start). It is always the first event handled."
+  },
+  "state_exit": {
+    "tooltip": "The state_exit event occurs whenever the state command is used to transition to another state. It is handled before the new states state_entry event.",
+    "description": "Triggered on a qualifying state transition.",
+    "arguments": {},
+    "newtooltip": "Triggered when the state command is used to transition out of the current state. Handled before entering the new state's state_entry."
+  },
+  "timer": {
+    "tooltip": "This event is raised at regular intervals set by the llSetTimerEvent library function.",
+    "description": "Repeats the code in the timer(). Result of the llSetTimerEvent library function call.",
+    "arguments": {},
+    "newtooltip": "Triggered at regular periodic intervals configured by llSetTimerEvent."
+  },
+  "touch": {
+    "tooltip": "This event is raised while a user is touching the object the script is attached to.\\n\\t\\t\\tThe number of touching objects is passed to the script in the parameter.\\n\\t\\t\\tInformation on those objects may be gathered via the llDetected* library functions.",
+    "description": "Triggered whilst an agent is clicking the task. It will continue to be triggered until the the prim/object is stopped being clicked (it triggers multiple times).\nTriggered on touch start, each minimum event delay while held, and touch end.",
+    "arguments": {
+      "NumberOfTouches": {
+        "tooltip": "",
+        "newname": "num_detected",
+        "newtooltip": "The total number of touching agents detected (usable with llDetected* functions)."
+      }
+    },
+    "newtooltip": "Triggered continuously while an avatar touches the object. Passes num_detected, representing the number of touching agents."
+  },
+  "touch_end": {
+    "tooltip": "This event is raised when a user stops touching the object the script is attached to. The number of touches is passed to the script in the parameter.\\n \\t\\t\\tInformation on those objects may be gathered via the llDetected* library functions.",
+    "description": "Triggered when agent stops clicking on task",
+    "arguments": {
+      "NumberOfTouches": {
+        "tooltip": "",
+        "newname": "num_detected",
+        "newtooltip": "The total number of touching agents detected (usable with llDetected* functions)."
+      }
+    },
+    "newtooltip": "Triggered when an avatar stops touching the object. Passes num_detected, representing the number of touching agents."
+  },
+  "touch_start": {
+    "tooltip": "This event is raised when a user first touches the object the script is attached to. The number of touches is passed to the script in the parameter.\\n \\t\\t\\tInformation on those objects may be gathered via the llDetected() library functions.",
+    "description": "Triggered by the start of agent clicking on task",
+    "arguments": {
+      "NumberOfTouches": {
+        "tooltip": "",
+        "newname": "num_detected",
+        "description": "Number of agents detected touching during the last clock cycle",
+        "newtooltip": "The total number of touching agents detected (usable with llDetected* functions)."
+      }
+    },
+    "newtooltip": "Triggered when an avatar first touches the object. Passes num_detected, representing the number of touching agents."
+  },
+  "transaction_result": {
+    "tooltip": "Triggered by llTransferLindenDollars() function.",
+    "description": "Triggered when task receives asynchronous data",
+    "arguments": {
+      "RequestID": {
+        "tooltip": "",
+        "newnam
+e": "id",
+        "description": "matches the return of the llTransfer* function",
+        "newtooltip": "The key matching the handle returned by the initiating llTransfer* function."
+      },
+      "Success": {
+        "tooltip": "",
+        "newname": "success",
+        "description": "TRUE if the transfer succeeded otherwise FALSE.",
+        "newtooltip": "Boolean. TRUE if the L$ transfer succeeded, FALSE otherwise."
+      },
+      "Message": {
+        "tooltip": "",
+        "newname": "data",
+        "description": "On successful transactions this will contain a CSV of information pertaining to the transaction. In failure, a string will be returned matching one of the error tags below.",
+        "newtooltip": "Contains a CSV string of transaction info on success, or an error string on failure."
+      }
+    },
+    "newtooltip": "Triggered when an asynchronous L$ transfer (such as llTransferLindenDollars) is completed. Passes transaction info id, success status, and CSV or error data."
+  }
+}        
         };
 
         const searchInput = document.getElementById('searchInput');
