@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arguments names from Wiki (changes)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Arguments names from Wiki (changes)</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for functions and events...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "llAbs": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llAcos": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llAddToLandBanList": [
+    {
+      "yaml": "ID",
+      "wiki": "avatar"
+    }
+  ],
+  "llAddToLandPassList": [
+    {
+      "yaml": "ID",
+      "wiki": "avatar"
+    }
+  ],
+  "llAdjustDamage": [
+    {
+      "yaml": "Damage",
+      "wiki": "new_damage"
+    }
+  ],
+  "llAgentInExperience": [
+    {
+      "yaml": "AgentID",
+      "wiki": "agent"
+    }
+  ],
+  "llAllowInventoryDrop": [
+    {
+      "yaml": "Flag",
+      "wiki": "add"
+    }
+  ],
+  "llAngleBetween": [
+    {
+      "yaml": "Rot1",
+      "wiki": "a"
+    },
+    {
+      "yaml": "Rot2",
+      "wiki": "b"
+    }
+  ],
+  "llApplyImpulse": [
+    {
+      "yaml": "Force",
+      "wiki": "momentum"
+    }
+  ],
+  "llAsin": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llAttachToAvatar": [
+    {
+      "yaml": "AttachmentPoint",
+      "wiki": "attach_point"
+    }
+  ],
+  "llAttachToAvatarTemp": [
+    {
+      "yaml": "AttachPoint",
+      "wiki": "attach_point"
+    }
+  ],
+  "llAvatarOnLinkSitTarget": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llAxes2Rot": [
+    {
+      "yaml": "Forward",
+      "wiki": "fwd"
+    }
+  ],
+  "llBase64ToInteger": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llBase64ToString": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llBreakLink": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llCeil": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llChar": [
+    {
+      "yaml": "value",
+      "wiki": "val"
+    }
+  ],
+  "llCloseRemoteDataChannel": [
+    {
+      "yaml": "ChannelID",
+      "wiki": "channel"
+    }
+  ],
+  "llCollisionFilter": [
+    {
+      "yaml": "ObjectName",
+      "wiki": "name"
+    },
+    {
+      "yaml": "ObjectID",
+      "wiki": "id"
+    }
+  ],
+  "llCollisionSound": [
+    {
+      "yaml": "ImpactSound",
+      "wiki": "impact_sound"
+    },
+    {
+      "yaml": "ImpactVolume",
+      "wiki": "impact_volume"
+    }
+  ],
+  "llCollisionSprite": [
+    {
+      "yaml": "ImpactSprite",
+      "wiki": "impact_sprite"
+    }
+  ],
+  "llCreateKeyValue": [
+    {
+      "yaml": "Key",
+      "wiki": "k"
+    },
+    {
+      "yaml": "Value",
+      "wiki": "v"
+    }
+  ],
+  "llCreateLink": [
+    {
+      "yaml": "TargetPrim",
+      "wiki": "target"
+    }
+  ],
+  "llCSV2List": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llDamage": [
+    {
+      "yaml": "type",
+      "wiki": "damage_type"
+    }
+  ],
+  "llDeleteKeyValue": [
+    {
+      "yaml": "Key",
+      "wiki": "k"
+    }
+  ],
+  "llDeleteSubList": [
+    {
+      "yaml": "Source",
+      "wiki": "src"
+    }
+  ],
+  "llDeleteSubString": [
+    {
+      "yaml": "Source",
+      "wiki": "src"
+    }
+  ],
+  "llDerezObject": [
+    {
+      "yaml": "flags",
+      "wiki": "flag"
+    }
+  ],
+  "llDetectedName": [
+    {
+      "yaml": "Number",
+      "wiki": "item"
+    }
+  ],
+  "llDialog": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llDumpList2String": [
+    {
+      "yaml": "Source",
+      "wiki": "src"
+    }
+  ],
+  "llEdgeOfWorld": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "Direction",
+      "wiki": "dir"
+    }
+  ],
+  "llEjectFromLand": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llEmail": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llEuler2Rot": [
+    {
+      "yaml": "Vector",
+      "wiki": "v"
+    }
+  ],
+  "llEvade": [
+    {
+      "yaml": "TargetID",
+      "wiki": "target"
+    }
+  ],
+  "llFabs": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llFindNotecardTextSync": [
+    {
+      "yaml": "NotecardName",
+      "wiki": "name"
+    },
+    {
+      "yaml": "StartMatch",
+      "wiki": "start"
+    }
+  ],
+  "llFleeFrom": [
+    {
+      "yaml": "Source",
+      "wiki": "position"
+    }
+  ],
+  "llFloor": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llForceMouselook": [
+    {
+      "yaml": "Enable",
+      "wiki": "mouselook"
+    }
+  ],
+  "llFrand": [
+    {
+      "yaml": "Magnitude",
+      "wiki": "mag"
+    }
+  ],
+  "llGetAgentInfo": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llGetAgentLanguage": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llGetAgentSize": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llGetAnimation": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llGetAnimationList": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llGetAnimationOverride": [
+    {
+      "yaml": "AnimationState",
+      "wiki": "anim_state"
+    }
+  ],
+  "llGetAttachedList": [
+    {
+      "yaml": "ID",
+      "wiki": "avatar"
+    }
+  ],
+  "llGetAttachedListFiltered": [
+    {
+      "yaml": "AgentID",
+      "wiki": "avatar"
+    }
+  ],
+  "llGetBoundingBox": [
+    {
+      "yaml": "ID",
+      "wiki": "object"
+    }
+  ],
+  "llGetDisplayName": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llGetEnv": [
+    {
+      "yaml": "DataRequest",
+      "wiki": "name"
+    }
+  ],
+  "llGetEnvironment": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "EnvParams",
+      "wiki": "params"
+    }
+  ],
+  "llGetExperienceDetails": [
+    {
+      "yaml": "ExperienceID",
+      "wiki": "experience_id"
+    }
+  ],
+  "llGetHTTPHeader": [
+    {
+      "yaml": "HTTPRequestID",
+      "wiki": "request_id"
+    }
+  ],
+  "llGetInventoryAcquireTime": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "item"
+    }
+  ],
+  "llGetInventoryCreator": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "item"
+    }
+  ],
+  "llGetInventoryDesc": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "item"
+    }
+  ],
+  "llGetInventoryKey": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "name"
+    }
+  ],
+  "llGetInventoryName": [
+    {
+      "yaml": "InventoryType",
+      "wiki": "type"
+    },
+    {
+      "yaml": "Index",
+      "wiki": "number"
+    }
+  ],
+  "llGetInventoryNumber": [
+    {
+      "yaml": "InventoryType",
+      "wiki": "type"
+    }
+  ],
+  "llGetInventoryPermMask": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "item"
+    },
+    {
+      "yaml": "BitMask",
+      "wiki": "category"
+    }
+  ],
+  "llGetInventoryType": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "name"
+    }
+  ],
+  "llGetLandOwnerAt": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "llGetLinkKey": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llGetLinkMedia": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetLinkName": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llGetLinkNumberOfSides": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llGetLinkPrimitiveParams": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetLinkSitFlags": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llGetListEntryType": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llGetListLength": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llGetNotecardLine": [
+    {
+      "yaml": "NotecardName",
+      "wiki": "name"
+    },
+    {
+      "yaml": "LineNumber",
+      "wiki": "line"
+    }
+  ],
+  "llGetNotecardLineSync": [
+    {
+      "yaml": "NotecardName",
+      "wiki": "name"
+    },
+    {
+      "yaml": "LineNumber",
+      "wiki": "line"
+    }
+  ],
+  "llGetNumberOfNotecardLines": [
+    {
+      "yaml": "NotecardName",
+      "wiki": "name"
+    }
+  ],
+  "llGetObjectDetails": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetObjectLinkKey": [
+    {
+      "yaml": "id",
+      "wiki": "link"
+    }
+  ],
+  "llGetObjectPrimCount": [
+    {
+      "yaml": "ObjectID",
+      "wiki": "prim"
+    }
+  ],
+  "llGetOwnerKey": [
+    {
+      "yaml": "ObjectID",
+      "wiki": "id"
+    }
+  ],
+  "llGetParcelDetails": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "ParcelDetails",
+      "wiki": "params"
+    }
+  ],
+  "llGetParcelFlags": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "llGetParcelMaxPrims": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "SimWide",
+      "wiki": "sim_wide"
+    }
+  ],
+  "llGetParcelPrimCount": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "SimWide",
+      "wiki": "sim_wide"
+    }
+  ],
+  "llGetParcelPrimOwners": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "llGetPrimitiveParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetPrimMediaParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetScriptState": [
+    {
+      "yaml": "ScriptName",
+      "wiki": "script"
+    }
+  ],
+  "llGetSimStats": [
+    {
+      "yaml": "StatType",
+      "wiki": "stat_type"
+    }
+  ],
+  "llGetStaticPath": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetStatus": [
+    {
+      "yaml": "StatusFlag",
+      "wiki": "status"
+    }
+  ],
+  "llGetSubString": [
+    {
+      "yaml": "String",
+      "wiki": "src"
+    }
+  ],
+  "llGetUsername": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llGetVisualParams": [
+    {
+      "yaml": "ID",
+      "wiki": "agentid"
+    },
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGiveAgentInventory": [
+    {
+      "yaml": "AgentID",
+      "wiki": "agent"
+    },
+    {
+      "yaml": "FolderName",
+      "wiki": "folder"
+    },
+    {
+      "yaml": "InventoryItems",
+      "wiki": "inventory"
+    }
+  ],
+  "llGiveInventory": [
+    {
+      "yaml": "TargetID",
+      "wiki": "destination"
+    },
+    {
+      "yaml": "InventoryItem",
+      "wiki": "inventory"
+    }
+  ],
+  "llGiveInventoryList": [
+    {
+      "yaml": "TargetID",
+      "wiki": "target"
+    },
+    {
+      "yaml": "FolderName",
+      "wiki": "folder"
+    },
+    {
+      "yaml": "InventoryItems",
+      "wiki": "inventory"
+    }
+  ],
+  "llGiveMoney": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "destination"
+    }
+  ],
+  "llGodLikeRezObject": [
+    {
+      "yaml": "InventoryItemID",
+      "wiki": "inventory"
+    },
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "llHash": [
+    {
+      "yaml": "value",
+      "wiki": "val"
+    }
+  ],
+  "llHMAC": [
+    {
+      "yaml": "Key",
+      "wiki": "private_key"
+    },
+    {
+      "yaml": "Message",
+      "wiki": "msg"
+    }
+  ],
+  "llHTTPResponse": [
+    {
+      "yaml": "HTTPRequestID",
+      "wiki": "request_id"
+    }
+  ],
+  "llInsertString": [
+    {
+      "yaml": "TargetVariable",
+      "wiki": "dst"
+    },
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "SourceVariable",
+      "wiki": "src"
+    }
+  ],
+  "llInstantMessage": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "user"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llIntegerToBase64": [
+    {
+      "yaml": "Value",
+      "wiki": "number"
+    }
+  ],
+  "llJson2List": [
+    {
+      "yaml": "JSON",
+      "wiki": "src"
+    }
+  ],
+  "llLinkAdjustSoundVolume": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "volume"
+    }
+  ],
+  "llLinkParticleSystem": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "rules"
+    }
+  ],
+  "llLinkPlaySound": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llLinksetDataCountFound": [
+    {
+      "yaml": "search",
+      "wiki": "pattern"
+    }
+  ],
+  "llLinksetDataDeleteFound": [
+    {
+      "yaml": "search",
+      "wiki": "pattern"
+    }
+  ],
+  "llLinksetDataFindKeys": [
+    {
+      "yaml": "search",
+      "wiki": "pattern"
+    }
+  ],
+  "llLinkSetSoundQueueing": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "queue"
+    }
+  ],
+  "llLinkSitTarget": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    }
+  ],
+  "llLinkStopSound": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llList2CSV": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Float": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Integer": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Json": [
+    {
+      "yaml": "JsonType",
+      "wiki": "type"
+    }
+  ],
+  "llList2Key": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2List": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2ListSlice": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2ListStrided": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Rot": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2String": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Vector": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListen": [
+    {
+      "yaml": "SpeakersName",
+      "wiki": "name"
+    },
+    {
+      "yaml": "SpeakersID",
+      "wiki": "id"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llListenControl": [
+    {
+      "yaml": "ChannelHandle",
+      "wiki": "handle"
+    }
+  ],
+  "llListenRemove": [
+    {
+      "yaml": "ChannelHandle",
+      "wiki": "handle"
+    }
+  ],
+  "llListFindList": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Find",
+      "wiki": "test"
+    }
+  ],
+  "llListFindListNext": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Find",
+      "wiki": "test"
+    }
+  ],
+  "llListFindStrided": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Find",
+      "wiki": "test"
+    }
+  ],
+  "llListInsertList": [
+    {
+      "yaml": "Target",
+      "wiki": "dest"
+    },
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Position",
+      "wiki": "start"
+    }
+  ],
+  "llListRandomize": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListReplaceList": [
+    {
+      "yaml": "Target",
+      "wiki": "dest"
+    },
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListSort": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListSortStrided": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Sortkey",
+      "wiki": "stride_index"
+    }
+  ],
+  "llListStatistics": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llLoadURL": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llLog": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llLog10": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llMakeExplosion": [
+    {
+      "yaml": "Velocity",
+      "wiki": "vel"
+    }
+  ],
+  "llMakeFire": [
+    {
+      "yaml": "Velocity",
+      "wiki": "vel"
+    }
+  ],
+  "llMakeFountain": [
+    {
+      "yaml": "Velocity",
+      "wiki": "vel"
+    }
+  ],
+  "llMakeSmoke": [
+    {
+      "yaml": "Velocity",
+      "wiki": "vel"
+    }
+  ],
+  "llManageEstateAccess": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llMapBeacon": [
+    {
+      "yaml": "RegionName",
+      "wiki": "region_name"
+    },
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "llMapDestination": [
+    {
+      "yaml": "RegionName",
+      "wiki": "simname"
+    },
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "Direction",
+      "wiki": "look_at"
+    }
+  ],
+  "llMD5String": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llMessageLinked": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "Number",
+      "wiki": "num"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llModifyLand": [
+    {
+      "yaml": "Area",
+      "wiki": "brush"
+    }
+  ],
+  "llModPow": [
+    {
+      "yaml": "Value",
+      "wiki": "a"
+    },
+    {
+      "yaml": "Power",
+      "wiki": "b"
+    },
+    {
+      "yaml": "Modulus",
+      "wiki": "c"
+    }
+  ],
+  "llNavigateTo": [
+    {
+      "yaml": "Location",
+      "wiki": "pos"
+    }
+  ],
+  "llOffsetTexture": [
+    {
+      "yaml": "OffsetS",
+      "wiki": "u"
+    },
+    {
+      "yaml": "OffsetT",
+      "wiki": "v"
+    }
+  ],
+  "llOrd": [
+    {
+      "yaml": "value",
+      "wiki": "val"
+    }
+  ],
+  "llOwnerSay": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llParcelMediaQuery": [
+    {
+      "yaml": "QueryList",
+      "wiki": "query"
+    }
+  ],
+  "llParseString2List": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llParseStringKeepNulls": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llParticleSystem": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llPatrolPoints": [
+    {
+      "yaml": "Points",
+      "wiki": "patrolPoints"
+    }
+  ],
+  "llPointAt": [
+    {
+      "yaml": "Point",
+      "wiki": "pos"
+    }
+  ],
+  "llPow": [
+    {
+      "yaml": "Value",
+      "wiki": "base"
+    }
+  ],
+  "llPursue": [
+    {
+      "yaml": "TargetID",
+      "wiki": "target"
+    }
+  ],
+  "llPushObject": [
+    {
+      "yaml": "ObjectID",
+      "wiki": "target"
+    },
+    {
+      "yaml": "AngularImpulse",
+      "wiki": "ang_impulse"
+    }
+  ],
+  "llReadKeyValue": [
+    {
+      "yaml": "Key",
+      "wiki": "k"
+    }
+  ],
+  "llRegionSay": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llRegionSayTo": [
+    {
+      "yaml": "TargetID",
+      "wiki": "target"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llReleaseCamera": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llRemoteDataReply": [
+    {
+      "yaml": "ChannelID",
+      "wiki": "channel"
+    },
+    {
+      "yaml": "MessageID",
+      "wiki": "message_id"
+    }
+  ],
+  "llRemoteLoadScript": [
+    {
+      "yaml": "ScriptName",
+      "wiki": "name"
+    },
+    {
+      "yaml": "Unknown1",
+      "wiki": "running"
+    },
+    {
+      "yaml": "Unknown2",
+      "wiki": "start_param"
+    }
+  ],
+  "llRemoteLoadScriptPin": [
+    {
+      "yaml": "ObjectID",
+      "wiki": "target"
+    },
+    {
+      "yaml": "ScriptName",
+      "wiki": "name"
+    },
+    {
+      "yaml": "StartParameter",
+      "wiki": "start_param"
+    }
+  ],
+  "llRemoveFromLandBanList": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llRemoveFromLandPassList": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llRemoveInventory": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "item"
+    }
+  ],
+  "llRemoveVehicleFlags": [
+    {
+      "yaml": "Vehiclelags",
+      "wiki": "flags"
+    }
+  ],
+  "llReplaceSubString": [
+    {
+      "yaml": "InitialString",
+      "wiki": "src"
+    },
+    {
+      "yaml": "SubString",
+      "wiki": "pattern"
+    },
+    {
+      "yaml": "NewSubString",
+      "wiki": "replacement_pattern"
+    }
+  ],
+  "llRequestAgentData": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llRequestDisplayName": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llRequestExperiencePermissions": [
+    {
+      "yaml": "AgentID",
+      "wiki": "agent"
+    },
+    {
+      "yaml": "unused",
+      "wiki": "name"
+    }
+  ],
+  "llRequestInventoryData": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "name"
+    }
+  ],
+  "llRequestPermissions": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent"
+    },
+    {
+      "yaml": "PermissionMask",
+      "wiki": "permissions"
+    }
+  ],
+  "llRequestSimulatorData": [
+    {
+      "yaml": "RegionName",
+      "wiki": "region"
+    }
+  ],
+  "llRequestUserKey": [
+    {
+      "yaml": "Name",
+      "wiki": "username"
+    }
+  ],
+  "llRequestUsername": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llResetAnimationOverride": [
+    {
+      "yaml": "AnimationState",
+      "wiki": "anim_state"
+    }
+  ],
+  "llResetOtherScript": [
+    {
+      "yaml": "ScriptName",
+      "wiki": "name"
+    }
+  ],
+  "llReturnObjectsByID": [
+    {
+      "yaml": "ObjectIDs",
+      "wiki": "objects"
+    }
+  ],
+  "llReturnObjectsByOwner": [
+    {
+      "yaml": "ID",
+      "wiki": "owner"
+    }
+  ],
+  "llRezAtRoot": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "inventory"
+    },
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    },
+    {
+      "yaml": "StartParameter",
+      "wiki": "param"
+    }
+  ],
+  "llRezObject": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "inventory"
+    },
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    },
+    {
+      "yaml": "Velocity",
+      "wiki": "vel"
+    },
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    },
+    {
+      "yaml": "StartParameter",
+      "wiki": "param"
+    }
+  ],
+  "llRezObjectWithParams": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "inventory"
+    }
+  ],
+  "llRot2Angle": [
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    }
+  ],
+  "llRot2Axis": [
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    }
+  ],
+  "llRot2Euler": [
+    {
+      "yaml": "Rotation",
+      "wiki": "quat"
+    }
+  ],
+  "llRot2Fwd": [
+    {
+      "yaml": "Rotation",
+      "wiki": "q"
+    }
+  ],
+  "llRot2Left": [
+    {
+      "yaml": "Rotation",
+      "wiki": "q"
+    }
+  ],
+  "llRot2Up": [
+    {
+      "yaml": "Rotation",
+      "wiki": "q"
+    }
+  ],
+  "llRotateTexture": [
+    {
+      "yaml": "Radians",
+      "wiki": "angle"
+    }
+  ],
+  "llRotBetween": [
+    {
+      "yaml": "Vector1",
+      "wiki": "start"
+    },
+    {
+      "yaml": "Vector2",
+      "wiki": "end"
+    }
+  ],
+  "llRotLookAt": [
+    {
+      "yaml": "Rotation",
+      "wiki": "target_direction"
+    }
+  ],
+  "llRotTarget": [
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    },
+    {
+      "yaml": "LeeWay",
+      "wiki": "error"
+    }
+  ],
+  "llRound": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llSameGroup": [
+    {
+      "yaml": "ID",
+      "wiki": "uuid"
+    }
+  ],
+  "llSay": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llScaleByFactor": [
+    {
+      "yaml": "ScalingFactor",
+      "wiki": "scaling_factor"
+    }
+  ],
+  "llScaleTexture": [
+    {
+      "yaml": "Horizontal",
+      "wiki": "u"
+    },
+    {
+      "yaml": "Vertical",
+      "wiki": "v"
+    }
+  ],
+  "llScriptDanger": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "llScriptProfiler": [
+    {
+      "yaml": "State",
+      "wiki": "flags"
+    }
+  ],
+  "llSendRemoteData": [
+    {
+      "yaml": "ChannelID",
+      "wiki": "channel"
+    },
+    {
+      "yaml": "Destination",
+      "wiki": "dest"
+    },
+    {
+      "yaml": "Value",
+      "wiki": "idata"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "sdata"
+    }
+  ],
+  "llSensor": [
+    {
+      "yaml": "Range",
+      "wiki": "radius"
+    }
+  ],
+  "llSensorRepeat": [
+    {
+      "yaml": "Range",
+      "wiki": "radius"
+    }
+  ],
+  "llSetAgentEnvironment": [
+    {
+      "yaml": "Settings",
+      "wiki": "params"
+    }
+  ],
+  "llSetAlpha": [
+    {
+      "yaml": "Opacity",
+      "wiki": "alpha"
+    }
+  ],
+  "llSetAngularVelocity": [
+    {
+      "yaml": "AngVel",
+      "wiki": "initial_omega"
+    }
+  ],
+  "llSetAnimationOverride": [
+    {
+      "yaml": "AnimationState",
+      "wiki": "anim_state"
+    },
+    {
+      "yaml": "AnimationName",
+      "wiki": "anim"
+    }
+  ],
+  "llSetCameraParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetContentType": [
+    {
+      "yaml": "HTTPRequestID",
+      "wiki": "request_id"
+    },
+    {
+      "yaml": "ContentType",
+      "wiki": "content_type"
+    }
+  ],
+  "llSetEnvironment": [
+    {
+      "yaml": "EnvParams",
+      "wiki": "params"
+    }
+  ],
+  "llSetInventoryPermMask": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "item"
+    },
+    {
+      "yaml": "PermissionFlag",
+      "wiki": "category"
+    },
+    {
+      "yaml": "PermissionMask",
+      "wiki": "value"
+    }
+  ],
+  "llSetLinkAlpha": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "Opacity",
+      "wiki": "alpha"
+    }
+  ],
+  "llSetLinkCamera": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "EyeOffset",
+      "wiki": "eye"
+    },
+    {
+      "yaml": "LookOffset",
+      "wiki": "at"
+    }
+  ],
+  "llSetLinkColor": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llSetLinkGLTFOverrides": [
+    {
+      "yaml": "options",
+      "wiki": "params"
+    }
+  ],
+  "llSetLinkMedia": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llSetLinkPrimitiveParams": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetLinkPrimitiveParamsFast": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetLinkRenderMaterial": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "RenderMaterial",
+      "wiki": "material"
+    }
+  ],
+  "llSetLinkSitFlags": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llSetLinkTexture": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llSetLinkTextureAnim": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
+    }
+  ],
+  "llSetLocalRot": [
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    }
+  ],
+  "llSetObjectPermMask": [
+    {
+      "yaml": "PermissionFlag",
+      "wiki": "mask"
+    },
+    {
+      "yaml": "PermissionMask",
+      "wiki": "value"
+    }
+  ],
+  "llSetPayPrice": [
+    {
+      "yaml": "QuickButtons",
+      "wiki": "quick_pay_buttons"
+    }
+  ],
+  "llSetPhysicsMaterial": [
+    {
+      "yaml": "MaterialBits",
+      "wiki": "mask"
+    },
+    {
+      "yaml": "GravityMultiplier",
+      "wiki": "gravity_multiplier"
+    }
+  ],
+  "llSetPos": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "llSetPrimitiveParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetPrimMediaParams": [
+    {
+      "yaml": "MediaParameters",
+      "wiki": "params"
+    }
+  ],
+  "llSetRot": [
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    }
+  ],
+  "llSetScale": [
+    {
+      "yaml": "Scale",
+      "wiki": "size"
+    }
+  ],
+  "llSetScriptState": [
+    {
+      "yaml": "ScriptName",
+      "wiki": "name"
+    }
+  ],
+  "llSetSoundQueueing": [
+    {
+      "yaml": "QueueEnable",
+      "wiki": "queue"
+    }
+  ],
+  "llSetText": [
+    {
+      "yaml": "Opacity",
+      "wiki": "alpha"
+    }
+  ],
+  "llSetTimerEvent": [
+    {
+      "yaml": "Rate",
+      "wiki": "sec"
+    }
+  ],
+  "llSetVehicleFloatParam": [
+    {
+      "yaml": "ParameterName",
+      "wiki": "param"
+    },
+    {
+      "yaml": "ParameterValue",
+      "wiki": "value"
+    }
+  ],
+  "llSetVehicleRotationParam": [
+    {
+      "yaml": "ParameterName",
+      "wiki": "param"
+    },
+    {
+      "yaml": "ParameterValue",
+      "wiki": "rot"
+    }
+  ],
+  "llSetVehicleVectorParam": [
+    {
+      "yaml": "ParameterName",
+      "wiki": "param"
+    },
+    {
+      "yaml": "ParameterValue",
+      "wiki": "vec"
+    }
+  ],
+  "llSHA1String": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llSHA256String": [
+    {
+      "yaml": "text",
+      "wiki": "src"
+    }
+  ],
+  "llShout": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llSignRSA": [
+    {
+      "yaml": "PrivateKey",
+      "wiki": "private_key"
+    },
+    {
+      "yaml": "Message",
+      "wiki": "msg"
+    }
+  ],
+  "llSitOnLink": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent_id"
+    },
+    {
+      "yaml": "LinkID",
+      "wiki": "link"
+    }
+  ],
+  "llSitTarget": [
+    {
+      "yaml": "Rotation",
+      "wiki": "rot"
+    }
+  ],
+  "llSleep": [
+    {
+      "yaml": "Time",
+      "wiki": "sec"
+    }
+  ],
+  "llSqrt": [
+    {
+      "yaml": "Value",
+      "wiki": "val"
+    }
+  ],
+  "llStartAnimation": [
+    {
+      "yaml": "Animation",
+      "wiki": "anim"
+    }
+  ],
+  "llStartObjectAnimation": [
+    {
+      "yaml": "Animation",
+      "wiki": "anim"
+    }
+  ],
+  "llStopAnimation": [
+    {
+      "yaml": "Animation",
+      "wiki": "anim"
+    }
+  ],
+  "llStopObjectAnimation": [
+    {
+      "yaml": "Animation",
+      "wiki": "anim"
+    }
+  ],
+  "llStringLength": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llStringToBase64": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llStringTrim": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    },
+    {
+      "yaml": "TrimType",
+      "wiki": "type"
+    }
+  ],
+  "llSubStringIndex": [
+    {
+      "yaml": "Text",
+      "wiki": "source"
+    },
+    {
+      "yaml": "Sequence",
+      "wiki": "pattern"
+    }
+  ],
+  "llTakeCamera": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llTakeControls": [
+    {
+      "yaml": "PassOn",
+      "wiki": "pass_on"
+    }
+  ],
+  "llTargetedEmail": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llTargetRemove": [
+    {
+      "yaml": "Target",
+      "wiki": "handle"
+    }
+  ],
+  "llTeleportAgent": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent"
+    },
+    {
+      "yaml": "LandmarkName",
+      "wiki": "landmark"
+    },
+    {
+      "yaml": "LookAtPoint",
+      "wiki": "look_at"
+    }
+  ],
+  "llTeleportAgentGlobalCoords": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent"
+    },
+    {
+      "yaml": "GlobalPosition",
+      "wiki": "global_coordinates"
+    },
+    {
+      "yaml": "RegionPosition",
+      "wiki": "region_coordinates"
+    },
+    {
+      "yaml": "LookAtPoint",
+      "wiki": "look_at"
+    }
+  ],
+  "llTeleportAgentHome": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    }
+  ],
+  "llTextBox": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "avatar"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llToLower": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llToUpper": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llTransferLindenDollars": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "destination"
+    }
+  ],
+  "llTransferOwnership": [
+    {
+      "yaml": "AgentID",
+      "wiki": "agent_id"
+    },
+    {
+      "yaml": "Params",
+      "wiki": "options"
+    }
+  ],
+  "llTriggerSoundLimited": [
+    {
+      "yaml": "TNE",
+      "wiki": "top_north_east"
+    },
+    {
+      "yaml": "BSW",
+      "wiki": "bottom_south_west"
+    }
+  ],
+  "llUnSit": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "llUpdateKeyValue": [
+    {
+      "yaml": "Key",
+      "wiki": "k"
+    },
+    {
+      "yaml": "Value",
+      "wiki": "v"
+    },
+    {
+      "yaml": "OriginalValue",
+      "wiki": "original_value"
+    }
+  ],
+  "llVecDist": [
+    {
+      "yaml": "Location1",
+      "wiki": "vec_a"
+    },
+    {
+      "yaml": "Location2",
+      "wiki": "vec_b"
+    }
+  ],
+  "llVecMag": [
+    {
+      "yaml": "Vector",
+      "wiki": "vec"
+    }
+  ],
+  "llVecNorm": [
+    {
+      "yaml": "Vector",
+      "wiki": "vec"
+    }
+  ],
+  "llVerifyRSA": [
+    {
+      "yaml": "PublicKey",
+      "wiki": "public_key"
+    },
+    {
+      "yaml": "Message",
+      "wiki": "msg"
+    }
+  ],
+  "llVolumeDetect": [
+    {
+      "yaml": "DetectEnabled",
+      "wiki": "detect"
+    }
+  ],
+  "llWanderWithin": [
+    {
+      "yaml": "Area",
+      "wiki": "dist"
+    }
+  ],
+  "llWhisper": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llXorBase64": [
+    {
+      "yaml": "Text1",
+      "wiki": "str1"
+    },
+    {
+      "yaml": "Text2",
+      "wiki": "str2"
+    }
+  ],
+  "llXorBase64Strings": [
+    {
+      "yaml": "Text1",
+      "wiki": "str1"
+    },
+    {
+      "yaml": "Text2",
+      "wiki": "str2"
+    }
+  ],
+  "llXorBase64StringsCorrect": [
+    {
+      "yaml": "Text1",
+      "wiki": "str1"
+    },
+    {
+      "yaml": "Text2",
+      "wiki": "str2"
+    }
+  ],
+  "at_rot_target": [
+    {
+      "yaml": "TargetNumber",
+      "wiki": "handle"
+    },
+    {
+      "yaml": "TargetRotation",
+      "wiki": "targetrot"
+    },
+    {
+      "yaml": "CurrentRotation",
+      "wiki": "ourrot"
+    }
+  ],
+  "at_target": [
+    {
+      "yaml": "TargetNumber",
+      "wiki": "tnum"
+    },
+    {
+      "yaml": "TargetPosition",
+      "wiki": "targetpos"
+    },
+    {
+      "yaml": "CurrentPosition",
+      "wiki": "ourpos"
+    }
+  ],
+  "collision": [
+    {
+      "yaml": "NumberOfCollisions",
+      "wiki": "num_detected"
+    }
+  ],
+  "collision_end": [
+    {
+      "yaml": "NumberOfCollisions",
+      "wiki": "num_detected"
+    }
+  ],
+  "collision_start": [
+    {
+      "yaml": "NumberOfCollisions",
+      "wiki": "num_detected"
+    }
+  ],
+  "final_damage": [
+    {
+      "yaml": "count",
+      "wiki": "num_detected"
+    }
+  ],
+  "game_control": [
+    {
+      "yaml": "buttons",
+      "wiki": "button_levels"
+    }
+  ],
+  "http_request": [
+    {
+      "yaml": "HTTPRequestID",
+      "wiki": "request_id"
+    },
+    {
+      "yaml": "HTTPMethod",
+      "wiki": "method"
+    }
+  ],
+  "http_response": [
+    {
+      "yaml": "HTTPRequestID",
+      "wiki": "request_id"
+    }
+  ],
+  "land_collision": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "land_collision_end": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "land_collision_start": [
+    {
+      "yaml": "Position",
+      "wiki": "pos"
+    }
+  ],
+  "link_message": [
+    {
+      "yaml": "SendersLink",
+      "wiki": "sender_num"
+    },
+    {
+      "yaml": "Value",
+      "wiki": "num"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "listen": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "money": [
+    {
+      "yaml": "Payer",
+      "wiki": "id"
+    }
+  ],
+  "object_rez": [
+    {
+      "yaml": "RezzedObjectsID",
+      "wiki": "id"
+    }
+  ],
+  "on_damage": [
+    {
+      "yaml": "count",
+      "wiki": "num_detected"
+    }
+  ],
+  "on_rez": [
+    {
+      "yaml": "StartParameter",
+      "wiki": "start_param"
+    }
+  ],
+  "remote_data": [
+    {
+      "yaml": "EventType",
+      "wiki": "event_type"
+    },
+    {
+      "yaml": "ChannelID",
+      "wiki": "channel"
+    },
+    {
+      "yaml": "MessageID",
+      "wiki": "message_id"
+    }
+  ],
+  "run_time_permissions": [
+    {
+      "yaml": "PermissionFlags",
+      "wiki": "perm"
+    }
+  ],
+  "sensor": [
+    {
+      "yaml": "NumberDetected",
+      "wiki": "num_detected"
+    }
+  ],
+  "touch": [
+    {
+      "yaml": "NumberOfTouches",
+      "wiki": "num_detected"
+    }
+  ],
+  "touch_end": [
+    {
+      "yaml": "NumberOfTouches",
+      "wiki": "num_detected"
+    }
+  ],
+  "touch_start": [
+    {
+      "yaml": "NumberOfTouches",
+      "wiki": "num_detected"
+    }
+  ],
+  "transaction_result": [
+    {
+      "yaml": "RequestID",
+      "wiki": "id"
+    },
+    {
+      "yaml": "Message",
+      "wiki": "data"
+    }
+  ]
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                if (funcName.toLowerCase().includes(lowerCaseQuery)) {
+                    filteredData[funcName] = lslData[funcName];
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
