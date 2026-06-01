@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arguments names from Wiki (big changes)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Arguments names from Wiki (big changes)</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for functions and events...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "llAddToLandBanList": [
+    {
+      "yaml": "ID",
+      "wiki": "avatar"
+    }
+  ],
+  "llAddToLandPassList": [
+    {
+      "yaml": "ID",
+      "wiki": "avatar"
+    }
+  ],
+  "llAdjustDamage": [
+    {
+      "yaml": "Damage",
+      "wiki": "new_damage"
+    }
+  ],
+  "llAllowInventoryDrop": [
+    {
+      "yaml": "Flag",
+      "wiki": "add"
+    }
+  ],
+  "llAngleBetween": [
+    {
+      "yaml": "Rot1",
+      "wiki": "a"
+    },
+    {
+      "yaml": "Rot2",
+      "wiki": "b"
+    }
+  ],
+  "llApplyImpulse": [
+    {
+      "yaml": "Force",
+      "wiki": "momentum"
+    }
+  ],
+  "llAttachToAvatar": [
+    {
+      "yaml": "AttachmentPoint",
+      "wiki": "attach_point"
+    }
+  ],
+  "llAxes2Rot": [
+    {
+      "yaml": "Forward",
+      "wiki": "fwd"
+    }
+  ],
+  "llBase64ToInteger": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llBase64ToString": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llCSV2List": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llDamage": [
+    {
+      "yaml": "type",
+      "wiki": "damage_type"
+    }
+  ],
+  "llDeleteSubList": [
+    {
+      "yaml": "Source",
+      "wiki": "src"
+    }
+  ],
+  "llDeleteSubString": [
+    {
+      "yaml": "Source",
+      "wiki": "src"
+    }
+  ],
+  "llDetectedName": [
+    {
+      "yaml": "Number",
+      "wiki": "item"
+    }
+  ],
+  "llDialog": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llDumpList2String": [
+    {
+      "yaml": "Source",
+      "wiki": "src"
+    }
+  ],
+  "llEmail": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llFleeFrom": [
+    {
+      "yaml": "Source",
+      "wiki": "position"
+    }
+  ],
+  "llForceMouselook": [
+    {
+      "yaml": "Enable",
+      "wiki": "mouselook"
+    }
+  ],
+  "llGetAnimationOverride": [
+    {
+      "yaml": "AnimationState",
+      "wiki": "anim_state"
+    }
+  ],
+  "llGetAttachedList": [
+    {
+      "yaml": "ID",
+      "wiki": "avatar"
+    }
+  ],
+  "llGetAttachedListFiltered": [
+    {
+      "yaml": "AgentID",
+      "wiki": "avatar"
+    }
+  ],
+  "llGetBoundingBox": [
+    {
+      "yaml": "ID",
+      "wiki": "object"
+    }
+  ],
+  "llGetEnv": [
+    {
+      "yaml": "DataRequest",
+      "wiki": "name"
+    }
+  ],
+  "llGetInventoryKey": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "name"
+    }
+  ],
+  "llGetInventoryName": [
+    {
+      "yaml": "Index",
+      "wiki": "number"
+    }
+  ],
+  "llGetInventoryPermMask": [
+    {
+      "yaml": "BitMask",
+      "wiki": "category"
+    }
+  ],
+  "llGetInventoryType": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "name"
+    }
+  ],
+  "llGetLinkMedia": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetLinkPrimitiveParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetListEntryType": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llGetListLength": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llGetObjectDetails": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetObjectLinkKey": [
+    {
+      "yaml": "id",
+      "wiki": "link"
+    }
+  ],
+  "llGetObjectPrimCount": [
+    {
+      "yaml": "ObjectID",
+      "wiki": "prim"
+    }
+  ],
+  "llGetParcelDetails": [
+    {
+      "yaml": "ParcelDetails",
+      "wiki": "params"
+    }
+  ],
+  "llGetPrimitiveParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetPrimMediaParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetStaticPath": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGetSubString": [
+    {
+      "yaml": "String",
+      "wiki": "src"
+    }
+  ],
+  "llGetVisualParams": [
+    {
+      "yaml": "ID",
+      "wiki": "agentid"
+    },
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llGiveInventory": [
+    {
+      "yaml": "TargetID",
+      "wiki": "destination"
+    }
+  ],
+  "llGiveMoney": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "destination"
+    }
+  ],
+  "llHMAC": [
+    {
+      "yaml": "Key",
+      "wiki": "private_key"
+    },
+    {
+      "yaml": "Message",
+      "wiki": "msg"
+    }
+  ],
+  "llInsertString": [
+    {
+      "yaml": "TargetVariable",
+      "wiki": "dst"
+    },
+    {
+      "yaml": "SourceVariable",
+      "wiki": "src"
+    }
+  ],
+  "llInstantMessage": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "user"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llIntegerToBase64": [
+    {
+      "yaml": "Value",
+      "wiki": "number"
+    }
+  ],
+  "llJson2List": [
+    {
+      "yaml": "JSON",
+      "wiki": "src"
+    }
+  ],
+  "llLinkAdjustSoundVolume": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "volume"
+    }
+  ],
+  "llLinkParticleSystem": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "rules"
+    }
+  ],
+  "llLinksetDataCountFound": [
+    {
+      "yaml": "search",
+      "wiki": "pattern"
+    }
+  ],
+  "llLinksetDataDeleteFound": [
+    {
+      "yaml": "search",
+      "wiki": "pattern"
+    }
+  ],
+  "llLinksetDataFindKeys": [
+    {
+      "yaml": "search",
+      "wiki": "pattern"
+    }
+  ],
+  "llLinkSetSoundQueueing": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "queue"
+    }
+  ],
+  "llList2CSV": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Float": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Integer": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Key": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2List": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2ListSlice": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2ListStrided": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Rot": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2String": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llList2Vector": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListen": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llListFindList": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Find",
+      "wiki": "test"
+    }
+  ],
+  "llListFindListNext": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Find",
+      "wiki": "test"
+    }
+  ],
+  "llListFindStrided": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Find",
+      "wiki": "test"
+    }
+  ],
+  "llListInsertList": [
+    {
+      "yaml": "Target",
+      "wiki": "dest"
+    },
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Position",
+      "wiki": "start"
+    }
+  ],
+  "llListRandomize": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListReplaceList": [
+    {
+      "yaml": "Target",
+      "wiki": "dest"
+    },
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListSort": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llListSortStrided": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    },
+    {
+      "yaml": "Sortkey",
+      "wiki": "stride_index"
+    }
+  ],
+  "llListStatistics": [
+    {
+      "yaml": "ListVariable",
+      "wiki": "src"
+    }
+  ],
+  "llLoadURL": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llMapDestination": [
+    {
+      "yaml": "RegionName",
+      "wiki": "simname"
+    },
+    {
+      "yaml": "Direction",
+      "wiki": "look_at"
+    }
+  ],
+  "llMD5String": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llMessageLinked": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llModifyLand": [
+    {
+      "yaml": "Area",
+      "wiki": "brush"
+    }
+  ],
+  "llModPow": [
+    {
+      "yaml": "Power",
+      "wiki": "b"
+    },
+    {
+      "yaml": "Modulus",
+      "wiki": "c"
+    }
+  ],
+  "llNavigateTo": [
+    {
+      "yaml": "Location",
+      "wiki": "pos"
+    }
+  ],
+  "llOffsetTexture": [
+    {
+      "yaml": "OffsetS",
+      "wiki": "u"
+    },
+    {
+      "yaml": "OffsetT",
+      "wiki": "v"
+    }
+  ],
+  "llOwnerSay": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llParseString2List": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llParseStringKeepNulls": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llParticleSystem": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llPatrolPoints": [
+    {
+      "yaml": "Points",
+      "wiki": "patrolPoints"
+    }
+  ],
+  "llPointAt": [
+    {
+      "yaml": "Point",
+      "wiki": "pos"
+    }
+  ],
+  "llPow": [
+    {
+      "yaml": "Value",
+      "wiki": "base"
+    }
+  ],
+  "llPushObject": [
+    {
+      "yaml": "ObjectID",
+      "wiki": "target"
+    },
+    {
+      "yaml": "AngularImpulse",
+      "wiki": "ang_impulse"
+    }
+  ],
+  "llRegionSay": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llRegionSayTo": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llRemoteLoadScript": [
+    {
+      "yaml": "Unknown1",
+      "wiki": "running"
+    },
+    {
+      "yaml": "Unknown2",
+      "wiki": "start_param"
+    }
+  ],
+  "llRemoteLoadScriptPin": [
+    {
+      "yaml": "ObjectID",
+      "wiki": "target"
+    }
+  ],
+  "llRemoveVehicleFlags": [
+    {
+      "yaml": "Vehiclelags",
+      "wiki": "flags"
+    }
+  ],
+  "llReplaceSubString": [
+    {
+      "yaml": "InitialString",
+      "wiki": "src"
+    },
+    {
+      "yaml": "SubString",
+      "wiki": "pattern"
+    },
+    {
+      "yaml": "NewSubString",
+      "wiki": "replacement_pattern"
+    }
+  ],
+  "llRequestExperiencePermissions": [
+    {
+      "yaml": "unused",
+      "wiki": "name"
+    }
+  ],
+  "llRequestInventoryData": [
+    {
+      "yaml": "InventoryItem",
+      "wiki": "name"
+    }
+  ],
+  "llRequestPermissions": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent"
+    },
+    {
+      "yaml": "PermissionMask",
+      "wiki": "permissions"
+    }
+  ],
+  "llRequestUserKey": [
+    {
+      "yaml": "Name",
+      "wiki": "username"
+    }
+  ],
+  "llResetAnimationOverride": [
+    {
+      "yaml": "AnimationState",
+      "wiki": "anim_state"
+    }
+  ],
+  "llReturnObjectsByID": [
+    {
+      "yaml": "ObjectIDs",
+      "wiki": "objects"
+    }
+  ],
+  "llReturnObjectsByOwner": [
+    {
+      "yaml": "ID",
+      "wiki": "owner"
+    }
+  ],
+  "llRot2Euler": [
+    {
+      "yaml": "Rotation",
+      "wiki": "quat"
+    }
+  ],
+  "llRot2Fwd": [
+    {
+      "yaml": "Rotation",
+      "wiki": "q"
+    }
+  ],
+  "llRot2Left": [
+    {
+      "yaml": "Rotation",
+      "wiki": "q"
+    }
+  ],
+  "llRot2Up": [
+    {
+      "yaml": "Rotation",
+      "wiki": "q"
+    }
+  ],
+  "llRotateTexture": [
+    {
+      "yaml": "Radians",
+      "wiki": "angle"
+    }
+  ],
+  "llRotBetween": [
+    {
+      "yaml": "Vector1",
+      "wiki": "start"
+    },
+    {
+      "yaml": "Vector2",
+      "wiki": "end"
+    }
+  ],
+  "llRotLookAt": [
+    {
+      "yaml": "Rotation",
+      "wiki": "target_direction"
+    }
+  ],
+  "llRotTarget": [
+    {
+      "yaml": "LeeWay",
+      "wiki": "error"
+    }
+  ],
+  "llSameGroup": [
+    {
+      "yaml": "ID",
+      "wiki": "uuid"
+    }
+  ],
+  "llSay": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llScaleTexture": [
+    {
+      "yaml": "Horizontal",
+      "wiki": "u"
+    }
+  ],
+  "llScriptProfiler": [
+    {
+      "yaml": "State",
+      "wiki": "flags"
+    }
+  ],
+  "llSendRemoteData": [
+    {
+      "yaml": "Value",
+      "wiki": "idata"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "sdata"
+    }
+  ],
+  "llSensor": [
+    {
+      "yaml": "Range",
+      "wiki": "radius"
+    }
+  ],
+  "llSensorRepeat": [
+    {
+      "yaml": "Range",
+      "wiki": "radius"
+    }
+  ],
+  "llSetAgentEnvironment": [
+    {
+      "yaml": "Settings",
+      "wiki": "params"
+    }
+  ],
+  "llSetAlpha": [
+    {
+      "yaml": "Opacity",
+      "wiki": "alpha"
+    }
+  ],
+  "llSetAngularVelocity": [
+    {
+      "yaml": "AngVel",
+      "wiki": "initial_omega"
+    }
+  ],
+  "llSetAnimationOverride": [
+    {
+      "yaml": "AnimationState",
+      "wiki": "anim_state"
+    }
+  ],
+  "llSetCameraParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetInventoryPermMask": [
+    {
+      "yaml": "PermissionFlag",
+      "wiki": "category"
+    },
+    {
+      "yaml": "PermissionMask",
+      "wiki": "value"
+    }
+  ],
+  "llSetLinkAlpha": [
+    {
+      "yaml": "Opacity",
+      "wiki": "alpha"
+    }
+  ],
+  "llSetLinkCamera": [
+    {
+      "yaml": "LookOffset",
+      "wiki": "at"
+    }
+  ],
+  "llSetLinkGLTFOverrides": [
+    {
+      "yaml": "options",
+      "wiki": "params"
+    }
+  ],
+  "llSetLinkMedia": [
+    {
+      "yaml": "Parameters",
+      "wiki": "params"
+    }
+  ],
+  "llSetLinkPrimitiveParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetLinkPrimitiveParamsFast": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetObjectPermMask": [
+    {
+      "yaml": "PermissionFlag",
+      "wiki": "mask"
+    },
+    {
+      "yaml": "PermissionMask",
+      "wiki": "value"
+    }
+  ],
+  "llSetPayPrice": [
+    {
+      "yaml": "QuickButtons",
+      "wiki": "quick_pay_buttons"
+    }
+  ],
+  "llSetPhysicsMaterial": [
+    {
+      "yaml": "MaterialBits",
+      "wiki": "mask"
+    }
+  ],
+  "llSetPrimitiveParams": [
+    {
+      "yaml": "Parameters",
+      "wiki": "rules"
+    }
+  ],
+  "llSetPrimMediaParams": [
+    {
+      "yaml": "MediaParameters",
+      "wiki": "params"
+    }
+  ],
+  "llSetScale": [
+    {
+      "yaml": "Scale",
+      "wiki": "size"
+    }
+  ],
+  "llSetText": [
+    {
+      "yaml": "Opacity",
+      "wiki": "alpha"
+    }
+  ],
+  "llSetTimerEvent": [
+    {
+      "yaml": "Rate",
+      "wiki": "sec"
+    }
+  ],
+  "llSetVehicleRotationParam": [
+    {
+      "yaml": "ParameterValue",
+      "wiki": "rot"
+    }
+  ],
+  "llSetVehicleVectorParam": [
+    {
+      "yaml": "ParameterValue",
+      "wiki": "vec"
+    }
+  ],
+  "llSHA1String": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llSHA256String": [
+    {
+      "yaml": "text",
+      "wiki": "src"
+    }
+  ],
+  "llShout": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llSignRSA": [
+    {
+      "yaml": "Message",
+      "wiki": "msg"
+    }
+  ],
+  "llSitOnLink": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent_id"
+    }
+  ],
+  "llSleep": [
+    {
+      "yaml": "Time",
+      "wiki": "sec"
+    }
+  ],
+  "llStringLength": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llStringToBase64": [
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "llStringTrim": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llSubStringIndex": [
+    {
+      "yaml": "Text",
+      "wiki": "source"
+    },
+    {
+      "yaml": "Sequence",
+      "wiki": "pattern"
+    }
+  ],
+  "llTargetedEmail": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llTargetRemove": [
+    {
+      "yaml": "Target",
+      "wiki": "handle"
+    }
+  ],
+  "llTeleportAgent": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent"
+    }
+  ],
+  "llTeleportAgentGlobalCoords": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "agent"
+    },
+    {
+      "yaml": "GlobalPosition",
+      "wiki": "global_coordinates"
+    },
+    {
+      "yaml": "RegionPosition",
+      "wiki": "region_coordinates"
+    }
+  ],
+  "llTextBox": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "llToLower": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llToUpper": [
+    {
+      "yaml": "Text",
+      "wiki": "src"
+    }
+  ],
+  "llTransferLindenDollars": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "destination"
+    }
+  ],
+  "llTransferOwnership": [
+    {
+      "yaml": "Params",
+      "wiki": "options"
+    }
+  ],
+  "llTriggerSoundLimited": [
+    {
+      "yaml": "TNE",
+      "wiki": "top_north_east"
+    },
+    {
+      "yaml": "BSW",
+      "wiki": "bottom_south_west"
+    }
+  ],
+  "llVecDist": [
+    {
+      "yaml": "Location1",
+      "wiki": "vec_a"
+    },
+    {
+      "yaml": "Location2",
+      "wiki": "vec_b"
+    }
+  ],
+  "llVerifyRSA": [
+    {
+      "yaml": "Message",
+      "wiki": "msg"
+    }
+  ],
+  "llWanderWithin": [
+    {
+      "yaml": "Area",
+      "wiki": "dist"
+    }
+  ],
+  "llWhisper": [
+    {
+      "yaml": "Text",
+      "wiki": "msg"
+    }
+  ],
+  "llXorBase64": [
+    {
+      "yaml": "Text1",
+      "wiki": "str1"
+    },
+    {
+      "yaml": "Text2",
+      "wiki": "str2"
+    }
+  ],
+  "llXorBase64Strings": [
+    {
+      "yaml": "Text1",
+      "wiki": "str1"
+    },
+    {
+      "yaml": "Text2",
+      "wiki": "str2"
+    }
+  ],
+  "llXorBase64StringsCorrect": [
+    {
+      "yaml": "Text1",
+      "wiki": "str1"
+    },
+    {
+      "yaml": "Text2",
+      "wiki": "str2"
+    }
+  ],
+  "at_rot_target": [
+    {
+      "yaml": "TargetNumber",
+      "wiki": "handle"
+    },
+    {
+      "yaml": "CurrentRotation",
+      "wiki": "ourrot"
+    }
+  ],
+  "at_target": [
+    {
+      "yaml": "CurrentPosition",
+      "wiki": "ourpos"
+    }
+  ],
+  "collision": [
+    {
+      "yaml": "NumberOfCollisions",
+      "wiki": "num_detected"
+    }
+  ],
+  "collision_end": [
+    {
+      "yaml": "NumberOfCollisions",
+      "wiki": "num_detected"
+    }
+  ],
+  "collision_start": [
+    {
+      "yaml": "NumberOfCollisions",
+      "wiki": "num_detected"
+    }
+  ],
+  "final_damage": [
+    {
+      "yaml": "count",
+      "wiki": "num_detected"
+    }
+  ],
+  "game_control": [
+    {
+      "yaml": "buttons",
+      "wiki": "button_levels"
+    }
+  ],
+  "link_message": [
+    {
+      "yaml": "SendersLink",
+      "wiki": "sender_num"
+    },
+    {
+      "yaml": "Value",
+      "wiki": "num"
+    },
+    {
+      "yaml": "Text",
+      "wiki": "str"
+    }
+  ],
+  "listen": [
+    {
+      "yaml": "Text",
+      "wiki": "message"
+    }
+  ],
+  "money": [
+    {
+      "yaml": "Payer",
+      "wiki": "id"
+    }
+  ],
+  "on_damage": [
+    {
+      "yaml": "count",
+      "wiki": "num_detected"
+    }
+  ],
+  "sensor": [
+    {
+      "yaml": "NumberDetected",
+      "wiki": "num_detected"
+    }
+  ],
+  "touch": [
+    {
+      "yaml": "NumberOfTouches",
+      "wiki": "num_detected"
+    }
+  ],
+  "touch_end": [
+    {
+      "yaml": "NumberOfTouches",
+      "wiki": "num_detected"
+    }
+  ],
+  "touch_start": [
+    {
+      "yaml": "NumberOfTouches",
+      "wiki": "num_detected"
+    }
+  ],
+  "transaction_result": [
+    {
+      "yaml": "Message",
+      "wiki": "data"
+    }
+  ]
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                if (funcName.toLowerCase().includes(lowerCaseQuery)) {
+                    filteredData[funcName] = lslData[funcName];
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
