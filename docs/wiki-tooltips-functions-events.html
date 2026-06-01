@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 20px auto;
             background-color: #f4f4f9;
         }
@@ -8992,7 +8992,7 @@
 
             const jsonString = JSON.stringify(filteredData, null, 2);
             jsonOutput.textContent = jsonString;
-            if (window.Prism) {
+            if (window.Prism || true) {
                 Prism.highlightElement(jsonOutput);
             }
         }
