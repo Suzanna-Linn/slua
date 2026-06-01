@@ -56,7 +56,7 @@
 
     <input type="text" id="searchInput" placeholder="Search for functions and events...">
 
-    <pre><code class="language-json"><div id="jsonOutput"></div></code></pre>
+    <pre><code id="jsonOutput" class="language-json"></code>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
@@ -8992,7 +8992,7 @@
 
             const jsonString = JSON.stringify(filteredData, null, 2);
             jsonOutput.textContent = jsonString;
-            if (window.Prism || true) {
+            if (window.Prism) {
                 Prism.highlightElement(jsonOutput);
             }
         }
