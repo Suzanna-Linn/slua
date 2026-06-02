@@ -419,11 +419,11 @@
             for (const funcName in lslData) {
                 const valuesArray = lslData[funcName];
                 if (Array.isArray(valuesArray)) {
-                    const hasMatchingValue = valuesArray.some(item => 
+                    const matchingValues = valuesArray.filter(item => 
                         String(item).toLowerCase().includes(lowerCaseQuery)
                     );
-                    if (hasMatchingValue) {
-                        filteredData[funcName] = valuesArray;
+                    if (matchingValues.length > 0) {
+                        filteredData[funcName] = matchingValues;
                     }
                 }
             }
