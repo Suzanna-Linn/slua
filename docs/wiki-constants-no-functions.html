@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constants without functions documenting them in Wiki</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Constants without functions documenting them in Wiki and their possible functions based on similar constant names</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for constants...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "ATTACH_LPEC": [
+    "AttachToAvatar",
+    "AttachToAvatarTemp",
+    "GetAttached",
+    "GetAttachedListFiltered"
+  ],
+  "ATTACH_RPEC": [
+    "AttachToAvatar",
+    "AttachToAvatarTemp",
+    "GetAttached",
+    "GetAttachedListFiltered"
+  ],
+  "COMBAT_CHANNEL": [
+    "Listen",
+    "RegionSay",
+    "Say",
+    "Shout",
+    "Whisper",
+    "listen"
+  ],
+  "COMBAT_LOG_ID": [
+    "Listen",
+    "listen"
+  ],
+  "DATA_RESERVED_0": [
+    "RequestAgentData",
+    "dataserver"
+  ],
+  "GCNP_GET_WALKABILITY": [
+    "GetClosestNavPoint"
+  ],
+  "IMG_USE_BAKED_AUX1": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_AUX2": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_AUX3": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_EYES": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_HAIR": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_HEAD": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_LEFTARM": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_LEFTLEG": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_LOWER": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_SKIRT": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "IMG_USE_BAKED_UPPER": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "LAND_BRUSH_LARGE": [
+    "ModifyLand"
+  ],
+  "LAND_BRUSH_MEDIUM": [
+    "ModifyLand"
+  ],
+  "LAND_BRUSH_SMALL": [
+    "ModifyLand"
+  ],
+  "LEGACY_MASS_FACTOR": [],
+  "NAVIGATE_TO_GOAL_REACHED_DIST": [
+    "NavigateTo"
+  ],
+  "OPT_AVATAR": [
+    "GetObjectDetails"
+  ],
+  "OPT_CHARACTER": [
+    "GetObjectDetails"
+  ],
+  "OPT_EXCLUSION_VOLUME": [
+    "GetObjectDetails"
+  ],
+  "OPT_LEGACY_LINKSET": [
+    "GetObjectDetails"
+  ],
+  "OPT_MATERIAL_VOLUME": [
+    "GetObjectDetails"
+  ],
+  "OPT_OTHER": [
+    "GetObjectDetails"
+  ],
+  "OPT_STATIC_OBSTACLE": [
+    "GetObjectDetails"
+  ],
+  "OPT_WALKABLE": [
+    "GetObjectDetails"
+  ],
+  "PARCEL_FLAG_LINDEN_HOMES": [
+    "GetParcelFlags"
+  ],
+  "PERMISSION_CHANGE_JOINTS": [
+    "GetPermissions",
+    "RequestPermissions",
+    "run_time_permissions"
+  ],
+  "PERMISSION_CHANGE_PERMISSIONS": [
+    "GetPermissions",
+    "RequestPermissions",
+    "run_time_permissions"
+  ],
+  "PERMISSION_RELEASE_OWNERSHIP": [
+    "GetPermissions",
+    "RequestPermissions",
+    "run_time_permissions"
+  ],
+  "PERMISSION_REMAP_CONTROLS": [
+    "GetPermissions",
+    "RequestPermissions",
+    "run_time_permissions"
+  ],
+  "PRIM_ALPHA_MODE_BLEND": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_ALPHA_MODE_EMISSIVE": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_ALPHA_MODE_MASK": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_ALPHA_MODE_NONE": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_COLLISION_SOUND": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_MATERIAL_DENSITY": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_MATERIAL_FRICTION": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_MATERIAL_GRAVITY_MULTIPLIER": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_MATERIAL_RESTITUTION": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PRIM_MEDIA_MAX_HEIGHT_PIXELS": [
+    "GetLinkMedia",
+    "GetPrimMediaParams",
+    "SetLinkMedia",
+    "SetPrimMediaParams"
+  ],
+  "PRIM_MEDIA_MAX_URL_LENGTH": [
+    "GetLinkMedia",
+    "GetPrimMediaParams",
+    "SetLinkMedia",
+    "SetPrimMediaParams"
+  ],
+  "PRIM_MEDIA_MAX_WHITELIST_COUNT": [
+    "GetLinkMedia",
+    "GetPrimMediaParams",
+    "SetLinkMedia",
+    "SetPrimMediaParams"
+  ],
+  "PRIM_MEDIA_MAX_WHITELIST_SIZE": [
+    "GetLinkMedia",
+    "GetPrimMediaParams",
+    "SetLinkMedia",
+    "SetPrimMediaParams"
+  ],
+  "PRIM_MEDIA_MAX_WIDTH_PIXELS": [
+    "GetLinkMedia",
+    "GetPrimMediaParams",
+    "SetLinkMedia",
+    "SetPrimMediaParams"
+  ],
+  "PRIM_MEDIA_PARAM_MAX": [
+    "GetLinkMedia",
+    "GetPrimMediaParams",
+    "SetLinkMedia",
+    "SetPrimMediaParams"
+  ],
+  "PRIM_SCULPT_TYPE_MASK": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetPrimitiveParams"
+  ],
+  "PSYS_SRC_OBJ_REL_MASK": [
+    "LinkParticleSystem",
+    "ParticleSystem"
+  ],
+  "RAD_TO_DEG": [
+    "Rot2Euler"
+  ],
+  "REGION_FLAG_BLOCK_FLYOVER": [
+    "GetRegionFlags"
+  ],
+  "REZ_TORQUE": [
+    "RezObjectWithParams"
+  ],
+  "SKY_ABSORPTION_CONFIG": [
+    "GetEnvironment",
+    "SetAgentEnvironment",
+    "SetEnvironment"
+  ],
+  "SKY_DENSITY_PROFILE_COUNTS": [
+    "GetEnvironment",
+    "SetAgentEnvironment",
+    "SetEnvironment"
+  ],
+  "SKY_MIE_CONFIG": [
+    "GetEnvironment",
+    "SetAgentEnvironment",
+    "SetEnvironment"
+  ],
+  "SKY_RAYLEIGH_CONFIG": [
+    "GetEnvironment",
+    "SetAgentEnvironment",
+    "SetEnvironment"
+  ],
+  "SQRT2": [],
+  "TARGETED_EMAIL_ROOT_CREATOR": [
+    "TargetedEmail"
+  ],
+  "TEXTURE_DEFAULT": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "TEXTURE_MEDIA": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "TEXTURE_PLYWOOD": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "TEXTURE_TRANSPARENT": [
+    "GetLinkPrimitiveParams",
+    "GetPrimitiveParams",
+    "SetLinkPrimitiveParams",
+    "SetLinkPrimitiveParamsFast",
+    "SetLinkTexture",
+    "SetPrimitiveParams",
+    "SetTexture"
+  ],
+  "TOUCH_INVALID_FACE": [
+    "DetectedTouchFace"
+  ],
+  "TOUCH_INVALID_VECTOR": [
+    "DetectedTouchBinormal",
+    "DetectedTouchNormal",
+    "DetectedTouchPos"
+  ],
+  "TWO_PI": [
+    "Atan2",
+    "Sensor",
+    "SensorRepeat"
+  ],
+  "VEHICLE_FLAG_NO_FLY_UP": [
+    "RemoveVehicleFlags",
+    "SetVehicleFlags"
+  ]
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                if (funcName.toLowerCase().includes(lowerCaseQuery)) {
+                    filteredData[funcName] = lslData[funcName];
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
