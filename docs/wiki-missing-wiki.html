@@ -411,17 +411,23 @@
 
         const searchInput = document.getElementById('searchInput');
         const jsonOutput = document.getElementById('jsonOutput');
-
+        
         function renderJSON(query = "") {
             const lowerCaseQuery = query.toLowerCase();
             const filteredData = {};
-
+        
             for (const funcName in lslData) {
-                if (funcName.toLowerCase().includes(lowerCaseQuery)) {
-                    filteredData[funcName] = lslData[funcName];
+                const valuesArray = lslData[funcName];
+                if (Array.isArray(valuesArray)) {
+                    const hasMatchingValue = valuesArray.some(item => 
+                        String(item).toLowerCase().includes(lowerCaseQuery)
+                    );
+                    if (hasMatchingValue) {
+                        filteredData[funcName] = lslData[funcName];
+                    }
                 }
             }
-
+        
             const jsonString = JSON.stringify(filteredData, null, 2);
             jsonOutput.textContent = jsonString;
             if (window.Prism) {
