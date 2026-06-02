@@ -1,67 +1,90 @@
----
-layout: default
-title: list params json
-slua_beta: true
-json : true
----
+<!DOCTYPE html>
+<html lang="en">
 
-# Functions with lists/tables as parameter
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arguments names from Wiki (big changes)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        #filter-controls {
+          margin-bottom: 20px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          background-color: #fcfcfc;
+          box-sizing: border-box;
+        }
+        .filter-btn {
+          background: linear-gradient(135deg, #f6e7ff, #e7f0ff);
+          border: 1px solid #c7b7ff;
+          color: #5b4b8a;
+        
+          padding: 6px 12px;
+          border-radius: 8px;
+        
+          cursor: pointer;
+          font-family: monospace;
+          font-size: 0.85em;
+        
+          transition:
+            background 0.25s,
+            border-color 0.25s,
+            color 0.25s,
+            transform 0.15s,
+            box-shadow 0.2s;
+        }
+        
+        .filter-btn:hover {
+          background: linear-gradient(135deg, #efd6ff, #d8eaff);
+          border-color: #9c7dff;
+          color: #45306f;
+        
+          transform: translateY(-1px);
+          box-shadow: 0 3px 10px rgba(120, 100, 220, 0.18);
+        }
+        
+        .filter-btn:active {
+          transform: translateY(0);
+        }
+        
+        .filter-btn.active {
+          background: linear-gradient(135deg, #8b5cf6, #4f8cff);
+          border-color: #6d3df0;
+          color: white;
+        
+          box-shadow: 0 4px 12px rgba(79, 140, 255, 0.25);
+        }
+      </style>
+  
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+<h1>Functions with lists/tables as parameter</h1>
 
 <div id="filter-controls"></div>
 
-<style>
-  #filter-controls {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fcfcfc;
-    box-sizing: border-box;
-  }
-  .filter-btn {
-    background: linear-gradient(135deg, #f6e7ff, #e7f0ff);
-    border: 1px solid #c7b7ff;
-    color: #5b4b8a;
-  
-    padding: 6px 12px;
-    border-radius: 8px;
-  
-    cursor: pointer;
-    font-family: monospace;
-    font-size: 0.85em;
-  
-    transition:
-      background 0.25s,
-      border-color 0.25s,
-      color 0.25s,
-      transform 0.15s,
-      box-shadow 0.2s;
-  }
-  
-  .filter-btn:hover {
-    background: linear-gradient(135deg, #efd6ff, #d8eaff);
-    border-color: #9c7dff;
-    color: #45306f;
-  
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(120, 100, 220, 0.18);
-  }
-  
-  .filter-btn:active {
-    transform: translateY(0);
-  }
-  
-  .filter-btn.active {
-    background: linear-gradient(135deg, #8b5cf6, #4f8cff);
-    border-color: #6d3df0;
-    color: white;
-  
-    box-shadow: 0 4px 12px rgba(79, 140, 255, 0.25);
-  }
-</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
 
 <pre><code class="language-json">
 {
