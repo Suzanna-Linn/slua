@@ -151,11 +151,12 @@
   },
   "llAdjustSoundVolume": {
     "tooltip": "Adjusts the volume (0.0 - 1.0) of the currently playing attached sound.\nThis function has no effect on sounds started with llTriggerSound.",
+    "description": "Adjusts volume of attached sound.",
     "arguments": {
       "Volume": {
         "tooltip": "The volume to set.",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -168,7 +169,7 @@
       "AgentID": {
         "tooltip": "",
         "newname": "agent",
-        "description": "avatar UUID that is in the same region&#32;to query.",
+        "description": "avatar UUID that is in the same region to query.",
         "newtooltip": "The UUID of the avatar in the same region to query."
       }
     },
@@ -181,7 +182,7 @@
       "Flag": {
         "tooltip": "Boolean, If TRUE allows anyone to drop inventory on prim, FALSE revokes.",
         "newname": "add",
-        "description": "boolean, If TRUE it allows anyone, even if they don't have modify rights to a prim, regardless of whether they are the owner or not, to drop items into that prim, If FALSE&#32;(default) inventory dropping can still be done, but it is restricted only to people with modify permissions to that prim",
+        "description": "boolean, If TRUE it allows anyone, even if they don't have modify rights to a prim, regardless of whether they are the owner or not, to drop items into that prim, If FALSE (default) inventory dropping can still be done, but it is restricted only to people with modify permissions to that prim",
         "newtooltip": "Boolean. If TRUE, allows anyone to drop inventory items into the prim (even without modify rights). If FALSE, restricts inventory dropping to those with modify permissions."
       }
     },
@@ -305,7 +306,7 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
         "newname": "link",
-        "description": "Link number (1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The index of the prim in the linkset (1 for root, >1 for children), or a LINK_* flag."
       }
     },
@@ -385,7 +386,7 @@
   },
   "llBreakAllLinks": {
     "tooltip": "De-links all prims in the link set.\nRequires the PERMISSION_CHANGE_LINKS runtime permission.",
-    "description": "Delinks all prims in the link set.\n\n\n To run this function the script must request the PERMISSION_CHANGE_LINKS permission with llRequestPermissions&#32;and it must be granted by the owner.",
+    "description": "Delinks all prims in the link set.\n\n\n To run this function the script must request the PERMISSION_CHANGE_LINKS permission with llRequestPermissions and it must be granted by the owner.",
     "arguments": {},
     "newtooltip": "Delinks all prims in the linkset. Requires the PERMISSION_CHANGE_LINKS runtime permission, which must be requested and granted by the owner."
   },
@@ -396,7 +397,7 @@
       "LinkNumber": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) &#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars)  ",
         "newtooltip": "The link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) to delink."
       }
     },
@@ -464,11 +465,13 @@
     "arguments": {
       "AgentID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "agentid",
+        "newtooltip": ""
       },
       "ExperienceID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "experienceid",
+        "newtooltip": ""
       }
     },
     "newtooltip": ""
@@ -478,7 +481,8 @@
     "arguments": {
       "AgentID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "agentid",
+        "newtooltip": ""
       }
     },
     "newtooltip": ""
@@ -490,7 +494,7 @@
       "Link": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag representing the target prim."
       },
       "Face": {
@@ -553,7 +557,7 @@
       "ObjectID": {
         "tooltip": "",
         "newname": "id",
-        "description": "filter by&#32;group,&#32;avatar or object UUID",
+        "description": "filter by group, avatar or object UUID",
         "newtooltip": "The group, avatar, or object UUID to filter by."
       },
       "Accept": {
@@ -572,13 +576,13 @@
       "ImpactSound": {
         "tooltip": "",
         "newname": "impact_sound",
-        "description": "a sound in the inventory of the prim this script is in, a UUID&#32;of a sound&#32;or an empty string",
+        "description": "a sound in the inventory of the prim this script is in, a UUID of a sound or an empty string",
         "newtooltip": "The UUID of a sound, the name of a sound in the prim's inventory, or an empty string to suppress sounds."
       },
       "ImpactVolume": {
         "tooltip": "",
         "newname": "impact_volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **impact_volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **impact_volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -591,7 +595,7 @@
       "ImpactSprite": {
         "tooltip": "",
         "newname": "impact_sprite",
-        "description": "a texture in the inventory of the prim this script is in, a UUID&#32;of a texture&#32;or an empty string",
+        "description": "a texture in the inventory of the prim this script is in, a UUID of a texture or an empty string",
         "newtooltip": "The UUID of a texture, the name of a texture in the prim's inventory, or an empty string to suppress sprites."
       }
     },
@@ -694,7 +698,7 @@
     "tooltip": "Generates a damage event on the targeted agent or task.",
     "description": "This function delivers damage to tasks and agent in the same region.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/target\" target=\"_blank\">target</a>": {
+      "target": {
         "tooltip": "Agent or task to receive damage.",
         "newname": "target",
         "description": "The key for the task or avatar that will receive damage.",
@@ -810,7 +814,7 @@
   },
   "llDetachFromAvatar": {
     "tooltip": "Remove the object containing the script from the avatar.\nRequires the PERMISSION_ATTACH runtime permission (automatically granted to attached objects).",
-    "description": "Detach object from avatar.\n\n\n To run this function the script must request the PERMISSION_ATTACH permission with llRequestPermissions&#32;and it must be granted by the owner.\n\n\n The detached object is no longer present in the sim. There is no lsl equivilent of the \"Drop\" command that moves an attachment onto the ground. Use llRezObject if you need similar behavior",
+    "description": "Detach object from avatar.\n\n\n To run this function the script must request the PERMISSION_ATTACH permission with llRequestPermissions and it must be granted by the owner.\n\n\n The detached object is no longer present in the sim. There is no lsl equivilent of the \"Drop\" command that moves an attachment onto the ground. Use llRezObject if you need similar behavior",
     "arguments": {},
     "newtooltip": "Detaches the object containing the script from the avatar. Requires the PERMISSION_ATTACH runtime permission (automatically granted to attached objects). Note that the detached object is completely removed from the region and not dropped on the ground."
   },
@@ -1080,7 +1084,7 @@
   },
   "llDie": {
     "tooltip": "Delete the object which holds the script.",
-    "description": "Deletes the object. The object does not go to the owner's Inventory 🗑 Trash.\n\n\n If called in any prim in the link set the result will be the deletion of the entire object.\n\n\n To remove a single prim from an object, use llBreakLink first.",
+    "description": "Deletes the object. The object does not go to the owner's Inventory 🗑 Trash.\n\n\n If called in any prim in the link set the result will be the deletion of the entire object.\n\n\n To remove a single prim from an object, use llBreakLink first.\n\n\n llRemoveInventory of llGetScriptName deletes just the calling script, rather than all of the objects that the calling script contains. For instance, you can write a script that chats a little when dragged onto an object from inventory and then politely disappears itself, such as:",
     "arguments": {},
     "newtooltip": "Deletes the entire object containing the script (the object does not go to inventory). Use llBreakLink first to delete only a single prim."
   },
@@ -1135,7 +1139,7 @@
   },
   "llEmail": {
     "tooltip": "Sends email to Address with Subject and Message.\nSends an email to Address with Subject and Message.",
-    "description": "Sends an email to address with subject and message.",
+    "description": "Sends an email to address with subject and message.\n\n\n Get the region name and object position of the object that sent the email:",
     "arguments": {
       "Address": {
         "tooltip": "",
@@ -1188,7 +1192,7 @@
       "TargetID": {
         "tooltip": "Agent or object to evade.",
         "newname": "target",
-        "description": "group,&#32;avatar or object UUID&#32;to evade",
+        "description": "group, avatar or object UUID to evade",
         "newtooltip": "The UUID of the group, avatar, or object to evade."
       },
       "Options": {
@@ -1237,15 +1241,18 @@
     "arguments": {
       "NotecardName": {
         "tooltip": "",
-        "newname": ""
+        "newname": "notecardname",
+        "newtooltip": "The name of the target notecard."
       },
       "Pattern": {
         "tooltip": "Regex pattern to find in the notecard text.",
-        "newname": ""
+        "newname": "pattern",
+        "newtooltip": "The regular expression pattern to search for."
       },
       "Options": {
         "tooltip": "A list of options to control the search. Included for future expansion, should be []",
-        "newname": ""
+        "newname": "options",
+        "newtooltip": "A list of options to control the search (currently unused, should be [])."
       }
     },
     "newtooltip": "Searches the text of a cached notecard for lines containing the given pattern and returns the number of matches found through a dataserver event."
@@ -1257,7 +1264,7 @@
       "NotecardName": {
         "tooltip": "",
         "newname": "name",
-        "description": "a notecard in the inventory of the prim this script is in&#32;or a UUID&#32;of a notecard",
+        "description": "a notecard in the inventory of the prim this script is in or a UUID of a notecard",
         "newtooltip": "The name of a notecard in the prim's inventory, or a UUID."
       },
       "Pattern": {
@@ -1294,7 +1301,7 @@
       "Source": {
         "tooltip": "Global coordinate from which to flee.",
         "newname": "position",
-        "description": "position in region coordinates&#32;from which to flee.",
+        "description": "position in region coordinates from which to flee.",
         "newtooltip": "The position vector in region coordinates from which to flee."
       },
       "Distance": {
@@ -1332,7 +1339,7 @@
       "Enable": {
         "tooltip": "Boolean, if TRUE when an avatar sits on the prim, the avatar will be forced into mouse-look mode.\\nFALSE is the default setting and will undo a previously set TRUE or do nothing.",
         "newname": "mouselook",
-        "description": "boolean, if TRUE when an avatar sits on the prim, the avatar will be forced into mouselook mode, if FALSE&#32;(default) the avatar will keep their current camera mode.",
+        "description": "boolean, if TRUE when an avatar sits on the prim, the avatar will be forced into mouselook mode, if FALSE (default) the avatar will keep their current camera mode.",
         "newtooltip": "Boolean. If TRUE, forces a sitting avatar into mouselook; if FALSE, allows them to keep their current camera mode."
       }
     },
@@ -1340,7 +1347,7 @@
   },
   "llFrand": {
     "tooltip": "Returns a pseudo random number in the range [0, Magnitude] or [Magnitude, 0].\\nReturns a pseudo-random number between [0, Magnitude].",
-    "description": "Returns a float that is pseudo random in the range [0.0, mag) or (mag, 0.0].[[1]](#footnote_1)\n\n\n This means that the returned value can be any value in the range 0.0 to mag including 0.0, but not including the value of mag itself. The sign of mag matches the return.",
+    "description": "Returns a float that is pseudo random in the range [0.0, mag) or (mag, 0.0].[[1]](#footnote_1)\n\n\n This means that the returned value can be any value in the range 0.0 to mag including 0.0, but not including the value of mag itself. The sign of mag matches the return.\n\n\n Pseudo-random_Number_Generator - Suitable for apps which require repeatable results that feel random.",
     "arguments": {
       "Magnitude": {
         "tooltip": "",
@@ -1391,15 +1398,19 @@
   },
   "llGetAgentList": {
     "tooltip": "Requests a list of agents currently in the region, limited by the scope parameter.\\nReturns a list [key UUID-0, key UUID-1, ..., key UUID-n] or [string error_msg] - returns avatar keys for all agents in the region limited to the area(s) specified by scope",
-    "description": "Requests a list of agents currently in the region, limited by the scope parameter.\n\n\n Returns a list '[[key](https://wiki.secondlife.com/wiki/Key) id0, [key](https://wiki.secondlife.com/wiki/Key) id1, ..., [key](https://wiki.secondlife.com/wiki/Key) idn]' or '[[string](https://wiki.secondlife.com/wiki/String) error_msg]' - returns avatar keys for all agents in the region limited to the area(s) specified by scope\n\n\n • integer\n\n\n scope\n\n\n –",
+    "description": "Requests a list of agents currently in the region, limited by the scope parameter.\n\n\n Returns a list '[[key](https://wiki.secondlife.com/wiki/Key) id0, [key](https://wiki.secondlife.com/wiki/Key) id1, ..., [key](https://wiki.secondlife.com/wiki/Key) idn]' or '[[string](https://wiki.secondlife.com/wiki/String) error_msg]' - returns avatar keys for all agents in the region limited to the area(s) specified by scope",
     "arguments": {
       "Scope": {
         "tooltip": "The scope (region, parcel, parcel same owner) to return agents for.",
-        "newname": ""
+        "newname": "scope",
+        "description": "<table><tbody><tr><th>AGENT_LIST_* flag specifies the selection scope</th></tr><tr><td>AGENT_LIST_PARCEL - returns only agents on the same parcel where the script is running.\nAGENT_LIST_PARCEL_OWNER - returns only agents on any parcel in the region where the parcel owner is the same as the owner of the parcel under the scripted object.\nAGENT_LIST_REGION - returns any/all agents in the region.</td></tr></tbody></table>",
+        "newtooltip": "The scope flag (AGENT_LIST_PARCEL, AGENT_LIST_PARCEL_OWNER, or AGENT_LIST_REGION) to filter the returned agents."
       },
       "Options": {
         "tooltip": "List of options to apply. Current unused.",
-        "newname": ""
+        "newname": "options",
+        "description": "Unused.",
+        "newtooltip": "A list of options to apply (currently unused)."
       }
     },
     "newtooltip": "Requests a list of avatar UUID keys for agents currently in the region, limited by scope. Returns a list of keys or a list containing an error message string."
@@ -1693,7 +1704,8 @@
     "arguments": {
       "AgentID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "agentid",
+        "newtooltip": ""
       }
     },
     "newtooltip": ""
@@ -1901,7 +1913,7 @@
       "LinkNumber": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       }
     },
@@ -1914,7 +1926,7 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Face": {
@@ -1939,7 +1951,7 @@
       "LinkNumber": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       }
     },
@@ -1958,7 +1970,7 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       }
     },
@@ -1966,18 +1978,18 @@
   },
   "llGetLinkPrimitiveParams": {
     "tooltip": "Returns the list of primitive attributes requested in the Parameters list for LinkNumber.\\nPRIM_* flags can be broken into three categories, face flags, prim flags, and object flags.\\n* Supplying a prim or object flag will return that flag's attributes.\\n* Face flags require the user to also supply a face index parameter.",
-    "description": "Identical to llGetPrimitiveParams except that it acts on the prim specified by the link number given.",
+    "description": "These functions are very similar; the difference is the latter takes a link parameter, and does not cause the script to sleep.\n\n\n PRIM_* flags can be broken into three categories, face flags, prim flags, and object flags.\n\n\n Identical to llGetPrimitiveParams except that it acts on the prim specified by the link number given.\n\n\n Returns attribute values (a list) for the attributes requested in the params list for the link.\n\n\n SetPrimitiveParams-Example by Anylyn Hax makes reading primitive parameters easy.\nSetPrimitiveParams-Example by Anylyn Hax makes reading primitive parameters easy.",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
         "newname": "link",
-        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a LINK_* flag to get the parameters of",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag to get the parameters of",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag to retrieve parameters from."
       },
       "Parameters": {
         "tooltip": "PRIM_* flags.",
         "newname": "params",
-        "description": "PRIM_* flags",
+        "description": "PRIM_ flagsPRIM_ flags",
         "newtooltip": "A list of PRIM_* flags specifying the attributes to retrieve."
       }
     },
@@ -1990,7 +2002,7 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;The link ID",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag The link ID",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       }
     },
@@ -1998,7 +2010,7 @@
   },
   "llGetListEntryType": {
     "tooltip": "Returns the type of the index entry in the list (TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING, TYPE_KEY, TYPE_VECTOR, TYPE_ROTATION, or TYPE_INVALID if index is off list).\\nReturns the type of the variable at Index in ListVariable.",
-    "description": "Returns the type (an integer) of the entry at index in src.",
+    "description": "Returns the type (an integer) of the entry at index in src.\n\n\n This function has two primary uses: serializing a list to a string, debugging.\n\n\n This snippet produces an LSL formatted dump of a list that can be pasted back into LSL.\n\n\n For a more complex and robust list (de)serializer see TightListType.",
     "arguments": {
       "ListVariable": {
         "tooltip": "",
@@ -2029,7 +2041,7 @@
   },
   "llGetLocalPos": {
     "tooltip": "Returns the position relative to the root.\nReturns the local position of a child object relative to the root.",
-    "description": "Returns a vector that is the position relative (local) to the root.\n\n\n If called from the root prim it returns the position in the region unless it is attached to which it returns the position relative to the attach point.",
+    "description": "Returns a vector that is the position relative (local) to the root.\n\n\n If called from the root prim it returns the position in the region unless it is attached to which it returns the position relative to the attach point.\n\n\n There is no function to set the position of a prim local to itself.\nTo set the position of a prim local to itself you would have to do something like:\n\n\n Or:",
     "arguments": {},
     "newtooltip": "Returns a position vector relative to the root prim. If called from the root prim, it returns the global region position (or the position relative to the attachment point if attached)."
   },
@@ -2107,7 +2119,7 @@
       "NotecardName": {
         "tooltip": "",
         "newname": "name",
-        "description": "a notecard in the inventory of the prim this script is in&#32;or a UUID&#32;of a notecard",
+        "description": "a notecard in the inventory of the prim this script is in or a UUID of a notecard",
         "newtooltip": "The name of the notecard in the prim's inventory, or a UUID."
       },
       "LineNumber": {
@@ -2126,7 +2138,7 @@
       "NotecardName": {
         "tooltip": "",
         "newname": "name",
-        "description": "a notecard in the inventory of the prim this script is in&#32;or a UUID&#32;of a notecard",
+        "description": "a notecard in the inventory of the prim this script is in or a UUID of a notecard",
         "newtooltip": "The name of the notecard in the prim's inventory, or a UUID."
       },
       "LineNumber": {
@@ -2145,7 +2157,7 @@
       "NotecardName": {
         "tooltip": "",
         "newname": "name",
-        "description": "a notecard in the inventory of the prim this script is in&#32;or a UUID&#32;of a notecard",
+        "description": "a notecard in the inventory of the prim this script is in or a UUID of a notecard",
         "newtooltip": "The name of the notecard in the prim's inventory, or a UUID."
       }
     },
@@ -2177,12 +2189,12 @@
   },
   "llGetObjectDetails": {
     "tooltip": "Returns a list of object details specified in the Parameters list for the object or avatar in the region with key ID.\\nParameters are specified by the OBJECT_* constants.",
-    "description": "Returns a list of the details for id, specifically those requested in params.",
+    "description": "Returns a list of the details for id, specifically those requested in params.\n\n\n See Link/Get for some link related helper functions. Also see llGetLinkPrimitiveParams if you need to get the position and rotation of a linked prim.",
     "arguments": {
       "ID": {
         "tooltip": "Prim or avatar UUID that is in the same region.",
         "newname": "id",
-        "description": "avatar or prim UUID that is in the same region&#32;or adjacent regions*",
+        "description": "avatar or prim UUID that is in the same region or adjacent regions*",
         "newtooltip": "The UUID of the avatar or prim (in the same or adjacent regions) to query."
       },
       "Parameters": {
@@ -2196,21 +2208,21 @@
   },
   "llGetObjectLinkKey": {
     "tooltip": "Returns the key of the linked prim link_no in a linkset.\nReturns the key of link_no in the link set specified by id.",
-    "description": "Returns the key of the linked prim link",
+    "description": "Returns the key of the linked prim link in the linkset identified by object_id",
     "arguments": {
       "id": {
         "tooltip": "UUID of prim",
-        "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "newname": "object_id",
         "newtooltip": "The UUID of the target prim or linkset."
       },
       "link_no": {
         "tooltip": "Link number to retrieve",
-        "newname": "",
-        "newtooltip": "The link number (index) of the prim within the linkset to retrieve."
+        "newname": "link",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag of the prim to retrieve."
       }
     },
-    "newtooltip": "Returns the key (UUID) of the child prim link_no within the target linkset specified by link."
+    "newtooltip": "Returns the key (UUID) of the linked child prim specified by link within the linkset identified by object_id."
   },
   "llGetObjectMass": {
     "tooltip": "Returns the mass of the avatar or object in the region.\nGets the mass of the object or avatar corresponding to ID.",
@@ -2265,7 +2277,7 @@
   },
   "llGetOwner": {
     "tooltip": "Returns the object owner's UUID.\nReturns the key for the owner of the object.",
-    "description": "Returns a key that is the object owner's UUID.",
+    "description": "Returns a key that is the object owner's UUID.\n\n\n To determine the owner of an object that might be group-deeded you can use the following code snippet. Setting the 'groupAdmin' parameter to 'TRUE' can be used to specify that group members should always count as owners, even if the object isn't deeded to that group.",
     "arguments": {},
     "newtooltip": "Returns the key (UUID) of the object's current owner."
   },
@@ -2308,7 +2320,7 @@
       "Position": {
         "tooltip": "",
         "newname": "pos",
-        "description": "position in region coordinates&#32;(z component is ignored)",
+        "description": "position in region coordinates (z component is ignored)",
         "newtooltip": "The position vector in region coordinates (the Z component is ignored)."
       }
     },
@@ -2321,7 +2333,7 @@
       "Position": {
         "tooltip": "Region coordinates (z is ignored) of parcel.",
         "newname": "pos",
-        "description": "position in region coordinates&#32;(z component is ignored)",
+        "description": "position in region coordinates (z component is ignored)",
         "newtooltip": "The position vector in region coordinates (the Z component is ignored)."
       },
       "SimWide": {
@@ -2346,7 +2358,7 @@
       "Position": {
         "tooltip": "Region coordinates of parcel to query.",
         "newname": "pos",
-        "description": "position in region coordinates&#32;(z component is ignored)",
+        "description": "position in region coordinates (z component is ignored)",
         "newtooltip": "The position vector in region coordinates (the Z component is ignored)."
       },
       "Category": {
@@ -2403,7 +2415,7 @@
   },
   "llGetPrimitiveParams": {
     "tooltip": "Returns the primitive parameters specified in the parameters list.\nReturns primitive parameters specified in the Parameters list.",
-    "description": "Returns attribute values (a list) for the attributes requested in the params list.",
+    "description": "These functions are very similar; the difference is the latter takes a link parameter, and does not cause the script to sleep.\n\n\n PRIM_* flags can be broken into three categories, face flags, prim flags, and object flags.\n\n\n Returns attribute values (a list) for the attributes requested in the params list.\n\n\n SetPrimitiveParams-Example by Anylyn Hax makes reading primitive parameters easy.\nSetPrimitiveParams-Example by Anylyn Hax makes reading primitive parameters easy.",
     "arguments": {
       "Parameters": {
         "tooltip": "PRIM_* flags and face parameters",
@@ -3092,7 +3104,7 @@
   },
   "llInsertString": {
     "tooltip": "Inserts SourceVariable into TargetVariable at Position, and returns the result.\\nInserts SourceVariable into TargetVariable at Position and returns the result. Note this does not alter TargetVariable.",
-    "description": "Returns the string dst with src inserted starting at pos.",
+    "description": "Returns the string dst with src inserted starting at pos.\n\n\n This function will allow you to use a negative number as the position:",
     "arguments": {
       "TargetVariable": {
         "tooltip": "",
@@ -3162,13 +3174,13 @@
     "tooltip": "Checks the face for a PBR render material.",
     "description": "Returns a boolean (an integer) that is TRUE if the material is PBR and FALSE if it is Blinn-Phong diffuse texture on face",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/link\" target=\"_blank\">link</a>": {
+      "link": {
         "tooltip": "Link number to check.",
         "newname": "link",
         "description": "Link to inspect for PBR, may be LINK_THIS or LINK_ROOT",
         "newtooltip": "The link number (or LINK_* flag) of the prim to inspect."
       },
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/face\" target=\"_blank\">face</a>": {
+      "face": {
         "tooltip": "Side to check for a PBR material. Use ALL_SIDES to check for all.",
         "newname": "face",
         "description": "Face to examine for PBR, or ALL_SIDES",
@@ -3292,7 +3304,7 @@
     "tooltip": "Converts a color from the linear colorspace to sRGB.",
     "description": "Returns a vector Transforms a color specified in linear RGB colorspace into the sRGB colorspace.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/color\" target=\"_blank\">color</a>": {
+      "color": {
         "tooltip": "A color in the linear colorspace.",
         "newname": "color",
         "description": "Color in the linear color space.",
@@ -3303,33 +3315,38 @@
   },
   "llLinkAdjustSoundVolume": {
     "tooltip": "Adjusts the volume (0.0 - 1.0) of the currently playing sound attached to the link.\\nThis function has no effect on sounds started with llTriggerSound.",
+    "description": "Adjusts volume of attached sound.",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
-        "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
-        "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
+        "newname": "link",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag of the prim to adjust."
       },
       "Volume": {
         "tooltip": "The volume to set.",
-        "newname": ""
+        "newname": "volume",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
+        "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
     "newtooltip": "Adjusts the volume of the currently playing sound attached to the linked prim link (has no effect on sounds started with llTriggerSound)."
   },
   "llLinkParticleSystem": {
     "tooltip": "Creates a particle system in prim LinkNumber based on Rules. An empty list removes a particle system from object.\\nList format is [ rule-1, data-1, rule-2, data-2 ... rule-n, data-n ].\\nThis is identical to llParticleSystem except that it applies to a specified linked prim and not just the prim the script is in.",
-    "description": "Defines a particle system for the containing prim based on a list of rules.",
+    "description": "These functions are almost entirely identical.\n\n\n The big difference is that llParticleSystem acts upon the prim the script is in, llLinkParticleSystem on the other hand can act upon any prim in the object.\n\n\n A particle system defined by a list of rules is set for the prim(s) link.\n\n\n Useful functions for storing/retrieving color and alpha values to/from integers:",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
-        "newname": "rules",
-        "description": "Particle system rules list in the format [ rule1, data1, rule2, data2 . . . rulen, datan ]",
-        "newtooltip": "A list of particle system rules and data pairs [rule1, data1, ...]."
+        "newname": "link",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Rules": {
         "tooltip": "Particle system rules list in the format [ rule1, data1, rule2, data2 . . . ruleN, dataN ]",
-        "newname": ""
+        "newname": "rules",
+        "description": "Particle system rules list in the format [ rule1, data1, rule2, data2 . . . rulen, datan ]",
+        "newtooltip": "A list of particle system rules and data pairs [rule1, data1, ...]."
       }
     },
     "newtooltip": "Creates or updates a particle system on the linked prim link based on the list of rules. An empty list removes the particle system."
@@ -3341,19 +3358,19 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       },
       "Flags": {
@@ -3392,16 +3409,16 @@
   },
   "llLinksetDataDelete": {
     "tooltip": "Deletes a name:value pair from the linkset's datastore.",
-    "description": "Removes an unprotected name:value pair from the linkset's datastore. If the pair was created\n\n\n Returns an integer success or failure code.",
+    "description": "The llLinksetDataDelete and llLinksetDataDeleteProtected functions erases a name:value pair from the linkset's datastore.\n\n\n When this function successfully removes a name:value pair a linkset_data event is triggered in all scripts running in the linkset with an action of LINKSETDATA_DELETE and the name parameter set to the name that was removed. The value parameter in the event is set to an empty string.\n\n\n Removes an unprotected name:value pair from the linkset's datastore. If the pair was created\n\n\n Returns an integer success or failure code.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+      "name": {
         "tooltip": "Key to delete from the linkset's datastore.",
         "newname": "name",
         "description": "The key of the linkset name:value pair to be deleted.",
         "newtooltip": "The key name of the key-value pair to delete."
       }
     },
-    "newtooltip": "Deletes the unprotected key-value pair specified by name from the linkset's datastore."
+    "newtooltip": "Deletes the unprotected key-value pair specified by name from the linkset's datastore, triggering a linkset_data event."
   },
   "llLinksetDataDeleteFound": {
     "tooltip": "'Deletes all key value pairs in the linkset data where the key matches the regular expression in search. Returns a list consisting of [ #deleted, #not deleted ].'",
@@ -3424,21 +3441,22 @@
   },
   "llLinksetDataDeleteProtected": {
     "tooltip": "Deletes a name:value pair from the linkset's datastore.",
-    "description": "Removes an unprotected name:value pair from the linkset's datastore. If the pair was created\n\n\n Returns an integer success or failure code.",
+    "description": "The llLinksetDataDelete and llLinksetDataDeleteProtected functions erases a name:value pair from the linkset's datastore.\n\n\n When this function successfully removes a name:value pair a linkset_data event is triggered in all scripts running in the linkset with an action of LINKSETDATA_DELETE and the name parameter set to the name that was removed. The value parameter in the event is set to an empty string.\n\n\n The llLinksetDataDeleteProtected function erases a protected name:value pair from the linkset's datastore.\n\n\n Returns an integer success or failure code.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+      "name": {
         "tooltip": "Key to delete from the linkset's datastore.",
         "newname": "name",
-        "description": "The key of the linkset name:value pair to be deleted.",
+        "description": "The key of the linkset name:value pair to be deleted.The key of the linkset name:value pair to be deleted.",
         "newtooltip": "The key name of the protected key-value pair to delete."
       },
       "pass": {
         "tooltip": "Pass phrase to access protected data.",
-        "newname": "",
+        "newname": "pass",
+        "description": "A pass phrase previously used to protect the name:value pair.",
         "newtooltip": "The passphrase required to delete the protected key."
       }
     },
-    "newtooltip": "Deletes the protected key-value pair specified by name from the linkset's datastore using the passphrase pass."
+    "newtooltip": "Deletes the protected key-value pair specified by name from the linkset's datastore using the passphrase pass, triggering a linkset_data event."
   },
   "llLinksetDataFindKeys": {
     "tooltip": "Returns a list of keys from the linkset's data store matching the search parameter.",
@@ -3486,9 +3504,9 @@
   },
   "llLinksetDataRead": {
     "tooltip": "Returns the value stored for a key in the linkset.",
-    "description": "Reads an unprotected name:value pair from the linkset's datastore.\n\n\n Returns a string value corresponding to name",
+    "description": "The llLinksetDataRead and llLinksetDataReadProtected functions return the value in the linkset's datastore for the provided name. If name is not found, these functions return an empty string.\n\n\n Reads an unprotected name:value pair from the linkset's datastore.\n\n\n Returns a string value corresponding to name",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+      "name": {
         "tooltip": "Key to retrieve from the linkset's datastore.",
         "newname": "name",
         "description": "The key of the linkset name:value pair to be read.",
@@ -3499,17 +3517,18 @@
   },
   "llLinksetDataReadProtected": {
     "tooltip": "Returns the value stored for a key in the linkset.",
-    "description": "Reads an unprotected name:value pair from the linkset's datastore.\n\n\n Returns a string value corresponding to name",
+    "description": "The llLinksetDataRead and llLinksetDataReadProtected functions return the value in the linkset's datastore for the provided name. If name is not found, these functions return an empty string.\n\n\n Reads a protected name:value pair from the datastore.\n\n\n Returns a string value corresponding to name",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+      "name": {
         "tooltip": "Key to retrieve from the linkset's datastore.",
         "newname": "name",
-        "description": "The key of the linkset name:value pair to be read.",
+        "description": "The key of the linkset name:value pair to be read.The key of the name:value pair to be read.",
         "newtooltip": "The key of the protected key-value pair to read."
       },
       "pass": {
         "tooltip": "Pass phrase to access protected data.",
-        "newname": "",
+        "newname": "pass",
+        "description": "The pass phrase protecting the name:value pair.",
         "newtooltip": "The passphrase required to read the protected key."
       }
     },
@@ -3523,9 +3542,9 @@
   },
   "llLinksetDataWrite": {
     "tooltip": "Sets a name:value pair in the linkset's datastore",
-    "description": "Creates or updates an unprotected name:value pair from the linkset's datastore.\n\n\n Returns an integer success or failure code.",
+    "description": "The llLinksetDataWrite and llLinksetDataWriteProtected functions create or update a name:value pair in the linkset datastore. The linkset datastore is a semi-permanent key-value store that is retained as a prim property regardless of whether the script is deleted or reset (via manual reset, llResetScript, llResetOtherScript, or cloning the object). If value is an empty string, the pair is deleted.\n\n\n This function returns 0 on success or an error code on failure.\n\n\n When these functions are called, the linkset_data event is triggered in all scripts running in the linkset with an action of LINKSETDATA_UPDATE, or LINKSETDATA_DELETE if the pair is deleted.\n\n\n The linkset datastore can contain up to 131072 bytes (128 KiB) of data and has no impact on script memory usage aside from the functions and events used to interact with it. Every pair written to the datastore consumes a number of bytes in the datastore equal to the length of name plus the length of value, plus an additional 32 bytes if written using llLinksetDataWriteProtected.\n\n\n Creates or updates an unprotected name:value pair from the linkset's datastore.\n\n\n Returns an integer success or failure code.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+      "name": {
         "tooltip": "key for the name:value pair.",
         "newname": "name",
         "description": "The key of the name:value pair in the datastore to be updated or created.",
@@ -3542,9 +3561,9 @@
   },
   "llLinksetDataWriteProtected": {
     "tooltip": "Sets a name:value pair in the linkset's datastore",
-    "description": "Creates or updates an unprotected name:value pair from the linkset's datastore.\n\n\n Returns an integer success or failure code.",
+    "description": "The llLinksetDataWrite and llLinksetDataWriteProtected functions create or update a name:value pair in the linkset datastore. The linkset datastore is a semi-permanent key-value store that is retained as a prim property regardless of whether the script is deleted or reset (via manual reset, llResetScript, llResetOtherScript, or cloning the object). If value is an empty string, the pair is deleted.\n\n\n This function returns 0 on success or an error code on failure.\n\n\n When these functions are called, the linkset_data event is triggered in all scripts running in the linkset with an action of LINKSETDATA_UPDATE, or LINKSETDATA_DELETE if the pair is deleted.\n\n\n The linkset datastore can contain up to 131072 bytes (128 KiB) of data and has no impact on script memory usage aside from the functions and events used to interact with it. Every pair written to the datastore consumes a number of bytes in the datastore equal to the length of name plus the length of value, plus an additional 32 bytes if written using llLinksetDataWriteProtected.\n\n\n Creates or updates a protected name:value pair from the linkset's datastore. Further attempts to read, write or update the name:value pair must use the protected versions of those functions and must supply the same string that was used in pass.\n\n\n Returns an integer success or failure code.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+      "name": {
         "tooltip": "key for the name:value pair.",
         "newname": "name",
         "description": "The key of the name:value pair in the datastore to be updated or created.",
@@ -3558,7 +3577,8 @@
       },
       "pass": {
         "tooltip": "Pass phrase to access protected data.",
-        "newname": "",
+        "newname": "pass",
+        "description": "A pass phrase used to protect the name:value pair.",
         "newtooltip": "The passphrase used to protect or update the key."
       }
     },
@@ -3566,30 +3586,37 @@
   },
   "llLinkSetSoundQueueing": {
     "tooltip": "Limits radius for audibility of scripted sounds (both attached and triggered) to distance Radius around the link.",
+    "description": "Set whether attached sounds wait for the current sound to finish. If queue is TRUE, queuing is enabled, if FALSE queuing is disabled. Sound queuing is disabled by default.",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
-        "newname": "queue",
-        "description": "boolean, sound queuing: TRUE enables, FALSE&#32;(default) disables",
-        "newtooltip": "Boolean. If TRUE, sound queuing is enabled; if FALSE, it is disabled."
+        "newname": "link",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "QueueEnable": {
         "tooltip": "'Boolean, sound queuing for the linked prim: TRUE enables, FALSE disables (default).'",
-        "newname": ""
+        "newname": "queue",
+        "description": "boolean, sound queuing: TRUE enables, FALSE (default) disables",
+        "newtooltip": "Boolean. If TRUE, sound queuing is enabled; if FALSE, it is disabled."
       }
     },
     "newtooltip": "Enables or disables sound queuing on the linked prim link. When set to TRUE, sounds will queue and play in sequence."
   },
   "llLinkSetSoundRadius": {
     "tooltip": "Limits radius for audibility of scripted sounds (both attached and triggered) to distance Radius around the link.",
+    "description": "Establishes a hard cut-off radius for audibility for llPlaySound, llLoopSound and llLinkPlaySound in non-triggered mode. Sounds are not heard until an observer's camera enters the radius, and immediately stop when leaving the radius. Volume fading is still determined by the distance from camera, not the radius.",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
-        "newname": ""
+        "newname": "link",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
+        "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "radius": {
         "tooltip": "Maximum distance that sounds can be heard.",
-        "newname": "",
+        "newname": "radius",
+        "description": "in meters",
         "newtooltip": "The maximum distance in meters at which the sounds can be heard."
       }
     },
@@ -3602,7 +3629,7 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag of the prim.'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Offset": {
@@ -3622,12 +3649,12 @@
   },
   "llLinkStopSound": {
     "tooltip": "Stops playback of the currently attached sound on a link.",
-    "description": "Function: llLinkStopSound( integer link );",
+    "description": "Stops the attached sound(s) currently playing, if they were started by llLoopSound",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       }
     },
@@ -3872,7 +3899,7 @@
       "Channel": {
         "tooltip": "",
         "newname": "channel",
-        "description": "input chat channel, any integer value&#32;(-2147483648 through 2147483647)",
+        "description": "input chat channel, any integer value (-2147483648 through 2147483647)",
         "newtooltip": "The input chat channel to listen on (any integer from -2147483648 to 2147483647)."
       },
       "SpeakersName": {
@@ -3884,7 +3911,7 @@
       "SpeakersID": {
         "tooltip": "",
         "newname": "id",
-        "description": "filter for specific&#32;avatar or prim UUID",
+        "description": "filter for specific avatar or prim UUID",
         "newtooltip": "The specific avatar or prim UUID to filter by (or NULL_KEY for no filter)."
       },
       "Text": {
@@ -3909,7 +3936,7 @@
       "Active": {
         "tooltip": "",
         "newname": "active",
-        "description": "TRUE&#32;(default) activates, FALSE deactivates",
+        "description": "TRUE (default) activates, FALSE deactivates",
         "newtooltip": "Boolean. If TRUE, activates the listener; if FALSE, deactivates it."
       }
     },
@@ -3930,7 +3957,7 @@
   },
   "llListFindList": {
     "tooltip": "Returns the first index where Find appears in ListVariable. Returns -1 if not found.",
-    "description": "Returns the integer index of the first instance of test in src.",
+    "description": "Returns the integer index of the first instance of test in src.\n\n\n An easy way to see if an item exists in a list...",
     "arguments": {
       "ListVariable": {
         "tooltip": "",
@@ -4234,13 +4261,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -4253,13 +4280,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -4272,13 +4299,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -4316,13 +4343,13 @@
       "Texture": {
         "tooltip": "",
         "newname": "texture",
-        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "description": "a texture in the inventory of the prim this script is in or a UUID of a texture",
         "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
       },
       "Offset": {
         "tooltip": "",
         "newname": "offset",
-        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "description": "offset relative to the prim's position and expressed in local coordinates and is completely ignored.",
         "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
       }
     },
@@ -4360,13 +4387,13 @@
       "Texture": {
         "tooltip": "",
         "newname": "texture",
-        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "description": "a texture in the inventory of the prim this script is in or a UUID of a texture",
         "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
       },
       "Offset": {
         "tooltip": "",
         "newname": "offset",
-        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "description": "offset relative to the prim's position and expressed in local coordinates and is completely ignored.",
         "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
       }
     },
@@ -4409,13 +4436,13 @@
       "Texture": {
         "tooltip": "",
         "newname": "texture",
-        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "description": "a texture in the inventory of the prim this script is in or a UUID of a texture",
         "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
       },
       "Offset": {
         "tooltip": "",
         "newname": "offset",
-        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "description": "offset relative to the prim's position and expressed in local coordinates and is completely ignored.",
         "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
       },
       "Bounce_Offset": {
@@ -4458,13 +4485,13 @@
       "Texture": {
         "tooltip": "",
         "newname": "texture",
-        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "description": "a texture in the inventory of the prim this script is in or a UUID of a texture",
         "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
       },
       "Offset": {
         "tooltip": "",
         "newname": "offset",
-        "description": "offset relative to the prim's position and expressed in local coordinates&#32;and is completely ignored.",
+        "description": "offset relative to the prim's position and expressed in local coordinates and is completely ignored.",
         "newtooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system)."
       }
     },
@@ -4532,7 +4559,7 @@
       "Direction": {
         "tooltip": "",
         "newname": "look_at",
-        "description": "position in local coordinates&#32;(not used)",
+        "description": "position in local coordinates (not used)",
         "newtooltip": "Position in local coordinates (currently unused/ignored)."
       }
     },
@@ -4562,7 +4589,7 @@
       "LinkNumber": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag, controls which prim(s) receive the link_message.&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag, controls which prim(s) receive the link_message. ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag controlling which prim(s) receive the message."
       },
       "Number": {
@@ -4679,7 +4706,7 @@
       "Location": {
         "tooltip": "Region coordinates for the character to navigate to.",
         "newname": "pos",
-        "description": "position in region coordinates&#32;for the character to navigate to.",
+        "description": "position in region coordinates for the character to navigate to.",
         "newtooltip": "The destination position vector in region coordinates."
       },
       "Options": {
@@ -4732,7 +4759,7 @@
         "description": "URL to open in the floater.",
         "newtooltip": "The URL to load within the opened floater."
       },
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/params\" target=\"_blank\">params</a>": {
+      "params": {
         "tooltip": "Parameters to apply to open floater",
         "newname": "params",
         "description": "Options to apply to floater.",
@@ -4757,7 +4784,7 @@
         "description": "Source string for character ordinal.",
         "newtooltip": "The source string containing the character."
       },
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/index\" target=\"_blank\">index</a>": {
+      "index": {
         "tooltip": "Index of character to convert to unicode.",
         "newname": "index",
         "description": "Index of character ordinal to retrieve.",
@@ -4773,7 +4800,7 @@
       "ID": {
         "tooltip": "",
         "newname": "id",
-        "description": "group,&#32;avatar or object UUID that is in the same region",
+        "description": "group, avatar or object UUID that is in the same region",
         "newtooltip": "The UUID of the group, avatar, or object to check."
       }
     },
@@ -4819,7 +4846,7 @@
   },
   "llParseString2List": {
     "tooltip": "Converts Text into a list, discarding Separators, keeping Spacers (Separators and Spacers must be lists of strings, maximum of 8 each).\\nSeparators and Spacers are lists of strings with a maximum of 8 entries each.",
-    "description": "Returns a list that is src broken into a list of strings, discarding separators, keeping spacers, discards any null (empty string) values generated.",
+    "description": "Returns a list that is src broken into a list of strings, discarding separators, keeping spacers, discards any null (empty string) values generated.\n\n\n Examples of processing more than 8 spacers or separators:",
     "arguments": {
       "Text": {
         "tooltip": "",
@@ -4844,7 +4871,7 @@
   },
   "llParseStringKeepNulls": {
     "tooltip": "Breaks Text into a list, discarding separators, keeping spacers, keeping any null values generated. (separators and spacers must be lists of strings, maximum of 8 each).\\nllParseStringKeepNulls works almost exactly like llParseString2List, except that if a null is found it will add a null-string instead of discarding it like llParseString2List does.",
-    "description": "Returns a list that is src broken into a list, discarding separators, keeping spacers, keeping any null values generated.",
+    "description": "Returns a list that is src broken into a list, discarding separators, keeping spacers, keeping any null values generated.\n\n\n Replacement functions without or very large separator/spacer count limits",
     "arguments": {
       "Text": {
         "tooltip": "",
@@ -4869,7 +4896,7 @@
   },
   "llParticleSystem": {
     "tooltip": "Creates a particle system in the prim the script is attached to, based on Parameters. An empty list removes a particle system from object.\\nList format is [ rule-1, data-1, rule-2, data-2 ... rule-n, data-n ].",
-    "description": "Defines a particle system for the containing prim based on a list of rules.",
+    "description": "These functions are almost entirely identical.\n\n\n The big difference is that llParticleSystem acts upon the prim the script is in, llLinkParticleSystem on the other hand can act upon any prim in the object.\n\n\n Defines a particle system for the containing prim based on a list of rules.\n\n\n Useful functions for storing/retrieving color and alpha values to/from integers:",
     "arguments": {
       "Parameters": {
         "tooltip": "",
@@ -4887,7 +4914,7 @@
       "Pass": {
         "tooltip": "Boolean, if TRUE, collisions are passed from children on to parents.",
         "newname": "pass",
-        "description": "PASS_* flag&#32;",
+        "description": "PASS_* flag ",
         "newtooltip": "A PASS_* flag (e.g., PASS_ALWAYS, PASS_IF_NOT_HANDLED, or PASS_NEVER)."
       }
     },
@@ -4900,7 +4927,7 @@
       "Pass": {
         "tooltip": "Boolean, if TRUE, touches are passed from children on to parents.",
         "newname": "pass",
-        "description": "PASS_* flag&#32;",
+        "description": "PASS_* flag ",
         "newtooltip": "A PASS_* flag (e.g., PASS_ALWAYS, PASS_IF_NOT_HANDLED, or PASS_NEVER)."
       }
     },
@@ -4932,13 +4959,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -4951,13 +4978,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -4999,7 +5026,7 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of the sound in the prim's inventory, or a UUID."
       }
     },
@@ -5012,7 +5039,7 @@
       "TargetID": {
         "tooltip": "Agent or object to pursue.",
         "newname": "target",
-        "description": "group,&#32;avatar or object UUID&#32;to pursue.",
+        "description": "group, avatar or object UUID to pursue.",
         "newtooltip": "The UUID of the group, avatar, or object to pursue."
       },
       "Options": {
@@ -5095,7 +5122,7 @@
   },
   "llRegionSayTo": {
     "tooltip": "Says Text, on Channel, to avatar or object indicated by TargetID (if within region).\\nIf TargetID is an avatar and Channel is nonzero, Text can be heard by any attachment on the avatar.",
-    "description": "Says&#91;1&#93; the text supplied in string msg on channel supplied in integer channel to the object or avatar specified by target",
+    "description": "Says[1] the text supplied in string msg on channel supplied in integer channel to the object or avatar specified by target",
     "arguments": {
       "TargetID": {
         "tooltip": "Avatar or object to say to.",
@@ -5328,7 +5355,7 @@
     "tooltip": "Replaces the environment for a parcel or region.",
     "description": "The llReplaceEnvironment function replaces the environment in a parcel or a region. Either for a single elevation track or the entire environment. The owner of the script must have permission to edit the environment on the destination parcel, or be an estate manage in the case of an entire region.\nIn most cases errors are reported as a return value from the function (see table below). However, issues with the environment assets may be reported in the debug chat.\n\n\n Returns an integer",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/position\" target=\"_blank\">position</a>": {
+      "position": {
         "tooltip": "Location of parcel to change. Use <-1, -1, -1> for entire region.",
         "newname": "position",
         "description": "The position in the region of the parcel that will receive the new environment. To change the entire region use <-1, -1, -1>. The z component of the vector is ignored.",
@@ -5623,7 +5650,7 @@
       "Position": {
         "tooltip": "",
         "newname": "position",
-        "description": "position in region coordinates&#32;to place the object",
+        "description": "position in region coordinates to place the object",
         "newtooltip": "The position vector in region coordinates where the root of the object will be placed."
       },
       "Velocity": {
@@ -5796,7 +5823,7 @@
   },
   "llRotBetween": {
     "tooltip": "Returns the rotation to rotate Vector1 to Vector2.\nReturns the rotation needed to rotate Vector1 to Vector2.",
-    "description": "Returns a rotation that is the shortest rotation between the direction start and the direction end",
+    "description": "Returns a rotation that is the shortest rotation between the direction start and the direction end\n\n\n This function adjusts the magnitude of the quaternion so 'start * llRotBetween(start, end) == end' is true as long as neither have a magnitude really close to zero. They do not have to have the same magnitude. (If either is too close to zero than this will return an unadjusted quaternion). While this is mathematically correct, it won't help with floating point rounding errors, so it's more accurate to say 'start * return ≈ end'.",
     "arguments": {
       "Vector1": {
         "tooltip": "",
@@ -5881,12 +5908,12 @@
   },
   "llSameGroup": {
     "tooltip": "Returns TRUE if avatar ID is in the same region and has the same active group, otherwise FALSE.\\nReturns TRUE if the object or agent identified is in the same simulator and has the same active group as this object. Otherwise, returns FALSE.",
-    "description": "Returns a boolean (an integer) that is TRUE if uuid and the prim the script is in are of the same group, otherwise FALSE.",
+    "description": "Returns a boolean (an integer) that is TRUE if uuid and the prim the script is in are of the same group, otherwise FALSE.\n\n\n To determine if an avatar is an object's owner when deeded to group, you should use a function similar to that provided for llGetOwner().\n\n\n The following uses llSameGroup() to determine if a parcel is rezzable based on the object's active group and parcel details. Useful for preventing unnecessary rez failure notices from various types of attached objects (e.g. guns, water/skywalk HUDs, etc).",
     "arguments": {
       "ID": {
         "tooltip": "",
         "newname": "uuid",
-        "description": "group,&#32;avatar or prim UUID that is in the same region",
+        "description": "group, avatar or prim UUID that is in the same region",
         "newtooltip": "The UUID of the group, avatar, or prim to check."
       }
     },
@@ -6015,7 +6042,7 @@
       "ID": {
         "tooltip": "Object or avatar UUID.",
         "newname": "id",
-        "description": "group,&#32;avatar or object UUID that is in the same region",
+        "description": "group, avatar or object UUID that is in the same region",
         "newtooltip": "The UUID of the group, avatar, or object to filter by (or NULL_KEY for no filter)."
       },
       "Type": {
@@ -6058,7 +6085,7 @@
       "ID": {
         "tooltip": "Object or avatar UUID.",
         "newname": "id",
-        "description": "group,&#32;avatar or object UUID",
+        "description": "group, avatar or object UUID",
         "newtooltip": "The UUID of the group, avatar, or object to filter by (or NULL_KEY for no filter)."
       },
       "Type": {
@@ -6117,7 +6144,7 @@
     "tooltip": "Sets the avatar rotation to the given value.",
     "description": "Sets the rotation the avatar to rot.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/rot\" target=\"_blank\">rot</a>": {
+      "rot": {
         "tooltip": "Rotation to turn the avatar to face.",
         "newname": "rot",
         "description": "Rotation for avatar.",
@@ -6182,7 +6209,7 @@
       "AnimationName": {
         "tooltip": "",
         "newname": "anim",
-        "description": "an animation in the inventory of the prim this script is in&#32;or the name of a built-in animation",
+        "description": "an animation in the inventory of the prim this script is in or the name of a built-in animation",
         "newtooltip": "The name of an animation in the prim's inventory, or a built-in animation name."
       }
     },
@@ -6254,12 +6281,12 @@
   },
   "llSetColor": {
     "tooltip": "Sets the color, for the face.\nSets the color of the side specified. If Face is ALL_SIDES, sets the color on all faces.",
-    "description": "Sets the Blinn-Phong color on face of the prim.",
+    "description": "Sets the Blinn-Phong color on face of the prim.\n\n\n llSetColor changes the color of a prim, either on a specific side (face) or the entire prim.\n\n\n Example:\n\n\n r, g, b: values for red, green, blue ranging from <0.0, 0.0, 0.0> (black) to <1.0, 1.0, 1.0> (white)\n\n\n To continue reading see: Newbie Notes",
     "arguments": {
       "Color": {
         "tooltip": "",
         "newname": "color",
-        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> &#61; black, <1.0, 1.0, 1.0> &#61; white)",
+        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> = black, <1.0, 1.0, 1.0> = white)",
         "newtooltip": "The color vector in RGB <R, G, B> (values from 0.0 to 1.0)."
       },
       "Face": {
@@ -6273,7 +6300,7 @@
   },
   "llSetContentType": {
     "tooltip": "Set the media type of an LSL HTTP server response to ContentType.\nHTTPRequestID must be a valid http_request ID. ContentType must be one of the CONTENT_TYPE_* constants.",
-    "description": "Sets the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;Internet media type '\"Content-Type\"' header of any subsequent LSL HTTP server response via llHTTPResponse.",
+    "description": "Sets the [](https://wiki.secondlife.com/wiki/File:Wikipedia-16px.png)&#8201;Internet media type '\"Content-Type\"' header of any subsequent LSL HTTP server response via llHTTPResponse.\n\n\n The client and owner limitations are most likely to remove the possibility of running a website from a prim.",
     "arguments": {
       "HTTPRequestID": {
         "tooltip": "A valid http_request() key",
@@ -6327,7 +6354,8 @@
     "arguments": {
       "ExperienceID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "experienceid",
+        "newtooltip": ""
       }
     },
     "newtooltip": ""
@@ -6465,7 +6493,7 @@
       "LinkNumber": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Opacity": {
@@ -6490,7 +6518,7 @@
       "LinkNumber": {
         "tooltip": "'Prim link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "EyeOffset": {
@@ -6515,13 +6543,13 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Color": {
         "tooltip": "Color in RGB <R.R, G.G, B.B>",
         "newname": "color",
-        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> &#61; black, <1.0, 1.0, 1.0> &#61; white)",
+        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> = black, <1.0, 1.0, 1.0> = white)",
         "newtooltip": "The color vector in RGB <R, G, B> (values from 0.0 to 1.0)."
       },
       "Face": {
@@ -6537,13 +6565,13 @@
     "tooltip": "Sets or changes GLTF Overrides set on the selected faces.",
     "description": "Sets or removes individual overrides applied to a PBR texture on a face",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/link\" target=\"_blank\">link</a>": {
+      "link": {
         "tooltip": "Link number to check.",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/face\" target=\"_blank\">face</a>": {
+      "face": {
         "tooltip": "Side to check for a PBR material. Use ALL_SIDES to check for all.",
         "newname": "face",
         "description": "face number or ALL_SIDES",
@@ -6565,7 +6593,7 @@
       "Link": {
         "tooltip": "Link number (0: unlinked, 1: root prim, >1: child prims).",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Face": {
@@ -6585,12 +6613,12 @@
   },
   "llSetLinkPrimitiveParams": {
     "tooltip": "Deprecated: Use llSetLinkPrimitiveParamsFast instead.",
-    "description": "Sets the prims parameters according to rules.",
+    "description": "These functions are almost entirely identical. For almost all situations we recommend you use llSetLinkPrimitiveParamsFast.\n\n\n These are very powerful & sharp functions. Each PRIM_* rule takes at least one parameter and has its own quirks and its own dedicated article with specific information.\n\n\n There are two differences:\n\n\n Sets the prims parameters according to rules.",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
         "newname": "link",
-        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a LINK_* flag",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Parameters": {
@@ -6603,12 +6631,12 @@
   },
   "llSetLinkPrimitiveParamsFast": {
     "tooltip": "Set primitive parameters for LinkNumber based on Parameters, without a delay.\\nSet parameters for link number, from the list of Parameters, with no built-in script sleep. This function is identical to llSetLinkPrimitiveParams, except without the delay.",
-    "description": "Sets the prims parameters according to rules.",
+    "description": "These functions are almost entirely identical. For almost all situations we recommend you use llSetLinkPrimitiveParamsFast.\n\n\n These are very powerful & sharp functions. Each PRIM_* rule takes at least one parameter and has its own quirks and its own dedicated article with specific information.\n\n\n There are two differences:\n\n\n Sets the prims parameters according to rules.",
     "arguments": {
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag'",
         "newname": "link",
-        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a LINK_* flag",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Parameters": {
@@ -6626,13 +6654,13 @@
       "LinkNumber": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "RenderMaterial": {
         "tooltip": "",
         "newname": "material",
-        "description": "a material in the inventory of the prim this script is in&#32;or a UUID&#32;of a material",
+        "description": "a material in the inventory of the prim this script is in or a UUID of a material",
         "newtooltip": "The name of a material in the prim's inventory, or a UUID."
       },
       "Face": {
@@ -6651,7 +6679,7 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag.'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;The link ID",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag The link ID",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Flags": {
@@ -6665,18 +6693,18 @@
   },
   "llSetLinkTexture": {
     "tooltip": "Sets the Texture of Face on a linked prim, specified by LinkNumber. Texture may be a UUID or name of a texture in prim inventory.",
-    "description": "If a prim exists in the link set at link, set Blinn-Phong diffuse texture on face of that prim.",
+    "description": "If a prim exists in the link set at link, set Blinn-Phong diffuse texture on face of that prim.\n\n\n This function doesn't have the 0.2 second delay. It's not very fast anyway though, but faster than llSetLinkTexture.",
     "arguments": {
       "LinkNumber": {
         "tooltip": "",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag ",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag."
       },
       "Texture": {
         "tooltip": "",
         "newname": "texture",
-        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "description": "a texture in the inventory of the prim this script is in or a UUID of a texture",
         "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
       },
       "Face": {
@@ -6695,7 +6723,7 @@
       "LinkNumber": {
         "tooltip": "'Link number (0: unlinked, 1: root prim, >1: child prims) or a LINK_* flag to effect'",
         "newname": "link",
-        "description": "Link number (0: unlinked,&#32;1: root prim, >1: child prims&#32;and seated avatars) or a 'LINK_*' flag&#32;to effect",
+        "description": "Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a 'LINK_*' flag to effect",
         "newtooltip": "The link number (1 for root, >1 for children) or a LINK_* flag to animate."
       },
       "Mode": {
@@ -6814,7 +6842,7 @@
     "tooltip": "Sets the parcel the object is on for sale.\nForSale is a boolean, if TRUE the parcel is put up for sale. Options is a list of options to set for the sale, such as price, authorized buyer, and whether to include objects on the parcel.\\n Setting ForSale to FALSE will remove the parcel from sale and clear any options that were set.\\nRequires the PERMISSION_PRIVILEGED_LAND_ACCESS permission.",
     "description": "Sets the parcel the object is on for sale.\\nForSale is a boolean, if TRUE\nthe parcel is put up for sale. Options is a list of options to set for the sale,\nsuch as price, authorized buyer, and whether to include objects on the parcel.\\n\nSetting ForSale to FALSE will remove the parcel from sale and clear any options\nthat were set.\n\n\n This function requires that the script be owned by the parcel owner and that they have granted the PERMISSION_PRIVILEGED_LAND_ACCESS permission.\n\n\n Returns an integer Error code or 0 if successful.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Integer/boolean\" target=\"_blank\">ForSale</a>": {
+      "ForSale": {
         "tooltip": "If TRUE, the parcel is put up for sale.",
         "newname": "ForSale",
         "description": "If TRUE, the parcel is put up for sale.",
@@ -6904,7 +6932,7 @@
       "Position": {
         "tooltip": "Region coordinates to move to (within 10m).",
         "newname": "pos",
-        "description": "position in region or local coordinates depending upon the situation&#32;(see #Specification).",
+        "description": "position in region or local coordinates depending upon the situation (see #Specification).",
         "newtooltip": "The position vector to move to (in region coordinates, or local coordinates if in a child prim)."
       }
     },
@@ -6912,7 +6940,7 @@
   },
   "llSetPrimitiveParams": {
     "tooltip": "Deprecated: Use llSetLinkPrimitiveParamsFast instead.",
-    "description": "Sets the prim's parameters according to rules.",
+    "description": "These functions are almost entirely identical. For almost all situations we recommend you use llSetLinkPrimitiveParamsFast.\n\n\n These are very powerful & sharp functions. Each PRIM_* rule takes at least one parameter and has its own quirks and its own dedicated article with specific information.\n\n\n There are two differences:\n\n\n Sets the prim's parameters according to rules.",
     "arguments": {
       "Parameters": {
         "tooltip": "A list of changes.",
@@ -6924,7 +6952,7 @@
   },
   "llSetPrimMediaParams": {
     "tooltip": "Sets the MediaParameters for a particular Face on the prim. Returns an integer that is a STATUS_* flag which details the success/failure of the operation(s).\\nMediaParameters is a set of name/value pairs in no particular order. Parameters not specified are unchanged, or if new media is added then set to the default specified.",
-    "description": "Set the media params for a particular face.\n\n\n Returns a status (an integer) that is a STATUS_* flag which details the success/failure of the operation(s).",
+    "description": "Set the media params for a particular face.\n\n\n Returns a status (an integer) that is a STATUS_* flag which details the success/failure of the operation(s).\n\n\n ref: original source",
     "arguments": {
       "Face": {
         "tooltip": "Face number",
@@ -6986,7 +7014,7 @@
       "Material": {
         "tooltip": "",
         "newname": "material",
-        "description": "a material in the inventory of the prim this script is in&#32;or a UUID&#32;of a material",
+        "description": "a material in the inventory of the prim this script is in or a UUID of a material",
         "newtooltip": "The name of a material in the prim's inventory, or a UUID."
       },
       "Face": {
@@ -7055,11 +7083,12 @@
   },
   "llSetSoundQueueing": {
     "tooltip": "Sets whether successive calls to llPlaySound, llLoopSound, etc., (attached sounds) interrupt the currently playing sound.\\nThe default for objects is FALSE. Setting this value to TRUE will make the sound wait until the current playing sound reaches its end. The queue is one level deep.",
+    "description": "Set whether attached sounds wait for the current sound to finish. If queue is TRUE, queuing is enabled, if FALSE queuing is disabled. Sound queuing is disabled by default.",
     "arguments": {
       "QueueEnable": {
         "tooltip": "Boolean, sound queuing: TRUE enables, FALSE disables (default).",
         "newname": "queue",
-        "description": "boolean, sound queuing: TRUE enables, FALSE&#32;(default) disables",
+        "description": "boolean, sound queuing: TRUE enables, FALSE (default) disables",
         "newtooltip": "Boolean. If TRUE, sound queuing is enabled; if FALSE, it is disabled."
       }
     },
@@ -7067,10 +7096,13 @@
   },
   "llSetSoundRadius": {
     "tooltip": "Limits radius for audibility of scripted sounds (both attached and triggered) to distance Radius.",
+    "description": "Establishes a hard cut-off radius for audibility for llPlaySound, llLoopSound and llLinkPlaySound in non-triggered mode. Sounds are not heard until an observer's camera enters the radius, and immediately stop when leaving the radius. Volume fading is still determined by the distance from camera, not the radius.",
     "arguments": {
       "Radius": {
         "tooltip": "Maximum distance that sounds can be heard.",
-        "newname": ""
+        "newname": "radius",
+        "description": "in meters",
+        "newtooltip": "The maximum distance in meters at which the sounds can be heard."
       }
     },
     "newtooltip": "Limits the audibility radius of attached and triggered scripted sounds to distance radius."
@@ -7096,7 +7128,7 @@
   },
   "llSetText": {
     "tooltip": "Causes Text to float above the prim, using the specified Color and Opacity.",
-    "description": "Displays text that hovers over the prim with specific color and translucency (specified with alpha).",
+    "description": "Displays text that hovers over the prim with specific color and translucency (specified with alpha).\n\n\n Drag this script out of inventory onto an object to erase its set text:\n\n\n Code to easily specify appearance of hovertext:\n\n\n To make hovertext when using linked prims you can use this simple function:",
     "arguments": {
       "Text": {
         "tooltip": "",
@@ -7107,7 +7139,7 @@
       "Color": {
         "tooltip": "",
         "newname": "color",
-        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> &#61; black, <1.0, 1.0, 1.0> &#61; white)",
+        "description": "color in RGB <R, G, B> (<0.0, 0.0, 0.0> = black, <1.0, 1.0, 1.0> = white)",
         "newtooltip": "The color vector in RGB <R, G, B> (values from 0.0 to 1.0)."
       },
       "Opacity": {
@@ -7126,7 +7158,7 @@
       "Texture": {
         "tooltip": "",
         "newname": "texture",
-        "description": "a texture in the inventory of the prim this script is in&#32;or a UUID&#32;of a texture",
+        "description": "a texture in the inventory of the prim this script is in or a UUID of a texture",
         "newtooltip": "The name of a texture in the prim's inventory, or a UUID."
       },
       "Face": {
@@ -7425,7 +7457,7 @@
   },
   "llSitTarget": {
     "tooltip": "Set the sit location for this object. If offset == ZERO_VECTOR, clears the sit target.",
-    "description": "Set the sit location for the prim. The sit location is relative to the prim's position and rotation.",
+    "description": "Set the sit location for the prim. The sit location is relative to the prim's position and rotation.\n\n\n This function is primarily for use in objects that need to move seated avatars. It is most useful in poseballs, furniture and vehicles (just not while they are moving). There is also a 'UpdateLinkSitTarget()' version of the function that can be found at: User:Strife_Onizuka/UpdateLinkSitTarget.\n\n\n This function is primarily for configuring sittargets for furniture. Sit an avatar on a box, position the box where you want them and use this function to read the sittarget so that it can be coded into the furniture. See /GetSitTarget for an example.",
     "arguments": {
       "Offset": {
         "tooltip": "",
@@ -7462,13 +7494,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       },
       "Queue": {
@@ -7493,7 +7525,7 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       }
     },
@@ -7532,7 +7564,7 @@
       "Animation": {
         "tooltip": "",
         "newname": "anim",
-        "description": "an item in the inventory of the prim this script is in&#32;or built-in animation",
+        "description": "an item in the inventory of the prim this script is in or built-in animation",
         "newtooltip": "The name of an animation in the prim's inventory, or a built-in animation."
       }
     },
@@ -7558,7 +7590,7 @@
       "Animation": {
         "tooltip": "",
         "newname": "anim",
-        "description": "an animation in the inventory of the prim this script is in&#32;or a UUID&#32;of an animation&#32;or built in animation name",
+        "description": "an animation in the inventory of the prim this script is in or a UUID of an animation or built in animation name",
         "newtooltip": "The name of an animation in the prim's inventory, a UUID of an animation, or a built-in animation name."
       }
     },
@@ -7603,7 +7635,7 @@
   },
   "llStopSound": {
     "tooltip": "Stops playback of the currently attached sound.",
-    "description": "Function: llLinkStopSound( integer link );",
+    "description": "Stops the attached sound(s) currently playing, if they were started by llLoopSound",
     "arguments": {},
     "newtooltip": "Stops playback of the currently playing attached sound."
   },
@@ -7651,7 +7683,7 @@
   },
   "llSubStringIndex": {
     "tooltip": "Returns the first index where Sequence appears in Text. Returns -1 if not found.",
-    "description": "Returns an integer that is the index of the first instance of pattern in source.",
+    "description": "Returns an integer that is the index of the first instance of pattern in source.\n\n\n Tests to see if one string contains a copy of another:\n\n\n 1. Concise & conventional:\n\n\n Note: Some of the snippets above return a result without ever calling llSubStringIndex.\n\n\n 2. Clever & smaller (calculates contains in ~54 bytes rather than ~60):\n\n\n Note: The llSubStringIndex function returns -1 only when not found and the ~ operator returns zero only for -1, so the clever combination ~llSubStringIndex returns zero only for not found, else nonzero for found.\n\n\n Note: Smaller was not noticeably faster or slower when our Code Racer and Efficiency Tester harnesses measured the expression { contains(\"wiki.secondlife.com\", \"wiki\"); }.",
     "arguments": {
       "Text": {
         "tooltip": "",
@@ -7804,13 +7836,13 @@
       "AvatarID": {
         "tooltip": "UUID of avatar.",
         "newname": "agent",
-        "description": "avatar UUID that is in the same region&#32;(the avatar to teleport, must be the owner)",
+        "description": "avatar UUID that is in the same region (the avatar to teleport, must be the owner)",
         "newtooltip": "The UUID of the owning avatar to teleport."
       },
       "LandmarkName": {
         "tooltip": "Name of landmark (in object contents), or empty string, to use.",
         "newname": "landmark",
-        "description": "a landmark in the inventory of the prim this script is in&#32;or an empty string&#32;(for teleporting within the same region)",
+        "description": "a landmark in the inventory of the prim this script is in or an empty string (for teleporting within the same region)",
         "newtooltip": "The name of the landmark in the prim's inventory, or an empty string to teleport locally."
       },
       "Position": {
@@ -7835,7 +7867,7 @@
       "AvatarID": {
         "tooltip": "UUID of avatar.",
         "newname": "agent",
-        "description": "avatar UUID that is in the same region&#32;(the avatar to teleport, must be the owner)",
+        "description": "avatar UUID that is in the same region (the avatar to teleport, must be the owner)",
         "newtooltip": "The UUID of the owning avatar to teleport."
       },
       "GlobalPosition": {
@@ -7847,7 +7879,7 @@
       "RegionPosition": {
         "tooltip": "The position within the target region to teleport the avatar to, if no landmark was provided.",
         "newname": "region_coordinates",
-        "description": "position in region coordinates&#32;where the avatar should land.",
+        "description": "position in region coordinates where the avatar should land.",
         "newtooltip": "The target coordinates vector within the destination region."
       },
       "LookAtPoint": {
@@ -7972,13 +8004,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       }
     },
@@ -7991,13 +8023,13 @@
       "Sound": {
         "tooltip": "",
         "newname": "sound",
-        "description": "a sound in the inventory of the prim this script is in&#32;or a UUID&#32;of a sound",
+        "description": "a sound in the inventory of the prim this script is in or a UUID of a sound",
         "newtooltip": "The name of a sound in the prim's inventory, or a UUID."
       },
       "Volume": {
         "tooltip": "",
         "newname": "volume",
-        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <&#61; **volume** <&#61; 1.0')",
+        "description": "between 0.0 (silent) and 1.0 (loud) ('0.0 <= **volume** <= 1.0')",
         "newtooltip": "The volume level to set, between 0.0 (silent) and 1.0 (loud)."
       },
       "TNE": {
@@ -8163,7 +8195,7 @@
       "DetectEnabled": {
         "tooltip": "TRUE enables, FALSE disables.",
         "newname": "detect",
-        "description": "TRUE enables, FALSE&#32;(default) disables",
+        "description": "TRUE enables, FALSE (default) disables",
         "newtooltip": "Boolean. If TRUE, enables VolumeDetect; if FALSE (default), disables it."
       }
     },
@@ -8360,20 +8392,26 @@
   },
   "attach": {
     "tooltip": "This event is triggered whenever an object is attached or detached from an avatar. If it is attached, the key of the avatar it is attached to is passed in, otherwise NULL_KEY is.",
+    "description": "Triggered in an object when the object attaches or detaches from agent.",
     "arguments": {
       "AvatarID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "id",
+        "description": "the avatar if attached, if not attached NULL_KEY.",
+        "newtooltip": "The UUID of the avatar the object is attached to, or NULL_KEY if detached."
       }
     },
     "newtooltip": "Triggered whenever the object is attached to or detached from an avatar. Passes the UUID key of the avatar (id) if attached, or NULL_KEY if detached."
   },
   "changed": {
     "tooltip": "Triggered when various events change the object. The change argument will be a bit-field of CHANGED_* constants.",
+    "description": "Various changes to the object/prim trigger this event.",
     "arguments": {
       "Changed": {
         "tooltip": "",
-        "newname": ""
+        "newname": "change",
+        "description": "bit field of CHANGED_* flags",
+        "newtooltip": "A bitfield of CHANGED_* constants representing what changed."
       }
     },
     "newtooltip": "Triggered when various properties of the object change. The parameter change is a bitfield of CHANGED_* constants."
@@ -8416,58 +8454,78 @@
   },
   "control": {
     "tooltip": "Once a script has the ability to grab control inputs from the avatar, this event will be used to pass the commands into the script.\\n\\t\\t\\tThe levels and edges are bit-fields of control constants.",
+    "description": "Result of llTakeControls library function call and user input.",
     "arguments": {
       "AvatarID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "id",
+        "description": "avatar UUID",
+        "newtooltip": "The UUID of the avatar whose inputs are captured."
       },
       "Levels": {
         "tooltip": "",
-        "newname": ""
+        "newname": "level",
+        "description": "bitfield of CONTROL_* flags, non-zero while one or more keys is being held down.",
+        "newtooltip": "A bitfield of CONTROL_* constants representing currently held controls."
       },
       "Edges": {
         "tooltip": "",
-        "newname": ""
+        "newname": "edge",
+        "description": "bitfield of CONTROL_* flags, non-zero when one or more keys have been just pressed or released.",
+        "newtooltip": "A bitfield of CONTROL_* constants representing controls that just changed state."
       }
     },
     "newtooltip": "Triggered to pass captured avatar control inputs into the script. The parameter level indicates held controls, and edge indicates change in controls (both are bitfields of CONTROL_* constants)."
   },
   "dataserver": {
     "tooltip": "This event is triggered when the requested data is returned to the script. \\t\\t\\tData may be requested by the llRequestAgentData, llRequestInventoryData, and llGetNotecardLine function calls, for example.",
+    "description": "Triggered when task receives asynchronous data",
     "arguments": {
       "RequestID": {
         "tooltip": "",
-        "newname": ""
+        "newname": "queryid",
+        "description": "matches the return of the requesting function",
+        "newtooltip": "The key identifying the asynchronous request (matches the handle returned by the requesting function)."
       },
       "Data": {
         "tooltip": "",
-        "newname": ""
+        "newname": "data",
+        "description": "the requested data (cast as a string as necessary).",
+        "newtooltip": "The string containing the requested data."
       }
     },
     "newtooltip": "Triggered when requested data is returned to the script (e.g., from llRequestAgentData, llRequestInventoryData, or llGetNotecardLine)."
   },
   "email": {
     "tooltip": "This event is triggered when an email sent to this script arrives. \\t\\t\\tThe number remaining tells how many more emails are known to be still pending.",
+    "description": "Triggered as a result of calling llGetNextEmail where there is a matching email in the email queue.",
     "arguments": {
       "Time": {
         "tooltip": "",
-        "newname": ""
+        "newname": "time",
+        "description": "In the '(string)[llGetUnixTime](https://wiki.secondlife.com/wiki/LlGetUnixTime)' format",
+        "newtooltip": "The timestamp of when the email was received."
       },
       "Address": {
         "tooltip": "",
-        "newname": ""
+        "newname": "address",
+        "newtooltip": "The email address of the sender."
       },
       "Subject": {
         "tooltip": "",
-        "newname": ""
+        "newname": "subject",
+        "newtooltip": "The subject of the email."
       },
       "Body": {
         "tooltip": "",
-        "newname": ""
+        "newname": "message",
+        "newtooltip": "The body text of the email."
       },
       "NumberRemaining": {
         "tooltip": "",
-        "newname": ""
+        "newname": "num_left",
+        "description": "The number of emails remaining in the email queue.[[1]](#footnote_1)",
+        "newtooltip": "The number of pending emails still waiting in the queue."
       }
     },
     "newtooltip": "Triggered when an email sent to this script's address arrives. num_left indicates the number of pending emails remaining in the queue."
@@ -8479,7 +8537,7 @@
       "agent_id": {
         "tooltip": "ID of the agent approving permission for the Experience.",
         "newname": "agent_id",
-        "description": "avatar UUID&#32;approving permission",
+        "description": "avatar UUID approving permission",
         "newtooltip": "The UUID of the avatar approving experience permissions."
       }
     },
@@ -8492,7 +8550,7 @@
       "agent_id": {
         "tooltip": "ID of the agent denying permission for the Experience.",
         "newname": "agent_id",
-        "description": "avatar UUID&#32;that denied permission.",
+        "description": "avatar UUID that denied permission.",
         "newtooltip": "The UUID of the avatar who denied or was blocked from granting permissions."
       },
       "Reason": {
@@ -8521,7 +8579,7 @@
     "tooltip": "This event is raised when game controller input changes.",
     "description": "Triggered when compatible viewer sends fresh GameControlInput message, but only for scripts on attachments or seat.",
     "arguments": {
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/id\" target=\"_blank\">id</a>": {
+      "id": {
         "tooltip": "UUID of avatar supplying input",
         "newname": "id",
         "description": "avatar UUID",
@@ -8677,7 +8735,7 @@
         "description": "Action taken on the linkset Datastore",
         "newtooltip": "An integer constant representing the action taken (e.g., LINKSETDATA_UPDATE, LINKSETDATA_DELETE, LINKSETDATA_RESET)."
       },
-      "<a href=\"https://wiki.secondlife.com/wiki/Category:LSL_Parameters/name\" target=\"_blank\">name</a>": {
+      "name": {
         "tooltip": "",
         "newname": "name",
         "description": "The key of the name:value pair.",
@@ -8744,11 +8802,13 @@
   },
   "moving_end": {
     "tooltip": "Triggered whenever an object with this script stops moving.",
+    "description": "Triggered when task stops moving",
     "arguments": {},
     "newtooltip": "Triggered whenever the physical or moving object containing the script stops moving."
   },
   "moving_start": {
     "tooltip": "Triggered whenever an object with this script starts moving.",
+    "description": "Triggered when task begins moving",
     "arguments": {},
     "newtooltip": "Triggered whenever the physical or moving object containing the script starts moving."
   },
@@ -8976,7 +9036,7 @@
       }
     },
     "newtooltip": "Triggered when an asynchronous L$ transfer (such as llTransferLindenDollars) is completed. Passes transaction info id, success status, and CSV or error data."
-  }        
+  }    
         };
 
         const searchInput = document.getElementById('searchInput');
