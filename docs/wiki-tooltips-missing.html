@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing tooltips</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 100%;
+            max-width: 90%;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Missing tooltips</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for constants, functions and events...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "AVOID_CHARACTERS": {
+    "member-of": [
+      "CharacterAvoidanceMode"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 1
+  },
+  "AVOID_DYNAMIC_OBSTACLES": {
+    "member-of": [
+      "CharacterAvoidanceMode"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 2
+  },
+  "AVOID_NONE": {
+    "member-of": [
+      "CharacterAvoidanceMode"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 0
+  },
+  "DAMAGE_TYPE_EMOTIONAL": {
+    "member-of": [
+      "DamageType"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 14
+  },
+  "GAME_CONTROL_AXIS_LEFTX": {
+    "member-of": [
+      "GameControlAxis"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 0
+  },
+  "GAME_CONTROL_AXIS_LEFTY": {
+    "member-of": [
+      "GameControlAxis"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 1
+  },
+  "GAME_CONTROL_AXIS_RIGHTX": {
+    "member-of": [
+      "GameControlAxis"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 2
+  },
+  "GAME_CONTROL_AXIS_RIGHTY": {
+    "member-of": [
+      "GameControlAxis"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 3
+  },
+  "GAME_CONTROL_AXIS_TRIGGERLEFT": {
+    "member-of": [
+      "GameControlAxis"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 4
+  },
+  "GAME_CONTROL_AXIS_TRIGGERRIGHT": {
+    "member-of": [
+      "GameControlAxis"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 5
+  },
+  "GAME_CONTROL_BUTTON_A": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x1"
+  },
+  "GAME_CONTROL_BUTTON_B": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x2"
+  },
+  "GAME_CONTROL_BUTTON_BACK": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x10"
+  },
+  "GAME_CONTROL_BUTTON_DPAD_DOWN": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x1000"
+  },
+  "GAME_CONTROL_BUTTON_DPAD_LEFT": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x2000"
+  },
+  "GAME_CONTROL_BUTTON_DPAD_RIGHT": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x4000"
+  },
+  "GAME_CONTROL_BUTTON_DPAD_UP": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x800"
+  },
+  "GAME_CONTROL_BUTTON_GUIDE": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x20"
+  },
+  "GAME_CONTROL_BUTTON_LEFTSHOULDER": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x200"
+  },
+  "GAME_CONTROL_BUTTON_LEFTSTICK": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x80"
+  },
+  "GAME_CONTROL_BUTTON_MISC1": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x8000"
+  },
+  "GAME_CONTROL_BUTTON_PADDLE1": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x10000"
+  },
+  "GAME_CONTROL_BUTTON_PADDLE2": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x20000"
+  },
+  "GAME_CONTROL_BUTTON_PADDLE3": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x40000"
+  },
+  "GAME_CONTROL_BUTTON_PADDLE4": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x80000"
+  },
+  "GAME_CONTROL_BUTTON_RIGHTSHOULDER": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x400"
+  },
+  "GAME_CONTROL_BUTTON_RIGHTSTICK": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x100"
+  },
+  "GAME_CONTROL_BUTTON_START": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x40"
+  },
+  "GAME_CONTROL_BUTTON_TOUCHPAD": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x100000"
+  },
+  "GAME_CONTROL_BUTTON_X": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x4"
+  },
+  "GAME_CONTROL_BUTTON_Y": {
+    "member-of": [
+      "GameControlButton"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x8"
+  },
+  "GCNP_GET_WALKABILITY": {
+    "member-of": [
+      "GetClosestNavPointParam"
+    ],
+    "private": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": "2"
+  },
+  "IMG_USE_BAKED_AUX1": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "9742065b-19b5-297c-858a-29711d539043"
+  },
+  "IMG_USE_BAKED_AUX2": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "03642e83-2bd1-4eb9-34b4-4c47ed586d2d"
+  },
+  "IMG_USE_BAKED_AUX3": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "edd51b77-fc10-ce7a-4b3d-011dfc349e4f"
+  },
+  "IMG_USE_BAKED_EYES": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "52cc6bb6-2ee5-e632-d3ad-50197b1dcb8a"
+  },
+  "IMG_USE_BAKED_HAIR": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "09aac1fb-6bce-0bee-7d44-caac6dbb6c63"
+  },
+  "IMG_USE_BAKED_HEAD": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "5a9f4a74-30f2-821c-b88d-70499d3e7183"
+  },
+  "IMG_USE_BAKED_LEFTARM": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "ff62763f-d60a-9855-890b-0c96f8f8cd98"
+  },
+  "IMG_USE_BAKED_LEFTLEG": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "8e915e25-31d1-cc95-ae08-d58a47488251"
+  },
+  "IMG_USE_BAKED_LOWER": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "24daea5f-0539-cfcf-047f-fbc40b2786ba"
+  },
+  "IMG_USE_BAKED_SKIRT": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "43529ce8-7faa-ad92-165a-bc4078371687"
+  },
+  "IMG_USE_BAKED_UPPER": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "ae2de45c-d252-50b8-5c6e-19f39ce79317"
+  },
+  "LEGACY_MASS_FACTOR": {
+    "private": true,
+    "tooltip": "",
+    "type": "float",
+    "value": "0.01"
+  },
+  "NAVIGATE_TO_GOAL_REACHED_DIST": {
+    "member-of": [
+      "CharacterNavigateParam"
+    ],
+    "private": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": 2
+  },
+  "PARCEL_FLAG_LINDEN_HOMES": {
+    "member-of": [
+      "ParcelFlag"
+    ],
+    "private": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x800000"
+  },
+  "PRIM_MATERIAL_DENSITY": {
+    "member-of": [
+      "PhysicsMaterialParam"
+    ],
+    "private": true,
+    "deprecated": {
+      "use": "DENSITY"
+    },
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x1"
+  },
+  "PRIM_MATERIAL_FRICTION": {
+    "member-of": [
+      "PhysicsMaterialParam"
+    ],
+    "private": true,
+    "deprecated": {
+      "use": "FRICTION"
+    },
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x2"
+  },
+  "PRIM_MATERIAL_GRAVITY_MULTIPLIER": {
+    "member-of": [
+      "PhysicsMaterialParam"
+    ],
+    "private": true,
+    "deprecated": {
+      "use": "GRAVITY_MULTIPLIER"
+    },
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x8"
+  },
+  "PRIM_MATERIAL_RESTITUTION": {
+    "member-of": [
+      "PhysicsMaterialParam"
+    ],
+    "private": true,
+    "deprecated": {
+      "use": "RESTITUTION"
+    },
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x4"
+  },
+  "PRIM_MEDIA_MAX_HEIGHT_PIXELS": {
+    "tooltip": "",
+    "type": "integer",
+    "value": 2048
+  },
+  "PRIM_MEDIA_MAX_URL_LENGTH": {
+    "tooltip": "",
+    "type": "integer",
+    "value": 1024
+  },
+  "PRIM_MEDIA_MAX_WHITELIST_COUNT": {
+    "tooltip": "",
+    "type": "integer",
+    "value": 64
+  },
+  "PRIM_MEDIA_MAX_WHITELIST_SIZE": {
+    "tooltip": "",
+    "type": "integer",
+    "value": 1024
+  },
+  "PRIM_MEDIA_MAX_WIDTH_PIXELS": {
+    "tooltip": "",
+    "type": "integer",
+    "value": 2048
+  },
+  "PRIM_MEDIA_PARAM_MAX": {
+    "tooltip": "",
+    "type": "integer",
+    "value": 14
+  },
+  "PRIM_MEDIA_PERM_ANYONE": {
+    "member-of": [
+      "PrimMediaPerm"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 4
+  },
+  "PRIM_MEDIA_PERM_GROUP": {
+    "member-of": [
+      "PrimMediaPerm"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 2
+  },
+  "PRIM_MEDIA_PERM_NONE": {
+    "member-of": [
+      "PrimMediaPerm"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 0
+  },
+  "PRIM_MEDIA_PERM_OWNER": {
+    "member-of": [
+      "PrimMediaPerm"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 1
+  },
+  "PSYS_SRC_OBJ_REL_MASK": {
+    "member-of": [
+      "ParticleParam"
+    ],
+    "private": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x1"
+  },
+  "REGION_FLAG_BLOCK_FLYOVER": {
+    "member-of": [
+      "RegionFlag"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": "0x8000000"
+  },
+  "REMOTE_DATA_CHANNEL": {
+    "member-of": [
+      "RemoteDataEventType"
+    ],
+    "deprecated": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": 1
+  },
+  "REMOTE_DATA_REPLY": {
+    "member-of": [
+      "RemoteDataEventType"
+    ],
+    "deprecated": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": 3
+  },
+  "REMOTE_DATA_REQUEST": {
+    "member-of": [
+      "RemoteDataEventType"
+    ],
+    "deprecated": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": 2
+  },
+  "REZ_TORQUE": {
+    "member-of": [
+      "RezParam"
+    ],
+    "private": true,
+    "tooltip": "",
+    "type": "integer",
+    "value": 6
+  },
+  "SKY_ABSORPTION_CONFIG": {
+    "private": true,
+    "member-of": [
+      "EnvironmentParamReadOnly",
+      "EnvironmentParam"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 16
+  },
+  "TEXTURE_DEFAULT": {
+    "tooltip": "",
+    "type": "string",
+    "slua-type": "uuid",
+    "value": "89556747-24cb-43ed-920b-47caed15465f"
+  },
+  "TRAVERSAL_TYPE_FAST": {
+    "member-of": [
+      "CharacterTraversalType"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 1
+  },
+  "TRAVERSAL_TYPE_NONE": {
+    "member-of": [
+      "CharacterTraversalType"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 2
+  },
+  "TRAVERSAL_TYPE_SLOW": {
+    "member-of": [
+      "CharacterTraversalType"
+    ],
+    "tooltip": "",
+    "type": "integer",
+    "value": 0
+  },
+  "URL_REQUEST_DENIED": {
+    "tooltip": "",
+    "type": "string",
+    "value": "URL_REQUEST_DENIED"
+  },
+  "URL_REQUEST_GRANTED": {
+    "tooltip": "",
+    "type": "string",
+    "value": "URL_REQUEST_GRANTED"
+  },
+  "llClearExperience": {
+    "arguments": [
+      {
+        "agentid": {
+          "tooltip": "",
+          "type": "key"
+        }
+      },
+      {
+        "experienceid": {
+          "tooltip": "",
+          "type": "key"
+        }
+      }
+    ],
+    "deprecated": true,
+    "energy": 10,
+    "func-id": 411,
+    "private": true,
+    "return": "void",
+    "sleep": 0,
+    "tooltip": "",
+    "categories": [
+      "experience"
+    ]
+  },
+  "llClearExperiencePermissions": {
+    "arguments": [
+      {
+        "agentid": {
+          "tooltip": "",
+          "type": "key"
+        }
+      }
+    ],
+    "deprecated": true,
+    "energy": 10,
+    "func-id": 385,
+    "private": true,
+    "return": "void",
+    "sleep": 0,
+    "tooltip": "",
+    "categories": [
+      "experience"
+    ]
+  },
+  "llGetExperienceList": {
+    "arguments": [
+      {
+        "agentid": {
+          "tooltip": "",
+          "type": "key"
+        }
+      }
+    ],
+    "deprecated": true,
+    "energy": 10,
+    "func-id": 410,
+    "private": true,
+    "must-use": true,
+    "return": "list",
+    "slua-return": "{uuid}",
+    "sleep": 0,
+    "tooltip": "",
+    "categories": [
+      "experience"
+    ]
+  },
+  "llMakeExplosion": {
+    "arguments": [
+      {
+        "particles": {
+          "tooltip": "",
+          "type": "integer"
+        }
+      },
+      {
+        "scale": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "vel": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "lifetime": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "arc": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "texture": {
+          "tooltip": "The name of a texture in the prim's inventory, or a UUID.",
+          "type": "string",
+          "asset-semantics": true
+        }
+      },
+      {
+        "offset": {
+          "tooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system).",
+          "type": "vector"
+        }
+      }
+    ],
+    "deprecated": {
+      "use": "ll.ParticleSystem"
+    },
+    "energy": 10,
+    "func-id": 100,
+    "return": "void",
+    "sleep": 0.1,
+    "tooltip": "Deprecated. Generates a circular explosion of particles. Use llParticleSystem instead.",
+    "categories": [
+      "effects"
+    ]
+  },
+  "llMakeFire": {
+    "arguments": [
+      {
+        "particles": {
+          "tooltip": "",
+          "type": "integer"
+        }
+      },
+      {
+        "scale": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "vel": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "lifetime": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "arc": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "texture": {
+          "tooltip": "The name of a texture in the prim's inventory, or a UUID.",
+          "type": "string",
+          "asset-semantics": true
+        }
+      },
+      {
+        "offset": {
+          "tooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system).",
+          "type": "vector"
+        }
+      }
+    ],
+    "deprecated": {
+      "use": "ll.ParticleSystem"
+    },
+    "energy": 10,
+    "func-id": 103,
+    "return": "void",
+    "sleep": 0.1,
+    "tooltip": "Deprecated. Generates fire-like particles. Use llParticleSystem instead.",
+    "categories": [
+      "effects"
+    ]
+  },
+  "llMakeFountain": {
+    "arguments": [
+      {
+        "particles": {
+          "tooltip": "",
+          "type": "integer"
+        }
+      },
+      {
+        "scale": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "vel": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "lifetime": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "arc": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "bounce": {
+          "tooltip": "",
+          "type": "integer"
+        }
+      },
+      {
+        "texture": {
+          "tooltip": "The name of a texture in the prim's inventory, or a UUID.",
+          "type": "string",
+          "asset-semantics": true
+        }
+      },
+      {
+        "offset": {
+          "tooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system).",
+          "type": "vector"
+        }
+      },
+      {
+        "bounce_offset": {
+          "tooltip": "",
+          "type": "float"
+        }
+      }
+    ],
+    "deprecated": {
+      "use": "ll.ParticleSystem"
+    },
+    "energy": 10,
+    "func-id": 101,
+    "return": "void",
+    "sleep": 0.1,
+    "tooltip": "Deprecated. Generates a fountain of particles. Use llParticleSystem instead.",
+    "categories": [
+      "effects"
+    ]
+  },
+  "llMakeSmoke": {
+    "arguments": [
+      {
+        "particles": {
+          "tooltip": "",
+          "type": "integer"
+        }
+      },
+      {
+        "scale": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "vel": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "lifetime": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "arc": {
+          "tooltip": "",
+          "type": "float"
+        }
+      },
+      {
+        "texture": {
+          "tooltip": "The name of a texture in the prim's inventory, or a UUID.",
+          "type": "string",
+          "asset-semantics": true
+        }
+      },
+      {
+        "offset": {
+          "tooltip": "The offset relative to the prim's position (expressed in local coordinates; completely ignored by the system).",
+          "type": "vector"
+        }
+      }
+    ],
+    "deprecated": {
+      "use": "ll.ParticleSystem"
+    },
+    "energy": 10,
+    "func-id": 102,
+    "return": "void",
+    "sleep": 0.1,
+    "tooltip": "Deprecated. Generates smoke-like particles. Use llParticleSystem instead.",
+    "categories": [
+      "effects"
+    ]
+  },
+  "llSetExperienceKey": {
+    "arguments": [
+      {
+        "experienceid": {
+          "tooltip": "",
+          "type": "key"
+        }
+      }
+    ],
+    "deprecated": true,
+    "energy": 10,
+    "func-id": 386,
+    "private": true,
+    "return": "integer",
+    "sleep": 0,
+    "tooltip": "",
+    "categories": [
+      "experience"
+    ]
+  }
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                if (funcName.toLowerCase().includes(lowerCaseQuery)) {
+                    filteredData[funcName] = lslData[funcName];
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
