@@ -605,6 +605,10 @@
   "llGetObjectLinkKey": [
     {
       "yaml": "id",
+      "wiki": "object_id"
+    },
+    {
+      "yaml": "link_no",
       "wiki": "link"
     }
   ],
@@ -835,13 +839,13 @@
   "llLinkAdjustSoundVolume": [
     {
       "yaml": "LinkNumber",
-      "wiki": "volume"
+      "wiki": "link"
     }
   ],
   "llLinkParticleSystem": [
     {
       "yaml": "LinkNumber",
-      "wiki": "rules"
+      "wiki": "link"
     }
   ],
   "llLinkPlaySound": [
@@ -871,7 +875,17 @@
   "llLinkSetSoundQueueing": [
     {
       "yaml": "LinkNumber",
+      "wiki": "link"
+    },
+    {
+      "yaml": "QueueEnable",
       "wiki": "queue"
+    }
+  ],
+  "llLinkSetSoundRadius": [
+    {
+      "yaml": "LinkNumber",
+      "wiki": "link"
     }
   ],
   "llLinkSitTarget": [
@@ -2256,6 +2270,18 @@
       "wiki": "ourpos"
     }
   ],
+  "attach": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    }
+  ],
+  "changed": [
+    {
+      "yaml": "Changed",
+      "wiki": "change"
+    }
+  ],
   "collision": [
     {
       "yaml": "NumberOfCollisions",
@@ -2272,6 +2298,36 @@
     {
       "yaml": "NumberOfCollisions",
       "wiki": "num_detected"
+    }
+  ],
+  "control": [
+    {
+      "yaml": "AvatarID",
+      "wiki": "id"
+    },
+    {
+      "yaml": "Levels",
+      "wiki": "level"
+    },
+    {
+      "yaml": "Edges",
+      "wiki": "edge"
+    }
+  ],
+  "dataserver": [
+    {
+      "yaml": "RequestID",
+      "wiki": "queryid"
+    }
+  ],
+  "email": [
+    {
+      "yaml": "Body",
+      "wiki": "message"
+    },
+    {
+      "yaml": "NumberRemaining",
+      "wiki": "num_left"
     }
   ],
   "final_damage": [
