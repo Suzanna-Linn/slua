@@ -3968,7 +3968,8 @@
   },
   "CAMERA_ACTIVE": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetCameraParams": "Turns on or off scripted control of the camera.",
+    "newtooltip": "Option flag used with llSetCameraParams to turn scripted control of the camera on or off."
   },
   "CAMERA_BEHINDNESS_ANGLE": {
     "tooltip": "",
@@ -3997,7 +3998,8 @@
   },
   "CAMERA_FOCUS_LOCKED": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetCameraParams": "Locks the camera focus so it will not move.",
+    "newtooltip": "Option flag used with llSetCameraParams to lock the camera focus so it does not move."
   },
   "CAMERA_FOCUS_OFFSET": {
     "tooltip": "",
@@ -4026,7 +4028,8 @@
   },
   "CAMERA_POSITION_LOCKED": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetCameraParams": "Locks the camera position so it will not move.",
+    "newtooltip": "Option flag used with llSetCameraParams to lock the camera position so it does not move."
   },
   "CAMERA_POSITION_THRESHOLD": {
     "tooltip": "",
@@ -4036,9 +4039,8 @@
   "CHANGED_ALLOWED_DROP": {
     "tooltip": "The object inventory has changed because an item was added through the llAllowInventoryDrop interface.",
     "description": "A user other then the owner (or the owner if the object is no-mod) has added inventory to the prim. This is only possible if enabled with llAllowInventoryDrop.",
-    "CHANGED_INVENTORY": "llAllowInventoryDrop",
     "changed": "A user other than the owner (or the owner if the object is no-mod) has added inventory to the prim.",
-    "newtooltip": "The prim inventory has changed because a user other than the owner (or the owner if the object is no-mod) added an item through the llAllowInventoryDrop interface."
+    "newtooltip": "The object inventory changed because a user other than the owner (or the owner if the object is no-mod) added an item. This is only possible if enabled via llAllowInventoryDrop."
   },
   "CHANGED_COLOR": {
     "tooltip": "The object color has changed.",
@@ -4096,7 +4098,7 @@
   },
   "CHANGED_SHAPE": {
     "tooltip": "The object base shape has changed, e.g., a box to a cylinder.",
-    "description": "PRIM_TYPE (box, prism, torus, taper, twist, cut &#8230;) has changed.",
+    "description": "PRIM_TYPE (box, prism, torus, taper, twist, cut …) has changed.",
     "changed": "Prim shape has changed.",
     "newtooltip": "The prim base shape (PRIM_TYPE, such as box, prism, torus, taper, twist, or cut) has changed."
   },
@@ -4114,6 +4116,17 @@
   },
   "CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES": {
     "tooltip": "If set to false, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery). Default is true to match pre-existing behavior.",
+    "CHARACTER_AVOIDANCE_MODE": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "CHARACTER_DESIRED_TURN_SPEED": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "CHARACTER_MAX_ACCEL": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "CHARACTER_MAX_DECEL": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "CHARACTER_MAX_SPEED": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "CHARACTER_MAX_TURN_RADIUS": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "CHARACTER_TYPE": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "TRAVERSAL_TYPE": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "llCreateCharacter": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "llGetStaticPath": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
+    "llUpdateCharacter": "TRUE matches pre-existing behavior. If set to FALSE, character will not attempt to catch up on lost time when pathfinding performance is low, potentially providing more reliable movement (albeit while potentially appearing to be more stuttery).",
     "newtooltip": "If set to FALSE, the pathfinding character will not attempt to catch up on lost time when performance is low, potentially providing more reliable (though potentially more stuttery) movement. Default is TRUE."
   },
   "CHARACTER_AVOIDANCE_MODE": {
@@ -4459,55 +4472,55 @@
   },
   "CONTENT_TYPE_ATOM": {
     "tooltip": "\"application/atom+xml\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/atom+xml\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/atom+xml\".",
     "llSetContentType": "application/atom+xml",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'application/atom+xml'."
   },
   "CONTENT_TYPE_FORM": {
     "tooltip": "\"application/x-www-form-urlencoded\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/x-www-form-urlencoded\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/x-www-form-urlencoded\".",
     "llSetContentType": "application/x-www-form-urlencoded",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'application/x-www-form-urlencoded'."
   },
   "CONTENT_TYPE_HTML": {
     "tooltip": "\"text/html\", only valid for embedded browsers on content owned by the person viewing. Falls back to \"text/plain\" otherwise.",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"text/html\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"text/html\".",
     "llSetContentType": "text/html",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'text/html'. Only valid for embedded browsers on content owned by the viewer; falls back to 'text/plain' otherwise."
   },
   "CONTENT_TYPE_JSON": {
     "tooltip": "\"application/json\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/json\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/json\".",
     "llSetContentType": "application/json",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'application/json'."
   },
   "CONTENT_TYPE_LLSD": {
     "tooltip": "\"application/llsd+xml\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/llsd+xml\" (Linden Lab Structured Data).",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/llsd+xml\" (Linden Lab Structured Data).",
     "llSetContentType": "application/llsd+xml",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'application/llsd+xml' (Linden Lab Structured Data)."
   },
   "CONTENT_TYPE_RSS": {
     "tooltip": "\"application/rss+xml\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/rss+xml\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/rss+xml\".",
     "llSetContentType": "application/rss+xml",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'application/rss+xml'."
   },
   "CONTENT_TYPE_TEXT": {
     "tooltip": "\"text/plain\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"text/plain\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"text/plain\".",
     "llSetContentType": "text/plain",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'text/plain'."
   },
   "CONTENT_TYPE_XHTML": {
     "tooltip": "\"application/xhtml+xml\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/xhtml+xml\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/xhtml+xml\".",
     "llSetContentType": "application/xhtml+xml",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'application/xhtml+xml'."
   },
   "CONTENT_TYPE_XML": {
     "tooltip": "\"application/xml\"",
-    "description": "Sets the &#8201;Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/xml\".",
+    "description": "Sets the  Internet media type \"Content-Type\" header of any subsequent LSL HTTP server response via llHTTPResponse to \"application/xml\".",
     "llSetContentType": "application/xml",
     "newtooltip": "Sets the 'Content-Type' header of subsequent LSL HTTP server responses via llHTTPResponse to 'application/xml'."
   },
@@ -4682,7 +4695,7 @@
   },
   "DATA_BORN": {
     "tooltip": "The date the agent was born, returned in ISO 8601 format of YYYY-MM-DD.",
-    "description": "Used with llRequestAgentData to return a string that contains the date the user joined SL, it is the &#8201;ISO 8601 format of \"YYYY-MM-DD\". It is based on Pacific Time, not UTC.",
+    "description": "Used with llRequestAgentData to return a string that contains the date the user joined SL, it is the  ISO 8601 format of \"YYYY-MM-DD\". It is based on Pacific Time, not UTC.",
     "DATA_BORN": "The account creation/\"born on\" date as a string in an ISO 8601 format of YYYY-MM-DD.",
     "DATA_NAME": "The account creation/\"born on\" date as a string in an ISO 8601 format of YYYY-MM-DD.",
     "DATA_ONLINE": "The account creation/\"born on\" date as a string in an ISO 8601 format of YYYY-MM-DD.",
@@ -4996,7 +5009,8 @@
   },
   "FORCE_DIRECT_PATH": {
     "tooltip": "Makes character navigate in a straight line toward position. May be set to TRUE or FALSE.",
-    "newtooltip": "Forces the pathfinding character to navigate in a straight line toward its target position (can be set to TRUE or FALSE)."
+    "llNavigateTo": "Makes character navigate in a straight line toward pos. May be set to TRUE or FALSE.",
+    "newtooltip": "Forces the pathfinding character to navigate in a straight line toward the specified position (can be set to TRUE or FALSE)."
   },
   "FRICTION": {
     "tooltip": "Used with llSetPhysicsMaterial to enable the friction value. Must be between 0.0 and 255.0",
@@ -5122,7 +5136,8 @@
   },
   "GCNP_STATIC": {
     "tooltip": "",
-    "newtooltip": ""
+    "llGetClosestNavPoint": "Specifies whether the test should use the static or dynamic nav mesh. In the static case, all dynamic obstacles are ignored.",
+    "newtooltip": "Used with llGetClosestNavPoint to specify that the test should use the static navmesh, ignoring all dynamic obstacles."
   },
   "GRAVITY_MULTIPLIER": {
     "tooltip": "Used with llSetPhysicsMaterial to enable the gravity multiplier value. Must be between -1.0 and +28.0",
@@ -5157,7 +5172,8 @@
   },
   "HTTP_EXTENDED_ERROR": {
     "tooltip": "Report extended error information through http_response event.",
-    "newtooltip": "Enables the reporting of extended error information through the http_response event."
+    "llHTTPRequest": "If TRUE llHTTPRequest will always return a key. If there was an error making the HTTP request. Detailed error information will be returned through the http_response event using the provided key. Error information is delivered in a JSON block as described in RFC 7807. Details about extended return codes can be found below.",
+    "newtooltip": "If set to TRUE, llHTTPRequest always returns a key. If an error occurs during the request, detailed error information (delivered in an RFC 7807 JSON block) is reported through the http_response event using that key."
   },
   "HTTP_METHOD": {
     "tooltip": "",
@@ -5171,7 +5187,8 @@
   },
   "HTTP_PRAGMA_NO_CACHE": {
     "tooltip": "Allows enabling/disabling of the \"Pragma: no-cache\" header.\\nUsage: [HTTP_PRAGMA_NO_CACHE, integer SendHeader]. When SendHeader is TRUE, the \"Pragma: no-cache\" header is sent by the script. This matches the default behavior. When SendHeader is FALSE, no \"Pragma\" header is sent by the script.",
-    "newtooltip": "Controls whether the 'Pragma: no-cache' header is sent with the request. When SendHeader is TRUE (default), the header is sent; when FALSE, it is omitted."
+    "llHTTPRequest": "Sends \"Pragma: no-cache\" header (TRUE), or does not send a \"Pragma\" header (FALSE).",
+    "newtooltip": "Controls whether the 'Pragma: no-cache' header is sent with the HTTP request. When SendHeader is TRUE (default), the header is sent; when FALSE, it is omitted."
   },
   "HTTP_USER_AGENT": {
     "tooltip": "Provide a string value to be included in the HTTP\n            User-Agentheader value. This is appended to the default value.",
@@ -5180,11 +5197,13 @@
   },
   "HTTP_VERBOSE_THROTTLE": {
     "tooltip": "",
-    "newtooltip": ""
+    "llHTTPRequest": "If TRUE, shout error messages to DEBUG_CHANNEL if the outgoing request rate exceeds the server limit. If FALSE, the error messages are suppressed (llHTTPRequest will still return NULL_KEY).",
+    "newtooltip": "If set to TRUE, shouts error messages to DEBUG_CHANNEL if the outgoing request rate exceeds the server limit. If FALSE, these error messages are suppressed."
   },
   "HTTP_VERIFY_CERT": {
     "tooltip": "",
-    "newtooltip": ""
+    "llHTTPRequest": "If TRUE, the server SSL certificate must be verifiable using one of the standard certificate authorities when making HTTPS requests. If FALSE, any server SSL certificate will be accepted.",
+    "newtooltip": "If set to TRUE, the server's SSL certificate must be verifiable using a standard certificate authority when making HTTPS requests. If FALSE, any SSL certificate is accepted."
   },
   "IMG_USE_BAKED_AUX1": {
     "tooltip": "",
@@ -5409,16 +5428,6 @@
   "JSON_NULL": {
     "tooltip": "",
     "description": "Return value for llJsonValueType function indicating the Json data type of a given address specifier in a given string-serialized JSON text.",
-    "JSON_ARRAY": "\"%EF%B7%95\"",
-    "JSON_DELETE": "\"%EF%B7%95\"",
-    "JSON_FALSE": "\"%EF%B7%95\"",
-    "JSON_INVALID": "\"%EF%B7%95\"",
-    "JSON_NULL": "\"%EF%B7%95\"",
-    "JSON_NUMBER": "\"%EF%B7%95\"",
-    "JSON_OBJECT": "\"%EF%B7%95\"",
-    "JSON_STRING": "\"%EF%B7%95\"",
-    "JSON_TRUE": "\"%EF%B7%95\"",
-    "llJsonValueType": "\"%EF%B7%95\"",
     "newtooltip": "Return value for llJsonValueType indicating that the value at the specified address in a JSON string is a JSON null."
   },
   "JSON_NUMBER": {
@@ -5504,7 +5513,7 @@
   },
   "KFM_DATA": {
     "tooltip": "",
-    "description": "Flag used in the options parameter llSetKeyframedMotion&#160;: is a flag followed by a bitwise combination of: KFM_TRANSLATION and KFM_ROTATION. If absent, both rotations and translations must be provided in the first parameter of llSetKeyframedMotion .",
+    "description": "Flag used in the options parameter llSetKeyframedMotion : is a flag followed by a bitwise combination of: KFM_TRANSLATION and KFM_ROTATION. If absent, both rotations and translations must be provided in the first parameter of llSetKeyframedMotion .",
     "llSetKeyframedMotion": "Sets what data the keyframes containDefaults to (KFM_ROTATION | KFM_TRANSLATION)",
     "newtooltip": "Option flag in llSetKeyframedMotion followed by a bitwise combination of KFM_TRANSLATION and KFM_ROTATION to specify keyframe data. If absent, both rotation and translation data must be provided."
   },
@@ -5515,7 +5524,7 @@
   },
   "KFM_LOOP": {
     "tooltip": "For use with KFM_MODE.",
-    "description": "specify the playback mode used in llSetKeyframedMotion&#160;: will play the frames in the order number 1 , number 2 ... number N , returns to the intitial position , plays number 1 , nummber 2 ..",
+    "description": "specify the playback mode used in llSetKeyframedMotion : will play the frames in the order number 1 , number 2 ... number N , returns to the intitial position , plays number 1 , nummber 2 ..",
     "newtooltip": "Playback mode used with KFM_MODE in llSetKeyframedMotion. It plays the frames sequentially from 1 to N, returns to the initial position, and repeats indefinitely."
   },
   "KFM_MODE": {
@@ -7183,38 +7192,38 @@
   "OBJECT_RENDER_WEIGHT": {
     "tooltip": "This is a flag used with llGetObjectDetails to get the Avatar_Rendering_Cost of an avatar, based on values reported by nearby viewers.\nIf no data is available, -1 is returned.\nThe maximum render weight stored by the simulator is 500000. When called against an object, 0 is returned.",
     "description": "This is a flag used with llGetObjectDetails to get the Avatar_Rendering_Cost of an avatar, based on values reported by nearby viewers. If no data is available, -1 is returned. The maximum render weight stored by the simulator is 500000. When called against an object, 0 is returned.",
-    "OBJECT_ATTACHED_SLOTS_AVAILABLE": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_BODY_SHAPE_TYPE": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_CHARACTER_TIME": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_CLICK_ACTION": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_CREATOR": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_DESC": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_GROUP": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_GROUP_TAG": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_HOVER_HEIGHT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_LAST_OWNER_ID": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_NAME": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_OWNER": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_PHANTOM": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_PHYSICS": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_PHYSICS_COST": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_POS": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_PRIM_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_PRIM_EQUIVALENCE": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_RENDER_WEIGHT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_ROT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_RUNNING_SCRIPT_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_SCRIPT_MEMORY": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_SCRIPT_TIME": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_SELECT_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_SERVER_COST": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_STREAMING_COST": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_TEMP_ON_REZ": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_TOTAL_INVENTORY_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_TOTAL_SCRIPT_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_UNKNOWN_DETAIL": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "OBJECT_VELOCITY": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
-    "llGetObjectDetails": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000&#91;1&#93;.",
+    "OBJECT_ATTACHED_SLOTS_AVAILABLE": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_BODY_SHAPE_TYPE": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_CHARACTER_TIME": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_CLICK_ACTION": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_CREATOR": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_DESC": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_GROUP": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_GROUP_TAG": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_HOVER_HEIGHT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_LAST_OWNER_ID": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_NAME": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_OWNER": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_PHANTOM": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_PHYSICS": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_PHYSICS_COST": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_POS": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_PRIM_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_PRIM_EQUIVALENCE": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_RENDER_WEIGHT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_ROT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_RUNNING_SCRIPT_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_SCRIPT_MEMORY": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_SCRIPT_TIME": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_SELECT_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_SERVER_COST": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_STREAMING_COST": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_TEMP_ON_REZ": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_TOTAL_INVENTORY_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_TOTAL_SCRIPT_COUNT": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_UNKNOWN_DETAIL": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "OBJECT_VELOCITY": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
+    "llGetObjectDetails": "Gets the avatar's render weight.If id is an object, 0 is returned. If id is an avatar whose render weight is unknown to the simulator, -1 is returned. The maximum render weight reported by the server is 500000[1].",
     "newtooltip": "Flag used with llGetObjectDetails to get the render weight (Avatar Rendering Cost) of an avatar based on viewer reports. Returns 0 for objects, -1 if unknown, and is capped at 500,000."
   },
   "OBJECT_RETURN_PARCEL": {
@@ -9026,6 +9035,7 @@
   "PATROL_PAUSE_AT_WAYPOINTS": {
     "tooltip": "",
     "description": "Option parameter for llPatrolPoints function. Can be set TRUE or FALSE (the default).When set TRUE, characters will slow down and momentarily pause at each waypoint.When set FALSE, characters will continue to move to the next waypoint at full speed, with no pause.",
+    "llPatrolPoints": "Whether the character should pause briefly after reaching each patrol point.",
     "newtooltip": "Option parameter for llPatrolPoints (defaults to FALSE). If TRUE, the character slows down and momentarily pauses at each waypoint. If FALSE, the character moves to the next waypoint at full speed with no pause."
   },
   "PAY_DEFAULT": {
@@ -9210,7 +9220,7 @@
   },
   "PI": {
     "tooltip": "3.14159265 - The number of radians in a semi-circle.",
-    "description": "&#8201;Pi. The number of radians in a half circle.",
+    "description": " Pi. The number of radians in a half circle.",
     "llSensor": "A full sphere scan",
     "llSensorRepeat": "A full sphere scan",
     "newtooltip": "The mathematical constant Pi (3.14159265), representing the number of radians in a half circle (semi-circle). When used in sensor functions, it specifies a full sphere scan."
@@ -9626,18 +9636,6 @@
   "PRIM_HOLE_CIRCLE": {
     "tooltip": "",
     "description": "Used with certain PRIM_TYPE_* flags to make a circular hole, via the hole_shape parameter.",
-    "PRIM_HOLE_CIRCLE": "Circle",
-    "PRIM_HOLE_DEFAULT": "Circle",
-    "PRIM_HOLE_SQUARE": "Circle",
-    "PRIM_HOLE_TRIANGLE": "Circle",
-    "PRIM_TYPE": "Circle",
-    "PRIM_TYPE_BOX": "Circle",
-    "PRIM_TYPE_CYLINDER": "Circle",
-    "PRIM_TYPE_PRISM": "Circle",
-    "PRIM_TYPE_RING": "Circle",
-    "PRIM_TYPE_SPHERE": "Circle",
-    "PRIM_TYPE_TORUS": "Circle",
-    "PRIM_TYPE_TUBE": "Circle",
     "llGetLinkPrimitiveParams": "Circle",
     "llGetPrimitiveParams": "Circle",
     "llSetLinkPrimitiveParams": "Circle",
@@ -9648,18 +9646,6 @@
   "PRIM_HOLE_DEFAULT": {
     "tooltip": "",
     "description": "Used with certain PRIM_TYPE_* flags to make a hole the same shape as the outer shape, via the hole_shape parameter.",
-    "PRIM_HOLE_CIRCLE": "Default",
-    "PRIM_HOLE_DEFAULT": "Default",
-    "PRIM_HOLE_SQUARE": "Default",
-    "PRIM_HOLE_TRIANGLE": "Default",
-    "PRIM_TYPE": "Default",
-    "PRIM_TYPE_BOX": "Default",
-    "PRIM_TYPE_CYLINDER": "Default",
-    "PRIM_TYPE_PRISM": "Default",
-    "PRIM_TYPE_RING": "Default",
-    "PRIM_TYPE_SPHERE": "Default",
-    "PRIM_TYPE_TORUS": "Default",
-    "PRIM_TYPE_TUBE": "Default",
     "llGetLinkPrimitiveParams": "Default",
     "llGetPrimitiveParams": "Default",
     "llSetLinkPrimitiveParams": "Default",
@@ -9670,18 +9656,6 @@
   "PRIM_HOLE_SQUARE": {
     "tooltip": "",
     "description": "Used with certain PRIM_TYPE_* flags to make a squarish hole, via the hole_shape parameter.",
-    "PRIM_HOLE_CIRCLE": "Square",
-    "PRIM_HOLE_DEFAULT": "Square",
-    "PRIM_HOLE_SQUARE": "Square",
-    "PRIM_HOLE_TRIANGLE": "Square",
-    "PRIM_TYPE": "Square",
-    "PRIM_TYPE_BOX": "Square",
-    "PRIM_TYPE_CYLINDER": "Square",
-    "PRIM_TYPE_PRISM": "Square",
-    "PRIM_TYPE_RING": "Square",
-    "PRIM_TYPE_SPHERE": "Square",
-    "PRIM_TYPE_TORUS": "Square",
-    "PRIM_TYPE_TUBE": "Square",
     "llGetLinkPrimitiveParams": "Square",
     "llGetPrimitiveParams": "Square",
     "llSetLinkPrimitiveParams": "Square",
@@ -9692,18 +9666,6 @@
   "PRIM_HOLE_TRIANGLE": {
     "tooltip": "",
     "description": "Used with certain PRIM_TYPE_* flags to make a triangular hole, via the hole_shape parameter.",
-    "PRIM_HOLE_CIRCLE": "Triangle",
-    "PRIM_HOLE_DEFAULT": "Triangle",
-    "PRIM_HOLE_SQUARE": "Triangle",
-    "PRIM_HOLE_TRIANGLE": "Triangle",
-    "PRIM_TYPE": "Triangle",
-    "PRIM_TYPE_BOX": "Triangle",
-    "PRIM_TYPE_CYLINDER": "Triangle",
-    "PRIM_TYPE_PRISM": "Triangle",
-    "PRIM_TYPE_RING": "Triangle",
-    "PRIM_TYPE_SPHERE": "Triangle",
-    "PRIM_TYPE_TORUS": "Triangle",
-    "PRIM_TYPE_TUBE": "Triangle",
     "llGetLinkPrimitiveParams": "Triangle",
     "llGetPrimitiveParams": "Triangle",
     "llSetLinkPrimitiveParams": "Triangle",
@@ -11101,7 +11063,8 @@
   },
   "RC_DETECT_PHANTOM": {
     "tooltip": "",
-    "newtooltip": ""
+    "llCastRay": "Set to TRUE (or nonzero) to detect phantom AND volume detect objects. It is not possible to detect only phantom objects or only volume detect objects. If set to TRUE, phantom and volume detect objects will always be detected, even if RC_REJECT_NONPHYSICAL and RC_REJECT_PHYSICAL are set in RC_REJECT_TYPES.",
+    "newtooltip": "Flag used with llCastRay. If set to TRUE (or non-zero), detects both phantom and volume-detect objects (they cannot be filtered individually). This overrides the RC_REJECT_NONPHYSICAL and RC_REJECT_PHYSICAL settings in RC_REJECT_TYPES."
   },
   "RC_GET_LINK_NUM": {
     "tooltip": "",
@@ -11344,7 +11307,7 @@
   },
   "REZ_DAMAGE_TYPE": {
     "tooltip": "Set the damage type applied when this object collides. [integer damage_type]",
-    "description": "Sets the damage type when rezzed to apply&#160; when this prim collides with another object. Can match one of the DAMAGE_TYPE_* constants, be a custom damage type or be a repurposed damage field.",
+    "description": "Sets the damage type when rezzed to apply  when this prim collides with another object. Can match one of the DAMAGE_TYPE_* constants, be a custom damage type or be a repurposed damage field.",
     "llRezObjectWithParams": "The damage type to apply when this prim collides with another object. Can match one of the DAMAGE_TYPE_* constants, be a custom damage type or repurpose the damage field.",
     "newtooltip": "Rez parameter specifying the integer damage type applied on collision (supports DAMAGE_TYPE_* constants, custom types, or a repurposed damage field)."
   },
@@ -11365,12 +11328,12 @@
   },
   "REZ_FLAG_NO_COLLIDE_FAMILY": {
     "tooltip": "Object will not trigger collision events with other objects created by the same rezzer.",
-    "llRezObjectWithParams": "Object will not trigger collision events when colliding with other object rezzed by the same rezzer.&#8224;",
+    "llRezObjectWithParams": "Object will not trigger collision events when colliding with other object rezzed by the same rezzer.†",
     "newtooltip": "Rez flag preventing collision events from triggering when colliding with other objects created by the same rezzer."
   },
   "REZ_FLAG_NO_COLLIDE_OWNER": {
     "tooltip": "Object will not trigger collision events with its owner.",
-    "llRezObjectWithParams": "Object will not trigger a collision event if colliding with its owner.&#8224;",
+    "llRezObjectWithParams": "Object will not trigger a collision event if colliding with its owner.†",
     "newtooltip": "Rez flag preventing collision events from triggering when colliding with its owner."
   },
   "REZ_FLAG_PHANTOM": {
@@ -11880,6 +11843,8 @@
     "STATUS_ROTATE_Y": "Prevent click-and-drag movement on the root prim",
     "STATUS_ROTATE_Z": "Prevent click-and-drag movement on the root prim",
     "STATUS_SANDBOX": "Prevent click-and-drag movement on the root prim",
+    "llGetStatus": "Prevent click-and-drag movement on the root prim",
+    "llSetStatus": "Prevent click-and-drag movement on the root prim",
     "newtooltip": "Status flag (default FALSE) that blocks click-and-drag grab movements on unlinked prims or the root prim of a linkset. Useful for preventing physical objects from being trivially disturbed."
   },
   "STATUS_BLOCK_GRAB_OBJECT": {
@@ -11897,6 +11862,8 @@
     "STATUS_ROTATE_Y": "Prevent click-and-drag movement on all prims in the object",
     "STATUS_ROTATE_Z": "Prevent click-and-drag movement on all prims in the object",
     "STATUS_SANDBOX": "Prevent click-and-drag movement on all prims in the object",
+    "llGetStatus": "Prevent click-and-drag movement on all prims in the object",
+    "llSetStatus": "Prevent click-and-drag movement on all prims in the object",
     "newtooltip": "Status flag that blocks click-and-drag grab movements on all prims across the entire linkset."
   },
   "STATUS_BOUNDS_ERROR": {
@@ -11922,6 +11889,8 @@
     "STATUS_ROTATE_Y": "not currently used",
     "STATUS_ROTATE_Z": "not currently used",
     "STATUS_SANDBOX": "not currently used",
+    "llGetStatus": "not currently used",
+    "llSetStatus": "not currently used",
     "newtooltip": "Unused legacy status flag intended to configure an object's ability to cast shadows."
   },
   "STATUS_DIE_AT_EDGE": {
@@ -12017,6 +11986,8 @@
     "STATUS_ROTATE_Y": "Object is phantom",
     "STATUS_ROTATE_Z": "Object is phantom",
     "STATUS_SANDBOX": "Object is phantom",
+    "llGetStatus": "Object is phantom",
+    "llSetStatus": "Object is phantom",
     "newtooltip": "Status flag (default FALSE) that makes the entire object phantom/non-colliding when set to TRUE, allowing avatars and objects to pass through it."
   },
   "STATUS_PHYSICS": {
@@ -12034,6 +12005,8 @@
     "STATUS_ROTATE_Y": "Object is physical",
     "STATUS_ROTATE_Z": "Object is physical",
     "STATUS_SANDBOX": "Object is physical",
+    "llGetStatus": "Object is physical",
+    "llSetStatus": "Object is physical",
     "newtooltip": "Status flag (default FALSE) that controls whether the object responds to physical interactions, gravity, and forces."
   },
   "STATUS_RETURN_AT_EDGE": {
@@ -12051,6 +12024,8 @@
     "STATUS_ROTATE_Y": "Return object to owner if it goes off world",
     "STATUS_ROTATE_Z": "Return object to owner if it goes off world",
     "STATUS_SANDBOX": "Return object to owner if it goes off world",
+    "llGetStatus": "Return object to owner if it goes off world",
+    "llSetStatus": "Return object to owner if it goes off world",
     "newtooltip": "Status flag causing the object to be returned to its owner when it goes off-world, overriding STATUS_DIE_AT_EDGE."
   },
   "STATUS_ROTATE_X": {
@@ -12068,6 +12043,8 @@
     "STATUS_ROTATE_Y": "Can turn along this axis (physical objects only)",
     "STATUS_ROTATE_Z": "Can turn along this axis (physical objects only)",
     "STATUS_SANDBOX": "Can turn along this axis (physical objects only)",
+    "llGetStatus": "Can turn along this axis (physical objects only)",
+    "llSetStatus": "Can turn along this axis (physical objects only)",
     "newtooltip": "Status flag (default TRUE) that allows physical rotation on the object's local X-axis. Setting to FALSE prevents physical rotation on this axis."
   },
   "STATUS_ROTATE_Y": {
@@ -12085,6 +12062,8 @@
     "STATUS_ROTATE_Y": "Can turn along this axis (physical objects only)",
     "STATUS_ROTATE_Z": "Can turn along this axis (physical objects only)",
     "STATUS_SANDBOX": "Can turn along this axis (physical objects only)",
+    "llGetStatus": "Can turn along this axis (physical objects only)",
+    "llSetStatus": "Can turn along this axis (physical objects only)",
     "newtooltip": "Status flag (default TRUE) that allows physical rotation on the object's local Y-axis. Setting to FALSE prevents physical rotation on this axis."
   },
   "STATUS_ROTATE_Z": {
@@ -12102,6 +12081,8 @@
     "STATUS_ROTATE_Y": "Can turn along this axis (physical objects only)",
     "STATUS_ROTATE_Z": "Can turn along this axis (physical objects only)",
     "STATUS_SANDBOX": "Can turn along this axis (physical objects only)",
+    "llGetStatus": "Can turn along this axis (physical objects only)",
+    "llSetStatus": "Can turn along this axis (physical objects only)",
     "newtooltip": "Status flag (default TRUE for physical objects) that allows physical rotation on the object's local Z-axis. Setting to FALSE prevents physical rotation on this axis."
   },
   "STATUS_SANDBOX": {
@@ -12119,6 +12100,8 @@
     "STATUS_ROTATE_Y": "Keep object within 10 meters and in the same region",
     "STATUS_ROTATE_Z": "Keep object within 10 meters and in the same region",
     "STATUS_SANDBOX": "Keep object within 10 meters and in the same region",
+    "llGetStatus": "Keep object within 10 meters and in the same region",
+    "llSetStatus": "Keep object within 10 meters and in the same region",
     "newtooltip": "Status flag (default FALSE) that restricts the object's physical movement to within its creation region and a short distance (10 to 20 meters) from its creation point to prevent it from escaping."
   },
   "STATUS_TYPE_MISMATCH": {
@@ -12168,86 +12151,102 @@
   "TERRAIN_DETAIL_1": {
     "tooltip": "",
     "llSetGroundTexture": "Sets the texture to use for the current terrain detail layer. texture_id must be the UUID of a texture or material, or the name of a texture or material in the object's inventory. Passing NULL_KEY or an empty string will set the terrain texture to the default.",
-    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the texture or material (via UUID, inventory name, or default NULL_KEY) for terrain detail layer 1."
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the texture or material (via UUID, inventory name, or default NULL_KEY/empty string) for terrain detail layer 1."
   },
   "TERRAIN_DETAIL_2": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the texture to use for the current terrain detail layer. texture_id must be the UUID of a texture or material, or the name of a texture or material in the object's inventory. Passing NULL_KEY or an empty string will set the terrain texture to the default.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the texture or material (via UUID, inventory name, or default NULL_KEY/empty string) for terrain detail layer 2."
   },
   "TERRAIN_DETAIL_3": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the texture to use for the current terrain detail layer. texture_id must be the UUID of a texture or material, or the name of a texture or material in the object's inventory. Passing NULL_KEY or an empty string will set the terrain texture to the default.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the texture or material (via UUID, inventory name, or default NULL_KEY/empty string) for terrain detail layer 3."
   },
   "TERRAIN_DETAIL_4": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the texture to use for the current terrain detail layer. texture_id must be the UUID of a texture or material, or the name of a texture or material in the object's inventory. Passing NULL_KEY or an empty string will set the terrain texture to the default.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the texture or material (via UUID, inventory name, or default NULL_KEY/empty string) for terrain detail layer 4."
   },
   "TERRAIN_HEIGHT_RANGE_NE": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the height range for terrain for texture blending in the region. low is the maximum height for texture 1 and high is the minimum height for texture 4, textures 2 and 3 will mix in between these values.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the north-east height range for texture blending. Specifies low as the maximum height for texture 1, high as the minimum height for texture 4, and lets textures 2 and 3 mix in between."
   },
   "TERRAIN_HEIGHT_RANGE_NW": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the height range for terrain for texture blending in the region. low is the maximum height for texture 1 and high is the minimum height for texture 4, textures 2 and 3 will mix in between these values.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the north-west height range for texture blending. Specifies low as the maximum height for texture 1, high as the minimum height for texture 4, and lets textures 2 and 3 mix in between."
   },
   "TERRAIN_HEIGHT_RANGE_SE": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the height range for terrain for texture blending in the region. low is the maximum height for texture 1 and high is the minimum height for texture 4, textures 2 and 3 will mix in between these values.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the south-east height range for texture blending. Specifies low as the maximum height for texture 1, high as the minimum height for texture 4, and lets textures 2 and 3 mix in between."
   },
   "TERRAIN_HEIGHT_RANGE_SW": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the height range for terrain for texture blending in the region. low is the maximum height for texture 1 and high is the minimum height for texture 4, textures 2 and 3 will mix in between these values.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the south-west height range for texture blending. Specifies low as the maximum height for texture 1, high as the minimum height for texture 4, and lets textures 2 and 3 mix in between."
   },
   "TERRAIN_PBR_OFFSET_1": {
     "tooltip": "",
     "llSetGroundTexture": "Sets the UV offset for drawing each terrain layer. The Z value of the vector is ignored. Only works for PBR textures.",
-    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV offset (ignoring the Z value) for drawing terrain layer 1. Only works for PBR textures."
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV offset vector (ignoring the Z component) for drawing terrain layer 1. Only works for PBR textures."
   },
   "TERRAIN_PBR_OFFSET_2": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the UV offset for drawing each terrain layer. The Z value of the vector is ignored. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV offset vector (ignoring the Z component) for drawing terrain layer 2. Only works for PBR textures."
   },
   "TERRAIN_PBR_OFFSET_3": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the UV offset for drawing each terrain layer. The Z value of the vector is ignored. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV offset vector (ignoring the Z component) for drawing terrain layer 3. Only works for PBR textures."
   },
   "TERRAIN_PBR_OFFSET_4": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the UV offset for drawing each terrain layer. The Z value of the vector is ignored. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV offset vector (ignoring the Z component) for drawing terrain layer 4. Only works for PBR textures."
   },
   "TERRAIN_PBR_ROTATION_1": {
     "tooltip": "",
     "llSetGroundTexture": "Sets the rotation of the PBR texture for each layer, in radians. Only works for PBR textures.",
-    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the rotation of the PBR texture for layer 1 in radians. Only works for PBR textures."
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the rotation of the PBR texture for layer 1, in radians. Only works for PBR textures."
   },
   "TERRAIN_PBR_ROTATION_2": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the rotation of the PBR texture for each layer, in radians. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the rotation of the PBR texture for layer 2, in radians. Only works for PBR textures."
   },
   "TERRAIN_PBR_ROTATION_3": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the rotation of the PBR texture for each layer, in radians. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the rotation of the PBR texture for layer 3, in radians. Only works for PBR textures."
   },
   "TERRAIN_PBR_ROTATION_4": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the rotation of the PBR texture for each layer, in radians. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the rotation of the PBR texture for layer 4, in radians. Only works for PBR textures."
   },
   "TERRAIN_PBR_SCALE_1": {
     "tooltip": "",
     "llSetGroundTexture": "Sets the UV scale used for each layer's terrain texture in repeats per meter. The Z value of the vector is ignored. Only works for PBR textures.",
-    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV scale (repeats per meter, ignoring Z value) for terrain layer 1. Only works for PBR textures."
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV scale vector (repeats per meter, ignoring the Z component) for terrain layer 1. Only works for PBR textures."
   },
   "TERRAIN_PBR_SCALE_2": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the UV scale used for each layer's terrain texture in repeats per meter. The Z value of the vector is ignored. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV scale vector (repeats per meter, ignoring the Z component) for terrain layer 2. Only works for PBR textures."
   },
   "TERRAIN_PBR_SCALE_3": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the UV scale used for each layer's terrain texture in repeats per meter. The Z value of the vector is ignored. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV scale vector (repeats per meter, ignoring the Z component) for terrain layer 3. Only works for PBR textures."
   },
   "TERRAIN_PBR_SCALE_4": {
     "tooltip": "",
-    "newtooltip": ""
+    "llSetGroundTexture": "Sets the UV scale used for each layer's terrain texture in repeats per meter. The Z value of the vector is ignored. Only works for PBR textures.",
+    "newtooltip": "Terrain parameter used with llSetGroundTexture to set the UV scale vector (repeats per meter, ignoring the Z component) for terrain layer 4. Only works for PBR textures."
   },
   "TEXTURE_BLANK": {
     "tooltip": "",
@@ -12400,86 +12399,30 @@
   },
   "TYPE_FLOAT": {
     "tooltip": "The list entry is a float.",
-    "TYPE_FLOAT": "float",
-    "TYPE_INTEGER": "float",
-    "TYPE_INVALID": "float",
-    "TYPE_KEY": "float",
-    "TYPE_ROTATION": "float",
-    "TYPE_STRING": "float",
-    "TYPE_VECTOR": "float",
-    "llGetListEntryType": "float",
     "newtooltip": "Variable type constant indicating the list entry or value is a float."
   },
   "TYPE_INTEGER": {
     "tooltip": "The list entry is an integer.",
-    "TYPE_FLOAT": "integer",
-    "TYPE_INTEGER": "integer",
-    "TYPE_INVALID": "integer",
-    "TYPE_KEY": "integer",
-    "TYPE_ROTATION": "integer",
-    "TYPE_STRING": "integer",
-    "TYPE_VECTOR": "integer",
-    "llGetListEntryType": "integer",
     "newtooltip": "Variable type constant indicating the list entry or value is an integer."
   },
   "TYPE_INVALID": {
     "tooltip": "The list entry is invalid.",
-    "TYPE_FLOAT": "none",
-    "TYPE_INTEGER": "none",
-    "TYPE_INVALID": "none",
-    "TYPE_KEY": "none",
-    "TYPE_ROTATION": "none",
-    "TYPE_STRING": "none",
-    "TYPE_VECTOR": "none",
-    "llGetListEntryType": "none",
     "newtooltip": "Variable type constant indicating the list entry or value is invalid."
   },
   "TYPE_KEY": {
     "tooltip": "The list entry is a key.",
-    "TYPE_FLOAT": "key",
-    "TYPE_INTEGER": "key",
-    "TYPE_INVALID": "key",
-    "TYPE_KEY": "key",
-    "TYPE_ROTATION": "key",
-    "TYPE_STRING": "key",
-    "TYPE_VECTOR": "key",
-    "llGetListEntryType": "key",
     "newtooltip": "Variable type constant indicating the list entry or value is a key."
   },
   "TYPE_ROTATION": {
     "tooltip": "The list entry is a rotation.",
-    "TYPE_FLOAT": "rotation",
-    "TYPE_INTEGER": "rotation",
-    "TYPE_INVALID": "rotation",
-    "TYPE_KEY": "rotation",
-    "TYPE_ROTATION": "rotation",
-    "TYPE_STRING": "rotation",
-    "TYPE_VECTOR": "rotation",
-    "llGetListEntryType": "rotation",
     "newtooltip": "Variable type constant indicating the list entry or value is a rotation."
   },
   "TYPE_STRING": {
     "tooltip": "The list entry is a string.",
-    "TYPE_FLOAT": "string",
-    "TYPE_INTEGER": "string",
-    "TYPE_INVALID": "string",
-    "TYPE_KEY": "string",
-    "TYPE_ROTATION": "string",
-    "TYPE_STRING": "string",
-    "TYPE_VECTOR": "string",
-    "llGetListEntryType": "string",
     "newtooltip": "Variable type constant indicating the list entry or value is a string."
   },
   "TYPE_VECTOR": {
     "tooltip": "The list entry is a vector.",
-    "TYPE_FLOAT": "vector",
-    "TYPE_INTEGER": "vector",
-    "TYPE_INVALID": "vector",
-    "TYPE_KEY": "vector",
-    "TYPE_ROTATION": "vector",
-    "TYPE_STRING": "vector",
-    "TYPE_VECTOR": "vector",
-    "llGetListEntryType": "vector",
     "newtooltip": "Variable type constant indicating the list entry or value is a vector."
   },
   "URL_REQUEST_DENIED": {
@@ -12628,9 +12571,9 @@
   "VEHICLE_FLAG_NO_DEFLECTION_UP": {
     "tooltip": "This flag prevents linear deflection parallel to world z-axis. This is useful for preventing ground vehicles with large linear deflection, like bumper cars, from climbing their linear deflection into the sky.",
     "description": "The integer constant VEHICLE_FLAG_NO_FLY_UP also has the value 0x001",
-    "VEHICLE_FLAG_HOVER_TERRAIN_ONLY": "This flag prevents linear deflection parallel to world z-axis. This is useful for preventing ground vehicles with large linear deflection, like &#8201;bumper cars, from climbing their linear deflection into the sky.",
-    "llRemoveVehicleFlags": "This flag prevents linear deflection parallel to world z-axis. This is useful for preventing ground vehicles with large linear deflection, like &#8201;bumper cars, from climbing their linear deflection into the sky.",
-    "llSetVehicleFlags": "This flag prevents linear deflection parallel to world z-axis. This is useful for preventing ground vehicles with large linear deflection, like &#8201;bumper cars, from climbing their linear deflection into the sky.",
+    "VEHICLE_FLAG_HOVER_TERRAIN_ONLY": "This flag prevents linear deflection parallel to world z-axis. This is useful for preventing ground vehicles with large linear deflection, like  bumper cars, from climbing their linear deflection into the sky.",
+    "llRemoveVehicleFlags": "This flag prevents linear deflection parallel to world z-axis. This is useful for preventing ground vehicles with large linear deflection, like  bumper cars, from climbing their linear deflection into the sky.",
+    "llSetVehicleFlags": "This flag prevents linear deflection parallel to world z-axis. This is useful for preventing ground vehicles with large linear deflection, like  bumper cars, from climbing their linear deflection into the sky.",
     "newtooltip": "Vehicle flag that prevents linear deflection parallel to the world Z-axis, preventing ground vehicles (such as bumper cars) from climbing into the sky."
   },
   "VEHICLE_FLAG_NO_FLY_UP": {
@@ -12794,7 +12737,8 @@
   },
   "WANDER_PAUSE_AT_WAYPOINTS": {
     "tooltip": "",
-    "newtooltip": ""
+    "llWanderWithin": "Whether the character should pause after reaching each wander waypoint.",
+    "newtooltip": "Option parameter for llWanderWithin specifying whether the character should pause briefly after reaching each wander waypoint."
   },
   "WATER_BLUR_MULTIPLIER": {
     "tooltip": "Blur factor.",
