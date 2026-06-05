@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argument names in functions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Argument names in functions</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for argument names...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "ForSale": [
+    "llSetParcelForSale"
+  ],
+  "Options": [
+    "llSetParcelForSale"
+  ],
+  "a": [
+    "llAngleBetween",
+    "llModPow"
+  ],
+  "accept": [
+    "llCollisionFilter",
+    "llTakeControls"
+  ],
+  "action": [
+    "llManageEstateAccess",
+    "llModifyLand",
+    "llSetClickAction",
+    "linkset_data"
+  ],
+  "active": [
+    "llListenControl"
+  ],
+  "add": [
+    "llAllowInventoryDrop"
+  ],
+  "address": [
+    "llEmail",
+    "llGetNextEmail",
+    "email"
+  ],
+  "agent": [
+    "llAgentInExperience",
+    "llGiveAgentInventory",
+    "llRequestExperiencePermissions",
+    "llRequestPermissions",
+    "llTeleportAgent",
+    "llTeleportAgentGlobalCoords"
+  ],
+  "agent_id": [
+    "llIsFriend",
+    "llReplaceAgentEnvironment",
+    "llSetAgentEnvironment",
+    "llSitOnLink",
+    "llTransferOwnership",
+    "experience_permissions",
+    "experience_permissions_denied"
+  ],
+  "agentid": [
+    "llClearExperience",
+    "llClearExperiencePermissions",
+    "llGetExperienceList",
+    "llGetVisualParams"
+  ],
+  "algorithm": [
+    "llComputeHash",
+    "llHMAC",
+    "llSignRSA",
+    "llVerifyRSA"
+  ],
+  "alpha": [
+    "llSetAlpha",
+    "llSetLinkAlpha",
+    "llSetText"
+  ],
+  "amount": [
+    "llGiveMoney",
+    "llTransferLindenDollars",
+    "money"
+  ],
+  "ang_impulse": [
+    "llPushObject"
+  ],
+  "angle": [
+    "llAxisAngle2Rot",
+    "llRotateTexture"
+  ],
+  "anim": [
+    "llSetAnimationOverride",
+    "llStartAnimation",
+    "llStartObjectAnimation",
+    "llStopAnimation",
+    "llStopObjectAnimation"
+  ],
+  "anim_state": [
+    "llGetAnimationOverride",
+    "llResetAnimationOverride",
+    "llSetAnimationOverride"
+  ],
+  "arc": [
+    "llMakeExplosion",
+    "llMakeFire",
+    "llMakeFountain",
+    "llMakeSmoke",
+    "llSensor",
+    "llSensorRepeat"
+  ],
+  "ascending": [
+    "llListSort",
+    "llListSortStrided"
+  ],
+  "at": [
+    "llSetLinkCamera"
+  ],
+  "attach_point": [
+    "llAttachToAvatar",
+    "llAttachToAvatarTemp"
+  ],
+  "avatar": [
+    "llAddToLandBanList",
+    "llAddToLandPassList",
+    "llDialog",
+    "llEjectFromLand",
+    "llGetAgentLanguage",
+    "llGetAgentSize",
+    "llGetAnimationList",
+    "llGetAttachedList",
+    "llGetAttachedListFiltered",
+    "llLoadURL",
+    "llManageEstateAccess",
+    "llReleaseCamera",
+    "llRemoveFromLandBanList",
+    "llRemoveFromLandPassList",
+    "llTakeCamera",
+    "llTeleportAgentHome",
+    "llTextBox"
+  ],
+  "axes": [
+    "game_control"
+  ],
+  "axis": [
+    "llAxisAngle2Rot",
+    "llTargetOmega"
+  ],
+  "b": [
+    "llAngleBetween",
+    "llModPow"
+  ],
+  "base": [
+    "llPow"
+  ],
+  "body": [
+    "llHTTPRequest",
+    "llHTTPResponse",
+    "http_request",
+    "http_response"
+  ],
+  "bottom_south_west": [
+    "llTriggerSoundLimited"
+  ],
+  "bounce": [
+    "llMakeFountain"
+  ],
+  "bounce_offset": [
+    "llMakeFountain"
+  ],
+  "brush": [
+    "llModifyLand"
+  ],
+  "buoyancy": [
+    "llSetBuoyancy"
+  ],
+  "button_levels": [
+    "game_control"
+  ],
+  "buttons": [
+    "llDialog"
+  ],
+  "c": [
+    "llModPow"
+  ],
+  "category": [
+    "llGetInventoryPermMask",
+    "llGetObjectPermMask",
+    "llGetParcelPrimCount",
+    "llSetInventoryPermMask"
+  ],
+  "change": [
+    "changed"
+  ],
+  "changes": [
+    "llSetGroundTexture"
+  ],
+  "channel": [
+    "llCloseRemoteDataChannel",
+    "llDialog",
+    "llListen",
+    "llRegionSay",
+    "llRegionSayTo",
+    "llRemoteDataReply",
+    "llSay",
+    "llSendRemoteData",
+    "llShout",
+    "llTextBox",
+    "llWhisper",
+    "listen",
+    "remote_data"
+  ],
+  "checked": [
+    "llUpdateKeyValue"
+  ],
+  "color": [
+    "llLinear2sRGB",
+    "llSetColor",
+    "llSetLinkColor",
+    "llSetText"
+  ],
+  "command": [
+    "llExecCharacterCmd"
+  ],
+  "commandList": [
+    "llParcelMediaCommandList"
+  ],
+  "content_type": [
+    "llSetContentType"
+  ],
+  "controls": [
+    "llTakeControls"
+  ],
+  "count": [
+    "llFindNotecardTextSync",
+    "llKeysKeyValue",
+    "llLinksetDataFindKeys",
+    "llLinksetDataListKeys",
+    "llReplaceSubString"
+  ],
+  "damage": [
+    "llDamage",
+    "llSetDamage"
+  ],
+  "damage_type": [
+    "llDamage"
+  ],
+  "damping": [
+    "llLookAt",
+    "llRotLookAt"
+  ],
+  "data": [
+    "llRequestAgentData",
+    "llRequestSimulatorData",
+    "dataserver",
+    "transaction_result"
+  ],
+  "day_length": [
+    "llReplaceEnvironment"
+  ],
+  "day_offset": [
+    "llReplaceEnvironment"
+  ],
+  "delay": [
+    "llMinEventDelay"
+  ],
+  "density": [
+    "llSetPhysicsMaterial"
+  ],
+  "description": [
+    "llSetObjectDesc"
+  ],
+  "dest": [
+    "llListInsertList",
+    "llListReplaceList",
+    "llSendRemoteData"
+  ],
+  "destination": [
+    "llGiveInventory",
+    "llGiveMoney",
+    "llTransferLindenDollars"
+  ],
+  "detect": [
+    "llVolumeDetect"
+  ],
+  "dir": [
+    "llEdgeOfWorld"
+  ],
+  "dist": [
+    "llWanderWithin"
+  ],
+  "distance": [
+    "llFleeFrom"
+  ],
+  "dst": [
+    "llInsertString"
+  ],
+  "edge": [
+    "control"
+  ],
+  "end": [
+    "llCastRay",
+    "llDeleteSubList",
+    "llDeleteSubString",
+    "llGetStaticPath",
+    "llGetSubString",
+    "llList2List",
+    "llList2ListSlice",
+    "llList2ListStrided",
+    "llListFindStrided",
+    "llListReplaceList",
+    "llRotBetween"
+  ],
+  "environment": [
+    "llReplaceAgentEnvironment",
+    "llReplaceEnvironment"
+  ],
+  "error": [
+    "llGetExperienceErrorMessage",
+    "llRotTarget"
+  ],
+  "event_type": [
+    "remote_data"
+  ],
+  "experience_id": [
+    "llGetExperienceDetails"
+  ],
+  "experienceid": [
+    "llClearExperience",
+    "llSetExperienceKey"
+  ],
+  "exponent": [
+    "llPow"
+  ],
+  "eye": [
+    "llSetLinkCamera"
+  ],
+  "face": [
+    "llClearLinkMedia",
+    "llClearPrimMedia",
+    "llGetAlpha",
+    "llGetColor",
+    "llGetLinkMedia",
+    "llGetPrimMediaParams",
+    "llGetRenderMaterial",
+    "llGetTexture",
+    "llGetTextureOffset",
+    "llGetTextureRot",
+    "llGetTextureScale",
+    "llIsLinkGLTFMaterial",
+    "llOffsetTexture",
+    "llRotateTexture",
+    "llScaleTexture",
+    "llSetAlpha",
+    "llSetColor",
+    "llSetLinkAlpha",
+    "llSetLinkColor",
+    "llSetLinkGLTFOverrides",
+    "llSetLinkMedia",
+    "llSetLinkRenderMaterial",
+    "llSetLinkTexture",
+    "llSetLinkTextureAnim",
+    "llSetPrimMediaParams",
+    "llSetRenderMaterial",
+    "llSetTexture",
+    "llSetTextureAnim"
+  ],
+  "first": [
+    "llKeysKeyValue"
+  ],
+  "flag": [
+    "llDerezObject"
+  ],
+  "flags": [
+    "llLinkPlaySound",
+    "llRemoveVehicleFlags",
+    "llScriptProfiler",
+    "llSetAgentRot",
+    "llSetLinkSitFlags",
+    "llSetVehicleFlags",
+    "llTransferOwnership"
+  ],
+  "floater_name": [
+    "llOpenFloater"
+  ],
+  "folder": [
+    "llGiveAgentInventory",
+    "llGiveInventoryList"
+  ],
+  "force": [
+    "llApplyRotationalImpulse",
+    "llSetForce",
+    "llSetForceAndTorque"
+  ],
+  "friction": [
+    "llSetPhysicsMaterial"
+  ],
+  "fwd": [
+    "llAxes2Rot"
+  ],
+  "gain": [
+    "llTargetOmega"
+  ],
+  "global_coordinates": [
+    "llTeleportAgentGlobalCoords"
+  ],
+  "gravity_multiplier": [
+    "llSetPhysicsMaterial"
+  ],
+  "handle": [
+    "llListenControl",
+    "llListenRemove",
+    "llRotTargetRemove",
+    "llTargetRemove",
+    "at_rot_target"
+  ],
+  "header": [
+    "llGetHTTPHeader"
+  ],
+  "height": [
+    "llGroundRepel",
+    "llSetHoverHeight"
+  ],
+  "hours": [
+    "llAddToLandBanList",
+    "llAddToLandPassList"
+  ],
+  "id": [
+    "llCollisionFilter",
+    "llDerezObject",
+    "llGetAgentInfo",
+    "llGetAnimation",
+    "llGetDisplayName",
+    "llGetHealth",
+    "llGetObjectDetails",
+    "llGetObjectMass",
+    "llGetOwnerKey",
+    "llGetUsername",
+    "llKey2Name",
+    "llListen",
+    "llMessageLinked",
+    "llOverMyLand",
+    "llRequestAgentData",
+    "llRequestDisplayName",
+    "llRequestUsername",
+    "llSensor",
+    "llSensorRepeat",
+    "llUnSit",
+    "attach",
+    "control",
+    "game_control",
+    "link_message",
+    "listen",
+    "money",
+    "object_rez",
+    "transaction_result"
+  ],
+  "idata": [
+    "llRemoteDataReply",
+    "llSendRemoteData",
+    "remote_data"
+  ],
+  "impact_sound": [
+    "llCollisionSound"
+  ],
+  "impact_sprite": [
+    "llCollisionSprite"
+  ],
+  "impact_volume": [
+    "llCollisionSound"
+  ],
+  "impulse": [
+    "llPushObject"
+  ],
+  "index": [
+    "llDetectedTouchBinormal",
+    "llDetectedTouchFace",
+    "llDetectedTouchNormal",
+    "llDetectedTouchPos",
+    "llDetectedTouchST",
+    "llDetectedTouchUV",
+    "llGetListEntryType",
+    "llList2Float",
+    "llList2Integer",
+    "llList2Key",
+    "llList2Rot",
+    "llList2String",
+    "llList2Vector",
+    "llOrd"
+  ],
+  "initial_omega": [
+    "llSetAngularVelocity"
+  ],
+  "instance": [
+    "llListFindListNext"
+  ],
+  "inventory": [
+    "llGiveAgentInventory",
+    "llGiveInventory",
+    "llGiveInventoryList",
+    "llGodLikeRezObject",
+    "llRezAtRoot",
+    "llRezObject",
+    "llRezObjectWithParams"
+  ],
+  "item": [
+    "llDetectedName",
+    "llGetInventoryAcquireTime",
+    "llGetInventoryCreator",
+    "llGetInventoryDesc",
+    "llGetInventoryPermMask",
+    "llRemoveInventory",
+    "llSetInventoryPermMask"
+  ],
+  "json": [
+    "llJsonGetValue",
+    "llJsonSetValue",
+    "llJsonValueType"
+  ],
+  "k": [
+    "llCreateKeyValue",
+    "llDeleteKeyValue",
+    "llReadKeyValue",
+    "llUpdateKeyValue"
+  ],
+  "keyframes": [
+    "llSetKeyframedMotion"
+  ],
+  "landmark": [
+    "llTeleportAgent"
+  ],
+  "left": [
+    "llAxes2Rot"
+  ],
+  "length": [
+    "llSetLinkTextureAnim",
+    "llSetTextureAnim"
+  ],
+  "level": [
+    "control"
+  ],
+  "lifetime": [
+    "llMakeExplosion",
+    "llMakeFire",
+    "llMakeFountain",
+    "llMakeSmoke"
+  ],
+  "limit": [
+    "llSetMemoryLimit"
+  ],
+  "line": [
+    "llGetNotecardLine",
+    "llGetNotecardLineSync"
+  ],
+  "link": [
+    "llAvatarOnLinkSitTarget",
+    "llBreakLink",
+    "llClearLinkMedia",
+    "llGetLinkKey",
+    "llGetLinkMedia",
+    "llGetLinkName",
+    "llGetLinkNumberOfSides",
+    "llGetLinkPrimitiveParams",
+    "llGetLinkSitFlags",
+    "llGetObjectLinkKey",
+    "llIsLinkGLTFMaterial",
+    "llLinkAdjustSoundVolume",
+    "llLinkParticleSystem",
+    "llLinkPlaySound",
+    "llLinkSetSoundQueueing",
+    "llLinkSetSoundRadius",
+    "llLinkSitTarget",
+    "llLinkStopSound",
+    "llMessageLinked",
+    "llSetLinkAlpha",
+    "llSetLinkCamera",
+    "llSetLinkColor",
+    "llSetLinkGLTFOverrides",
+    "llSetLinkMedia",
+    "llSetLinkPrimitiveParams",
+    "llSetLinkPrimitiveParamsFast",
+    "llSetLinkRenderMaterial",
+    "llSetLinkSitFlags",
+    "llSetLinkTexture",
+    "llSetLinkTextureAnim",
+    "llSitOnLink"
+  ],
+  "local": [
+    "llApplyImpulse",
+    "llApplyRotationalImpulse",
+    "llPushObject",
+    "llSetAngularVelocity",
+    "llSetForce",
+    "llSetForceAndTorque",
+    "llSetTorque",
+    "llSetVelocity"
+  ],
+  "look_at": [
+    "llMapDestination",
+    "llTeleportAgent",
+    "llTeleportAgentGlobalCoords"
+  ],
+  "loop": [
+    "llSound"
+  ],
+  "mag": [
+    "llFrand"
+  ],
+  "mask": [
+    "llSetObjectPermMask",
+    "llSetPhysicsMaterial"
+  ],
+  "material": [
+    "llSetLinkRenderMaterial",
+    "llSetRenderMaterial"
+  ],
+  "message": [
+    "llComputeHash",
+    "llDialog",
+    "llEmail",
+    "llInstantMessage",
+    "llLoadURL",
+    "llTargetedEmail",
+    "llTextBox",
+    "email",
+    "listen"
+  ],
+  "message_id": [
+    "llRemoteDataReply",
+    "remote_data"
+  ],
+  "metadata": [
+    "http_response"
+  ],
+  "method": [
+    "http_request"
+  ],
+  "mode": [
+    "llSetLinkTextureAnim",
+    "llSetTextureAnim"
+  ],
+  "momentum": [
+    "llApplyImpulse"
+  ],
+  "mouselook": [
+    "llForceMouselook"
+  ],
+  "msg": [
+    "llHMAC",
+    "llListen",
+    "llOwnerSay",
+    "llRegionSay",
+    "llRegionSayTo",
+    "llSay",
+    "llShout",
+    "llSignRSA",
+    "llVerifyRSA",
+    "llWhisper"
+  ],
+  "name": [
+    "llCollisionFilter",
+    "llFindNotecardTextSync",
+    "llGetEnv",
+    "llGetInventoryKey",
+    "llGetInventoryType",
+    "llGetNotecardLine",
+    "llGetNotecardLineSync",
+    "llGetNumberOfNotecardLines",
+    "llLinksetDataDelete",
+    "llLinksetDataDeleteProtected",
+    "llLinksetDataRead",
+    "llLinksetDataReadProtected",
+    "llLinksetDataWrite",
+    "llLinksetDataWriteProtected",
+    "llListen",
+    "llName2Key",
+    "llRemoteLoadScript",
+    "llRemoteLoadScriptPin",
+    "llRequestExperiencePermissions",
+    "llRequestInventoryData",
+    "llResetOtherScript",
+    "llSensor",
+    "llSensorRepeat",
+    "llSetObjectName",
+    "llSetScriptState",
+    "linkset_data",
+    "listen"
+  ],
+  "new_damage": [
+    "llAdjustDamage"
+  ],
+  "nonce": [
+    "llMD5String"
+  ],
+  "notecardname": [
+    "llFindNotecardTextCount"
+  ],
+  "num": [
+    "llMessageLinked",
+    "link_message"
+  ],
+  "num_detected": [
+    "collision",
+    "collision_end",
+    "collision_start",
+    "final_damage",
+    "on_damage",
+    "sensor",
+    "touch",
+    "touch_end",
+    "touch_start"
+  ],
+  "num_left": [
+    "email"
+  ],
+  "number": [
+    "llAdjustDamage",
+    "llDetectedDamage",
+    "llDetectedGrab",
+    "llDetectedGroup",
+    "llDetectedKey",
+    "llDetectedLinkNumber",
+    "llDetectedOwner",
+    "llDetectedPos",
+    "llDetectedRezzer",
+    "llDetectedRot",
+    "llDetectedType",
+    "llDetectedVel",
+    "llGetInventoryName",
+    "llIntegerToBase64"
+  ],
+  "object": [
+    "llGetBoundingBox"
+  ],
+  "object_id": [
+    "llGetObjectLinkKey"
+  ],
+  "objects": [
+    "llReturnObjectsByID"
+  ],
+  "offset": [
+    "llCloud",
+    "llGround",
+    "llGroundContour",
+    "llGroundNormal",
+    "llGroundSlope",
+    "llLinkSitTarget",
+    "llMakeExplosion",
+    "llMakeFire",
+    "llMakeFountain",
+    "llMakeSmoke",
+    "llSetCameraAtOffset",
+    "llSetCameraEyeOffset",
+    "llSitTarget",
+    "llWater",
+    "llWind"
+  ],
+  "operation": [
+    "llListStatistics"
+  ],
+  "options": [
+    "llCastRay",
+    "llCreateCharacter",
+    "llEvade",
+    "llExecCharacterCmd",
+    "llFindNotecardTextCount",
+    "llFindNotecardTextSync",
+    "llFleeFrom",
+    "llGetAgentList",
+    "llGetAttachedListFiltered",
+    "llGetClosestNavPoint",
+    "llGiveAgentInventory",
+    "llMapBeacon",
+    "llNavigateTo",
+    "llPatrolPoints",
+    "llPursue",
+    "llSetKeyframedMotion",
+    "llTransferOwnership",
+    "llUpdateCharacter",
+    "llWanderWithin"
+  ],
+  "origin": [
+    "llWanderWithin"
+  ],
+  "original_value": [
+    "llUpdateKeyValue"
+  ],
+  "ourpos": [
+    "at_target"
+  ],
+  "ourrot": [
+    "at_rot_target"
+  ],
+  "owner": [
+    "llReturnObjectsByOwner"
+  ],
+  "param": [
+    "llRezAtRoot",
+    "llRezObject",
+    "llSetVehicleFloatParam",
+    "llSetVehicleRotationParam",
+    "llSetVehicleVectorParam"
+  ],
+  "parameters": [
+    "llHTTPRequest"
+  ],
+  "params": [
+    "llGetEnvironment",
+    "llGetLinkMedia",
+    "llGetLinkPrimitiveParams",
+    "llGetObjectDetails",
+    "llGetParcelDetails",
+    "llGetPrimitiveParams",
+    "llGetPrimMediaParams",
+    "llGetStaticPath",
+    "llGetVisualParams",
+    "llOpenFloater",
+    "llRezObjectWithParams",
+    "llSetAgentEnvironment",
+    "llSetEnvironment",
+    "llSetLinkGLTFOverrides",
+    "llSetLinkMedia",
+    "llSetPrimMediaParams"
+  ],
+  "parent": [
+    "llCreateLink"
+  ],
+  "particles": [
+    "llMakeExplosion",
+    "llMakeFire",
+    "llMakeFountain",
+    "llMakeSmoke"
+  ],
+  "pass": [
+    "llLinksetDataDeleteFound",
+    "llLinksetDataDeleteProtected",
+    "llLinksetDataReadProtected",
+    "llLinksetDataWriteProtected",
+    "llPassCollisions",
+    "llPassTouches"
+  ],
+  "pass_on": [
+    "llTakeControls"
+  ],
+  "patrolPoints": [
+    "llPatrolPoints"
+  ],
+  "pattern": [
+    "llFindNotecardTextCount",
+    "llFindNotecardTextSync",
+    "llLinksetDataCountFound",
+    "llLinksetDataDeleteFound",
+    "llLinksetDataFindKeys",
+    "llReplaceSubString",
+    "llSubStringIndex"
+  ],
+  "perm": [
+    "run_time_permissions"
+  ],
+  "permissions": [
+    "llRequestPermissions"
+  ],
+  "pin": [
+    "llRemoteLoadScriptPin",
+    "llSetRemoteScriptAccessPin"
+  ],
+  "point": [
+    "llGetClosestNavPoint"
+  ],
+  "pos": [
+    "llEdgeOfWorld",
+    "llGetEnvironment",
+    "llGetLandOwnerAt",
+    "llGetParcelDetails",
+    "llGetParcelFlags",
+    "llGetParcelMaxPrims",
+    "llGetParcelPrimCount",
+    "llGetParcelPrimOwners",
+    "llGodLikeRezObject",
+    "llInsertString",
+    "llMapBeacon",
+    "llMapDestination",
+    "llNavigateTo",
+    "llPointAt",
+    "llRezObject",
+    "llScriptDanger",
+    "llSetPos",
+    "land_collision",
+    "land_collision_end",
+    "land_collision_start"
+  ],
+  "position": [
+    "llFleeFrom",
+    "llReplaceEnvironment",
+    "llRezAtRoot",
+    "llSetEnvironment",
+    "llSetRegionPos",
+    "llTarget",
+    "llTeleportAgent"
+  ],
+  "price": [
+    "llSetPayPrice"
+  ],
+  "prim": [
+    "llGetObjectPrimCount"
+  ],
+  "private_key": [
+    "llHMAC",
+    "llSignRSA"
+  ],
+  "public_key": [
+    "llVerifyRSA"
+  ],
+  "q": [
+    "llRot2Fwd",
+    "llRot2Left",
+    "llRot2Up"
+  ],
+  "quat": [
+    "llRot2Euler"
+  ],
+  "query": [
+    "llParcelMediaQuery"
+  ],
+  "queryid": [
+    "dataserver"
+  ],
+  "queue": [
+    "llLinkSetSoundQueueing",
+    "llSetSoundQueueing",
+    "llSound"
+  ],
+  "quick_pay_buttons": [
+    "llSetPayPrice"
+  ],
+  "radius": [
+    "llGetStaticPath",
+    "llLinkSetSoundRadius",
+    "llSensor",
+    "llSensorRepeat",
+    "llSetSoundRadius"
+  ],
+  "range": [
+    "llTarget"
+  ],
+  "rate": [
+    "llSensorRepeat",
+    "llSetLinkTextureAnim",
+    "llSetTextureAnim"
+  ],
+  "reason": [
+    "experience_permissions_denied"
+  ],
+  "region": [
+    "llRequestSimulatorData"
+  ],
+  "region_coordinates": [
+    "llTeleportAgentGlobalCoords"
+  ],
+  "region_name": [
+    "llMapBeacon"
+  ],
+  "replacement_pattern": [
+    "llReplaceSubString"
+  ],
+  "request_id": [
+    "llGetHTTPHeader",
+    "llHTTPResponse",
+    "llSetContentType",
+    "http_request",
+    "http_response"
+  ],
+  "reserved": [
+    "path_update"
+  ],
+  "restitution": [
+    "llSetPhysicsMaterial"
+  ],
+  "rot": [
+    "llLinkSitTarget",
+    "llRezAtRoot",
+    "llRezObject",
+    "llRot2Angle",
+    "llRot2Axis",
+    "llRotTarget",
+    "llSetAgentRot",
+    "llSetLocalRot",
+    "llSetRot",
+    "llSetVehicleRotationParam",
+    "llSitTarget"
+  ],
+  "rules": [
+    "llLinkParticleSystem",
+    "llParticleSystem",
+    "llSetCameraParams",
+    "llSetLinkPrimitiveParams",
+    "llSetLinkPrimitiveParamsFast",
+    "llSetPrimitiveParams"
+  ],
+  "running": [
+    "llRemoteLoadScript",
+    "llRemoteLoadScriptPin",
+    "llSetScriptState"
+  ],
+  "scale": [
+    "llMakeExplosion",
+    "llMakeFire",
+    "llMakeFountain",
+    "llMakeSmoke"
+  ],
+  "scaling_factor": [
+    "llScaleByFactor"
+  ],
+  "scope": [
+    "llGetAgentList",
+    "llReturnObjectsByOwner"
+  ],
+  "script": [
+    "llGetScriptState"
+  ],
+  "sdata": [
+    "llRemoteDataReply",
+    "llSendRemoteData",
+    "remote_data"
+  ],
+  "sec": [
+    "llSetTimerEvent",
+    "llSleep"
+  ],
+  "sender": [
+    "remote_data"
+  ],
+  "sender_num": [
+    "link_message"
+  ],
+  "separator": [
+    "llDumpList2String"
+  ],
+  "separators": [
+    "llParseString2List",
+    "llParseStringKeepNulls"
+  ],
+  "signature": [
+    "llVerifyRSA"
+  ],
+  "sim_wide": [
+    "llGetParcelMaxPrims",
+    "llGetParcelPrimCount"
+  ],
+  "simname": [
+    "llMapDestination"
+  ],
+  "size": [
+    "llSetScale"
+  ],
+  "sizex": [
+    "llSetLinkTextureAnim",
+    "llSetTextureAnim"
+  ],
+  "sizey": [
+    "llSetLinkTextureAnim",
+    "llSetTextureAnim"
+  ],
+  "slice_index": [
+    "llList2ListSlice"
+  ],
+  "sound": [
+    "llLinkPlaySound",
+    "llLoopSound",
+    "llLoopSoundMaster",
+    "llLoopSoundSlave",
+    "llPlaySound",
+    "llPlaySoundSlave",
+    "llPreloadSound",
+    "llSound",
+    "llSoundPreload",
+    "llTriggerSound",
+    "llTriggerSoundLimited"
+  ],
+  "source": [
+    "llSubStringIndex"
+  ],
+  "spacers": [
+    "llParseString2List",
+    "llParseStringKeepNulls"
+  ],
+  "specifiers": [
+    "llJsonGetValue",
+    "llJsonSetValue",
+    "llJsonValueType"
+  ],
+  "spinrate": [
+    "llTargetOmega"
+  ],
+  "src": [
+    "llCSV2List",
+    "llDeleteSubList",
+    "llDeleteSubString",
+    "llDumpList2String",
+    "llGetListEntryType",
+    "llGetListLength",
+    "llGetSubString",
+    "llInsertString",
+    "llJson2List",
+    "llList2CSV",
+    "llList2Float",
+    "llList2Integer",
+    "llList2Key",
+    "llList2List",
+    "llList2ListSlice",
+    "llList2ListStrided",
+    "llList2Rot",
+    "llList2String",
+    "llList2Vector",
+    "llListFindList",
+    "llListFindListNext",
+    "llListFindStrided",
+    "llListInsertList",
+    "llListRandomize",
+    "llListReplaceList",
+    "llListSort",
+    "llListSortStrided",
+    "llListStatistics",
+    "llMD5String",
+    "llParseString2List",
+    "llParseStringKeepNulls",
+    "llReplaceSubString",
+    "llSHA1String",
+    "llSHA256String",
+    "llStringTrim",
+    "llToLower",
+    "llToUpper"
+  ],
+  "srgb": [
+    "llsRGB2Linear"
+  ],
+  "start": [
+    "llCastRay",
+    "llDeleteSubList",
+    "llDeleteSubString",
+    "llFindNotecardTextSync",
+    "llGetStaticPath",
+    "llGetSubString",
+    "llLinksetDataFindKeys",
+    "llLinksetDataListKeys",
+    "llList2List",
+    "llList2ListSlice",
+    "llList2ListStrided",
+    "llListFindStrided",
+    "llListInsertList",
+    "llListReplaceList",
+    "llRotBetween",
+    "llSetLinkTextureAnim",
+    "llSetTextureAnim"
+  ],
+  "start_param": [
+    "llRemoteLoadScript",
+    "llRemoteLoadScriptPin",
+    "on_rez"
+  ],
+  "stat_type": [
+    "llGetSimStats"
+  ],
+  "status": [
+    "llGetStatus",
+    "llHTTPResponse",
+    "llSetStatus",
+    "http_response"
+  ],
+  "str": [
+    "llBase64ToInteger",
+    "llBase64ToString",
+    "llMessageLinked",
+    "llStringLength",
+    "llStringToBase64",
+    "link_message"
+  ],
+  "str1": [
+    "llXorBase64",
+    "llXorBase64Strings",
+    "llXorBase64StringsCorrect"
+  ],
+  "str2": [
+    "llXorBase64",
+    "llXorBase64Strings",
+    "llXorBase64StringsCorrect"
+  ],
+  "strength": [
+    "llLookAt",
+    "llRotLookAt"
+  ],
+  "stride": [
+    "llList2ListSlice",
+    "llList2ListStrided",
+    "llListFindStrided",
+    "llListRandomize",
+    "llListSort",
+    "llListSortStrided"
+  ],
+  "stride_index": [
+    "llListSortStrided"
+  ],
+  "subject": [
+    "llEmail",
+    "llGetNextEmail",
+    "llTargetedEmail",
+    "email"
+  ],
+  "success": [
+    "transaction_result"
+  ],
+  "target": [
+    "llCreateLink",
+    "llDamage",
+    "llEvade",
+    "llGiveInventoryList",
+    "llLookAt",
+    "llMoveToTarget",
+    "llPursue",
+    "llPushObject",
+    "llRegionSayTo",
+    "llRemoteLoadScript",
+    "llRemoteLoadScriptPin",
+    "llTargetedEmail"
+  ],
+  "target_direction": [
+    "llRotLookAt"
+  ],
+  "targetpos": [
+    "at_target"
+  ],
+  "targetrot": [
+    "at_rot_target"
+  ],
+  "tau": [
+    "llGroundRepel",
+    "llMoveToTarget",
+    "llSetHoverHeight"
+  ],
+  "test": [
+    "llListFindList",
+    "llListFindListNext",
+    "llListFindStrided"
+  ],
+  "text": [
+    "llSetSitText",
+    "llSetText",
+    "llSetTouchText"
+  ],
+  "texture": [
+    "llMakeExplosion",
+    "llMakeFire",
+    "llMakeFountain",
+    "llMakeSmoke",
+    "llSetLinkTexture",
+    "llSetTexture"
+  ],
+  "theta": [
+    "llCos",
+    "llSin",
+    "llTan"
+  ],
+  "time": [
+    "email"
+  ],
+  "tnum": [
+    "at_target"
+  ],
+  "top_north_east": [
+    "llTriggerSoundLimited"
+  ],
+  "torque": [
+    "llSetForceAndTorque",
+    "llSetTorque"
+  ],
+  "track_no": [
+    "llReplaceEnvironment"
+  ],
+  "transition": [
+    "llReplaceAgentEnvironment",
+    "llSetAgentEnvironment"
+  ],
+  "type": [
+    "llGetInventoryName",
+    "llGetInventoryNumber",
+    "llList2Json",
+    "llSensor",
+    "llSensorRepeat",
+    "llSetVehicleType",
+    "llStringTrim",
+    "path_update"
+  ],
+  "u": [
+    "llOffsetTexture",
+    "llScaleTexture"
+  ],
+  "up": [
+    "llAxes2Rot"
+  ],
+  "url": [
+    "llEscapeURL",
+    "llHTTPRequest",
+    "llLoadURL",
+    "llOpenFloater",
+    "llReleaseURL",
+    "llSetParcelMusicURL",
+    "llSetPrimURL",
+    "llUnescapeURL"
+  ],
+  "user": [
+    "llInstantMessage"
+  ],
+  "username": [
+    "llRequestUserKey"
+  ],
+  "uuid": [
+    "llSameGroup"
+  ],
+  "v": [
+    "llCreateKeyValue",
+    "llEuler2Rot",
+    "llOffsetTexture",
+    "llScaleTexture",
+    "llUpdateKeyValue"
+  ],
+  "val": [
+    "llAbs",
+    "llAcos",
+    "llAsin",
+    "llCeil",
+    "llChar",
+    "llFabs",
+    "llFloor",
+    "llHash",
+    "llLog",
+    "llLog10",
+    "llOrd",
+    "llRound",
+    "llSqrt"
+  ],
+  "value": [
+    "llJsonSetValue",
+    "llLinksetDataWrite",
+    "llLinksetDataWriteProtected",
+    "llSetInventoryPermMask",
+    "llSetObjectPermMask",
+    "llSetStatus",
+    "llSetVehicleFloatParam",
+    "linkset_data"
+  ],
+  "values": [
+    "llList2Json"
+  ],
+  "vec": [
+    "llSetVehicleVectorParam",
+    "llVecMag",
+    "llVecNorm"
+  ],
+  "vec_a": [
+    "llVecDist"
+  ],
+  "vec_b": [
+    "llVecDist"
+  ],
+  "vel": [
+    "llMakeExplosion",
+    "llMakeFire",
+    "llMakeFountain",
+    "llMakeSmoke",
+    "llRezObject"
+  ],
+  "velocity": [
+    "llRezAtRoot",
+    "llSetVelocity"
+  ],
+  "volume": [
+    "llAdjustSoundVolume",
+    "llLinkAdjustSoundVolume",
+    "llLinkPlaySound",
+    "llLoopSound",
+    "llLoopSoundMaster",
+    "llLoopSoundSlave",
+    "llPlaySound",
+    "llPlaySoundSlave",
+    "llSound",
+    "llTriggerSound",
+    "llTriggerSoundLimited"
+  ],
+  "water": [
+    "llGroundRepel",
+    "llSetHoverHeight"
+  ],
+  "world_pos": [
+    "llWorldPosToHUD"
+  ],
+  "x": [
+    "llAtan2"
+  ],
+  "y": [
+    "llAtan2"
+  ]
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+        
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+        
+            for (const funcName in lslData) {
+                const valuesArray = lslData[funcName];
+                if (Array.isArray(valuesArray)) {
+                    const matchingValues = valuesArray.filter(item => 
+                        String(item).toLowerCase().includes(lowerCaseQuery)
+                    );
+                    if (matchingValues.length > 0) {
+                        filteredData[funcName] = matchingValues;
+                    }
+                }
+            }
+        
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
