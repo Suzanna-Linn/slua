@@ -1,0 +1,3276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argument names in functions by category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Argument names in functions by category</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for category...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "asset_permissions": {
+    "agent_id": [
+      "llTransferOwnership"
+    ],
+    "category": [
+      "llGetObjectPermMask",
+      "llSetInventoryPermMask"
+    ],
+    "flags": [
+      "llTransferOwnership"
+    ],
+    "item": [
+      "llSetInventoryPermMask"
+    ],
+    "mask": [
+      "llSetObjectPermMask"
+    ],
+    "options": [
+      "llTransferOwnership"
+    ],
+    "value": [
+      "llSetInventoryPermMask",
+      "llSetObjectPermMask"
+    ]
+  },
+  "attachments": {
+    "attach_point": [
+      "llAttachToAvatar",
+      "llAttachToAvatarTemp"
+    ],
+    "avatar": [
+      "llGetAttachedList",
+      "llGetAttachedListFiltered"
+    ],
+    "options": [
+      "llGetAttachedListFiltered"
+    ]
+  },
+  "avatar": {
+    "accept": [
+      "llTakeControls"
+    ],
+    "agent": [
+      "llAgentInExperience",
+      "llRequestExperiencePermissions",
+      "llTeleportAgent",
+      "llTeleportAgentGlobalCoords"
+    ],
+    "agent_id": [
+      "llIsFriend",
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment"
+    ],
+    "agentid": [
+      "llGetVisualParams"
+    ],
+    "amount": [
+      "llGiveMoney"
+    ],
+    "anim": [
+      "llStartAnimation",
+      "llStopAnimation"
+    ],
+    "anim_state": [
+      "llGetAnimationOverride"
+    ],
+    "attach_point": [
+      "llAttachToAvatar",
+      "llAttachToAvatarTemp"
+    ],
+    "avatar": [
+      "llGetAgentLanguage",
+      "llGetAgentSize",
+      "llGetAnimationList",
+      "llGetAttachedList",
+      "llGetAttachedListFiltered",
+      "llReleaseCamera",
+      "llTakeCamera",
+      "llTeleportAgentHome"
+    ],
+    "controls": [
+      "llTakeControls"
+    ],
+    "data": [
+      "llRequestAgentData"
+    ],
+    "destination": [
+      "llGiveMoney"
+    ],
+    "environment": [
+      "llReplaceAgentEnvironment"
+    ],
+    "flags": [
+      "llSetAgentRot"
+    ],
+    "global_coordinates": [
+      "llTeleportAgentGlobalCoords"
+    ],
+    "id": [
+      "llGetAgentInfo",
+      "llGetAnimation",
+      "llGetDisplayName",
+      "llGetUsername",
+      "llRequestAgentData",
+      "llRequestDisplayName",
+      "llRequestUsername",
+      "llUnSit"
+    ],
+    "landmark": [
+      "llTeleportAgent"
+    ],
+    "link": [
+      "llAvatarOnLinkSitTarget"
+    ],
+    "look_at": [
+      "llTeleportAgent",
+      "llTeleportAgentGlobalCoords"
+    ],
+    "mouselook": [
+      "llForceMouselook"
+    ],
+    "name": [
+      "llName2Key",
+      "llRequestExperiencePermissions"
+    ],
+    "number": [
+      "llDetectedOwner"
+    ],
+    "options": [
+      "llGetAgentList",
+      "llGetAttachedListFiltered"
+    ],
+    "params": [
+      "llGetVisualParams",
+      "llSetAgentEnvironment"
+    ],
+    "pass_on": [
+      "llTakeControls"
+    ],
+    "position": [
+      "llTeleportAgent"
+    ],
+    "region_coordinates": [
+      "llTeleportAgentGlobalCoords"
+    ],
+    "rot": [
+      "llSetAgentRot"
+    ],
+    "rules": [
+      "llSetCameraParams"
+    ],
+    "scope": [
+      "llGetAgentList"
+    ],
+    "transition": [
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment"
+    ],
+    "username": [
+      "llRequestUserKey"
+    ],
+    "world_pos": [
+      "llWorldPosToHUD"
+    ]
+  },
+  "avatar_animation": {
+    "anim": [
+      "llSetAnimationOverride",
+      "llStartAnimation",
+      "llStopAnimation"
+    ],
+    "anim_state": [
+      "llGetAnimationOverride",
+      "llResetAnimationOverride",
+      "llSetAnimationOverride"
+    ],
+    "avatar": [
+      "llGetAnimationList"
+    ],
+    "id": [
+      "llGetAnimation"
+    ]
+  },
+  "avatar_communication": {
+    "active": [
+      "llListenControl"
+    ],
+    "address": [
+      "llEmail"
+    ],
+    "alpha": [
+      "llSetText"
+    ],
+    "avatar": [
+      "llDialog",
+      "llLoadURL",
+      "llTextBox"
+    ],
+    "buttons": [
+      "llDialog"
+    ],
+    "channel": [
+      "llDialog",
+      "llListen",
+      "llRegionSayTo",
+      "llSay",
+      "llShout",
+      "llTextBox",
+      "llWhisper"
+    ],
+    "color": [
+      "llSetText"
+    ],
+    "floater_name": [
+      "llOpenFloater"
+    ],
+    "handle": [
+      "llListenControl",
+      "llListenRemove"
+    ],
+    "id": [
+      "llListen"
+    ],
+    "look_at": [
+      "llMapDestination"
+    ],
+    "message": [
+      "llDialog",
+      "llEmail",
+      "llInstantMessage",
+      "llLoadURL",
+      "llTargetedEmail",
+      "llTextBox"
+    ],
+    "msg": [
+      "llListen",
+      "llOwnerSay",
+      "llRegionSayTo",
+      "llSay",
+      "llShout",
+      "llWhisper"
+    ],
+    "name": [
+      "llListen"
+    ],
+    "options": [
+      "llMapBeacon"
+    ],
+    "params": [
+      "llOpenFloater"
+    ],
+    "pos": [
+      "llMapBeacon",
+      "llMapDestination"
+    ],
+    "region_name": [
+      "llMapBeacon"
+    ],
+    "simname": [
+      "llMapDestination"
+    ],
+    "subject": [
+      "llEmail",
+      "llTargetedEmail"
+    ],
+    "target": [
+      "llRegionSayTo",
+      "llTargetedEmail"
+    ],
+    "text": [
+      "llSetText"
+    ],
+    "url": [
+      "llLoadURL",
+      "llOpenFloater"
+    ],
+    "user": [
+      "llInstantMessage"
+    ]
+  },
+  "avatar_inventory": {
+    "agent": [
+      "llGiveAgentInventory"
+    ],
+    "destination": [
+      "llGiveInventory"
+    ],
+    "folder": [
+      "llGiveAgentInventory",
+      "llGiveInventoryList"
+    ],
+    "inventory": [
+      "llGiveAgentInventory",
+      "llGiveInventory",
+      "llGiveInventoryList"
+    ],
+    "options": [
+      "llGiveAgentInventory"
+    ],
+    "target": [
+      "llGiveInventoryList"
+    ]
+  },
+  "camera": {
+    "at": [
+      "llSetLinkCamera"
+    ],
+    "avatar": [
+      "llReleaseCamera",
+      "llTakeCamera"
+    ],
+    "eye": [
+      "llSetLinkCamera"
+    ],
+    "link": [
+      "llSetLinkCamera"
+    ],
+    "mouselook": [
+      "llForceMouselook"
+    ],
+    "offset": [
+      "llSetCameraAtOffset",
+      "llSetCameraEyeOffset"
+    ],
+    "rules": [
+      "llSetCameraParams"
+    ],
+    "world_pos": [
+      "llWorldPosToHUD"
+    ]
+  },
+  "chat": {
+    "active": [
+      "llListenControl"
+    ],
+    "avatar": [
+      "llDialog",
+      "llTextBox"
+    ],
+    "buttons": [
+      "llDialog"
+    ],
+    "channel": [
+      "llDialog",
+      "llListen",
+      "llRegionSay",
+      "llRegionSayTo",
+      "llSay",
+      "llShout",
+      "llTextBox",
+      "llWhisper"
+    ],
+    "handle": [
+      "llListenControl",
+      "llListenRemove"
+    ],
+    "id": [
+      "llListen"
+    ],
+    "message": [
+      "llDialog",
+      "llTextBox"
+    ],
+    "msg": [
+      "llListen",
+      "llRegionSay",
+      "llRegionSayTo",
+      "llSay",
+      "llShout",
+      "llWhisper"
+    ],
+    "name": [
+      "llListen"
+    ],
+    "target": [
+      "llRegionSayTo"
+    ]
+  },
+  "combat": {
+    "damage": [
+      "llDamage",
+      "llSetDamage"
+    ],
+    "damage_type": [
+      "llDamage"
+    ],
+    "id": [
+      "llGetHealth"
+    ],
+    "inventory": [
+      "llRezObjectWithParams"
+    ],
+    "new_damage": [
+      "llAdjustDamage"
+    ],
+    "number": [
+      "llAdjustDamage",
+      "llDetectedDamage"
+    ],
+    "params": [
+      "llRezObjectWithParams"
+    ],
+    "target": [
+      "llDamage"
+    ]
+  },
+  "cryptography": {
+    "algorithm": [
+      "llComputeHash",
+      "llHMAC",
+      "llSignRSA",
+      "llVerifyRSA"
+    ],
+    "message": [
+      "llComputeHash"
+    ],
+    "msg": [
+      "llHMAC",
+      "llSignRSA",
+      "llVerifyRSA"
+    ],
+    "nonce": [
+      "llMD5String"
+    ],
+    "private_key": [
+      "llHMAC",
+      "llSignRSA"
+    ],
+    "public_key": [
+      "llVerifyRSA"
+    ],
+    "signature": [
+      "llVerifyRSA"
+    ],
+    "src": [
+      "llMD5String",
+      "llSHA1String",
+      "llSHA256String"
+    ],
+    "val": [
+      "llHash"
+    ]
+  },
+  "data_conversion": {
+    "color": [
+      "llLinear2sRGB"
+    ],
+    "index": [
+      "llList2Float",
+      "llList2Integer",
+      "llList2Key",
+      "llList2Rot",
+      "llList2String",
+      "llList2Vector"
+    ],
+    "json": [
+      "llJsonGetValue",
+      "llJsonSetValue",
+      "llJsonValueType"
+    ],
+    "number": [
+      "llIntegerToBase64"
+    ],
+    "separator": [
+      "llDumpList2String"
+    ],
+    "separators": [
+      "llParseString2List",
+      "llParseStringKeepNulls"
+    ],
+    "spacers": [
+      "llParseString2List",
+      "llParseStringKeepNulls"
+    ],
+    "specifiers": [
+      "llJsonGetValue",
+      "llJsonSetValue",
+      "llJsonValueType"
+    ],
+    "src": [
+      "llCSV2List",
+      "llDumpList2String",
+      "llJson2List",
+      "llList2CSV",
+      "llList2Float",
+      "llList2Integer",
+      "llList2Key",
+      "llList2Rot",
+      "llList2String",
+      "llList2Vector",
+      "llParseString2List",
+      "llParseStringKeepNulls"
+    ],
+    "str": [
+      "llBase64ToInteger",
+      "llBase64ToString",
+      "llStringToBase64"
+    ],
+    "str1": [
+      "llXorBase64",
+      "llXorBase64Strings",
+      "llXorBase64StringsCorrect"
+    ],
+    "str2": [
+      "llXorBase64",
+      "llXorBase64Strings",
+      "llXorBase64StringsCorrect"
+    ],
+    "type": [
+      "llList2Json"
+    ],
+    "value": [
+      "llJsonSetValue"
+    ],
+    "values": [
+      "llList2Json"
+    ]
+  },
+  "data_storage": {
+    "checked": [
+      "llUpdateKeyValue"
+    ],
+    "count": [
+      "llFindNotecardTextSync",
+      "llKeysKeyValue",
+      "llLinksetDataFindKeys",
+      "llLinksetDataListKeys"
+    ],
+    "first": [
+      "llKeysKeyValue"
+    ],
+    "k": [
+      "llCreateKeyValue",
+      "llDeleteKeyValue",
+      "llReadKeyValue",
+      "llUpdateKeyValue"
+    ],
+    "line": [
+      "llGetNotecardLine",
+      "llGetNotecardLineSync"
+    ],
+    "name": [
+      "llFindNotecardTextSync",
+      "llGetNotecardLine",
+      "llGetNotecardLineSync",
+      "llGetNumberOfNotecardLines",
+      "llLinksetDataDelete",
+      "llLinksetDataDeleteProtected",
+      "llLinksetDataRead",
+      "llLinksetDataReadProtected",
+      "llLinksetDataWrite",
+      "llLinksetDataWriteProtected"
+    ],
+    "notecardname": [
+      "llFindNotecardTextCount"
+    ],
+    "options": [
+      "llFindNotecardTextCount",
+      "llFindNotecardTextSync"
+    ],
+    "original_value": [
+      "llUpdateKeyValue"
+    ],
+    "pass": [
+      "llLinksetDataDeleteFound",
+      "llLinksetDataDeleteProtected",
+      "llLinksetDataReadProtected",
+      "llLinksetDataWriteProtected"
+    ],
+    "pattern": [
+      "llFindNotecardTextCount",
+      "llFindNotecardTextSync",
+      "llLinksetDataCountFound",
+      "llLinksetDataDeleteFound",
+      "llLinksetDataFindKeys"
+    ],
+    "start": [
+      "llFindNotecardTextSync",
+      "llLinksetDataFindKeys",
+      "llLinksetDataListKeys"
+    ],
+    "v": [
+      "llCreateKeyValue",
+      "llUpdateKeyValue"
+    ],
+    "value": [
+      "llLinksetDataWrite",
+      "llLinksetDataWriteProtected"
+    ]
+  },
+  "dataserver": {
+    "checked": [
+      "llUpdateKeyValue"
+    ],
+    "count": [
+      "llKeysKeyValue"
+    ],
+    "data": [
+      "llRequestAgentData",
+      "llRequestSimulatorData"
+    ],
+    "first": [
+      "llKeysKeyValue"
+    ],
+    "id": [
+      "llRequestAgentData",
+      "llRequestDisplayName",
+      "llRequestUsername"
+    ],
+    "k": [
+      "llCreateKeyValue",
+      "llDeleteKeyValue",
+      "llReadKeyValue",
+      "llUpdateKeyValue"
+    ],
+    "line": [
+      "llGetNotecardLine"
+    ],
+    "name": [
+      "llGetNotecardLine",
+      "llGetNumberOfNotecardLines",
+      "llRequestInventoryData"
+    ],
+    "notecardname": [
+      "llFindNotecardTextCount"
+    ],
+    "options": [
+      "llFindNotecardTextCount"
+    ],
+    "original_value": [
+      "llUpdateKeyValue"
+    ],
+    "pattern": [
+      "llFindNotecardTextCount"
+    ],
+    "region": [
+      "llRequestSimulatorData"
+    ],
+    "username": [
+      "llRequestUserKey"
+    ],
+    "v": [
+      "llCreateKeyValue",
+      "llUpdateKeyValue"
+    ]
+  },
+  "detected": {
+    "index": [
+      "llDetectedTouchBinormal",
+      "llDetectedTouchFace",
+      "llDetectedTouchNormal",
+      "llDetectedTouchPos",
+      "llDetectedTouchST",
+      "llDetectedTouchUV"
+    ],
+    "item": [
+      "llDetectedName"
+    ],
+    "new_damage": [
+      "llAdjustDamage"
+    ],
+    "number": [
+      "llAdjustDamage",
+      "llDetectedDamage",
+      "llDetectedGrab",
+      "llDetectedGroup",
+      "llDetectedKey",
+      "llDetectedLinkNumber",
+      "llDetectedOwner",
+      "llDetectedPos",
+      "llDetectedRezzer",
+      "llDetectedRot",
+      "llDetectedType",
+      "llDetectedVel"
+    ]
+  },
+  "effects": {
+    "alpha": [
+      "llSetText"
+    ],
+    "arc": [
+      "llMakeExplosion",
+      "llMakeFire",
+      "llMakeFountain",
+      "llMakeSmoke"
+    ],
+    "bounce": [
+      "llMakeFountain"
+    ],
+    "bounce_offset": [
+      "llMakeFountain"
+    ],
+    "color": [
+      "llSetText"
+    ],
+    "face": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "impact_sprite": [
+      "llCollisionSprite"
+    ],
+    "length": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "lifetime": [
+      "llMakeExplosion",
+      "llMakeFire",
+      "llMakeFountain",
+      "llMakeSmoke"
+    ],
+    "link": [
+      "llLinkParticleSystem",
+      "llSetLinkTextureAnim"
+    ],
+    "mode": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "offset": [
+      "llMakeExplosion",
+      "llMakeFire",
+      "llMakeFountain",
+      "llMakeSmoke"
+    ],
+    "particles": [
+      "llMakeExplosion",
+      "llMakeFire",
+      "llMakeFountain",
+      "llMakeSmoke"
+    ],
+    "rate": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "rules": [
+      "llLinkParticleSystem",
+      "llParticleSystem"
+    ],
+    "scale": [
+      "llMakeExplosion",
+      "llMakeFire",
+      "llMakeFountain",
+      "llMakeSmoke"
+    ],
+    "sizex": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "sizey": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "start": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "text": [
+      "llSetText"
+    ],
+    "texture": [
+      "llMakeExplosion",
+      "llMakeFire",
+      "llMakeFountain",
+      "llMakeSmoke"
+    ],
+    "vel": [
+      "llMakeExplosion",
+      "llMakeFire",
+      "llMakeFountain",
+      "llMakeSmoke"
+    ]
+  },
+  "experience": {
+    "agent": [
+      "llAgentInExperience",
+      "llRequestExperiencePermissions"
+    ],
+    "agent_id": [
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment",
+      "llSitOnLink"
+    ],
+    "agentid": [
+      "llClearExperience",
+      "llClearExperiencePermissions",
+      "llGetExperienceList"
+    ],
+    "checked": [
+      "llUpdateKeyValue"
+    ],
+    "count": [
+      "llKeysKeyValue"
+    ],
+    "environment": [
+      "llReplaceAgentEnvironment"
+    ],
+    "error": [
+      "llGetExperienceErrorMessage"
+    ],
+    "experience_id": [
+      "llGetExperienceDetails"
+    ],
+    "experienceid": [
+      "llClearExperience",
+      "llSetExperienceKey"
+    ],
+    "first": [
+      "llKeysKeyValue"
+    ],
+    "k": [
+      "llCreateKeyValue",
+      "llDeleteKeyValue",
+      "llReadKeyValue",
+      "llUpdateKeyValue"
+    ],
+    "link": [
+      "llSitOnLink"
+    ],
+    "name": [
+      "llRequestExperiencePermissions"
+    ],
+    "original_value": [
+      "llUpdateKeyValue"
+    ],
+    "params": [
+      "llSetAgentEnvironment"
+    ],
+    "transition": [
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment"
+    ],
+    "v": [
+      "llCreateKeyValue",
+      "llUpdateKeyValue"
+    ]
+  },
+  "experience_data": {
+    "checked": [
+      "llUpdateKeyValue"
+    ],
+    "count": [
+      "llKeysKeyValue"
+    ],
+    "first": [
+      "llKeysKeyValue"
+    ],
+    "k": [
+      "llCreateKeyValue",
+      "llDeleteKeyValue",
+      "llReadKeyValue",
+      "llUpdateKeyValue"
+    ],
+    "original_value": [
+      "llUpdateKeyValue"
+    ],
+    "v": [
+      "llCreateKeyValue",
+      "llUpdateKeyValue"
+    ]
+  },
+  "input": {
+    "accept": [
+      "llTakeControls"
+    ],
+    "action": [
+      "llSetClickAction"
+    ],
+    "controls": [
+      "llTakeControls"
+    ],
+    "pass_on": [
+      "llTakeControls"
+    ]
+  },
+  "json": {
+    "json": [
+      "llJsonGetValue",
+      "llJsonSetValue",
+      "llJsonValueType"
+    ],
+    "specifiers": [
+      "llJsonGetValue",
+      "llJsonSetValue",
+      "llJsonValueType"
+    ],
+    "src": [
+      "llJson2List"
+    ],
+    "type": [
+      "llList2Json"
+    ],
+    "value": [
+      "llJsonSetValue"
+    ],
+    "values": [
+      "llList2Json"
+    ]
+  },
+  "land_moderation": {
+    "action": [
+      "llManageEstateAccess"
+    ],
+    "avatar": [
+      "llAddToLandBanList",
+      "llAddToLandPassList",
+      "llEjectFromLand",
+      "llManageEstateAccess",
+      "llRemoveFromLandBanList",
+      "llRemoveFromLandPassList",
+      "llTeleportAgentHome"
+    ],
+    "hours": [
+      "llAddToLandBanList",
+      "llAddToLandPassList"
+    ],
+    "objects": [
+      "llReturnObjectsByID"
+    ],
+    "owner": [
+      "llReturnObjectsByOwner"
+    ],
+    "scope": [
+      "llReturnObjectsByOwner"
+    ]
+  },
+  "linkset": {
+    "alpha": [
+      "llSetLinkAlpha"
+    ],
+    "category": [
+      "llGetObjectPermMask"
+    ],
+    "color": [
+      "llSetLinkColor"
+    ],
+    "count": [
+      "llLinksetDataFindKeys",
+      "llLinksetDataListKeys"
+    ],
+    "face": [
+      "llClearLinkMedia",
+      "llGetLinkMedia",
+      "llIsLinkGLTFMaterial",
+      "llSetLinkAlpha",
+      "llSetLinkColor",
+      "llSetLinkGLTFOverrides",
+      "llSetLinkMedia",
+      "llSetLinkRenderMaterial",
+      "llSetLinkTexture",
+      "llSetLinkTextureAnim"
+    ],
+    "flags": [
+      "llSetLinkSitFlags"
+    ],
+    "length": [
+      "llSetLinkTextureAnim"
+    ],
+    "link": [
+      "llAvatarOnLinkSitTarget",
+      "llBreakLink",
+      "llClearLinkMedia",
+      "llGetLinkKey",
+      "llGetLinkMedia",
+      "llGetLinkName",
+      "llGetLinkNumberOfSides",
+      "llGetLinkPrimitiveParams",
+      "llGetLinkSitFlags",
+      "llIsLinkGLTFMaterial",
+      "llLinkSitTarget",
+      "llSetLinkAlpha",
+      "llSetLinkColor",
+      "llSetLinkGLTFOverrides",
+      "llSetLinkMedia",
+      "llSetLinkPrimitiveParams",
+      "llSetLinkPrimitiveParamsFast",
+      "llSetLinkRenderMaterial",
+      "llSetLinkSitFlags",
+      "llSetLinkTexture",
+      "llSetLinkTextureAnim"
+    ],
+    "mask": [
+      "llSetObjectPermMask"
+    ],
+    "material": [
+      "llSetLinkRenderMaterial"
+    ],
+    "mode": [
+      "llSetLinkTextureAnim"
+    ],
+    "name": [
+      "llLinksetDataDelete",
+      "llLinksetDataDeleteProtected",
+      "llLinksetDataRead",
+      "llLinksetDataReadProtected",
+      "llLinksetDataWrite",
+      "llLinksetDataWriteProtected"
+    ],
+    "offset": [
+      "llLinkSitTarget"
+    ],
+    "params": [
+      "llGetLinkMedia",
+      "llGetLinkPrimitiveParams",
+      "llSetLinkGLTFOverrides",
+      "llSetLinkMedia"
+    ],
+    "parent": [
+      "llCreateLink"
+    ],
+    "pass": [
+      "llLinksetDataDeleteFound",
+      "llLinksetDataDeleteProtected",
+      "llLinksetDataReadProtected",
+      "llLinksetDataWriteProtected"
+    ],
+    "pattern": [
+      "llLinksetDataCountFound",
+      "llLinksetDataDeleteFound",
+      "llLinksetDataFindKeys"
+    ],
+    "rate": [
+      "llSetLinkTextureAnim"
+    ],
+    "rot": [
+      "llLinkSitTarget"
+    ],
+    "rules": [
+      "llSetLinkPrimitiveParams",
+      "llSetLinkPrimitiveParamsFast"
+    ],
+    "scaling_factor": [
+      "llScaleByFactor"
+    ],
+    "sizex": [
+      "llSetLinkTextureAnim"
+    ],
+    "sizey": [
+      "llSetLinkTextureAnim"
+    ],
+    "start": [
+      "llLinksetDataFindKeys",
+      "llLinksetDataListKeys",
+      "llSetLinkTextureAnim"
+    ],
+    "status": [
+      "llGetStatus",
+      "llSetStatus"
+    ],
+    "target": [
+      "llCreateLink"
+    ],
+    "texture": [
+      "llSetLinkTexture"
+    ],
+    "value": [
+      "llLinksetDataWrite",
+      "llLinksetDataWriteProtected",
+      "llSetObjectPermMask",
+      "llSetStatus"
+    ]
+  },
+  "linkset_data": {
+    "count": [
+      "llLinksetDataFindKeys",
+      "llLinksetDataListKeys"
+    ],
+    "name": [
+      "llLinksetDataDelete",
+      "llLinksetDataDeleteProtected",
+      "llLinksetDataRead",
+      "llLinksetDataReadProtected",
+      "llLinksetDataWrite",
+      "llLinksetDataWriteProtected"
+    ],
+    "pass": [
+      "llLinksetDataDeleteFound",
+      "llLinksetDataDeleteProtected",
+      "llLinksetDataReadProtected",
+      "llLinksetDataWriteProtected"
+    ],
+    "pattern": [
+      "llLinksetDataCountFound",
+      "llLinksetDataDeleteFound",
+      "llLinksetDataFindKeys"
+    ],
+    "start": [
+      "llLinksetDataFindKeys",
+      "llLinksetDataListKeys"
+    ],
+    "value": [
+      "llLinksetDataWrite",
+      "llLinksetDataWriteProtected"
+    ]
+  },
+  "list": {
+    "ascending": [
+      "llListSort",
+      "llListSortStrided"
+    ],
+    "dest": [
+      "llListInsertList",
+      "llListReplaceList"
+    ],
+    "end": [
+      "llDeleteSubList",
+      "llList2List",
+      "llList2ListSlice",
+      "llList2ListStrided",
+      "llListFindStrided",
+      "llListReplaceList"
+    ],
+    "index": [
+      "llGetListEntryType",
+      "llList2Float",
+      "llList2Integer",
+      "llList2Key",
+      "llList2Rot",
+      "llList2String",
+      "llList2Vector"
+    ],
+    "instance": [
+      "llListFindListNext"
+    ],
+    "operation": [
+      "llListStatistics"
+    ],
+    "slice_index": [
+      "llList2ListSlice"
+    ],
+    "src": [
+      "llDeleteSubList",
+      "llGetListEntryType",
+      "llGetListLength",
+      "llList2CSV",
+      "llList2Float",
+      "llList2Integer",
+      "llList2Key",
+      "llList2List",
+      "llList2ListSlice",
+      "llList2ListStrided",
+      "llList2Rot",
+      "llList2String",
+      "llList2Vector",
+      "llListFindList",
+      "llListFindListNext",
+      "llListFindStrided",
+      "llListInsertList",
+      "llListRandomize",
+      "llListReplaceList",
+      "llListSort",
+      "llListSortStrided",
+      "llListStatistics"
+    ],
+    "start": [
+      "llDeleteSubList",
+      "llList2List",
+      "llList2ListSlice",
+      "llList2ListStrided",
+      "llListFindStrided",
+      "llListInsertList",
+      "llListReplaceList"
+    ],
+    "stride": [
+      "llList2ListSlice",
+      "llList2ListStrided",
+      "llListFindStrided",
+      "llListRandomize",
+      "llListSort",
+      "llListSortStrided"
+    ],
+    "stride_index": [
+      "llListSortStrided"
+    ],
+    "test": [
+      "llListFindList",
+      "llListFindListNext",
+      "llListFindStrided"
+    ],
+    "type": [
+      "llList2Json"
+    ],
+    "values": [
+      "llList2Json"
+    ]
+  },
+  "math": {
+    "a": [
+      "llAngleBetween",
+      "llModPow"
+    ],
+    "angle": [
+      "llAxisAngle2Rot"
+    ],
+    "axis": [
+      "llAxisAngle2Rot"
+    ],
+    "b": [
+      "llAngleBetween",
+      "llModPow"
+    ],
+    "base": [
+      "llPow"
+    ],
+    "c": [
+      "llModPow"
+    ],
+    "color": [
+      "llLinear2sRGB"
+    ],
+    "end": [
+      "llRotBetween"
+    ],
+    "exponent": [
+      "llPow"
+    ],
+    "fwd": [
+      "llAxes2Rot"
+    ],
+    "left": [
+      "llAxes2Rot"
+    ],
+    "mag": [
+      "llFrand"
+    ],
+    "operation": [
+      "llListStatistics"
+    ],
+    "q": [
+      "llRot2Fwd",
+      "llRot2Left",
+      "llRot2Up"
+    ],
+    "quat": [
+      "llRot2Euler"
+    ],
+    "rot": [
+      "llRot2Angle",
+      "llRot2Axis"
+    ],
+    "src": [
+      "llListStatistics"
+    ],
+    "srgb": [
+      "llsRGB2Linear"
+    ],
+    "start": [
+      "llRotBetween"
+    ],
+    "theta": [
+      "llCos",
+      "llSin",
+      "llTan"
+    ],
+    "up": [
+      "llAxes2Rot"
+    ],
+    "v": [
+      "llEuler2Rot"
+    ],
+    "val": [
+      "llAbs",
+      "llAcos",
+      "llAsin",
+      "llCeil",
+      "llFabs",
+      "llFloor",
+      "llLog",
+      "llLog10",
+      "llRound",
+      "llSqrt"
+    ],
+    "vec": [
+      "llVecMag",
+      "llVecNorm"
+    ],
+    "vec_a": [
+      "llVecDist"
+    ],
+    "vec_b": [
+      "llVecDist"
+    ],
+    "x": [
+      "llAtan2"
+    ],
+    "y": [
+      "llAtan2"
+    ]
+  },
+  "math_3d": {
+    "a": [
+      "llAngleBetween"
+    ],
+    "angle": [
+      "llAxisAngle2Rot"
+    ],
+    "axis": [
+      "llAxisAngle2Rot"
+    ],
+    "b": [
+      "llAngleBetween"
+    ],
+    "end": [
+      "llRotBetween"
+    ],
+    "fwd": [
+      "llAxes2Rot"
+    ],
+    "left": [
+      "llAxes2Rot"
+    ],
+    "q": [
+      "llRot2Fwd",
+      "llRot2Left",
+      "llRot2Up"
+    ],
+    "quat": [
+      "llRot2Euler"
+    ],
+    "rot": [
+      "llRot2Angle",
+      "llRot2Axis"
+    ],
+    "start": [
+      "llRotBetween"
+    ],
+    "up": [
+      "llAxes2Rot"
+    ],
+    "v": [
+      "llEuler2Rot"
+    ],
+    "vec": [
+      "llVecMag",
+      "llVecNorm"
+    ],
+    "vec_a": [
+      "llVecDist"
+    ],
+    "vec_b": [
+      "llVecDist"
+    ]
+  },
+  "math_trig": {
+    "a": [
+      "llAngleBetween"
+    ],
+    "angle": [
+      "llAxisAngle2Rot"
+    ],
+    "axis": [
+      "llAxisAngle2Rot"
+    ],
+    "b": [
+      "llAngleBetween"
+    ],
+    "end": [
+      "llRotBetween"
+    ],
+    "fwd": [
+      "llAxes2Rot"
+    ],
+    "left": [
+      "llAxes2Rot"
+    ],
+    "q": [
+      "llRot2Fwd",
+      "llRot2Left",
+      "llRot2Up"
+    ],
+    "rot": [
+      "llRot2Angle",
+      "llRot2Axis"
+    ],
+    "start": [
+      "llRotBetween"
+    ],
+    "theta": [
+      "llCos",
+      "llSin",
+      "llTan"
+    ],
+    "up": [
+      "llAxes2Rot"
+    ],
+    "val": [
+      "llAcos",
+      "llAsin"
+    ],
+    "x": [
+      "llAtan2"
+    ],
+    "y": [
+      "llAtan2"
+    ]
+  },
+  "media": {
+    "body": [
+      "llHTTPResponse"
+    ],
+    "commandList": [
+      "llParcelMediaCommandList"
+    ],
+    "content_type": [
+      "llSetContentType"
+    ],
+    "face": [
+      "llClearLinkMedia",
+      "llClearPrimMedia",
+      "llGetLinkMedia",
+      "llGetPrimMediaParams",
+      "llSetLinkMedia",
+      "llSetPrimMediaParams"
+    ],
+    "link": [
+      "llClearLinkMedia",
+      "llGetLinkMedia",
+      "llSetLinkMedia"
+    ],
+    "params": [
+      "llGetLinkMedia",
+      "llGetPrimMediaParams",
+      "llSetLinkMedia",
+      "llSetPrimMediaParams"
+    ],
+    "query": [
+      "llParcelMediaQuery"
+    ],
+    "request_id": [
+      "llHTTPResponse",
+      "llSetContentType"
+    ],
+    "status": [
+      "llHTTPResponse"
+    ],
+    "url": [
+      "llReleaseURL",
+      "llSetParcelMusicURL",
+      "llSetPrimURL"
+    ]
+  },
+  "money": {
+    "action": [
+      "llSetClickAction"
+    ],
+    "amount": [
+      "llGiveMoney",
+      "llTransferLindenDollars"
+    ],
+    "destination": [
+      "llGiveMoney",
+      "llTransferLindenDollars"
+    ],
+    "price": [
+      "llSetPayPrice"
+    ],
+    "quick_pay_buttons": [
+      "llSetPayPrice"
+    ]
+  },
+  "movement": {
+    "ang_impulse": [
+      "llPushObject"
+    ],
+    "axis": [
+      "llTargetOmega"
+    ],
+    "damping": [
+      "llLookAt",
+      "llRotLookAt"
+    ],
+    "error": [
+      "llRotTarget"
+    ],
+    "flags": [
+      "llSetAgentRot"
+    ],
+    "force": [
+      "llApplyRotationalImpulse",
+      "llSetForce",
+      "llSetForceAndTorque"
+    ],
+    "gain": [
+      "llTargetOmega"
+    ],
+    "handle": [
+      "llRotTargetRemove",
+      "llTargetRemove"
+    ],
+    "height": [
+      "llSetHoverHeight"
+    ],
+    "impulse": [
+      "llPushObject"
+    ],
+    "initial_omega": [
+      "llSetAngularVelocity"
+    ],
+    "keyframes": [
+      "llSetKeyframedMotion"
+    ],
+    "local": [
+      "llApplyImpulse",
+      "llApplyRotationalImpulse",
+      "llPushObject",
+      "llSetAngularVelocity",
+      "llSetForce",
+      "llSetForceAndTorque",
+      "llSetTorque",
+      "llSetVelocity"
+    ],
+    "momentum": [
+      "llApplyImpulse"
+    ],
+    "options": [
+      "llSetKeyframedMotion"
+    ],
+    "pos": [
+      "llPointAt",
+      "llSetPos"
+    ],
+    "position": [
+      "llSetRegionPos",
+      "llTarget"
+    ],
+    "range": [
+      "llTarget"
+    ],
+    "rot": [
+      "llRotTarget",
+      "llSetAgentRot",
+      "llSetLocalRot",
+      "llSetRot"
+    ],
+    "spinrate": [
+      "llTargetOmega"
+    ],
+    "strength": [
+      "llLookAt",
+      "llRotLookAt"
+    ],
+    "target": [
+      "llLookAt",
+      "llMoveToTarget",
+      "llPushObject"
+    ],
+    "target_direction": [
+      "llRotLookAt"
+    ],
+    "tau": [
+      "llMoveToTarget",
+      "llSetHoverHeight"
+    ],
+    "torque": [
+      "llSetForceAndTorque",
+      "llSetTorque"
+    ],
+    "velocity": [
+      "llSetVelocity"
+    ],
+    "water": [
+      "llSetHoverHeight"
+    ]
+  },
+  "notecard": {
+    "count": [
+      "llFindNotecardTextSync"
+    ],
+    "line": [
+      "llGetNotecardLine",
+      "llGetNotecardLineSync"
+    ],
+    "name": [
+      "llFindNotecardTextSync",
+      "llGetNotecardLine",
+      "llGetNotecardLineSync",
+      "llGetNumberOfNotecardLines"
+    ],
+    "notecardname": [
+      "llFindNotecardTextCount"
+    ],
+    "options": [
+      "llFindNotecardTextCount",
+      "llFindNotecardTextSync"
+    ],
+    "pattern": [
+      "llFindNotecardTextCount",
+      "llFindNotecardTextSync"
+    ],
+    "start": [
+      "llFindNotecardTextSync"
+    ]
+  },
+  "object": {
+    "id": [
+      "llGetObjectDetails",
+      "llGetObjectMass",
+      "llGetOwnerKey",
+      "llKey2Name"
+    ],
+    "link": [
+      "llGetObjectLinkKey"
+    ],
+    "object": [
+      "llGetBoundingBox"
+    ],
+    "object_id": [
+      "llGetObjectLinkKey"
+    ],
+    "params": [
+      "llGetObjectDetails"
+    ],
+    "prim": [
+      "llGetObjectPrimCount"
+    ],
+    "uuid": [
+      "llSameGroup"
+    ]
+  },
+  "object_animation": {
+    "anim": [
+      "llStartObjectAnimation",
+      "llStopObjectAnimation"
+    ]
+  },
+  "parcel": {
+    "ForSale": [
+      "llSetParcelForSale"
+    ],
+    "Options": [
+      "llSetParcelForSale"
+    ],
+    "avatar": [
+      "llAddToLandBanList",
+      "llAddToLandPassList",
+      "llEjectFromLand",
+      "llRemoveFromLandBanList",
+      "llRemoveFromLandPassList"
+    ],
+    "category": [
+      "llGetParcelPrimCount"
+    ],
+    "commandList": [
+      "llParcelMediaCommandList"
+    ],
+    "day_length": [
+      "llReplaceEnvironment"
+    ],
+    "day_offset": [
+      "llReplaceEnvironment"
+    ],
+    "environment": [
+      "llReplaceEnvironment"
+    ],
+    "hours": [
+      "llAddToLandBanList",
+      "llAddToLandPassList"
+    ],
+    "id": [
+      "llOverMyLand"
+    ],
+    "options": [
+      "llGetAgentList"
+    ],
+    "params": [
+      "llGetEnvironment",
+      "llGetParcelDetails",
+      "llSetEnvironment"
+    ],
+    "pos": [
+      "llGetEnvironment",
+      "llGetLandOwnerAt",
+      "llGetParcelDetails",
+      "llGetParcelFlags",
+      "llGetParcelMaxPrims",
+      "llGetParcelPrimCount",
+      "llGetParcelPrimOwners",
+      "llScriptDanger"
+    ],
+    "position": [
+      "llReplaceEnvironment",
+      "llSetEnvironment"
+    ],
+    "query": [
+      "llParcelMediaQuery"
+    ],
+    "scope": [
+      "llGetAgentList"
+    ],
+    "sim_wide": [
+      "llGetParcelMaxPrims",
+      "llGetParcelPrimCount"
+    ],
+    "track_no": [
+      "llReplaceEnvironment"
+    ],
+    "url": [
+      "llSetParcelMusicURL"
+    ]
+  },
+  "parcel_appearance": {
+    "agent_id": [
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment"
+    ],
+    "day_length": [
+      "llReplaceEnvironment"
+    ],
+    "day_offset": [
+      "llReplaceEnvironment"
+    ],
+    "environment": [
+      "llReplaceAgentEnvironment",
+      "llReplaceEnvironment"
+    ],
+    "params": [
+      "llGetEnvironment",
+      "llSetAgentEnvironment",
+      "llSetEnvironment"
+    ],
+    "pos": [
+      "llGetEnvironment"
+    ],
+    "position": [
+      "llReplaceEnvironment",
+      "llSetEnvironment"
+    ],
+    "track_no": [
+      "llReplaceEnvironment"
+    ],
+    "transition": [
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment"
+    ]
+  },
+  "parcel_media": {
+    "commandList": [
+      "llParcelMediaCommandList"
+    ],
+    "query": [
+      "llParcelMediaQuery"
+    ],
+    "url": [
+      "llSetParcelMusicURL"
+    ]
+  },
+  "particles": {
+    "link": [
+      "llLinkParticleSystem"
+    ],
+    "rules": [
+      "llLinkParticleSystem",
+      "llParticleSystem"
+    ]
+  },
+  "pathfinding": {
+    "command": [
+      "llExecCharacterCmd"
+    ],
+    "dist": [
+      "llWanderWithin"
+    ],
+    "distance": [
+      "llFleeFrom"
+    ],
+    "end": [
+      "llGetStaticPath"
+    ],
+    "options": [
+      "llCreateCharacter",
+      "llEvade",
+      "llExecCharacterCmd",
+      "llFleeFrom",
+      "llGetClosestNavPoint",
+      "llNavigateTo",
+      "llPatrolPoints",
+      "llPursue",
+      "llUpdateCharacter",
+      "llWanderWithin"
+    ],
+    "origin": [
+      "llWanderWithin"
+    ],
+    "params": [
+      "llGetStaticPath"
+    ],
+    "patrolPoints": [
+      "llPatrolPoints"
+    ],
+    "point": [
+      "llGetClosestNavPoint"
+    ],
+    "pos": [
+      "llNavigateTo"
+    ],
+    "position": [
+      "llFleeFrom"
+    ],
+    "radius": [
+      "llGetStaticPath"
+    ],
+    "start": [
+      "llGetStaticPath"
+    ],
+    "target": [
+      "llEvade",
+      "llPursue"
+    ]
+  },
+  "permissions": {
+    "accept": [
+      "llTakeControls"
+    ],
+    "agent": [
+      "llRequestExperiencePermissions",
+      "llRequestPermissions",
+      "llTeleportAgent",
+      "llTeleportAgentGlobalCoords"
+    ],
+    "amount": [
+      "llGiveMoney",
+      "llTransferLindenDollars"
+    ],
+    "anim": [
+      "llSetAnimationOverride",
+      "llStartAnimation",
+      "llStopAnimation"
+    ],
+    "anim_state": [
+      "llGetAnimationOverride",
+      "llResetAnimationOverride",
+      "llSetAnimationOverride"
+    ],
+    "avatar": [
+      "llGetAnimationList",
+      "llReleaseCamera",
+      "llTakeCamera"
+    ],
+    "controls": [
+      "llTakeControls"
+    ],
+    "destination": [
+      "llGiveMoney",
+      "llTransferLindenDollars"
+    ],
+    "global_coordinates": [
+      "llTeleportAgentGlobalCoords"
+    ],
+    "id": [
+      "llGetAnimation"
+    ],
+    "landmark": [
+      "llTeleportAgent"
+    ],
+    "look_at": [
+      "llTeleportAgent",
+      "llTeleportAgentGlobalCoords"
+    ],
+    "mouselook": [
+      "llForceMouselook"
+    ],
+    "name": [
+      "llRequestExperiencePermissions"
+    ],
+    "pass_on": [
+      "llTakeControls"
+    ],
+    "permissions": [
+      "llRequestPermissions"
+    ],
+    "position": [
+      "llTeleportAgent"
+    ],
+    "region_coordinates": [
+      "llTeleportAgentGlobalCoords"
+    ],
+    "rules": [
+      "llSetCameraParams"
+    ],
+    "world_pos": [
+      "llWorldPosToHUD"
+    ]
+  },
+  "physics": {
+    "accept": [
+      "llCollisionFilter"
+    ],
+    "ang_impulse": [
+      "llPushObject"
+    ],
+    "axis": [
+      "llTargetOmega"
+    ],
+    "buoyancy": [
+      "llSetBuoyancy"
+    ],
+    "damping": [
+      "llLookAt",
+      "llRotLookAt"
+    ],
+    "density": [
+      "llSetPhysicsMaterial"
+    ],
+    "detect": [
+      "llVolumeDetect"
+    ],
+    "end": [
+      "llCastRay"
+    ],
+    "error": [
+      "llRotTarget"
+    ],
+    "flags": [
+      "llRemoveVehicleFlags",
+      "llSetAgentRot"
+    ],
+    "force": [
+      "llApplyRotationalImpulse",
+      "llSetForce",
+      "llSetForceAndTorque"
+    ],
+    "friction": [
+      "llSetPhysicsMaterial"
+    ],
+    "gain": [
+      "llTargetOmega"
+    ],
+    "gravity_multiplier": [
+      "llSetPhysicsMaterial"
+    ],
+    "handle": [
+      "llRotTargetRemove"
+    ],
+    "height": [
+      "llSetHoverHeight"
+    ],
+    "id": [
+      "llCollisionFilter",
+      "llGetObjectMass"
+    ],
+    "impact_sound": [
+      "llCollisionSound"
+    ],
+    "impact_volume": [
+      "llCollisionSound"
+    ],
+    "impulse": [
+      "llPushObject"
+    ],
+    "initial_omega": [
+      "llSetAngularVelocity"
+    ],
+    "keyframes": [
+      "llSetKeyframedMotion"
+    ],
+    "local": [
+      "llApplyImpulse",
+      "llApplyRotationalImpulse",
+      "llPushObject",
+      "llSetAngularVelocity",
+      "llSetForce",
+      "llSetForceAndTorque",
+      "llSetTorque",
+      "llSetVelocity"
+    ],
+    "mask": [
+      "llSetPhysicsMaterial"
+    ],
+    "momentum": [
+      "llApplyImpulse"
+    ],
+    "name": [
+      "llCollisionFilter"
+    ],
+    "options": [
+      "llCastRay",
+      "llSetKeyframedMotion"
+    ],
+    "pass": [
+      "llPassCollisions"
+    ],
+    "pos": [
+      "llPointAt"
+    ],
+    "restitution": [
+      "llSetPhysicsMaterial"
+    ],
+    "rot": [
+      "llRotTarget",
+      "llSetAgentRot"
+    ],
+    "spinrate": [
+      "llTargetOmega"
+    ],
+    "start": [
+      "llCastRay"
+    ],
+    "status": [
+      "llGetStatus",
+      "llSetStatus"
+    ],
+    "strength": [
+      "llLookAt",
+      "llRotLookAt"
+    ],
+    "target": [
+      "llLookAt",
+      "llMoveToTarget",
+      "llPushObject"
+    ],
+    "target_direction": [
+      "llRotLookAt"
+    ],
+    "tau": [
+      "llMoveToTarget",
+      "llSetHoverHeight"
+    ],
+    "torque": [
+      "llSetForceAndTorque",
+      "llSetTorque"
+    ],
+    "value": [
+      "llSetStatus"
+    ],
+    "velocity": [
+      "llSetVelocity"
+    ],
+    "water": [
+      "llSetHoverHeight"
+    ]
+  },
+  "prim": {
+    "alpha": [
+      "llSetAlpha"
+    ],
+    "angle": [
+      "llRotateTexture"
+    ],
+    "color": [
+      "llSetColor"
+    ],
+    "density": [
+      "llSetPhysicsMaterial"
+    ],
+    "description": [
+      "llSetObjectDesc"
+    ],
+    "face": [
+      "llClearPrimMedia",
+      "llGetAlpha",
+      "llGetColor",
+      "llGetPrimMediaParams",
+      "llGetRenderMaterial",
+      "llGetTexture",
+      "llGetTextureOffset",
+      "llGetTextureRot",
+      "llGetTextureScale",
+      "llOffsetTexture",
+      "llRotateTexture",
+      "llScaleTexture",
+      "llSetAlpha",
+      "llSetColor",
+      "llSetPrimMediaParams",
+      "llSetRenderMaterial",
+      "llSetTexture",
+      "llSetTextureAnim"
+    ],
+    "friction": [
+      "llSetPhysicsMaterial"
+    ],
+    "gravity_multiplier": [
+      "llSetPhysicsMaterial"
+    ],
+    "length": [
+      "llSetTextureAnim"
+    ],
+    "mask": [
+      "llSetPhysicsMaterial"
+    ],
+    "material": [
+      "llSetRenderMaterial"
+    ],
+    "mode": [
+      "llSetTextureAnim"
+    ],
+    "name": [
+      "llRemoteLoadScriptPin",
+      "llSetObjectName"
+    ],
+    "offset": [
+      "llSitTarget"
+    ],
+    "params": [
+      "llGetPrimMediaParams",
+      "llGetPrimitiveParams",
+      "llSetPrimMediaParams"
+    ],
+    "pin": [
+      "llRemoteLoadScriptPin"
+    ],
+    "pos": [
+      "llSetPos"
+    ],
+    "position": [
+      "llSetRegionPos"
+    ],
+    "rate": [
+      "llSetTextureAnim"
+    ],
+    "restitution": [
+      "llSetPhysicsMaterial"
+    ],
+    "rot": [
+      "llSetLocalRot",
+      "llSetRot",
+      "llSitTarget"
+    ],
+    "rules": [
+      "llSetPrimitiveParams"
+    ],
+    "running": [
+      "llRemoteLoadScriptPin"
+    ],
+    "size": [
+      "llSetScale"
+    ],
+    "sizex": [
+      "llSetTextureAnim"
+    ],
+    "sizey": [
+      "llSetTextureAnim"
+    ],
+    "start": [
+      "llSetTextureAnim"
+    ],
+    "start_param": [
+      "llRemoteLoadScriptPin"
+    ],
+    "target": [
+      "llRemoteLoadScriptPin"
+    ],
+    "text": [
+      "llSetSitText"
+    ],
+    "texture": [
+      "llSetTexture"
+    ],
+    "u": [
+      "llOffsetTexture",
+      "llScaleTexture"
+    ],
+    "url": [
+      "llSetPrimURL"
+    ],
+    "v": [
+      "llOffsetTexture",
+      "llScaleTexture"
+    ]
+  },
+  "prim_appearance": {
+    "alpha": [
+      "llSetAlpha",
+      "llSetLinkAlpha",
+      "llSetText"
+    ],
+    "angle": [
+      "llRotateTexture"
+    ],
+    "color": [
+      "llLinear2sRGB",
+      "llSetColor",
+      "llSetLinkColor",
+      "llSetText"
+    ],
+    "face": [
+      "llGetAlpha",
+      "llGetColor",
+      "llGetRenderMaterial",
+      "llGetTexture",
+      "llGetTextureOffset",
+      "llGetTextureRot",
+      "llGetTextureScale",
+      "llIsLinkGLTFMaterial",
+      "llOffsetTexture",
+      "llRotateTexture",
+      "llScaleTexture",
+      "llSetAlpha",
+      "llSetColor",
+      "llSetLinkAlpha",
+      "llSetLinkColor",
+      "llSetLinkGLTFOverrides",
+      "llSetLinkRenderMaterial",
+      "llSetLinkTexture",
+      "llSetLinkTextureAnim",
+      "llSetRenderMaterial",
+      "llSetTexture",
+      "llSetTextureAnim"
+    ],
+    "length": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "link": [
+      "llGetLinkNumberOfSides",
+      "llGetLinkPrimitiveParams",
+      "llIsLinkGLTFMaterial",
+      "llSetLinkAlpha",
+      "llSetLinkColor",
+      "llSetLinkGLTFOverrides",
+      "llSetLinkPrimitiveParams",
+      "llSetLinkPrimitiveParamsFast",
+      "llSetLinkRenderMaterial",
+      "llSetLinkTexture",
+      "llSetLinkTextureAnim"
+    ],
+    "material": [
+      "llSetLinkRenderMaterial",
+      "llSetRenderMaterial"
+    ],
+    "mode": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "params": [
+      "llGetLinkPrimitiveParams",
+      "llGetPrimitiveParams",
+      "llSetLinkGLTFOverrides"
+    ],
+    "rate": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "rules": [
+      "llSetLinkPrimitiveParams",
+      "llSetLinkPrimitiveParamsFast",
+      "llSetPrimitiveParams"
+    ],
+    "scaling_factor": [
+      "llScaleByFactor"
+    ],
+    "size": [
+      "llSetScale"
+    ],
+    "sizex": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "sizey": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "srgb": [
+      "llsRGB2Linear"
+    ],
+    "start": [
+      "llSetLinkTextureAnim",
+      "llSetTextureAnim"
+    ],
+    "text": [
+      "llSetText"
+    ],
+    "texture": [
+      "llSetLinkTexture",
+      "llSetTexture"
+    ],
+    "u": [
+      "llOffsetTexture",
+      "llScaleTexture"
+    ],
+    "v": [
+      "llOffsetTexture",
+      "llScaleTexture"
+    ]
+  },
+  "prim_inventory": {
+    "add": [
+      "llAllowInventoryDrop"
+    ],
+    "category": [
+      "llGetInventoryPermMask",
+      "llSetInventoryPermMask"
+    ],
+    "destination": [
+      "llGiveInventory"
+    ],
+    "flag": [
+      "llDerezObject"
+    ],
+    "folder": [
+      "llGiveInventoryList"
+    ],
+    "id": [
+      "llDerezObject"
+    ],
+    "inventory": [
+      "llGiveInventory",
+      "llGiveInventoryList",
+      "llGodLikeRezObject",
+      "llRezAtRoot",
+      "llRezObject",
+      "llRezObjectWithParams"
+    ],
+    "item": [
+      "llGetInventoryAcquireTime",
+      "llGetInventoryCreator",
+      "llGetInventoryDesc",
+      "llGetInventoryPermMask",
+      "llRemoveInventory",
+      "llSetInventoryPermMask"
+    ],
+    "name": [
+      "llGetInventoryKey",
+      "llGetInventoryType",
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin",
+      "llRequestInventoryData",
+      "llResetOtherScript",
+      "llSetScriptState"
+    ],
+    "number": [
+      "llGetInventoryName"
+    ],
+    "param": [
+      "llRezAtRoot",
+      "llRezObject"
+    ],
+    "params": [
+      "llRezObjectWithParams"
+    ],
+    "pin": [
+      "llRemoteLoadScriptPin",
+      "llSetRemoteScriptAccessPin"
+    ],
+    "pos": [
+      "llGodLikeRezObject",
+      "llRezObject"
+    ],
+    "position": [
+      "llRezAtRoot"
+    ],
+    "rot": [
+      "llRezAtRoot",
+      "llRezObject"
+    ],
+    "running": [
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin",
+      "llSetScriptState"
+    ],
+    "script": [
+      "llGetScriptState"
+    ],
+    "start_param": [
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin"
+    ],
+    "target": [
+      "llGiveInventoryList",
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin"
+    ],
+    "type": [
+      "llGetInventoryName",
+      "llGetInventoryNumber"
+    ],
+    "value": [
+      "llSetInventoryPermMask"
+    ],
+    "vel": [
+      "llRezObject"
+    ],
+    "velocity": [
+      "llRezAtRoot"
+    ]
+  },
+  "prim_media": {
+    "body": [
+      "llHTTPResponse"
+    ],
+    "content_type": [
+      "llSetContentType"
+    ],
+    "face": [
+      "llClearLinkMedia",
+      "llClearPrimMedia",
+      "llGetLinkMedia",
+      "llGetPrimMediaParams",
+      "llSetLinkMedia",
+      "llSetPrimMediaParams"
+    ],
+    "link": [
+      "llClearLinkMedia",
+      "llGetLinkMedia",
+      "llSetLinkMedia"
+    ],
+    "params": [
+      "llGetLinkMedia",
+      "llGetPrimMediaParams",
+      "llSetLinkMedia",
+      "llSetPrimMediaParams"
+    ],
+    "request_id": [
+      "llHTTPResponse",
+      "llSetContentType"
+    ],
+    "status": [
+      "llHTTPResponse"
+    ],
+    "url": [
+      "llSetPrimURL"
+    ]
+  },
+  "prim_properties": {
+    "action": [
+      "llSetClickAction"
+    ],
+    "alpha": [
+      "llSetText"
+    ],
+    "color": [
+      "llSetText"
+    ],
+    "density": [
+      "llSetPhysicsMaterial"
+    ],
+    "description": [
+      "llSetObjectDesc"
+    ],
+    "friction": [
+      "llSetPhysicsMaterial"
+    ],
+    "gravity_multiplier": [
+      "llSetPhysicsMaterial"
+    ],
+    "id": [
+      "llGetObjectDetails"
+    ],
+    "link": [
+      "llSetLinkPrimitiveParams",
+      "llSetLinkPrimitiveParamsFast"
+    ],
+    "mask": [
+      "llSetPhysicsMaterial"
+    ],
+    "name": [
+      "llSetObjectName"
+    ],
+    "params": [
+      "llGetObjectDetails",
+      "llGetPrimitiveParams"
+    ],
+    "price": [
+      "llSetPayPrice"
+    ],
+    "quick_pay_buttons": [
+      "llSetPayPrice"
+    ],
+    "restitution": [
+      "llSetPhysicsMaterial"
+    ],
+    "rules": [
+      "llSetLinkPrimitiveParams",
+      "llSetLinkPrimitiveParamsFast",
+      "llSetPrimitiveParams"
+    ],
+    "status": [
+      "llSetStatus"
+    ],
+    "text": [
+      "llSetText",
+      "llSetTouchText"
+    ],
+    "value": [
+      "llSetStatus"
+    ]
+  },
+  "quaternion": {
+    "a": [
+      "llAngleBetween"
+    ],
+    "angle": [
+      "llAxisAngle2Rot"
+    ],
+    "axis": [
+      "llAxisAngle2Rot"
+    ],
+    "b": [
+      "llAngleBetween"
+    ],
+    "end": [
+      "llRotBetween"
+    ],
+    "fwd": [
+      "llAxes2Rot"
+    ],
+    "left": [
+      "llAxes2Rot"
+    ],
+    "q": [
+      "llRot2Fwd",
+      "llRot2Left",
+      "llRot2Up"
+    ],
+    "quat": [
+      "llRot2Euler"
+    ],
+    "rot": [
+      "llRot2Angle",
+      "llRot2Axis"
+    ],
+    "start": [
+      "llRotBetween"
+    ],
+    "up": [
+      "llAxes2Rot"
+    ],
+    "v": [
+      "llEuler2Rot"
+    ]
+  },
+  "region": {
+    "action": [
+      "llModifyLand"
+    ],
+    "brush": [
+      "llModifyLand"
+    ],
+    "changes": [
+      "llSetGroundTexture"
+    ],
+    "data": [
+      "llRequestSimulatorData"
+    ],
+    "dir": [
+      "llEdgeOfWorld"
+    ],
+    "height": [
+      "llGroundRepel"
+    ],
+    "name": [
+      "llGetEnv"
+    ],
+    "offset": [
+      "llCloud",
+      "llGround",
+      "llGroundContour",
+      "llGroundNormal",
+      "llGroundSlope",
+      "llWater",
+      "llWind"
+    ],
+    "options": [
+      "llGetAgentList"
+    ],
+    "pos": [
+      "llEdgeOfWorld"
+    ],
+    "region": [
+      "llRequestSimulatorData"
+    ],
+    "scope": [
+      "llGetAgentList"
+    ],
+    "stat_type": [
+      "llGetSimStats"
+    ],
+    "tau": [
+      "llGroundRepel"
+    ],
+    "water": [
+      "llGroundRepel"
+    ]
+  },
+  "region_appearance": {
+    "agent_id": [
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment"
+    ],
+    "environment": [
+      "llReplaceAgentEnvironment"
+    ],
+    "params": [
+      "llSetAgentEnvironment"
+    ],
+    "transition": [
+      "llReplaceAgentEnvironment",
+      "llSetAgentEnvironment"
+    ]
+  },
+  "rez": {
+    "flag": [
+      "llDerezObject"
+    ],
+    "id": [
+      "llDerezObject"
+    ],
+    "inventory": [
+      "llGodLikeRezObject",
+      "llRezAtRoot",
+      "llRezObject",
+      "llRezObjectWithParams"
+    ],
+    "objects": [
+      "llReturnObjectsByID"
+    ],
+    "owner": [
+      "llReturnObjectsByOwner"
+    ],
+    "param": [
+      "llRezAtRoot",
+      "llRezObject"
+    ],
+    "params": [
+      "llRezObjectWithParams"
+    ],
+    "pos": [
+      "llGodLikeRezObject",
+      "llRezObject"
+    ],
+    "position": [
+      "llRezAtRoot"
+    ],
+    "rot": [
+      "llRezAtRoot",
+      "llRezObject"
+    ],
+    "scope": [
+      "llReturnObjectsByOwner"
+    ],
+    "vel": [
+      "llRezObject"
+    ],
+    "velocity": [
+      "llRezAtRoot"
+    ]
+  },
+  "script": {
+    "delay": [
+      "llMinEventDelay"
+    ],
+    "flags": [
+      "llScriptProfiler"
+    ],
+    "limit": [
+      "llSetMemoryLimit"
+    ],
+    "name": [
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin",
+      "llResetOtherScript",
+      "llSetScriptState"
+    ],
+    "pin": [
+      "llRemoteLoadScriptPin",
+      "llSetRemoteScriptAccessPin"
+    ],
+    "pos": [
+      "llScriptDanger"
+    ],
+    "running": [
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin",
+      "llSetScriptState"
+    ],
+    "script": [
+      "llGetScriptState"
+    ],
+    "sec": [
+      "llSetTimerEvent",
+      "llSleep"
+    ],
+    "start_param": [
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin"
+    ],
+    "target": [
+      "llRemoteLoadScript",
+      "llRemoteLoadScriptPin"
+    ]
+  },
+  "script_communication": {
+    "active": [
+      "llListenControl"
+    ],
+    "address": [
+      "llGetNextEmail"
+    ],
+    "body": [
+      "llHTTPRequest",
+      "llHTTPResponse"
+    ],
+    "channel": [
+      "llCloseRemoteDataChannel",
+      "llListen",
+      "llRegionSay",
+      "llRegionSayTo",
+      "llRemoteDataReply",
+      "llSay",
+      "llSendRemoteData",
+      "llShout",
+      "llWhisper"
+    ],
+    "dest": [
+      "llSendRemoteData"
+    ],
+    "handle": [
+      "llListenControl",
+      "llListenRemove"
+    ],
+    "id": [
+      "llListen",
+      "llMessageLinked"
+    ],
+    "idata": [
+      "llRemoteDataReply",
+      "llSendRemoteData"
+    ],
+    "link": [
+      "llMessageLinked"
+    ],
+    "message_id": [
+      "llRemoteDataReply"
+    ],
+    "msg": [
+      "llListen",
+      "llRegionSay",
+      "llRegionSayTo",
+      "llSay",
+      "llShout",
+      "llWhisper"
+    ],
+    "name": [
+      "llListen"
+    ],
+    "num": [
+      "llMessageLinked"
+    ],
+    "parameters": [
+      "llHTTPRequest"
+    ],
+    "request_id": [
+      "llHTTPResponse"
+    ],
+    "sdata": [
+      "llRemoteDataReply",
+      "llSendRemoteData"
+    ],
+    "status": [
+      "llHTTPResponse"
+    ],
+    "str": [
+      "llMessageLinked"
+    ],
+    "subject": [
+      "llGetNextEmail"
+    ],
+    "target": [
+      "llRegionSayTo"
+    ],
+    "url": [
+      "llHTTPRequest"
+    ]
+  },
+  "sensor": {
+    "accept": [
+      "llCollisionFilter"
+    ],
+    "arc": [
+      "llSensor",
+      "llSensorRepeat"
+    ],
+    "detect": [
+      "llVolumeDetect"
+    ],
+    "end": [
+      "llCastRay"
+    ],
+    "id": [
+      "llCollisionFilter",
+      "llSensor",
+      "llSensorRepeat"
+    ],
+    "name": [
+      "llCollisionFilter",
+      "llSensor",
+      "llSensorRepeat"
+    ],
+    "options": [
+      "llCastRay"
+    ],
+    "pass": [
+      "llPassCollisions"
+    ],
+    "radius": [
+      "llSensor",
+      "llSensorRepeat"
+    ],
+    "rate": [
+      "llSensorRepeat"
+    ],
+    "start": [
+      "llCastRay"
+    ],
+    "type": [
+      "llSensor",
+      "llSensorRepeat"
+    ]
+  },
+  "sit": {
+    "agent_id": [
+      "llSitOnLink"
+    ],
+    "at": [
+      "llSetLinkCamera"
+    ],
+    "eye": [
+      "llSetLinkCamera"
+    ],
+    "flags": [
+      "llSetLinkSitFlags"
+    ],
+    "id": [
+      "llUnSit"
+    ],
+    "link": [
+      "llAvatarOnLinkSitTarget",
+      "llGetLinkSitFlags",
+      "llLinkSitTarget",
+      "llSetLinkCamera",
+      "llSetLinkSitFlags",
+      "llSitOnLink"
+    ],
+    "offset": [
+      "llLinkSitTarget",
+      "llSitTarget"
+    ],
+    "rot": [
+      "llLinkSitTarget",
+      "llSitTarget"
+    ],
+    "text": [
+      "llSetSitText"
+    ]
+  },
+  "sound": {
+    "bottom_south_west": [
+      "llTriggerSoundLimited"
+    ],
+    "flags": [
+      "llLinkPlaySound"
+    ],
+    "impact_sound": [
+      "llCollisionSound"
+    ],
+    "impact_sprite": [
+      "llCollisionSprite"
+    ],
+    "impact_volume": [
+      "llCollisionSound"
+    ],
+    "link": [
+      "llLinkAdjustSoundVolume",
+      "llLinkPlaySound",
+      "llLinkSetSoundQueueing",
+      "llLinkSetSoundRadius",
+      "llLinkStopSound"
+    ],
+    "loop": [
+      "llSound"
+    ],
+    "queue": [
+      "llLinkSetSoundQueueing",
+      "llSetSoundQueueing",
+      "llSound"
+    ],
+    "radius": [
+      "llLinkSetSoundRadius",
+      "llSetSoundRadius"
+    ],
+    "sound": [
+      "llLinkPlaySound",
+      "llLoopSound",
+      "llLoopSoundMaster",
+      "llLoopSoundSlave",
+      "llPlaySound",
+      "llPlaySoundSlave",
+      "llPreloadSound",
+      "llSound",
+      "llSoundPreload",
+      "llTriggerSound",
+      "llTriggerSoundLimited"
+    ],
+    "top_north_east": [
+      "llTriggerSoundLimited"
+    ],
+    "volume": [
+      "llAdjustSoundVolume",
+      "llLinkAdjustSoundVolume",
+      "llLinkPlaySound",
+      "llLoopSound",
+      "llLoopSoundMaster",
+      "llLoopSoundSlave",
+      "llPlaySound",
+      "llPlaySoundSlave",
+      "llSound",
+      "llTriggerSound",
+      "llTriggerSoundLimited"
+    ]
+  },
+  "string": {
+    "count": [
+      "llReplaceSubString"
+    ],
+    "dst": [
+      "llInsertString"
+    ],
+    "end": [
+      "llDeleteSubString",
+      "llGetSubString"
+    ],
+    "index": [
+      "llOrd"
+    ],
+    "pattern": [
+      "llReplaceSubString",
+      "llSubStringIndex"
+    ],
+    "pos": [
+      "llInsertString"
+    ],
+    "replacement_pattern": [
+      "llReplaceSubString"
+    ],
+    "source": [
+      "llSubStringIndex"
+    ],
+    "src": [
+      "llDeleteSubString",
+      "llGetSubString",
+      "llInsertString",
+      "llReplaceSubString",
+      "llStringTrim",
+      "llToLower",
+      "llToUpper"
+    ],
+    "start": [
+      "llDeleteSubString",
+      "llGetSubString"
+    ],
+    "str": [
+      "llStringLength"
+    ],
+    "type": [
+      "llStringTrim"
+    ],
+    "val": [
+      "llChar",
+      "llOrd"
+    ]
+  },
+  "teleport": {
+    "agent": [
+      "llTeleportAgent",
+      "llTeleportAgentGlobalCoords"
+    ],
+    "avatar": [
+      "llTeleportAgentHome"
+    ],
+    "global_coordinates": [
+      "llTeleportAgentGlobalCoords"
+    ],
+    "landmark": [
+      "llTeleportAgent"
+    ],
+    "look_at": [
+      "llTeleportAgent",
+      "llTeleportAgentGlobalCoords"
+    ],
+    "position": [
+      "llTeleportAgent"
+    ],
+    "region_coordinates": [
+      "llTeleportAgentGlobalCoords"
+    ]
+  },
+  "time": {
+    "sec": [
+      "llSetTimerEvent",
+      "llSleep"
+    ]
+  },
+  "touch": {
+    "action": [
+      "llSetClickAction"
+    ],
+    "index": [
+      "llDetectedTouchBinormal",
+      "llDetectedTouchFace",
+      "llDetectedTouchNormal",
+      "llDetectedTouchPos",
+      "llDetectedTouchST",
+      "llDetectedTouchUV"
+    ],
+    "number": [
+      "llDetectedGrab"
+    ],
+    "pass": [
+      "llPassTouches"
+    ],
+    "text": [
+      "llSetTouchText"
+    ]
+  },
+  "user_interface": {
+    "action": [
+      "llSetClickAction"
+    ],
+    "avatar": [
+      "llDialog",
+      "llLoadURL",
+      "llTextBox"
+    ],
+    "buttons": [
+      "llDialog"
+    ],
+    "channel": [
+      "llDialog",
+      "llTextBox"
+    ],
+    "look_at": [
+      "llMapDestination"
+    ],
+    "message": [
+      "llDialog",
+      "llLoadURL",
+      "llTextBox"
+    ],
+    "options": [
+      "llMapBeacon"
+    ],
+    "pos": [
+      "llMapBeacon",
+      "llMapDestination"
+    ],
+    "price": [
+      "llSetPayPrice"
+    ],
+    "quick_pay_buttons": [
+      "llSetPayPrice"
+    ],
+    "region_name": [
+      "llMapBeacon"
+    ],
+    "simname": [
+      "llMapDestination"
+    ],
+    "text": [
+      "llSetSitText",
+      "llSetTouchText"
+    ],
+    "url": [
+      "llLoadURL"
+    ],
+    "world_pos": [
+      "llWorldPosToHUD"
+    ]
+  },
+  "uuid": {
+    "id": [
+      "llGetOwnerKey"
+    ],
+    "link": [
+      "llGetLinkKey",
+      "llGetObjectLinkKey"
+    ],
+    "number": [
+      "llDetectedKey"
+    ],
+    "object_id": [
+      "llGetObjectLinkKey"
+    ],
+    "username": [
+      "llRequestUserKey"
+    ]
+  },
+  "vector": {
+    "q": [
+      "llRot2Fwd",
+      "llRot2Left",
+      "llRot2Up"
+    ],
+    "rot": [
+      "llRot2Axis"
+    ],
+    "vec": [
+      "llVecMag",
+      "llVecNorm"
+    ],
+    "vec_a": [
+      "llVecDist"
+    ],
+    "vec_b": [
+      "llVecDist"
+    ]
+  },
+  "vehicles": {
+    "flags": [
+      "llRemoveVehicleFlags",
+      "llSetVehicleFlags"
+    ],
+    "param": [
+      "llSetVehicleFloatParam",
+      "llSetVehicleRotationParam",
+      "llSetVehicleVectorParam"
+    ],
+    "rot": [
+      "llSetVehicleRotationParam"
+    ],
+    "type": [
+      "llSetVehicleType"
+    ],
+    "value": [
+      "llSetVehicleFloatParam"
+    ],
+    "vec": [
+      "llSetVehicleVectorParam"
+    ]
+  },
+  "web": {
+    "avatar": [
+      "llLoadURL"
+    ],
+    "body": [
+      "llHTTPRequest",
+      "llHTTPResponse"
+    ],
+    "content_type": [
+      "llSetContentType"
+    ],
+    "face": [
+      "llSetLinkMedia",
+      "llSetPrimMediaParams"
+    ],
+    "header": [
+      "llGetHTTPHeader"
+    ],
+    "link": [
+      "llSetLinkMedia"
+    ],
+    "message": [
+      "llLoadURL"
+    ],
+    "parameters": [
+      "llHTTPRequest"
+    ],
+    "params": [
+      "llSetLinkMedia",
+      "llSetPrimMediaParams"
+    ],
+    "request_id": [
+      "llGetHTTPHeader",
+      "llHTTPResponse",
+      "llSetContentType"
+    ],
+    "status": [
+      "llHTTPResponse"
+    ],
+    "url": [
+      "llEscapeURL",
+      "llHTTPRequest",
+      "llLoadURL",
+      "llReleaseURL",
+      "llSetPrimURL",
+      "llUnescapeURL"
+    ]
+  }
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+        
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const catName in lslData) {
+                if (catName.toLowerCase().includes(lowerCaseQuery)) {
+                    filteredData[catName] = lslData[catName];
+                }
+            }
+        
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
