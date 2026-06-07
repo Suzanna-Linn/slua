@@ -182,6 +182,8 @@ slua_beta: true
         body.hide-lsl .lsl-block { display: none !important; }
         body.hide-lua .lua-section { display: none !important; }
         body.hide-lsl .lsl-section { display: none !important; }
+        body.hide-lua .lsl-tag { display: none !important; }
+        body.hide-lsl .lua-tag { display: none !important; }
 
         .item-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
