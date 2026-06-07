@@ -3,7 +3,7 @@ layout: default
 title: ll library
 ---
 
-<!-- Step 1: Scoped Styles for the Menu Bar, Modern UI Elements, and Search Grid -->
+<!-- Scoped Styles for the Menu Bar, Modern UI Elements, and Search Grid -->
 <style>
     /* Sticky container for the top navigation bar */
     .sticky-navbar {
@@ -108,11 +108,11 @@ title: ll library
         margin-top: 2rem;
     }
 
-    /* Search Results Styling */
+    /* Search and Category Results Styling */
     .results-wrapper {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem; /* Gap between type groups */
+        gap: 1.5rem;
         margin-top: 1rem;
     }
 
@@ -120,15 +120,14 @@ title: ll library
         width: 100%;
     }
 
-    /* Grid layout representing rows aligned with several items each */
+    /* Grid layout representing aligned rows */
     .results-grid {
         display: grid;
-        /* auto-fill ensures columns are aligned exactly the same across separate grids */
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 0.5rem;
         max-width: 1000px;
         width: 100%;
-        margin: 0 auto; /* Centers the grid block on the page */
+        margin: 0 auto;
     }
 
     .result-btn {
@@ -139,8 +138,8 @@ title: ll library
         border-radius: 0.25rem;
         font-size: 0.85rem;
         font-family: monospace;
-        text-align: center; /* Names are centered in the cell */
-        width: 100%; /* Button stretches to fill the cell */
+        text-align: center; 
+        width: 100%; 
         box-sizing: border-box;
         cursor: pointer;
         transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
@@ -299,20 +298,110 @@ title: ll library
             return [];
         }
 
+        // Extracts unique categories for functions, events, or constants
+        function getCategoriesForType(type) {
+            const categoriesSet = new Set();
+
+            if (type === 'functions') {
+                const rawFunctions = normalizeArrayOrObject(lslData.functions);
+                rawFunctions.forEach(f => {
+                    let cats = [];
+                    if (f.categories) {
+                        if (Array.isArray(f.categories)) cats = f.categories;
+                        else if (typeof f.categories === 'string') cats = [f.categories];
+                    }
+                    if (cats.length === 0) cats = ["uncategorized"];
+                    cats.forEach(c => categoriesSet.add(c));
+                });
+            } else if (type === 'events') {
+                const rawEvents = normalizeArrayOrObject(lslData.events);
+                rawEvents.forEach(e => {
+                    let cats = [];
+                    if (e.categories) {
+                        if (Array.isArray(e.categories)) cats = e.categories;
+                        else if (typeof e.categories === 'string') cats = [e.categories];
+                    }
+                    if (cats.length === 0) cats = ["uncategorized"];
+                    cats.forEach(c => categoriesSet.add(c));
+                });
+            } else if (type === 'constants') {
+                const rawConstants = [
+                    ...normalizeArrayOrObject(lslData.constants),
+                    ...normalizeArrayOrObject(lslData['builtin-constants']),
+                    ...normalizeArrayOrObject(lslData['global-variables'])
+                ];
+                rawConstants.forEach(constObj => {
+                    let cats = [];
+                    // Look in member-of as requested
+                    const memberOf = constObj['member-of'] || constObj.member_of;
+                    if (memberOf) {
+                        if (Array.isArray(memberOf)) cats = memberOf;
+                        else if (typeof memberOf === 'string') cats = [memberOf];
+                    }
+                    if (cats.length === 0) cats = ["uncategorized"];
+                    cats.forEach(c => categoriesSet.add(c));
+                });
+            }
+
+            // Return a sorted array of categories
+            return Array.from(categoriesSet).sort((a, b) => 
+                a.localeCompare(b, undefined, { sensitivity: 'base' })
+            );
+        }
+
+        // Renders categories in the same grid/table structure
+        function renderCategories(type) {
+            const categories = getCategoriesForType(type);
+
+            if (categories.length === 0) {
+                displayContainer.innerHTML = `<div class="no-results">No categories found for ${escapeHtml(type)}.</div>`;
+                return;
+            }
+
+            const htmlOutput = `
+                <div class="results-wrapper">
+                    <div class="results-group">
+                        <div class="results-grid">
+                            ${categories.map(cat => `
+                                <button type="button" class="result-btn category-btn" data-search-type="${type}" data-category-name="${escapeHtml(cat)}">
+                                    ${escapeHtml(cat)}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            displayContainer.innerHTML = htmlOutput;
+            bindCategoryBtnHandlers();
+        }
+
         // Buttons trigger their respective specialized flows and set active styles
         searchButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 const searchType = e.currentTarget.getAttribute('data-search-type');
-                console.log(`Action triggered: Open specialized search/browse for "${searchType}"`);
                 
                 searchButtons.forEach(btn => btn.classList.remove('active'));
                 e.currentTarget.classList.add('active');
+
+                // Clear textbox value to keep the interface clear
+                searchInput.value = '';
+
+                // Show categories in the exact same format
+                renderCategories(searchType);
             });
         });
 
-        // Clear active styles from buttons when the search box is focused
+        // Clear active styles and category display when search textbox is refocused
         searchInput.addEventListener('focus', () => {
             searchButtons.forEach(btn => btn.classList.remove('active'));
+            
+            const query = searchInput.value.toLowerCase().trim();
+            if (!query) {
+                displayContainer.innerHTML = '';
+            } else {
+                renderSearchResults(query);
+            }
         });
 
         // Global search input always searches across all types
@@ -402,12 +491,25 @@ title: ll library
         }
 
         function bindResultBtnHandlers() {
-            const resultButtons = displayContainer.querySelectorAll('.result-btn');
+            const resultButtons = displayContainer.querySelectorAll('.result-btn:not(.category-btn)');
             resultButtons.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const name = e.currentTarget.getAttribute('data-name');
                     const type = e.currentTarget.getAttribute('data-type');
                     console.log(`Clicked result button: [${type}] ${name}`);
+                });
+            });
+        }
+
+        // Step 3 Category Button click triggers
+        function bindCategoryBtnHandlers() {
+            const catButtons = displayContainer.querySelectorAll('.category-btn');
+            catButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const catName = e.currentTarget.getAttribute('data-category-name');
+                    const searchType = e.currentTarget.getAttribute('data-search-type');
+                    console.log(`Clicked category button: "${catName}" inside "${searchType}"`);
+                    // We will implement rendering the items within this category in the next step
                 });
             });
         }
