@@ -696,8 +696,7 @@ slua_beta: true
         
           html += `<div class="dashboard summary-${type}">\n`;
           html += `  <div class="dashboard-header">\n`;
-          html += `    <span class="lua-section"><span class="tag lua-tag">Lua</span><code class="language-sluab">${sigLua}</code></span>\n`;
-          html += `    <br>`;
+          html += `    <span class="lua-section"><span class="tag lua-tag">Lua</span><code class="language-sluab">${sigLua}</code><br></span>\n`;
           html += `    <span class="lsl-section"><span class="tag lsl-tag">LSL</span><code class="language-lsl">${sigLSL}</code></span>\n`;
           html += `  </div>\n\n`;
           html += `  <div class="dashboard-body">\n`;
@@ -754,7 +753,7 @@ slua_beta: true
               let argTipExtra = "";
         
               if (argTypeLua == "number" && argInfo["index-semantics"]) {
-                argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>1 based</span><br><span class="lsl-section"><span class="tag lsl-tag">LSL</span>0 based</span>`;
+                argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>1 based<br></span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>0 based</span>`;
               }
               if (type == "event" && index == 0 && info["detected-semantics"]) {
                 argName = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Detected</span><br><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argName}</span>`;
