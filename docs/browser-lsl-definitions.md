@@ -108,47 +108,45 @@ title: ll library
         margin-top: 2rem;
     }
 
-    /* Search Results Styling (Grid and Centered Table representation) */
+    /* Search Results Styling */
     .results-wrapper {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.5rem; /* Gap between type groups */
         margin-top: 1rem;
     }
 
     .results-group {
-        text-align: center;
+        width: 100%;
     }
 
-    .results-group-title {
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        opacity: 0.6;
-        margin-bottom: 0.75rem;
-    }
-
-    /* Layout representing rows centered with several items each */
+    /* Grid layout representing rows aligned with several items each */
     .results-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        /* auto-fill ensures columns are aligned exactly the same across separate grids */
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 0.5rem;
         max-width: 1000px;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0 auto; /* Centers the grid block on the page */
     }
 
     .result-btn {
         background-color: rgba(128, 128, 128, 0.08);
         border: 1px solid rgba(128, 128, 128, 0.2);
         color: inherit;
-        padding: 0.4rem 0.85rem;
+        padding: 0.5rem 1rem;
         border-radius: 0.25rem;
         font-size: 0.85rem;
         font-family: monospace;
+        text-align: center; /* Names are centered in the cell */
+        width: 100%; /* Button stretches to fill the cell */
+        box-sizing: border-box;
         cursor: pointer;
         transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
 
     .result-btn:hover {
@@ -286,13 +284,9 @@ title: ll library
         // Helper function to handle mixed format (Arrays or Objects) safely
         function normalizeArrayOrObject(data) {
             if (!data) return [];
-            
-            // If it is already an array, return as is
             if (Array.isArray(data)) {
                 return data;
             }
-            
-            // If it is an object/dictionary, map its keys into names
             if (typeof data === 'object') {
                 return Object.entries(data).map(([key, val]) => {
                     if (val && typeof val === 'object') {
@@ -368,11 +362,10 @@ title: ll library
             // Build structural row blocks
             let htmlOutput = '<div class="results-wrapper">';
 
-            // 1. Functions Row Block
+            // 1. Functions Grid (Starts fresh row block)
             if (matchedFunctions.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
-                        <div class="results-group-title">Functions</div>
                         <div class="results-grid">
                             ${matchedFunctions.map(f => `<button type="button" class="result-btn" data-type="function" data-name="${escapeHtml(f.name)}">${escapeHtml(f.name)}</button>`).join('')}
                         </div>
@@ -380,11 +373,10 @@ title: ll library
                 `;
             }
 
-            // 2. Events Row Block
+            // 2. Events Grid (Starts fresh row block, never mixing with functions)
             if (matchedEvents.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
-                        <div class="results-group-title">Events</div>
                         <div class="results-grid">
                             ${matchedEvents.map(e => `<button type="button" class="result-btn" data-type="event" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`).join('')}
                         </div>
@@ -392,11 +384,10 @@ title: ll library
                 `;
             }
 
-            // 3. Constants Row Block
+            // 3. Constants Grid (Starts fresh row block, never mixing with other types)
             if (matchedConstants.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
-                        <div class="results-group-title">Constants</div>
                         <div class="results-grid">
                             ${matchedConstants.map(c => `<button type="button" class="result-btn" data-type="constant" data-name="${escapeHtml(c.name)}">${escapeHtml(c.name)}</button>`).join('')}
                         </div>
