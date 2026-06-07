@@ -388,6 +388,23 @@ slua_beta: true
         return new TextDecoder("utf-8").decode(bytes);
     }
 
+    function normalizeArrayOrObject(data) {
+        if (!data) return [];
+        if (Array.isArray(data)) {
+            return data;
+        }
+        if (typeof data === 'object') {
+            return Object.entries(data).map(([key, val]) => {
+                if (val && typeof val === 'object') {
+                    return { name: val.name || key, ...val };
+                } else {
+                    return { name: key, value: val };
+                }
+            });
+        }
+        return [];
+    }
+
     async function fetchDefinitions() {      
         const cachedData = localStorage.getItem(DATA_KEY);
         const cachedEtag = localStorage.getItem(ETAG_KEY);
@@ -456,23 +473,6 @@ slua_beta: true
         };
 
         searchInput.focus();
-
-        function normalizeArrayOrObject(data) {
-            if (!data) return [];
-            if (Array.isArray(data)) {
-                return data;
-            }
-            if (typeof data === 'object') {
-                return Object.entries(data).map(([key, val]) => {
-                    if (val && typeof val === 'object') {
-                        return { name: val.name || key, ...val };
-                    } else {
-                        return { name: key, value: val };
-                    }
-                });
-            }
-            return [];
-        }
 
         function getCategoriesForType(type) {
             const categoriesSet = new Set();
@@ -646,7 +646,7 @@ slua_beta: true
             if (retLSL == "void") {
               retLSL = "";
             }
-            retLua = info["slua_type"] || retLSL != "" ? types[retLSL] : "";
+            retLua = info["slua-return"] || (retLSL != "" ? types[retLSL] : "");
             if (retLua == "void") {
               retLua = "";
             }
