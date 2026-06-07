@@ -915,6 +915,8 @@ slua_beta: true
 
     fetchDefinitions();
 
+    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
+    
     const lsl = localStorage.getItem('lsl') !== 'off';
     const lua = localStorage.getItem('lua') !== 'off';
     document.getElementById('lsl-toggle').checked = lsl;
