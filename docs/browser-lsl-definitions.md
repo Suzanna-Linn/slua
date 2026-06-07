@@ -705,12 +705,12 @@ slua_beta: true
             html += `      <p class="deprecated-text">${depr}</p>\n`;
           }
           if (info['slua-deprecated']) {
-            let depr = "Deprecated: ";
-            if (info.use) {
-              depr += " use " + info.use;
+            let depr = "Alternative: ";
+            if (info['slua-deprecated'].use) {
+              depr += " use " + info['slua-deprecated'].use;
             }
-            if (info.reason) {
-              depr += (info.use ? " because " : " ") + info.reason;
+            if (info['slua-deprecated'].reason) {
+              depr += (info['slua-deprecated'].use ? " because " : " ") + info['slua-deprecated'].reason;
             }
             html += `      <p class="deprecated-text"><span class="lua-section"><span class="tag lua-tag">Lua</span>${depr}</span></p>\n`;
           }
@@ -814,7 +814,7 @@ slua_beta: true
           if (info.experience) html += `        <span class="attr-label bg-experience">Experience</span>\n`;
           if (info['detected-semantics']) html += `        <span class="attr-label bg-detected">Detected Event</span>\n`;
           if (info.deprecated) html += `        <span class="attr-label bg-deprecated">Deprecated</span>\n`;
-          if (info['slua-deprecated']) html += `        <span class="lua-section attr-label bg-deprecated">Lua Deprecated</span>\n`;
+          if (info['slua-deprecated']) html += `        <span class="lua-section attr-label bg-deprecated">Lua Alternative</span>\n`;
           if (info['slua-removed']) html += `        <span class="lua-section attr-label bg-deprecated">Lua Removed</span>\n`;
           if (info['god-mode']) html += `        <span class="lua-section attr-label bg-godmode">God Mode</span>\n`;
           if (info['linden-experience']) html += `        <span class="lua-section attr-label bg-lindenexp">Linden Experience</span>\n`;
