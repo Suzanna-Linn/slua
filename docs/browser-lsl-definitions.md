@@ -611,9 +611,9 @@ slua_beta: true
                 return;
             }
 
-            const backButtonHtml = currentViewState.type !== 'empty' ? `
-                <button type="button" id="details-back-btn" class="nav-btn" style="margin-bottom: 1.5rem;">
-                    &larr; Back
+            const backButtonHtml = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
+                <button type="button" id="details-back-btn" class="nav-btn" style="style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+                    ${currentViewState.type === 'category-list' ? "Categories" : "Category"}
                 </button>
             ` : '';
 
@@ -693,6 +693,7 @@ slua_beta: true
           html += `<div class="dashboard summary-${type}">\n`;
           html += `  <div class="dashboard-header">\n`;
           html += `    <span class="lua-section"><span class="tag lua-tag">Lua</span><code class="language-sluab">${sigLua}</code></span>\n`;
+          html += `    <br>`;
           html += `    <span class="lsl-section"><span class="tag lsl-tag">LSL</span><code class="language-lsl">${sigLSL}</code></span>\n`;
           html += `  </div>\n\n`;
           html += `  <div class="dashboard-body">\n`;
@@ -832,11 +833,7 @@ slua_beta: true
             const backBtn = document.getElementById('details-back-btn');
             if (backBtn) {
                 backBtn.addEventListener('click', () => {
-                    if (currentViewState.type === 'search') {
-                        searchInput.value = currentViewState.data.query;
-                        renderSearchResults(currentViewState.data.query);
-                        searchInput.focus();
-                    } else if (currentViewState.type === 'category-list') {
+                    if (currentViewState.type === 'category-list') {
                         renderCategories(currentViewState.data.searchType);
                     } else if (currentViewState.type === 'category-items') {
                         renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
