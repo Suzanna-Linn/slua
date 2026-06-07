@@ -5,7 +5,7 @@ title: ll library
 
 <div id="loading">Loading definitions...</div>
 
- <script type="module">
+<script type="module">
     import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
     const RAW_URL = "https://raw.githubusercontent.com/secondlife/lsl-definitions/main/lsl_definitions.yaml";
     const DATA_KEY = "lsl_definitions_data";
@@ -26,29 +26,34 @@ title: ll library
     
             if (response.status === 304) {
                 console.log("304 Not Modified. Using local cache.");
-                return JSON.parse(cachedData);
-            }
-    
-            if (response.status === 200) {
+                lslData = JSON.parse(cachedData);
+            } 
+            else if (response.status === 200) {
                 console.log("200 OK. File updated, downloading new version...");
                 
                 const newEtag = response.headers.get("ETag");
                 const rawText = await response.text();
                 
-                const parsedData = jsyaml.load(rawText); 
-                localStorage.setItem(DATA_KEY, JSON.stringify(parsedData));
+                lslData = jsyaml.load(rawText); 
+                localStorage.setItem(DATA_KEY, JSON.stringify(lslData));
                 if (newEtag) {
                     localStorage.setItem(ETAG_KEY, newEtag);
                 }
-    
-                lslData = parsedData;
-                document.getElementById('loading').style.display = 'none';
-                renderList("");
-            } else {
+            } 
+            else {
                 throw new Error(`Unexpected response status: ${response.status}`);
             }
         } catch (error) {
             console.error("Fetch failed. Falling back to cache:", error);
+            if (cachedData) {
+                lslData = JSON.parse(cachedData);
+            }
+        }
+
+        if (lslData) {
+            document.getElementById('loading').style.display = 'none';
+        } else {
+            document.getElementById('loading').innerText = "Failed to load definitions. Please reload the page.";
         }
     }
 
