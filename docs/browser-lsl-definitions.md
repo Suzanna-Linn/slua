@@ -413,7 +413,7 @@ slua_beta: true
             "Accept": "application/vnd.github+json"
         };
         
-        if (cachedEtag && false) {
+        if (cachedEtag) {
             headers["If-None-Match"] = cachedEtag;
         }
     
