@@ -165,6 +165,109 @@ title: ll library
         padding: 2rem;
         font-size: 0.95rem;
     }
+
+    /* Details View Styling */
+    .details-container {
+        background-color: rgba(128, 128, 128, 0.05);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 0.5rem;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: left;
+    }
+
+    .details-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .details-title {
+        font-size: 1.75rem;
+        font-family: monospace;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .details-type-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background-color: var(--primary-color, #4f46e5);
+        color: #ffffff;
+        padding: 0.25rem 0.6rem;
+        border-radius: 9999px;
+    }
+
+    .details-signature {
+        background-color: rgba(0, 0, 0, 0.04);
+        border-left: 3.5px solid var(--primary-color, #4f46e5);
+        padding: 0.75rem 1rem;
+        font-family: monospace;
+        font-size: 0.95rem;
+        border-radius: 0 0.375rem 0.375rem 0;
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+        white-space: pre-wrap;
+    }
+
+    .details-comment {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .details-section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        border-bottom: 1px dashed rgba(128, 128, 128, 0.2);
+        padding-bottom: 0.25rem;
+    }
+
+    .details-list {
+        margin: 0;
+        padding-left: 1.25rem;
+    }
+
+    .details-list-item {
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+    }
+
+    .param-name {
+        font-family: monospace;
+        font-weight: 700;
+    }
+
+    .param-type {
+        font-family: monospace;
+        opacity: 0.8;
+        font-size: 0.85rem;
+    }
+
+    .badge-deprecated {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .badge-flag {
+        background-color: rgba(128, 128, 128, 0.15);
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        color: inherit;
+        font-size: 0.75rem;
+        padding: 0.15rem 0.4rem;
+        border-radius: 0.25rem;
+        font-weight: 500;
+    }
 </style>
 
 <!-- Top Horizontal Menu Bar -->
@@ -277,6 +380,12 @@ title: ll library
         const searchButtons = document.querySelectorAll('.nav-btn');
         const displayContainer = document.getElementById('definitions-display');
 
+        // State history management for back button navigation
+        let currentViewState = {
+            type: 'empty', // 'search', 'category-list', 'category-items', 'empty'
+            data: {}
+        };
+
         // Autofocus the textbox on start
         searchInput.focus();
 
@@ -349,6 +458,7 @@ title: ll library
 
         // Renders categories in the same grid/table structure
         function renderCategories(type) {
+            currentViewState = { type: 'category-list', data: { searchType: type } };
             const categories = getCategoriesForType(type);
 
             if (categories.length === 0) {
@@ -374,8 +484,9 @@ title: ll library
             bindCategoryBtnHandlers();
         }
 
-        // Step 4: Renders all items belonging to a selected category
+        // Renders all items belonging to a selected category
         function renderCategoryItems(type, categoryName) {
+            currentViewState = { type: 'category-items', data: { searchType: type, categoryName: categoryName } };
             let matchedItems = [];
 
             if (type === 'functions') {
@@ -405,7 +516,6 @@ title: ll library
                     ...normalizeArrayOrObject(lslData['global-variables'])
                 ];
 
-                // Deduplicate constants by name
                 const uniqueConstantsMap = new Map();
                 rawConstants.forEach(c => {
                     if (c.name) uniqueConstantsMap.set(c.name, c);
@@ -423,7 +533,6 @@ title: ll library
                 });
             }
 
-            // Alphabetical sort by name
             matchedItems.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
             if (matchedItems.length === 0) {
@@ -431,7 +540,6 @@ title: ll library
                 return;
             }
 
-            // Render matched items using the singular category representation
             const singularType = type === 'functions' ? 'function' : (type === 'events' ? 'event' : 'constant');
             const htmlOutput = `
                 <div class="results-wrapper">
@@ -449,6 +557,167 @@ title: ll library
 
             displayContainer.innerHTML = htmlOutput;
             bindResultBtnHandlers();
+        }
+
+        // Step 5: Renders complete information available for the selected item
+        function renderItemDetails(type, name) {
+            let item = null;
+
+            if (type === 'function') {
+                const rawFunctions = normalizeArrayOrObject(lslData.functions);
+                item = rawFunctions.find(f => f.name === name);
+            } else if (type === 'event') {
+                const rawEvents = normalizeArrayOrObject(lslData.events);
+                item = rawEvents.find(e => e.name === name);
+            } else if (type === 'constant') {
+                const rawConstants = [
+                    ...normalizeArrayOrObject(lslData.constants),
+                    ...normalizeArrayOrObject(lslData['builtin-constants']),
+                    ...normalizeArrayOrObject(lslData['global-variables'])
+                ];
+                item = rawConstants.find(c => c.name === name);
+            }
+
+            if (!item) {
+                displayContainer.innerHTML = `<div class="no-results">Error: Details for ${escapeHtml(type)} "${escapeHtml(name)}" not found.</div>`;
+                return;
+            }
+
+            const backButtonHtml = currentViewState.type !== 'empty' ? `
+                <button type="button" id="details-back-btn" class="nav-btn" style="margin-bottom: 1.5rem;">
+                    &larr; Back
+                </button>
+            ` : '';
+
+            let detailsHtml = backButtonHtml;
+            detailsHtml += `<div class="details-container">`;
+
+            // General Header
+            detailsHtml += `
+                <div class="details-header">
+                    <h2 class="details-title">${escapeHtml(item.name)}</h2>
+                    <span class="details-type-badge">${escapeHtml(type)}</span>
+                </div>
+            `;
+
+            if (type === 'function' || type === 'event') {
+                // Formatting Syntax Signature
+                const paramsSig = (item.parameters || []).map(p => {
+                    const isOptional = p.optional || (p.type && p.type.endsWith('?'));
+                    return `${p.name}: ${p.type || 'any'}${isOptional ? '?' : ''}`;
+                }).join(', ');
+                const returnSig = item['return-type'] ? ` -> ${item['return-type']}` : '';
+                detailsHtml += `
+                    <div class="details-signature">${escapeHtml(item.name)}(${escapeHtml(paramsSig)})${escapeHtml(returnSig)}</div>
+                `;
+
+                // Status Badges & Warnings (Deprecations, VM bytecodes, environment boundaries)
+                let flagsHtml = '';
+                if (item.deprecated) {
+                    let depText = 'Deprecated';
+                    if (typeof item.deprecated === 'object') {
+                        const reason = item.deprecated.reason ? ` - ${item.deprecated.reason}` : '';
+                        const useInstead = item.deprecated.use ? ` (Use instead: ${item.deprecated.use})` : '';
+                        depText += `${reason}${useInstead}`;
+                    }
+                    flagsHtml += `<div class="badge-flag badge-deprecated" style="display:inline-block; margin-right:0.5rem; margin-bottom:0.5rem; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-weight: bold;">${escapeHtml(depText)}</div>`;
+                }
+                if (item['local-only']) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Local Only</span>`;
+                if (item['slua-removed']) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Removed in SLua</span>`;
+                if (item['must-use']) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Must Use Return</span>`;
+                if (item.fastcall) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Fastcall VM Bytecode</span>`;
+                
+                if (flagsHtml) {
+                    detailsHtml += `<div style="margin-bottom: 1.5rem;">${flagsHtml}</div>`;
+                }
+
+                // Comment Description
+                if (item.comment) {
+                    detailsHtml += `
+                        <div class="details-comment">
+                            ${escapeHtml(item.comment)}
+                        </div>
+                    `;
+                }
+
+                // Parameter list
+                if (item.parameters && item.parameters.length > 0) {
+                    detailsHtml += `<div class="details-section-title">Parameters</div>`;
+                    detailsHtml += `<ul class="details-list">`;
+                    item.parameters.forEach(p => {
+                        const isOptional = p.optional || (p.type && p.type.endsWith('?'));
+                        const optText = isOptional ? ' (optional)' : '';
+                        const obsText = (p.observes && p.observes !== 'read-write') ? ` [${p.observes}]` : '';
+                        detailsHtml += `
+                            <li class="details-list-item">
+                                <span class="param-name">${escapeHtml(p.name)}</span>: 
+                                <span class="param-type">${escapeHtml(p.type || 'any')}</span>${optText}${obsText}
+                                ${p.comment ? ` &mdash; ${escapeHtml(p.comment)}` : ''}
+                            </li>
+                        `;
+                    });
+                    detailsHtml += `</ul>`;
+                }
+
+                // Overload Signatures
+                if (item.overloads && item.overloads.length > 0) {
+                    detailsHtml += `<div class="details-section-title">Overloads</div>`;
+                    item.overloads.forEach(o => {
+                        const oParamsSig = (o.parameters || []).map(p => {
+                            const isOpt = p.optional || (p.type && p.type.endsWith('?'));
+                            return `${p.name}: ${p.type || 'any'}${isOpt ? '?' : ''}`;
+                        }).join(', ');
+                        const oReturnSig = o['return-type'] ? ` -> ${o['return-type']}` : '';
+                        detailsHtml += `
+                            <div class="details-signature" style="margin-bottom:0.5rem;">${escapeHtml(item.name)}(${escapeHtml(oParamsSig)})${escapeHtml(oReturnSig)}</div>
+                            ${o.comment ? `<div class="details-comment" style="font-size:0.9rem; margin-left: 1rem; margin-bottom:1rem;">${escapeHtml(o.comment)}</div>` : ''}
+                        `;
+                    });
+                }
+
+            } else if (type === 'constant') {
+                // Constant details
+                const isModifiable = item.modifiable && item.modifiable !== 'read-only';
+                const typeText = item.type ? `: ${item.type}` : '';
+                const valText = item.value !== undefined ? ` = ${item.value}` : '';
+                
+                detailsHtml += `
+                    <div class="details-signature">const ${escapeHtml(item.name)}${escapeHtml(typeText)}${escapeHtml(valText)}</div>
+                `;
+
+                if (isModifiable) {
+                    detailsHtml += `<div style="margin-bottom: 1.5rem;"><span class="badge-flag">Modifiable: ${escapeHtml(item.modifiable)}</span></div>`;
+                }
+
+                if (item.comment) {
+                    detailsHtml += `
+                        <div class="details-comment">
+                            ${escapeHtml(item.comment)}
+                        </div>
+                    `;
+                }
+            }
+
+            detailsHtml += `</div>`; // Close details box
+            displayContainer.innerHTML = detailsHtml;
+
+            // Wire up back button handler to restore previous list context
+            const backBtn = document.getElementById('details-back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    if (currentViewState.type === 'search') {
+                        searchInput.value = currentViewState.data.query;
+                        renderSearchResults(currentViewState.data.query);
+                        searchInput.focus();
+                    } else if (currentViewState.type === 'category-list') {
+                        renderCategories(currentViewState.data.searchType);
+                    } else if (currentViewState.type === 'category-items') {
+                        renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
+                    } else {
+                        displayContainer.innerHTML = '';
+                    }
+                });
+            }
         }
 
         // Buttons trigger their respective specialized flows and set active styles
@@ -474,8 +743,23 @@ title: ll library
             const query = searchInput.value.toLowerCase().trim();
             if (!query) {
                 displayContainer.innerHTML = '';
+                currentViewState = { type: 'empty', data: {} };
             } else {
                 renderSearchResults(query);
+            }
+        });
+
+        // Step 5: Keyboard "Enter" listener to load unique items automatically
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                // Look for non-category item result buttons
+                const results = displayContainer.querySelectorAll('.result-btn:not(.category-btn)');
+                if (results.length === 1) {
+                    e.preventDefault();
+                    const name = results[0].getAttribute('data-name');
+                    const type = results[0].getAttribute('data-type');
+                    renderItemDetails(type, name);
+                }
             }
         });
 
@@ -489,8 +773,11 @@ title: ll library
         function renderSearchResults(query) {
             if (!query) {
                 displayContainer.innerHTML = '';
+                currentViewState = { type: 'empty', data: {} };
                 return;
             }
+
+            currentViewState = { type: 'search', data: { query: query } };
 
             // Extract distinct lists safely using the normalization helper
             const rawFunctions = normalizeArrayOrObject(lslData.functions);
@@ -572,6 +859,9 @@ title: ll library
                     const name = e.currentTarget.getAttribute('data-name');
                     const type = e.currentTarget.getAttribute('data-type');
                     console.log(`Clicked result button: [${type}] ${name}`);
+                    
+                    // Render details of selected item
+                    renderItemDetails(type, name);
                 });
             });
         }
@@ -585,7 +875,7 @@ title: ll library
                     const searchType = e.currentTarget.getAttribute('data-search-type');
                     console.log(`Clicked category button: "${catName}" inside "${searchType}"`);
                     
-                    // Step 4: Render category items
+                    // Render category items
                     renderCategoryItems(searchType, catName);
                 });
             });
