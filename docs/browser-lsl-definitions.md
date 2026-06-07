@@ -761,7 +761,7 @@ slua_beta: true
               }
         
               html += `        <tr>\n`;
-              html += `          <td><span class="lua-section"><span class="tag lua-tag">Lua</span>${argTypeLua}</span><br>\n`;
+              html += `          <td><span class="lua-section"><span class="tag lua-tag">Lua</span>${argTypeLua}<br></span>\n`;
               html += `          <span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argTypeLSL}</span></td>\n`;
               html += `          <td>${argName}</td>\n`;
               html += `          <td>${argTooltip}</td>\n`;
