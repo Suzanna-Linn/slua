@@ -3,7 +3,7 @@ layout: default
 title: ll library
 ---
 
-<!-- Scoped Styles for the Menu Bar, Modern UI Elements, and Search Grid -->
+<!-- Step 1: Scoped Styles for the Menu Bar, Modern UI Elements, and Search Grid -->
 <style>
     /* Sticky container for the top navigation bar */
     .sticky-navbar {
@@ -283,6 +283,28 @@ title: ll library
         // Autofocus the textbox on start
         searchInput.focus();
 
+        // Helper function to handle mixed format (Arrays or Objects) safely
+        function normalizeArrayOrObject(data) {
+            if (!data) return [];
+            
+            // If it is already an array, return as is
+            if (Array.isArray(data)) {
+                return data;
+            }
+            
+            // If it is an object/dictionary, map its keys into names
+            if (typeof data === 'object') {
+                return Object.entries(data).map(([key, val]) => {
+                    if (val && typeof val === 'object') {
+                        return { name: val.name || key, ...val };
+                    } else {
+                        return { name: key, value: val };
+                    }
+                });
+            }
+            return [];
+        }
+
         // Buttons trigger their respective specialized flows and set active styles
         searchButtons.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -307,28 +329,27 @@ title: ll library
 
         // Helper function to extract and filter results from yaml structure
         function renderSearchResults(query) {
-            // Clear content if search is empty
             if (!query) {
                 displayContainer.innerHTML = '';
                 return;
             }
 
-            // Extract distinct lists of items. Handle missing keys gracefully.
-            const rawFunctions = lslData.functions || [];
-            const rawEvents = lslData.events || [];
+            // Extract distinct lists safely using the normalization helper
+            const rawFunctions = normalizeArrayOrObject(lslData.functions);
+            const rawEvents = normalizeArrayOrObject(lslData.events);
             
-            // Gather constants from regular constants, builtin-constants, and global variables
+            // Normalize and safely spread all sources of constants
             const rawConstants = [
-                ...(lslData.constants || []),
-                ...(lslData['builtin-constants'] || []),
-                ...(lslData['global-variables'] || [])
+                ...normalizeArrayOrObject(lslData.constants),
+                ...normalizeArrayOrObject(lslData['builtin-constants']),
+                ...normalizeArrayOrObject(lslData['global-variables'])
             ];
 
             // Perform case-insensitive string containment filtering
             const matchedFunctions = rawFunctions.filter(item => item.name && item.name.toLowerCase().includes(query));
             const matchedEvents = rawEvents.filter(item => item.name && item.name.toLowerCase().includes(query));
             
-            // Remove duplicate constants if they overlap between lists
+            // Remove duplicate constants if they overlap between files/lists
             const uniqueConstantsMap = new Map();
             rawConstants.forEach(item => {
                 if (item.name && item.name.toLowerCase().includes(query)) {
@@ -359,7 +380,7 @@ title: ll library
                 `;
             }
 
-            // 2. Events Row Block (Always starts a new row/block, never mixing with functions)
+            // 2. Events Row Block
             if (matchedEvents.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -371,7 +392,7 @@ title: ll library
                 `;
             }
 
-            // 3. Constants Row Block (Always starts a new row/block, never mixing with other types)
+            // 3. Constants Row Block
             if (matchedConstants.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -386,7 +407,6 @@ title: ll library
             htmlOutput += '</div>';
             displayContainer.innerHTML = htmlOutput;
 
-            // Optional future feature: Add click handlers to search result buttons
             bindResultBtnHandlers();
         }
 
@@ -397,12 +417,10 @@ title: ll library
                     const name = e.currentTarget.getAttribute('data-name');
                     const type = e.currentTarget.getAttribute('data-type');
                     console.log(`Clicked result button: [${type}] ${name}`);
-                    // Trigger detailed view display in subsequent steps
                 });
             });
         }
 
-        // Helper function to escape HTML special characters
         function escapeHtml(str) {
             return str
                 .replace(/&/g, "&amp;")
