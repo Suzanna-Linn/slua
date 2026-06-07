@@ -223,8 +223,6 @@ slua_beta: true
         .tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-size: 0.7em; text-transform: uppercase; color: white; margin-bottom: 8px; margin-right: 10px; }
         .lsl-tag { background: var(--accent-lsl); }
         .lua-tag { background: var(--accent-lua); }
-        
-        #loader { text-align: center; margin-top: 100px; font-size: 1.2em; color: #888; }
 
           .dashboard {
               display: flex;
@@ -354,10 +352,6 @@ slua_beta: true
         <label><input type="checkbox" id="lsl-toggle" checked> LSL</label>
         <label><input type="checkbox" id="lua-toggle" checked> Lua</label>
     </nav>
-
-    <div class="nav-extra-space" id="extra-nav-controls">
-
-    </div>
 </header>
 
 <main class="content-container">
@@ -372,6 +366,17 @@ slua_beta: true
     const DATA_KEY = "lsl_definitions_data";
     const ETAG_KEY = "lsl_definitions_etag";
     let lslData = null;
+
+    const types = {
+        integer: "number",
+        float: "number",
+        string: "string",
+        key: "uuid",
+        vector: "vector",
+        rotation: "rotation",
+        quaternion: "quaternion",
+        list: "{any}"
+    };
 
     function decodeBase64Utf8(base64Str) {
         const cleaned = base64Str.replace(/\s/g, '');
@@ -410,7 +415,12 @@ slua_beta: true
                 
                 const rawYamlText = decodeBase64Utf8(apiResponse.content);
                 
-                lslData = jsyaml.load(rawYamlText); 
+                const rawYaml = jsyaml.load(rawYamlText); 
+                lslData = {
+                    functions: normalizeArrayOrObject(rawYaml.functions),
+                    events: normalizeArrayOrObject(rawYaml.events),
+                    constants: normalizeArrayOrObject(rawYaml.constants)
+                };
                 
                 localStorage.setItem(DATA_KEY, JSON.stringify(lslData));
                 if (newEtag) {
@@ -468,8 +478,7 @@ slua_beta: true
             const categoriesSet = new Set();
 
             if (type === 'functions') {
-                const rawFunctions = normalizeArrayOrObject(lslData.functions);
-                rawFunctions.forEach(f => {
+                lslData.functions.forEach(f => {
                     let cats = [];
                     if (f.categories) {
                         if (Array.isArray(f.categories)) cats = f.categories;
@@ -479,8 +488,7 @@ slua_beta: true
                     cats.forEach(c => categoriesSet.add(c));
                 });
             } else if (type === 'events') {
-                const rawEvents = normalizeArrayOrObject(lslData.events);
-                rawEvents.forEach(e => {
+                lslData.events.forEach(e => {
                     let cats = [];
                     if (e.categories) {
                         if (Array.isArray(e.categories)) cats = e.categories;
@@ -490,8 +498,7 @@ slua_beta: true
                     cats.forEach(c => categoriesSet.add(c));
                 });
             } else if (type === 'constants') {
-                const rawConstants = normalizeArrayOrObject(lslData.constants);
-                rawConstants.forEach(c => {
+                lslData.constants.forEach(c => {
                     let cats = [];
                     if (c['member-of']) {
                         if (Array.isArray(c['member-of'])) cats = c['member-of'];
@@ -539,8 +546,7 @@ slua_beta: true
             let matchedItems = [];
 
             if (type === 'functions') {
-                const rawFunctions = normalizeArrayOrObject(lslData.functions);
-                matchedItems = rawFunctions.filter(f => {
+                matchedItems = lslData.functions.filter(f => {
                     let cats = [];
                     if (f.categories) {
                         if (Array.isArray(f.categories)) cats = f.categories;
@@ -549,8 +555,7 @@ slua_beta: true
                     return (categoryName === '[uncategorized]') ? (cats.length === 0) : cats.includes(categoryName);
                 });
             } else if (type === 'events') {
-                const rawEvents = normalizeArrayOrObject(lslData.events);
-                matchedItems = rawEvents.filter(e => {
+                matchedItems = lslData.events.filter(e => {
                     let cats = [];
                     if (e.categories) {
                         if (Array.isArray(e.categories)) cats = e.categories;
@@ -559,8 +564,7 @@ slua_beta: true
                     return (categoryName === '[uncategorized]') ? (cats.length === 0) : cats.includes(categoryName);
                 });
             } else if (type === 'constants') {
-                const rawConstants = normalizeArrayOrObject(lslData.constants);
-                matchedItems = rawConstants.filter(c => {
+                matchedItems = lslData.constants.filter(c => {
                     let cats = [];
                     if (c['member-of']) {
                         if (Array.isArray(c['member-of'])) cats = c['member-of'];
@@ -600,14 +604,11 @@ slua_beta: true
             let info = null;
 
             if (type === 'function') {
-                const rawFunctions = normalizeArrayOrObject(lslData.functions);
-                info = rawFunctions.find(f => f.name === name);
+                info = lslData.functions.find(f => f.name === name);
             } else if (type === 'event') {
-                const rawEvents = normalizeArrayOrObject(lslData.events);
-                info = rawEvents.find(e => e.name === name);
+                info = lslData.events.find(e => e.name === name);
             } else if (type === 'constant') {
-                const rawConstants = normalizeArrayOrObject(lslData.constants);
-                info = rawConstants.find(c => c.name === name);
+                info = lslData.constants.find(c => c.name === name);
             }
 
             if (!info) {
@@ -624,17 +625,6 @@ slua_beta: true
             ` : '';
 
             let html = backButtonHtml;
-            
-          const types = {
-            integer: "number",
-            float: "number",
-            string: "string",
-            key: "uuid",
-            vector: "vector",
-            rotation: "rotation",
-            quaternion: "quaternion",
-            list: "{any}"
-          };
         
           let nameLua = type == "function" ? "ll." + name.slice(2) : name;
         
@@ -789,17 +779,16 @@ slua_beta: true
           if (info['member-of']) {
             html += `      <div class="dash-section-title">Member Of</div>\n`;
             html += `      <ul class="meta-list">\n`;
-            let members = [];
-            let cleanStr = info['member-of'].replace(/^\[|\]$/g, '');
-            members = cleanStr.split(',')
-              .map(m => m.trim())
-              .filter(m => m !== '');
+            let members = Array.isArray(info['member-of']) 
+                ? info['member-of'] 
+                : info['member-of'].replace(/^\[|\]$/g, '').split(',');
+            members = members.map(m => m.trim()).filter(m => m !== '');
             members.sort().forEach(m => {
               html += `        <li>${m}</li>\n`;
             });
             html += `      </ul>\n`;
           }
-        
+            
           if (info['requires-permission']) {
             html += `      <div class="dash-section-title">Permissions</div>\n`;
             html += `      <ul class="meta-list">\n`;
@@ -885,24 +874,20 @@ slua_beta: true
                 const query = searchInput.value.toLowerCase().trim();
                 if (!query) return;
 
-                const rawFunctions = normalizeArrayOrObject(lslData.functions);
-                const rawEvents = normalizeArrayOrObject(lslData.events);
-                const rawConstants = normalizeArrayOrObject(lslData.constants);
-
                 let exactMatch = null;
                 let exactType = '';
 
-                const foundFunc = rawFunctions.find(f => f.name && f.name.toLowerCase() === query);
+                const foundFunc = lslData.functions.find(f => f.name && f.name.toLowerCase() === query);
                 if (foundFunc) {
                     exactMatch = foundFunc;
                     exactType = 'function';
                 } else {
-                    const foundEvent = rawEvents.find(e => e.name && e.name.toLowerCase() === query);
+                    const foundEvent = lslData.events.find(e => e.name && e.name.toLowerCase() === query);
                     if (foundEvent) {
                         exactMatch = foundEvent;
                         exactType = 'event';
                     } else {
-                        const foundConst = rawConstants.find(c => c.name && c.name.toLowerCase() === query);
+                        const foundConst = lslData.constants.find(c => c.name && c.name.toLowerCase() === query);
                         if (foundConst) {
                             exactMatch = foundConst;
                             exactType = 'constant';
@@ -940,13 +925,9 @@ slua_beta: true
 
             currentViewState = { type: 'search', data: { query: query } };
 
-            const rawFunctions = normalizeArrayOrObject(lslData.functions);
-            const rawEvents = normalizeArrayOrObject(lslData.events);
-            const rawConstants = normalizeArrayOrObject(lslData.constants);
-
-            const matchedFunctions = rawFunctions.filter(item => item.name && item.name.toLowerCase().includes(query));
-            const matchedEvents = rawEvents.filter(item => item.name && item.name.toLowerCase().includes(query));
-            const matchedConstants = rawConstants.filter(item => item.name && item.name.toLowerCase().includes(query));
+            const matchedFunctions = lslData.functions.filter(item => item.name && item.name.toLowerCase().includes(query));
+            const matchedEvents = lslData.events.filter(item => item.name && item.name.toLowerCase().includes(query));
+            const matchedConstants = lslData.constants.filter(item => item.name && item.name.toLowerCase().includes(query));
 
             const totalMatches = matchedFunctions.length + matchedEvents.length + matchedConstants.length;
 
