@@ -74,6 +74,8 @@ title: ll library
     }
     
     async function fetchDefinitions() {
+        import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
+        
         const cachedData = localStorage.getItem(DATA_KEY);
         const cachedEtag = localStorage.getItem(ETAG_KEY);
     
