@@ -15,7 +15,7 @@ title: ll library
     <div id="doc-body">Please select an item from the sidebar to view details.</div>
 </div>
 
-<script>
+ <script type="module">
     const RAW_URL = "https://raw.githubusercontent.com/secondlife/lsl-definitions/main/lsl_definitions.yaml";
     const DATA_KEY = "lsl_definitions_data";
     const ETAG_KEY = "lsl_definitions_etag";
