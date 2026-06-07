@@ -16,6 +16,7 @@ title: ll library
 </div>
 
  <script type="module">
+    import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
     const RAW_URL = "https://raw.githubusercontent.com/secondlife/lsl-definitions/main/lsl_definitions.yaml";
     const DATA_KEY = "lsl_definitions_data";
     const ETAG_KEY = "lsl_definitions_etag";
@@ -73,9 +74,7 @@ title: ll library
         document.getElementById('doc-body').innerHTML = html;
     }
     
-    async function fetchDefinitions() {
-        import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
-        
+    async function fetchDefinitions() {      
         const cachedData = localStorage.getItem(DATA_KEY);
         const cachedEtag = localStorage.getItem(ETAG_KEY);
     
