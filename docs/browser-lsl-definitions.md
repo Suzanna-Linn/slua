@@ -272,7 +272,7 @@ slua_beta: true
           .param-table td { 
               border: none; 
               padding: 0 15px 12px 0; 
-              vertical-align: top; 
+              vertical-align: middle; 
           }
         
           /* Middle Column Styles */
