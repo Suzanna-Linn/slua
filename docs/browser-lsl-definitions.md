@@ -751,20 +751,22 @@ slua_beta: true
               }
         
               let argTooltip = (argInfo.tooltip || "").replace(/\\\s/g, ' ').replace(/\\n/g, '<br>').replace(/^"|"$/g, '').replace(/\s\s+/g, ' ').trim();
+              let argTipExtra = "";
         
               if (argTypeLua == "number" && argInfo["index-semantics"]) {
-                argTooltip = `<span class="lua-section"><span class="tag lua-tag">Lua</span>It's 1 based</span>` + argTooltip;
+                argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>1 based</span><br>`<span class="lsl-section"><span class="tag lsl-tag">LSL</span>0 based</span>`;
               }
               if (type == "event" && index == 0 && info["detected-semantics"]) {
-                argName = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Detected / </span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argName}</span>`;
-                argTooltip = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Table with the detected events / </span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argTooltip}</span>`;
+                argName = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Detected</span><br><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argName}</span>`;
+                argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Table with the detected events</span>`;
               }
         
               html += `        <tr>\n`;
-              html += `          <td><span class="lua-section"><span class="tag lua-tag">Lua</span>${argTypeLua}</span></td>\n`;
-              html += `          <td><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argTypeLSL}</span></td>\n`;
+              html += `          <td><span class="lua-section"><span class="tag lua-tag">Lua</span>${argTypeLua}</span><br>\n`;
+              html += `          <span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argTypeLSL}</span></td>\n`;
               html += `          <td>${argName}</td>\n`;
               html += `          <td>${argTooltip}</td>\n`;
+              html += `          <td>${argTipExtra}</td>\n`;
               html += `        </tr>\n`;
             });
             html += `      </table>\n`;
@@ -833,6 +835,10 @@ slua_beta: true
           html += `</div>`;
           
             displayContainer.innerHTML = html;
+
+            if (window.Prism) {
+                Prism.highlightAllUnder(displayContainer);
+            }
 
             const backBtn = document.getElementById('details-back-btn');
             if (backBtn) {
