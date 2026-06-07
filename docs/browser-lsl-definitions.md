@@ -827,7 +827,25 @@ slua_beta: true
           html += `  </div>\n`;
           html += `</div>`;
           
-          return html;
+            displayContainer.innerHTML = html;
+
+            const backBtn = document.getElementById('details-back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    if (currentViewState.type === 'search') {
+                        searchInput.value = currentViewState.data.query;
+                        renderSearchResults(currentViewState.data.query);
+                        searchInput.focus();
+                    } else if (currentViewState.type === 'category-list') {
+                        renderCategories(currentViewState.data.searchType);
+                    } else if (currentViewState.type === 'category-items') {
+                        renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
+                    } else {
+                        displayContainer.innerHTML = '';
+                    }
+                });
+            }
+
         }
 
         searchButtons.forEach(button => {
