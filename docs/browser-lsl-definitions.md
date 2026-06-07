@@ -617,127 +617,220 @@ slua_beta: true
                 </button>
             ` : '';
 
-            let detailsHtml = backButtonHtml;
-            detailsHtml += `<div class="details-container">`;
-
-            detailsHtml += `
-                <div class="details-header">
-                    <h2 class="details-title">${escapeHtml(item.name)}</h2>
-                    <span class="details-type-badge">${escapeHtml(type)}</span>
-                </div>
-            `;
-
-            if (type === 'function' || type === 'event') {
-                const paramsSig = (item.parameters || []).map(p => {
-                    const isOptional = p.optional || (p.type && p.type.endsWith('?'));
-                    return `${p.name}: ${p.type || 'any'}${isOptional ? '?' : ''}`;
-                }).join(', ');
-                const returnSig = item['return-type'] ? ` -> ${item['return-type']}` : '';
-                detailsHtml += `
-                    <div class="details-signature">${escapeHtml(item.name)}(${escapeHtml(paramsSig)})${escapeHtml(returnSig)}</div>
-                `;
-
-                let flagsHtml = '';
-                if (item.deprecated) {
-                    let depText = 'Deprecated';
-                    if (typeof item.deprecated === 'object') {
-                        const reason = item.deprecated.reason ? ` - ${item.deprecated.reason}` : '';
-                        const useInstead = item.deprecated.use ? ` (Use instead: ${item.deprecated.use})` : '';
-                        depText += `${reason}${useInstead}`;
-                    }
-                    flagsHtml += `<div class="badge-flag badge-deprecated" style="display:inline-block; margin-right:0.5rem; margin-bottom:0.5rem; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-weight: bold;">${escapeHtml(depText)}</div>`;
-                }
-                if (item['local-only']) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Local Only</span>`;
-                if (item['slua-removed']) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Removed in SLua</span>`;
-                if (item['must-use']) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Must Use Return</span>`;
-                if (item.fastcall) flagsHtml += `<span class="badge-flag" style="margin-right:0.5rem; margin-bottom:0.5rem; display:inline-block;">Fastcall VM Bytecode</span>`;
-                
-                if (flagsHtml) {
-                    detailsHtml += `<div style="margin-bottom: 1.5rem;">${flagsHtml}</div>`;
-                }
-
-                if (item.comment) {
-                    detailsHtml += `
-                        <div class="details-comment">
-                            ${escapeHtml(item.comment)}
-                        </div>
-                    `;
-                }
-
-                if (item.parameters && item.parameters.length > 0) {
-                    detailsHtml += `<div class="details-section-title">Parameters</div>`;
-                    detailsHtml += `<ul class="details-list">`;
-                    item.parameters.forEach(p => {
-                        const isOptional = p.optional || (p.type && p.type.endsWith('?'));
-                        const optText = isOptional ? ' (optional)' : '';
-                        const obsText = (p.observes && p.observes !== 'read-write') ? ` [${p.observes}]` : '';
-                        detailsHtml += `
-                            <li class="details-list-item">
-                                <span class="param-name">${escapeHtml(p.name)}</span>: 
-                                <span class="param-type">${escapeHtml(p.type || 'any')}</span>${optText}${obsText}
-                                ${p.comment ? ` &mdash; ${escapeHtml(p.comment)}` : ''}
-                            </li>
-                        `;
-                    });
-                    detailsHtml += `</ul>`;
-                }
-
-                if (item.overloads && item.overloads.length > 0) {
-                    detailsHtml += `<div class="details-section-title">Overloads</div>`;
-                    item.overloads.forEach(o => {
-                        const oParamsSig = (o.parameters || []).map(p => {
-                            const isOpt = p.optional || (p.type && p.type.endsWith('?'));
-                            return `${p.name}: ${p.type || 'any'}${isOpt ? '?' : ''}`;
-                        }).join(', ');
-                        const oReturnSig = o['return-type'] ? ` -> ${o['return-type']}` : '';
-                        detailsHtml += `
-                            <div class="details-signature" style="margin-bottom:0.5rem;">${escapeHtml(item.name)}(${escapeHtml(oParamsSig)})${escapeHtml(oReturnSig)}</div>
-                            ${o.comment ? `<div class="details-comment" style="font-size:0.9rem; margin-left: 1rem; margin-bottom:1rem;">${escapeHtml(o.comment)}</div>` : ''}
-                        `;
-                    });
-                }
-
-            } else if (type === 'constant') {
-                const isModifiable = item.modifiable && item.modifiable !== 'read-only';
-                const typeText = item.type ? `: ${item.type}` : '';
-                const valText = item.value !== undefined ? ` = ${item.value}` : '';
-                
-                detailsHtml += `
-                    <div class="details-signature">const ${escapeHtml(item.name)}${escapeHtml(typeText)}${escapeHtml(valText)}</div>
-                `;
-
-                if (isModifiable) {
-                    detailsHtml += `<div style="margin-bottom: 1.5rem;"><span class="badge-flag">Modifiable: ${escapeHtml(item.modifiable)}</span></div>`;
-                }
-
-                if (item.comment) {
-                    detailsHtml += `
-                        <div class="details-comment">
-                            ${escapeHtml(item.comment)}
-                        </div>
-                    `;
-                }
+            let html = backButtonHtml;
+            
+          const types = {
+            integer: "number",
+            float: "number",
+            string: "string",
+            key: "uuid",
+            vector: "vector",
+            rotation: "rotation",
+            quaternion: "quaternion",
+            list: "{any}"
+          };
+        
+          let nameLua = type == "function" ? "ll." + name.slice(2) : name;
+        
+          let sigLSL = "";
+          let sigLua = "";
+          let retLSL = "";
+          let retLua = "";
+          if (type == "constant") {
+            let argTypeLSL = info.type;
+            let argTypeLua = info["slua-return"] || types[argTypeLSL];
+            if (argTypeLua == "number" && info["bool-semantics"]) {
+              argTypeLua = "boolean";
             }
-
-            detailsHtml += `</div>`;
-            displayContainer.innerHTML = detailsHtml;
-
-            const backBtn = document.getElementById('details-back-btn');
-            if (backBtn) {
-                backBtn.addEventListener('click', () => {
-                    if (currentViewState.type === 'search') {
-                        searchInput.value = currentViewState.data.query;
-                        renderSearchResults(currentViewState.data.query);
-                        searchInput.focus();
-                    } else if (currentViewState.type === 'category-list') {
-                        renderCategories(currentViewState.data.searchType);
-                    } else if (currentViewState.type === 'category-items') {
-                        renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
-                    } else {
-                        displayContainer.innerHTML = '';
-                    }
-                });
+            let value = info.value;
+            sigLSL = `${argTypeLSL} ${name} = ${value};`;
+            sigLua = `${name}: ${argTypeLua} = ${value}`;
+          } else {
+            retLSL = info.return || "";
+            if (retLSL == "void") {
+              retLSL = "";
             }
+            retLua = info["slua_type"] || retLSL != "" ? types[retLSL] : "";
+            if (retLua == "void") {
+              retLua = "";
+            }
+            if (retLua == "number" && info["bool-semantics"]) {
+              retLua = "boolean";
+            }
+            if (retLua == "number" && info["index-semantics"]) {
+              retLua = "number?";
+            }
+            sigLSL = (type == "function" ? (retLSL != "" ? `${retLSL} ` : "") : "") + `${name}`;
+            sigLua = `${nameLua}`;
+            let argsLSL = "";
+            let argsLua = "";
+            
+            if (info.arguments && info.arguments !== "[]" && info.arguments.length > 0) {
+              info.arguments.forEach((arg, index) => {
+                let argName = Object.keys(arg)[0];
+                let argInfo = arg[argName];
+                let argTypeLSL = argInfo.type;
+                let argNameLua = argName;
+                let argTypeLua = argInfo["slua-type"] || types[argTypeLSL];
+                if (argTypeLua == "number" && argInfo["bool-semantics"]) {
+                  argTypeLua = "boolean";
+                }
+                if ((argTypeLua == "string" || argTypeLua == "uuid") && argInfo["asset-semantics"]) {
+                  argTypeLua = "string|uuid";
+                }
+                if (type == "event" && index == 0 && info["detected-semantics"]) {
+                  argNameLua = "Detected";
+                  argTypeLua = "{DetectedEvent}";
+                }
+                argsLSL += (argsLSL == "" ? "" : ", ") + `${argTypeLSL} ${argName}`;
+                argsLua += (argsLua == "" ? "" : ", ") + `${argNameLua}: ${argTypeLua}`;
+              });
+            }
+            sigLSL += "(" + argsLSL + ")" + (type == "function" ? ";" : "");
+            sigLua += "(" + argsLua + ")" + (retLua != "" ? `: ${retLua}` : "");
+          }
+        
+          html += `<div class="dashboard summary-${type}">\n`;
+          html += `  <div class="dashboard-header">\n`;
+          html += `    <span class="lua-section"><span class="tag lua-tag">Lua</span><code class="language-sluab">${sigLua}</code></span>\n`;
+          html += `    <span class="lsl-section"><span class="tag lsl-tag">LSL</span><code class="language-lsl">${sigLSL}</code></span>\n`;
+          html += `  </div>\n\n`;
+          html += `  <div class="dashboard-body">\n`;
+          html += `    <div class="dash-col">\n`;
+        
+          if (info.deprecated) {
+            let depr = "Deprecated: ";
+            if (info.use) {
+              depr += " use " + info.use;
+            }
+            if (info.reason) {
+              depr += (info.use ? " because " : " ") + info.reason;
+            }
+            html += `      <p class="deprecated-text"">${depr}</p>\n`;
+          }
+          if (info['slua-deprecated']) {
+            let depr = "Deprecated: ";
+            if (info.use) {
+              depr += " use " + info.use;
+            }
+            if (info.reason) {
+              depr += (info.use ? " because " : " ") + info.reason;
+            }
+            html += `      <p class="deprecated-text"><span class="lua-section"><span class="tag lua-tag">Lua</span>${depr}</span></p>\n`;
+          }
+          if (info['slua-removed']) {
+            const depr = "Removed from Lua" + (type == "function" ? ". It can be used in the llcompat library" : "");
+            html += `      <p class="removed-text"><span class="lua-section"><span class="tag lua-tag">Lua</span>${depr}</span></p>\n`;
+          }
+        
+          tooltip = (info.tooltip || "").replace(/\\\s/g, ' ').replace(/\\n/g, '<br>').replace(/^"|"$/g, '').replace(/\s\s+/g, ' ').trim();
+          if (tooltip != "") {
+            html += `      <p>${tooltip}</p>\n`;
+          }
+          if (retLua == "number?") {
+            html += `      <p><span class="lua-section"><span class="tag lua-tag">Lua</span>Returns nil when not found</span></p>\n`;    
+          }
+          
+          if (info.arguments && info.arguments !== "[]" && info.arguments.length > 0) {
+            html += `      <table class="param-table" id="parameters">\n`;
+            info.arguments.forEach((arg, index) => {
+              let argName = Object.keys(arg)[0];
+              let argInfo = arg[argName];
+              let argTypeLSL = argInfo.type;
+              let argTypeLua = argInfo["slua-type"] || types[argTypeLSL];
+              if (argTypeLua == "number" && argInfo["bool-semantics"]) {
+                argTypeLua = "boolean";
+              }
+              if ((argTypeLua == "string" || argTypeLua == "uuid") && argInfo["asset-semantics"]) {
+                argTypeLua = "string|uuid";
+              }
+              if (astro && argTypeLua.startsWith("{")) {
+                argTypeLua = "{\`" + argTypeLua + "\`}";
+              }
+        
+              let argTooltip = (argInfo.tooltip || "").replace(/\\\s/g, ' ').replace(/\\n/g, '<br>').replace(/^"|"$/g, '').replace(/\s\s+/g, ' ').trim();
+        
+              if (argTypeLua == "number" && argInfo["index-semantics"]) {
+                argTooltip = `<span class="lua-section"><span class="tag lua-tag">Lua</span>It's 1 based</span>` + argTooltip;
+              }
+              if (type == "event" && index == 0 && info["detected-semantics"]) {
+                argName = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Detected / </span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argName}</span>`;
+                argTooltip = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Table with the detected events / </span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argTooltip}</span>`;
+              }
+        
+              html += `        <tr>\n`;
+              html += `          <td><span class="lua-section"><span class="tag lua-tag">Lua</span>${argTypeLua}</span></td>\n`;
+              html += `          <td><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argTypeLSL}</span></td>\n`;
+              html += `          <td>${argName}</td>\n`;
+              html += `          <td>${argTooltip}</td>\n`;
+              html += `        </tr>\n`;
+            });
+            html += `      </table>\n`;
+          }
+        
+          html += `    </div>\n\n`;
+        
+          html += `    <div class="dash-col">\n`;
+          
+          if (info.categories) {
+            html += `      <div class="dash-section-title">Categories</div>\n`;
+            html += `      <ul class="meta-list">\n`;
+            info.categories.sort().forEach(c => {
+              html += `        <li>${c}</li>\n`;
+            });
+            html += `      </ul>\n`;
+          }
+        
+          if (info['member-of']) {
+            html += `      <div class="dash-section-title">Member Of</div>\n`;
+            html += `      <ul class="meta-list">\n`;
+            let members = [];
+            let cleanStr = info['member-of'].replace(/^\[|\]$/g, '');
+            members = cleanStr.split(',')
+              .map(m => m.trim())
+              .filter(m => m !== '');
+            members.sort().forEach(m => {
+              html += `        <li>${m}</li>\n`;
+            });
+            html += `      </ul>\n`;
+          }
+        
+          if (info['requires-permission']) {
+            html += `      <div class="dash-section-title">Permissions</div>\n`;
+            html += `      <ul class="meta-list">\n`;
+            info['requires-permission'].sort().forEach(p => {
+              html += `        <li>${p}</li>\n`;
+            });
+            html += `      </ul>\n`;
+          }
+          html += `    </div>\n\n`;
+        
+          html += `    <div class="dash-col">\n`;
+          html += `      <div class="dash-section-title">Tech Specs</div>\n`;
+          
+          if (info.sleep)   html += `      <div class="tech-item"><span class="tech-label">Sleep</span><span class="tech-val">${info.sleep}s</span></div>\n`;
+          if (info["mono-sleep"])   html += `      <div class="tech-item"><span class="tech-label">Sleep</span><span class="tech-val">${info["mono-sleep"]}s</span></div>\n`;
+          if (info.energy)  html += `      <div class="tech-item"><span class="tech-label">Energy</span><span class="tech-val">${info.energy}</span></div>\n`;
+          if (info['func-id']) html += `      <div class="tech-item"><span class="tech-label">LSO ID</span><span class="tech-val">${info['func-id']}</span></div>\n`;
+        
+          html += `\n      <div class="label-stack">\n`;
+          if (info.pure) html += `        <span class="attr-label bg-pure">Side-Effect Free</span>\n`;
+          if (info['must-use']) html += `        <span class="attr-label bg-mandatory">Use Return</span>\n`;
+          if (info.native) html += `        <span class="attr-label bg-native">Native Coded</span>\n`;
+          if (info.experience) html += `        <span class="attr-label bg-experience">Experience</span>\n`;
+          if (info['detected-semantics']) html += `        <span class="attr-label bg-detected">Detected Event</span>\n`;
+          if (info.deprecated) html += `        <span class="attr-label bg-deprecated">Deprecated</span>\n`;
+          if (info['slua-deprecated']) html += `        <span class="lua-section attr-label bg-deprecated">Lua Deprecated</span>\n`;
+          if (info['slua-removed']) html += `        <span class="lua-section attr-label bg-deprecated">Lua Removed</span>\n`;
+          if (info['god-mode']) html += `        <span class="lua-section attr-label bg-godmode">God Mode</span>\n`;
+          if (info['linden-experience']) html += `        <span class="lua-section attr-label bg-lindenexp">Linden Experience</span>\n`;
+          html += `      </div>\n`;
+        
+          html += `    </div>\n`;
+          html += `  </div>\n`;
+          html += `</div>`;
+          
+          return html;
         }
 
         searchButtons.forEach(button => {
@@ -914,8 +1007,6 @@ slua_beta: true
     }
 
     fetchDefinitions();
-
-    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
     
     const lsl = localStorage.getItem('lsl') !== 'off';
     const lua = localStorage.getItem('lua') !== 'off';
