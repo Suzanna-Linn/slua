@@ -271,7 +271,7 @@ slua_beta: true
           }
           .param-table td { 
               border: none; 
-              padding: 0 15px 12px 0; 
+              padding: 6px 15px;
               vertical-align: middle; 
           }
         
