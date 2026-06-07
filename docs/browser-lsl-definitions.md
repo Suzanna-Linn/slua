@@ -332,7 +332,6 @@ title: ll library
                 ];
                 rawConstants.forEach(constObj => {
                     let cats = [];
-                    // Look in member-of as requested
                     const memberOf = constObj['member-of'] || constObj.member_of;
                     if (memberOf) {
                         if (Array.isArray(memberOf)) cats = memberOf;
@@ -343,7 +342,6 @@ title: ll library
                 });
             }
 
-            // Return a sorted array of categories
             return Array.from(categoriesSet).sort((a, b) => 
                 a.localeCompare(b, undefined, { sensitivity: 'base' })
             );
@@ -374,6 +372,83 @@ title: ll library
 
             displayContainer.innerHTML = htmlOutput;
             bindCategoryBtnHandlers();
+        }
+
+        // Step 4: Renders all items belonging to a selected category
+        function renderCategoryItems(type, categoryName) {
+            let matchedItems = [];
+
+            if (type === 'functions') {
+                const rawFunctions = normalizeArrayOrObject(lslData.functions);
+                matchedItems = rawFunctions.filter(f => {
+                    let cats = [];
+                    if (f.categories) {
+                        if (Array.isArray(f.categories)) cats = f.categories;
+                        else if (typeof f.categories === 'string') cats = [f.categories];
+                    }
+                    return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
+                });
+            } else if (type === 'events') {
+                const rawEvents = normalizeArrayOrObject(lslData.events);
+                matchedItems = rawEvents.filter(e => {
+                    let cats = [];
+                    if (e.categories) {
+                        if (Array.isArray(e.categories)) cats = e.categories;
+                        else if (typeof e.categories === 'string') cats = [e.categories];
+                    }
+                    return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
+                });
+            } else if (type === 'constants') {
+                const rawConstants = [
+                    ...normalizeArrayOrObject(lslData.constants),
+                    ...normalizeArrayOrObject(lslData['builtin-constants']),
+                    ...normalizeArrayOrObject(lslData['global-variables'])
+                ];
+
+                // Deduplicate constants by name
+                const uniqueConstantsMap = new Map();
+                rawConstants.forEach(c => {
+                    if (c.name) uniqueConstantsMap.set(c.name, c);
+                });
+                const dedupedConstants = Array.from(uniqueConstantsMap.values());
+
+                matchedItems = dedupedConstants.filter(c => {
+                    let cats = [];
+                    const memberOf = c['member-of'] || c.member_of;
+                    if (memberOf) {
+                        if (Array.isArray(memberOf)) cats = memberOf;
+                        else if (typeof memberOf === 'string') cats = [memberOf];
+                    }
+                    return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
+                });
+            }
+
+            // Alphabetical sort by name
+            matchedItems.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+
+            if (matchedItems.length === 0) {
+                displayContainer.innerHTML = `<div class="no-results">No items found in category "${escapeHtml(categoryName)}".</div>`;
+                return;
+            }
+
+            // Render matched items using the singular category representation
+            const singularType = type === 'functions' ? 'function' : (type === 'events' ? 'event' : 'constant');
+            const htmlOutput = `
+                <div class="results-wrapper">
+                    <div class="results-group">
+                        <div class="results-grid">
+                            ${matchedItems.map(item => `
+                                <button type="button" class="result-btn" data-type="${singularType}" data-name="${escapeHtml(item.name)}">
+                                    ${escapeHtml(item.name)}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            displayContainer.innerHTML = htmlOutput;
+            bindResultBtnHandlers();
         }
 
         // Buttons trigger their respective specialized flows and set active styles
@@ -451,7 +526,7 @@ title: ll library
             // Build structural row blocks
             let htmlOutput = '<div class="results-wrapper">';
 
-            // 1. Functions Grid (Starts fresh row block)
+            // 1. Functions Grid
             if (matchedFunctions.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -462,7 +537,7 @@ title: ll library
                 `;
             }
 
-            // 2. Events Grid (Starts fresh row block, never mixing with functions)
+            // 2. Events Grid
             if (matchedEvents.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -473,7 +548,7 @@ title: ll library
                 `;
             }
 
-            // 3. Constants Grid (Starts fresh row block, never mixing with other types)
+            // 3. Constants Grid
             if (matchedConstants.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -501,7 +576,7 @@ title: ll library
             });
         }
 
-        // Step 3 Category Button click triggers
+        // Category Button click triggers
         function bindCategoryBtnHandlers() {
             const catButtons = displayContainer.querySelectorAll('.category-btn');
             catButtons.forEach(btn => {
@@ -509,7 +584,9 @@ title: ll library
                     const catName = e.currentTarget.getAttribute('data-category-name');
                     const searchType = e.currentTarget.getAttribute('data-search-type');
                     console.log(`Clicked category button: "${catName}" inside "${searchType}"`);
-                    // We will implement rendering the items within this category in the next step
+                    
+                    // Step 4: Render category items
+                    renderCategoryItems(searchType, catName);
                 });
             });
         }
@@ -517,7 +594,7 @@ title: ll library
         function escapeHtml(str) {
             return str
                 .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
+                .replace(/..g/, "&lt;")
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
