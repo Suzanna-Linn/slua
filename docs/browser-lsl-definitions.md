@@ -712,7 +712,7 @@ slua_beta: true
             if (info.reason) {
               depr += (info.use ? " because " : " ") + info.reason;
             }
-            html += `      <p class="deprecated-text"">${depr}</p>\n`;
+            html += `      <p class="deprecated-text">${depr}</p>\n`;
           }
           if (info['slua-deprecated']) {
             let depr = "Deprecated: ";
