@@ -1,6 +1,7 @@
 ---
 layout: default
 title: ll library
+slua_beta: true
 ---
 
 <style>
@@ -8,7 +9,6 @@ title: ll library
         position: sticky;
         top: 0;
         z-index: 100;
-        background-color: var(--navbar-bg, rgba(255, 255, 255, 0.85));
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         border-bottom: 1px solid var(--border-color, rgba(128, 128, 128, 0.25));
@@ -331,7 +331,7 @@ title: ll library
 </style>
 
 <header class="sticky-navbar">
-    <a href="#" class="navbar-brand">SL Definitions</a>
+    <a href="#" class="navbar-brand">LL Definitions</a>
 
     <div class="search-container">
         <input 
