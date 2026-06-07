@@ -3,7 +3,7 @@ layout: default
 title: ll library
 ---
 
-<!-- Step 1: Scoped Styles for the Menu Bar and Modern UI Elements -->
+<!-- Scoped Styles for the Menu Bar, Modern UI Elements, and Search Grid -->
 <style>
     /* Sticky container for the top navigation bar */
     .sticky-navbar {
@@ -46,7 +46,6 @@ title: ll library
         font-size: 0.95rem;
         color: inherit;
         background-color: transparent;
-        /* Pronounced border so it always looks like a textbox */
         border: 1.5px solid rgba(128, 128, 128, 0.5); 
         border-radius: 0.375rem;
         outline: none;
@@ -66,7 +65,6 @@ title: ll library
     }
 
     .nav-btn {
-        /* Standard solid button styling (works over light or dark themes) */
         background-color: rgba(128, 128, 128, 0.12); 
         border: 1px solid rgba(128, 128, 128, 0.3);
         color: inherit;
@@ -82,7 +80,6 @@ title: ll library
         background-color: rgba(128, 128, 128, 0.25);
     }
 
-    /* Active / Selected style */
     .nav-btn.active {
         background-color: var(--primary-color, #4f46e5);
         border-color: var(--primary-color, #4f46e5);
@@ -99,6 +96,8 @@ title: ll library
     /* Main Content Wrapper below sticky navbar */
     .content-container {
         padding: 2rem 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     #loading {
@@ -107,6 +106,67 @@ title: ll library
         opacity: 0.7;
         text-align: center;
         margin-top: 2rem;
+    }
+
+    /* Search Results Styling (Grid and Centered Table representation) */
+    .results-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+
+    .results-group {
+        text-align: center;
+    }
+
+    .results-group-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.6;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Layout representing rows centered with several items each */
+    .results-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .result-btn {
+        background-color: rgba(128, 128, 128, 0.08);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        color: inherit;
+        padding: 0.4rem 0.85rem;
+        border-radius: 0.25rem;
+        font-size: 0.85rem;
+        font-family: monospace;
+        cursor: pointer;
+        transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .result-btn:hover {
+        background-color: var(--primary-color, #4f46e5);
+        border-color: var(--primary-color, #4f46e5);
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+
+    .result-btn:active {
+        transform: translateY(0);
+    }
+
+    .no-results {
+        text-align: center;
+        opacity: 0.6;
+        padding: 2rem;
+        font-size: 0.95rem;
     }
 </style>
 
@@ -218,11 +278,12 @@ title: ll library
     function initUIListeners() {
         const searchInput = document.getElementById('search-input');
         const searchButtons = document.querySelectorAll('.nav-btn');
+        const displayContainer = document.getElementById('definitions-display');
 
         // Autofocus the textbox on start
         searchInput.focus();
 
-        // Buttons trigger their respective specialized flows and set their active styles
+        // Buttons trigger their respective specialized flows and set active styles
         searchButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 const searchType = e.currentTarget.getAttribute('data-search-type');
@@ -233,17 +294,123 @@ title: ll library
             });
         });
 
-        // Clear active styles from buttons when the search box is selected/focused again
+        // Clear active styles from buttons when the search box is focused
         searchInput.addEventListener('focus', () => {
             searchButtons.forEach(btn => btn.classList.remove('active'));
-            console.log("Global search focused; specialized filters cleared.");
         });
 
         // Global search input always searches across all types
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            console.log(`Global search query: "${query}" (searching all types)`);
+            const query = e.target.value.toLowerCase().trim();
+            renderSearchResults(query);
         });
+
+        // Helper function to extract and filter results from yaml structure
+        function renderSearchResults(query) {
+            // Clear content if search is empty
+            if (!query) {
+                displayContainer.innerHTML = '';
+                return;
+            }
+
+            // Extract distinct lists of items. Handle missing keys gracefully.
+            const rawFunctions = lslData.functions || [];
+            const rawEvents = lslData.events || [];
+            
+            // Gather constants from regular constants, builtin-constants, and global variables
+            const rawConstants = [
+                ...(lslData.constants || []),
+                ...(lslData['builtin-constants'] || []),
+                ...(lslData['global-variables'] || [])
+            ];
+
+            // Perform case-insensitive string containment filtering
+            const matchedFunctions = rawFunctions.filter(item => item.name && item.name.toLowerCase().includes(query));
+            const matchedEvents = rawEvents.filter(item => item.name && item.name.toLowerCase().includes(query));
+            
+            // Remove duplicate constants if they overlap between lists
+            const uniqueConstantsMap = new Map();
+            rawConstants.forEach(item => {
+                if (item.name && item.name.toLowerCase().includes(query)) {
+                    uniqueConstantsMap.set(item.name, item);
+                }
+            });
+            const matchedConstants = Array.from(uniqueConstantsMap.values());
+
+            const totalMatches = matchedFunctions.length + matchedEvents.length + matchedConstants.length;
+
+            if (totalMatches === 0) {
+                displayContainer.innerHTML = `<div class="no-results">No matches found for "${escapeHtml(query)}"</div>`;
+                return;
+            }
+
+            // Build structural row blocks
+            let htmlOutput = '<div class="results-wrapper">';
+
+            // 1. Functions Row Block
+            if (matchedFunctions.length > 0) {
+                htmlOutput += `
+                    <div class="results-group">
+                        <div class="results-group-title">Functions</div>
+                        <div class="results-grid">
+                            ${matchedFunctions.map(f => `<button type="button" class="result-btn" data-type="function" data-name="${escapeHtml(f.name)}">${escapeHtml(f.name)}</button>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 2. Events Row Block (Always starts a new row/block, never mixing with functions)
+            if (matchedEvents.length > 0) {
+                htmlOutput += `
+                    <div class="results-group">
+                        <div class="results-group-title">Events</div>
+                        <div class="results-grid">
+                            ${matchedEvents.map(e => `<button type="button" class="result-btn" data-type="event" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3. Constants Row Block (Always starts a new row/block, never mixing with other types)
+            if (matchedConstants.length > 0) {
+                htmlOutput += `
+                    <div class="results-group">
+                        <div class="results-group-title">Constants</div>
+                        <div class="results-grid">
+                            ${matchedConstants.map(c => `<button type="button" class="result-btn" data-type="constant" data-name="${escapeHtml(c.name)}">${escapeHtml(c.name)}</button>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            htmlOutput += '</div>';
+            displayContainer.innerHTML = htmlOutput;
+
+            // Optional future feature: Add click handlers to search result buttons
+            bindResultBtnHandlers();
+        }
+
+        function bindResultBtnHandlers() {
+            const resultButtons = displayContainer.querySelectorAll('.result-btn');
+            resultButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const name = e.currentTarget.getAttribute('data-name');
+                    const type = e.currentTarget.getAttribute('data-type');
+                    console.log(`Clicked result button: [${type}] ${name}`);
+                    // Trigger detailed view display in subsequent steps
+                });
+            });
+        }
+
+        // Helper function to escape HTML special characters
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
     }
 
     fetchDefinitions();
