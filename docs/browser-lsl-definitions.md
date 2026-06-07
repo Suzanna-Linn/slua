@@ -470,7 +470,7 @@ title: ll library
                         if (Array.isArray(f.categories)) cats = f.categories;
                         else if (typeof f.categories === 'string') cats = [f.categories];
                     }
-                    return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
+                    return (categoryName === '[uncategorized]') ? (cats.length === 0) : cats.includes(categoryName);
                 });
             } else if (type === 'events') {
                 const rawEvents = normalizeArrayOrObject(lslData.events);
@@ -480,7 +480,7 @@ title: ll library
                         if (Array.isArray(e.categories)) cats = e.categories;
                         else if (typeof e.categories === 'string') cats = [e.categories];
                     }
-                    return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
+                    return (categoryName === '[uncategorized]') ? (cats.length === 0) : cats.includes(categoryName);
                 });
             } else if (type === 'constants') {
                 const rawConstants = normalizeArrayOrObject(lslData.constants);
@@ -490,7 +490,7 @@ title: ll library
                         if (Array.isArray(c['member-of'])) cats = c['member-of'];
                         else if (typeof c['member-of'] === 'string') cats = [c['member-of']];
                     }
-                    return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
+                    return (categoryName === '[uncategorized]') ? (cats.length === 0) : cats.includes(categoryName);
                 });
             }
 
