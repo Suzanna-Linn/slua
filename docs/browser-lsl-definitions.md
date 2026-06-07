@@ -157,107 +157,177 @@ title: ll library
         font-size: 0.95rem;
     }
 
-    .details-container {
-        background-color: rgba(128, 128, 128, 0.05);
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        border-radius: 0.5rem;
-        padding: 2rem;
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: left;
-    }
+        :root {
+            --bg-color: #f9f9f9; --text-color: #2c3e50; --header-bg: #ffffff;
+            --border-color: #dee2e6; --accent-lsl: #007bff; --accent-lua: #e67e22;
+            --table-head: #f2f2f2; --card-bg: #ffffff; --code-bg: #f1f1f1;
+        }
+        body.dark-mode {
+            --bg-color: #121212; --text-color: #e0e0e0; --header-bg: #1f1f1f;
+            --border-color: #333; --accent-lsl: #3796ff; --accent-lua: #ff9f43;
+            --table-head: #2a2a2a; --card-bg: #1e1e1e; --code-bg: #2d2d2d;
+        }
 
-    .details-header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 1rem;
-        border-bottom: 1px solid rgba(128, 128, 128, 0.2);
-        padding-bottom: 1rem;
-        margin-bottom: 1.5rem;
-    }
+        body { font-family: system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; transition: background 0.3s; line-height: 1.5; }
+        header { position: sticky; top: 0; background: var(--header-bg); border-bottom: 1px solid var(--border-color); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+        .controls { display: flex; gap: 15px; font-size: 0.9em; font-weight: bold; }
+        main { width: 100%; margin: 20px auto; padding: 0 20px; }
+        
+        body.hide-lua .lua-block { display: none !important; }
+        body.hide-lsl .lsl-block { display: none !important; }
+        body.hide-lua .lua-section { display: none !important; }
+        body.hide-lsl .lsl-section { display: none !important; }
 
-    .details-title {
-        font-size: 1.75rem;
-        font-family: monospace;
-        font-weight: 700;
-        margin: 0;
-    }
+        .item-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
-    .details-type-badge {
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        background-color: var(--primary-color, #4f46e5);
-        color: #ffffff;
-        padding: 0.25rem 0.6rem;
-        border-radius: 9999px;
-    }
+        .lsl-block, .lua-block {
+            display: block;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 12px 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--accent-lsl); 
+        }
+        .lua-block { 
+            border-left-color: var(--accent-lua); 
+        }
+        .lsl-block pre, .lua-block pre {
+            margin: 0;
+            background: var(--code-bg);
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
 
-    .details-signature {
-        background-color: rgba(0, 0, 0, 0.04);
-        border-left: 3.5px solid var(--primary-color, #4f46e5);
-        padding: 0.75rem 1rem;
-        font-family: monospace;
-        font-size: 0.95rem;
-        border-radius: 0 0.375rem 0.375rem 0;
-        margin-bottom: 1.5rem;
-        overflow-x: auto;
-        white-space: pre-wrap;
-    }
+        h2 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 30px; }
+        h3 { color: #34495e; margin-top: 20px; }
+        p { margin-bottom: 15px; }
+        a { color: #2980b9; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        ul, ol { margin-bottom: 15px; }
+        li { margin-bottom: 5px; }
+        
+        pre { background: var(--code-bg); padding: 12px; border-radius: 5px; overflow-x: auto; font-family: monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; }
+        th { background: var(--table-head); }
+        .tag { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-size: 0.7em; text-transform: uppercase; color: white; margin-bottom: 8px; margin-right: 10px; }
+        .lsl-tag { background: var(--accent-lsl); }
+        .lua-tag { background: var(--accent-lua); }
+        
+        #loader { text-align: center; margin-top: 100px; font-size: 1.2em; color: #888; }
 
-    .details-comment {
-        font-size: 1rem;
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
-    }
-
-    .details-section-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
-        border-bottom: 1px dashed rgba(128, 128, 128, 0.2);
-        padding-bottom: 0.25rem;
-    }
-
-    .details-list {
-        margin: 0;
-        padding-left: 1.25rem;
-    }
-
-    .details-list-item {
-        margin-bottom: 0.5rem;
-        line-height: 1.5;
-    }
-
-    .param-name {
-        font-family: monospace;
-        font-weight: 700;
-    }
-
-    .param-type {
-        font-family: monospace;
-        opacity: 0.8;
-        font-size: 0.85rem;
-    }
-
-    .badge-deprecated {
-        background-color: #ef4444;
-        color: white;
-    }
-
-    .badge-flag {
-        background-color: rgba(128, 128, 128, 0.15);
-        border: 1px solid rgba(128, 128, 128, 0.3);
-        color: inherit;
-        font-size: 0.75rem;
-        padding: 0.15rem 0.4rem;
-        border-radius: 0.25rem;
-        font-weight: 500;
-    }
+          .dashboard {
+              display: flex;
+              flex-direction: column;
+              background: var(--card-bg);
+              border: 1px solid var(--border-color);
+              border-radius: 12px;
+              overflow: hidden;
+              margin-bottom: 30px;
+              box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+          }
+          .dashboard.summary-function { border-left: 6px solid #3498db; }
+          .dashboard.summary-constant { border-left: 6px solid #27ae60; }
+          .dashboard.summary-event    { border-left: 6px solid #8e44ad; }
+          .dashboard-header {
+              padding: 20px;
+              background: rgba(128,128,128,0.05);
+              border-bottom: 1px solid var(--border-color);
+          }
+          .dashboard-body {
+              display: grid;
+              grid-template-columns: 1fr 150px 100px;
+              gap: 25px;
+              padding: 25px;
+          }
+          .dash-section-title {
+              font-size: 0.7em;
+              font-weight: bold;
+              text-transform: uppercase;
+              color: #95a5a6;
+              margin-bottom: 12px;
+              border-bottom: 1px solid var(--border-color);
+              padding-bottom: 4px;
+              letter-spacing: 0.5px;
+          }
+        
+          /* Left Column Styles */
+          .description-text { 
+              margin-top: 0; 
+              font-style: italic; 
+              font-size: 1.05em; 
+              line-height: 1.5;
+              margin-bottom: 25px;
+          }
+          .param-table { 
+              border-collapse: collapse; 
+              border: none; 
+              width: auto; 
+          }
+          .param-table td { 
+              border: none; 
+              padding: 0 15px 12px 0; 
+              vertical-align: top; 
+          }
+        
+          /* Middle Column Styles */
+          .meta-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
+          .meta-list li { 
+              padding: 5px 10px; 
+              margin-bottom: 5px; 
+              background: rgba(128,128,128,0.08); 
+              border-radius: 4px; 
+              font-size: 0.85em; 
+              border: 1px solid rgba(128,128,128,0.1);
+          }
+        
+          /* Right Column Styles */
+          .tech-item { display: flex; justify-content: space-between; font-size: 0.85em; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px inset rgba(128,128,128,0.05); }
+          .tech-label { color: #7f8c8d; font-weight: 500; }
+          .tech-val { font-family: monospace; font-weight: bold; }
+          
+          .label-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
+          .attr-label { 
+              font-size: 0.65em; 
+              font-weight: bold; 
+              padding: 4px 8px; 
+              border-radius: 4px; 
+              color: white; 
+              text-transform: uppercase;
+              white-space: nowrap;
+          }
+          .bg-pure       { background: #27ae60; }
+          .bg-mandatory  { background: #e67e22; }
+          .bg-native     { background: #2980b9; }
+          .bg-experience { background: #d35400; }
+          .bg-detected   { background: #8e44ad; }
+          .bg-deprecated { background: #c0392b; }
+          .bg-godmode    { background: #f1c40f; }
+          .bg-lindenexp { background: #1abc9c; }
+        
+          .alt-code {
+              display: block;
+              background: #fdf2f2;
+              color: #c0392b;
+              padding: 8px;
+              border-radius: 4px;
+              font-family: monospace;
+              font-size: 0.9em;
+              border: 1px solid #f5c6cb;
+          }
+          body.dark-mode .alt-code { background: #2d1a1a; border-color: #602020; color: #ff8080; }
+        
+          @media (max-width: 1000px) {
+              .dashboard-body { grid-template-columns: 1.5fr 1fr; }
+              .dash-col:last-child { grid-column: span 2; }
+          }
+          @media (max-width: 700px) {
+              .dashboard-body { grid-template-columns: 1fr; }
+              .dash-col:last-child { grid-column: span 1; }
+          }
 </style>
 
 <header class="sticky-navbar">
@@ -277,6 +347,8 @@ title: ll library
         <button type="button" class="nav-btn" data-search-type="functions">Functions</button>
         <button type="button" class="nav-btn" data-search-type="events">Events</button>
         <button type="button" class="nav-btn" data-search-type="constants">Constants</button>
+        <label><input type="checkbox" id="lsl-toggle" checked> LSL</label>
+        <label><input type="checkbox" id="lua-toggle" checked> Lua</label>
     </nav>
 
     <div class="nav-extra-space" id="extra-nav-controls">
@@ -842,4 +914,35 @@ title: ll library
     }
 
     fetchDefinitions();
+
+    const lsl = localStorage.getItem('lsl') !== 'off';
+    const lua = localStorage.getItem('lua') !== 'off';
+    document.getElementById('lsl-toggle').checked = lsl;
+    document.getElementById('lua-toggle').checked = lua;
+    if (!lsl) body.classList.add('hide-lsl');
+    if (!lua) body.classList.add('hide-lua');
+
+    const updateToggleState = (key, isChecked) => {
+        body.classList.toggle(`hide-${key}`, !isChecked);
+        localStorage.setItem(key, isChecked ? 'on' : 'off');
+    };
+
+    const lslToggle = document.getElementById('lsl-toggle');
+    const luaToggle = document.getElementById('lua-toggle');
+
+    lslToggle.onchange = (e) => {
+        if (!e.target.checked) {
+            luaToggle.checked = true;
+            updateToggleState('lua', true);
+        }
+        updateToggleState('lsl', e.target.checked);
+    };
+
+    luaToggle.onchange = (e) => {
+        if (!e.target.checked) {
+            lslToggle.checked = true;
+            updateToggleState('lsl', true);
+        }
+        updateToggleState('lua', e.target.checked);
+    };
 </script>
