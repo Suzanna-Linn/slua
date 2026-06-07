@@ -69,7 +69,6 @@ title: ll library
 
         if (lslData) {
             document.getElementById('loading').style.display = 'none';
-            renderList("");
         } else {
             document.getElementById('loading').innerText = "Failed to load definitions. Please try reloading.";
         }
