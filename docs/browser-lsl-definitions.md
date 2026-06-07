@@ -593,20 +593,20 @@ slua_beta: true
         }
 
         function renderItemDetails(type, name) {
-            let item = null;
+            let info = null;
 
             if (type === 'function') {
                 const rawFunctions = normalizeArrayOrObject(lslData.functions);
-                item = rawFunctions.find(f => f.name === name);
+                info = rawFunctions.find(f => f.name === name);
             } else if (type === 'event') {
                 const rawEvents = normalizeArrayOrObject(lslData.events);
-                item = rawEvents.find(e => e.name === name);
+                info = rawEvents.find(e => e.name === name);
             } else if (type === 'constant') {
                 const rawConstants = normalizeArrayOrObject(lslData.constants);
-                item = rawConstants.find(c => c.name === name);
+                info = rawConstants.find(c => c.name === name);
             }
 
-            if (!item) {
+            if (!info) {
                 displayContainer.innerHTML = `<div class="no-results">Error: Details for ${escapeHtml(type)} "${escapeHtml(name)}" not found.</div>`;
                 return;
             }
