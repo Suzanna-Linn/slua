@@ -16,7 +16,7 @@ title: ll library
 </div>
 
 <script>
-    const RAW_URL = "https://raw.githubusercontent.com/secondlife/lsl-definitions/main/lsl_definitions.schema.json"; // (or your YAML url)
+    const RAW_URL = "https://raw.githubusercontent.com/secondlife/lsl-definitions/main/lsl_definitions.yaml";
     const DATA_KEY = "lsl_definitions_data";
     const ETAG_KEY = "lsl_definitions_etag";
     let lslData = null;
