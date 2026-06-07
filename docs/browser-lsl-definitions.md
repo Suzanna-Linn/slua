@@ -744,9 +744,6 @@ slua_beta: true
               if ((argTypeLua == "string" || argTypeLua == "uuid") && argInfo["asset-semantics"]) {
                 argTypeLua = "string|uuid";
               }
-              if (astro && argTypeLua.startsWith("{")) {
-                argTypeLua = "{\`" + argTypeLua + "\`}";
-              }
         
               let argTooltip = (argInfo.tooltip || "").replace(/\\\s/g, ' ').replace(/\\n/g, '<br>').replace(/^"|"$/g, '').replace(/\s\s+/g, ' ').trim();
         
