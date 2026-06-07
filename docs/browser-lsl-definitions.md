@@ -13,7 +13,7 @@ title: ll library
         background-color: var(--navbar-bg, rgba(255, 255, 255, 0.85));
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        border-bottom: 1px solid var(--border-color, #e5e7eb);
+        border-bottom: 1px solid var(--border-color, rgba(128, 128, 128, 0.25));
         padding: 0.75rem 1.5rem;
         display: flex;
         flex-wrap: wrap;
@@ -46,7 +46,8 @@ title: ll library
         font-size: 0.95rem;
         color: inherit;
         background-color: transparent;
-        border: 1px solid var(--border-color, #e5e7eb);
+        /* Pronounced border so it always looks like a textbox */
+        border: 1.5px solid rgba(128, 128, 128, 0.5); 
         border-radius: 0.375rem;
         outline: none;
         transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -65,8 +66,9 @@ title: ll library
     }
 
     .nav-btn {
-        background-color: transparent;
-        border: 1px solid var(--border-color, #e5e7eb);
+        /* Standard solid button styling (works over light or dark themes) */
+        background-color: rgba(128, 128, 128, 0.12); 
+        border: 1px solid rgba(128, 128, 128, 0.3);
         color: inherit;
         padding: 0.5rem 1rem;
         border-radius: 0.375rem;
@@ -77,11 +79,10 @@ title: ll library
     }
 
     .nav-btn:hover {
-        background-color: var(--primary-color, #4f46e5);
-        border-color: var(--primary-color, #4f46e5);
-        color: #ffffff;
+        background-color: rgba(128, 128, 128, 0.25);
     }
 
+    /* Active / Selected style */
     .nav-btn.active {
         background-color: var(--primary-color, #4f46e5);
         border-color: var(--primary-color, #4f46e5);
@@ -218,25 +219,30 @@ title: ll library
         const searchInput = document.getElementById('search-input');
         const searchButtons = document.querySelectorAll('.nav-btn');
 
-        // Buttons trigger their respective specialized flows (to be implemented later)
+        // Autofocus the textbox on start
+        searchInput.focus();
+
+        // Buttons trigger their respective specialized flows and set their active styles
         searchButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 const searchType = e.currentTarget.getAttribute('data-search-type');
                 console.log(`Action triggered: Open specialized search/browse for "${searchType}"`);
                 
-                // Active visual style can be used to indicate which special view is currently open
                 searchButtons.forEach(btn => btn.classList.remove('active'));
                 e.currentTarget.classList.add('active');
             });
+        });
+
+        // Clear active styles from buttons when the search box is selected/focused again
+        searchInput.addEventListener('focus', () => {
+            searchButtons.forEach(btn => btn.classList.remove('active'));
+            console.log("Global search focused; specialized filters cleared.");
         });
 
         // Global search input always searches across all types
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             console.log(`Global search query: "${query}" (searching all types)`);
-            
-            // Text search can automatically clear the special button views if desired,
-            // or we can manage their states independently.
         });
     }
 
