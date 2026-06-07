@@ -723,7 +723,7 @@ slua_beta: true
             html += `      <p class="removed-text"><span class="lua-section"><span class="tag lua-tag">Lua</span>${depr}</span></p>\n`;
           }
         
-          tooltip = (info.tooltip || "").replace(/\\\s/g, ' ').replace(/\\n/g, '<br>').replace(/^"|"$/g, '').replace(/\s\s+/g, ' ').trim();
+          const tooltip = (info.tooltip || "").replace(/\\\s/g, ' ').replace(/\\n/g, '<br>').replace(/^"|"$/g, '').replace(/\s\s+/g, ' ').trim();
           if (tooltip != "") {
             html += `      <p>${tooltip}</p>\n`;
           }
