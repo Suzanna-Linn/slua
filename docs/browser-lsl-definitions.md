@@ -3,9 +3,7 @@ layout: default
 title: ll library
 ---
 
-<!-- Scoped Styles for the Menu Bar, Modern UI Elements, and Search Grid -->
 <style>
-    /* Sticky container for the top navigation bar */
     .sticky-navbar {
         position: sticky;
         top: 0;
@@ -23,7 +21,6 @@ title: ll library
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     }
 
-    /* Brand/Title styling */
     .navbar-brand {
         font-weight: 700;
         font-size: 1.25rem;
@@ -32,7 +29,6 @@ title: ll library
         letter-spacing: -0.025em;
     }
 
-    /* Search Input Group */
     .search-container {
         flex: 1;
         min-width: 200px;
@@ -57,7 +53,6 @@ title: ll library
         box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
     }
 
-    /* Action / Navigation Buttons */
     .nav-buttons-container {
         display: flex;
         align-items: center;
@@ -86,14 +81,12 @@ title: ll library
         color: #ffffff;
     }
 
-    /* Reserved space for future extensions */
     .nav-extra-space {
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
 
-    /* Main Content Wrapper below sticky navbar */
     .content-container {
         padding: 2rem 1.5rem;
         max-width: 1200px;
@@ -108,7 +101,6 @@ title: ll library
         margin-top: 2rem;
     }
 
-    /* Search and Category Results Styling */
     .results-wrapper {
         display: flex;
         flex-direction: column;
@@ -120,7 +112,6 @@ title: ll library
         width: 100%;
     }
 
-    /* Grid layout representing aligned rows */
     .results-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -166,7 +157,6 @@ title: ll library
         font-size: 0.95rem;
     }
 
-    /* Details View Styling */
     .details-container {
         background-color: rgba(128, 128, 128, 0.05);
         border: 1px solid rgba(128, 128, 128, 0.2);
@@ -270,12 +260,9 @@ title: ll library
     }
 </style>
 
-<!-- Top Horizontal Menu Bar -->
 <header class="sticky-navbar">
-    <!-- Short Title -->
     <a href="#" class="navbar-brand">SL Definitions</a>
 
-    <!-- Textbox to Search (Always searches all types) -->
     <div class="search-container">
         <input 
             type="text" 
@@ -286,20 +273,17 @@ title: ll library
         />
     </div>
 
-    <!-- Category Trigger Buttons -->
     <nav class="nav-buttons-container" aria-label="Alternative searches">
         <button type="button" class="nav-btn" data-search-type="functions">Functions</button>
         <button type="button" class="nav-btn" data-search-type="events">Events</button>
         <button type="button" class="nav-btn" data-search-type="constants">Constants</button>
     </nav>
 
-    <!-- Free space for future expansion -->
     <div class="nav-extra-space" id="extra-nav-controls">
-        <!-- Future buttons or toggles can be appended here -->
+
     </div>
 </header>
 
-<!-- Main Page Content -->
 <main class="content-container">
     <div id="loading">Loading definitions...</div>
     <div id="definitions-display"></div>
@@ -380,16 +364,13 @@ title: ll library
         const searchButtons = document.querySelectorAll('.nav-btn');
         const displayContainer = document.getElementById('definitions-display');
 
-        // State history management for back button navigation
         let currentViewState = {
             type: 'empty', // 'search', 'category-list', 'category-items', 'empty'
             data: {}
         };
 
-        // Autofocus the textbox on start
         searchInput.focus();
 
-        // Helper function to handle mixed format (Arrays or Objects) safely
         function normalizeArrayOrObject(data) {
             if (!data) return [];
             if (Array.isArray(data)) {
@@ -407,7 +388,6 @@ title: ll library
             return [];
         }
 
-        // Extracts unique categories for functions, events, or constants
         function getCategoriesForType(type) {
             const categoriesSet = new Set();
 
@@ -419,7 +399,7 @@ title: ll library
                         if (Array.isArray(f.categories)) cats = f.categories;
                         else if (typeof f.categories === 'string') cats = [f.categories];
                     }
-                    if (cats.length === 0) cats = ["uncategorized"];
+                    if (cats.length === 0) cats = ["[uncategorized]"];
                     cats.forEach(c => categoriesSet.add(c));
                 });
             } else if (type === 'events') {
@@ -430,23 +410,18 @@ title: ll library
                         if (Array.isArray(e.categories)) cats = e.categories;
                         else if (typeof e.categories === 'string') cats = [e.categories];
                     }
-                    if (cats.length === 0) cats = ["uncategorized"];
+                    if (cats.length === 0) cats = ["[uncategorized]"];
                     cats.forEach(c => categoriesSet.add(c));
                 });
             } else if (type === 'constants') {
-                const rawConstants = [
-                    ...normalizeArrayOrObject(lslData.constants),
-                    ...normalizeArrayOrObject(lslData['builtin-constants']),
-                    ...normalizeArrayOrObject(lslData['global-variables'])
-                ];
-                rawConstants.forEach(constObj => {
+                const rawConstants = normalizeArrayOrObject(lslData.constants);
+                rawConstants.forEach(c => {
                     let cats = [];
-                    const memberOf = constObj['member-of'] || constObj.member_of;
-                    if (memberOf) {
-                        if (Array.isArray(memberOf)) cats = memberOf;
-                        else if (typeof memberOf === 'string') cats = [memberOf];
+                    if (c['member-of']) {
+                        if (Array.isArray(c['member-of'])) cats = c['member-of'];
+                        else if (typeof c['member-of'] === 'string') cats = [c['member-of']];
                     }
-                    if (cats.length === 0) cats = ["uncategorized"];
+                    if (cats.length === 0) cats = ["[uncategorized]"];
                     cats.forEach(c => categoriesSet.add(c));
                 });
             }
@@ -456,7 +431,6 @@ title: ll library
             );
         }
 
-        // Renders categories in the same grid/table structure
         function renderCategories(type) {
             currentViewState = { type: 'category-list', data: { searchType: type } };
             const categories = getCategoriesForType(type);
@@ -484,7 +458,6 @@ title: ll library
             bindCategoryBtnHandlers();
         }
 
-        // Renders all items belonging to a selected category
         function renderCategoryItems(type, categoryName) {
             currentViewState = { type: 'category-items', data: { searchType: type, categoryName: categoryName } };
             let matchedItems = [];
@@ -510,24 +483,12 @@ title: ll library
                     return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
                 });
             } else if (type === 'constants') {
-                const rawConstants = [
-                    ...normalizeArrayOrObject(lslData.constants),
-                    ...normalizeArrayOrObject(lslData['builtin-constants']),
-                    ...normalizeArrayOrObject(lslData['global-variables'])
-                ];
-
-                const uniqueConstantsMap = new Map();
-                rawConstants.forEach(c => {
-                    if (c.name) uniqueConstantsMap.set(c.name, c);
-                });
-                const dedupedConstants = Array.from(uniqueConstantsMap.values());
-
-                matchedItems = dedupedConstants.filter(c => {
+                const rawConstants = normalizeArrayOrObject(lslData.constants);
+                matchedItems = rawConstants.filter(c => {
                     let cats = [];
-                    const memberOf = c['member-of'] || c.member_of;
-                    if (memberOf) {
-                        if (Array.isArray(memberOf)) cats = memberOf;
-                        else if (typeof memberOf === 'string') cats = [memberOf];
+                    if (c['member-of']) {
+                        if (Array.isArray(c['member-of'])) cats = c['member-of'];
+                        else if (typeof c['member-of'] === 'string') cats = [c['member-of']];
                     }
                     return (categoryName === 'uncategorized') ? (cats.length === 0) : cats.includes(categoryName);
                 });
@@ -559,7 +520,6 @@ title: ll library
             bindResultBtnHandlers();
         }
 
-        // Renders complete information available for the selected item
         function renderItemDetails(type, name) {
             let item = null;
 
@@ -570,11 +530,7 @@ title: ll library
                 const rawEvents = normalizeArrayOrObject(lslData.events);
                 item = rawEvents.find(e => e.name === name);
             } else if (type === 'constant') {
-                const rawConstants = [
-                    ...normalizeArrayOrObject(lslData.constants),
-                    ...normalizeArrayOrObject(lslData['builtin-constants']),
-                    ...normalizeArrayOrObject(lslData['global-variables'])
-                ];
+                const rawConstants = normalizeArrayOrObject(lslData.constants);
                 item = rawConstants.find(c => c.name === name);
             }
 
@@ -592,7 +548,6 @@ title: ll library
             let detailsHtml = backButtonHtml;
             detailsHtml += `<div class="details-container">`;
 
-            // General Header
             detailsHtml += `
                 <div class="details-header">
                     <h2 class="details-title">${escapeHtml(item.name)}</h2>
@@ -713,7 +668,6 @@ title: ll library
             }
         }
 
-        // Buttons trigger their respective specialized flows and set active styles
         searchButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 const searchType = e.currentTarget.getAttribute('data-search-type');
@@ -721,15 +675,11 @@ title: ll library
                 searchButtons.forEach(btn => btn.classList.remove('active'));
                 e.currentTarget.classList.add('active');
 
-                // Clear textbox value to keep the interface clear
                 searchInput.value = '';
-
-                // Show categories in the exact same format
                 renderCategories(searchType);
             });
         });
 
-        // Clear active styles and category display when search textbox is refocused
         searchInput.addEventListener('focus', () => {
             searchButtons.forEach(btn => btn.classList.remove('active'));
             
@@ -742,25 +692,18 @@ title: ll library
             }
         });
 
-        // Keyboard "Enter" listener to load items
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const query = searchInput.value.toLowerCase().trim();
                 if (!query) return;
 
-                // 1. Gather all raw lists to check for an exact match
                 const rawFunctions = normalizeArrayOrObject(lslData.functions);
                 const rawEvents = normalizeArrayOrObject(lslData.events);
-                const rawConstants = [
-                    ...normalizeArrayOrObject(lslData.constants),
-                    ...normalizeArrayOrObject(lslData['builtin-constants']),
-                    ...normalizeArrayOrObject(lslData['global-variables'])
-                ];
+                const rawConstants = normalizeArrayOrObject(lslData.constants);
 
                 let exactMatch = null;
                 let exactType = '';
 
-                // Search for an exact case-insensitive name match
                 const foundFunc = rawFunctions.find(f => f.name && f.name.toLowerCase() === query);
                 if (foundFunc) {
                     exactMatch = foundFunc;
@@ -779,14 +722,12 @@ title: ll library
                     }
                 }
 
-                // If an exact match is found, load it immediately
                 if (exactMatch) {
                     e.preventDefault();
                     renderItemDetails(exactType, exactMatch.name);
                     return;
                 }
 
-                // 2. Fallback: If no exact match, check if there is only one item in the current selection
                 const results = displayContainer.querySelectorAll('.result-btn:not(.category-btn)');
                 if (results.length === 1) {
                     e.preventDefault();
@@ -797,13 +738,11 @@ title: ll library
             }
         });
 
-        // Global search input always searches across all types
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
             renderSearchResults(query);
         });
 
-        // Helper function to extract and filter results from yaml structure
         function renderSearchResults(query) {
             if (!query) {
                 displayContainer.innerHTML = '';
@@ -815,23 +754,11 @@ title: ll library
 
             const rawFunctions = normalizeArrayOrObject(lslData.functions);
             const rawEvents = normalizeArrayOrObject(lslData.events);
-            
-            const rawConstants = [
-                ...normalizeArrayOrObject(lslData.constants),
-                ...normalizeArrayOrObject(lslData['builtin-constants']),
-                ...normalizeArrayOrObject(lslData['global-variables'])
-            ];
+            const rawConstants = normalizeArrayOrObject(lslData.constants);
 
             const matchedFunctions = rawFunctions.filter(item => item.name && item.name.toLowerCase().includes(query));
             const matchedEvents = rawEvents.filter(item => item.name && item.name.toLowerCase().includes(query));
-            
-            const uniqueConstantsMap = new Map();
-            rawConstants.forEach(item => {
-                if (item.name && item.name.toLowerCase().includes(query)) {
-                    uniqueConstantsMap.set(item.name, item);
-                }
-            });
-            const matchedConstants = Array.from(uniqueConstantsMap.values());
+            const matchedConstants = rawConstants.filter(item => item.name && item.name.toLowerCase().includes(query));
 
             const totalMatches = matchedFunctions.length + matchedEvents.length + matchedConstants.length;
 
@@ -842,7 +769,6 @@ title: ll library
 
             let htmlOutput = '<div class="results-wrapper">';
 
-            // 1. Functions Grid
             if (matchedFunctions.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -853,7 +779,6 @@ title: ll library
                 `;
             }
 
-            // 2. Events Grid
             if (matchedEvents.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -864,7 +789,6 @@ title: ll library
                 `;
             }
 
-            // 3. Constants Grid
             if (matchedConstants.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
@@ -894,7 +818,6 @@ title: ll library
             });
         }
 
-        // Category Button click triggers
         function bindCategoryBtnHandlers() {
             const catButtons = displayContainer.querySelectorAll('.category-btn');
             catButtons.forEach(btn => {
