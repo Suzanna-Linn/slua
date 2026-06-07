@@ -234,9 +234,6 @@ slua_beta: true
               margin-bottom: 30px;
               box-shadow: 0 4px 15px rgba(0,0,0,0.08);
           }
-          .dashboard.summary-function { border-left: 6px solid #3498db; }
-          .dashboard.summary-constant { border-left: 6px solid #27ae60; }
-          .dashboard.summary-event    { border-left: 6px solid #8e44ad; }
           .dashboard-header {
               padding: 20px;
               background: rgba(128,128,128,0.05);
@@ -617,9 +614,11 @@ slua_beta: true
             }
 
             const backButtonHtml = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
-                <button type="button" id="details-back-btn" class="nav-btn" style="style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
-                    ${currentViewState.type === 'category-list' ? "Categories" : "Category"}
-                </button>
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+                    <button type="button" id="details-back-btn" class="nav-btn">
+                        ${currentViewState.type === 'category-list' ? "Categories" : "Category"}
+                    </button>
+                </div>
             ` : '';
 
             let html = backButtonHtml;
@@ -1029,11 +1028,12 @@ slua_beta: true
     const lua = localStorage.getItem('lua') !== 'off';
     document.getElementById('lsl-toggle').checked = lsl;
     document.getElementById('lua-toggle').checked = lua;
-    if (!lsl) body.classList.add('hide-lsl');
-    if (!lua) body.classList.add('hide-lua');
+
+    if (!lsl) document.body.classList.add('hide-lsl');
+    if (!lua) document.body.classList.add('hide-lua');
 
     const updateToggleState = (key, isChecked) => {
-        body.classList.toggle(`hide-${key}`, !isChecked);
+        document.body.classList.toggle(`hide-${key}`, !isChecked);
         localStorage.setItem(key, isChecked ? 'on' : 'off');
     };
 
