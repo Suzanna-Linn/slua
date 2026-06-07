@@ -559,7 +559,7 @@ title: ll library
             bindResultBtnHandlers();
         }
 
-        // Step 5: Renders complete information available for the selected item
+        // Renders complete information available for the selected item
         function renderItemDetails(type, name) {
             let item = null;
 
@@ -601,7 +601,6 @@ title: ll library
             `;
 
             if (type === 'function' || type === 'event') {
-                // Formatting Syntax Signature
                 const paramsSig = (item.parameters || []).map(p => {
                     const isOptional = p.optional || (p.type && p.type.endsWith('?'));
                     return `${p.name}: ${p.type || 'any'}${isOptional ? '?' : ''}`;
@@ -611,7 +610,6 @@ title: ll library
                     <div class="details-signature">${escapeHtml(item.name)}(${escapeHtml(paramsSig)})${escapeHtml(returnSig)}</div>
                 `;
 
-                // Status Badges & Warnings (Deprecations, VM bytecodes, environment boundaries)
                 let flagsHtml = '';
                 if (item.deprecated) {
                     let depText = 'Deprecated';
@@ -631,7 +629,6 @@ title: ll library
                     detailsHtml += `<div style="margin-bottom: 1.5rem;">${flagsHtml}</div>`;
                 }
 
-                // Comment Description
                 if (item.comment) {
                     detailsHtml += `
                         <div class="details-comment">
@@ -640,7 +637,6 @@ title: ll library
                     `;
                 }
 
-                // Parameter list
                 if (item.parameters && item.parameters.length > 0) {
                     detailsHtml += `<div class="details-section-title">Parameters</div>`;
                     detailsHtml += `<ul class="details-list">`;
@@ -659,7 +655,6 @@ title: ll library
                     detailsHtml += `</ul>`;
                 }
 
-                // Overload Signatures
                 if (item.overloads && item.overloads.length > 0) {
                     detailsHtml += `<div class="details-section-title">Overloads</div>`;
                     item.overloads.forEach(o => {
@@ -676,7 +671,6 @@ title: ll library
                 }
 
             } else if (type === 'constant') {
-                // Constant details
                 const isModifiable = item.modifiable && item.modifiable !== 'read-only';
                 const typeText = item.type ? `: ${item.type}` : '';
                 const valText = item.value !== undefined ? ` = ${item.value}` : '';
@@ -698,10 +692,9 @@ title: ll library
                 }
             }
 
-            detailsHtml += `</div>`; // Close details box
+            detailsHtml += `</div>`;
             displayContainer.innerHTML = detailsHtml;
 
-            // Wire up back button handler to restore previous list context
             const backBtn = document.getElementById('details-back-btn');
             if (backBtn) {
                 backBtn.addEventListener('click', () => {
@@ -749,10 +742,51 @@ title: ll library
             }
         });
 
-        // Step 5: Keyboard "Enter" listener to load unique items automatically
+        // Keyboard "Enter" listener to load items
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                // Look for non-category item result buttons
+                const query = searchInput.value.toLowerCase().trim();
+                if (!query) return;
+
+                // 1. Gather all raw lists to check for an exact match
+                const rawFunctions = normalizeArrayOrObject(lslData.functions);
+                const rawEvents = normalizeArrayOrObject(lslData.events);
+                const rawConstants = [
+                    ...normalizeArrayOrObject(lslData.constants),
+                    ...normalizeArrayOrObject(lslData['builtin-constants']),
+                    ...normalizeArrayOrObject(lslData['global-variables'])
+                ];
+
+                let exactMatch = null;
+                let exactType = '';
+
+                // Search for an exact case-insensitive name match
+                const foundFunc = rawFunctions.find(f => f.name && f.name.toLowerCase() === query);
+                if (foundFunc) {
+                    exactMatch = foundFunc;
+                    exactType = 'function';
+                } else {
+                    const foundEvent = rawEvents.find(e => e.name && e.name.toLowerCase() === query);
+                    if (foundEvent) {
+                        exactMatch = foundEvent;
+                        exactType = 'event';
+                    } else {
+                        const foundConst = rawConstants.find(c => c.name && c.name.toLowerCase() === query);
+                        if (foundConst) {
+                            exactMatch = foundConst;
+                            exactType = 'constant';
+                        }
+                    }
+                }
+
+                // If an exact match is found, load it immediately
+                if (exactMatch) {
+                    e.preventDefault();
+                    renderItemDetails(exactType, exactMatch.name);
+                    return;
+                }
+
+                // 2. Fallback: If no exact match, check if there is only one item in the current selection
                 const results = displayContainer.querySelectorAll('.result-btn:not(.category-btn)');
                 if (results.length === 1) {
                     e.preventDefault();
@@ -779,22 +813,18 @@ title: ll library
 
             currentViewState = { type: 'search', data: { query: query } };
 
-            // Extract distinct lists safely using the normalization helper
             const rawFunctions = normalizeArrayOrObject(lslData.functions);
             const rawEvents = normalizeArrayOrObject(lslData.events);
             
-            // Normalize and safely spread all sources of constants
             const rawConstants = [
                 ...normalizeArrayOrObject(lslData.constants),
                 ...normalizeArrayOrObject(lslData['builtin-constants']),
                 ...normalizeArrayOrObject(lslData['global-variables'])
             ];
 
-            // Perform case-insensitive string containment filtering
             const matchedFunctions = rawFunctions.filter(item => item.name && item.name.toLowerCase().includes(query));
             const matchedEvents = rawEvents.filter(item => item.name && item.name.toLowerCase().includes(query));
             
-            // Remove duplicate constants if they overlap between files/lists
             const uniqueConstantsMap = new Map();
             rawConstants.forEach(item => {
                 if (item.name && item.name.toLowerCase().includes(query)) {
@@ -810,7 +840,6 @@ title: ll library
                 return;
             }
 
-            // Build structural row blocks
             let htmlOutput = '<div class="results-wrapper">';
 
             // 1. Functions Grid
@@ -860,7 +889,6 @@ title: ll library
                     const type = e.currentTarget.getAttribute('data-type');
                     console.log(`Clicked result button: [${type}] ${name}`);
                     
-                    // Render details of selected item
                     renderItemDetails(type, name);
                 });
             });
@@ -875,7 +903,6 @@ title: ll library
                     const searchType = e.currentTarget.getAttribute('data-search-type');
                     console.log(`Clicked category button: "${catName}" inside "${searchType}"`);
                     
-                    // Render category items
                     renderCategoryItems(searchType, catName);
                 });
             });
