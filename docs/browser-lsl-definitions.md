@@ -696,11 +696,11 @@ slua_beta: true
         
           if (info.deprecated) {
             let depr = "Deprecated: ";
-            if (info.use) {
-              depr += " use " + info.use;
+            if (info.deprecated.use) {
+              depr += " use " + info.deprecated.use;
             }
-            if (info.reason) {
-              depr += (info.use ? " because " : " ") + info.reason;
+            if (info.deprecated.reason) {
+              depr += (info.deprecated.use ? "   Reason: " : "") + info.deprecated.reason;
             }
             html += `      <p class="deprecated-text">${depr}</p>\n`;
           }
@@ -710,7 +710,7 @@ slua_beta: true
               depr += " use " + info['slua-deprecated'].use;
             }
             if (info['slua-deprecated'].reason) {
-              depr += (info['slua-deprecated'].use ? " because " : " ") + info['slua-deprecated'].reason;
+              depr += (info['slua-deprecated'].use ? "   Reason: " : "") + info['slua-deprecated'].reason;
             }
             html += `      <p class="deprecated-text"><span class="lua-section"><span class="tag lua-tag">Lua</span>${depr}</span></p>\n`;
           }
