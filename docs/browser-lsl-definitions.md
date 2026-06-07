@@ -162,13 +162,18 @@ slua_beta: true
             --border-color: #dee2e6; --accent-lsl: #007bff; --accent-lua: #e67e22;
             --table-head: #f2f2f2; --card-bg: #ffffff; --code-bg: #f1f1f1;
         }
-        body.dark-mode {
-            --bg-color: #121212; --text-color: #e0e0e0; --header-bg: #1f1f1f;
-            --border-color: #333; --accent-lsl: #3796ff; --accent-lua: #ff9f43;
-            --table-head: #2a2a2a; --card-bg: #1e1e1e; --code-bg: #2d2d2d;
+        .content.dark-theme {
+            --bg-color: #1e1e1e; 
+            --text-color: #e0e0e0; 
+            --header-bg: #1f1f1f;
+            --border-color: #444; 
+            --accent-lsl: #3796ff; 
+            --accent-lua: #ff9f43;
+            --table-head: #2a2a2a; 
+            --card-bg: #252525; /* Lightened slightly so cards stand out against #1e1e1e background */
+            --code-bg: #2d2d2d;
         }
 
-        body { font-family: system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; transition: background 0.3s; line-height: 1.5; }
         header { position: sticky; top: 0; background: var(--header-bg); border-bottom: 1px solid var(--border-color); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
         .controls { display: flex; gap: 15px; font-size: 0.9em; font-weight: bold; }
         main { width: 100%; margin: 20px auto; padding: 0 20px; }
@@ -201,8 +206,8 @@ slua_beta: true
             border: 1px solid rgba(0,0,0,0.05);
         }
 
-        h2 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 30px; }
-        h3 { color: #34495e; margin-top: 20px; }
+        h2 { color: var(--text-color); border-bottom: 2px solid var(--border-color); padding-bottom: 5px; margin-top: 30px; }
+        h3 { color: var(--text-color); margin-top: 20px; }
         p { margin-bottom: 15px; }
         a { color: #2980b9; text-decoration: none; }
         a:hover { text-decoration: underline; }
@@ -318,7 +323,7 @@ slua_beta: true
               font-size: 0.9em;
               border: 1px solid #f5c6cb;
           }
-          body.dark-mode .alt-code { background: #2d1a1a; border-color: #602020; color: #ff8080; }
+          .content.dark-theme .alt-code { background: #2d1a1a; border-color: #602020; color: #ff8080; }
         
           @media (max-width: 1000px) {
               .dashboard-body { grid-template-columns: 1.5fr 1fr; }
