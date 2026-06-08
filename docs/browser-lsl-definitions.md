@@ -279,6 +279,11 @@ slua_beta: true
             white-space: nowrap;
             padding-right: 25px;
         }
+
+        .param-table td:second-child {
+            white-space: nowrap;
+            padding-right: 25px;
+        }
         
           /* Middle Column Styles */
           .meta-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
