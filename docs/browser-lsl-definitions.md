@@ -368,10 +368,7 @@ slua_beta: true
 
 <script type="module">
     import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
-    
     const API_URL = "https://api.github.com/repos/secondlife/lsl-definitions/contents/lsl_definitions.yaml";
-    const DATA_KEY = "lsl_definitions_data";
-    const ETAG_KEY = "lsl_definitions_etag";
     let lslData = null;
 
     const types = {
@@ -413,59 +410,34 @@ slua_beta: true
     }
 
     async function fetchDefinitions() {      
-        const cachedData = localStorage.getItem(DATA_KEY);
-        const cachedEtag = localStorage.getItem(ETAG_KEY);
-    
         const headers = {
             "Accept": "application/vnd.github+json"
         };
-        
-        if (cachedEtag) {
-            headers["If-None-Match"] = cachedEtag;
-        }
-    
+
         try {
             const response = await fetch(API_URL, { headers });
-    
-            if (response.status === 304) {
-                console.log("304 Not Modified. Using local cache.");
-                lslData = JSON.parse(cachedData);
-            } 
-            else if (response.status === 200) {
-                console.log("200 OK. File updated, downloading and parsing new version...");
-                
-                const newEtag = response.headers.get("ETag");
+            if (response.status === 200) {
                 const apiResponse = await response.json();
-                
                 const rawYamlText = decodeBase64Utf8(apiResponse.content);
-                
                 const rawYaml = jsyaml.load(rawYamlText); 
                 lslData = {
                     functions: normalizeArrayOrObject(rawYaml.functions),
                     events: normalizeArrayOrObject(rawYaml.events),
                     constants: normalizeArrayOrObject(rawYaml.constants)
                 };
-                
-                localStorage.setItem(DATA_KEY, JSON.stringify(lslData));
-                if (newEtag) {
-                    localStorage.setItem(ETAG_KEY, newEtag);
-                }
             } 
             else {
                 throw new Error(`Unexpected status code: ${response.status}`);
             }
         } catch (error) {
-            console.error("Fetch failed. Falling back to cache:", error);
-            if (cachedData) {
-                lslData = JSON.parse(cachedData);
-            }
+            console.error("Fetch failed.", error);
         }
 
         if (lslData) {
             document.getElementById('loading').style.display = 'none';
             initUIListeners();
         } else {
-            document.getElementById('loading').innerText = "Failed to load definitions. Please try reloading.";
+            document.getElementById('loading').innerText = "Failed to load definitions.";
         }
     }
 
@@ -1103,8 +1075,6 @@ slua_beta: true
                     currentViewState.scrollY = window.scrollY;
                     const name = e.currentTarget.getAttribute('data-name');
                     const type = e.currentTarget.getAttribute('data-type');
-                    console.log(`Clicked result button: [${type}] ${name}`);
-                    
                     renderItemDetails(type, name);
                 });
             });
@@ -1116,8 +1086,6 @@ slua_beta: true
                 btn.addEventListener('click', (e) => {
                     const catName = e.currentTarget.getAttribute('data-category-name');
                     const searchType = e.currentTarget.getAttribute('data-search-type');
-                    console.log(`Clicked category button: "${catName}" inside "${searchType}"`);
-                    
                     renderCategoryItems(searchType, catName);
                 });
             });
