@@ -19,6 +19,14 @@ Prism.languages.sluab = {
         greedy: true
     },
     'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?i?\b)|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
+    'type': {
+        pattern: /:\s*(?:[a-zA-Z_]\w*(?:\s*\|\s*[a-zA-Z_]\w*)*|\{\s*[a-zA-Z_]\w*\s*\}|\(\s*\))/,
+        inside: {
+            'punctuation': /^:|[{}(|]/,
+            'type': /[a-zA-Z_]\w+/
+        },
+        alias: 'keyword'
+    },
     'continue': {
         pattern: /\bcontinue\b(?!\s*(\.|\[|:|{|=|"|'|,|\())/,
         alias: 'keyword'
@@ -156,13 +164,6 @@ Prism.languages.sluab = {
     'builtin-metamethods': {
         pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm|jsonhint|tojson)\b/,
         alias: 'builtin'
-    },
-    'type': {
-        pattern: /:\s*(?:[a-zA-Z_]\w*(?:\s*\|\s*[a-zA-Z_]\w*)*|\{\s*[a-zA-Z_]\w*\s*\}|\(\s*\))/,
-        inside: {
-            'punctuation': /^:|[{}(|]/,
-            'type': /[a-zA-Z_]\w+/
-        }
     },
     'function': /(?!\d)\w+(?=\s*(?:[({]))/,
     'constant': /\b[A-Z_][A-Z0-9_]*\b/,
