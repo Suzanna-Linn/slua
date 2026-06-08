@@ -920,6 +920,7 @@ slua_beta: true
           if (info['slua-removed']) html += `        <span class="lua-section attr-label bg-deprecated">Lua Removed</span>\n`;
           if (info['god-mode']) html += `        <span class="lua-section attr-label bg-godmode">God Mode</span>\n`;
           if (info['linden-experience']) html += `        <span class="lua-section attr-label bg-lindenexp">Linden Experience</span>\n`;
+          if (info.private) html += `        <span class="lua-section attr-label bg-godmode">Private</span>\n`;
           html += `      </div>\n`;
         
           html += `    </div>\n`;
