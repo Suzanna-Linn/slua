@@ -926,6 +926,7 @@ slua_beta: true
             const backBtn = document.getElementById('details-back-btn');
             if (backBtn) {
                 backBtn.addEventListener('click', () => {
+                    const targetScrollY = currentViewState.scrollY || 0;
                     if (currentViewState.type === 'category-list') {
                         if (currentViewState.data.searchType === 'slua-changed') {
                             renderSluaChanged();
@@ -937,7 +938,6 @@ slua_beta: true
                     } else {
                         displayContainer.innerHTML = '';
                     }
-
                     requestAnimationFrame(() => {
                         window.scrollTo(0, targetScrollY);
                     });
