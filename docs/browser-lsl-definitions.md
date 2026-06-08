@@ -937,6 +937,10 @@ slua_beta: true
                     } else {
                         displayContainer.innerHTML = '';
                     }
+
+                    requestAnimationFrame(() => {
+                        window.scrollTo(0, targetScrollY);
+                    });
                 });
             }
 
@@ -998,6 +1002,7 @@ slua_beta: true
 
                 if (exactMatch) {
                     e.preventDefault();
+                    currentViewState.scrollY = window.scrollY;
                     renderItemDetails(exactType, exactMatch.name);
                     return;
                 }
@@ -1005,6 +1010,7 @@ slua_beta: true
                 const results = displayContainer.querySelectorAll('.result-btn:not(.category-btn)');
                 if (results.length === 1) {
                     e.preventDefault();
+                    currentViewState.scrollY = window.scrollY;
                     const name = results[0].getAttribute('data-name');
                     const type = results[0].getAttribute('data-type');
                     renderItemDetails(type, name);
@@ -1079,6 +1085,7 @@ slua_beta: true
             const resultButtons = displayContainer.querySelectorAll('.result-btn:not(.category-btn)');
             resultButtons.forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    currentViewState.scrollY = window.scrollY;
                     const name = e.currentTarget.getAttribute('data-name');
                     const type = e.currentTarget.getAttribute('data-type');
                     console.log(`Clicked result button: [${type}] ${name}`);
