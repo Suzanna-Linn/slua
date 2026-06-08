@@ -849,8 +849,11 @@ slua_beta: true
               if (argTypeLua == "number" && argInfo["index-semantics"]) {
                 argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>1 based<br></span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>0 based</span>`;
               }
+              if (argTypeLua == "number" && argInfo["detected-semantics"] && index == 0) {
+                argTypeLua = "{DetectedEvent}";
+              }
               if (type == "event" && index == 0 && info["detected-semantics"]) {
-                argName = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Detected<br></span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argName}</span>`;
+                argName = `<span class="lua-section"><span class="tag lua-tag">Lua</span>detected<br></span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>${argName}</span>`;
                 argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>Table with the detected events<br></span><span class="lsl-section">&nbsp;</span>`;
               }
         
