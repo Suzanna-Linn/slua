@@ -349,6 +349,7 @@ slua_beta: true
         <button type="button" class="nav-btn" data-search-type="functions">Functions</button>
         <button type="button" class="nav-btn" data-search-type="events">Events</button>
         <button type="button" class="nav-btn" data-search-type="constants">Constants</button>
+        <button type="button" class="nav-btn" data-search-type="slua-changed">SLua changed</button>
         <label><input type="checkbox" id="lsl-toggle" checked> LSL</label>
         <label><input type="checkbox" id="lua-toggle" checked> Lua</label>
     </nav>
@@ -473,6 +474,97 @@ slua_beta: true
         };
 
         searchInput.focus();
+
+        function isSluaChanged(item, isConstant) {
+            const hasProp = (obj, prop) => obj && obj[prop] !== undefined;
+        
+            if (hasProp(item, 'slua-deprecated') || hasProp(item, 'slua-removed') || 
+                hasProp(item, 'index-semantics') || hasProp(item, 'bool-semantics') || 
+                hasProp(item, 'asset-semantics') || hasProp(item, 'detected-semantics')) {
+                return true;
+            }
+            if (hasProp(item, 'slua-type') && item.type !== 'list') {
+                if (!isConstant || (item['slua-type'] !== 'uuid' || item.type !== 'string')) {
+                    return true;
+                }
+            }
+            if (hasProp(item, 'slua-return') && item.return !== 'list') {
+                return true;
+            }
+        
+            if (item.arguments && Array.isArray(item.arguments)) {
+                for (const argObj of item.arguments) {
+                    const arg = Object.values(argObj)[0];
+                    if (!arg) continue;
+        
+                    if (hasProp(arg, 'slua-deprecated') || hasProp(arg, 'slua-removed') || 
+                        hasProp(arg, 'index-semantics') || hasProp(arg, 'bool-semantics') || 
+                        hasProp(arg, 'asset-semantics') || hasProp(arg, 'detected-semantics')) {
+                        return true;
+                    }
+                    if (hasProp(arg, 'slua-type') && arg.type !== 'list') {
+                        return true;
+                    }
+                    if (hasProp(arg, 'slua-return') && arg.return !== 'list') {
+                        return true;
+                    }
+                }
+            }
+        
+            return false;
+        }
+        
+        function renderSluaChanged() {
+            currentViewState = { type: 'category-list', data: { searchType: 'slua-changed' } };
+            
+            const matchedFunctions = lslData.functions.filter(f => isSluaChanged(f, false));
+            const matchedEvents = lslData.events.filter(e => isSluaChanged(e, false));
+            const matchedConstants = lslData.constants.filter(c => isSluaChanged(c, true));
+        
+            matchedFunctions.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+            matchedEvents.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+            matchedConstants.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+        
+            let htmlOutput = '<div class="results-wrapper">';
+        
+            if (matchedFunctions.length > 0) {
+                htmlOutput += `
+                    <div class="results-group">
+                        <h2>Functions</h2>
+                        <div class="results-grid">
+                            ${matchedFunctions.map(f => `<button type="button" class="result-btn" data-type="function" data-name="${escapeHtml(f.name)}">${escapeHtml(f.name)}</button>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        
+            if (matchedEvents.length > 0) {
+                htmlOutput += `
+                    <div class="results-group">
+                        <h2>Events</h2>
+                        <div class="results-grid">
+                            ${matchedEvents.map(e => `<button type="button" class="result-btn" data-type="event" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        
+            if (matchedConstants.length > 0) {
+                htmlOutput += `
+                    <div class="results-group">
+                        <h2>Constants</h2>
+                        <div class="results-grid">
+                            ${matchedConstants.map(c => `<button type="button" class="result-btn" data-type="constant" data-name="${escapeHtml(c.name)}">${escapeHtml(c.name)}</button>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        
+            htmlOutput += '</div>';
+            displayContainer.innerHTML = htmlOutput;
+        
+            bindResultBtnHandlers();
+        }
 
         function getCategoriesForType(type) {
             const categoriesSet = new Set();
@@ -616,10 +708,14 @@ slua_beta: true
                 return;
             }
 
+            const backButtonText = currentViewState.data && currentViewState.data.searchType === 'slua-changed'
+                ? "SLua Changed"
+                : (currentViewState.type === 'category-list' ? "Categories" : "Category");
+            
             const backButtonHtml = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
                     <button type="button" id="details-back-btn" class="nav-btn">
-                        ${currentViewState.type === 'category-list' ? "Categories" : "Category"}
+                        ${backButtonText}
                     </button>
                 </div>
             ` : '';
@@ -834,7 +930,11 @@ slua_beta: true
             if (backBtn) {
                 backBtn.addEventListener('click', () => {
                     if (currentViewState.type === 'category-list') {
-                        renderCategories(currentViewState.data.searchType);
+                        if (currentViewState.data.searchType === 'slua-changed') {
+                            renderSluaChanged();
+                        } else {
+                            renderCategories(currentViewState.data.searchType);
+                        }
                     } else if (currentViewState.type === 'category-items') {
                         renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
                     } else {
@@ -851,9 +951,13 @@ slua_beta: true
                 
                 searchButtons.forEach(btn => btn.classList.remove('active'));
                 e.currentTarget.classList.add('active');
-
+        
                 searchInput.value = '';
-                renderCategories(searchType);
+                if (searchType === 'slua-changed') {
+                    renderSluaChanged();
+                } else {
+                    renderCategories(searchType);
+                }
             });
         });
 
