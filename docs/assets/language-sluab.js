@@ -174,7 +174,7 @@ Prism.languages.sluab = {
             'punctuation': /^:|[{}(|]/,
             'type': /[a-zA-Z_]\w+/
         }
-    }
+    },
     'punctuation': /[\[\](){},;]|\.+|:+/
 };
 Prism.languages.insertBefore('sluab', 'string', {
