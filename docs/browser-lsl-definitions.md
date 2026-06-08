@@ -355,7 +355,7 @@ slua_beta: true
         <button type="button" class="nav-btn" data-search-type="functions">Functions</button>
         <button type="button" class="nav-btn" data-search-type="events">Events</button>
         <button type="button" class="nav-btn" data-search-type="constants">Constants</button>
-        <span class="lua-section"><button type="button" class="nav-btn" data-search-type="slua-changed">SLua changed</button></span>
+        <span class="lua-section"><button type="button" class="nav-btn" data-search-type="slua-changed">Lua changes</button></span>
         <label><input type="checkbox" id="lsl-toggle" checked> LSL</label>
         <label><input type="checkbox" id="lua-toggle" checked> Lua</label>
     </nav>
@@ -755,8 +755,11 @@ slua_beta: true
             if (retLua == "number" && info["index-semantics"]) {
               retLua = "number?";
             }
+            if ((retLua == "string" || retLua == "uuid") && info["asset-semantics"]) {
+              retLua = "string|uuid";
+            }
             sigLSL = (type == "function" ? (retLSL != "" ? `${retLSL} ` : "") : "") + `${name}`;
-            sigLua = `${nameLua}`;
+            sigLua = (type == "event" ? "LLEvents." : "") + nameLua;
             let argsLSL = "";
             let argsLua = "";
             
