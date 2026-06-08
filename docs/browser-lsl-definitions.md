@@ -919,6 +919,8 @@ slua_beta: true
           
             displayContainer.innerHTML = html;
 
+            window.scrollTo(0, 0);
+            
             if (window.Prism) {
                 Prism.highlightAllUnder(displayContainer);
             }
