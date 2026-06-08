@@ -157,6 +157,13 @@ Prism.languages.sluab = {
         pattern: /\b__(?:add|call|concat|div|eq|idiv|index|iter|len|le|lt|metatable|mode|mod|mul|newindex|pow|sub|tostring|unm|jsonhint|tojson)\b/,
         alias: 'builtin'
     },
+    'type': {
+        pattern: /:\s*(?:[a-zA-Z_]\w*(?:\s*\|\s*[a-zA-Z_]\w*)*|\{\s*[a-zA-Z_]\w*\s*\}|\(\s*\))/,
+        inside: {
+            'punctuation': /^:|[{}(|]/,
+            'type': /[a-zA-Z_]\w+/
+        }
+    },
     'function': /(?!\d)\w+(?=\s*(?:[({]))/,
     'constant': /\b[A-Z_][A-Z0-9_]*\b/,
     'variable': /\b[a-zA-Z_]\w*\b/,
@@ -168,13 +175,6 @@ Prism.languages.sluab = {
             lookbehind: true
         }
     ],
-    'type': {
-        pattern: /:\s*(?:[a-zA-Z_]\w*(?:\s*\|\s*[a-zA-Z_]\w*)*|\{\s*[a-zA-Z_]\w*\s*\}|\(\s*\))/,
-        inside: {
-            'punctuation': /^:|[{}(|]/,
-            'type': /[a-zA-Z_]\w+/
-        }
-    },
     'punctuation': /[\[\](){},;]|\.+|:+/
 };
 Prism.languages.insertBefore('sluab', 'string', {
