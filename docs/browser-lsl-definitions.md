@@ -349,7 +349,7 @@ slua_beta: true
         <button type="button" class="nav-btn" data-search-type="functions">Functions</button>
         <button type="button" class="nav-btn" data-search-type="events">Events</button>
         <button type="button" class="nav-btn" data-search-type="constants">Constants</button>
-        <button type="button" class="nav-btn" data-search-type="slua-changed">SLua changed</button>
+        <span class="lua-section"><button type="button" class="nav-btn" data-search-type="slua-changed">SLua changed</button></span>
         <label><input type="checkbox" id="lsl-toggle" checked> LSL</label>
         <label><input type="checkbox" id="lua-toggle" checked> Lua</label>
     </nav>
@@ -530,7 +530,6 @@ slua_beta: true
             if (matchedFunctions.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
-                        <h2>Functions</h2>
                         <div class="results-grid">
                             ${matchedFunctions.map(f => `<button type="button" class="result-btn" data-type="function" data-name="${escapeHtml(f.name)}">${escapeHtml(f.name)}</button>`).join('')}
                         </div>
@@ -541,7 +540,6 @@ slua_beta: true
             if (matchedEvents.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
-                        <h2>Events</h2>
                         <div class="results-grid">
                             ${matchedEvents.map(e => `<button type="button" class="result-btn" data-type="event" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`).join('')}
                         </div>
@@ -552,7 +550,6 @@ slua_beta: true
             if (matchedConstants.length > 0) {
                 htmlOutput += `
                     <div class="results-group">
-                        <h2>Constants</h2>
                         <div class="results-grid">
                             ${matchedConstants.map(c => `<button type="button" class="result-btn" data-type="constant" data-name="${escapeHtml(c.name)}">${escapeHtml(c.name)}</button>`).join('')}
                         </div>
