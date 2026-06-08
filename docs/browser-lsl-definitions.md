@@ -28,7 +28,7 @@ slua_beta: true
         text-decoration: none;
         letter-spacing: -0.025em;
     }
-
+    
     .search-container {
         flex: 1;
         min-width: 200px;
