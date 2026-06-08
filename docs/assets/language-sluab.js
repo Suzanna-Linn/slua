@@ -24,7 +24,7 @@ Prism.languages.sluab = {
         alias: 'keyword'
     },
     'export': {
-        pattern: /\bexport(?=\s+(?:local|const|function)\b)/,
+        pattern: /\bexport(?=\s+(?:local|const|function|class)\b)/,
         alias: 'keyword'
     },
     'class': {
@@ -168,6 +168,13 @@ Prism.languages.sluab = {
             lookbehind: true
         }
     ],
+    'type': {
+        pattern: /:\s*(?:[a-zA-Z_]\w*(?:\s*\|\s*[a-zA-Z_]\w*)*|\{\s*[a-zA-Z_]\w*\s*\}|\(\s*\))/,
+        inside: {
+            'punctuation': /^:|[{}(|]/,
+            'type': /[a-zA-Z_]\w+/
+        }
+    }
     'punctuation': /[\[\](){},;]|\.+|:+/
 };
 Prism.languages.insertBefore('sluab', 'string', {
