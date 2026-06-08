@@ -849,7 +849,7 @@ slua_beta: true
               if (argTypeLua == "number" && argInfo["index-semantics"]) {
                 argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>1 based<br></span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>0 based</span>`;
               }
-              if (argTypeLua == "number" && argInfo["detected-semantics"] && index == 0) {
+              if (argTypeLua == "number" && info["detected-semantics"] && index == 0) {
                 argTypeLua = "{DetectedEvent}";
               }
               if (type == "event" && index == 0 && info["detected-semantics"]) {
