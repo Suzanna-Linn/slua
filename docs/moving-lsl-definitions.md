@@ -159,7 +159,7 @@ slua_beta: true
 
         :root {
             --bg-color: #f9f9f9; --text-color: #2c3e50; --header-bg: #ffffff;
-            --border-color: #dee2e6; --accent-lsl: #007bff; --accent-lua: #e67e22;
+            --border-color: #dee2e6; --accent-lua: #007bff; --accent-lsl: #e67e22;
             --table-head: #f2f2f2; --card-bg: #ffffff; --code-bg: #f1f1f1;
         }
         .content.dark-theme {
@@ -167,8 +167,8 @@ slua_beta: true
             --text-color: #e0e0e0; 
             --header-bg: #1f1f1f;
             --border-color: #444; 
-            --accent-lsl: #3796ff; 
-            --accent-lua: #ff9f43;
+            --accent-lua: #3796ff; 
+            --accent-lsl: #ff9f43;
             --table-head: #2a2a2a; 
             --card-bg: #252525; /* Lightened slightly so cards stand out against #1e1e1e background */
             --code-bg: #2d2d2d;
