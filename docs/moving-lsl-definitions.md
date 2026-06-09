@@ -314,7 +314,8 @@ slua_beta: true
           .bg-detected   { background: #8e44ad; }
           .bg-deprecated { background: #c0392b; }
           .bg-godmode    { background: #f1c40f; }
-          .bg-lindenexp { background: #1abc9c; }
+          .bg-lindenexp  { background: #1abc9c; }
+          .bg-llcompat   { background: #ff5f1f; }
         
           .alt-code {
               display: block;
@@ -696,7 +697,8 @@ slua_beta: true
             ` : '';
 
             let html = backButtonHtml;
-        
+
+          let llcompat = false;
           let nameLua = type == "function" ? "ll." + name.slice(2) : name;
         
           let sigLSL = "";
@@ -708,6 +710,7 @@ slua_beta: true
             let argTypeLua = info["slua-return"] || types[argTypeLSL];
             if (argTypeLua == "number" && info["bool-semantics"]) {
               argTypeLua = "boolean";
+              llcompat = true;
             }
             let value = info.value;
             sigLSL = `${argTypeLSL} ${name} = ${value};`;
@@ -723,9 +726,11 @@ slua_beta: true
             }
             if (retLua == "number" && info["bool-semantics"]) {
               retLua = "boolean";
+              llcompat = true;
             }
             if (retLua == "number" && info["index-semantics"]) {
               retLua = "number?";
+              llcompat = true;
             }
             if ((retLua == "string" || retLua == "uuid") && info["asset-semantics"]) {
               retLua = "string|uuid";
@@ -791,6 +796,7 @@ slua_beta: true
           if (info['slua-removed']) {
             const depr = "Removed from Lua" + (type == "function" ? ". It can be used in the llcompat library" : "");
             html += `      <p class="removed-text"><span class="lua-section"><span class="tag lua-tag">Lua</span>${depr}</span></p>\n`;
+            llcompat = true;
           }
         
           const tooltip = (info.tooltip || "").replace(/\\\s/g, ' ').replace(/\\n/g, '<br>').replace(/^"|"$/g, '').replace(/\s\s+/g, ' ').trim();
@@ -820,6 +826,7 @@ slua_beta: true
         
               if (argTypeLua == "number" && argInfo["index-semantics"]) {
                 argTipExtra = `<span class="lua-section"><span class="tag lua-tag">Lua</span>1 based<br></span><span class="lsl-section"><span class="tag lsl-tag">LSL</span>0 based</span>`;
+                llcompat = true;
               }
               if (argTypeLua == "number" && info["detected-semantics"] && index == 0) {
                 argTypeLua = "{DetectedEvent}";
@@ -896,6 +903,7 @@ slua_beta: true
           if (info['god-mode']) html += `        <span class="lua-section attr-label bg-godmode">God Mode</span>\n`;
           if (info['linden-experience']) html += `        <span class="lua-section attr-label bg-lindenexp">Linden Experience</span>\n`;
           if (info.private) html += `        <span class="lua-section attr-label bg-godmode">Private</span>\n`;
+          if (llcompat && type === "function") html += `        <span class="lua-section attr-label bg-llcompat">llcompat</span>\n`;
           html += `      </div>\n`;
         
           html += `    </div>\n`;
