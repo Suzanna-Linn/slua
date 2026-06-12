@@ -829,7 +829,7 @@ slua_beta: true
                 const signatures = renderSignatures(method, cls.name, true);
                 html += `
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        <code class="language-sluab">${escapeHtml(signatures.join('\n'))}</code>
+                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
                         ${renderParamsTable(method)}
                     </div>
@@ -843,7 +843,7 @@ slua_beta: true
                 const signatures = renderSignatures(func, cls.name, false);
                 html += `
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        <code class="language-sluab">${escapeHtml(signatures.join('\n'))}</code>
+                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
                         ${renderParamsTable(func)}
                     </div>
@@ -869,7 +869,7 @@ slua_beta: true
         let html = `
             <div class="dashboard function-detail">
                 <div class="dashboard-header">
-                    <code class="language-sluab">${escapeHtml(signatures.join('\n'))}</code>
+                    ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
