@@ -709,12 +709,14 @@ slua_beta: true
         });
     }
 
-    function renderSignatures(func, parentName, isMethod) {
+    function renderSignatures(func, parentName, isMethod, isCallable) {
+        isCallable = !!isCallable;
         const separator = isMethod ? ":" : ".";
-        const prefix = parentName ? (parentName + separator) : "";
+        const prefix = isCallable ? "" : (parentName ? (parentName + separator) : "");
         
         function buildSig(fObj) {
-            let sig = prefix + (fObj.name || func.name);
+            const nameToUse = isCallable ? parentName : (fObj.name || func.name);
+            let sig = prefix + nameToUse;
             
             let params = [];
             if (fObj.parameters) {
@@ -752,7 +754,7 @@ slua_beta: true
         return sig;
     }
 
-function renderParamsTable(func, isMethod) {
+    function renderParamsTable(func, isMethod) {
         if (!func.parameters || func.parameters.length === 0) return '';
         
         const displayParams = isMethod 
@@ -791,7 +793,7 @@ function renderParamsTable(func, isMethod) {
         return html;
     }
     
-function renderClassDetails(cls) {
+    function renderClassDetails(cls) {
         let html = `
             <div class="dashboard class-detail">
                 <div class="dashboard-header">
@@ -863,12 +865,13 @@ function renderClassDetails(cls) {
         return html;
     }
 
-function renderFunctionDetails(entry) {
+    function renderFunctionDetails(entry) {
         const func = entry.item;
         const parentName = entry.parent ? entry.parent.name : null;
         const isMethod = entry.type === 'class-method';
+        const isCallable = entry.id && entry.id.startsWith('module-callable:');
         
-        const signatures = renderSignatures(func, parentName, isMethod);
+        const signatures = renderSignatures(func, parentName, isMethod, isCallable);
 
         let depr = "";
         if (func.deprecated) {
