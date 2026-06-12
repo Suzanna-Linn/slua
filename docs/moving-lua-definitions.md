@@ -777,7 +777,7 @@ slua_beta: true
                     <td>
                         ${escapeHtml(p.comment || '')}
                         ${p.optional ? ' <span style="font-style: italic; opacity: 0.7;">(Optional)</span>' : ''}
-                        ${p.observes ? ' <span style="font-style: italic; opacity: 0.7;">(${p.observes})</span>' : ''}
+                        ${p.observes ? ` <span style="font-style: italic; opacity: 0.7;">(${p.observes})</span>` : ''}
                     </td>
                 </tr>
             `;
@@ -930,6 +930,7 @@ slua_beta: true
                         ${prop.comment ? `<p class="description-text">${escapeHtml(prop.comment)}</p>` : ''}
                     </div>
                     <div class="dash-col">
+                        <div class="dash-section-title">Specs</div>
                         <div class="label-stack">
                             <span class="attr-label bg-modifiable">${escapeHtml(prop.modifiable || 'read-only')}</span>
                         </div>
