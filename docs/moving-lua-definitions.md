@@ -378,6 +378,10 @@ slua_beta: true
         
         // 1. Global Functions
         data.functions.forEach(f => {
+             if (f["slua-removed"] || f["local-only"]) {
+                return;
+            }
+
             searchIndex.push({
                 id: `global-function:${f.name}`,
                 type: 'function',
