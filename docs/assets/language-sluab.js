@@ -20,9 +20,9 @@ Prism.languages.sluab = {
     },
     'number': /\b0x[a-f\d]+(?:_[a-f\d]+)*(?:\.[a-f\d]*)?(?:p[+-]?\d+)?i?\b|\b0b[01]+(?:_[01]+)*i?\b|\b\d+(?:_\d+)*(?:\.\B|(?:\.\d*)?(?:e[+-]?\d+)?i?\b)|\B\.\d+(?:e[+-]?\d+)?i?\b/i,
     'type': {
-        pattern: /:\s*(?:[a-zA-Z_]\w*(?:\s*\|\s*[a-zA-Z_]\w*)*|\{\s*[a-zA-Z_]\w*\s*\}|\(\s*\))/,
+        pattern: /:\s*(?:[a-zA-Z_]\w*(?:\s*\|\s*[a-zA-Z_]\w*)*|\{\s*[a-zA-Z_]\w*\s*\}|\(\s*(?:[a-zA-Z_]\w*(?:\s*,\s*[a-zA-Z_]\w*)*)?\s*\))/,
         inside: {
-            'punctuation': /^:|[{}(|]/,
+            'punctuation': /^:|[{}(|,]/,
             'type': /[a-zA-Z_]\w+/
         },
         alias: 'keyword'
