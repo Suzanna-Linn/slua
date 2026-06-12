@@ -502,7 +502,7 @@ slua_beta: true
 
         // 5. Base Classes
         data.classes.forEach(cls => {
-            if (!searchIndex.some(x => x.name === cls.name) {
+            if (!searchIndex.some(x => x.name === cls.name)) {
                 return;
             }
             
