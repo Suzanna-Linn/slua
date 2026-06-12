@@ -388,44 +388,20 @@ slua_beta: true
         searchIndex = [];
         
         // 1. Global Functions
-        if (data.functions) {
-            data.functions.forEach(f => {
-                searchIndex.push({
-                    id: `global-function:${f.name}`,
-                    type: 'function',
-                    category: 'Global Functions',
-                    name: f.name,
-                    displayName: f.name,
-                    item: f,
-                    parent: null
-                });
-            });
-        }
-        
-        // 2. Global Constants & Variables
-        const globalProps = [
-            ...(data['global-variables'] || []),
-            ...(data['constants'] || []),
-            ...(data['builtin-constants'] || [])
-        ];
-        globalProps.forEach(c => {
+        data.functions.forEach(f => {
             searchIndex.push({
-                id: `global-constant:${c.name}`,
-                type: 'constant',
-                category: 'Global Constants',
-                name: c.name,
-                displayName: c.name,
-                item: c,
+                id: `global-function:${f.name}`,
+                type: 'function',
+                category: 'Global Functions',
+                name: f.name,
+                displayName: f.name,
+                item: f,
                 parent: null
             });
         });
         
-        // 3. Classes (Merge base-classes and classes)
-        const allClasses = [
-            ...(data['base-classes'] || []),
-            ...(data['classes'] || [])
-        ];
-        allClasses.forEach(cls => {
+        // 2. Classes
+        data.classes.forEach(cls => {
             searchIndex.push({
                 id: `class:${cls.name}`,
                 type: 'class',
@@ -479,75 +455,71 @@ slua_beta: true
             }
         });
         
-        // 4. Modules
-        if (data.modules) {
-            data.modules.forEach(mod => {
+        // 3. Modules
+        data.modules.forEach(mod => {
+            searchIndex.push({
+                id: `module:${mod.name}`,
+                type: 'module',
+                category: 'Modules',
+                name: mod.name,
+                displayName: mod.name,
+                item: mod,
+                parent: null
+            });
+            
+            if (mod.callable) {
                 searchIndex.push({
-                    id: `module:${mod.name}`,
-                    type: 'module',
-                    category: 'Modules',
+                    id: `module-callable:${mod.name}:${mod.callable.name || 'callable'}`,
+                    type: 'module-function',
+                    category: `Module Callable (${mod.name})`,
                     name: mod.name,
-                    displayName: mod.name,
-                    item: mod,
-                    parent: null
+                    displayName: `${mod.name} (callable)`,
+                    item: mod.callable,
+                    parent: mod
                 });
-                
-                if (mod.callable) {
+            }
+            
+            if (mod.functions) {
+                mod.functions.forEach(f => {
                     searchIndex.push({
-                        id: `module-callable:${mod.name}:${mod.callable.name || 'callable'}`,
+                        id: `module-function:${mod.name}.${f.name}`,
                         type: 'module-function',
-                        category: `Module Callable (${mod.name})`,
-                        name: mod.name,
-                        displayName: `${mod.name} (callable)`,
-                        item: mod.callable,
+                        category: `Module Function (${mod.name})`,
+                        name: `${mod.name}.${f.name}`,
+                        displayName: `${mod.name}.${f.name}`,
+                        item: f,
                         parent: mod
                     });
-                }
-                
-                if (mod.functions) {
-                    mod.functions.forEach(f => {
-                        searchIndex.push({
-                            id: `module-function:${mod.name}.${f.name}`,
-                            type: 'module-function',
-                            category: `Module Function (${mod.name})`,
-                            name: `${mod.name}.${f.name}`,
-                            displayName: `${mod.name}.${f.name}`,
-                            item: f,
-                            parent: mod
-                        });
-                    });
-                }
-                
-                if (mod.constants) {
-                    mod.constants.forEach(c => {
-                        searchIndex.push({
-                            id: `module-constant:${mod.name}.${c.name}`,
-                            type: 'module-constant',
-                            category: `Module Constant (${mod.name})`,
-                            name: `${mod.name}.${c.name}`,
-                            displayName: `${mod.name}.${c.name}`,
-                            item: c,
-                            parent: mod
-                        });
-                    });
-                }
-            });
-        }
-        
-        // 5. Metamethods
-        if (data.metamethods) {
-            Object.entries(data.metamethods).forEach(([name, meta]) => {
-                searchIndex.push({
-                    id: `metamethod:${name}`,
-                    type: 'metamethod',
-                    category: 'Metamethods',
-                    name: name,
-                    displayName: name,
-                    item: meta,
-                    parent: null
                 });
+            }
+            
+            if (mod.constants) {
+                mod.constants.forEach(c => {
+                    searchIndex.push({
+                        id: `module-constant:${mod.name}.${c.name}`,
+                        type: 'module-constant',
+                        category: `Module Constant (${mod.name})`,
+                        name: `${mod.name}.${c.name}`,
+                        displayName: `${mod.name}.${c.name}`,
+                        item: c,
+                        parent: mod
+                    });
+                });
+            }
+        });
+        
+        // 4. Metamethods
+        Object.entries(data.metamethods).forEach(([name, meta]) => {
+            searchIndex.push({
+                id: `metamethod:${name}`,
+                type: 'metamethod',
+                category: 'Metamethods',
+                name: name,
+                displayName: name,
+                item: meta,
+                parent: null
             });
-        }
+        });
     }
 
     async function fetchDefinitions() {      
@@ -578,41 +550,34 @@ slua_beta: true
     function renderMainMenu() {
         currentViewState = { type: 'empty', data: {} };
         document.getElementById('search-input').value = '';
-        
-        const globalFuncCount = searchIndex.filter(x => x.type === 'function' && x.category === 'Global Functions').length;
-        const globalConstCount = searchIndex.filter(x => x.type === 'constant' && x.category === 'Global Constants').length;
-        const totalGlobal = globalFuncCount + globalConstCount;
-        
-        const classCount = searchIndex.filter(x => x.type === 'class').length;
-        const metamethodCount = searchIndex.filter(x => x.type === 'metamethod').length;
 
         const modules = [...new Set(searchIndex.filter(x => x.parent && x.parent.name).map(x => x.parent.name))].sort();
 
         let html = `
-            <div class="section-title">General Categories</div>
             <div class="main-menu-grid">
                 <button type="button" class="menu-btn" data-category="functions">
-                    <span>Global Functions & Constants</span>
-                    <span class="count">${totalGlobal}</span>
-                </button>
-                <button type="button" class="menu-btn" data-category="classes">
-                    <span>Classes</span>
-                    <span class="count">${classCount}</span>
+                    <span>global functions</span>
                 </button>
                 <button type="button" class="menu-btn" data-category="metamethods">
                     <span>Metamethods</span>
-                    <span class="count">${metamethodCount}</span>
                 </button>
             </div>
 
-            <div class="section-title">Libraries / Modules</div>
             <div class="main-menu-grid">
-                ${modules.map(modName => {
-                    const count = searchIndex.filter(x => x.parent && x.parent.name === modName).length;
+                ${searchIndex.filter(x => x.type === "class").map(entry => {
                     return `
-                        <button type="button" class="menu-btn" data-module="${escapeHtml(modName)}">
-                            <span>${escapeHtml(modName)}</span>
-                            <span class="count">${count}</span>
+                        <button type="button" class="menu-btn" data-module="${escapeHtml(entry.name)}">
+                            <span>${escapeHtml(entry.name)}</span>
+                        </button>
+                    `;
+                }).join('')}
+            </div>
+
+            <div class="main-menu-grid">
+                ${searchIndex.filter(x => x.type === "module").map(entry => {
+                    return `
+                        <button type="button" class="menu-btn" data-module="${escapeHtml(entry.name)}">
+                            <span>${escapeHtml(entry.name)}</span>
                         </button>
                     `;
                 }).join('')}
@@ -646,17 +611,14 @@ slua_beta: true
         let title = "";
 
         if (categoryKey === 'functions') {
-            title = "Global Functions & Constants";
+            title = "Global Functions";
             items = searchIndex.filter(x => x.type === 'function' && x.category === 'Global Functions')
                 .concat(searchIndex.filter(x => x.type === 'constant' && x.category === 'Global Constants'));
-        } else if (categoryKey === 'classes') {
-            title = "Classes";
-            items = searchIndex.filter(x => x.type === 'class');
         } else if (categoryKey === 'metamethods') {
             title = "Metamethods";
             items = searchIndex.filter(x => x.type === 'metamethod');
         } else if (categoryKey === 'module') {
-            title = `Module: ${moduleName}`;
+            title = `${moduleName}`;
             items = searchIndex.filter(x => x.parent && x.parent.name === moduleName);
         }
 
