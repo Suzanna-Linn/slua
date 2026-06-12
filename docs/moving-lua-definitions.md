@@ -754,8 +754,14 @@ slua_beta: true
         return sig;
     }
 
-    function renderParamsTable(func) {
+function renderParamsTable(func, isMethod) {
         if (!func.parameters || func.parameters.length === 0) return '';
+        
+        const displayParams = isMethod 
+            ? func.parameters.filter(p => p.name !== "self") 
+            : func.parameters;
+            
+        if (displayParams.length === 0) return '';
         
         let html = `
             <table class="param-table">
@@ -769,7 +775,7 @@ slua_beta: true
                 <tbody>
         `;
         
-        func.parameters.forEach(p => {
+        displayParams.forEach(p => {
             html += `
                 <tr>
                     <td class="param-name">${escapeHtml(p.name)}</td>
@@ -786,8 +792,8 @@ slua_beta: true
         html += `</tbody></table>`;
         return html;
     }
-
-    function renderClassDetails(cls) {
+    
+function renderClassDetails(cls) {
         let html = `
             <div class="dashboard class-detail">
                 <div class="dashboard-header">
@@ -831,7 +837,7 @@ slua_beta: true
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
-                        ${renderParamsTable(method)}
+                        ${renderParamsTable(method, true)}
                     </div>
                 `;
             });
@@ -845,7 +851,7 @@ slua_beta: true
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
-                        ${renderParamsTable(func)}
+                        ${renderParamsTable(func, false)}
                     </div>
                 `;
             });
@@ -859,7 +865,7 @@ slua_beta: true
         return html;
     }
 
-    function renderFunctionDetails(entry) {
+function renderFunctionDetails(entry) {
         const func = entry.item;
         const parentName = entry.parent ? entry.parent.name : null;
         const isMethod = entry.type === 'class-method';
@@ -886,7 +892,7 @@ slua_beta: true
                     <div class="dash-col">
                         ${depr ? `<p class="deprecated-text">${depr}</p>` : ''}
                         ${func.comment ? `<p class="description-text">${escapeHtml(func.comment)}</p>` : ''}
-                        ${renderParamsTable(func)}
+                        ${renderParamsTable(func, isMethod)}
                     </div>
                     <div class="dash-col">
                         <div class="dash-section-title">Specs</div>
