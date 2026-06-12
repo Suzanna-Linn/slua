@@ -335,7 +335,7 @@ slua_beta: true
             type="text" 
             id="search-input" 
             class="search-input" 
-            placeholder="Search variables, functions, or classes..." 
+            placeholder="Search..." 
             aria-label="Search all definitions"
         />
     </div>
@@ -764,7 +764,7 @@ slua_beta: true
                 const signatures = renderSignatures(method, cls.name, true);
                 html += `
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        <pre><code class="language-lua">${escapeHtml(signatures.join('\n'))}</code></pre>
+                        <code class="language-sluab">${escapeHtml(signatures.join('\n'))}</code>
                         ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
                         ${renderParamsTable(method)}
                     </div>
