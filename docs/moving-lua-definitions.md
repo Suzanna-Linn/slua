@@ -314,13 +314,12 @@ slua_beta: true
         white-space: nowrap;
     }
 
-    .bg-pure       { background: #27ae60; }
     .bg-mandatory  { background: #e67e22; }
     .bg-native     { background: #2980b9; }
     .bg-deprecated { background: #c0392b; }
     .bg-fastcall   { background: #8e44ad; }
     .bg-magic      { background: #d35400; }
-    .bg-local      { background: #7f8c8d; }
+    .bg-modifiable { background: #7f8c8d; }
 
     @media (max-width: 900px) {
         .dashboard-body { grid-template-columns: 1fr; }
@@ -328,7 +327,7 @@ slua_beta: true
 </style>
 
 <header class="sticky-navbar">
-    <a href="#" class="navbar-brand">SLua Definitions</a>
+    <a href="#" class="navbar-brand">Lua Definitions</a>
 
     <div class="search-container">
         <input 
@@ -778,6 +777,7 @@ slua_beta: true
                     <td>
                         ${escapeHtml(p.comment || '')}
                         ${p.optional ? ' <span style="font-style: italic; opacity: 0.7;">(Optional)</span>' : ''}
+                        ${p.observes ? ' <span style="font-style: italic; opacity: 0.7;">(${p.observes})</span>' : ''}
                     </td>
                 </tr>
             `;
@@ -880,32 +880,16 @@ slua_beta: true
                         <div class="dash-section-title">Specs</div>
         `;
         
-        if (func.sleep) {
-            html += `<div class="tech-item"><span class="tech-label">Sleep</span><span class="tech-val">${func.sleep}s</span></div>`;
-        }
-        if (func["mono-sleep"]) {
-            html += `<div class="tech-item"><span class="tech-label">Mono Sleep</span><span class="tech-val">${func["mono-sleep"]}s</span></div>`;
-        }
-        if (func.energy) {
-            html += `<div class="tech-item"><span class="tech-label">Energy</span><span class="tech-val">${func.energy}</span></div>`;
-        }
-        
         html += `<div class="label-stack">`;
         if (func["must-use"]) {
-            html += `<span class="attr-label bg-mandatory">Must Use Return</span>`;
+            html += `<span class="attr-label bg-mandatory">Use Return</span>`;
         }
         if (func.fastcall) {
             html += `<span class="attr-label bg-fastcall">Fastcall</span>`;
         }
-        if (func["local-only"]) {
-            html += `<span class="attr-label bg-local">Local Only</span>`;
-        }
-        if (func["slua-removed"]) {
-            html += `<span class="attr-label bg-deprecated">Removed in SLua</span>`;
-        }
         if (func.typechecker) {
             if (func.typechecker.magic) {
-                html += `<span class="attr-label bg-magic">Magic Typecheck</span>`;
+                html += `<span class="attr-label bg-magic">Typechecker</span>`;
             }
             if (func.typechecker.builtin) {
                 html += `<span class="attr-label bg-native">Builtin</span>`;
@@ -946,10 +930,8 @@ slua_beta: true
                         ${prop.comment ? `<p class="description-text">${escapeHtml(prop.comment)}</p>` : ''}
                     </div>
                     <div class="dash-col">
-                        <div class="dash-section-title">Attributes</div>
-                        <div class="tech-item">
-                            <span class="tech-label">Modifiable</span>
-                            <span class="tech-val">${escapeHtml(prop.modifiable || 'read-only')}</span>
+                        <div class="label-stack">
+                            <span class="attr-label bg-modifiable">${escapeHtml(prop.modifiable || 'read-only')}</span>
                         </div>
                     </div>
                 </div>
