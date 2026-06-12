@@ -912,13 +912,6 @@ slua_beta: true
         }
         html += `</div>`;
         
-        if (func.deprecated && typeof func.deprecated === 'object') {
-            html += `<div style="margin-top: 1rem; font-size: 0.85rem; color: #c0392b;">`;
-            if (func.deprecated.reason) html += `<strong>Reason:</strong> ${escapeHtml(func.deprecated.reason)}<br>`;
-            if (func.deprecated.use) html += `<strong>Use instead:</strong> <code>${escapeHtml(func.deprecated.use)}</code>`;
-            html += `</div>`;
-        }
-        
         html += `
                     </div>
                 </div>
