@@ -501,7 +501,7 @@ slua_beta: true
         });
 
         // 5. Base Classes
-        data.classes.forEach(cls => {
+        data["base-classes"].forEach(cls => {
             if (!searchIndex.some(x => x.name === cls.name)) {
                 return;
             }
@@ -643,7 +643,6 @@ slua_beta: true
 
             if (funcs.length > 0) {
                 html += `
-                    <div class="section-title" style="margin-top: 1rem; font-size: 0.95rem;">Functions</div>
                     <div class="results-grid">
                         ${funcs.map(item => `
                             <button type="button" class="result-btn" data-id="${escapeHtml(item.id)}">
@@ -656,7 +655,6 @@ slua_beta: true
 
             if (props.length > 0) {
                 html += `
-                    <div class="section-title" style="margin-top: 2rem; font-size: 0.95rem;">Properties</div>
                     <div class="results-grid">
                         ${props.map(item => `
                             <button type="button" class="result-btn" data-id="${escapeHtml(item.id)}">
@@ -669,7 +667,6 @@ slua_beta: true
 
             if (consts.length > 0) {
                 html += `
-                    <div class="section-title" style="margin-top: 2rem; font-size: 0.95rem;">Constants</div>
                     <div class="results-grid">
                         ${consts.map(item => `
                             <button type="button" class="result-btn" data-id="${escapeHtml(item.id)}">
