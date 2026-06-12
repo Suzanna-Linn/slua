@@ -776,7 +776,7 @@ slua_beta: true
                     <td class="param-type">${escapeHtml(p.type || 'any')}</td>
                     <td>
                         ${escapeHtml(p.comment || '')}
-                        ${p.optional ? ' <span style="font-style: italic; opacity: 0.7;">(Optional)</span>' : ''}
+                        ${p.optional ? ' <span style="font-style: italic; opacity: 0.7;">(optional)</span>' : ''}
                         ${p.observes ? ` <span style="font-style: italic; opacity: 0.7;">(${p.observes})</span>` : ''}
                     </td>
                 </tr>
@@ -865,6 +865,17 @@ slua_beta: true
         const isMethod = entry.type === 'class-method';
         
         const signatures = renderSignatures(func, parentName, isMethod);
+
+        let depr = "";
+        if (info.deprecated) {
+            depr = "Deprecated: ";
+            if (info.deprecated.use) {
+                depr += " use " + info.deprecated.use;
+            }
+            if (info.deprecated.reason) {
+                depr += (info.deprecated.use ? "   Reason: " : "") + info.deprecated.reason;
+            }
+        }
         
         let html = `
             <div class="dashboard function-detail">
@@ -873,6 +884,7 @@ slua_beta: true
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
+                        ${depr ? `<p class="deprecated-text">${depr}</p>` : ''}
                         ${func.comment ? `<p class="description-text">${escapeHtml(func.comment)}</p>` : ''}
                         ${renderParamsTable(func)}
                     </div>
