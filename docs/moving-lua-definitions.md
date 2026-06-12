@@ -226,7 +226,7 @@ slua_beta: true
 
     .dashboard-body {
         display: grid;
-        grid-template-columns: 1fr 280px;
+        grid-template-columns: 1fr 100px;
         gap: 25px;
         padding: 25px;
     }
