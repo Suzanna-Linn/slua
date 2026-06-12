@@ -17,8 +17,8 @@ slua_beta: true
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
+        justify-content: flex-start;
+        gap: 1.5rem;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
@@ -446,6 +446,10 @@ slua_beta: true
         
         // 3. Modules
         data.modules.forEach(mod => {
+             if (!(mod.functions && mod.functions.length > 0)) {
+                return;
+            }
+
             searchIndex.push({
                 id: `module:${mod.name}`,
                 type: 'module',
@@ -1003,8 +1007,26 @@ slua_beta: true
             scrollY: window.scrollY
         };
 
-        const matches = searchIndex.filter(item => {
-            return item.displayName.toLowerCase().includes(query);
+        const hasDot = query.includes('.');
+
+        const matches = searchIndex.filter(entry => {
+            // Rule 1: Exclude class and module definitions themselves from search hits
+            if (entry.type === 'class' || entry.type === 'module') {
+                return false;
+            }
+
+            const parentName = entry.parent ? entry.parent.name.toLowerCase() : '';
+            const itemName = (entry.item && entry.item.name) ? entry.item.name.toLowerCase() : entry.name.toLowerCase();
+
+            if (hasDot) {
+                // Rule 2: If the text has a point, match against class.name or module.name namespaces
+                const fullNameDot = parentName ? `${parentName}.${itemName}` : itemName;
+                const fullNameColon = parentName ? `${parentName}:${itemName}` : itemName;
+                return fullNameDot.includes(query) || fullNameColon.includes(query);
+            } else {
+                // Rule 3: If the text has no point, match only against the item's own short name
+                return itemName.includes(query);
+            }
         });
 
         const display = document.getElementById('definitions-display');
@@ -1046,6 +1068,6 @@ slua_beta: true
             });
         });
     }
-
+    
     fetchDefinitions();
 </script>
