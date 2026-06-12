@@ -401,20 +401,6 @@ slua_beta: true
                 parent: null
             });
             
-            if (cls.properties) {
-                cls.properties.forEach(p => {
-                    searchIndex.push({
-                        id: `class-property:${cls.name}.${p.name}`,
-                        type: 'class-property',
-                        category: cls.name,
-                        name: `${cls.name}.${p.name}`,
-                        displayName: `${cls.name}.${p.name}`,
-                        item: p,
-                        parent: cls
-                    });
-                });
-            }
-            
             if (cls.methods) {
                 cls.methods.forEach(m => {
                     searchIndex.push({
@@ -466,7 +452,7 @@ slua_beta: true
                     type: 'module-function',
                     category: mod.name,
                     name: mod.name,
-                    displayName: `${mod.name} (callable)`,
+                    displayName: mod.name,
                     item: mod.callable,
                     parent: mod
                 });
@@ -512,6 +498,27 @@ slua_beta: true
                 item: meta,
                 parent: null
             });
+        });
+
+        // 5. Base Classes
+        data.classes.forEach(cls => {
+            if (!searchIndex.some(x => x.name === cls.name) {
+                return;
+            }
+            
+            if (cls.properties) {
+                cls.properties.forEach(p => {
+                    searchIndex.push({
+                        id: `class-property:${cls.name}.${p.name}`,
+                        type: 'class-property',
+                        category: cls.name,
+                        name: `${cls.name}.${p.name}`,
+                        displayName: `${cls.name}.${p.name}`,
+                        item: p,
+                        parent: cls
+                    });
+                });
+            }
         });
     }
 
@@ -615,14 +622,68 @@ slua_beta: true
             items = searchIndex.filter(x => x.parent && x.parent.name === moduleName);
         }
 
-        items.sort((a, b) => a.displayName.localeCompare(b.displayName, undefined, { sensitivity: 'base' }));
-
         let html = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                 <h2 style="margin: 0;">${escapeHtml(title)}</h2>
                 <button type="button" class="nav-btn" id="category-back-btn">← Back to Menu</button>
             </div>
             <div class="results-wrapper">
+        `;
+
+        if (categoryKey === 'module') {
+            // Sort and filter distinct groups
+            const funcs = items.filter(x => x.type === 'module-function' || x.type === 'class-function' || x.type === 'class-method')
+                .sort((a, b) => a.displayName.localeCompare(b.displayName, undefined, { sensitivity: 'base' }));
+
+            const props = items.filter(x => x.type === 'class-property')
+                .sort((a, b) => a.displayName.localeCompare(b.displayName, undefined, { sensitivity: 'base' }));
+
+            const consts = items.filter(x => x.type === 'module-constant' || x.type === 'constant')
+                .sort((a, b) => a.displayName.localeCompare(b.displayName, undefined, { sensitivity: 'base' }));
+
+            if (funcs.length > 0) {
+                html += `
+                    <div class="section-title" style="margin-top: 1rem; font-size: 0.95rem;">Functions</div>
+                    <div class="results-grid">
+                        ${funcs.map(item => `
+                            <button type="button" class="result-btn" data-id="${escapeHtml(item.id)}">
+                                ${escapeHtml(item.displayName)}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            if (props.length > 0) {
+                html += `
+                    <div class="section-title" style="margin-top: 2rem; font-size: 0.95rem;">Properties</div>
+                    <div class="results-grid">
+                        ${props.map(item => `
+                            <button type="button" class="result-btn" data-id="${escapeHtml(item.id)}">
+                                ${escapeHtml(item.displayName)}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            if (consts.length > 0) {
+                html += `
+                    <div class="section-title" style="margin-top: 2rem; font-size: 0.95rem;">Constants</div>
+                    <div class="results-grid">
+                        ${consts.map(item => `
+                            <button type="button" class="result-btn" data-id="${escapeHtml(item.id)}">
+                                ${escapeHtml(item.displayName)}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        } else {
+            // Default alphabetic listing for general categories
+            items.sort((a, b) => a.displayName.localeCompare(b.displayName, undefined, { sensitivity: 'base' }));
+            
+            html += `
                 <div class="results-grid">
                     ${items.map(item => `
                         <button type="button" class="result-btn" data-id="${escapeHtml(item.id)}">
@@ -630,8 +691,10 @@ slua_beta: true
                         </button>
                     `).join('')}
                 </div>
-            </div>
-        `;
+            `;
+        }
+
+        html += `</div>`;
 
         const display = document.getElementById('definitions-display');
         display.innerHTML = html;
