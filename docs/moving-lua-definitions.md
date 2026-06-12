@@ -556,7 +556,7 @@ slua_beta: true
         let html = `
             <div class="main-menu-grid">
                 <button type="button" class="menu-btn" data-category="functions">
-                    <span>global functions</span>
+                    <span>Global Functions</span>
                 </button>
                 <button type="button" class="menu-btn" data-category="metamethods">
                     <span>Metamethods</span>
