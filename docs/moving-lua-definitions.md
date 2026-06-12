@@ -322,17 +322,6 @@ slua_beta: true
     .bg-magic      { background: #d35400; }
     .bg-local      { background: #7f8c8d; }
 
-    pre { 
-        background: var(--code-bg) !important; 
-        padding: 14px; 
-        border-radius: 8px; 
-        overflow-x: auto; 
-        font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-        font-size: 0.95rem;
-        margin: 0;
-        border: 1px solid var(--border-color);
-    }
-
     @media (max-width: 900px) {
         .dashboard-body { grid-template-columns: 1fr; }
     }
