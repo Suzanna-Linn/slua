@@ -406,7 +406,7 @@ slua_beta: true
                     searchIndex.push({
                         id: `class-property:${cls.name}.${p.name}`,
                         type: 'class-property',
-                        category: `Class Property (${cls.name})`,
+                        category: cls.name,
                         name: `${cls.name}.${p.name}`,
                         displayName: `${cls.name}.${p.name}`,
                         item: p,
@@ -420,7 +420,7 @@ slua_beta: true
                     searchIndex.push({
                         id: `class-method:${cls.name}:${m.name}`,
                         type: 'class-method',
-                        category: `Class Method (${cls.name})`,
+                        category: cls.name,
                         name: `${cls.name}:${m.name}`,
                         displayName: `${cls.name}:${m.name}`,
                         item: m,
@@ -434,7 +434,7 @@ slua_beta: true
                     searchIndex.push({
                         id: `class-function:${cls.name}.${f.name}`,
                         type: 'class-function',
-                        category: `Class Static Function (${cls.name})`,
+                        category: cls.name,
                         name: `${cls.name}.${f.name}`,
                         displayName: `${cls.name}.${f.name}`,
                         item: f,
@@ -460,7 +460,7 @@ slua_beta: true
                 searchIndex.push({
                     id: `module-callable:${mod.name}:${mod.callable.name || 'callable'}`,
                     type: 'module-function',
-                    category: `Module Callable (${mod.name})`,
+                    category: mod.name,
                     name: mod.name,
                     displayName: `${mod.name} (callable)`,
                     item: mod.callable,
@@ -473,7 +473,7 @@ slua_beta: true
                     searchIndex.push({
                         id: `module-function:${mod.name}.${f.name}`,
                         type: 'module-function',
-                        category: `Module Function (${mod.name})`,
+                        category: mod.name,
                         name: `${mod.name}.${f.name}`,
                         displayName: `${mod.name}.${f.name}`,
                         item: f,
@@ -487,7 +487,7 @@ slua_beta: true
                     searchIndex.push({
                         id: `module-constant:${mod.name}.${c.name}`,
                         type: 'module-constant',
-                        category: `Module Constant (${mod.name})`,
+                        category: mod.name,
                         name: `${mod.name}.${c.name}`,
                         displayName: `${mod.name}.${c.name}`,
                         item: c,
@@ -1004,9 +1004,7 @@ slua_beta: true
         };
 
         const matches = searchIndex.filter(item => {
-            return item.displayName.toLowerCase().includes(query) || 
-                   (item.item && item.item.comment && item.item.comment.toLowerCase().includes(query)) ||
-                   (item.item && item.item.tooltip && item.item.tooltip.toLowerCase().includes(query));
+            return item.displayName.toLowerCase().includes(query);
         });
 
         const display = document.getElementById('definitions-display');
@@ -1024,7 +1022,7 @@ slua_beta: true
             grouped[m.category].push(m);
         });
 
-        let html = `<h2 style="margin-bottom: 2rem;">Search Results for "${escapeHtml(query)}"</h2>`;
+        let html = "";
         
         Object.entries(grouped).forEach(([catTitle, items]) => {
             html += `
