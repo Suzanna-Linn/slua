@@ -778,7 +778,7 @@ slua_beta: true
                 const signatures = renderSignatures(func, cls.name, false);
                 html += `
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        <pre><code class="language-lua">${escapeHtml(signatures.join('\n'))}</code></pre>
+                        <code class="language-sluab">${escapeHtml(signatures.join('\n'))}</code>
                         ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
                         ${renderParamsTable(func)}
                     </div>
@@ -804,7 +804,7 @@ slua_beta: true
         let html = `
             <div class="dashboard function-detail">
                 <div class="dashboard-header">
-                    <pre><code class="language-lua">${escapeHtml(signatures.join('\n'))}</code></pre>
+                    <code class="language-sluab">${escapeHtml(signatures.join('\n'))}</code>
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
@@ -874,7 +874,7 @@ slua_beta: true
         let html = `
             <div class="dashboard constant-detail">
                 <div class="dashboard-header">
-                    <pre><code class="language-lua">${escapeHtml(sig)}</code></pre>
+                    <code class="language-sluab">${escapeHtml(sig)}</code>
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
@@ -899,7 +899,7 @@ slua_beta: true
         let html = `
             <div class="dashboard metamethod-detail">
                 <div class="dashboard-header">
-                    <pre><code class="language-lua">${escapeHtml(entry.name)}</code></pre>
+                    <code class="language-sluab">${escapeHtml(entry.name)}</code>
                 </div>
                 <div class="dashboard-body" style="grid-template-columns: 1fr;">
                     <div class="dash-col">
