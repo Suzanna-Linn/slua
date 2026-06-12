@@ -194,7 +194,7 @@ slua_beta: true
         --badge-text: #0066cc;
     }
 
-    content.dark-theme {
+    .content.dark-theme {
         --bg-color: #121212;
         --text-color: #e0e0e0;
         --header-bg: #1e1e1e;
