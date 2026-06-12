@@ -553,9 +553,7 @@ slua_beta: true
     function renderMainMenu() {
         currentViewState = { type: 'empty', data: {} };
         document.getElementById('search-input').value = '';
-
-        const modules = [...new Set(searchIndex.filter(x => x.parent && x.parent.name).map(x => x.parent.name))].sort();
-
+        
         let html = `
             <div class="main-menu-grid">
                 <button type="button" class="menu-btn" data-category="functions">
@@ -1038,7 +1036,11 @@ function renderFunctionDetails(entry) {
                 const query = searchInput.value.toLowerCase().trim();
                 if (!query) return;
 
-                const exact = searchIndex.find(x => x.displayName.toLowerCase() === query);
+                const exact = searchIndex.find(x => 
+                    x.displayName.toLowerCase() === query && 
+                    x.type !== 'module' && 
+                    x.type !== 'class'
+                );
                 if (exact) {
                     e.preventDefault();
                     renderItemDetails(exact.id);
