@@ -867,13 +867,13 @@ slua_beta: true
         const signatures = renderSignatures(func, parentName, isMethod);
 
         let depr = "";
-        if (info.deprecated) {
+        if (func.deprecated) {
             depr = "Deprecated: ";
-            if (info.deprecated.use) {
-                depr += " use " + info.deprecated.use;
+            if (func.deprecated.use) {
+                depr += " use " + func.deprecated.use;
             }
-            if (info.deprecated.reason) {
-                depr += (info.deprecated.use ? "   Reason: " : "") + info.deprecated.reason;
+            if (func.deprecated.reason) {
+                depr += (func.deprecated.use ? "   Reason: " : "") + func.deprecated.reason;
             }
         }
         
