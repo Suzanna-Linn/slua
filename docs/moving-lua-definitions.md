@@ -432,7 +432,7 @@ slua_beta: true
         
         // 3. Modules
         data.modules.forEach(mod => {
-             if (!(mod.functions && mod.functions.length > 0)) {
+             if (!(mod.functions && mod.functions.length > 0) && !(mod.constants && mod.constants.length > 0)) {
                 return;
             }
 
