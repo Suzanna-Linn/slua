@@ -387,7 +387,7 @@ slua_beta: true
                 type: 'function',
                 category: 'Global Functions',
                 name: f.name,
-                displayName: f.name,
+                displayName: `${f.name}()`,
                 item: f,
                 parent: null
             });
@@ -412,7 +412,7 @@ slua_beta: true
                         type: 'class-method',
                         category: cls.name,
                         name: `${cls.name}:${m.name}`,
-                        displayName: `${cls.name}:${m.name}`,
+                        displayName: `${cls.name}:${m.name}()`,
                         item: m,
                         parent: cls
                     });
@@ -426,7 +426,7 @@ slua_beta: true
                         type: 'class-function',
                         category: cls.name,
                         name: `${cls.name}.${f.name}`,
-                        displayName: `${cls.name}.${f.name}`,
+                        displayName: `${cls.name}.${f.name}()`,
                         item: f,
                         parent: cls
                     });
@@ -456,7 +456,7 @@ slua_beta: true
                     type: 'module-function',
                     category: mod.name,
                     name: mod.name,
-                    displayName: mod.name,
+                    displayName: `${mod.name}()`,
                     item: mod.callable,
                     parent: mod
                 });
@@ -469,7 +469,7 @@ slua_beta: true
                         type: 'module-function',
                         category: mod.name,
                         name: `${mod.name}.${f.name}`,
-                        displayName: `${mod.name}.${f.name}`,
+                        displayName: `${mod.name}.${f.name}()`,
                         item: f,
                         parent: mod
                     });
