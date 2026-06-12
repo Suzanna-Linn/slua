@@ -5,42 +5,6 @@ slua_beta: true
 ---
 
 <style>
-    :root {
-        --bg-color: #f9f9f9;
-        --text-color: #2c3e50;
-        --header-bg: #ffffff;
-        --border-color: #dee2e6;
-        --accent-color: #007bff;
-        --table-head: #f2f2f2;
-        --card-bg: #ffffff;
-        --code-bg: #f1f1f1;
-        --badge-bg: #e0f0ff;
-        --badge-text: #0066cc;
-    }
-
-    body.dark-theme {
-        --bg-color: #121212;
-        --text-color: #e0e0e0;
-        --header-bg: #1e1e1e;
-        --border-color: #2e2e2e;
-        --accent-color: #3796ff;
-        --table-head: #2a2a2a;
-        --card-bg: #1e1e1e;
-        --code-bg: #2d2d2d;
-        --badge-bg: #1a3a5c;
-        --badge-text: #82bfff;
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        margin: 0;
-        padding: 0;
-        line-height: 1.5;
-        transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
     .sticky-navbar {
         position: sticky;
         top: 0;
@@ -217,6 +181,32 @@ slua_beta: true
         font-size: 0.95rem;
     }
 
+    :root {
+        --bg-color: #f9f9f9;
+        --text-color: #2c3e50;
+        --header-bg: #ffffff;
+        --border-color: #dee2e6;
+        --accent-color: #007bff;
+        --table-head: #f2f2f2;
+        --card-bg: #ffffff;
+        --code-bg: #f1f1f1;
+        --badge-bg: #e0f0ff;
+        --badge-text: #0066cc;
+    }
+
+    content.dark-theme {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --header-bg: #1e1e1e;
+        --border-color: #2e2e2e;
+        --accent-color: #3796ff;
+        --table-head: #2a2a2a;
+        --card-bg: #1e1e1e;
+        --code-bg: #2d2d2d;
+        --badge-bg: #1a3a5c;
+        --badge-text: #82bfff;
+    }
+
     .dashboard {
         display: flex;
         flex-direction: column;
@@ -360,8 +350,6 @@ slua_beta: true
             aria-label="Search all definitions"
         />
     </div>
-
-    <button type="button" id="theme-toggle" class="nav-btn" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Theme</button>
 </header>
 
 <main class="content-container">
