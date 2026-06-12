@@ -718,9 +718,6 @@ slua_beta: true
         
         function buildSig(fObj) {
             let sig = prefix + (fObj.name || func.name);
-            if (fObj["type-parameters"] && fObj["type-parameters"].length > 0) {
-                sig += "<" + fObj["type-parameters"].join(", ") + ">";
-            }
             
             let params = [];
             if (fObj.parameters) {
