@@ -537,7 +537,7 @@ slua_beta: true
                     tok.value = "function";
                 }
             }
-            if (tok.type === "ID" && tok.value.startsWith("DateType")) {
+            if (tok.type === "ID" && (tok.value.startsWith("DateType") || tok.value.startsWith("PrimParams"))) {
                 tok.value = "table";
             }
         }
