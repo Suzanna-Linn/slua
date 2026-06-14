@@ -1059,8 +1059,10 @@ slua_beta: true
             html += `
                 <tr>
                     <td class="param-name">${escapeHtml(p.name)}</td>
-                    <td class="param-type">${escapeHtml(p.type || 'any')}</td>
-                    <td class="param-type">${escapeHtml(simplifyLuauType(p.type || 'any'))}</td>
+                    <td class="param-type">
+                        <span class="full-type">${escapeHtml(p.type || 'any')}</span>
+                        <span class="simple-type">${escapeHtml(simplifyLuauType(p.type || 'any'))}</span>
+                    </td>
                     <td>
                         ${escapeHtml(p.comment || '')}
                         ${p.optional ? ' <span style="font-style: italic; opacity: 0.7;">(optional)</span>' : ''}
@@ -1102,8 +1104,10 @@ slua_beta: true
                 html += `
                     <tr>
                         <td class="param-name">${escapeHtml(prop.name)}</td>
-                        <td class="param-type">${escapeHtml(prop.type)}</td>
-                        <td class="param-type">${escapeHtml(simplifyLuauType(prop.type))}</td>
+                        <td class="param-type">
+                            <span class="full-type">${escapeHtml(prop.type)}</span>
+                            <span class="simple-type">${escapeHtml(simplifyLuauType(prop.type))}</span>
+                        </td>
                         <td>${escapeHtml(prop.comment || '')}</td>
                     </tr>
                 `;
@@ -1116,7 +1120,7 @@ slua_beta: true
             cls.methods.forEach(method => {
                 let signatures = renderSignatures(method, cls.name, false, true);
                 html += `
-                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    <div class="full-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
                         ${renderParamsTable(method, true)}
@@ -1124,7 +1128,7 @@ slua_beta: true
                 `;
                 signatures = renderSignatures(method, cls.name, true, true);
                 html += `
-                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    <div class="simple-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
                         ${renderParamsTable(method, true)}
@@ -1138,7 +1142,7 @@ slua_beta: true
             cls.functions.forEach(func => {
                 let signatures = renderSignatures(func, cls.name, false, false);
                 html += `
-                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    <div class="full-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
                         ${renderParamsTable(func, false)}
@@ -1146,7 +1150,7 @@ slua_beta: true
                 `;
                 signatures = renderSignatures(func, cls.name, true, false);
                 html += `
-                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    <div class="simple-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                         ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
                         ${renderParamsTable(func, false)}
@@ -1186,8 +1190,8 @@ slua_beta: true
         let html = `
             <div class="dashboard function-detail">
                 <div class="dashboard-header">
-                    ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
-                    ${signaturesB.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
+                    <span class="full-type">${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}</span>
+                    <span class="simple-type">${signaturesB.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}</span>
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
@@ -1236,8 +1240,8 @@ slua_beta: true
         let html = `
             <div class="dashboard constant-detail">
                 <div class="dashboard-header">
-                    <code class="language-sluab">${escapeHtml(sig)}</code>
-                    <code class="language-sluab">${escapeHtml(sigB)}</code>
+                    <span class="full-type"><code class="language-sluab">${escapeHtml(sig)}</code></span>
+                    <span class="simple-type"><code class="language-sluab">${escapeHtml(sigB)}</code></span>
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
