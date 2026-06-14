@@ -392,6 +392,264 @@ slua_beta: true
             .replace(/'/g, "&#039;");
     }
 
+    /**
+     *  - Strips generic angle brackets (e.g., `setmetatable<T, MT>` -> `table`).
+     *  - Normalizes generic letters (e.g., `T`, `V`, `K`, `A...`) to `any` or `...any`.
+     *  - Collapses inline table definitions `{ ... }` to `table`.
+     *  - Collapses function signatures `(...) -> ...` to `function`.
+     *  - Detects Lua iterator triplets `(function, table, ...)` and simplifies them to `iterator`.
+     *  - Cleans up redundant outer parentheses.
+     */
+    function simplifyLuauType(typeStr) {
+        if (!typeStr) return "";
+    
+        // Step 1: Tokenize the input string
+        const tokens = tokenize(typeStr);
+    
+        // Step 2: Normalize generic placeholders (e.g. T, V, A...) to 'any' or '...any'
+        normalizeGenerics(tokens);
+    
+        // Step 3: Strip generic type instantiations (e.g., <T, MT>) and map their base if necessary
+        collapseGenericInstantiations(tokens);
+    
+        // Step 4: Collapse inline tables { ... } down to 'table'
+        collapseTables(tokens);
+    
+        // Step 5: Collapse function structures (...) -> ... down to 'function'
+        collapseFunctions(tokens);
+    
+        // Step 6: Clean up redundant parentheses like (any) -> any
+        cleanupParentheses(tokens);
+    
+        // Step 7: Detect if the entire structure is an iterator triplet (e.g., (function, table, number))
+        const finalTokens = collapseIterators(tokens);
+    
+        // Step 8: Convert the simplified token list back to a string
+        return tokensToString(finalTokens);
+    }
+    
+    function tokenize(str) {
+        const tokens = [];
+        let i = 0;
+        while (i < str.length) {
+            const char = str[i];
+            if (/\s/.test(char)) {
+                i++;
+                continue;
+            }
+            if (str.slice(i, i + 2) === "->") {
+                tokens.push({ type: "ARROW", value: "->" });
+                i += 2;
+                continue;
+            }
+            if (str.slice(i, i + 3) === "...") {
+                tokens.push({ type: "VARARG", value: "..." });
+                i += 3;
+                continue;
+            }
+            if ("{}()<>|:,?".includes(char)) {
+                tokens.push({ type: char, value: char });
+                i++;
+                continue;
+            }
+            // Identifiers
+            let word = "";
+            while (i < str.length && /[a-zA-Z0-9_.]/.test(str[i])) {
+                word += str[i];
+                i++;
+            }
+            if (word) {
+                // Include trailing generic vararg notation if attached (e.g., A...)
+                if (str.slice(i, i + 3) === "...") {
+                    word += "...";
+                    i += 3;
+                }
+                tokens.push({ type: "ID", value: word });
+                continue;
+            }
+            tokens.push({ type: "CHAR", value: char });
+            i++;
+        }
+        return tokens;
+    }
+    
+    function normalizeGenerics(tokens) {
+        for (let i = 0; i < tokens.length; i++) {
+            const tok = tokens[i];
+            if (tok.type === "ID") {
+                // Match uppercase generic varargs like A..., R..., R1...
+                if (/^[A-Z]\d?\.\.\.$/.test(tok.value)) {
+                    tok.value = "...any";
+                } 
+                // Match single uppercase generic letters like T, V, K, E, MT
+                else if (/^[A-Z]\d?$/.test(tok.value)) {
+                    tok.value = "any";
+                }
+            }
+        }
+        // Handle explicitly prepended varargs (e.g., ...V)
+        let i = 0;
+        while (i < tokens.length - 1) {
+            if (tokens[i].type === "VARARG" && tokens[i + 1].type === "ID" && (tokens[i + 1].value === "any" || /^[A-Z]\d?$/.test(tokens[i + 1].value))) {
+                tokens.splice(i, 2, { type: "ID", value: "...any" });
+                continue;
+            }
+            i++;
+        }
+    }
+    
+    function collapseGenericInstantiations(tokens) {
+        let i = 0;
+        while (i < tokens.length) {
+            if (tokens[i].type === "<") {
+                let depth = 1;
+                let j = i + 1;
+                while (j < tokens.length && depth > 0) {
+                    if (tokens[j].type === "<") depth++;
+                    else if (tokens[j].type === ">") depth--;
+                    j++;
+                }
+                if (depth === 0) {
+                    // Strip the generic bracket contents
+                    tokens.splice(i, j - i);
+                    // If the prefix was a metatable handler type, simplify its name to 'table'
+                    if (i > 0 && tokens[i - 1].type === "ID") {
+                        const base = tokens[i - 1].value;
+                        if (base === "setmetatable" || base === "getmetatable") {
+                            tokens[i - 1].value = "table";
+                        }
+                    }
+                    continue;
+                }
+            }
+            i++;
+        }
+    }
+    
+    function collapseTables(tokens) {
+        let i = 0;
+        while (i < tokens.length) {
+            if (tokens[i].type === "{") {
+                let depth = 1;
+                let j = i + 1;
+                while (j < tokens.length && depth > 0) {
+                    if (tokens[j].type === "{") depth++;
+                    else if (tokens[j].type === "}") depth--;
+                    j++;
+                }
+                if (depth === 0) {
+                    // Replace the entire braces block with 'table'
+                    tokens.splice(i, j - i, { type: "ID", value: "table" });
+                    continue;
+                }
+            }
+            i++;
+        }
+    }
+    
+    function findLeftBoundary(tokens, arrowIdx) {
+        let idx = arrowIdx - 1;
+        if (tokens[idx] && tokens[idx].type === ")") {
+            let depth = 1;
+            idx--;
+            while (idx >= 0 && depth > 0) {
+                if (tokens[idx].type === ")") depth++;
+                else if (tokens[idx].type === "(") depth--;
+                idx--;
+            }
+            return idx + 1;
+        }
+        return idx;
+    }
+    
+    function findRightBoundary(tokens, arrowIdx) {
+        let idx = arrowIdx + 1;
+        if (tokens[idx] && tokens[idx].type === "(") {
+            let depth = 1;
+            idx++;
+            while (idx < tokens.length && depth > 0) {
+                if (tokens[idx].type === "(") depth++;
+                else if (tokens[idx].type === ")") depth--;
+                idx++;
+            }
+            return idx - 1;
+        }
+        if (tokens[idx + 1] && tokens[idx + 1].type === "?") {
+            return idx + 1;
+        }
+        return idx;
+    }
+    
+    function collapseFunctions(tokens) {
+        let arrowIdx;
+        while ((arrowIdx = tokens.findIndex(t => t.type === "ARROW")) !== -1) {
+            const left = findLeftBoundary(tokens, arrowIdx);
+            const right = findRightBoundary(tokens, arrowIdx);
+            tokens.splice(left, right - left + 1, { type: "ID", value: "function" });
+        }
+    }
+    
+    function cleanupParentheses(tokens) {
+        let i = 0;
+        while (i < tokens.length - 2) {
+            if (tokens[i].type === "(" && tokens[i + 2].type === ")") {
+                tokens.splice(i + 2, 1); // remove ')'
+                tokens.splice(i, 1);     // remove '('
+                i = 0; // restart search
+                continue;
+            }
+            i++;
+        }
+    }
+    
+    function collapseIterators(tokens) {
+        if (tokens.length >= 3 && tokens[0].type === "(" && tokens[tokens.length - 1].type === ")") {
+            let depth = 0;
+            let hasFunctionFirst = false;
+            let hasComma = false;
+            for (let i = 1; i < tokens.length - 1; i++) {
+                if (tokens[i].type === "(") depth++;
+                else if (tokens[i].type === ")") depth--;
+                else if (depth === 0) {
+                    if (tokens[i].type === "ID" && tokens[i].value === "function" && !hasComma) {
+                        hasFunctionFirst = true;
+                    }
+                    if (tokens[i].type === ",") {
+                        hasComma = true;
+                    }
+                }
+            }
+            if (hasFunctionFirst && hasComma) {
+                return [{ type: "ID", value: "iterator" }];
+            }
+        }
+        return tokens;
+    }
+    
+    function tokensToString(tokens) {
+        let result = "";
+        for (let i = 0; i < tokens.length; i++) {
+            const tok = tokens[i];
+            const prev = tokens[i - 1];
+    
+            if (tok.type === "?") {
+                result += "?";
+            } else if (tok.type === ",") {
+                result += ", ";
+            } else if (tok.type === "|") {
+                result += " | ";
+            } else {
+                if (prev && prev.type !== "(" && tok.type !== ")" && tok.type !== "," && tok.type !== "?" && prev.type !== "|") {
+                    if (!result.endsWith(" ")) {
+                        result += " ";
+                    }
+                }
+                result += tok.value;
+            }
+        }
+        return result.replace(/\s+/g, " ").trim();
+    }
+
     function buildSearchIndex(data) {
         searchIndex = [];
         
@@ -729,7 +987,8 @@ slua_beta: true
         });
     }
 
-    function renderSignatures(func, parentName, isMethod, isCallable) {
+    function renderSignatures(func, parentName, isSimp, isMethod, isCallable) {
+        isSimp = !!isSimp;
         isCallable = !!isCallable;
         const separator = isMethod ? ":" : ".";
         const prefix = isCallable ? "" : (parentName ? (parentName + separator) : "");
@@ -744,14 +1003,14 @@ slua_beta: true
                     if (isMethod && p.name === "self") return;
                     let pStr = p.name;
                     if (p.type) {
-                        pStr += ": " + p.type;
+                        pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
                     }
                     params.push(pStr);
                 });
             }
             sig += "(" + params.join(", ") + ")";
             if (fObj["return-type"]) {
-                sig += ": " + fObj["return-type"];
+                sig += ": " + (isSimp ? simplifyLuauType(fObj["return-type"]) : fObj["return-type"]);
             }
             return sig;
         }
@@ -852,7 +1111,15 @@ slua_beta: true
         if (cls.methods && cls.methods.length > 0) {
             html += `<h3 class="dash-section-title">Methods</h3>`;
             cls.methods.forEach(method => {
-                const signatures = renderSignatures(method, cls.name, true);
+                let signatures = renderSignatures(method, cls.name, false, true);
+                html += `
+                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
+                        ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
+                        ${renderParamsTable(method, true)}
+                    </div>
+                `;
+                signatures = renderSignatures(method, cls.name, true, true);
                 html += `
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
@@ -866,7 +1133,15 @@ slua_beta: true
         if (cls.functions && cls.functions.length > 0) {
             html += `<h3 class="dash-section-title">Static Functions</h3>`;
             cls.functions.forEach(func => {
-                const signatures = renderSignatures(func, cls.name, false);
+                let signatures = renderSignatures(func, cls.name, false, false);
+                html += `
+                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
+                        ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
+                        ${renderParamsTable(func, false)}
+                    </div>
+                `;
+                let signatures = renderSignatures(func, cls.name, true, false);
                 html += `
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
@@ -891,7 +1166,8 @@ slua_beta: true
         const isMethod = entry.type === 'class-method';
         const isCallable = entry.id && entry.id.startsWith('module-callable:');
         
-        const signatures = renderSignatures(func, parentName, isMethod, isCallable);
+        const signatures = renderSignatures(func, parentName, false, isMethod, isCallable);
+        const signaturesB = renderSignatures(func, parentName, true, isMethod, isCallable);
 
         let depr = "";
         if (func.deprecated) {
@@ -908,6 +1184,7 @@ slua_beta: true
             <div class="dashboard function-detail">
                 <div class="dashboard-header">
                     ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
+                    ${signaturesB.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
