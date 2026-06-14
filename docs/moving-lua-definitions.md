@@ -440,6 +440,30 @@ slua_beta: true
                 i++;
                 continue;
             }
+            
+            // Handle String Literals (Double or Single Quotes)
+            if (char === '"' || char === "'") {
+                const quote = char;
+                let val = quote;
+                let j = i + 1;
+                while (j < str.length && str[j] !== quote) {
+                    if (str[j] === '\\' && str[j + 1] === quote) {
+                        val += '\\' + quote;
+                        j += 2;
+                    } else {
+                        val += str[j];
+                        j++;
+                    }
+                }
+                if (j < str.length) {
+                    val += quote;
+                    j++;
+                }
+                tokens.push({ type: "STRING", value: val });
+                i = j;
+                continue;
+            }
+    
             if (str.slice(i, i + 2) === "->") {
                 tokens.push({ type: "ARROW", value: "->" });
                 i += 2;
@@ -462,7 +486,6 @@ slua_beta: true
                 i++;
             }
             if (word) {
-                // Include trailing generic vararg notation if attached (e.g., A...)
                 if (str.slice(i, i + 3) === "...") {
                     word += "...";
                     i += 3;
@@ -657,9 +680,19 @@ slua_beta: true
                 result += ", ";
             } else if (tok.type === "|") {
                 result += " | ";
+            } else if (tok.type === ":") {
+                result += ": ";
             } else {
-                if (prev && prev.type !== "(" && tok.type !== ")" && tok.type !== "," && tok.type !== "?" && prev.type !== "|") {
-                    if (!result.endsWith(" ")) {
+                if (prev) {
+                    const needsSpace = 
+                        prev.type !== "(" && 
+                        prev.type !== ":" && 
+                        prev.type !== "|" && 
+                        tok.type !== ")" && 
+                        tok.type !== "," && 
+                        tok.type !== "?";
+                    
+                    if (needsSpace && !result.endsWith(" ")) {
                         result += " ";
                     }
                 }
