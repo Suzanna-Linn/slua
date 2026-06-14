@@ -531,7 +531,7 @@ slua_beta: true
                 const val = tok.value;
                 if (val.endsWith("Name")) {
                     tok.value = "string";
-                } else if (val.endsWith("Type") || val.endsWith("Options")) {
+                } else if (val.endsWith("Type") || val.endsWith("Options") || val.startsWith("DateType")) {
                     tok.value = "table";
                 } else if (val.endsWith("Handler") || val.endsWith("Callback")) {
                     tok.value = "function";
