@@ -508,12 +508,10 @@ slua_beta: true
                 const val = tok.value;
                 if (val.endsWith("Name")) {
                     tok.value = "string";
-                } else if (val.endsWith("Type")) {
+                } else if (val.endsWith("Type") || val.endsWith("Options")) {
                     tok.value = "table";
-                } else if (val.endsWith("Handler")) {
+                } else if (val.endsWith("Handler") || val.endsWith("Callback")) {
                     tok.value = "function";
-                } else if (val.endsWith("Options")) {
-                    tok.value = "table";
                 }
             }
         }
@@ -1079,7 +1077,14 @@ slua_beta: true
         displayParams.forEach(p => {
             html += `
                 <tr>
-                    <td class="param-name">${escapeHtml(p.name)}</td>
+                    if (p.nanme) === "...") {
+                        <td class="param-name">
+                            <span class="full-type">...</span>
+                            <span class="simple-type">args</span>
+                        </td>
+                    } else {
+                        <td class="param-name">${escapeHtml(p.name)}</td>
+                    }
                     <td class="param-type">
                         <span class="full-type">${escapeHtml(p.type || 'any')}</span>
                         <span class="simple-type">${escapeHtml(simplifyLuauType(p.type || 'any'))}</span>
