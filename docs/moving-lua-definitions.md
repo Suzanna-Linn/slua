@@ -1024,9 +1024,10 @@ slua_beta: true
         return sigs;
     }
 
-    function renderPropertySignature(prop, parentName) {
+    function renderPropertySignature(prop, parentName, isSimp) {
+        isSimp = !!isSimp;
         let sig = parentName ? (parentName + "." + prop.name) : prop.name;
-        sig += ": " + prop.type;
+        sig += ": " + (isSimp ? simplifyLuauType(prop.type) : prop.type);
         if (prop.value !== undefined) {
             sig += " = " + prop.value;
         }
@@ -1059,6 +1060,7 @@ slua_beta: true
                 <tr>
                     <td class="param-name">${escapeHtml(p.name)}</td>
                     <td class="param-type">${escapeHtml(p.type || 'any')}</td>
+                    <td class="param-type">${escapeHtml(simplifyLuauType(p.type || 'any'))}</td>
                     <td>
                         ${escapeHtml(p.comment || '')}
                         ${p.optional ? ' <span style="font-style: italic; opacity: 0.7;">(optional)</span>' : ''}
@@ -1101,6 +1103,7 @@ slua_beta: true
                     <tr>
                         <td class="param-name">${escapeHtml(prop.name)}</td>
                         <td class="param-type">${escapeHtml(prop.type)}</td>
+                        <td class="param-type">${escapeHtml(simplifyLuauType(prop.type))}</td>
                         <td>${escapeHtml(prop.comment || '')}</td>
                     </tr>
                 `;
@@ -1227,12 +1230,14 @@ slua_beta: true
     function renderConstantDetails(entry) {
         const prop = entry.item;
         const parentName = entry.parent ? entry.parent.name : null;
-        const sig = renderPropertySignature(prop, parentName);
+        const sig = renderPropertySignature(prop, parentName, false);
+        const sigB = renderPropertySignature(prop, parentName, true);
         
         let html = `
             <div class="dashboard constant-detail">
                 <div class="dashboard-header">
                     <code class="language-sluab">${escapeHtml(sig)}</code>
+                    <code class="language-sluab">${escapeHtml(sigB)}</code>
                 </div>
                 <div class="dashboard-body">
                     <div class="dash-col">
