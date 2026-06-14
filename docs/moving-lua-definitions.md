@@ -406,8 +406,11 @@ slua_beta: true
         // Step 1: Tokenize the input string
         const tokens = tokenize(typeStr);
     
-        // Step 2: Normalize generic placeholders (e.g. T, V, A...) to 'any' or '...any'
+        // Step 2a: Normalize generic placeholders (e.g. T, V, A...) to 'any' or '...any'
         normalizeGenerics(tokens);
+
+        // Step 2b: Simplify LL types
+        normalizeLLTypes(tokens);
     
         // Step 3: Strip generic type instantiations (e.g., <T, MT>) and map their base if necessary
         collapseGenericInstantiations(tokens);
@@ -495,6 +498,24 @@ slua_beta: true
                 continue;
             }
             i++;
+        }
+    }
+
+    function normalizeLLTypes(tokens) {
+        for (let i = 0; i < tokens.length; i++) {
+            const tok = tokens[i];
+            if (tok.type === "ID" && tok.value.startsWith("LL")) {
+                const val = tok.value;
+                if (val.endsWith("Name")) {
+                    tok.value = "string";
+                } else if (val.endsWith("Type")) {
+                    tok.value = "table";
+                } else if (val.endsWith("Handler")) {
+                    tok.value = "function";
+                } else if (val.endsWith("Options")) {
+                    tok.value = "table";
+                }
+            }
         }
     }
     
@@ -1001,7 +1022,7 @@ slua_beta: true
             if (fObj.parameters) {
                 fObj.parameters.forEach(p => {
                     if (isMethod && p.name === "self") return;
-                    let pStr = p.name;
+                    let pStr = p.name === "..." && isSimp ? "args" : p.name;
                     if (p.type) {
                         pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
                     }
