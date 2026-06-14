@@ -1141,7 +1141,7 @@ slua_beta: true
                         ${renderParamsTable(func, false)}
                     </div>
                 `;
-                let signatures = renderSignatures(func, cls.name, true, false);
+                signatures = renderSignatures(func, cls.name, true, false);
                 html += `
                     <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
                         ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
