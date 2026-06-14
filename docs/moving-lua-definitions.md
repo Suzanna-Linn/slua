@@ -314,6 +314,19 @@ slua_beta: true
         white-space: nowrap;
     }
 
+    .header-options {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    body.simple-types-active .full-type {
+        display: none !important;
+    }
+    body:not(.simple-types-active) .simple-type {
+        display: none !important;
+    }
+
     .bg-mandatory  { background: #e67e22; }
     .bg-native     { background: #2980b9; }
     .bg-deprecated { background: #c0392b; }
@@ -337,6 +350,13 @@ slua_beta: true
             placeholder="Search..." 
             aria-label="Search all definitions"
         />
+    </div>
+
+    <div class="header-options">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer; user-select: none;">
+            <input type="checkbox" id="simple-types-checkbox" />
+            <span>Simple Types</span>
+        </label>
     </div>
 </header>
 
@@ -1128,6 +1148,26 @@ slua_beta: true
             });
         });
     }
+
+    const simpleTypesCheckbox = document.getElementById('simple-types-checkbox');
+    const storageKey = 'simple-types-enabled';
+
+    function setSimpleTypesState(isEnabled) {
+        if (isEnabled) {
+            document.body.classList.add('simple-types-active');
+        } else {
+            document.body.classList.remove('simple-types-active');
+        }
+        localStorage.setItem(storageKey, isEnabled);
+    }
+
+    const initialSimpleTypesState = localStorage.getItem(storageKey) === 'true';
+    simpleTypesCheckbox.checked = initialSimpleTypesState;
+    setSimpleTypesState(initialSimpleTypesState);
+
+    simpleTypesCheckbox.addEventListener('change', (e) => {
+        setSimpleTypesState(e.target.checked);
+    });
     
     fetchDefinitions();
 </script>
