@@ -1,0 +1,19 @@
+
+local flatVector = {}
+
+local flatVectorMt = {
+    __index = flatVector
+}
+
+function flatVector.new(x, y)
+    return setmetatable({
+        x = x,
+        y = y
+    }, flatVectorMt)
+end
+
+local myVec1 = flatVector.new(1, 2)
+local myVec2 = flatVector.new(3, 4)
+
+print(myVec1.x)  -- 1
+print(myVec2.y)  -- 4
