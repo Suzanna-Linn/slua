@@ -380,7 +380,7 @@ slua_beta: true
         vector: "vector",
         rotation: "rotation",
         quaternion: "quaternion",
-        list: "{any}"
+        list: "table"
     };
 
     function decodeBase64Utf8(base64Str) {
