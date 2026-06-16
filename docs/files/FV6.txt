@@ -1,0 +1,76 @@
+
+local flatVector = {}
+
+setmetatable(flatVector, {
+    __call = function(t, ...)
+        return flatVector:new(...)
+    end
+})
+
+function flatVector:new(x, y)
+    return setmetatable({
+        x = x,
+        y = y
+    }, flatVector)
+end
+
+flatVector.ZERO_VECTOR = flatVector:new(0, 0)
+
+function flatVector:magnitude()
+    return math.sqrt(self.x * self.x + self.y * self.y)
+end
+
+function flatVector:normalize()
+    local mag = self:magnitude()
+    if mag == 0 then
+        return flatVector:new(0, 0)
+    end
+    return flatVector:new(self.x / mag, self.y / mag)
+end
+
+function flatVector:distanceTo(other)
+    local dx = self.x - other.x
+    local dy = self.y - other.y
+    return math.sqrt(dx * dx + dy * dy)
+end
+
+flatVector.__index = flatVector
+
+function flatVector.__add(left, right)
+    return flatVector:new(left.x + right.x, left.y + right.y)
+end
+
+function flatVector.__sub(left, right)
+    return flatVector:new(left.x - right.x, left.y - right.y)
+end
+
+function flatVector.__mul(left, right)
+    if type(right) == "number" then
+        return flatVector:new(left.x * right, left.y * right)
+    elseif type(left) == "number" then
+        return flatVector:new(right.x * left, right.y * left)
+    else
+        return left.x * right.x + left.y * right.y
+    end
+end
+
+function flatVector:__tostring()
+    return "<" .. self.x .. ", " .. self.y .. ">"
+end
+
+local myVec1 = flatVector(1, 2)
+local myVec2 = flatVector(3, 4)
+local myVec3 = flatVector.ZERO_VECTOR
+
+print(myVec1)  -- <1, 2>
+print(myVec2)  -- <3, 4>
+print(myVec3)  -- <0, 0>
+print(myVec1.x)  -- 1
+print(myVec2.y)  -- 4
+print(myVec1:magnitude())  -- 2.2360679774998
+print(myVec2:normalize())  -- <0.6, 0.8>
+print(myVec1:distanceTo(myVec2))  -- 2.8284271247462
+print(myVec1 + myVec2)  -- <4, 6>
+print(myVec1 - myVec2)  -- <-2, -2>
+print(myVec1 * 3)  -- <3, 6>
+print(myVec1 * myVec2)  -- 11
