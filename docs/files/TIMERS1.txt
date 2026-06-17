@@ -1,0 +1,22 @@
+
+-- year, month, day, wday (number of day in the week, 1-Sunday, 7-Saturday), yday (number of day in the year)
+-- hour, min ,sec, isdst (daylight saving time, boolean value)
+
+local function getDateTimeSL()
+    local diff = ll.GetGMTclock() - ll.GetWallclock()
+    if diff < 0 then
+        diff += 86400
+    end
+    local dtTab = os.date("!*t", os.time() - diff)
+    dtTab.date = string.format("%02d/%02d/%04d", dtTab.month, dtTab.day, dtTab.year)
+    dtTab.time = string.format("%02d:%02d:%02d", dtTab.hour, dtTab.min, dtTab.sec)
+    dtTab.date8 = string.format("%04d%02d%02d", dtTab.year, dtTab.month, dtTab.day)
+    return dtTab
+end
+
+local function showDateTime()
+    local sl = getDateTimeSL()
+    ll.SetText(sl.date8 .. " " .. sl.time, vector(1, 1, 1), 1)
+end
+
+LLTimers:every(1, showDateTime)
