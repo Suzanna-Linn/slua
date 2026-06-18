@@ -1317,45 +1317,76 @@ slua_beta: true
         return html;
     }
 
-function renderMetamethodDetails(entry) {
+    function renderMetamethodSignature(metaDef, isSimp) {
+        let sig = metaDef.name;
+
+        // It's a function-like metamethod with parameters
+        if (metaDef.parameters) {
+            let params = [];
+            metaDef.parameters.forEach(p => {
+                let pStr = p.name === "..." && isSimp ? "args" : p.name;
+                if (p.type) {
+                    pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
+                }
+                params.push(pStr);
+            });
+            sig += `(${params.join(", ")})`;
+            
+            if (metaDef["return-type"]) {
+                const returnType = isSimp ? simplifyLuauType(metaDef["return-type"]) : metaDef["return-type"];
+                // Don't show a return type for "void" returns like ()
+                if (returnType.trim() !== '()') {
+                    sig += `: ${returnType}`;
+                }
+            }
+        } 
+        // It's a property-like metamethod (e.g., __mode, __metatable)
+        else if (metaDef.type) {
+            sig += `: ${isSimp ? simplifyLuauType(metaDef.type) : metaDef.type}`;
+        }
+
+        return sig;
+    }
+    
+    function renderMetamethodDetails(entry) {
         const meta = entry.item;
-        const sigFull = `${meta.name}: ${meta.type || 'any'}`;
-        const sigSimple = `${meta.name}: ${simplifyLuauType(meta.type || 'any')}`;
+        
+        // If variants exist, they are the definitions. Otherwise, it's just the main object.
+        const definitions = (meta.variants && meta.variants.length > 0) ? meta.variants : [meta];
+
+        // Build all signatures (full and simple) for the header section.
+        // Each definition needs the top-level `name` from the parent metamethod.
+        const fullSigs = definitions.map(def => renderMetamethodSignature({ ...def, name: meta.name }, false));
+        const simpleSigs = definitions.map(def => renderMetamethodSignature({ ...def, name: meta.name }, true));
         
         let html = `
             <div class="dashboard metamethod-detail">
                 <div class="dashboard-header">
-                    <span class="full-type"><code class="language-sluab">${escapeHtml(sigFull)}</code></span>
-                    <span class="simple-type"><code class="language-sluab">${escapeHtml(sigSimple)}</code></span>
+                    <span class="full-type">${fullSigs.map(s => `<code class="language-sluab">${escapeHtml(s)}</code>`).join('<br>')}</span>
+                    <span class="simple-type">${simpleSigs.map(s => `<code class="language-sluab">${escapeHtml(s)}</code>`).join('<br>')}</span>
                 </div>
                 <div class="dashboard-body" style="grid-template-columns: 1fr;">
                     <div class="dash-col">
                         ${meta.comment ? `<p class="description-text">${escapeHtml(meta.comment)}</p>` : ''}
-                        ${renderParamsTable(meta, false)}
         `;
 
-        if (meta.variants && meta.variants.length > 0) {
-            html += `
-                <h3 class="dash-section-title" style="margin-top: 2rem;">Variants</h3>
-            `;
-            meta.variants.forEach((variant, index) => {
-                const varSigFull = `${meta.name}: ${variant.type || 'any'}`;
-                const varSigSimple = `${meta.name}: ${simplifyLuauType(variant.type || 'any')}`;
-                
-                html += `
-                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: ${index < meta.variants.length - 1 ? '1px dashed var(--border-color)' : 'none'};">
-                        <div class="full-type" style="margin-bottom: 0.5rem;">
-                            <code class="language-sluab">${escapeHtml(varSigFull)}</code>
-                        </div>
-                        <div class="simple-type" style="margin-bottom: 0.5rem;">
-                            <code class="language-sluab">${escapeHtml(varSigSimple)}</code>
-                        </div>
-                        ${variant.comment ? `<p style="margin: 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(variant.comment)}</p>` : ''}
-                        ${renderParamsTable(variant, false)}
-                    </div>
-                `;
-            });
+        // If there are multiple definitions (from variants), add a section title.
+        if (definitions.length > 1) {
+             html += `<h3 class="dash-section-title" style="margin-top: 2rem;">Variants</h3>`;
         }
+
+        // Display the details (specific comment and parameters table) for each definition.
+        definitions.forEach((def, index) => {
+            const showComment = definitions.length > 1 && def.comment;
+            const showBorder = index < definitions.length - 1;
+
+            html += `
+                <div style="margin-bottom: ${showBorder ? '2rem' : '0'}; padding-bottom: ${showBorder ? '1.5rem' : '0'}; border-bottom: ${showBorder ? '1px dashed var(--border-color)' : 'none'};">
+                    ${showComment ? `<p style="margin: 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(def.comment)}</p>` : ''}
+                    ${renderParamsTable(def, false)}
+                </div>
+            `;
+        });
 
         html += `
                     </div>
@@ -1364,7 +1395,7 @@ function renderMetamethodDetails(entry) {
         `;
         return html;
     }
-
+    
     function renderItemDetails(id) {
         const entry = searchIndex.find(x => x.id === id);
         if (!entry) return;
