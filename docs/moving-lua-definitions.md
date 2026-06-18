@@ -1320,27 +1320,35 @@ slua_beta: true
     function renderMetamethodSignature(metaDef, isSimp) {
         let sig = metaDef.name;
 
-        // It's a function-like metamethod with parameters
-        if (metaDef.parameters) {
+        // Determine if it is a function-style metamethod
+        if (metaDef.parameters || (metaDef.type && metaDef.type.includes("->"))) {
             let params = [];
-            metaDef.parameters.forEach(p => {
-                let pStr = p.name === "..." && isSimp ? "args" : p.name;
-                if (p.type) {
-                    pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
-                }
-                params.push(pStr);
-            });
+            if (metaDef.parameters) {
+                metaDef.parameters.forEach(p => {
+                    let pStr = p.name === "..." && isSimp ? "args" : p.name;
+                    if (p.type) {
+                        pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
+                    }
+                    params.push(pStr);
+                });
+            }
             sig += `(${params.join(", ")})`;
             
-            if (metaDef["return-type"]) {
-                const returnType = isSimp ? simplifyLuauType(metaDef["return-type"]) : metaDef["return-type"];
-                // Don't show a return type for "void" returns like ()
+            // Extract or assign return type
+            let retType = metaDef["return-type"];
+            if (!retType && metaDef.type && metaDef.type.includes("->")) {
+                const parts = metaDef.type.split("->");
+                retType = parts[parts.length - 1].trim();
+            }
+
+            if (retType) {
+                const returnType = isSimp ? simplifyLuauType(retType) : retType;
                 if (returnType.trim() !== '()') {
                     sig += `: ${returnType}`;
                 }
             }
         } 
-        // It's a property-like metamethod (e.g., __mode, __metatable)
+        // fallback to property/variable type mapping
         else if (metaDef.type) {
             sig += `: ${isSimp ? simplifyLuauType(metaDef.type) : metaDef.type}`;
         }
@@ -1350,43 +1358,56 @@ slua_beta: true
     
     function renderMetamethodDetails(entry) {
         const meta = entry.item;
-        
-        // If variants exist, they are the definitions. Otherwise, it's just the main object.
-        const definitions = (meta.variants && meta.variants.length > 0) ? meta.variants : [meta];
+        const hasVariants = meta.variants && meta.variants.length > 0;
 
-        // Build all signatures (full and simple) for the header section.
-        // Each definition needs the top-level `name` from the parent metamethod.
-        const fullSigs = definitions.map(def => renderMetamethodSignature({ ...def, name: meta.name }, false));
-        const simpleSigs = definitions.map(def => renderMetamethodSignature({ ...def, name: meta.name }, true));
-        
+        let headerHtml = "";
+        if (hasVariants) {
+            // Skip main definition signature in header if variants are present
+            headerHtml = `<h2 style="margin: 0; font-family: monospace;">${escapeHtml(meta.name)}</h2>`;
+        } else {
+            const sigFull = renderMetamethodSignature(meta, false);
+            const sigSimple = renderMetamethodSignature(meta, true);
+            headerHtml = `
+                <span class="full-type"><code class="language-sluab">${escapeHtml(sigFull)}</code></span>
+                <span class="simple-type"><code class="language-sluab">${escapeHtml(sigSimple)}</code></span>
+            `;
+        }
+
         let html = `
             <div class="dashboard metamethod-detail">
                 <div class="dashboard-header">
-                    <span class="full-type">${fullSigs.map(s => `<code class="language-sluab">${escapeHtml(s)}</code>`).join('<br>')}</span>
-                    <span class="simple-type">${simpleSigs.map(s => `<code class="language-sluab">${escapeHtml(s)}</code>`).join('<br>')}</span>
+                    ${headerHtml}
                 </div>
                 <div class="dashboard-body" style="grid-template-columns: 1fr;">
                     <div class="dash-col">
-                        ${meta.comment ? `<p class="description-text">${escapeHtml(meta.comment)}</p>` : ''}
         `;
 
-        // If there are multiple definitions (from variants), add a section title.
-        if (definitions.length > 1) {
-             html += `<h3 class="dash-section-title" style="margin-top: 2rem;">Variants</h3>`;
-        }
+        if (hasVariants) {
+            meta.variants.forEach((variant, index) => {
+                const varSigFull = renderMetamethodSignature({ ...variant, name: meta.name }, false);
+                const varSigSimple = renderMetamethodSignature({ ...variant, name: meta.name }, true);
+                const showBorder = index < meta.variants.length - 1;
 
-        // Display the details (specific comment and parameters table) for each definition.
-        definitions.forEach((def, index) => {
-            const showComment = definitions.length > 1 && def.comment;
-            const showBorder = index < definitions.length - 1;
-
+                html += `
+                    <div style="margin-bottom: ${showBorder ? '2.5rem' : '0'}; padding-bottom: ${showBorder ? '2rem' : '0'}; border-bottom: ${showBorder ? '1px dashed var(--border-color)' : 'none'};">
+                        <div class="full-type" style="margin-bottom: 0.5rem;">
+                            <code class="language-sluab">${escapeHtml(varSigFull)}</code>
+                        </div>
+                        <div class="simple-type" style="margin-bottom: 0.5rem;">
+                            <code class="language-sluab">${escapeHtml(varSigSimple)}</code>
+                        </div>
+                        ${variant.comment ? `<p class="description-text" style="margin-top: 0.75rem; margin-bottom: 1rem;">${escapeHtml(variant.comment)}</p>` : ''}
+                        ${renderParamsTable(variant, false)}
+                    </div>
+                `;
+            });
+        } else {
+            // Standard layout when there are no variants
             html += `
-                <div style="margin-bottom: ${showBorder ? '2rem' : '0'}; padding-bottom: ${showBorder ? '1.5rem' : '0'}; border-bottom: ${showBorder ? '1px dashed var(--border-color)' : 'none'};">
-                    ${showComment ? `<p style="margin: 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(def.comment)}</p>` : ''}
-                    ${renderParamsTable(def, false)}
-                </div>
+                ${meta.comment ? `<p class="description-text">${escapeHtml(meta.comment)}</p>` : ''}
+                ${renderParamsTable(meta, false)}
             `;
-        });
+        }
 
         html += `
                     </div>
