@@ -1363,7 +1363,6 @@ slua_beta: true
         let headerHtml = "";
         if (hasVariants) {
             // Skip main definition signature in header if variants are present
-            headerHtml = `<h2 style="margin: 0; font-family: monospace;">${escapeHtml(meta.name)}</h2>`;
         } else {
             const sigFull = renderMetamethodSignature(meta, false);
             const sigSimple = renderMetamethodSignature(meta, true);
