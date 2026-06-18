@@ -824,13 +824,13 @@ slua_beta: true
         });
         
         // 4. Metamethods
-        Object.entries(data.metamethods).forEach(([name, meta]) => {
+        data.metamethods.forEach(meta => {
             searchIndex.push({
-                id: `metamethod:${name}`,
+                id: `metamethod:${meta.name}`,
                 type: 'metamethod',
                 category: 'Metamethods',
-                name: name,
-                displayName: name,
+                name: meta.name,
+                displayName: meta.name,
                 item: meta,
                 parent: null
             });
@@ -1317,17 +1317,47 @@ slua_beta: true
         return html;
     }
 
-    function renderMetamethodDetails(entry) {
+function renderMetamethodDetails(entry) {
         const meta = entry.item;
+        const sigFull = `${meta.name}: ${meta.type || 'any'}`;
+        const sigSimple = `${meta.name}: ${simplifyLuauType(meta.type || 'any')}`;
         
         let html = `
             <div class="dashboard metamethod-detail">
                 <div class="dashboard-header">
-                    <code class="language-sluab">${escapeHtml(entry.name)}</code>
+                    <span class="full-type"><code class="language-sluab">${escapeHtml(sigFull)}</code></span>
+                    <span class="simple-type"><code class="language-sluab">${escapeHtml(sigSimple)}</code></span>
                 </div>
                 <div class="dashboard-body" style="grid-template-columns: 1fr;">
                     <div class="dash-col">
-                        ${meta.tooltip ? `<p class="description-text">${escapeHtml(meta.tooltip)}</p>` : ''}
+                        ${meta.comment ? `<p class="description-text">${escapeHtml(meta.comment)}</p>` : ''}
+                        ${renderParamsTable(meta, false)}
+        `;
+
+        if (meta.variants && meta.variants.length > 0) {
+            html += `
+                <h3 class="dash-section-title" style="margin-top: 2rem;">Variants</h3>
+            `;
+            meta.variants.forEach((variant, index) => {
+                const varSigFull = `${meta.name}: ${variant.type || 'any'}`;
+                const varSigSimple = `${meta.name}: ${simplifyLuauType(variant.type || 'any')}`;
+                
+                html += `
+                    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: ${index < meta.variants.length - 1 ? '1px dashed var(--border-color)' : 'none'};">
+                        <div class="full-type" style="margin-bottom: 0.5rem;">
+                            <code class="language-sluab">${escapeHtml(varSigFull)}</code>
+                        </div>
+                        <div class="simple-type" style="margin-bottom: 0.5rem;">
+                            <code class="language-sluab">${escapeHtml(varSigSimple)}</code>
+                        </div>
+                        ${variant.comment ? `<p style="margin: 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(variant.comment)}</p>` : ''}
+                        ${renderParamsTable(variant, false)}
+                    </div>
+                `;
+            });
+        }
+
+        html += `
                     </div>
                 </div>
             </div>
