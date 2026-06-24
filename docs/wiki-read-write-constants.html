@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constants in parameter lists used read only or write only</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Constants in parameter lists used read only or write only</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for constants...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "write": {
+    "BEACON_MAP": {
+      "categories": [
+        "MapBeaconParam"
+      ],
+      "functions": [
+        "llMapBeacon"
+      ]
+    },
+    "CAMERA_ACTIVE": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_BEHINDNESS_ANGLE": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_BEHINDNESS_LAG": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_DISTANCE": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_FOCUS": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_FOCUS_LAG": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_FOCUS_LOCKED": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_FOCUS_OFFSET": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_FOCUS_THRESHOLD": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_PITCH": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_POSITION": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_POSITION_LAG": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_POSITION_LOCKED": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CAMERA_POSITION_THRESHOLD": {
+      "categories": [
+        "CameraParam"
+      ],
+      "functions": [
+        "llSetCameraParams"
+      ]
+    },
+    "CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_AVOIDANCE_MODE": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_DESIRED_SPEED": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_DESIRED_TURN_SPEED": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_LENGTH": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_MAX_ACCEL": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_MAX_DECEL": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_MAX_SPEED": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_MAX_TURN_RADIUS": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_ORIENTATION": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_RADIUS": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_STAY_WITHIN_PARCEL": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "CHARACTER_TYPE": {
+      "categories": [
+        "CharacterParam",
+        "GetClosestNavPointParam",
+        "GetStaticPathParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter",
+        "llGetClosestNavPoint",
+        "llGetStaticPath"
+      ]
+    },
+    "FILTER_FLAGS": {
+      "categories": [
+        "AttachedListFilterParam"
+      ],
+      "functions": [
+        "llGetAttachedListFiltered"
+      ]
+    },
+    "FILTER_INCLUDE": {
+      "categories": [
+        "AttachedListFilterParam"
+      ],
+      "functions": [
+        "llGetAttachedListFiltered"
+      ]
+    },
+    "FORCE_DIRECT_PATH": {
+      "categories": [
+        "CharacterNavigateParam"
+      ],
+      "functions": [
+        "llNavigateTo"
+      ]
+    },
+    "GCNP_GET_WALKABILITY": {
+      "categories": [
+        "GetClosestNavPointParam"
+      ],
+      "functions": [
+        "llGetClosestNavPoint"
+      ]
+    },
+    "GCNP_RADIUS": {
+      "categories": [
+        "GetClosestNavPointParam"
+      ],
+      "functions": [
+        "llGetClosestNavPoint"
+      ]
+    },
+    "GCNP_STATIC": {
+      "categories": [
+        "GetClosestNavPointParam"
+      ],
+      "functions": [
+        "llGetClosestNavPoint"
+      ]
+    },
+    "HTTP_ACCEPT": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_BODY_MAXLENGTH": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_CUSTOM_HEADER": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_EXTENDED_ERROR": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_METHOD": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_MIMETYPE": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_PRAGMA_NO_CACHE": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_USER_AGENT": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_VERBOSE_THROTTLE": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "HTTP_VERIFY_CERT": {
+      "categories": [
+        "HTTPRequestParam"
+      ],
+      "functions": [
+        "llHTTPRequest"
+      ]
+    },
+    "KFM_COMMAND": {
+      "categories": [
+        "KeyframedMotionParam"
+      ],
+      "functions": [
+        "llSetKeyframedMotion"
+      ]
+    },
+    "KFM_DATA": {
+      "categories": [
+        "KeyframedMotionParam"
+      ],
+      "functions": [
+        "llSetKeyframedMotion"
+      ]
+    },
+    "KFM_MODE": {
+      "categories": [
+        "KeyframedMotionParam"
+      ],
+      "functions": [
+        "llSetKeyframedMotion"
+      ]
+    },
+    "NAVIGATE_TO_GOAL_REACHED_DIST": {
+      "categories": [
+        "CharacterNavigateParam"
+      ],
+      "functions": [
+        "llNavigateTo"
+      ]
+    },
+    "OVERRIDE_GLTF_BASE_ALPHA": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "OVERRIDE_GLTF_BASE_ALPHA_MASK": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "OVERRIDE_GLTF_BASE_ALPHA_MODE": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "OVERRIDE_GLTF_BASE_COLOR_FACTOR": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "OVERRIDE_GLTF_BASE_DOUBLE_SIDED": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "OVERRIDE_GLTF_EMISSIVE_FACTOR": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "OVERRIDE_GLTF_METALLIC_FACTOR": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "OVERRIDE_GLTF_ROUGHNESS_FACTOR": {
+      "categories": [
+        "GLTFOverride"
+      ],
+      "functions": [
+        "llSetLinkGLTFOverrides"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_AGENT": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_AUTO_ALIGN": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_LOOP": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_PAUSE": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_PLAY": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_STOP": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_TIME": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_MEDIA_COMMAND_UNLOAD": {
+      "categories": [
+        "ParcelMediaCommand"
+      ],
+      "functions": [
+        "llParcelMediaCommandList"
+      ]
+    },
+    "PARCEL_SALE_AGENT": {
+      "categories": [
+        "ParcelSaleParam"
+      ],
+      "functions": [
+        "llSetParcelForSale"
+      ]
+    },
+    "PARCEL_SALE_OBJECTS": {
+      "categories": [
+        "ParcelSaleParam"
+      ],
+      "functions": [
+        "llSetParcelForSale"
+      ]
+    },
+    "PARCEL_SALE_PRICE": {
+      "categories": [
+        "ParcelSaleParam"
+      ],
+      "functions": [
+        "llSetParcelForSale"
+      ]
+    },
+    "PATROL_PAUSE_AT_WAYPOINTS": {
+      "categories": [
+        "CharacterPatrolPointsParam"
+      ],
+      "functions": [
+        "llPatrolPoints"
+      ]
+    },
+    "PAY_DEFAULT": {
+      "categories": [
+        "PayButton"
+      ],
+      "functions": [
+        "llSetPayPrice"
+      ]
+    },
+    "PAY_HIDE": {
+      "categories": [
+        "PayButton"
+      ],
+      "functions": [
+        "llSetPayPrice"
+      ]
+    },
+    "PRIM_LINK_TARGET": {
+      "categories": [
+        "PrimParam"
+      ],
+      "functions": [
+        "llSetLinkPrimitiveParams",
+        "llSetLinkPrimitiveParamsFast",
+        "llSetPrimitiveParams"
+      ]
+    },
+    "PRIM_PROJECTOR": {
+      "categories": [
+        "PrimParam"
+      ],
+      "functions": [
+        "llSetLinkPrimitiveParams",
+        "llSetLinkPrimitiveParamsFast",
+        "llSetPrimitiveParams"
+      ]
+    },
+    "PSYS_PART_BLEND_FUNC_DEST": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_BLEND_FUNC_SOURCE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_END_ALPHA": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_END_COLOR": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_END_GLOW": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_END_SCALE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_FLAGS": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_MAX_AGE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_START_ALPHA": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_START_COLOR": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_START_GLOW": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_PART_START_SCALE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_ACCEL": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_ANGLE_BEGIN": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_ANGLE_END": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_BURST_PART_COUNT": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_BURST_RADIUS": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_BURST_RATE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_BURST_SPEED_MAX": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_BURST_SPEED_MIN": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_INNERANGLE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_MAX_AGE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_OBJ_REL_MASK": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_OMEGA": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_OUTERANGLE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_PATTERN": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_TARGET_KEY": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PSYS_SRC_TEXTURE": {
+      "categories": [
+        "ParticleParam"
+      ],
+      "functions": [
+        "llLinkParticleSystem",
+        "llParticleSystem"
+      ]
+    },
+    "PURSUIT_FUZZ_FACTOR": {
+      "categories": [
+        "CharacterPursueParam"
+      ],
+      "functions": [
+        "llPursue"
+      ]
+    },
+    "PURSUIT_GOAL_TOLERANCE": {
+      "categories": [
+        "CharacterPursueParam"
+      ],
+      "functions": [
+        "llPursue"
+      ]
+    },
+    "PURSUIT_INTERCEPT": {
+      "categories": [
+        "CharacterPursueParam"
+      ],
+      "functions": [
+        "llPursue"
+      ]
+    },
+    "PURSUIT_OFFSET": {
+      "categories": [
+        "CharacterPursueParam"
+      ],
+      "functions": [
+        "llPursue"
+      ]
+    },
+    "RC_DATA_FLAGS": {
+      "categories": [
+        "RayCastParam"
+      ],
+      "functions": [
+        "llCastRay"
+      ]
+    },
+    "RC_DETECT_PHANTOM": {
+      "categories": [
+        "RayCastParam"
+      ],
+      "functions": [
+        "llCastRay"
+      ]
+    },
+    "RC_MAX_HITS": {
+      "categories": [
+        "RayCastParam"
+      ],
+      "functions": [
+        "llCastRay"
+      ]
+    },
+    "RC_REJECT_TYPES": {
+      "categories": [
+        "RayCastParam"
+      ],
+      "functions": [
+        "llCastRay"
+      ]
+    },
+    "REQUIRE_LINE_OF_SIGHT": {
+      "categories": [
+        "CharacterPursueParam"
+      ],
+      "functions": [
+        "llPursue"
+      ]
+    },
+    "REZ_ACCEL": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_DAMAGE": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_DAMAGE_TYPE": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_FLAGS": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_LOCK_AXES": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_OMEGA": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_PARAM": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_PARAM_STRING": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_POS": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_ROT": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_SOUND": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_SOUND_COLLIDE": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_TORQUE": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "REZ_VEL": {
+      "categories": [
+        "RezParam"
+      ],
+      "functions": [
+        "llRezObjectWithParams"
+      ]
+    },
+    "TERRAIN_DETAIL_1": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_DETAIL_2": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_DETAIL_3": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_DETAIL_4": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_HEIGHT_RANGE_NE": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_HEIGHT_RANGE_NW": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_HEIGHT_RANGE_SE": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_HEIGHT_RANGE_SW": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_OFFSET_1": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_OFFSET_2": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_OFFSET_3": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_OFFSET_4": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_ROTATION_1": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_ROTATION_2": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_ROTATION_3": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_ROTATION_4": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_SCALE_1": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_SCALE_2": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_SCALE_3": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TERRAIN_PBR_SCALE_4": {
+      "categories": [
+        "GroundTextureParam"
+      ],
+      "functions": [
+        "llSetGroundTexture"
+      ]
+    },
+    "TRANSFER_DEST": {
+      "categories": [
+        "GiveAgentInventoryParam"
+      ],
+      "functions": [
+        "llGiveAgentInventory"
+      ]
+    },
+    "TRANSFER_FLAGS": {
+      "categories": [
+        "GiveAgentInventoryParam"
+      ],
+      "functions": [
+        "llGiveAgentInventory"
+      ]
+    },
+    "TRAVERSAL_TYPE": {
+      "categories": [
+        "CharacterParam"
+      ],
+      "functions": [
+        "llCreateCharacter",
+        "llUpdateCharacter"
+      ]
+    },
+    "WANDER_PAUSE_AT_WAYPOINTS": {
+      "categories": [
+        "CharacterWanderWithinParam"
+      ],
+      "functions": [
+        "llWanderWithin"
+      ]
+    }
+  },
+  "read": {
+    "ENVIRONMENT_DAYINFO": {
+      "categories": [
+        "EnvironmentParamReadOnly"
+      ],
+      "functions": [
+        "llGetEnvironment"
+      ]
+    },
+    "OBJECT_ACCOUNT_LEVEL": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_ANIMATED_COUNT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_ANIMATED_SLOTS_AVAILABLE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_ATTACHED_POINT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_ATTACHED_SLOTS_AVAILABLE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_BODY_SHAPE_TYPE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_CHARACTER_TIME": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_CLICK_ACTION": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_CREATION_TIME": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_CREATOR": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_DAMAGE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_DAMAGE_TYPE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_DESC": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_GROUP": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_GROUP_TAG": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_HEALTH": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_HOVER_HEIGHT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_LAST_OWNER_ID": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_LINK_NUMBER": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_LOCKED": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_MASS": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_MATERIAL": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_NAME": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_OMEGA": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_OWNER": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PATHFINDING_TYPE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PERMS": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PERMS_COMBINED": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PHANTOM": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PHYSICS": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PHYSICS_COST": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_POS": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PRIM_COUNT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_PRIM_EQUIVALENCE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_RENDER_WEIGHT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_REZZER_KEY": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_REZ_TIME": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_ROOT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_ROT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_RUNNING_SCRIPT_COUNT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_SCALE": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_SCRIPT_MEMORY": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_SCRIPT_TIME": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_SELECT_COUNT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_SERVER_COST": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_SIT_COUNT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_STREAMING_COST": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_TEMP_ATTACHED": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_TEMP_ON_REZ": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_TEXT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_TEXT_ALPHA": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_TEXT_COLOR": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_TOTAL_INVENTORY_COUNT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_TOTAL_SCRIPT_COUNT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_VELOCITY": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "OBJECT_VOLUME_DETECT": {
+      "categories": [
+        "ObjectDetailsParam"
+      ],
+      "functions": [
+        "llGetObjectDetails"
+      ]
+    },
+    "PARCEL_DETAILS_AREA": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_DESC": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_FLAGS": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_GROUP": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_ID": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_LANDING_LOOKAT": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_LANDING_POINT": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_NAME": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_OWNER": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_PRIM_CAPACITY": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_PRIM_USED": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_SCRIPT_DANGER": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_SEE_AVATARS": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "PARCEL_DETAILS_TP_ROUTING": {
+      "categories": [
+        "ParcelDetailsParam"
+      ],
+      "functions": [
+        "llGetParcelDetails"
+      ]
+    },
+    "SKY_LIGHT": {
+      "categories": [
+        "EnvironmentParamReadOnly"
+      ],
+      "functions": [
+        "llGetEnvironment"
+      ]
+    },
+    "SKY_TEXTURE_DEFAULTS": {
+      "categories": [
+        "EnvironmentParamReadOnly"
+      ],
+      "functions": [
+        "llGetEnvironment"
+      ]
+    },
+    "SKY_TRACKS": {
+      "categories": [
+        "EnvironmentParamReadOnly"
+      ],
+      "functions": [
+        "llGetEnvironment"
+      ]
+    },
+    "WATER_TEXTURE_DEFAULTS": {
+      "categories": [
+        "EnvironmentParamReadOnly"
+      ],
+      "functions": [
+        "llGetEnvironment"
+      ]
+    }
+  }
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                if (funcName.toLowerCase().includes(lowerCaseQuery)) {
+                    filteredData[funcName] = lslData[funcName];
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
