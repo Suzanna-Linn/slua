@@ -1906,13 +1906,14 @@
             const filteredData = {};
         
             for (const funcName in lslData) {
-                const valuesArray = lslData[funcName];
-                if (Array.isArray(valuesArray)) {
-                    const matchingValues = valuesArray.filter(item => 
-                        String(item).toLowerCase().includes(lowerCaseQuery)
+                const valuesObject = lslData[funcName];
+                if (valuesObject && typeof valuesObject === 'object' && !Array.isArray(valuesObject)) {
+                    const matchingEntries = Object.entries(valuesObject).filter(
+                        ([key, value]) =>
+                            String(value).toLowerCase().includes(lowerCaseQuery)
                     );
-                    if (matchingValues.length > 0) {
-                        filteredData[funcName] = matchingValues;
+                    if (matchingEntries.length > 0) {
+                        filteredData[funcName] = Object.fromEntries(matchingEntries);
                     }
                 }
             }
