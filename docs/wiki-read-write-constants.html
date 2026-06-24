@@ -1910,7 +1910,7 @@
                 if (valuesObject && typeof valuesObject === 'object' && !Array.isArray(valuesObject)) {
                     const matchingEntries = Object.entries(valuesObject).filter(
                         ([key, value]) =>
-                            String(value).toLowerCase().includes(lowerCaseQuery)
+                            key.toLowerCase().includes(lowerCaseQuery)
                     );
                     if (matchingEntries.length > 0) {
                         filteredData[funcName] = Object.fromEntries(matchingEntries);
