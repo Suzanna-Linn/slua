@@ -472,7 +472,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">string</code></td>
             <td><code class="type">boolean</code></td>
             <td><strong>Always false:</strong> Unlike standard LSL, strings and uuids are strictly separated in
-                SLua. You must convert via <code>tostring()</code> to compare them.</td>
+                SLua. You must convert via <code>tostring()</code> or <code>touuid()</code> to compare them.</td>
         </tr>
         <tr>
             <td><code class="op">and</code>, <code class="op">or</code></td>
