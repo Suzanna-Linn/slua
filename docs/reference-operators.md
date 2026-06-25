@@ -172,14 +172,14 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">number</code></td>
             <td><code class="type">any</code></td>
             <td><code class="type">any</code></td>
-            <td>Evaluates logical connections. Numbers are always treated as "truthy".</td>
+            <td>Evaluates logical connections. Numbers are always treated as "truthy". Unlike LSL, the number 0 evaluates to true in Lua.</td>
         </tr>
         <tr>
             <td><code class="op">not</code></td>
             <td><code class="type">number</code></td>
             <td>N/A</td>
             <td><code class="type">boolean</code></td>
-            <td>Always returns <code>false</code> because numbers are always truthy.</td>
+            <td>Always returns <code>false</code> because numbers are always truthy (including 0)/td>
         </tr>
     </tbody>
 </table>
@@ -308,12 +308,18 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td>Performs component-wise addition or subtraction.</td>
         </tr>
         <tr>
-            <td><code class="op">*</code>, <code class="op">/</code>, <code class="op">//</code>,
-                <code class="op">%</code>, <code class="op">^</code></td>
+            <td><code class="op">*</code>, <code class="op">/</code>, <code class="op">//</code></td>
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
-            <td>Performs component-wise math operation between the two vectors.</td>
+            <td>Performs component-wise math operation between the two vectors. In Lua, * do <strong>not</strong>strong> calculate <strong>Dot Product</strong>strong>. Use vector.dot(a, b) instead.</td>
+        </tr>
+        <tr>
+            <td><code class="op">%</code></td>
+            <td><code class="type">vector</code></td>
+            <td><code class="type">vector</code></td>
+            <td><code class="type">vector</code></td>
+            <td>Calculates the <strong>Cross Product</strong> of the two vectors.</td>
         </tr>
         <tr>
             <td><code class="op">*</code>, <code class="op">/</code></td>
@@ -654,7 +660,7 @@ Other data types: `nil`, `function`, `thread`, `userdata`, `buffer`
     </thead>
     <tbody>
         <tr>
-            <td><code class="op">a +=b </code></td>
+            <td><code class="op">a += b </code></td>
             <td><code>a = a + b</code></td>
             <td><code class="type">number</code>, <code class="type">vector</code>, <code class="type">table</code>
                 (with <code>__add</code>)</td>
@@ -675,7 +681,7 @@ Other data types: `nil`, `function`, `thread`, `userdata`, `buffer`
             <td>Multiplies the variable's value by RHS. Handles vector scaling.</td>
         </tr>
         <tr>
-            <td><code class="op">a /= n</code></td>
+            <td><code class="op">a /= b</code></td>
             <td><code>a = a / b</code></td>
             <td><code class="type">number</code>, <code class="type">vector</code>, <code class="type">table</code>
                 (with <code>__div</code>)</td>
@@ -703,7 +709,7 @@ Other data types: `nil`, `function`, `thread`, `userdata`, `buffer`
             <td>Raises the variable to the power of RHS.</td>
         </tr>
         <tr>
-            <td><code class="op">a .. b=</code></td>
+            <td><code class="op">a ..= b</code></td>
             <td><code>a = a .. b</code></td>
             <td><code class="type">string</code>, <code class="type">number</code>, <code class="type">table</code>
                 (with <code>__concat</code>)</td>
