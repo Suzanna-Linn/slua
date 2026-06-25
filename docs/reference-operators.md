@@ -491,7 +491,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td>Always returns <code>false</code> because UUID instances are always truthy.</td>
         </tr>
         <tr>
-            <td><em>None</em></td>
+            <td><em>All others</em></td>
             <td><code class="type">uuid</code></td>
             <td><code class="type">any</code></td>
             <td>N/A</td>
@@ -520,7 +520,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">table</code></td>
             <td>N/A</td>
             <td><code class="type">number</code></td>
-            <td>Returns table size. Triggers <code>__len</code> if defined; otherwise calculates boundary count.
+            <td>Returns array table size. Triggers <code>__len</code> if defined; otherwise returns the boundary count of the array portion of the table.
             </td>
         </tr>
         <tr>
