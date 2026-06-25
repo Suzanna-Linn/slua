@@ -697,7 +697,7 @@ Other data types: `nil`, `function`, `thread`, `userdata`, `buffer`
         <tr>
             <td><code class="op">a %= b</code></td>
             <td><code>a = a % b</code></td>
-            <td><code class="type">number</code>, <code class="type">vector</code>, <code class="type">table</code>
+            <td><code class="type">number</code>, <code class="type">table</code>
                 (with <code>__mod</code>)</td>
             <td>Updates the variable to the remainder (modulo) of the division.</td>
         </tr>
