@@ -210,7 +210,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">string</code></td>
             <td><code class="type">any</code></td>
             <td><code class="type">boolean</code></td>
-            <td>Compares string values. Evaluation checks value, not memory reference.</td>
+            <td>Compares string values. SLua's string interning optimizes this to a memory reference comparison.</td>
         </tr>
         <tr>
             <td><code class="op">&lt;</code>, <code class="op">&gt;</code>, <code class="op">&lt;=</code>,
@@ -306,7 +306,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
-            <td>Performs component-wise math operation between the two vectors. In SLua, * do <strong>not</strong> calculate <strong>Dot Product</strong>. Use vector.dot(a, b) instead.</td>
+            <td>Performs component-wise math operation between the two vectors. In SLua, * does <strong>not</strong> calculate <strong>Dot Product</strong>. Use vector.dot(a, b) instead.</td>
         </tr>
         <tr>
             <td><code class="op">%</code></td>
