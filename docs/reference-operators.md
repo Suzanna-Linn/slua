@@ -172,7 +172,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">number</code></td>
             <td><code class="type">any</code></td>
             <td><code class="type">any</code></td>
-            <td>Evaluates logical connections. Numbers are always treated as "truthy". Unlike LSL, the number 0 evaluates to true in Lua.</td>
+            <td>Evaluates logical connections. Numbers are always treated as "truthy". Unlike LSL, the number 0 evaluates to true in SLua.</td>
         </tr>
         <tr>
             <td><code class="op">not</code></td>
@@ -312,7 +312,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
-            <td>Performs component-wise math operation between the two vectors. In Lua, * do <strong>not</strong>strong> calculate <strong>Dot Product</strong>strong>. Use vector.dot(a, b) instead.</td>
+            <td>Performs component-wise math operation between the two vectors. In SLua, * do <strong>not</strong>strong> calculate <strong>Dot Product</strong>strong>. Use vector.dot(a, b) instead.</td>
         </tr>
         <tr>
             <td><code class="op">%</code></td>
