@@ -418,7 +418,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">rotation</code></td>
             <td>N/A</td>
             <td><code class="type">rotation</code></td>
-            <td>Negates all components of the rotation.</td>
+            <td>Negates all components of the rotation.-q performs exactly the same rotation as q. This is because you are rotating in the opposite direction around the opposite vector and the two opposites exactly cancel each other.</td>
         </tr>
         <tr>
             <td><code class="op">==</code>, <code class="op">~=</code></td>
