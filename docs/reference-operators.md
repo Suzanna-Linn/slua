@@ -179,7 +179,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">number</code></td>
             <td>N/A</td>
             <td><code class="type">boolean</code></td>
-            <td>Always returns <code>false</code> because numbers are always truthy (including 0)/td>
+            <td>Always returns <code>false</code> because numbers are always truthy (including 0).</td>
         </tr>
     </tbody>
 </table>
