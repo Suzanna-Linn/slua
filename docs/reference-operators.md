@@ -25,16 +25,10 @@ The following table lists the operators in descending order of evaluation, i.e. 
     }
 
     th {
-        background-color: #f2f2f2;
         font-weight: bold;
     }
 
-    tr:nth-child(even) {
-        background-color: #fafafa;
-    }
-
     code {
-        background-color: #eaeaea;
         padding: 2px 5px;
         border-radius: 3px;
         font-family: "Courier New", Courier, monospace;
