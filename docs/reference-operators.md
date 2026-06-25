@@ -144,7 +144,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">number</code></td>
             <td><code class="type">any</code></td>
             <td><code class="type">boolean</code></td>
-            <td>Checks for numeric equality or inequality. Comparison with non-numbers yields false.</td>
+            <td>Checks for numeric equality or inequality. Comparison with non-numbers yields not equal.</td>
         </tr>
         <tr>
             <td><code class="op">&lt;</code>, <code class="op">&gt;</code>, <code class="op">&lt;=</code>,
@@ -341,7 +341,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">vector</code></td>
             <td><code class="type">any</code></td>
             <td><code class="type">boolean</code></td>
-            <td>Checks for exact component-wise equality. Comparing against other types yields false.</td>
+            <td>Checks for exact component-wise equality. Comparing against other types yields not equal.</td>
         </tr>
         <tr>
             <td><code class="op">and</code>, <code class="op">or</code></td>
@@ -425,7 +425,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">rotation</code></td>
             <td><code class="type">any</code></td>
             <td><code class="type">boolean</code></td>
-            <td>Checks for strict component-wise mathematical equality. Comparison with other types yields false.
+            <td>Checks for strict component-wise mathematical equality. Comparison with other types yields not equal.
             </td>
         </tr>
         <tr>
