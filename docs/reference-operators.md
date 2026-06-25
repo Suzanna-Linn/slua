@@ -312,7 +312,7 @@ The following table lists the operators in descending order of evaluation, i.e. 
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
             <td><code class="type">vector</code></td>
-            <td>Performs component-wise math operation between the two vectors. In SLua, * do <strong>not</strong>strong> calculate <strong>Dot Product</strong>strong>. Use vector.dot(a, b) instead.</td>
+            <td>Performs component-wise math operation between the two vectors. In SLua, * do <strong>not</strong> calculate <strong>Dot Product</strong>. Use vector.dot(a, b) instead.</td>
         </tr>
         <tr>
             <td><code class="op">%</code></td>
