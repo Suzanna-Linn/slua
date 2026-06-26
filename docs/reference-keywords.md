@@ -144,12 +144,12 @@ These 21 keywords cannot be used as variable names or identifiers
         </tr>
         <tr>
             <td><code>return</code></td>
-            <td>Declaration</td>
+            <td>Exit Statement</td>
             <td>Ends execution of a function and optionally returns values.</td>
         </tr>
         <tr>
             <td><code>break</code></td>
-            <td>Declaration</td>
+            <td>Exit Statement</td>
             <td>Immediately exits the innermost enclosing loop.</td>
         </tr>
     </tbody>
