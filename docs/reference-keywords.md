@@ -33,8 +33,6 @@ slua_beta: true
         font-weight: bold;
     }
 </style>
-</head>
-<body>
 
 ### Reserved Keywords
 
