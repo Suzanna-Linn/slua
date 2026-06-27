@@ -78,6 +78,16 @@ These 21 keywords cannot be used as variable names or identifiers
             <td>Performs logical negation.</td>
         </tr>
         <tr>
+            <td><code>local</code></td>
+            <td>Declaration</td>
+            <td>Declares a block-scoped variable or function.</td>
+        </tr>
+        <tr>
+            <td><code>function</code></td>
+            <td>Declaration</td>
+            <td>Defines an executable block of code or a function type signature.</td>
+        </tr>
+        <tr>
             <td><code>if</code></td>
             <td>Flow Control</td>
             <td>Starts a conditional block or inline conditional expression.</td>
@@ -133,16 +143,6 @@ These 21 keywords cannot be used as variable names or identifiers
             <td>Delimits loop variables from iterators in a generic <code>for</code> loop.</td>
         </tr>
         <tr>
-            <td><code>local</code></td>
-            <td>Declaration</td>
-            <td>Declares a block-scoped variable or function.</td>
-        </tr>
-        <tr>
-            <td><code>function</code></td>
-            <td>Declaration</td>
-            <td>Defines an executable block of code or a function type signature.</td>
-        </tr>
-        <tr>
             <td><code>return</code></td>
             <td>Exit Statement</td>
             <td>Ends execution of a function and optionally returns values.</td>
@@ -182,6 +182,11 @@ These keywords were added later and are recognized only in specific syntactical 
             <td><code>class</code></td>
             <td>Top-level block declarations</td>
             <td>Declares a native object-oriented class with defined fields and methods.</td>
+        </tr>
+        <tr>
+            <td><code>public</code></td>
+            <td>Class declarations</td>
+            <td>Declares a class field.</td>
         </tr>
         <tr>
             <td><code>export</code></td>
