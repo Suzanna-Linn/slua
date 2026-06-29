@@ -427,7 +427,8 @@ slua_beta: true
                 lslData = {
                     functions: normalizeArrayOrObject(rawYaml.functions),
                     events: normalizeArrayOrObject(rawYaml.events),
-                    constants: normalizeArrayOrObject(rawYaml.constants)
+                    constants: normalizeArrayOrObject(rawYaml.constants),
+                    enums: rawYaml.enums
                 };
             } 
             else {
@@ -671,9 +672,19 @@ slua_beta: true
             bindResultBtnHandlers();
         }
 
+
+
+
+
+
+
+
+
+
 /**
  * Generates an HTML table of constants, recursively rendering nested enums directly
  * under their corresponding associated value or specification.
+ * Automatically splits compound 'enum+flag' categories and adapts column headers.
  * Supports up to Level 2 recursion to prevent infinite loops.
  * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
  * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
@@ -681,6 +692,14 @@ slua_beta: true
  */
 function generateConstantsTable(categoryName, level = 0) {
     if (!lslData || !lslData.constants) return '';
+
+    // Check if this category is a compound enum+flag category
+    const enumInfo = lslData.enums && lslData.enums[categoryName];
+    if (enumInfo && enumInfo.type === 'enum+flag') {
+        const enumTable = generateConstantsTable(enumInfo.enum, level);
+        const flagTable = generateConstantsTable(enumInfo.flag, level);
+        return enumTable + flagTable;
+    }
 
     // Helper to escape HTML characters
     const escapeHtml = (str) => {
@@ -774,12 +793,15 @@ function generateConstantsTable(categoryName, level = 0) {
         nameColor = '#7f8c8d'; // Muted neutral color for deep nesting
     }
 
+    // Determine table header based on enum type
+    const nameHeader = (enumInfo && enumInfo.type === 'flag') ? 'Flags' : 'Options';
+
     let html = `<div class="table-scroll-container level-${level}-wrapper" style="${containerStyle}">`;
     html += `<table style="${tableStyle}">`;
     
     // Table Headers
     html += '<thead><tr>';
-    html += `<th style="width: 25%; ${headerStyle}">Constant Name</th>`;
+    html += `<th style="width: 25%; ${headerStyle}">${escapeHtml(nameHeader)}</th>`;
     html += `<th style="width: 15%; ${headerStyle}">Value</th>`;
     html += `<th style="width: 60%; ${headerStyle}">Description</th>`;
     html += '</tr></thead>';
@@ -882,6 +904,14 @@ function generateConstantsTable(categoryName, level = 0) {
     html += '</tbody></table></div>';
     return html;
 }
+
+
+
+
+
+
+
+        
         
         function renderItemDetails(type, name) {
             let info = null;
