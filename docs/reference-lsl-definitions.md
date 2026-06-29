@@ -417,7 +417,8 @@ slua_beta: true
         };
 
         try {
-            const response = await fetch(API_URL, { headers });
+            // const response = await fetch(API_URL, { headers });
+            const response = await fetch(API_URL);
             if (response.status === 200) {
                 // const apiResponse = await response.json();
                 // const rawYamlText = decodeBase64Utf8(apiResponse.content);
