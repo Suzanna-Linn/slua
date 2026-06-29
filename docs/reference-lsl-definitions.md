@@ -671,147 +671,150 @@ slua_beta: true
             bindResultBtnHandlers();
         }
 
-        function generateConstantsTable(categoryName) {
-            if (!lslData || !lslData.constants) return '';
-        
-            // Helper to escape HTML characters
-            const escapeHtml = (str) => {
-                if (str === null || str === undefined) return '';
-                return String(str)
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/"/g, "&quot;")
-                    .replace(/'/g, "&#039;");
-            };
-        
-            // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
-            const parseToNumeric = (val) => {
-                if (typeof val === 'number') return val;
-                if (typeof val === 'string') {
-                    const clean = val.trim();
-                    if (clean.startsWith('0x') || clean.startsWith('0X')) {
-                        return parseInt(clean, 16);
-                    }
-                    const num = parseFloat(clean);
-                    if (!isNaN(num)) return num;
-                }
-                return null;
-            };
-        
-            // Comparison function to sort row values numerically, falling back to lexical order
-            const compareValues = (a, b) => {
-                const numA = parseToNumeric(a.value);
-                const numB = parseToNumeric(b.value);
-        
-                if (numA !== null && numB !== null) {
-                    return numA - numB;
-                }
-                if (numA !== null) return -1;
-                if (numB !== null) return 1;
-        
-                const strA = String(a.value);
-                const strB = String(b.value);
-                return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
-            };
-        
-            // Helper to format associated field values (like array ranges)
-            const formatValue = (val) => {
-                if (val === undefined || val === null) return '';
-                if (Array.isArray(val)) {
-                    return val.map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(' to ');
-                }
-                if (typeof val === 'object') {
-                    return JSON.stringify(val);
-                }
-                return String(val);
-            };
-        
-            // Filter constants belonging to this category
-            const categoryConstants = lslData.constants.filter(c => {
-                if (!c['member-of']) return false;
-                const members = Array.isArray(c['member-of']) 
-                    ? c['member-of'] 
-                    : [c['member-of']];
-                return members.map(m => String(m).trim()).includes(categoryName);
-            });
-        
-            if (categoryConstants.length === 0) return '';
-        
-            // Sort the matched constants by value
-            categoryConstants.sort(compareValues);
-        
-            const optionalFields = ['name', 'value-type', 'range', 'default', 'enum', 'details'];
-            let html = '<div class="constants-card-list" style="display: flex; flex-direction: column; gap: 1rem; margin: 15px 0;">';
-        
-            categoryConstants.forEach(c => {
-                html += `
-                    <div class="constant-definition-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <!-- Header with Name and Value -->
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
-                            <strong style="font-family: monospace; font-size: 1.05em; color: var(--accent-lsl);">${escapeHtml(c.name)}</strong>
-                            <code style="background: var(--code-bg); padding: 3px 8px; border-radius: 4px; font-family: monospace; font-size: 0.9em; font-weight: bold;">${escapeHtml(String(c.value))}</code>
-                        </div>
-                `;
-        
-                // Render Tooltip / Main description
-                if (c.tooltip) {
-                    html += `<p style="margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.45;">${escapeHtml(c.tooltip)}</p>`;
-                }
-        
-                // Collect associated values or main level specs
-                let subRows = [];
-                if (c.values && Array.isArray(c.values) && c.values.length > 0) {
-                    subRows = c.values;
-                } else {
-                    const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
-                    if (hasMainOptional) {
-                        subRows = [{
-                            'value-type': c['value-type'],
-                            range: c.range,
-                            default: c.default,
-                            enum: c.enum,
-                            details: c.details
-                        }];
-                    }
-                }
-        
-                // Render nested specifications (if any exist)
-                if (subRows.length > 0) {
-                    html += `<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color);">`;
-                    subRows.forEach(sub => {
-                        html += `<div style="background: rgba(128,128,128,0.04); border: 1px solid rgba(128,128,128,0.08); border-radius: 6px; padding: 10px; font-size: 0.88em;">`;
-                        
-                        if (sub.name) {
-                            html += `<div style="font-weight: bold; margin-bottom: 6px; color: var(--text-color); font-family: monospace;">${escapeHtml(sub.name)}</div>`;
-                        }
-        
-                        // Metadata Grid
-                        html += `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;">`;
-                        optionalFields.forEach(field => {
-                            if (field === 'name') return; // Handled as header
-                            if (sub[field] !== undefined && sub[field] !== null) {
-                                let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                                html += `
-                                    <div>
-                                        <span style="color: #7f8c8d; font-weight: 500;">${escapeHtml(label)}:</span> 
-                                        <span style="font-family: monospace; color: var(--text-color);">${escapeHtml(formatValue(sub[field]))}</span>
-                                    </div>
-                                `;
-                            }
-                        });
-                        html += `</div>`; // End Grid
-                        html += `</div>`; // End Sub-block
-                    });
-                    html += `</div>`;
-                }
-        
-                html += `</div>`; // End Card
-            });
-        
-            html += '</div>';
-            return html;
+function generateConstantsTable(categoryName) {
+    if (!lslData || !lslData.constants) return '';
+
+    // Helper to escape HTML characters
+    const escapeHtml = (str) => {
+        if (str === null || str === undefined) return '';
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    };
+
+    // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
+    const parseToNumeric = (val) => {
+        if (typeof val === 'number') return val;
+        if (typeof val === 'string') {
+            const clean = val.trim();
+            if (clean.startsWith('0x') || clean.startsWith('0X')) {
+                return parseInt(clean, 16);
+            }
+            const num = parseFloat(clean);
+            if (!isNaN(num)) return num;
         }
+        return null;
+    };
+
+    // Comparison function to sort row values numerically, falling back to lexical order
+    const compareValues = (a, b) => {
+        const numA = parseToNumeric(a.value);
+        const numB = parseToNumeric(b.value);
+
+        if (numA !== null && numB !== null) {
+            return numA - numB;
+        }
+        if (numA !== null) return -1;
+        if (numB !== null) return 1;
+
+        const strA = String(a.value);
+        const strB = String(b.value);
+        return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
+    };
+
+    // Helper to format associated field values (like array ranges)
+    const formatValue = (val) => {
+        if (val === undefined || val === null) return '';
+        if (Array.isArray(val)) {
+            return val.map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(' to ');
+        }
+        if (typeof val === 'object') {
+            return JSON.stringify(val);
+        }
+        return String(val);
+    };
+
+    // Filter constants belonging to this category
+    const categoryConstants = lslData.constants.filter(c => {
+        if (!c['member-of']) return false;
+        const members = Array.isArray(c['member-of']) 
+            ? c['member-of'] 
+            : [c['member-of']];
+        return members.map(m => String(m).trim()).includes(categoryName);
+    });
+
+    if (categoryConstants.length === 0) return '';
+
+    // Sort the matched constants by value
+    categoryConstants.sort(compareValues);
+
+    const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
+    
+    let html = '<div class="table-scroll-container" style="overflow-x: auto; margin: 15px 0;">';
+    html += '<table style="width: 100%; border-collapse: collapse;">';
+    
+    // Main Headers
+    html += '<thead><tr>';
+    html += '<th style="width: 25%;">Constant Name</th>';
+    html += '<th style="width: 15%;">Value</th>';
+    html += '<th style="width: 60%;">Description</th>';
+    html += '</tr></thead>';
+
+    html += '<tbody>';
+    categoryConstants.forEach(c => {
+        // Main Constant Row
+        html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
+        html += `<td style="font-family: monospace; font-weight: bold; color: var(--accent-lsl); padding: 10px;">${escapeHtml(c.name)}</td>`;
+        html += `<td style="font-family: monospace; font-weight: bold; padding: 10px;">${escapeHtml(String(c.value))}</td>`;
+        html += `<td style="padding: 10px; line-height: 1.4;">${escapeHtml(c.tooltip || '')}</td>`;
+        html += `</tr>`;
+
+        // Generate Sub-row Content
+        let subRowContent = '';
+        if (c.values && Array.isArray(c.values) && c.values.length > 0) {
+            c.values.forEach(sub => {
+                let specParts = [];
+                optionalFields.forEach(field => {
+                    if (sub[field] !== undefined && sub[field] !== null) {
+                        let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                        specParts.push(`<span style="color: #7f8c8d;">${escapeHtml(label)}:</span> <span style="color: var(--text-color);">${escapeHtml(formatValue(sub[field]))}</span>`);
+                    }
+                });
+                
+                subRowContent += `
+                    <div style="margin-bottom: 6px; padding: 4px 8px; border-left: 3px solid var(--accent-lua, #3796ff); background: rgba(128,128,128,0.03); border-radius: 0 4px 4px 0;">
+                        ${sub.name ? `<strong style="font-family: monospace; margin-right: 8px;">${escapeHtml(sub.name)}</strong>` : ''}
+                        ${specParts.length > 0 ? ` &mdash; ${specParts.join(' | ')}` : ''}
+                    </div>
+                `;
+            });
+        } else {
+            const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
+            if (hasMainOptional) {
+                let specParts = [];
+                optionalFields.forEach(field => {
+                    if (c[field] !== undefined && c[field] !== null) {
+                        let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                        specParts.push(`<span style="color: #7f8c8d;">${escapeHtml(label)}:</span> <span style="color: var(--text-color);">${escapeHtml(formatValue(c[field]))}</span>`);
+                    }
+                });
+                
+                if (specParts.length > 0) {
+                    subRowContent += `
+                        <div style="padding: 4px 8px; border-left: 3px solid var(--accent-lua, #3796ff); background: rgba(128,128,128,0.03); border-radius: 0 4px 4px 0;">
+                            ${specParts.join(' | ')}
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Render Sub-row if we gathered any specs/parameters
+        if (subRowContent !== '') {
+            html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color);">`;
+            html += `<td colspan="3" style="padding: 6px 15px 10px 30px; font-size: 0.88em;">`;
+            html += subRowContent;
+            html += `</td>`;
+            html += `</tr>`;
+        }
+    });
+
+    html += '</tbody></table></div>';
+    return html;
+}
 
         function renderItemDetails(type, name) {
             let info = null;
