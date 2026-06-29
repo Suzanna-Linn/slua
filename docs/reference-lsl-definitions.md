@@ -671,6 +671,11 @@ slua_beta: true
             bindResultBtnHandlers();
         }
 
+/**
+ * Generates an ultra-clear, compact LSL constants table with visual hierarchy and meta badges.
+ * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
+ * @returns {string} - The HTML string representing the table, or an empty string if no constants match.
+ */
 function generateConstantsTable(categoryName) {
     if (!lslData || !lslData.constants) return '';
 
@@ -741,71 +746,106 @@ function generateConstantsTable(categoryName) {
     // Sort the matched constants by value
     categoryConstants.sort(compareValues);
 
-    const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
-    
+    // Identify active optional columns for headers
+    const optionalFields = ['name', 'value-type', 'range', 'default', 'enum', 'details'];
+    const activeColumns = {};
+    optionalFields.forEach(field => { activeColumns[field] = false; });
+
+    // Identify which fields are populated across the whole dataset
+    categoryConstants.forEach(c => {
+        if (c['member-of']) {
+            const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
+            if (hasMainOptional) {
+                optionalFields.forEach(field => {
+                    if (c[field] !== undefined) activeColumns[field] = true;
+                });
+            }
+        }
+        if (c.values && Array.isArray(c.values)) {
+            c.values.forEach(v => {
+                optionalFields.forEach(field => {
+                    if (v[field] !== undefined) activeColumns[field] = true;
+                });
+            });
+        }
+    });
+
     let html = '<div class="table-scroll-container" style="overflow-x: auto; margin: 15px 0;">';
     html += '<table style="width: 100%; border-collapse: collapse;">';
     
     // Main Headers
     html += '<thead><tr>';
-    html += '<th style="width: 25%;">Constant Name</th>';
-    html += '<th style="width: 15%;">Value</th>';
-    html += '<th style="width: 60%;">Description</th>';
+    html += '<th style="width: 25%; padding: 8px 10px;">Constant Name</th>';
+    html += '<th style="width: 15%; padding: 8px 10px;">Value</th>';
+    html += '<th style="width: 60%; padding: 8px 10px;">Description</th>';
     html += '</tr></thead>';
 
     html += '<tbody>';
     categoryConstants.forEach(c => {
         // Main Constant Row
         html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
-        html += `<td style="font-family: monospace; font-weight: bold; color: var(--accent-lsl); padding: 10px;">${escapeHtml(c.name)}</td>`;
-        html += `<td style="font-family: monospace; font-weight: bold; padding: 10px;">${escapeHtml(String(c.value))}</td>`;
-        html += `<td style="padding: 10px; line-height: 1.4;">${escapeHtml(c.tooltip || '')}</td>`;
+        html += `<td style="font-family: monospace; font-weight: bold; color: var(--accent-lsl); padding: 8px 10px;">${escapeHtml(c.name)}</td>`;
+        html += `<td style="font-family: monospace; font-weight: bold; padding: 8px 10px;">${escapeHtml(String(c.value))}</td>`;
+        html += `<td style="padding: 8px 10px; line-height: 1.45;">${escapeHtml(c.tooltip || '')}</td>`;
         html += `</tr>`;
 
-        // Generate Sub-row Content
+        // Generate Indented Sub-row Content
         let subRowContent = '';
         if (c.values && Array.isArray(c.values) && c.values.length > 0) {
             c.values.forEach(sub => {
-                let specParts = [];
+                let badgeHTML = '';
                 optionalFields.forEach(field => {
+                    if (field === 'name') return; // Handled separately as sub-header
                     if (sub[field] !== undefined && sub[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                        specParts.push(`<span style="color: #7f8c8d;">${escapeHtml(label)}:</span> <span style="color: var(--text-color);">${escapeHtml(formatValue(sub[field]))}</span>`);
+                        badgeHTML += `
+                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
+                                <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
+                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${escapeHtml(formatValue(sub[field]))}</span>
+                            </span>
+                        `;
                     }
                 });
-                
+
                 subRowContent += `
-                    <div style="margin-bottom: 6px; padding: 4px 8px; border-left: 3px solid var(--accent-lua, #3796ff); background: rgba(128,128,128,0.03); border-radius: 0 4px 4px 0;">
-                        ${sub.name ? `<strong style="font-family: monospace; margin-right: 8px;">${escapeHtml(sub.name)}</strong>` : ''}
-                        ${specParts.length > 0 ? ` &mdash; ${specParts.join(' | ')}` : ''}
+                    <div style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
+                        <span style="color: #7f8c8d; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
+                        ${sub.name ? `<strong style="font-family: monospace; font-size: 0.95em; margin-right: 12px; color: var(--text-color);">${escapeHtml(sub.name)}</strong>` : ''}
+                        <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
                     </div>
                 `;
             });
         } else {
             const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
             if (hasMainOptional) {
-                let specParts = [];
+                let badgeHTML = '';
                 optionalFields.forEach(field => {
                     if (c[field] !== undefined && c[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                        specParts.push(`<span style="color: #7f8c8d;">${escapeHtml(label)}:</span> <span style="color: var(--text-color);">${escapeHtml(formatValue(c[field]))}</span>`);
+                        badgeHTML += `
+                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
+                                <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
+                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${escapeHtml(formatValue(c[field]))}</span>
+                            </span>
+                        `;
                     }
                 });
-                
-                if (specParts.length > 0) {
+
+                if (badgeHTML !== '') {
                     subRowContent += `
-                        <div style="padding: 4px 8px; border-left: 3px solid var(--accent-lua, #3796ff); background: rgba(128,128,128,0.03); border-radius: 0 4px 4px 0;">
-                            ${specParts.join(' | ')}
+                        <div style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
+                            <span style="color: #7f8c8d; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
+                            <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
                         </div>
                     `;
                 }
             }
         }
 
-        // Render Sub-row if we gathered any specs/parameters
+        // Render Sub-row under main row with compact padding and subtle zebra tone
         if (subRowContent !== '') {
             html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color);">`;
-            html += `<td colspan="3" style="padding: 6px 15px 10px 30px; font-size: 0.88em;">`;
+            html += `<td colspan="3" style="padding: 2px 10px 6px 30px; border-top: none;">`;
             html += subRowContent;
             html += `</td>`;
             html += `</tr>`;
@@ -815,7 +855,6 @@ function generateConstantsTable(categoryName) {
     html += '</tbody></table></div>';
     return html;
 }
-
         function renderItemDetails(type, name) {
             let info = null;
 
