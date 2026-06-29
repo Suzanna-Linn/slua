@@ -683,8 +683,7 @@ slua_beta: true
 
 /**
  * Generates an HTML table of constants, recursively rendering nested enums directly
- * under their corresponding associated value or specification.
- * Automatically splits compound 'enum+flag' categories and adapts column headers.
+ * under their corresponding associated value or specification with distinct color themes.
  * Supports up to Level 2 recursion to prevent infinite loops.
  * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
  * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
@@ -692,14 +691,6 @@ slua_beta: true
  */
 function generateConstantsTable(categoryName, level = 0) {
     if (!lslData || !lslData.constants) return '';
-
-    // Check if this category is a compound enum+flag category
-    const enumInfo = lslData.enums && lslData.enums[categoryName];
-    if (enumInfo && enumInfo.type === 'enum+flag') {
-        const enumTable = generateConstantsTable(enumInfo.enum, level);
-        const flagTable = generateConstantsTable(enumInfo.flag, level);
-        return enumTable + flagTable;
-    }
 
     // Helper to escape HTML characters
     const escapeHtml = (str) => {
@@ -711,6 +702,27 @@ function generateConstantsTable(categoryName, level = 0) {
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
     };
+
+    // Helper to format associated field values (like array ranges) with gray "to" text
+    const formatValue = (val) => {
+        if (val === undefined || val === null) return '';
+        if (Array.isArray(val)) {
+            return val.map(v => typeof v === 'object' ? escapeHtml(JSON.stringify(v)) : escapeHtml(String(v)))
+                .join(' <span style="color: #7f8c8d; font-weight: normal;">to</span> ');
+        }
+        if (typeof val === 'object') {
+            return escapeHtml(JSON.stringify(val));
+        }
+        return escapeHtml(String(val));
+    };
+
+    // Check if this category is a compound enum+flag category
+    const enumInfo = lslData.enums && lslData.enums[categoryName];
+    if (enumInfo && enumInfo.type === 'enum+flag') {
+        const enumTable = generateConstantsTable(enumInfo.enum, level);
+        const flagTable = generateConstantsTable(enumInfo.flag, level);
+        return enumTable + flagTable;
+    }
 
     // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
     const parseToNumeric = (val) => {
@@ -742,18 +754,6 @@ function generateConstantsTable(categoryName, level = 0) {
         return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
     };
 
-    // Helper to format associated field values (like array ranges)
-    const formatValue = (val) => {
-        if (val === undefined || val === null) return '';
-        if (Array.isArray(val)) {
-            return val.map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(' to ');
-        }
-        if (typeof val === 'object') {
-            return JSON.stringify(val);
-        }
-        return String(val);
-    };
-
     // Filter constants belonging to this category
     const categoryConstants = lslData.constants.filter(c => {
         if (!c['member-of']) return false;
@@ -770,27 +770,30 @@ function generateConstantsTable(categoryName, level = 0) {
 
     const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
     
-    // Scale styles based on nesting level
+    // Scale styles and colors based on nesting level
     let containerStyle = '';
     let tableStyle = 'width: 100%; border-collapse: collapse;';
     let headerStyle = 'padding: 8px 10px;';
     let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
-    let nameColor = 'var(--accent-lsl)';
+    let nameColor = '#8b5cf6';    // Level 0: Mid Violet
+    let branchColor = '#8b5cf6';  // Level 0: Mid Violet
 
     if (level === 0) {
         containerStyle = 'overflow-x: auto; margin: 15px 0;';
     } else if (level === 1) {
-        containerStyle = 'overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid var(--accent-lua, #3796ff); padding-left: 12px;';
-        tableStyle += ' font-size: 0.92em; background: rgba(55, 150, 255, 0.015);';
-        headerStyle = 'padding: 6px 8px; background: rgba(55, 150, 255, 0.04); font-size: 0.9em;';
+        containerStyle = 'overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px;';
+        tableStyle += ' font-size: 0.92em; background: rgba(16, 185, 129, 0.015);';
+        headerStyle = 'padding: 6px 8px; background: rgba(16, 185, 129, 0.04); font-size: 0.9em;';
         cellStyle = 'padding: 6px 8px; line-height: 1.4;';
-        nameColor = 'var(--accent-lua, #3796ff)';
+        nameColor = '#10b981';    // Level 1: Emerald Green
+        branchColor = '#10b981';  // Level 1: Emerald Green
     } else if (level === 2) {
-        containerStyle = 'overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed var(--accent-lsl, #e67e22); padding-left: 10px;';
-        tableStyle += ' font-size: 0.85em; background: rgba(230, 126, 34, 0.01);';
-        headerStyle = 'padding: 4px 6px; background: rgba(230, 126, 34, 0.04); font-size: 0.85em;';
+        containerStyle = 'overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px;';
+        tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
+        headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
         cellStyle = 'padding: 4px 6px; line-height: 1.35;';
-        nameColor = '#7f8c8d'; // Muted neutral color for deep nesting
+        nameColor = '#7f8c8d';    // Level 2: Neutral Muted Gray
+        branchColor = '#7f8c8d';  // Level 2: Neutral Muted Gray
     }
 
     // Determine table header based on enum type
@@ -826,7 +829,7 @@ function generateConstantsTable(categoryName, level = 0) {
                         badgeHTML += `
                             <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
                                 <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
-                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${escapeHtml(formatValue(sub[field]))}</span>
+                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(sub[field])}</span>
                             </span>
                         `;
                     }
@@ -834,7 +837,7 @@ function generateConstantsTable(categoryName, level = 0) {
 
                 let subHtml = `
                     <div style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
-                        <span style="color: #7f8c8d; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
+                        <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
                         ${sub.name ? `<strong style="font-family: monospace; font-size: 0.95em; margin-right: 12px; color: var(--text-color);">${escapeHtml(sub.name)}</strong>` : ''}
                         <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
                     </div>
@@ -860,7 +863,7 @@ function generateConstantsTable(categoryName, level = 0) {
                         badgeHTML += `
                             <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
                                 <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
-                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${escapeHtml(formatValue(c[field]))}</span>
+                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(c[field])}</span>
                             </span>
                         `;
                     }
@@ -868,7 +871,7 @@ function generateConstantsTable(categoryName, level = 0) {
 
                 let subHtml = `
                     <div style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
-                        <span style="color: #7f8c8d; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
+                        <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
                         <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
                     </div>
                 `;
