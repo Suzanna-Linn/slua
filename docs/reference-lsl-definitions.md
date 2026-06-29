@@ -413,12 +413,12 @@ slua_beta: true
 
     async function fetchDefinitions() {      
         const headers = {
-            "Accept": "application/vnd.github+json"
+            // "Accept": "application/vnd.github+json"
+            'Accept': 'text/yaml, text/plain, */*'
         };
 
         try {
-            // const response = await fetch(API_URL, { headers });
-            const response = await fetch(API_URL);
+            const response = await fetch(API_URL, { headers });
             if (response.status === 200) {
                 // const apiResponse = await response.json();
                 // const rawYamlText = decodeBase64Utf8(apiResponse.content);
