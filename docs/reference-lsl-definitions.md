@@ -369,7 +369,8 @@ slua_beta: true
 
 <script type="module">
     import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
-    const API_URL = "https://api.github.com/repos/secondlife/lsl-definitions/contents/lsl_definitions.yaml";
+    // const API_URL = "https://api.github.com/repos/secondlife/lsl-definitions/contents/lsl_definitions.yaml";
+    const API_URL = "https://raw.githubusercontent.com/Suzanna-Linn/lua/main/updated.yaml";
     let lslData = null;
 
     const types = {
@@ -668,6 +669,166 @@ slua_beta: true
             bindResultBtnHandlers();
         }
 
+        function generateConstantsTable(categoryName) {
+            if (!lslData || !lslData.constants) return '';
+        
+            // Helper to escape HTML characters
+            const escapeHtml = (str) => {
+                if (str === null || str === undefined) return '';
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            };
+        
+            // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
+            const parseToNumeric = (val) => {
+                if (typeof val === 'number') return val;
+                if (typeof val === 'string') {
+                    const clean = val.trim();
+                    if (clean.startsWith('0x') || clean.startsWith('0X')) {
+                        return parseInt(clean, 16);
+                    }
+                    const num = parseFloat(clean);
+                    if (!isNaN(num)) return num;
+                }
+                return null;
+            };
+        
+            // Comparison function to sort row values numerically, falling back to lexical order
+            const compareValues = (a, b) => {
+                const numA = parseToNumeric(a.value);
+                const numB = parseToNumeric(b.value);
+        
+                if (numA !== null && numB !== null) {
+                    return numA - numB;
+                }
+                if (numA !== null) return -1;
+                if (numB !== null) return 1;
+        
+                const strA = String(a.value);
+                const strB = String(b.value);
+                return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
+            };
+        
+            // Helper to format associated field values (like array ranges)
+            const formatValue = (val) => {
+                if (val === undefined || val === null) return '';
+                if (Array.isArray(val)) {
+                    return val.map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(' to ');
+                }
+                if (typeof val === 'object') {
+                    return JSON.stringify(val);
+                }
+                return String(val);
+            };
+        
+            // Filter constants belonging to this category
+            const categoryConstants = lslData.constants.filter(c => {
+                if (!c['member-of']) return false;
+                const members = Array.isArray(c['member-of']) 
+                    ? c['member-of'] 
+                    : [c['member-of']];
+                return members.map(m => String(m).trim()).includes(categoryName);
+            });
+        
+            if (categoryConstants.length === 0) return '';
+        
+            // Sort the matched constants by value
+            categoryConstants.sort(compareValues);
+        
+            // Scan all matching constants to see which optional columns exist in this category
+            const optionalFields = ['name', 'value-type', 'range', 'default', 'enum', 'details'];
+            const activeColumns = {};
+            optionalFields.forEach(field => {
+                activeColumns[field] = false;
+            });
+        
+            categoryConstants.forEach(c => {
+                optionalFields.forEach(field => {
+                    if (c[field] !== undefined) {
+                        activeColumns[field] = true;
+                    }
+                });
+                if (c.values && Array.isArray(c.values)) {
+                    c.values.forEach(v => {
+                        optionalFields.forEach(field => {
+                            if (v[field] !== undefined) {
+                                activeColumns[field] = true;
+                            }
+                        });
+                    });
+                }
+            });
+        
+            // Start building the HTML
+            let html = '<div class="table-scroll-container" style="overflow-x: auto; margin: 15px 0;">';
+            html += '<table>';
+            
+            // Generate Headers
+            html += '<thead><tr>';
+            html += '<th>Constant Name</th>';
+            html += '<th>Value</th>';
+            html += '<th>Tooltip</th>';
+            optionalFields.forEach(field => {
+                if (activeColumns[field]) {
+                    let headerName = field;
+                    if (field === 'value-type') headerName = 'Type';
+                    else headerName = field.charAt(0).toUpperCase() + field.slice(1);
+                    html += `<th>${escapeHtml(headerName)}</th>`;
+                }
+            });
+            html += '</tr></thead>';
+        
+            // Generate Body
+            html += '<tbody>';
+            categoryConstants.forEach(c => {
+                let subRows = [];
+                if (c.values && Array.isArray(c.values) && c.values.length > 0) {
+                    subRows = c.values;
+                } else {
+                    const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
+                    if (hasMainOptional) {
+                        subRows = [{
+                            'value-type': c['value-type'],
+                            range: c.range,
+                            default: c.default,
+                            enum: c.enum,
+                            details: c.details
+                        }];
+                    } else {
+                        subRows = [{}];
+                    }
+                }
+        
+                const rowSpan = subRows.length;
+        
+                subRows.forEach((sub, index) => {
+                    html += '<tr>';
+                    if (index === 0) {
+                        const rowspanAttr = rowSpan > 1 ? ` rowspan="${rowSpan}"` : '';
+                        html += `<td${rowspanAttr} class="tech-val">${escapeHtml(c.name)}</td>`;
+                        html += `<td${rowspanAttr} class="tech-val">${escapeHtml(String(c.value))}</td>`;
+                        html += `<td${rowspanAttr}>${escapeHtml(c.tooltip || '')}</td>`;
+                    }
+        
+                    // Fill out active optional columns for this sub-row
+                    optionalFields.forEach(field => {
+                        if (activeColumns[field]) {
+                            const cellValue = sub[field] !== undefined ? sub[field] : '';
+                            html += `<td>${escapeHtml(formatValue(cellValue))}</td>`;
+                        }
+                    });
+                    html += '</tr>';
+                });
+            });
+        
+            html += '</tbody></table></div>';
+            return html;
+        }
+
         function renderItemDetails(type, name) {
             let info = null;
 
@@ -909,6 +1070,52 @@ slua_beta: true
           html += `    </div>\n`;
           html += `  </div>\n`;
           html += `</div>`;
+
+          // Generate associated constants tables
+          let categoriesToRender = [];
+          if (type === 'constant') {
+              if (info['member-of']) {
+                  let members = Array.isArray(info['member-of']) 
+                      ? info['member-of'] 
+                      : info['member-of'].replace(/^\[|\]$/g, '').split(',');
+                  categoriesToRender = members.map(m => m.trim()).filter(m => m !== '');
+              }
+          } else {
+              const catSet = new Set();
+              // Scan arguments for enum semantics
+              if (info.arguments && Array.isArray(info.arguments)) {
+                  info.arguments.forEach(argObj => {
+                      const argDetails = Object.values(argObj)[0];
+                      if (argDetails) {
+                          if (argDetails['enum-semantics']) catSet.add(argDetails['enum-semantics']);
+                          if (argDetails['param-semantics']) catSet.add(argDetails['param-semantics']);
+                          if (argDetails['param-get-semantics']) catSet.add(argDetails['param-get-semantics']);
+                      }
+                  });
+              }
+              // Scan function return level for enum semantics
+              if (info['enum-semantics']) catSet.add(info['enum-semantics']);
+              if (info['param-semantics']) catSet.add(info['param-semantics']);
+              if (info['param-get-semantics']) catSet.add(info['param-get-semantics']);
+
+              categoriesToRender = Array.from(catSet);
+          }
+
+          if (categoriesToRender.length > 0) {
+              let tablesHtml = '';
+              categoriesToRender.forEach(category => {
+                  const table = generateConstantsTable(category);
+                  if (table) {
+                      tablesHtml += `
+                          <div class="constant-category-section" style="margin-top: 40px;">
+                              <h3 style="margin-bottom: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 5px; color: var(--text-color);">Associated Constants: ${escapeHtml(category)}</h3>
+                              ${table}
+                          </div>
+                      `;
+                  }
+              });
+              html += tablesHtml;
+          }
           
             displayContainer.innerHTML = html;
 
