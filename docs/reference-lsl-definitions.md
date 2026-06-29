@@ -683,7 +683,7 @@ slua_beta: true
 
 /**
  * Generates an HTML table of constants, recursively rendering nested enums directly
- * under their corresponding associated value or specification with distinct color themes.
+ * under their corresponding associated value or specification with toggle controls.
  * Supports up to Level 2 recursion to prevent infinite loops.
  * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
  * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
@@ -691,6 +691,10 @@ slua_beta: true
  */
 function generateConstantsTable(categoryName, level = 0) {
     if (!lslData || !lslData.constants) return '';
+
+    // Retrieve global states from localStorage (fallback to 'expanded' if not set)
+    const valuesState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-values') : 'expanded') || 'expanded';
+    const enumsState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-enums') : 'expanded') || 'expanded';
 
     // Helper to escape HTML characters
     const escapeHtml = (str) => {
@@ -781,14 +785,16 @@ function generateConstantsTable(categoryName, level = 0) {
     if (level === 0) {
         containerStyle = 'overflow-x: auto; margin: 15px 0;';
     } else if (level === 1) {
-        containerStyle = 'overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px;';
+        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
+        containerStyle = `overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px; ${displayStyle}`;
         tableStyle += ' font-size: 0.92em; background: rgba(16, 185, 129, 0.015);';
         headerStyle = 'padding: 6px 8px; background: rgba(16, 185, 129, 0.04); font-size: 0.9em;';
         cellStyle = 'padding: 6px 8px; line-height: 1.4;';
         nameColor = '#10b981';    // Level 1: Emerald Green
         branchColor = '#10b981';  // Level 1: Emerald Green
     } else if (level === 2) {
-        containerStyle = 'overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px;';
+        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
+        containerStyle = `overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px; ${displayStyle}`;
         tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
         headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
         cellStyle = 'padding: 4px 6px; line-height: 1.35;';
@@ -799,7 +805,18 @@ function generateConstantsTable(categoryName, level = 0) {
     // Determine table header based on enum type
     const nameHeader = (enumInfo && enumInfo.type === 'flag') ? 'Flags' : 'Options';
 
-    let html = `<div class="table-scroll-container level-${level}-wrapper" style="${containerStyle}">`;
+    let html = '';
+    // Only display global control panel buttons at top-level
+    if (level === 0) {
+        html += `
+            <div class="table-controls" style="display: flex; gap: 8px; margin-bottom: 12px; font-size: 0.85em; align-items: center; user-select: none;">
+                <button type="button" class="nav-btn btn-toggle-values" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
+                <button type="button" class="nav-btn btn-toggle-enums" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
+            </div>
+        `;
+    }
+
+    html += `<div class="table-scroll-container level-${level}-wrapper" style="${containerStyle}">`;
     html += `<table style="${tableStyle}">`;
     
     // Table Headers
@@ -811,13 +828,6 @@ function generateConstantsTable(categoryName, level = 0) {
 
     html += '<tbody>';
     categoryConstants.forEach(c => {
-        // Render Main Constant Row
-        html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
-        html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">${escapeHtml(c.name)}</td>`;
-        html += `<td style="font-family: monospace; font-weight: bold; ${cellStyle}">${escapeHtml(String(c.value))}</td>`;
-        html += `<td style="${cellStyle}">${escapeHtml(c.tooltip || '')}</td>`;
-        html += `</tr>`;
-
         // Generate Indented Sub-row Content (Badges and Nested Tables inline)
         let subRowContent = '';
         if (c.values && Array.isArray(c.values) && c.values.length > 0) {
@@ -847,7 +857,16 @@ function generateConstantsTable(categoryName, level = 0) {
                 if (level < 2 && sub.enum) {
                     const nestedTable = generateConstantsTable(sub.enum, level + 1);
                     if (nestedTable) {
-                        subHtml += nestedTable;
+                        const nestedHeaderColor = level === 0 ? '#10b981' : '#7f8c8d';
+                        const nestedEnumArrow = enumsState === 'expanded' ? '▾' : '▸';
+                        
+                        subHtml += `
+                            <div class="enum-table-header" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: bold; font-size: 0.82em; color: ${nestedHeaderColor}; text-transform: uppercase; letter-spacing: 0.5px; margin: 8px 0 4px 0; user-select: none;">
+                                <span class="arrow" style="font-size: 0.8em;">${nestedEnumArrow}</span>
+                                ${escapeHtml(sub.enum)}
+                            </div>
+                            ${nestedTable}
+                        `;
                     }
                 }
 
@@ -880,7 +899,16 @@ function generateConstantsTable(categoryName, level = 0) {
                 if (level < 2 && c.enum) {
                     const nestedTable = generateConstantsTable(c.enum, level + 1);
                     if (nestedTable) {
-                        subHtml += nestedTable;
+                        const nestedHeaderColor = level === 0 ? '#10b981' : '#7f8c8d';
+                        const nestedEnumArrow = enumsState === 'expanded' ? '▾' : '▸';
+
+                        subHtml += `
+                            <div class="enum-table-header" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: bold; font-size: 0.82em; color: ${nestedHeaderColor}; text-transform: uppercase; letter-spacing: 0.5px; margin: 8px 0 4px 0; user-select: none;">
+                                <span class="arrow" style="font-size: 0.8em;">${nestedEnumArrow}</span>
+                                ${escapeHtml(c.enum)}
+                            </div>
+                            ${nestedTable}
+                        `;
                     }
                 }
 
@@ -889,14 +917,38 @@ function generateConstantsTable(categoryName, level = 0) {
                 // If there are no main optional fields, but it still has an enum definition
                 const nestedTable = generateConstantsTable(c.enum, level + 1);
                 if (nestedTable) {
-                    subRowContent += nestedTable;
+                    const nestedHeaderColor = level === 0 ? '#10b981' : '#7f8c8d';
+                    const nestedEnumArrow = enumsState === 'expanded' ? '▾' : '▸';
+
+                    subRowContent += `
+                        <div class="enum-table-header" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: bold; font-size: 0.82em; color: ${nestedHeaderColor}; text-transform: uppercase; letter-spacing: 0.5px; margin: 8px 0 4px 0; user-select: none;">
+                            <span class="arrow" style="font-size: 0.8em;">${nestedEnumArrow}</span>
+                            ${escapeHtml(c.enum)}
+                        </div>
+                        ${nestedTable}
+                    `;
                 }
             }
         }
 
+        const hasSubRow = (subRowContent !== '');
+        const currentArrow = valuesState === 'expanded' ? '▾' : '▸';
+        const arrowSpan = hasSubRow ? `<span class="arrow" style="font-size: 0.85em; color: ${nameColor}; margin-right: 6px; user-select: none;">${currentArrow}</span>` : '';
+        const nameCellContent = hasSubRow 
+            ? `<span class="constant-name-toggle" style="cursor: pointer; display: inline-flex; align-items: center; user-select: none;">${arrowSpan}${escapeHtml(c.name)}</span>` 
+            : escapeHtml(c.name);
+
+        // Render Main Constant Row
+        html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
+        html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">${nameCellContent}</td>`;
+        html += `<td style="font-family: monospace; font-weight: bold; ${cellStyle}">${escapeHtml(String(c.value))}</td>`;
+        html += `<td style="${cellStyle}">${escapeHtml(c.tooltip || '')}</td>`;
+        html += `</tr>`;
+
         // Render Sub-row if badges or nested tables exist
-        if (subRowContent !== '') {
-            html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color);">`;
+        if (hasSubRow) {
+            const currentSubRowDisplay = valuesState === 'expanded' ? '' : 'display: none;';
+            html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color); ${currentSubRowDisplay}">`;
             html += `<td colspan="3" style="padding: 4px 10px 8px 30px; border-top: none;">`;
             html += subRowContent;
             html += `</td>`;
@@ -1205,6 +1257,8 @@ function generateConstantsTable(categoryName, level = 0) {
           
             displayContainer.innerHTML = html;
 
+            applyGlobalCollapseStates();
+            
             window.scrollTo(0, 0);
             
             if (window.Prism) {
@@ -1435,4 +1489,91 @@ function generateConstantsTable(categoryName, level = 0) {
         }
         updateToggleState('lua', e.target.checked);
     };
+
+    function applyGlobalCollapseStates() {
+        const valuesState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-values') : 'expanded') || 'expanded';
+        const enumsState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-enums') : 'expanded') || 'expanded';
+    
+        // Update global buttons UI
+        document.querySelectorAll('.btn-toggle-values').forEach(btn => {
+            btn.textContent = `Values: ${valuesState === 'expanded' ? 'Expanded' : 'Collapsed'}`;
+            btn.classList.toggle('active', valuesState === 'expanded');
+        });
+        document.querySelectorAll('.btn-toggle-enums').forEach(btn => {
+            btn.textContent = `Enums: ${enumsState === 'expanded' ? 'Expanded' : 'Collapsed'}`;
+            btn.classList.toggle('active', enumsState === 'expanded');
+        });
+    
+        document.querySelectorAll('.sub-row').forEach(row => {
+            row.style.display = valuesState === 'expanded' ? '' : 'none';
+            
+            const mainRow = row.previousElementSibling;
+            if (mainRow) {
+                const arrow = mainRow.querySelector('.constant-name-toggle .arrow');
+                if (arrow) {
+                    arrow.textContent = valuesState === 'expanded' ? '▾' : '▸';
+                }
+            }
+        });
+    
+        document.querySelectorAll('.enum-table-header').forEach(header => {
+            const container = header.nextElementSibling;
+            if (container) {
+                container.style.display = enumsState === 'expanded' ? '' : 'none';
+                const arrow = header.querySelector('.arrow');
+                if (arrow) {
+                    arrow.textContent = enumsState === 'expanded' ? '▾' : '▸';
+                }
+            }
+        });
+    }
+    
+    document.addEventListener('click', (e) => {
+        const constantToggle = e.target.closest('.constant-name-toggle');
+        if (constantToggle) {
+            const mainRow = constantToggle.closest('tr');
+            const subRow = mainRow ? mainRow.nextElementSibling : null;
+            if (subRow && subRow.classList.contains('sub-row')) {
+                const arrow = constantToggle.querySelector('.arrow');
+                const isHidden = subRow.style.display === 'none';
+                subRow.style.display = isHidden ? '' : 'none';
+                if (arrow) {
+                    arrow.textContent = isHidden ? '▾' : '▸';
+                }
+            }
+            return;
+        }
+
+    const enumToggle = e.target.closest('.enum-table-header');
+    if (enumToggle) {
+        const nestedTableContainer = enumToggle.nextElementSibling;
+        if (nestedTableContainer) {
+            const arrow = enumToggle.querySelector('.arrow');
+            const isHidden = nestedTableContainer.style.display === 'none';
+            nestedTableContainer.style.display = isHidden ? '' : 'none';
+            if (arrow) {
+                arrow.textContent = isHidden ? '▾' : '▸';
+            }
+        }
+        return;
+    }
+
+    const btnToggleValues = e.target.closest('.btn-toggle-values');
+    if (btnToggleValues) {
+        const currentState = localStorage.getItem('lsl-collapse-values') || 'expanded';
+        const newState = currentState === 'expanded' ? 'collapsed' : 'expanded';
+        localStorage.setItem('lsl-collapse-values', newState);
+        applyGlobalCollapseStates();
+        return;
+    }
+
+    const btnToggleEnums = e.target.closest('.btn-toggle-enums');
+    if (btnToggleEnums) {
+        const currentState = localStorage.getItem('lsl-collapse-enums') || 'expanded';
+        const newState = currentState === 'expanded' ? 'collapsed' : 'expanded';
+        localStorage.setItem('lsl-collapse-enums', newState);
+        applyGlobalCollapseStates();
+        return;
+    }
+});
 </script>
