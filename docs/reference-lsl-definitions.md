@@ -684,6 +684,7 @@ slua_beta: true
 /**
  * Generates an HTML table of constants, recursively rendering nested enums directly
  * under their corresponding associated value or specification with toggle controls.
+ * Group wrappers are used to ensure compound enum tables expand/collapse together.
  * Supports up to Level 2 recursion to prevent infinite loops.
  * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
  * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
@@ -720,12 +721,25 @@ function generateConstantsTable(categoryName, level = 0) {
         return escapeHtml(String(val));
     };
 
+    // Helper to wrap nested levels in a single group container so toggling affects all tables inside it
+    const wrapInGroupContainer = (contentHtml, catName, lvl) => {
+        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
+        let groupStyle = '';
+        if (lvl === 1) {
+            groupStyle = `margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px; ${displayStyle}`;
+        } else if (lvl === 2) {
+            groupStyle = `margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px; ${displayStyle}`;
+        }
+        return `<div class="nested-enums-group" style="${groupStyle}">${contentHtml}</div>`;
+    };
+
     // Check if this category is a compound enum+flag category
     const enumInfo = lslData.enums && lslData.enums[categoryName];
     if (enumInfo && enumInfo.type === 'enum+flag') {
         const enumTable = generateConstantsTable(enumInfo.enum, level);
         const flagTable = generateConstantsTable(enumInfo.flag, level);
-        return enumTable + flagTable;
+        const combinedTables = enumTable + flagTable;
+        return level > 0 ? wrapInGroupContainer(combinedTables, categoryName, level) : combinedTables;
     }
 
     // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
@@ -774,8 +788,8 @@ function generateConstantsTable(categoryName, level = 0) {
 
     const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
     
-    // Scale styles and colors based on nesting level
-    let containerStyle = '';
+    // Scale styles and colors based on nesting level (borders/margins are handled by the group container)
+    let containerStyle = 'overflow-x: auto;';
     let tableStyle = 'width: 100%; border-collapse: collapse;';
     let headerStyle = 'padding: 8px 10px;';
     let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
@@ -783,18 +797,14 @@ function generateConstantsTable(categoryName, level = 0) {
     let branchColor = '#8b5cf6';  // Level 0: Mid Violet
 
     if (level === 0) {
-        containerStyle = 'overflow-x: auto; margin: 15px 0;';
+        containerStyle += ' margin: 15px 0;';
     } else if (level === 1) {
-        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
-        containerStyle = `overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px; ${displayStyle}`;
         tableStyle += ' font-size: 0.92em; background: rgba(16, 185, 129, 0.015);';
         headerStyle = 'padding: 6px 8px; background: rgba(16, 185, 129, 0.04); font-size: 0.9em;';
         cellStyle = 'padding: 6px 8px; line-height: 1.4;';
         nameColor = '#10b981';    // Level 1: Emerald Green
         branchColor = '#10b981';  // Level 1: Emerald Green
     } else if (level === 2) {
-        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
-        containerStyle = `overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px; ${displayStyle}`;
         tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
         headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
         cellStyle = 'padding: 4px 6px; line-height: 1.35;';
@@ -945,6 +955,11 @@ function generateConstantsTable(categoryName, level = 0) {
     });
 
     html += '</tbody></table></div>';
+    
+    // Wrap Level 1 and Level 2 outputs in the single parent group container
+    if (level > 0) {
+        return wrapInGroupContainer(html, categoryName, level);
+    }
     return html;
 }
 
@@ -1477,7 +1492,6 @@ function generateConstantsTable(categoryName, level = 0) {
         }
         updateToggleState('lua', e.target.checked);
     };
-
 /**
  * Synchronizes the visibility states of all active tables, sub-rows, and headers
  * according to the settings stored in the user's localStorage.
@@ -1510,11 +1524,11 @@ function applyGlobalCollapseStates() {
         }
     });
 
-    // Sync all nested enum table containers
+    // Sync all nested enum table containers (targets `.nested-enums-group`)
     document.querySelectorAll('.enum-table-header').forEach(header => {
         const parentRow = header.closest('.badge-row-container');
         const container = parentRow ? parentRow.nextElementSibling : null;
-        if (container && container.classList.contains('table-scroll-container')) {
+        if (container && container.classList.contains('nested-enums-group')) {
             container.style.display = enumsState === 'expanded' ? '' : 'none';
             const arrow = header.querySelector('.arrow');
             if (arrow) {
@@ -1531,7 +1545,8 @@ document.addEventListener('click', (e) => {
     if (constantToggle) {
         const mainRow = constantToggle.closest('tr');
         const subRow = mainRow ? mainRow.nextElementSibling : null;
-        if (subRow && subRow.classList.contains('sub-row')) {
+        if (subRow) {
+            row.style.display = valuesState === 'expanded' ? '' : 'none';
             const arrow = constantToggle.querySelector('.arrow');
             const isHidden = subRow.style.display === 'none';
             subRow.style.display = isHidden ? '' : 'none';
@@ -1547,7 +1562,7 @@ document.addEventListener('click', (e) => {
     if (enumToggle) {
         const parentRow = enumToggle.closest('.badge-row-container');
         const nestedTableContainer = parentRow ? parentRow.nextElementSibling : null;
-        if (nestedTableContainer && nestedTableContainer.classList.contains('table-scroll-container')) {
+        if (nestedTableContainer && nestedTableContainer.classList.contains('nested-enums-group')) {
             const arrow = enumToggle.querySelector('.arrow');
             const isHidden = nestedTableContainer.style.display === 'none';
             nestedTableContainer.style.display = isHidden ? '' : 'none';
