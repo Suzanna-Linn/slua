@@ -419,8 +419,9 @@ slua_beta: true
         try {
             const response = await fetch(API_URL, { headers });
             if (response.status === 200) {
-                const apiResponse = await response.json();
-                const rawYamlText = decodeBase64Utf8(apiResponse.content);
+                // const apiResponse = await response.json();
+                // const rawYamlText = decodeBase64Utf8(apiResponse.content);
+                const rawYamlText = await response.text();
                 const rawYaml = jsyaml.load(rawYamlText); 
                 lslData = {
                     functions: normalizeArrayOrObject(rawYaml.functions),
