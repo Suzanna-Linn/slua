@@ -1543,15 +1543,22 @@ document.addEventListener('click', (e) => {
     // 1. Clicked on an individual constant name to toggle its sub-row
     const constantToggle = e.target.closest('.constant-name-toggle');
     if (constantToggle) {
-        const mainRow = constantToggle.closest('tr');
-        const subRow = mainRow ? mainRow.nextElementSibling : null;
-        if (subRow) {
-            row.style.display = valuesState === 'expanded' ? '' : 'none';
-            const arrow = constantToggle.querySelector('.arrow');
-            const isHidden = subRow.style.display === 'none';
-            subRow.style.display = isHidden ? '' : 'none';
-            if (arrow) {
-                arrow.textContent = isHidden ? '▾' : '▸';
+        const mainRow = constantToggle.closest('tr.main-row'); // Ensure we're getting the main row
+        if (mainRow) {
+            let subRow = mainRow.nextElementSibling;
+            // Sometimes there might be empty TRs or other elements between main and sub.
+            // We need to find the actual sub-row.
+            while (subRow && !subRow.classList.contains('sub-row')) {
+                subRow = subRow.nextElementSibling;
+            }
+
+            if (subRow) {
+                const arrow = constantToggle.querySelector('.arrow');
+                const isHidden = subRow.style.display === 'none';
+                subRow.style.display = isHidden ? '' : 'none';
+                if (arrow) {
+                    arrow.textContent = isHidden ? '▾' : '▸';
+                }
             }
         }
         return;
