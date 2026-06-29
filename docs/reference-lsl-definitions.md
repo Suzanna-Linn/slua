@@ -684,13 +684,14 @@ slua_beta: true
 /**
  * Generates an HTML table of constants, recursively rendering nested enums directly
  * under their corresponding associated value or specification with toggle controls.
- * Group wrappers are used to ensure compound enum tables expand/collapse together.
+ * Supports context-aware read/write access filtering and argument marking.
  * Supports up to Level 2 recursion to prevent infinite loops.
  * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
  * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
+ * @param {string} filterMode - Mode of access filtering ('all', 'read', or 'write').
  * @returns {string} - The HTML string representing the table, or an empty string if no constants match.
  */
-function generateConstantsTable(categoryName, level = 0) {
+function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
     if (!lslData || !lslData.constants) return '';
 
     // Retrieve global states from localStorage (fallback to 'expanded' if not set)
@@ -736,8 +737,8 @@ function generateConstantsTable(categoryName, level = 0) {
     // Check if this category is a compound enum+flag category
     const enumInfo = lslData.enums && lslData.enums[categoryName];
     if (enumInfo && enumInfo.type === 'enum+flag') {
-        const enumTable = generateConstantsTable(enumInfo.enum, level);
-        const flagTable = generateConstantsTable(enumInfo.flag, level);
+        const enumTable = generateConstantsTable(enumInfo.enum, level, filterMode);
+        const flagTable = generateConstantsTable(enumInfo.flag, level, filterMode);
         const combinedTables = enumTable + flagTable;
         return level > 0 ? wrapInGroupContainer(combinedTables, categoryName, level) : combinedTables;
     }
@@ -773,13 +774,20 @@ function generateConstantsTable(categoryName, level = 0) {
     };
 
     // Filter constants belonging to this category
-    const categoryConstants = lslData.constants.filter(c => {
+    let categoryConstants = lslData.constants.filter(c => {
         if (!c['member-of']) return false;
         const members = Array.isArray(c['member-of']) 
             ? c['member-of'] 
             : [c['member-of']];
         return members.map(m => String(m).trim()).includes(categoryName);
     });
+
+    // Exclude constants based on Access rules at the main Constant level
+    if (filterMode === 'write') {
+        categoryConstants = categoryConstants.filter(c => c.access !== 'read');
+    } else if (filterMode === 'read') {
+        categoryConstants = categoryConstants.filter(c => c.access !== 'write');
+    }
 
     if (categoryConstants.length === 0) return '';
 
@@ -788,8 +796,8 @@ function generateConstantsTable(categoryName, level = 0) {
 
     const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
     
-    // Scale styles and colors based on nesting level (borders/margins are handled by the group container)
-    let containerStyle = 'overflow-x: auto;';
+    // Scale styles and colors based on nesting level
+    let containerStyle = '';
     let tableStyle = 'width: 100%; border-collapse: collapse;';
     let headerStyle = 'padding: 8px 10px;';
     let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
@@ -797,14 +805,18 @@ function generateConstantsTable(categoryName, level = 0) {
     let branchColor = '#8b5cf6';  // Level 0: Mid Violet
 
     if (level === 0) {
-        containerStyle += ' margin: 15px 0;';
+        containerStyle = 'overflow-x: auto; margin: 15px 0;';
     } else if (level === 1) {
+        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
+        containerStyle = `overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px; ${displayStyle}`;
         tableStyle += ' font-size: 0.92em; background: rgba(16, 185, 129, 0.015);';
         headerStyle = 'padding: 6px 8px; background: rgba(16, 185, 129, 0.04); font-size: 0.9em;';
         cellStyle = 'padding: 6px 8px; line-height: 1.4;';
         nameColor = '#10b981';    // Level 1: Emerald Green
         branchColor = '#10b981';  // Level 1: Emerald Green
     } else if (level === 2) {
+        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
+        containerStyle = `overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px; ${displayStyle}`;
         tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
         headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
         cellStyle = 'padding: 4px 6px; line-height: 1.35;';
@@ -841,13 +853,23 @@ function generateConstantsTable(categoryName, level = 0) {
         // Generate Indented Sub-row Content (Badges and Nested Tables inline)
         let subRowContent = '';
         if (c.values && Array.isArray(c.values) && c.values.length > 0) {
-            c.values.forEach(sub => {
+            // Apply filtering on sub-values
+            let filteredValues = c.values;
+            if (filterMode === 'write') {
+                filteredValues = filteredValues.filter(sub => sub.access !== 'read');
+            } else if (filterMode === 'read') {
+                filteredValues = filteredValues.filter(sub => sub.access !== 'write');
+            }
+
+            // Skip rendering the entire constant if its parameters are completely filtered out
+            if (filteredValues.length === 0) return;
+
+            filteredValues.forEach(sub => {
                 let badgeHTML = '';
                 optionalFields.forEach(field => {
                     if (sub[field] !== undefined && sub[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
                         
-                        // Check if this badge can trigger a nested enum table collapse
                         const isClickableEnum = (field === 'enum' && level < 2);
                         const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
                         const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
@@ -863,6 +885,15 @@ function generateConstantsTable(categoryName, level = 0) {
                     }
                 });
 
+                // Mark 'arg' values with an Argument badge in read mode
+                if (filterMode === 'read' && sub.access === 'arg') {
+                    badgeHTML += `
+                        <span style="display: inline-flex; align-items: center; background: rgba(55, 150, 255, 0.08); border: 1px solid rgba(55, 150, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; color: var(--accent-lua, #3796ff); font-weight: bold; user-select: none;">
+                            Argument
+                        </span>
+                    `;
+                }
+
                 let subHtml = `
                     <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
                         <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
@@ -873,7 +904,7 @@ function generateConstantsTable(categoryName, level = 0) {
 
                 // If this specific associated value has an enum, render its nested table immediately below it
                 if (level < 2 && sub.enum) {
-                    const nestedTable = generateConstantsTable(sub.enum, level + 1);
+                    const nestedTable = generateConstantsTable(sub.enum, level + 1, filterMode);
                     if (nestedTable) {
                         subHtml += nestedTable;
                     }
@@ -884,25 +915,32 @@ function generateConstantsTable(categoryName, level = 0) {
         } else {
             const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
             if (hasMainOptional) {
+                // Determine main level access check
+                if (filterMode === 'write' && c.access === 'read') return;
+                if (filterMode === 'read' && c.access === 'write') return;
+
                 let badgeHTML = '';
                 optionalFields.forEach(field => {
                     if (c[field] !== undefined && c[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                        
-                        const isClickableEnum = (field === 'enum' && level < 2);
-                        const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
-                        const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
-                        const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
-
                         badgeHTML += `
-                            <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
+                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
                                 <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
                                 <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(c[field])}</span>
-                                ${arrowHtml}
+                                ${isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : ''}
                             </span>
                         `;
                     }
                 });
+
+                // Mark 'arg' value with an Argument badge in read mode
+                if (filterMode === 'read' && c.access === 'arg') {
+                    badgeHTML += `
+                        <span style="display: inline-flex; align-items: center; background: rgba(55, 150, 255, 0.08); border: 1px solid rgba(55, 150, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; color: var(--accent-lua, #3796ff); font-weight: bold; user-select: none;">
+                            Argument
+                        </span>
+                    `;
+                }
 
                 let subHtml = `
                     <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
@@ -913,7 +951,7 @@ function generateConstantsTable(categoryName, level = 0) {
 
                 // If this main specification has an enum, render its nested table immediately below it
                 if (level < 2 && c.enum) {
-                    const nestedTable = generateConstantsTable(c.enum, level + 1);
+                    const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode);
                     if (nestedTable) {
                         subHtml += nestedTable;
                     }
@@ -922,7 +960,7 @@ function generateConstantsTable(categoryName, level = 0) {
                 subRowContent += subHtml;
             } else if (level < 2 && c.enum) {
                 // If there are no main optional fields, but it still has an enum definition
-                const nestedTable = generateConstantsTable(c.enum, level + 1);
+                const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode);
                 if (nestedTable) {
                     subRowContent += nestedTable;
                 }
@@ -1246,7 +1284,37 @@ function generateConstantsTable(categoryName, level = 0) {
           if (categoriesToRender.length > 0) {
               let tablesHtml = '';
               categoriesToRender.forEach(category => {
-                  const table = generateConstantsTable(category);
+                  // Determine filterMode for this category
+                  let filterMode = 'all';
+                  
+                  // Extract the function's return category
+                  const returnCategory = info['enum-semantics'] || info['param-semantics'] || info['param-get-semantics'] || null;
+                  
+                  // Check if this category is used as an argument category
+                  let isArgCategory = false;
+                  if (info.arguments && Array.isArray(info.arguments)) {
+                      info.arguments.forEach(argObj => {
+                          const argDetails = Object.values(argObj)[0];
+                          if (argDetails) {
+                              if (argDetails['enum-semantics'] === category || 
+                                  argDetails['param-semantics'] === category || 
+                                  argDetails['param-get-semantics'] === category) {
+                                  isArgCategory = true;
+                              }
+                          }
+                      });
+                  }
+
+                  // Determine semantic read/write filters based on rules
+                  if (isArgCategory) {
+                      if (category === returnCategory) {
+                          filterMode = 'read';
+                      } else {
+                          filterMode = 'write';
+                      }
+                  }
+
+                  const table = generateConstantsTable(category, 0, filterMode);
                   if (table) {
                       tablesHtml += `
                           <div class="constant-category-section" style="margin-top: 25px;">
