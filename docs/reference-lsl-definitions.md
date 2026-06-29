@@ -671,12 +671,15 @@ slua_beta: true
             bindResultBtnHandlers();
         }
 
+
 /**
- * Generates an ultra-clear, compact LSL constants table with visual hierarchy and meta badges.
+ * Generates an HTML table of constants, recursively rendering nested enums with scaled styles.
+ * Supports up to Level 2 recursion to prevent infinite loops.
  * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
- * @returns {string} - The HTML string representing the table, or an empty string if no constants match.
+ * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
+ * @returns {string} - The HTML string representing the layout, or an empty string if no constants match.
  */
-function generateConstantsTable(categoryName) {
+function generateConstantsTable(categoryName, level = 0) {
     if (!lslData || !lslData.constants) return '';
 
     // Helper to escape HTML characters
@@ -746,56 +749,78 @@ function generateConstantsTable(categoryName) {
     // Sort the matched constants by value
     categoryConstants.sort(compareValues);
 
-    // Identify active optional columns for headers
-    const optionalFields = ['name', 'value-type', 'range', 'default', 'enum', 'details'];
-    const activeColumns = {};
-    optionalFields.forEach(field => { activeColumns[field] = false; });
-
-    // Identify which fields are populated across the whole dataset
-    categoryConstants.forEach(c => {
-        if (c['member-of']) {
-            const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
-            if (hasMainOptional) {
-                optionalFields.forEach(field => {
-                    if (c[field] !== undefined) activeColumns[field] = true;
-                });
-            }
-        }
-        if (c.values && Array.isArray(c.values)) {
-            c.values.forEach(v => {
-                optionalFields.forEach(field => {
-                    if (v[field] !== undefined) activeColumns[field] = true;
-                });
-            });
-        }
-    });
-
-    let html = '<div class="table-scroll-container" style="overflow-x: auto; margin: 15px 0;">';
-    html += '<table style="width: 100%; border-collapse: collapse;">';
+    const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
     
-    // Main Headers
+    // Scale styles based on nesting level
+    let containerStyle = '';
+    let tableStyle = 'width: 100%; border-collapse: collapse;';
+    let headerStyle = 'padding: 8px 10px;';
+    let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
+    let titleHtml = '';
+    let nameColor = 'var(--accent-lsl)';
+
+    if (level === 0) {
+        containerStyle = 'overflow-x: auto; margin: 15px 0;';
+    } else if (level === 1) {
+        containerStyle = 'overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid var(--accent-lua, #3796ff); padding-left: 12px;';
+        tableStyle += ' font-size: 0.92em; background: rgba(55, 150, 255, 0.015);';
+        headerStyle = 'padding: 6px 8px; background: rgba(55, 150, 255, 0.04); font-size: 0.9em;';
+        cellStyle = 'padding: 6px 8px; line-height: 1.4;';
+        titleHtml = `<div style="font-weight: bold; font-size: 0.8em; color: var(--accent-lua, #3796ff); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Enum Category: ${escapeHtml(categoryName)}</div>`;
+        nameColor = 'var(--accent-lua, #3796ff)';
+    } else if (level === 2) {
+        containerStyle = 'overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed var(--accent-lsl, #e67e22); padding-left: 10px;';
+        tableStyle += ' font-size: 0.85em; background: rgba(230, 126, 34, 0.01);';
+        headerStyle = 'padding: 4px 6px; background: rgba(230, 126, 34, 0.04); font-size: 0.85em;';
+        cellStyle = 'padding: 4px 6px; line-height: 1.35;';
+        titleHtml = `<div style="font-weight: bold; font-size: 0.75em; color: var(--accent-lsl, #e67e22); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Sub-Enum Category: ${escapeHtml(categoryName)}</div>`;
+        nameColor = '#7f8c8d'; // Muted neutral color for deep nesting
+    }
+
+    let html = titleHtml;
+    html += `<div class="table-scroll-container level-${level}-wrapper" style="${containerStyle}">`;
+    html += `<table style="${tableStyle}">`;
+    
+    // Table Headers
     html += '<thead><tr>';
-    html += '<th style="width: 25%; padding: 8px 10px;">Constant Name</th>';
-    html += '<th style="width: 15%; padding: 8px 10px;">Value</th>';
-    html += '<th style="width: 60%; padding: 8px 10px;">Description</th>';
+    html += `<th style="width: 25%; ${headerStyle}">Constant Name</th>`;
+    html += `<th style="width: 15%; ${headerStyle}">Value</th>`;
+    html += `<th style="width: 60%; ${headerStyle}">Description</th>`;
     html += '</tr></thead>';
 
     html += '<tbody>';
     categoryConstants.forEach(c => {
-        // Main Constant Row
+        // Render Main Constant Row
         html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
-        html += `<td style="font-family: monospace; font-weight: bold; color: var(--accent-lsl); padding: 8px 10px;">${escapeHtml(c.name)}</td>`;
-        html += `<td style="font-family: monospace; font-weight: bold; padding: 8px 10px;">${escapeHtml(String(c.value))}</td>`;
-        html += `<td style="padding: 8px 10px; line-height: 1.45;">${escapeHtml(c.tooltip || '')}</td>`;
+        html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">${escapeHtml(c.name)}</td>`;
+        html += `<td style="font-family: monospace; font-weight: bold; ${cellStyle}">${escapeHtml(String(c.value))}</td>`;
+        html += `<td style="${cellStyle}">${escapeHtml(c.tooltip || '')}</td>`;
         html += `</tr>`;
 
-        // Generate Indented Sub-row Content
+        // Check if this constant (or its sub-values) points to another enum category
+        let nestedTablesHtml = '';
+        if (level < 2) {
+            let uniqueEnums = new Set();
+            if (c.enum) uniqueEnums.add(c.enum);
+            if (c.values && Array.isArray(c.values)) {
+                c.values.forEach(v => {
+                    if (v.enum) uniqueEnums.add(v.enum);
+                });
+            }
+            uniqueEnums.forEach(enumName => {
+                const nestedTable = generateConstantsTable(enumName, level + 1);
+                if (nestedTable) {
+                    nestedTablesHtml += nestedTable;
+                }
+            });
+        }
+
+        // Generate Indented Sub-row Content (Badges)
         let subRowContent = '';
         if (c.values && Array.isArray(c.values) && c.values.length > 0) {
             c.values.forEach(sub => {
                 let badgeHTML = '';
                 optionalFields.forEach(field => {
-                    if (field === 'name') return; // Handled separately as sub-header
                     if (sub[field] !== undefined && sub[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
                         badgeHTML += `
@@ -842,11 +867,16 @@ function generateConstantsTable(categoryName) {
             }
         }
 
-        // Render Sub-row under main row with compact padding and subtle zebra tone
-        if (subRowContent !== '') {
+        // Render Sub-row if badges exist or if a nested table is present
+        if (subRowContent !== '' || nestedTablesHtml !== '') {
             html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color);">`;
-            html += `<td colspan="3" style="padding: 2px 10px 6px 30px; border-top: none;">`;
-            html += subRowContent;
+            html += `<td colspan="3" style="padding: 4px 10px 8px 30px; border-top: none;">`;
+            if (subRowContent !== '') {
+                html += subRowContent;
+            }
+            if (nestedTablesHtml !== '') {
+                html += nestedTablesHtml;
+            }
             html += `</td>`;
             html += `</tr>`;
         }
@@ -855,6 +885,7 @@ function generateConstantsTable(categoryName) {
     html += '</tbody></table></div>';
     return html;
 }
+
         function renderItemDetails(type, name) {
             let info = null;
 
