@@ -797,7 +797,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
     const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
     
     // Scale styles and colors based on nesting level
-    let containerStyle = '';
+    let containerStyle = 'overflow-x: auto;';
     let tableStyle = 'width: 100%; border-collapse: collapse;';
     let headerStyle = 'padding: 8px 10px;';
     let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
@@ -805,18 +805,14 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
     let branchColor = '#8b5cf6';  // Level 0: Mid Violet
 
     if (level === 0) {
-        containerStyle = 'overflow-x: auto; margin: 15px 0;';
+        containerStyle += ' margin: 15px 0;';
     } else if (level === 1) {
-        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
-        containerStyle = `overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px; ${displayStyle}`;
         tableStyle += ' font-size: 0.92em; background: rgba(16, 185, 129, 0.015);';
         headerStyle = 'padding: 6px 8px; background: rgba(16, 185, 129, 0.04); font-size: 0.9em;';
         cellStyle = 'padding: 6px 8px; line-height: 1.4;';
         nameColor = '#10b981';    // Level 1: Emerald Green
         branchColor = '#10b981';  // Level 1: Emerald Green
     } else if (level === 2) {
-        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
-        containerStyle = `overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px; ${displayStyle}`;
         tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
         headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
         cellStyle = 'padding: 4px 6px; line-height: 1.35;';
@@ -870,6 +866,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
                     if (sub[field] !== undefined && sub[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
                         
+                        // Check if this badge can trigger a nested enum table collapse
                         const isClickableEnum = (field === 'enum' && level < 2);
                         const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
                         const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
@@ -923,11 +920,17 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
                 optionalFields.forEach(field => {
                     if (c[field] !== undefined && c[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                        
+                        const isClickableEnum = (field === 'enum' && level < 2);
+                        const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
+                        const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
+                        const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
+
                         badgeHTML += `
-                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
+                            <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
                                 <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
                                 <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(c[field])}</span>
-                                ${isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : ''}
+                                ${arrowHtml}
                             </span>
                         `;
                     }
