@@ -836,17 +836,25 @@ function generateConstantsTable(categoryName, level = 0) {
                 optionalFields.forEach(field => {
                     if (sub[field] !== undefined && sub[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                        
+                        // Check if this badge can trigger a nested enum table collapse
+                        const isClickableEnum = (field === 'enum' && level < 2);
+                        const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
+                        const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
+                        const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
+
                         badgeHTML += `
-                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
+                            <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
                                 <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
                                 <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(sub[field])}</span>
+                                ${arrowHtml}
                             </span>
                         `;
                     }
                 });
 
                 let subHtml = `
-                    <div style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
+                    <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
                         <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
                         ${sub.name ? `<strong style="font-family: monospace; font-size: 0.95em; margin-right: 12px; color: var(--text-color);">${escapeHtml(sub.name)}</strong>` : ''}
                         <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
@@ -857,16 +865,7 @@ function generateConstantsTable(categoryName, level = 0) {
                 if (level < 2 && sub.enum) {
                     const nestedTable = generateConstantsTable(sub.enum, level + 1);
                     if (nestedTable) {
-                        const nestedHeaderColor = level === 0 ? '#10b981' : '#7f8c8d';
-                        const nestedEnumArrow = enumsState === 'expanded' ? '▾' : '▸';
-                        
-                        subHtml += `
-                            <div class="enum-table-header" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: bold; font-size: 0.82em; color: ${nestedHeaderColor}; text-transform: uppercase; letter-spacing: 0.5px; margin: 8px 0 4px 0; user-select: none;">
-                                <span class="arrow" style="font-size: 0.8em;">${nestedEnumArrow}</span>
-                                ${escapeHtml(sub.enum)}
-                            </div>
-                            ${nestedTable}
-                        `;
+                        subHtml += nestedTable;
                     }
                 }
 
@@ -879,17 +878,24 @@ function generateConstantsTable(categoryName, level = 0) {
                 optionalFields.forEach(field => {
                     if (c[field] !== undefined && c[field] !== null) {
                         let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                        
+                        const isClickableEnum = (field === 'enum' && level < 2);
+                        const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
+                        const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
+                        const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
+
                         badgeHTML += `
-                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
+                            <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
                                 <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
                                 <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(c[field])}</span>
+                                ${arrowHtml}
                             </span>
                         `;
                     }
                 });
 
                 let subHtml = `
-                    <div style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
+                    <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
                         <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
                         <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
                     </div>
@@ -899,16 +905,7 @@ function generateConstantsTable(categoryName, level = 0) {
                 if (level < 2 && c.enum) {
                     const nestedTable = generateConstantsTable(c.enum, level + 1);
                     if (nestedTable) {
-                        const nestedHeaderColor = level === 0 ? '#10b981' : '#7f8c8d';
-                        const nestedEnumArrow = enumsState === 'expanded' ? '▾' : '▸';
-
-                        subHtml += `
-                            <div class="enum-table-header" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: bold; font-size: 0.82em; color: ${nestedHeaderColor}; text-transform: uppercase; letter-spacing: 0.5px; margin: 8px 0 4px 0; user-select: none;">
-                                <span class="arrow" style="font-size: 0.8em;">${nestedEnumArrow}</span>
-                                ${escapeHtml(c.enum)}
-                            </div>
-                            ${nestedTable}
-                        `;
+                        subHtml += nestedTable;
                     }
                 }
 
@@ -917,16 +914,7 @@ function generateConstantsTable(categoryName, level = 0) {
                 // If there are no main optional fields, but it still has an enum definition
                 const nestedTable = generateConstantsTable(c.enum, level + 1);
                 if (nestedTable) {
-                    const nestedHeaderColor = level === 0 ? '#10b981' : '#7f8c8d';
-                    const nestedEnumArrow = enumsState === 'expanded' ? '▾' : '▸';
-
-                    subRowContent += `
-                        <div class="enum-table-header" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: bold; font-size: 0.82em; color: ${nestedHeaderColor}; text-transform: uppercase; letter-spacing: 0.5px; margin: 8px 0 4px 0; user-select: none;">
-                            <span class="arrow" style="font-size: 0.8em;">${nestedEnumArrow}</span>
-                            ${escapeHtml(c.enum)}
-                        </div>
-                        ${nestedTable}
-                    `;
+                    subRowContent += nestedTable;
                 }
             }
         }
@@ -1490,64 +1478,76 @@ function generateConstantsTable(categoryName, level = 0) {
         updateToggleState('lua', e.target.checked);
     };
 
-    function applyGlobalCollapseStates() {
-        const valuesState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-values') : 'expanded') || 'expanded';
-        const enumsState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-enums') : 'expanded') || 'expanded';
-    
-        // Update global buttons UI
-        document.querySelectorAll('.btn-toggle-values').forEach(btn => {
-            btn.textContent = `Values: ${valuesState === 'expanded' ? 'Expanded' : 'Collapsed'}`;
-            btn.classList.toggle('active', valuesState === 'expanded');
-        });
-        document.querySelectorAll('.btn-toggle-enums').forEach(btn => {
-            btn.textContent = `Enums: ${enumsState === 'expanded' ? 'Expanded' : 'Collapsed'}`;
-            btn.classList.toggle('active', enumsState === 'expanded');
-        });
-    
-        document.querySelectorAll('.sub-row').forEach(row => {
-            row.style.display = valuesState === 'expanded' ? '' : 'none';
-            
-            const mainRow = row.previousElementSibling;
-            if (mainRow) {
-                const arrow = mainRow.querySelector('.constant-name-toggle .arrow');
-                if (arrow) {
-                    arrow.textContent = valuesState === 'expanded' ? '▾' : '▸';
-                }
-            }
-        });
-    
-        document.querySelectorAll('.enum-table-header').forEach(header => {
-            const container = header.nextElementSibling;
-            if (container) {
-                container.style.display = enumsState === 'expanded' ? '' : 'none';
-                const arrow = header.querySelector('.arrow');
-                if (arrow) {
-                    arrow.textContent = enumsState === 'expanded' ? '▾' : '▸';
-                }
-            }
-        });
-    }
-    
-    document.addEventListener('click', (e) => {
-        const constantToggle = e.target.closest('.constant-name-toggle');
-        if (constantToggle) {
-            const mainRow = constantToggle.closest('tr');
-            const subRow = mainRow ? mainRow.nextElementSibling : null;
-            if (subRow && subRow.classList.contains('sub-row')) {
-                const arrow = constantToggle.querySelector('.arrow');
-                const isHidden = subRow.style.display === 'none';
-                subRow.style.display = isHidden ? '' : 'none';
-                if (arrow) {
-                    arrow.textContent = isHidden ? '▾' : '▸';
-                }
-            }
-            return;
-        }
+/**
+ * Synchronizes the visibility states of all active tables, sub-rows, and headers
+ * according to the settings stored in the user's localStorage.
+ */
+function applyGlobalCollapseStates() {
+    const valuesState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-values') : 'expanded') || 'expanded';
+    const enumsState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-enums') : 'expanded') || 'expanded';
 
+    // Update global buttons UI
+    document.querySelectorAll('.btn-toggle-values').forEach(btn => {
+        btn.textContent = `Values: ${valuesState === 'expanded' ? 'Expanded' : 'Collapsed'}`;
+        btn.classList.toggle('active', valuesState === 'expanded');
+    });
+    document.querySelectorAll('.btn-toggle-enums').forEach(btn => {
+        btn.textContent = `Enums: ${enumsState === 'expanded' ? 'Expanded' : 'Collapsed'}`;
+        btn.classList.toggle('active', enumsState === 'expanded');
+    });
+
+    // Sync all sub-rows
+    document.querySelectorAll('.sub-row').forEach(row => {
+        row.style.display = valuesState === 'expanded' ? '' : 'none';
+        
+        // Sync the arrow of the parent main-row constant
+        const mainRow = row.previousElementSibling;
+        if (mainRow) {
+            const arrow = mainRow.querySelector('.constant-name-toggle .arrow');
+            if (arrow) {
+                arrow.textContent = valuesState === 'expanded' ? '▾' : '▸';
+            }
+        }
+    });
+
+    // Sync all nested enum table containers
+    document.querySelectorAll('.enum-table-header').forEach(header => {
+        const parentRow = header.closest('.badge-row-container');
+        const container = parentRow ? parentRow.nextElementSibling : null;
+        if (container && container.classList.contains('table-scroll-container')) {
+            container.style.display = enumsState === 'expanded' ? '' : 'none';
+            const arrow = header.querySelector('.arrow');
+            if (arrow) {
+                arrow.textContent = enumsState === 'expanded' ? '▾' : '▸';
+            }
+        }
+    });
+}
+
+// Global Event Delegation for Interactive Toggles
+document.addEventListener('click', (e) => {
+    // 1. Clicked on an individual constant name to toggle its sub-row
+    const constantToggle = e.target.closest('.constant-name-toggle');
+    if (constantToggle) {
+        const mainRow = constantToggle.closest('tr');
+        const subRow = mainRow ? mainRow.nextElementSibling : null;
+        if (subRow && subRow.classList.contains('sub-row')) {
+            const arrow = constantToggle.querySelector('.arrow');
+            const isHidden = subRow.style.display === 'none';
+            subRow.style.display = isHidden ? '' : 'none';
+            if (arrow) {
+                arrow.textContent = isHidden ? '▾' : '▸';
+            }
+        }
+        return;
+    }
+
+    // 2. Clicked on an Enum: badge capsule to toggle its nested table container
     const enumToggle = e.target.closest('.enum-table-header');
     if (enumToggle) {
-        const nestedTableContainer = enumToggle.nextElementSibling;
-        if (nestedTableContainer) {
+        const parentRow = enumToggle.closest('.badge-row-container');
+        const nestedTableContainer = parentRow ? parentRow.nextElementSibling : null;
+        if (nestedTableContainer && nestedTableContainer.classList.contains('table-scroll-container')) {
             const arrow = enumToggle.querySelector('.arrow');
             const isHidden = nestedTableContainer.style.display === 'none';
             nestedTableContainer.style.display = isHidden ? '' : 'none';
@@ -1558,6 +1558,7 @@ function generateConstantsTable(categoryName, level = 0) {
         return;
     }
 
+    // 3. Clicked on the global Values toggle button
     const btnToggleValues = e.target.closest('.btn-toggle-values');
     if (btnToggleValues) {
         const currentState = localStorage.getItem('lsl-collapse-values') || 'expanded';
@@ -1567,6 +1568,7 @@ function generateConstantsTable(categoryName, level = 0) {
         return;
     }
 
+    // 4. Clicked on the global Enums toggle button
     const btnToggleEnums = e.target.closest('.btn-toggle-enums');
     if (btnToggleEnums) {
         const currentState = localStorage.getItem('lsl-collapse-enums') || 'expanded';
