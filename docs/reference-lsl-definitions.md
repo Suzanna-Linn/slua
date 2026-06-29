@@ -741,52 +741,25 @@ slua_beta: true
             // Sort the matched constants by value
             categoryConstants.sort(compareValues);
         
-            // Scan all matching constants to see which optional columns exist in this category
             const optionalFields = ['name', 'value-type', 'range', 'default', 'enum', 'details'];
-            const activeColumns = {};
-            optionalFields.forEach(field => {
-                activeColumns[field] = false;
-            });
+            let html = '<div class="constants-card-list" style="display: flex; flex-direction: column; gap: 1rem; margin: 15px 0;">';
         
             categoryConstants.forEach(c => {
-                optionalFields.forEach(field => {
-                    if (c[field] !== undefined) {
-                        activeColumns[field] = true;
-                    }
-                });
-                if (c.values && Array.isArray(c.values)) {
-                    c.values.forEach(v => {
-                        optionalFields.forEach(field => {
-                            if (v[field] !== undefined) {
-                                activeColumns[field] = true;
-                            }
-                        });
-                    });
-                }
-            });
+                html += `
+                    <div class="constant-definition-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <!-- Header with Name and Value -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                            <strong style="font-family: monospace; font-size: 1.05em; color: var(--accent-lsl);">${escapeHtml(c.name)}</strong>
+                            <code style="background: var(--code-bg); padding: 3px 8px; border-radius: 4px; font-family: monospace; font-size: 0.9em; font-weight: bold;">${escapeHtml(String(c.value))}</code>
+                        </div>
+                `;
         
-            // Start building the HTML
-            let html = '<div class="table-scroll-container" style="overflow-x: auto; margin: 15px 0;">';
-            html += '<table>';
-            
-            // Generate Headers
-            html += '<thead><tr>';
-            html += '<th>Constant Name</th>';
-            html += '<th>Value</th>';
-            html += '<th>Tooltip</th>';
-            optionalFields.forEach(field => {
-                if (activeColumns[field]) {
-                    let headerName = field;
-                    if (field === 'value-type') headerName = 'Type';
-                    else headerName = field.charAt(0).toUpperCase() + field.slice(1);
-                    html += `<th>${escapeHtml(headerName)}</th>`;
+                // Render Tooltip / Main description
+                if (c.tooltip) {
+                    html += `<p style="margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.45;">${escapeHtml(c.tooltip)}</p>`;
                 }
-            });
-            html += '</tr></thead>';
         
-            // Generate Body
-            html += '<tbody>';
-            categoryConstants.forEach(c => {
+                // Collect associated values or main level specs
                 let subRows = [];
                 if (c.values && Array.isArray(c.values) && c.values.length > 0) {
                     subRows = c.values;
@@ -800,34 +773,43 @@ slua_beta: true
                             enum: c.enum,
                             details: c.details
                         }];
-                    } else {
-                        subRows = [{}];
                     }
                 }
         
-                const rowSpan = subRows.length;
-        
-                subRows.forEach((sub, index) => {
-                    html += '<tr>';
-                    if (index === 0) {
-                        const rowspanAttr = rowSpan > 1 ? ` rowspan="${rowSpan}"` : '';
-                        html += `<td${rowspanAttr} class="tech-val">${escapeHtml(c.name)}</td>`;
-                        html += `<td${rowspanAttr} class="tech-val">${escapeHtml(String(c.value))}</td>`;
-                        html += `<td${rowspanAttr}>${escapeHtml(c.tooltip || '')}</td>`;
-                    }
-        
-                    // Fill out active optional columns for this sub-row
-                    optionalFields.forEach(field => {
-                        if (activeColumns[field]) {
-                            const cellValue = sub[field] !== undefined ? sub[field] : '';
-                            html += `<td>${escapeHtml(formatValue(cellValue))}</td>`;
+                // Render nested specifications (if any exist)
+                if (subRows.length > 0) {
+                    html += `<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color);">`;
+                    subRows.forEach(sub => {
+                        html += `<div style="background: rgba(128,128,128,0.04); border: 1px solid rgba(128,128,128,0.08); border-radius: 6px; padding: 10px; font-size: 0.88em;">`;
+                        
+                        if (sub.name) {
+                            html += `<div style="font-weight: bold; margin-bottom: 6px; color: var(--text-color); font-family: monospace;">${escapeHtml(sub.name)}</div>`;
                         }
+        
+                        // Metadata Grid
+                        html += `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;">`;
+                        optionalFields.forEach(field => {
+                            if (field === 'name') return; // Handled as header
+                            if (sub[field] !== undefined && sub[field] !== null) {
+                                let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                                html += `
+                                    <div>
+                                        <span style="color: #7f8c8d; font-weight: 500;">${escapeHtml(label)}:</span> 
+                                        <span style="font-family: monospace; color: var(--text-color);">${escapeHtml(formatValue(sub[field]))}</span>
+                                    </div>
+                                `;
+                            }
+                        });
+                        html += `</div>`; // End Grid
+                        html += `</div>`; // End Sub-block
                     });
-                    html += '</tr>';
-                });
+                    html += `</div>`;
+                }
+        
+                html += `</div>`; // End Card
             });
         
-            html += '</tbody></table></div>';
+            html += '</div>';
             return html;
         }
 
