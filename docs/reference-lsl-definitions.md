@@ -671,220 +671,58 @@ slua_beta: true
             bindResultBtnHandlers();
         }
 
+html += `    </div>\n`;
+          html += `  </div>\n`;
+          html += `</div>`;
 
-/**
- * Generates an HTML table of constants, recursively rendering nested enums with scaled styles.
- * Supports up to Level 2 recursion to prevent infinite loops.
- * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
- * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
- * @returns {string} - The HTML string representing the layout, or an empty string if no constants match.
- */
-function generateConstantsTable(categoryName, level = 0) {
-    if (!lslData || !lslData.constants) return '';
+          // Generate associated constants tables
+          let categoriesToRender = [];
+          if (type === 'constant') {
+              if (info['member-of']) {
+                  let members = Array.isArray(info['member-of']) 
+                      ? info['member-of'] 
+                      : info['member-of'].replace(/^\[|\]$/g, '').split(',');
+                  categoriesToRender = members.map(m => m.trim()).filter(m => m !== '');
+              }
+          } else {
+              const catSet = new Set();
+              // Scan arguments for enum semantics
+              if (info.arguments && Array.isArray(info.arguments)) {
+                  info.arguments.forEach(argObj => {
+                      const argDetails = Object.values(argObj)[0];
+                      if (argDetails) {
+                          if (argDetails['enum-semantics']) catSet.add(argDetails['enum-semantics']);
+                          if (argDetails['param-semantics']) catSet.add(argDetails['param-semantics']);
+                          if (argDetails['param-get-semantics']) catSet.add(argDetails['param-get-semantics']);
+                      }
+                  });
+              }
+              // Scan function return level for enum semantics
+              if (info['enum-semantics']) catSet.add(info['enum-semantics']);
+              if (info['param-semantics']) catSet.add(info['param-semantics']);
+              if (info['param-get-semantics']) catSet.add(info['param-get-semantics']);
 
-    // Helper to escape HTML characters
-    const escapeHtml = (str) => {
-        if (str === null || str === undefined) return '';
-        return String(str)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    };
+              categoriesToRender = Array.from(catSet);
+          }
 
-    // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
-    const parseToNumeric = (val) => {
-        if (typeof val === 'number') return val;
-        if (typeof val === 'string') {
-            const clean = val.trim();
-            if (clean.startsWith('0x') || clean.startsWith('0X')) {
-                return parseInt(clean, 16);
-            }
-            const num = parseFloat(clean);
-            if (!isNaN(num)) return num;
-        }
-        return null;
-    };
+          if (categoriesToRender.length > 0) {
+              let tablesHtml = '';
+              categoriesToRender.forEach(category => {
+                  const table = generateConstantsTable(category);
+                  if (table) {
+                      tablesHtml += `
+                          <div class="constant-category-section" style="margin-top: 25px;">
+                              ${table}
+                          </div>
+                      `;
+                  }
+              });
+              html += tablesHtml;
+          }
+          
+            displayContainer.innerHTML = html;
 
-    // Comparison function to sort row values numerically, falling back to lexical order
-    const compareValues = (a, b) => {
-        const numA = parseToNumeric(a.value);
-        const numB = parseToNumeric(b.value);
-
-        if (numA !== null && numB !== null) {
-            return numA - numB;
-        }
-        if (numA !== null) return -1;
-        if (numB !== null) return 1;
-
-        const strA = String(a.value);
-        const strB = String(b.value);
-        return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
-    };
-
-    // Helper to format associated field values (like array ranges)
-    const formatValue = (val) => {
-        if (val === undefined || val === null) return '';
-        if (Array.isArray(val)) {
-            return val.map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(' to ');
-        }
-        if (typeof val === 'object') {
-            return JSON.stringify(val);
-        }
-        return String(val);
-    };
-
-    // Filter constants belonging to this category
-    const categoryConstants = lslData.constants.filter(c => {
-        if (!c['member-of']) return false;
-        const members = Array.isArray(c['member-of']) 
-            ? c['member-of'] 
-            : [c['member-of']];
-        return members.map(m => String(m).trim()).includes(categoryName);
-    });
-
-    if (categoryConstants.length === 0) return '';
-
-    // Sort the matched constants by value
-    categoryConstants.sort(compareValues);
-
-    const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
-    
-    // Scale styles based on nesting level
-    let containerStyle = '';
-    let tableStyle = 'width: 100%; border-collapse: collapse;';
-    let headerStyle = 'padding: 8px 10px;';
-    let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
-    let titleHtml = '';
-    let nameColor = 'var(--accent-lsl)';
-
-    if (level === 0) {
-        containerStyle = 'overflow-x: auto; margin: 15px 0;';
-    } else if (level === 1) {
-        containerStyle = 'overflow-x: auto; margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid var(--accent-lua, #3796ff); padding-left: 12px;';
-        tableStyle += ' font-size: 0.92em; background: rgba(55, 150, 255, 0.015);';
-        headerStyle = 'padding: 6px 8px; background: rgba(55, 150, 255, 0.04); font-size: 0.9em;';
-        cellStyle = 'padding: 6px 8px; line-height: 1.4;';
-        titleHtml = `<div style="font-weight: bold; font-size: 0.8em; color: var(--accent-lua, #3796ff); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Enum Category: ${escapeHtml(categoryName)}</div>`;
-        nameColor = 'var(--accent-lua, #3796ff)';
-    } else if (level === 2) {
-        containerStyle = 'overflow-x: auto; margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed var(--accent-lsl, #e67e22); padding-left: 10px;';
-        tableStyle += ' font-size: 0.85em; background: rgba(230, 126, 34, 0.01);';
-        headerStyle = 'padding: 4px 6px; background: rgba(230, 126, 34, 0.04); font-size: 0.85em;';
-        cellStyle = 'padding: 4px 6px; line-height: 1.35;';
-        titleHtml = `<div style="font-weight: bold; font-size: 0.75em; color: var(--accent-lsl, #e67e22); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Sub-Enum Category: ${escapeHtml(categoryName)}</div>`;
-        nameColor = '#7f8c8d'; // Muted neutral color for deep nesting
-    }
-
-    let html = titleHtml;
-    html += `<div class="table-scroll-container level-${level}-wrapper" style="${containerStyle}">`;
-    html += `<table style="${tableStyle}">`;
-    
-    // Table Headers
-    html += '<thead><tr>';
-    html += `<th style="width: 25%; ${headerStyle}">Constant Name</th>`;
-    html += `<th style="width: 15%; ${headerStyle}">Value</th>`;
-    html += `<th style="width: 60%; ${headerStyle}">Description</th>`;
-    html += '</tr></thead>';
-
-    html += '<tbody>';
-    categoryConstants.forEach(c => {
-        // Render Main Constant Row
-        html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
-        html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">${escapeHtml(c.name)}</td>`;
-        html += `<td style="font-family: monospace; font-weight: bold; ${cellStyle}">${escapeHtml(String(c.value))}</td>`;
-        html += `<td style="${cellStyle}">${escapeHtml(c.tooltip || '')}</td>`;
-        html += `</tr>`;
-
-        // Check if this constant (or its sub-values) points to another enum category
-        let nestedTablesHtml = '';
-        if (level < 2) {
-            let uniqueEnums = new Set();
-            if (c.enum) uniqueEnums.add(c.enum);
-            if (c.values && Array.isArray(c.values)) {
-                c.values.forEach(v => {
-                    if (v.enum) uniqueEnums.add(v.enum);
-                });
-            }
-            uniqueEnums.forEach(enumName => {
-                const nestedTable = generateConstantsTable(enumName, level + 1);
-                if (nestedTable) {
-                    nestedTablesHtml += nestedTable;
-                }
-            });
-        }
-
-        // Generate Indented Sub-row Content (Badges)
-        let subRowContent = '';
-        if (c.values && Array.isArray(c.values) && c.values.length > 0) {
-            c.values.forEach(sub => {
-                let badgeHTML = '';
-                optionalFields.forEach(field => {
-                    if (sub[field] !== undefined && sub[field] !== null) {
-                        let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                        badgeHTML += `
-                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
-                                <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
-                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${escapeHtml(formatValue(sub[field]))}</span>
-                            </span>
-                        `;
-                    }
-                });
-
-                subRowContent += `
-                    <div style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
-                        <span style="color: #7f8c8d; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
-                        ${sub.name ? `<strong style="font-family: monospace; font-size: 0.95em; margin-right: 12px; color: var(--text-color);">${escapeHtml(sub.name)}</strong>` : ''}
-                        <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
-                    </div>
-                `;
-            });
-        } else {
-            const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
-            if (hasMainOptional) {
-                let badgeHTML = '';
-                optionalFields.forEach(field => {
-                    if (c[field] !== undefined && c[field] !== null) {
-                        let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                        badgeHTML += `
-                            <span style="display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap;">
-                                <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
-                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${escapeHtml(formatValue(c[field]))}</span>
-                            </span>
-                        `;
-                    }
-                });
-
-                if (badgeHTML !== '') {
-                    subRowContent += `
-                        <div style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
-                            <span style="color: #7f8c8d; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
-                            <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Render Sub-row if badges exist or if a nested table is present
-        if (subRowContent !== '' || nestedTablesHtml !== '') {
-            html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color);">`;
-            html += `<td colspan="3" style="padding: 4px 10px 8px 30px; border-top: none;">`;
-            if (subRowContent !== '') {
-                html += subRowContent;
-            }
-            if (nestedTablesHtml !== '') {
-                html += nestedTablesHtml;
-            }
-            html += `</td>`;
-            html += `</tr>`;
-        }
-    });
-
-    html += '</tbody></table></div>';
-    return html;
-}
+            window.scrollTo(0, 0);
 
         function renderItemDetails(type, name) {
             let info = null;
