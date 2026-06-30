@@ -1138,29 +1138,26 @@ slua_beta: true
                 ? "Lua Changed"
                 : (currentViewState.type === 'category-list' ? "Categories" : "Category");
             
-            // Build the back button inside its own container variable
+            // Define a unified smaller button style
+            const smallBtnStyle = "padding: 0.25rem 0.6rem; font-size: 0.8rem; line-height: 1.25;";
+
+            // Apply the smaller button style to the Back button
             const backButtonHtmlInner = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
-                <button type="button" id="details-back-btn" class="nav-btn">
+                <button type="button" id="details-back-btn" class="nav-btn" style="${smallBtnStyle}">
                     ${backButtonText}
                 </button>
             ` : '';
 
-            // Capitalize the first character of the item name for the Wiki URL
             const wikiName = name.charAt(0).toUpperCase() + name.slice(1);
             const wikiUrl = `https://wiki.secondlife.com/wiki/${wikiName}`;
 
-            // Create a top control bar that displays the back button on the left (if active)
-            // and the LSL Wiki link button aligned to the right.
+            // Right-align both buttons and pull the dashboard up by reducing margin-bottom to 0.75rem
             const topControlsHtml = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;">
-                    <div>
-                        ${backButtonHtmlInner}
-                    </div>
-                    <div style="margin-left: auto;">
-                        <a href="${wikiUrl}" target="_blank" rel="noopener noreferrer" class="nav-btn" style="text-decoration: none !important; color: inherit; display: inline-flex; align-items: center;">
-                            LSL Wiki
-                        </a>
-                    </div>
+                <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 0.75rem; gap: 0.5rem; width: 100%;">
+                    ${backButtonHtmlInner}
+                    <a href="${wikiUrl}" target="_blank" rel="noopener noreferrer" class="nav-btn" style="${smallBtnStyle} text-decoration: none !important; color: inherit; display: inline-flex; align-items: center;">
+                        LSL Wiki
+                    </a>
                 </div>
             `;
 
