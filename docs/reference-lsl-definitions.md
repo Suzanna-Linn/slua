@@ -846,14 +846,16 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
             }
             if (matchesReturn || matchingArgs.length > 0) {
                 let target = '';
+                const badgeStyle = 'background: rgba(128, 128, 128, 0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-weight: bold; font-size: 0.9em;';
+                
                 if (matchingArgs.length > 0 && matchesReturn) {
-                    target = `<strong>${escapeHtml(matchingArgs.join(', '))}</strong> and <strong>return</strong>`;
+                    target = `<span style="${badgeStyle}">${escapeHtml(matchingArgs.join(', '))}</span> and <span style="${badgeStyle}">return</span>`;
                 } else if (matchingArgs.length > 0) {
-                    target = `<strong>${escapeHtml(matchingArgs.join(', '))}</strong>`;
+                    target = `<span style="${badgeStyle}">${escapeHtml(matchingArgs.join(', '))}</span>`;
                 } else if (matchesReturn) {
-                    target = `<strong>return</strong>`;
+                    target = `<span style="${badgeStyle}">return</span>`;
                 }
-                contextText = `<span style="margin-right: auto; font-size: 1.05em; color: var(--text-color);">${nameHeader} for ${target}</span>`;
+                contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}</span>`;
             }
         }
         html += `
