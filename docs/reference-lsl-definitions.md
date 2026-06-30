@@ -858,12 +858,68 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
                 contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}</span>`;
             }
         }
+
+        // Scans the active constants and nested enums recursively to locate referenced types
+        const getUsedTypes = (constantsList) => {
+            const typesSet = new Set();
+            const visitedEnums = new Set();
+            const scan = (list) => {
+                if (!list || !Array.isArray(list)) return;
+                list.forEach(item => {
+                    if (item['value-type']) {
+                        typesSet.add(item['value-type']);
+                    }
+                    if (item.values && Array.isArray(item.values)) {
+                        item.values.forEach(v => {
+                            if (v['value-type']) {
+                                typesSet.add(v['value-type']);
+                            }
+                        });
+                    }
+                    if (item.enum && !visitedEnums.has(item.enum)) {
+                        visitedEnums.add(item.enum);
+                        const subEnumConstants = lslData.constants.filter(sc => {
+                            if (!sc['member-of']) return false;
+                            const members = Array.isArray(sc['member-of']) ? sc['member-of'] : [sc['member-of']];
+                            return members.map(m => String(m).trim()).includes(item.enum);
+                        });
+                        scan(subEnumConstants);
+                    }
+                });
+            };
+            scan(constantsList);
+            return Array.from(typesSet);
+        };
+
+        const usedTypes = getUsedTypes(categoryConstants);
+        const targetTypes = ['boolean', 'asset', 'string-csv', 'string-map', 'string-multi'];
+        const typesToExplain = usedTypes.filter(t => targetTypes.includes(t));
+        let typesLine = '';
+        
+        if (typesToExplain.length > 0) {
+            const explanations = typesToExplain.map(t => {
+                let desc = '';
+                if (t === 'boolean') desc = 'True/False value';
+                else if (t === 'asset') desc = 'Item name or UUID';
+                else if (t === 'string-csv') desc = 'Comma-separated string';
+                else if (t === 'string-map') desc = 'Key-value map';
+                else if (t === 'string-multi') desc = 'Multiple strings';
+                return `<span style="white-space: nowrap;"><strong style="font-family: monospace; font-size: 0.9em; background: rgba(128,128,128,0.1); padding: 1px 4px; border-radius: 3px; color: var(--text-color);">${t}</strong>: <span style="opacity: 0.85;">${desc}</span></span>`;
+            });
+            typesLine = `
+                <div style="margin-top: -6px; margin-bottom: 12px; font-size: 0.8em; color: var(--text-color); opacity: 0.75; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
+                    ${explanations.join(' <span style="opacity: 0.3;">|</span> ')}
+                </div>
+            `;
+        }
+
         html += `
             <div class="table-controls" style="display: flex; gap: 8px; margin-bottom: 12px; font-size: 0.85em; align-items: center; user-select: none;">
                 ${contextText}
                 <button type="button" class="nav-btn btn-toggle-values" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
                 <button type="button" class="nav-btn btn-toggle-enums" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
             </div>
+            ${typesLine}
         `;
     }
 
@@ -1010,13 +1066,16 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
             ? `<span class="constant-name-toggle" style="cursor: pointer; display: inline-flex; align-items: center; user-select: none;">${arrowSpan}${escapeHtml(c.name)}</span>` 
             : escapeHtml(c.name);
 
-        // Render Main Constant Row
+// Render Main Constant Row
         html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
         html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">`;
         html += nameCellContent;
         
-        if (c.private || c.deprecated) {
-            html += `<div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; user-select: none;">`;
+        if (c.private || c.deprecated || c['slua-deprecated']) {
+            const hasLslElements = !!(c.private || c.deprecated);
+            const divClass = hasLslElements ? "" : "lua-section";
+            
+            html += `<div class="${divClass}" style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; user-select: none;">`;
             if (c.private) {
                 html += `<span class="attr-label bg-godmode" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #f1c40f;">Private</span>`;
             }
@@ -1033,6 +1092,22 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
                     }
                 }
                 html += `<span style="font-family: sans-serif; font-size: 0.75em; font-weight: normal; color: #c0392b; margin-left: 4px;">${escapeHtml(deprText)}</span>`;
+            }
+            if (c['slua-deprecated']) {
+                const spanClass = hasLslElements ? "lua-section" : "";
+                let deprText = "Alternative: ";
+                if (typeof c['slua-deprecated'] === 'object' && c['slua-deprecated'] !== null) {
+                    if (c['slua-deprecated'].use) {
+                        deprText += "use " + c['slua-deprecated'].use;
+                    }
+                    if (c['slua-deprecated'].reason) {
+                        deprText += (c['slua-deprecated'].use ? "   Reason: " : "") + c['slua-deprecated'].reason;
+                    }
+                }
+                html += `<span class="${spanClass}" style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">`;
+                html += `<span class="attr-label bg-deprecated" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #c0392b;">Lua Alternative</span>`;
+                html += `<span style="font-family: sans-serif; font-size: 0.75em; font-weight: normal; color: #c0392b; margin-left: 4px;">${escapeHtml(deprText)}</span>`;
+                html += `</span>`;
             }
             html += `</div>`;
         }
