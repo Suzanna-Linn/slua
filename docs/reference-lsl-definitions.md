@@ -672,479 +672,452 @@ slua_beta: true
             bindResultBtnHandlers();
         }
 
-
-
-
-
-
-
-
-
-
-/**
- * Generates an HTML table of constants, recursively rendering nested enums directly
- * under their corresponding associated value or specification with toggle controls.
- * Supports context-aware read/write access filtering and argument marking.
- * Supports up to Level 2 recursion to prevent infinite loops.
- * @param {string} categoryName - The name of the constant category/enum (e.g., "CameraParam", "DetectType").
- * @param {number} level - Internal tracking of the current recursion depth (0 = main, 1 = nested, 2 = deep nested).
- * @param {string} filterMode - Mode of access filtering ('all', 'read', or 'write').
- * @returns {string} - The HTML string representing the table, or an empty string if no constants match.
- */
-function generateConstantsTable(categoryName, level = 0, filterMode = 'all', parentInfo = null) {
-    if (!lslData || !lslData.constants) return '';
-
-    // Retrieve global states from localStorage (fallback to 'expanded' if not set)
-    const valuesState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-values') : 'expanded') || 'expanded';
-    const enumsState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-enums') : 'expanded') || 'expanded';
-
-    // Helper to escape HTML characters
-    const escapeHtml = (str) => {
-        if (str === null || str === undefined) return '';
-        return String(str)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    };
-
-    // Helper to format associated field values (like array ranges) with gray "to" text
-    const formatValue = (val) => {
-        if (val === undefined || val === null) return '';
-        if (Array.isArray(val)) {
-            return val.map(v => typeof v === 'object' ? escapeHtml(JSON.stringify(v)) : escapeHtml(String(v)))
-                .join(' <span style="color: #7f8c8d; font-weight: normal;">to</span> ');
-        }
-        if (typeof val === 'object') {
-            return escapeHtml(JSON.stringify(val));
-        }
-        return escapeHtml(String(val));
-    };
-
-    // Helper to wrap nested levels in a single group container so toggling affects all tables inside it
-    const wrapInGroupContainer = (contentHtml, catName, lvl) => {
-        const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
-        let groupStyle = '';
-        if (lvl === 1) {
-            groupStyle = `margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px; ${displayStyle}`;
-        } else if (lvl === 2) {
-            groupStyle = `margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px; ${displayStyle}`;
-        }
-        return `<div class="nested-enums-group" style="${groupStyle}">${contentHtml}</div>`;
-    };
-
-    // Check if this category is a compound enum+flag category
-    const enumInfo = lslData.enums && lslData.enums[categoryName];
-    if (enumInfo && enumInfo.type === 'enum+flag') {
-        const enumTable = generateConstantsTable(enumInfo.enum, level, filterMode);
-        const flagTable = generateConstantsTable(enumInfo.flag, level, filterMode);
-        const combinedTables = enumTable + flagTable;
-        return level > 0 ? wrapInGroupContainer(combinedTables, categoryName, level) : combinedTables;
-    }
-
-    // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
-    const parseToNumeric = (val) => {
-        if (typeof val === 'number') return val;
-        if (typeof val === 'string') {
-            const clean = val.trim();
-            if (clean.startsWith('0x') || clean.startsWith('0X')) {
-                return parseInt(clean, 16);
-            }
-            const num = parseFloat(clean);
-            if (!isNaN(num)) return num;
-        }
-        return null;
-    };
-
-    // Comparison function to sort row values numerically, falling back to lexical order
-    const compareValues = (a, b) => {
-        const numA = parseToNumeric(a.value);
-        const numB = parseToNumeric(b.value);
-
-        if (numA !== null && numB !== null) {
-            return numA - numB;
-        }
-        if (numA !== null) return -1;
-        if (numB !== null) return 1;
-
-        const strA = String(a.value);
-        const strB = String(b.value);
-        return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
-    };
-
-    // Filter constants belonging to this category
-    let categoryConstants = lslData.constants.filter(c => {
-        if (!c['member-of']) return false;
-        const members = Array.isArray(c['member-of']) 
-            ? c['member-of'] 
-            : [c['member-of']];
-        return members.map(m => String(m).trim()).includes(categoryName);
-    });
-
-    // Exclude constants based on Access rules at the main Constant level
-    if (filterMode === 'write') {
-        categoryConstants = categoryConstants.filter(c => c.access !== 'read');
-    } else if (filterMode === 'read') {
-        categoryConstants = categoryConstants.filter(c => c.access !== 'write');
-    }
-
-    if (categoryConstants.length === 0) return '';
-
-    // Sort the matched constants by value
-    categoryConstants.sort(compareValues);
-
-    const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
-    
-    // Scale styles and colors based on nesting level
-    let containerStyle = 'overflow-x: auto;';
-    let tableStyle = 'width: 100%; border-collapse: collapse;';
-    let headerStyle = 'padding: 8px 10px;';
-    let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
-    let nameColor = '#8b5cf6';    // Level 0: Mid Violet
-    let branchColor = '#8b5cf6';  // Level 0: Mid Violet
-
-    if (level === 0) {
-        containerStyle += ' margin: 15px 0;';
-    } else if (level === 1) {
-        tableStyle += ' font-size: 0.92em; background: rgba(16, 185, 129, 0.015);';
-        headerStyle = 'padding: 6px 8px; background: rgba(16, 185, 129, 0.04); font-size: 0.9em;';
-        cellStyle = 'padding: 6px 8px; line-height: 1.4;';
-        nameColor = '#10b981';    // Level 1: Emerald Green
-        branchColor = '#10b981';  // Level 1: Emerald Green
-    } else if (level === 2) {
-        tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
-        headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
-        cellStyle = 'padding: 4px 6px; line-height: 1.35;';
-        nameColor = '#ec4899';    // Level 2: Visual Pink
-        branchColor = '#ec4899';  // Level 2: Visual Pink
-    }
-
-    // Determine table header based on enum type
-    const nameHeader = (enumInfo && enumInfo.type === 'flag') ? 'Flags' : 'Options';
-
-    let html = '';
-    // Only display global control panel buttons at top-level
-    if (level === 0) {
-        let contextText = '';
-        if (parentInfo) {
-            const returnCategory = parentInfo['enum-semantics'] || parentInfo['param-semantics'] || parentInfo['param-get-semantics'] || null;
-            const matchesReturn = (returnCategory === categoryName);
-            let matchingArgs = [];
-            if (parentInfo.arguments && Array.isArray(parentInfo.arguments)) {
-                parentInfo.arguments.forEach(argObj => {
-                    const argName = Object.keys(argObj)[0];
-                    const argDetails = argObj[argName];
-                    if (argDetails && (
-                        argDetails['enum-semantics'] === categoryName ||
-                        argDetails['param-semantics'] === categoryName ||
-                        argDetails['param-get-semantics'] === categoryName
-                    )) {
-                        matchingArgs.push(argName);
-                    }
-                });
-            }
-            if (matchesReturn || matchingArgs.length > 0) {
-                let target = '';
-                const badgeStyle = 'background: rgba(128, 128, 128, 0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-weight: bold; font-size: 0.9em;';
-                
-                if (matchingArgs.length > 0 && matchesReturn) {
-                    target = `<span style="${badgeStyle}">${escapeHtml(matchingArgs.join(', '))}</span> and <span style="${badgeStyle}">return</span>`;
-                } else if (matchingArgs.length > 0) {
-                    target = `<span style="${badgeStyle}">${escapeHtml(matchingArgs.join(', '))}</span>`;
-                } else if (matchesReturn) {
-                    target = `<span style="${badgeStyle}">return</span>`;
+        function generateConstantsTable(categoryName, level = 0, filterMode = 'all', parentInfo = null) {
+            if (!lslData || !lslData.constants) return '';
+        
+            // Retrieve global states from localStorage (fallback to 'expanded' if not set)
+            const valuesState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-values') : 'expanded') || 'expanded';
+            const enumsState = (typeof localStorage !== 'undefined' ? localStorage.getItem('lsl-collapse-enums') : 'expanded') || 'expanded';
+        
+            // Helper to escape HTML characters
+            const escapeHtml = (str) => {
+                if (str === null || str === undefined) return '';
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            };
+        
+            // Helper to format associated field values (like array ranges) with gray "to" text
+            const formatValue = (val) => {
+                if (val === undefined || val === null) return '';
+                if (Array.isArray(val)) {
+                    return val.map(v => typeof v === 'object' ? escapeHtml(JSON.stringify(v)) : escapeHtml(String(v)))
+                        .join(' <span style="color: #7f8c8d; font-weight: normal;">to</span> ');
                 }
-                contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}</span>`;
+                if (typeof val === 'object') {
+                    return escapeHtml(JSON.stringify(val));
+                }
+                return escapeHtml(String(val));
+            };
+        
+            // Helper to wrap nested levels in a single group container so toggling affects all tables inside it
+            const wrapInGroupContainer = (contentHtml, catName, lvl) => {
+                const displayStyle = enumsState === 'expanded' ? 'display: block;' : 'display: none;';
+                let groupStyle = '';
+                if (lvl === 1) {
+                    groupStyle = `margin: 10px 0 10px 15px; max-width: 90%; border-left: 3px solid #10b981; padding-left: 12px; ${displayStyle}`;
+                } else if (lvl === 2) {
+                    groupStyle = `margin: 8px 0 8px 20px; max-width: 80%; border-left: 3px dashed #7f8c8d; padding-left: 10px; ${displayStyle}`;
+                }
+                return `<div class="nested-enums-group" style="${groupStyle}">${contentHtml}</div>`;
+            };
+        
+            // Check if this category is a compound enum+flag category
+            const enumInfo = lslData.enums && lslData.enums[categoryName];
+            if (enumInfo && enumInfo.type === 'enum+flag') {
+                const enumTable = generateConstantsTable(enumInfo.enum, level, filterMode);
+                const flagTable = generateConstantsTable(enumInfo.flag, level, filterMode);
+                const combinedTables = enumTable + flagTable;
+                return level > 0 ? wrapInGroupContainer(combinedTables, categoryName, level) : combinedTables;
             }
-        }
-
-        // Scans the active constants and nested enums recursively to locate referenced types
-        const getUsedTypes = (constantsList) => {
-            const typesSet = new Set();
-            const visitedEnums = new Set();
-            const scan = (list) => {
-                if (!list || !Array.isArray(list)) return;
-                list.forEach(item => {
-                    if (item['value-type']) {
-                        typesSet.add(item['value-type']);
+        
+            // Helper to parse values to numbers for sorting (handles hex, decimals, and floats)
+            const parseToNumeric = (val) => {
+                if (typeof val === 'number') return val;
+                if (typeof val === 'string') {
+                    const clean = val.trim();
+                    if (clean.startsWith('0x') || clean.startsWith('0X')) {
+                        return parseInt(clean, 16);
                     }
-                    if (item.values && Array.isArray(item.values)) {
-                        item.values.forEach(v => {
-                            if (v['value-type']) {
-                                typesSet.add(v['value-type']);
+                    const num = parseFloat(clean);
+                    if (!isNaN(num)) return num;
+                }
+                return null;
+            };
+        
+            // Comparison function to sort row values numerically, falling back to lexical order
+            const compareValues = (a, b) => {
+                const numA = parseToNumeric(a.value);
+                const numB = parseToNumeric(b.value);
+        
+                if (numA !== null && numB !== null) {
+                    return numA - numB;
+                }
+                if (numA !== null) return -1;
+                if (numB !== null) return 1;
+        
+                const strA = String(a.value);
+                const strB = String(b.value);
+                return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
+            };
+        
+            // Filter constants belonging to this category
+            let categoryConstants = lslData.constants.filter(c => {
+                if (!c['member-of']) return false;
+                const members = Array.isArray(c['member-of']) 
+                    ? c['member-of'] 
+                    : [c['member-of']];
+                return members.map(m => String(m).trim()).includes(categoryName);
+            });
+        
+            // Exclude constants based on Access rules at the main Constant level
+            if (filterMode === 'write') {
+                categoryConstants = categoryConstants.filter(c => c.access !== 'read');
+            } else if (filterMode === 'read') {
+                categoryConstants = categoryConstants.filter(c => c.access !== 'write');
+            }
+        
+            if (categoryConstants.length === 0) return '';
+        
+            // Sort the matched constants by value
+            categoryConstants.sort(compareValues);
+        
+            const optionalFields = ['value-type', 'range', 'default', 'enum', 'details'];
+            
+            // Scale styles and colors based on nesting level
+            let containerStyle = 'overflow-x: auto;';
+            let tableStyle = 'width: 100%; border-collapse: collapse;';
+            let headerStyle = 'padding: 8px 10px;';
+            let cellStyle = 'padding: 8px 10px; line-height: 1.45;';
+            let nameColor = '#8b5cf6';    // Level 0: Mid Violet
+            let branchColor = '#8b5cf6';  // Level 0: Mid Violet
+        
+            if (level === 0) {
+                containerStyle += ' margin: 15px 0;';
+            } else if (level === 1) {
+                tableStyle += ' font-size: 0.92em; background: rgba(16, 185, 129, 0.015);';
+                headerStyle = 'padding: 6px 8px; background: rgba(16, 185, 129, 0.04); font-size: 0.9em;';
+                cellStyle = 'padding: 6px 8px; line-height: 1.4;';
+                nameColor = '#10b981';    // Level 1: Emerald Green
+                branchColor = '#10b981';  // Level 1: Emerald Green
+            } else if (level === 2) {
+                tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
+                headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
+                cellStyle = 'padding: 4px 6px; line-height: 1.35;';
+                nameColor = '#ec4899';    // Level 2: Visual Pink
+                branchColor = '#ec4899';  // Level 2: Visual Pink
+            }
+        
+            // Determine table header based on enum type
+            const nameHeader = (enumInfo && enumInfo.type === 'flag') ? 'Flags' : 'Options';
+        
+            let html = '';
+            // Only display global control panel buttons at top-level
+            if (level === 0) {
+                let contextText = '';
+                if (parentInfo) {
+                    const returnCategory = parentInfo['enum-semantics'] || parentInfo['param-semantics'] || parentInfo['param-get-semantics'] || null;
+                    const matchesReturn = (returnCategory === categoryName);
+                    let matchingArgs = [];
+                    if (parentInfo.arguments && Array.isArray(parentInfo.arguments)) {
+                        parentInfo.arguments.forEach(argObj => {
+                            const argName = Object.keys(argObj)[0];
+                            const argDetails = argObj[argName];
+                            if (argDetails && (
+                                argDetails['enum-semantics'] === categoryName ||
+                                argDetails['param-semantics'] === categoryName ||
+                                argDetails['param-get-semantics'] === categoryName
+                            )) {
+                                matchingArgs.push(argName);
                             }
                         });
                     }
-                    if (item.enum && !visitedEnums.has(item.enum)) {
-                        visitedEnums.add(item.enum);
-                        const subEnumConstants = lslData.constants.filter(sc => {
-                            if (!sc['member-of']) return false;
-                            const members = Array.isArray(sc['member-of']) ? sc['member-of'] : [sc['member-of']];
-                            return members.map(m => String(m).trim()).includes(item.enum);
+                    if (matchesReturn || matchingArgs.length > 0) {
+                        let target = '';
+                        const badgeStyle = 'background: rgba(128, 128, 128, 0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-weight: bold; font-size: 0.9em;';
+                        
+                        if (matchingArgs.length > 0 && matchesReturn) {
+                            target = `<span style="${badgeStyle}">${escapeHtml(matchingArgs.join(', '))}</span> and <span style="${badgeStyle}">return</span>`;
+                        } else if (matchingArgs.length > 0) {
+                            target = `<span style="${badgeStyle}">${escapeHtml(matchingArgs.join(', '))}</span>`;
+                        } else if (matchesReturn) {
+                            target = `<span style="${badgeStyle}">return</span>`;
+                        }
+                        contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}</span>`;
+                    }
+                }
+        
+                // Scans the active constants and nested enums recursively to locate referenced types
+                const getUsedTypes = (constantsList) => {
+                    const typesSet = new Set();
+                    const visitedEnums = new Set();
+                    const scan = (list) => {
+                        if (!list || !Array.isArray(list)) return;
+                        list.forEach(item => {
+                            if (item['value-type']) {
+                                typesSet.add(item['value-type']);
+                            }
+                            if (item.values && Array.isArray(item.values)) {
+                                item.values.forEach(v => {
+                                    if (v['value-type']) {
+                                        typesSet.add(v['value-type']);
+                                    }
+                                });
+                            }
+                            if (item.enum && !visitedEnums.has(item.enum)) {
+                                visitedEnums.add(item.enum);
+                                const subEnumConstants = lslData.constants.filter(sc => {
+                                    if (!sc['member-of']) return false;
+                                    const members = Array.isArray(sc['member-of']) ? sc['member-of'] : [sc['member-of']];
+                                    return members.map(m => String(m).trim()).includes(item.enum);
+                                });
+                                scan(subEnumConstants);
+                            }
                         });
-                        scan(subEnumConstants);
-                    }
-                });
-            };
-            scan(constantsList);
-            return Array.from(typesSet);
-        };
-
-        const usedTypes = getUsedTypes(categoryConstants);
-        const targetTypes = ['boolean', 'asset', 'string-csv', 'string-map', 'string-multi'];
-        const typesToExplain = usedTypes.filter(t => targetTypes.includes(t));
-        let typesLine = '';
+                    };
+                    scan(constantsList);
+                    return Array.from(typesSet);
+                };
         
-        if (typesToExplain.length > 0) {
-            const explanations = typesToExplain.map(t => {
-                let desc = '';
-                if (t === 'boolean') desc = 'True/False value';
-                else if (t === 'asset') desc = 'Item name or UUID';
-                else if (t === 'string-csv') desc = 'Comma-separated string';
-                else if (t === 'string-map') desc = 'Key-value map';
-                else if (t === 'string-multi') desc = 'Multiple strings';
-                return `<span style="white-space: nowrap;"><strong style="font-family: monospace; font-size: 0.9em; background: rgba(128,128,128,0.1); padding: 1px 4px; border-radius: 3px; color: var(--text-color);">${t}</strong>: <span style="opacity: 0.85;">${desc}</span></span>`;
-            });
-            typesLine = `
-                <div style="margin-top: -6px; margin-bottom: 12px; font-size: 0.8em; color: var(--text-color); opacity: 0.75; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
-                    ${explanations.join(' <span style="opacity: 0.3;">|</span> ')}
-                </div>
-            `;
-        }
-
-        html += `
-            <div class="table-controls" style="display: flex; gap: 8px; margin-bottom: 12px; font-size: 0.85em; align-items: center; user-select: none;">
-                ${contextText}
-                <button type="button" class="nav-btn btn-toggle-values" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
-                <button type="button" class="nav-btn btn-toggle-enums" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
-            </div>
-            ${typesLine}
-        `;
-    }
-
-    html += `<div class="table-scroll-container level-${level}-wrapper" style="${containerStyle}">`;
-    html += `<table style="${tableStyle}">`;
-    
-    // Table Headers
-    html += '<thead><tr>';
-    html += `<th style="width: 25%; ${headerStyle}">${escapeHtml(nameHeader)}</th>`;
-    html += `<th style="width: 15%; ${headerStyle}">Value</th>`;
-    html += `<th style="width: 60%; ${headerStyle}">Description</th>`;
-    html += '</tr></thead>';
-
-    html += '<tbody>';
-    categoryConstants.forEach(c => {
-        // Generate Indented Sub-row Content (Badges and Nested Tables inline)
-        let subRowContent = '';
-        if (c.values && Array.isArray(c.values) && c.values.length > 0) {
-            // Apply filtering on sub-values
-            let filteredValues = c.values;
-            if (filterMode === 'write') {
-                filteredValues = filteredValues.filter(sub => sub.access !== 'read');
-            } else if (filterMode === 'read') {
-                filteredValues = filteredValues.filter(sub => sub.access !== 'write');
-            }
-
-            // Skip rendering the entire constant if its parameters are completely filtered out
-            if (filteredValues.length === 0) return;
-
-            filteredValues.forEach(sub => {
-                let badgeHTML = '';
-                optionalFields.forEach(field => {
-                    if (sub[field] !== undefined && sub[field] !== null) {
-                        let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                        
-                        // Check if this badge can trigger a nested enum table collapse
-                        const isClickableEnum = (field === 'enum' && level < 2);
-                        const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
-                        const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
-                        const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
-
-                        badgeHTML += `
-                            <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
-                                <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
-                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(sub[field])}</span>
-                                ${arrowHtml}
-                            </span>
-                        `;
-                    }
-                });
-
-                // Mark 'arg' values with an Argument badge in read mode
-                if (filterMode === 'read' && sub.access === 'arg') {
-                    badgeHTML += `
-                        <span style="display: inline-flex; align-items: center; background: rgba(55, 150, 255, 0.08); border: 1px solid rgba(55, 150, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; color: var(--accent-lua, #3796ff); font-weight: bold; user-select: none;">
-                            Argument
-                        </span>
-                    `;
-                }
-
-                let subHtml = `
-                    <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
-                        <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
-                        ${sub.name ? `<strong style="font-family: monospace; font-size: 0.95em; margin-right: 12px; color: var(--text-color);">${escapeHtml(sub.name)}</strong>` : ''}
-                        <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
-                    </div>
-                `;
-
-                // If this specific associated value has an enum, render its nested table immediately below it
-                if (level < 2 && sub.enum) {
-                    const nestedTable = generateConstantsTable(sub.enum, level + 1, filterMode, parentInfo);
-                    if (nestedTable) {
-                        subHtml += nestedTable;
-                    }
-                }
-
-                subRowContent += subHtml;
-            });
-        } else {
-            const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
-            if (hasMainOptional) {
-                // Determine main level access check
-                if (filterMode === 'write' && c.access === 'read') return;
-                if (filterMode === 'read' && c.access === 'write') return;
-
-                let badgeHTML = '';
-                optionalFields.forEach(field => {
-                    if (c[field] !== undefined && c[field] !== null) {
-                        let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
-                        
-                        const isClickableEnum = (field === 'enum' && level < 2);
-                        const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
-                        const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
-                        const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
-
-                        badgeHTML += `
-                            <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
-                                <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
-                                <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(c[field])}</span>
-                                ${arrowHtml}
-                            </span>
-                        `;
-                    }
-                });
-
-                // Mark 'arg' value with an Argument badge in read mode
-                if (filterMode === 'read' && c.access === 'arg') {
-                    badgeHTML += `
-                        <span style="display: inline-flex; align-items: center; background: rgba(55, 150, 255, 0.08); border: 1px solid rgba(55, 150, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; color: var(--accent-lua, #3796ff); font-weight: bold; user-select: none;">
-                            Argument
-                        </span>
-                    `;
-                }
-
-                let subHtml = `
-                    <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
-                        <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
-                        <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
-                    </div>
-                `;
-
-                // If this main specification has an enum, render its nested table immediately below it
-                if (level < 2 && c.enum) {
-                    const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode, parentInfo);
-                    if (nestedTable) {
-                        subHtml += nestedTable;
-                    }
-                }
-
-                subRowContent += subHtml;
-            } else if (level < 2 && c.enum) {
-                // If there are no main optional fields, but it still has an enum definition
-                const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode, parentInfo);
-                if (nestedTable) {
-                    subRowContent += nestedTable;
-                }
-            }
-        }
-
-        const hasSubRow = (subRowContent !== '');
-        const currentArrow = valuesState === 'expanded' ? '▾' : '▸';
-        const arrowSpan = hasSubRow ? `<span class="arrow" style="font-size: 0.85em; color: ${nameColor}; margin-right: 6px; user-select: none;">${currentArrow}</span>` : '';
-        const nameCellContent = hasSubRow 
-            ? `<span class="constant-name-toggle" style="cursor: pointer; display: inline-flex; align-items: center; user-select: none;">${arrowSpan}${escapeHtml(c.name)}</span>` 
-            : escapeHtml(c.name);
-
-// Render Main Constant Row
-        html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
-        html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">`;
-        html += nameCellContent;
-        
-        if (c.private || c.deprecated || c['slua-deprecated']) {
-            const hasLslElements = !!(c.private || c.deprecated);
-            const divClass = hasLslElements ? "" : "lua-section";
-            
-            html += `<div class="${divClass}" style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; user-select: none;">`;
-            if (c.private) {
-                html += `<span class="attr-label bg-godmode" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #f1c40f;">Private</span>`;
-            }
-            if (c.deprecated) {
-                html += `<span class="attr-label bg-deprecated" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #c0392b;">Deprecated</span>`;
+                const usedTypes = getUsedTypes(categoryConstants);
+                const targetTypes = ['boolean', 'asset', 'string-csv', 'string-map', 'string-multi'];
+                const typesToExplain = usedTypes.filter(t => targetTypes.includes(t));
+                let typesLine = '';
                 
-                let deprText = "Deprecated: ";
-                if (typeof c.deprecated === 'object' && c.deprecated !== null) {
-                    if (c.deprecated.use) {
-                        deprText += "use " + c.deprecated.use;
+                if (typesToExplain.length > 0) {
+                    const explanations = typesToExplain.map(t => {
+                        let desc = '';
+                        if (t === 'boolean') desc = 'True/False value';
+                        else if (t === 'asset') desc = 'Item name or UUID';
+                        else if (t === 'string-csv') desc = 'Comma-separated string';
+                        else if (t === 'string-map') desc = 'Key-value map';
+                        else if (t === 'string-multi') desc = 'Multiple strings';
+                        return `<span style="white-space: nowrap;"><strong style="font-family: monospace; font-size: 0.9em; background: rgba(128,128,128,0.1); padding: 1px 4px; border-radius: 3px; color: var(--text-color);">${t}</strong>: <span style="opacity: 0.85;">${desc}</span></span>`;
+                    });
+                    typesLine = `
+                        <div style="margin-top: -6px; margin-bottom: 12px; font-size: 0.8em; color: var(--text-color); opacity: 0.75; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
+                            ${explanations.join(' <span style="opacity: 0.3;">|</span> ')}
+                        </div>
+                    `;
+                }
+        
+                html += `
+                    <div class="table-controls" style="display: flex; gap: 8px; margin-bottom: 12px; font-size: 0.85em; align-items: center; user-select: none;">
+                        ${contextText}
+                        <button type="button" class="nav-btn btn-toggle-values" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
+                        <button type="button" class="nav-btn btn-toggle-enums" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
+                    </div>
+                    ${typesLine}
+                `;
+            }
+        
+            html += `<div class="table-scroll-container level-${level}-wrapper" style="${containerStyle}">`;
+            html += `<table style="${tableStyle}">`;
+            
+            // Table Headers
+            html += '<thead><tr>';
+            html += `<th style="width: 25%; ${headerStyle}">${escapeHtml(nameHeader)}</th>`;
+            html += `<th style="width: 15%; ${headerStyle}">Value</th>`;
+            html += `<th style="width: 60%; ${headerStyle}">Description</th>`;
+            html += '</tr></thead>';
+        
+            html += '<tbody>';
+            categoryConstants.forEach(c => {
+                // Generate Indented Sub-row Content (Badges and Nested Tables inline)
+                let subRowContent = '';
+                if (c.values && Array.isArray(c.values) && c.values.length > 0) {
+                    // Apply filtering on sub-values
+                    let filteredValues = c.values;
+                    if (filterMode === 'write') {
+                        filteredValues = filteredValues.filter(sub => sub.access !== 'read');
+                    } else if (filterMode === 'read') {
+                        filteredValues = filteredValues.filter(sub => sub.access !== 'write');
                     }
-                    if (c.deprecated.reason) {
-                        deprText += (c.deprecated.use ? "   Reason: " : "") + c.deprecated.reason;
+        
+                    // Skip rendering the entire constant if its parameters are completely filtered out
+                    if (filteredValues.length === 0) return;
+        
+                    filteredValues.forEach(sub => {
+                        let badgeHTML = '';
+                        optionalFields.forEach(field => {
+                            if (sub[field] !== undefined && sub[field] !== null) {
+                                let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                                
+                                // Check if this badge can trigger a nested enum table collapse
+                                const isClickableEnum = (field === 'enum' && level < 2);
+                                const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
+                                const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
+                                const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
+        
+                                badgeHTML += `
+                                    <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
+                                        <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
+                                        <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(sub[field])}</span>
+                                        ${arrowHtml}
+                                    </span>
+                                `;
+                            }
+                        });
+        
+                        // Mark 'arg' values with an Argument badge in read mode
+                        if (filterMode === 'read' && sub.access === 'arg') {
+                            badgeHTML += `
+                                <span style="display: inline-flex; align-items: center; background: rgba(55, 150, 255, 0.08); border: 1px solid rgba(55, 150, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; color: var(--accent-lua, #3796ff); font-weight: bold; user-select: none;">
+                                    Argument
+                                </span>
+                            `;
+                        }
+        
+                        let subHtml = `
+                            <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4px; padding: 2px 0;">
+                                <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
+                                ${sub.name ? `<strong style="font-family: monospace; font-size: 0.95em; margin-right: 12px; color: var(--text-color);">${escapeHtml(sub.name)}</strong>` : ''}
+                                <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
+                            </div>
+                        `;
+        
+                        // If this specific associated value has an enum, render its nested table immediately below it
+                        if (level < 2 && sub.enum) {
+                            const nestedTable = generateConstantsTable(sub.enum, level + 1, filterMode, parentInfo);
+                            if (nestedTable) {
+                                subHtml += nestedTable;
+                            }
+                        }
+        
+                        subRowContent += subHtml;
+                    });
+                } else {
+                    const hasMainOptional = optionalFields.some(f => c[f] !== undefined);
+                    if (hasMainOptional) {
+                        // Determine main level access check
+                        if (filterMode === 'write' && c.access === 'read') return;
+                        if (filterMode === 'read' && c.access === 'write') return;
+        
+                        let badgeHTML = '';
+                        optionalFields.forEach(field => {
+                            if (c[field] !== undefined && c[field] !== null) {
+                                let label = field === 'value-type' ? 'Type' : field.charAt(0).toUpperCase() + field.slice(1);
+                                
+                                const isClickableEnum = (field === 'enum' && level < 2);
+                                const badgeClass = isClickableEnum ? 'class="enum-table-header"' : '';
+                                const badgeCursor = isClickableEnum ? 'cursor: pointer;' : '';
+                                const arrowHtml = isClickableEnum ? `<span class="arrow" style="font-size: 0.85em; margin-left: 6px; color: ${branchColor};">${enumsState === 'expanded' ? '▾' : '▸'}</span>` : '';
+        
+                                badgeHTML += `
+                                    <span ${badgeClass} style="${badgeCursor} display: inline-flex; align-items: center; background: rgba(128,128,128,0.06); border: 1px solid rgba(128,128,128,0.12); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; user-select: none;">
+                                        <span style="color: #7f8c8d; margin-right: 4px; font-weight: 500;">${escapeHtml(label)}:</span>
+                                        <span style="font-family: monospace; font-weight: 600; color: var(--text-color);">${formatValue(c[field])}</span>
+                                        ${arrowHtml}
+                                    </span>
+                                `;
+                            }
+                        });
+        
+                        // Mark 'arg' value with an Argument badge in read mode
+                        if (filterMode === 'read' && c.access === 'arg') {
+                            badgeHTML += `
+                                <span style="display: inline-flex; align-items: center; background: rgba(55, 150, 255, 0.08); border: 1px solid rgba(55, 150, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 0.82em; font-family: sans-serif; white-space: nowrap; color: var(--accent-lua, #3796ff); font-weight: bold; user-select: none;">
+                                    Argument
+                                </span>
+                            `;
+                        }
+        
+                        let subHtml = `
+                            <div class="badge-row-container" style="display: flex; align-items: center; flex-wrap: wrap; padding: 2px 0;">
+                                <span style="color: ${branchColor}; font-family: monospace; margin-right: 8px; font-weight: bold; user-select: none;">└─</span>
+                                <div style="display: inline-flex; flex-wrap: wrap; gap: 4px;">${badgeHTML}</div>
+                            </div>
+                        `;
+        
+                        // If this main specification has an enum, render its nested table immediately below it
+                        if (level < 2 && c.enum) {
+                            const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode, parentInfo);
+                            if (nestedTable) {
+                                subHtml += nestedTable;
+                            }
+                        }
+        
+                        subRowContent += subHtml;
+                    } else if (level < 2 && c.enum) {
+                        // If there are no main optional fields, but it still has an enum definition
+                        const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode, parentInfo);
+                        if (nestedTable) {
+                            subRowContent += nestedTable;
+                        }
                     }
                 }
-                html += `<span style="font-family: sans-serif; font-size: 0.75em; font-weight: normal; color: #c0392b; margin-left: 4px;">${escapeHtml(deprText)}</span>`;
-            }
-            if (c['slua-deprecated']) {
-                const spanClass = hasLslElements ? "lua-section" : "";
-                let deprText = "Alternative: ";
-                if (typeof c['slua-deprecated'] === 'object' && c['slua-deprecated'] !== null) {
-                    if (c['slua-deprecated'].use) {
-                        deprText += "use " + c['slua-deprecated'].use;
+        
+                const hasSubRow = (subRowContent !== '');
+                const currentArrow = valuesState === 'expanded' ? '▾' : '▸';
+                const arrowSpan = hasSubRow ? `<span class="arrow" style="font-size: 0.85em; color: ${nameColor}; margin-right: 6px; user-select: none;">${currentArrow}</span>` : '';
+                const nameCellContent = hasSubRow 
+                    ? `<span class="constant-name-toggle" style="cursor: pointer; display: inline-flex; align-items: center; user-select: none;">${arrowSpan}${escapeHtml(c.name)}</span>` 
+                    : escapeHtml(c.name);
+        
+        // Render Main Constant Row
+                html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
+                html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">`;
+                html += nameCellContent;
+                
+                if (c.private || c.deprecated || c['slua-deprecated']) {
+                    const hasLslElements = !!(c.private || c.deprecated);
+                    const divClass = hasLslElements ? "" : "lua-section";
+                    
+                    html += `<div class="${divClass}" style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; user-select: none;">`;
+                    if (c.private) {
+                        html += `<span class="attr-label bg-godmode" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #f1c40f;">Private</span>`;
                     }
-                    if (c['slua-deprecated'].reason) {
-                        deprText += (c['slua-deprecated'].use ? "   Reason: " : "") + c['slua-deprecated'].reason;
+                    if (c.deprecated) {
+                        html += `<span class="attr-label bg-deprecated" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #c0392b;">Deprecated</span>`;
+                        
+                        let deprText = "Deprecated: ";
+                        if (typeof c.deprecated === 'object' && c.deprecated !== null) {
+                            if (c.deprecated.use) {
+                                deprText += "use " + c.deprecated.use;
+                            }
+                            if (c.deprecated.reason) {
+                                deprText += (c.deprecated.use ? "   Reason: " : "") + c.deprecated.reason;
+                            }
+                        }
+                        html += `<span style="font-family: sans-serif; font-size: 0.75em; font-weight: normal; color: #c0392b; margin-left: 4px;">${escapeHtml(deprText)}</span>`;
                     }
+                    if (c['slua-deprecated']) {
+                        const spanClass = hasLslElements ? "lua-section" : "";
+                        let deprText = "Alternative: ";
+                        if (typeof c['slua-deprecated'] === 'object' && c['slua-deprecated'] !== null) {
+                            if (c['slua-deprecated'].use) {
+                                deprText += "use " + c['slua-deprecated'].use;
+                            }
+                            if (c['slua-deprecated'].reason) {
+                                deprText += (c['slua-deprecated'].use ? "   Reason: " : "") + c['slua-deprecated'].reason;
+                            }
+                        }
+                        html += `<span class="${spanClass}" style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">`;
+                        html += `<span class="attr-label bg-deprecated" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #c0392b;">Lua Alternative</span>`;
+                        html += `<span style="font-family: sans-serif; font-size: 0.75em; font-weight: normal; color: #c0392b; margin-left: 4px;">${escapeHtml(deprText)}</span>`;
+                        html += `</span>`;
+                    }
+                    html += `</div>`;
                 }
-                html += `<span class="${spanClass}" style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">`;
-                html += `<span class="attr-label bg-deprecated" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #c0392b;">Lua Alternative</span>`;
-                html += `<span style="font-family: sans-serif; font-size: 0.75em; font-weight: normal; color: #c0392b; margin-left: 4px;">${escapeHtml(deprText)}</span>`;
-                html += `</span>`;
+                
+                html += `</td>`;
+                html += `<td style="font-family: monospace; font-weight: bold; ${cellStyle}">${escapeHtml(String(c.value))}</td>`;
+                html += `<td style="${cellStyle}">${escapeHtml(c.tooltip || '')}</td>`;
+                html += `</tr>`;
+        
+                // Render Sub-row if badges or nested tables exist
+                if (hasSubRow) {
+                    const currentSubRowDisplay = valuesState === 'expanded' ? '' : 'display: none;';
+                    html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color); ${currentSubRowDisplay}">`;
+                    html += `<td colspan="3" style="padding: 4px 10px 8px 30px; border-top: none;">`;
+                    html += subRowContent;
+                    html += `</td>`;
+                    html += `</tr>`;
+                }
+            });
+        
+            html += '</tbody></table></div>';
+            
+            // Wrap Level 1 and Level 2 outputs in the single parent group container
+            if (level > 0) {
+                return wrapInGroupContainer(html, categoryName, level);
             }
-            html += `</div>`;
+            return html;
         }
-        
-        html += `</td>`;
-        html += `<td style="font-family: monospace; font-weight: bold; ${cellStyle}">${escapeHtml(String(c.value))}</td>`;
-        html += `<td style="${cellStyle}">${escapeHtml(c.tooltip || '')}</td>`;
-        html += `</tr>`;
 
-        // Render Sub-row if badges or nested tables exist
-        if (hasSubRow) {
-            const currentSubRowDisplay = valuesState === 'expanded' ? '' : 'display: none;';
-            html += `<tr class="sub-row" style="background: rgba(128,128,128,0.015); border-bottom: 1px solid var(--border-color); ${currentSubRowDisplay}">`;
-            html += `<td colspan="3" style="padding: 4px 10px 8px 30px; border-top: none;">`;
-            html += subRowContent;
-            html += `</td>`;
-            html += `</tr>`;
-        }
-    });
-
-    html += '</tbody></table></div>';
-    
-    // Wrap Level 1 and Level 2 outputs in the single parent group container
-    if (level > 0) {
-        return wrapInGroupContainer(html, categoryName, level);
-    }
-    return html;
-}
-
-
-
-
-
-
-
-        
-        
         function renderItemDetails(type, name) {
             let info = null;
 
@@ -1165,15 +1138,33 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
                 ? "Lua Changed"
                 : (currentViewState.type === 'category-list' ? "Categories" : "Category");
             
-            const backButtonHtml = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
-                <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
-                    <button type="button" id="details-back-btn" class="nav-btn">
-                        ${backButtonText}
-                    </button>
-                </div>
+            // Build the back button inside its own container variable
+            const backButtonHtmlInner = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
+                <button type="button" id="details-back-btn" class="nav-btn">
+                    ${backButtonText}
+                </button>
             ` : '';
 
-            let html = backButtonHtml;
+            // Capitalize the first character of the item name for the Wiki URL
+            const wikiName = name.charAt(0).toUpperCase() + name.slice(1);
+            const wikiUrl = `https://wiki.secondlife.com/wiki/${wikiName}`;
+
+            // Create a top control bar that displays the back button on the left (if active)
+            // and the LSL Wiki link button aligned to the right.
+            const topControlsHtml = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;">
+                    <div>
+                        ${backButtonHtmlInner}
+                    </div>
+                    <div style="margin-left: auto;">
+                        <a href="${wikiUrl}" target="_blank" rel="noopener noreferrer" class="nav-btn" style="text-decoration: none !important; color: inherit; display: inline-flex; align-items: center;">
+                            LSL Wiki
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            let html = topControlsHtml;
 
           let llcompat = false;
           let nameLua = type == "function" ? "ll." + name.slice(2) : name;
