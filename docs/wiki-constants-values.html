@@ -1,0 +1,2608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constants and associated values</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Constants and associated values</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for constants...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "RC_REJECT_TYPES": {
+    "value-type": "integer",
+    "enum": "RayCastRejectType",
+    "default": 0
+  },
+  "RC_DATA_FLAGS": {
+    "value-type": "integer",
+    "enum": "RayCastData",
+    "default": 0
+  },
+  "RC_MAX_HITS": {
+    "value-type": "integer",
+    "default": 1
+  },
+  "RC_DETECT_PHANTOM": {
+    "value-type": "boolean",
+    "default": false
+  },
+  "CHARACTER_DESIRED_SPEED": {
+    "value-type": "float",
+    "range": [0.2, 40],
+    "default": 6
+  },
+  "CHARACTER_RADIUS": {
+    "value-type": "float",
+    "range": [0.125, 5]
+  },
+  "CHARACTER_LENGTH": {
+    "value-type": "float",
+    "range": [0, 10]
+  },
+  "CHARACTER_ORIENTATION": {
+    "value-type": "integer",
+    "enum": "CharacterOrientation",
+    "default": "VERTICAL"
+  },
+  "TRAVERSAL_TYPE": {
+    "value-type": "integer",
+    "enum": "CharacterTraversalType",
+    "default": "TRAVERSAL_TYPE_SLOW"
+  },
+  "CHARACTER_TYPE": {
+    "value-type": "integer",
+    "enum": "CharacterType",
+    "default": "CHARACTER_TYPE_NONE"
+  },
+  "CHARACTER_AVOIDANCE_MODE": {
+    "value-type": "integer",
+    "enum": "CharacterAvoidanceMode",
+    "default": "AVOID_CHARACTERS | AVOID_DYNAMIC_OBSTACLES"
+  },
+  "CHARACTER_MAX_ACCEL": {
+    "value-type": "float",
+    "range": [0.5, 40],
+    "default": 20
+  },
+  "CHARACTER_MAX_DECEL": {
+    "value-type": "float",
+    "range": [0.5, 60],
+    "default": 30
+  },
+  "CHARACTER_DESIRED_TURN_SPEED": {
+    "value-type": "float",
+    "range": [0.02, 40],
+    "default": 6
+  },
+  "CHARACTER_MAX_TURN_RADIUS": {
+    "value-type": "float",
+    "range": [0.1, 10],
+    "default": 1.25
+  },
+  "CHARACTER_MAX_SPEED": {
+    "value-type": "float",
+    "range": [1, 40],
+    "default": 20
+  },
+  "CHARACTER_ACCOUNT_FOR_SKIPPED_FRAMES": {
+    "value-type": "boolean",
+    "default": true
+  },
+  "CHARACTER_STAY_WITHIN_PARCEL": {
+    "value-type": "boolean"
+  },
+  "FILTER_INCLUDE": {
+    "value-type": "integer",
+    "enum": "AttachPoint"
+  },
+  "FILTER_FLAGS": {
+    "value-type": "integer",
+    "enum": "AttachedListFilterFlag"
+  },
+  "GCNP_RADIUS": {
+    "value-type": "float",
+    "default": 20
+  },
+  "GCNP_STATIC": {
+    "value-type": "boolean",
+    "default": false
+  },
+  "GCNP_GET_WALKABILITY": {
+    "value-type": "boolean"
+  },
+  "SKY_TRACKS": {
+    "values": [
+      {
+        "name": "sky2",
+        "value-type": "float"
+      },
+      {
+        "name": "sky3",
+        "value-type": "float"
+      },
+      {
+        "name": "sky4",
+        "value-type": "float"
+      }
+    ],
+    "access": "read"
+  },
+  "SKY_AMBIENT": {
+    "value-type": "vector"
+  },
+  "SKY_TEXTURE_DEFAULTS": {
+    "values": [
+      {
+        "name": "bloom_is_default",
+        "value-type": "boolean"
+      },
+      {
+        "name": "halo_is_default",
+        "value-type": "boolean"
+      },
+      {
+        "name": "rainbow_is_default",
+        "value-type": "boolean"
+      }
+    ],
+    "access": "read"
+  },
+  "SKY_CLOUDS": {
+    "values": [
+      {
+        "name": "color",
+        "value-type": "vector",
+        "details": "The color used for the clouds."
+      },
+      {
+        "name": "coverage",
+        "value-type": "float",
+        "range": [0, 1],
+        "details": "The coverage percentage."
+      },
+      {
+        "name": "scale",
+        "value-type": "float",
+        "range": [0, 3],
+        "details": "The scaling applied to the cloud textures."
+      },
+      {
+        "name": "variance",
+        "value-type": "float",
+        "range": [0, 1],
+        "details": "A randomizing factor applied to the main cloud layer."
+      },
+      {
+        "name": "scroll",
+        "value-type": "vector",
+        "range": ["<-50,-50,0>", "<50,50,0>"],
+        "details": "The scroll speed of the clouds (X is east/west, Y is north/south, Z is unused)."
+      },
+      {
+        "name": "density",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,3>"],
+        "details": "The X/Y and D parameter used to generate cloud density."
+      },
+      {
+        "name": "detail",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,1>"],
+        "details": "The X/Y and D parameter used to generate cloud details."
+      },
+      {
+        "name": "is_default",
+        "value-type": "boolean",
+        "access": "read"
+      }
+    ]
+  },
+  "SKY_CLOUD_TEXTURE": {
+    "value-type": "asset",
+    "access": "write"
+  },
+  "SKY_DOME": {
+    "values": [
+      {
+        "name": "offset",
+        "value-type": "float",
+        "range": [0, 1]
+      },
+      {
+        "name": "radius",
+        "value-type": "float",
+        "range": [1000, 2000]
+      },
+      {
+        "name": "max_altitude",
+        "value-type": "float",
+        "range": [0, 10000]
+      }
+    ]
+  },
+  "SKY_GAMMA": {
+    "value-type": "float",
+    "range": [0, 20]
+  },
+  "SKY_GLOW": {
+    "values": [
+      {
+        "name": "glow_size",
+        "value-type": "float",
+        "range": [0.2, 40]
+      },
+      {
+        "name": "glow_focus",
+        "value-type": "float",
+        "range": [-10, 10]
+      }
+    ]
+  },
+  "SKY_MOON": {
+    "values": [
+      {
+        "name": "rot",
+        "value-type": "rotation",
+        "details": "The current rotation applied to the moon."
+      },
+      {
+        "name": "scale",
+        "value-type": "float",
+        "range": [0.25, 20],
+        "details": "The current scale applied to the moon's texture."
+      },
+      {
+        "name": "brightness",
+        "value-type": "float",
+        "range": [0, 1],
+        "details": "The moon's brightness."
+      },
+      {
+        "name": "is_default_texture",
+        "value-type": "boolean",
+        "access": "read"
+      },
+      {
+        "name": "direction",
+        "value-type": "vector",
+        "details": "A unit vector pointing at the moon.",
+        "access": "read"
+      },
+      {
+        "name": "ambient_color",
+        "value-type": "vector",
+        "details": "The ambient color of the moon.",
+        "access": "read"
+      },
+      {
+        "name": "diffuse_color",
+        "value-type": "vector",
+        "details": "The diffuse color applied to the moon.",
+        "access": "read"
+      }
+    ]
+  },
+  "SKY_MOON_TEXTURE": {
+    "value-type": "asset",
+    "access": "write"
+  },
+  "SKY_STAR_BRIGHTNESS": {
+    "value-type": "float",
+    "range": [0, 500]
+  },
+  "SKY_SUN": {
+    "values": [
+      {
+        "name": "rot",
+        "value-type": "rotation",
+        "details": "The current rotation applied to the sun."
+      },
+      {
+        "name": "scale",
+        "value-type": "float",
+        "range": [0.25, 20],
+        "details": "The current scale applied to the sun's texture."
+      },
+      {
+        "name": "sun_color",
+        "value-type": "vector"
+      },
+      {
+        "name": "is_default_texture",
+        "value-type": "boolean",
+        "access": "read"
+      },
+      {
+        "name": "direction",
+        "value-type": "vector",
+        "details": "A unit vector pointing at the sun.",
+        "access": "read"
+      },
+      {
+        "name": "ambient_color",
+        "value-type": "vector",
+        "details": "The ambient color of the sun.",
+        "access": "read"
+      },
+      {
+        "name": "diffuse_color",
+        "value-type": "vector",
+        "details": "The diffuse color applied to the sun.",
+        "access": "read"
+      }
+    ]
+  },
+  "SKY_SUN_TEXTURE": {
+    "value-type": "asset",
+    "access": "write"
+  },
+  "SKY_PLANET": {
+    "values": [
+      {
+        "name": "planet_radius",
+        "value-type": "float",
+        "range": [1000, 32768]
+      },
+      {
+        "name": "sky_bottom_radius",
+        "value-type": "float",
+        "range": [1000, 32768]
+      },
+      {
+        "name": "sky_top_radius",
+        "value-type": "float",
+        "range": [1000, 32768]
+      }
+    ]
+  },
+  "SKY_REFRACTION": {
+    "values": [
+      {
+        "name": "moisture_level",
+        "value-type": "float",
+        "range": [0, 1]
+      },
+      {
+        "name": "droplet_radius",
+        "value-type": "float",
+        "range": [5, 1000]
+      },
+      {
+        "name": "ice_level",
+        "value-type": "float",
+        "range": [0, 1]
+      }
+    ]
+  },
+  "SKY_LIGHT": {
+    "values": [
+      {
+        "name": "light_direction",
+        "value-type": "vector",
+        "details": "light_direction: A unit vector indicating the direction of the dominant light source."
+      },
+      {
+        "name": "fade_color",
+        "value-type": "vector",
+        "details": "fade_color: A color vector representing the current color of the light emitted from the dominant light source (in sRGB space)."
+      },
+      {
+        "name": "total_ambient",
+        "value-type": "vector",
+        "details": "total_ambient: A color vector representing the current ambient color in use in the scene (in sRGB space)."
+      }
+    ],
+    "access": "read"
+  },
+  "SKY_REFLECTION_PROBE_AMBIANCE": {
+    "value-type": "float",
+    "range": [0, 10]
+  },
+  "SKY_BLUE": {
+    "values": [
+      {
+        "name": "blue_density",
+        "value-type": "vector"
+      },
+      {
+        "name": "blue_horizon",
+        "value-type": "vector"
+      }
+    ]
+  },
+  "SKY_HAZE": {
+    "values": [
+      {
+        "name": "density",
+        "value-type": "float"
+      },
+      {
+        "name": "horizon",
+        "value-type": "float"
+      },
+      {
+        "name": "density_multiplier",
+        "value-type": "float"
+      },
+      {
+        "name": "distance_multiplier",
+        "value-type": "float"
+      }
+    ]
+  },
+  "WATER_BLUR_MULTIPLIER": {
+    "value-type": "float",
+    "range": [-0.5, 0.5]
+  },
+  "WATER_FOG": {
+    "values": [
+      {
+        "name": "color",
+        "value-type": "vector",
+        "details": "The color of the underwater fog."
+      },
+      {
+        "name": "density",
+        "value-type": "float",
+        "range": [-10, 10],
+        "details": "Density exponent applied to the fog."
+      },
+      {
+        "name": "modulation",
+        "value-type": "float",
+        "range": [0, 20]
+      }
+    ]
+  },
+  "WATER_FRESNEL": {
+    "values": [
+      {
+        "name": "offset",
+        "value-type": "float",
+        "range": [0, 1]
+      },
+      {
+        "name": "scale",
+        "value-type": "float",
+        "range": [0, 1]
+      }
+    ]
+  },
+  "WATER_TEXTURE_DEFAULTS": {
+    "values": [
+      {
+        "name": "normal_is_default",
+        "value-type": "boolean"
+      },
+      {
+        "name": "transparent_is_default",
+        "value-type": "boolean"
+      }
+    ],
+    "access": "read"
+  },
+  "WATER_NORMAL_TEXTURE": {
+    "value-type": "asset",
+    "access": "write"
+  },
+  "WATER_NORMAL_SCALE": {
+    "value-type": "vector",
+    "range": ["<0,0,0>", "<10,10,10>"]
+  },
+  "WATER_REFRACTION": {
+    "values": [
+      {
+        "name": "scale_above",
+        "value-type": "float",
+        "range": [0, 3]
+      },
+      {
+        "name": "scale_below",
+        "value-type": "float",
+        "range": [0, 3]
+      }
+    ]
+  },
+  "WATER_WAVE_DIRECTION": {
+    "values": [
+      {
+        "name": "large_wave",
+        "value-type": "vector",
+        "range": ["<-20,-20,0>", "<20,20,0>"],
+        "details": "Large wave speed and direction."
+      },
+      {
+        "name": "small_wave",
+        "value-type": "vector",
+        "range": ["<-20,-20,0>", "<20,20,0>"],
+        "details": "Small wave speed and direction."
+      }
+    ]
+  },
+  "ENVIRONMENT_DAYINFO": {
+    "values": [
+      {
+        "name": "day_length",
+        "value-type": "integer",
+        "details": "Number of seconds in the environments day cycle."
+      },
+      {
+        "name": "day_offset",
+        "value-type": "integer",
+        "details": "Number of seconds day cycle is offset from GMT."
+      },
+      {
+        "name": "secs_since_midnight",
+        "value-type": "float",
+        "details": "Number of seconds elapsed since the last day cycle midnight."
+      }
+    ],
+    "access": "read"
+  },
+  "PRIM_MEDIA_ALT_IMAGE_ENABLE": {
+    "value-type": "boolean"
+  },
+  "PRIM_MEDIA_CONTROLS": {
+    "value-type": "integer",
+    "enum": "PrimMediaControl"
+  },
+  "PRIM_MEDIA_CURRENT_URL": {
+    "value-type": "string"
+  },
+  "PRIM_MEDIA_HOME_URL": {
+    "value-type": "string"
+  },
+  "PRIM_MEDIA_AUTO_LOOP": {
+    "value-type": "boolean"
+  },
+  "PRIM_MEDIA_AUTO_PLAY": {
+    "value-type": "boolean"
+  },
+  "PRIM_MEDIA_AUTO_SCALE": {
+    "value-type": "boolean"
+  },
+  "PRIM_MEDIA_AUTO_ZOOM": {
+    "value-type": "boolean"
+  },
+  "PRIM_MEDIA_FIRST_CLICK_INTERACT": {
+    "value-type": "boolean"
+  },
+  "PRIM_MEDIA_WIDTH_PIXELS": {
+    "value-type": "integer"
+  },
+  "PRIM_MEDIA_HEIGHT_PIXELS": {
+    "value-type": "integer"
+  },
+  "PRIM_MEDIA_WHITELIST_ENABLE": {
+    "value-type": "boolean"
+  },
+  "PRIM_MEDIA_WHITELIST": {
+    "value-type": "string-csv"
+  },
+  "PRIM_MEDIA_PERMS_INTERACT": {
+    "value-type": "integer",
+    "enum": "PrimMediaPerm"
+  },
+  "PRIM_MEDIA_PERMS_CONTROL": {
+    "value-type": "integer",
+    "enum": "PrimMediaPerm"
+  },
+  "PRIM_NAME": {
+    "value-type": "string",
+    "details": "Name: llGetObjectName."
+  },
+  "PRIM_DESC": {
+    "value-type": "string",
+    "details": "Description: llGetObjectDesc."
+  },
+  "PRIM_TYPE": {
+    "value-type": "integer",
+    "enum": "PrimType"
+  },
+  "PRIM_SLICE": {
+    "value-type": "vector",
+    "range": ["<0,0,0>", "<1,1,0>"]
+  },
+  "PRIM_PHYSICS_SHAPE_TYPE": {
+    "value-type": "integer",
+    "enum": "PhysicsShapeType"
+  },
+  "PRIM_MATERIAL": {
+    "value-type": "integer",
+    "enum": "PhysicsMaterialPreset"
+  },
+  "PRIM_PHYSICS": {
+    "value-type": "boolean",
+    "details": "Physics status: llGetStatus."
+  },
+  "PRIM_TEMP_ON_REZ": {
+    "value-type": "boolean",
+    "details": "Temporary attribute."
+  },
+  "PRIM_PHANTOM": {
+    "value-type": "boolean",
+    "details": "Phantom status: llGetStatus."
+  },
+  "PRIM_POSITION": {
+    "value-type": "vector",
+    "details": "Global position: llGetPos."
+  },
+  "PRIM_POS_LOCAL": {
+    "value-type": "vector",
+    "details": "Local position: llGetLocalPos."
+  },
+  "PRIM_ROTATION": {
+    "value-type": "rotation",
+    "details": "Global rotation: llGetRot."
+  },
+  "PRIM_ROT_LOCAL": {
+    "value-type": "rotation",
+    "details": "Local rotation: llGetLocalRot."
+  },
+  "PRIM_SIZE": {
+    "value-type": "vector",
+    "details": "Size: llGetScale.",
+    "range": ["<0.01,0.01,0.01>", "<64,64,64>"]
+  },
+  "PRIM_TEXTURE": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "texture",
+        "value-type": "asset",
+        "details": "Texture: llGetTexture."
+      },
+      {
+        "name": "repeats",
+        "value-type": "vector",
+        "range": ["<-100,-100,0>", "<100,100,0>"],
+        "details": "Repeats: llGetTextureScale."
+      },
+      {
+        "name": "offsets",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"],
+        "details": "Offset: llGetTextureOffset."
+      },
+      {
+        "name": "rotation_in_radians",
+        "value-type": "float",
+        "details": "Rotation: llGetTextureRot."
+      }
+    ]
+  },
+  "PRIM_RENDER_MATERIAL": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "render_material",
+        "value-type": "asset",
+        "details": "Material: llGetRenderMaterial."
+      }
+    ]
+  },
+  "PRIM_TEXT": {
+    "values": [
+      {
+        "name": "text",
+        "value-type": "string"
+      },
+      {
+        "name": "color",
+        "value-type": "vector"
+      },
+      {
+        "name": "alpha",
+        "value-type": "float",
+        "range": [0, 1]
+      }
+    ]
+  },
+  "PRIM_COLOR": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "color",
+        "value-type": "vector",
+        "details": "Color: llGetColor."
+      },
+      {
+        "name": "alpha",
+        "value-type": "float",
+        "range": [0, 1],
+        "details": "Alpha: llGetAlpha."
+      }
+    ]
+  },
+  "PRIM_BUMP_SHINY": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "shiny",
+        "value-type": "integer",
+        "enum": "PrimShiny"
+      },
+      {
+        "name": "bump",
+        "value-type": "integer",
+        "enum": "PrimBump"
+      }
+    ]
+  },
+  "PRIM_FULLBRIGHT": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "enabled",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "PRIM_FLEXIBLE": {
+    "values": [
+      {
+        "name": "enabled",
+        "value-type": "boolean"
+      },
+      {
+        "name": "softness",
+        "value-type": "integer",
+        "range": [0, 3]
+      },
+      {
+        "name": "gravity",
+        "value-type": "float",
+        "range": [-10, 10]
+      },
+      {
+        "name": "friction",
+        "value-type": "float",
+        "range": [0, 10]
+      },
+      {
+        "name": "wind",
+        "value-type": "float",
+        "range": [0, 10]
+      },
+      {
+        "name": "tension",
+        "value-type": "float",
+        "range": [0, 10]
+      },
+      {
+        "name": "force",
+        "value-type": "vector"
+      }
+    ]
+  },
+  "PRIM_TEXGEN": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "mode",
+        "value-type": "integer",
+        "enum": "PrimTexgen"
+      }
+    ]
+  },
+  "PRIM_POINT_LIGHT": {
+    "values": [
+      {
+        "name": "enabled",
+        "value-type": "boolean"
+      },
+      {
+        "name": "linear_color",
+        "value-type": "vector"
+      },
+      {
+        "name": "intensity",
+        "value-type": "float",
+        "range": [0, 1]
+      },
+      {
+        "name": "radius",
+        "value-type": "float",
+        "range": [0.1, 20]
+      },
+      {
+        "name": "falloff",
+        "value-type": "float",
+        "range": [0, 2]
+      }
+    ]
+  },
+  "PRIM_REFLECTION_PROBE": {
+    "values": [
+      {
+        "name": "enabled",
+        "value-type": "boolean"
+      },
+      {
+        "name": "ambiance",
+        "value-type": "float",
+        "range": [0, 100]
+      },
+      {
+        "name": "clip_distance",
+        "value-type": "float",
+        "range": [0, 1024]
+      },
+      {
+        "name": "flags",
+        "value-type": "integer",
+        "enum": "ReflectionProbeType"
+      }
+    ]
+  },
+  "PRIM_GLOW": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "intensity",
+        "value-type": "float",
+        "range": [0, 1]
+      }
+    ]
+  },
+  "PRIM_OMEGA": {
+    "values": [
+      {
+        "name": "axis",
+        "value-type": "vector",
+        "details": "llTargetOmega"
+      },
+      {
+        "name": "spinrate",
+        "value-type": "float"
+      },
+      {
+        "name": "gain",
+        "value-type": "float"
+      }
+    ]
+  },
+  "PRIM_NORMAL": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "texture",
+        "value-type": "asset"
+      },
+      {
+        "name": "repeats",
+        "value-type": "vector",
+        "range": ["<-100,-100,0>", "<100,100,0>"]
+      },
+      {
+        "name": "offsets",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "rotation_in_radians",
+        "value-type": "float"
+      }
+    ]
+  },
+  "PRIM_SPECULAR": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "texture",
+        "value-type": "asset"
+      },
+      {
+        "name": "repeats",
+        "value-type": "vector",
+        "range": ["<-100,-100,0>", "<100,100,0>"]
+      },
+      {
+        "name": "offsets",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "rotation_in_radians",
+        "value-type": "float"
+      },
+      {
+        "name": "color",
+        "value-type": "vector"
+      },
+      {
+        "name": "glossiness",
+        "value-type": "integer",
+        "range": [0, 255]
+      },
+      {
+        "name": "environment",
+        "value-type": "integer",
+        "range": [0, 255]
+      }
+    ]
+  },
+  "PRIM_ALPHA_MODE": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "alpha_mode",
+        "value-type": "integer",
+        "enum": "AlphaMode"
+      },
+      {
+        "name": "mask_cutoff",
+        "value-type": "integer",
+        "range": [0, 255]
+      }
+    ]
+  },
+  "PRIM_LINK_TARGET": {
+    "value-type": "integer",
+    "enum": "Links",
+    "access": "arg"
+  },
+  "PRIM_CAST_SHADOWS": {
+    "value-type": "boolean"
+  },
+  "PRIM_ALLOW_UNSIT": {
+    "value-type": "boolean"
+  },
+  "PRIM_SCRIPTED_SIT_ONLY": {
+    "value-type": "boolean"
+  },
+  "PRIM_SIT_TARGET": {
+    "values": [
+      {
+        "name": "sit_target",
+        "value-type": "boolean",
+        "details": "Sit target: llSitTarget."
+      },
+      {
+        "name": "offset",
+        "value-type": "vector"
+      },
+      {
+        "name": "rot",
+        "value-type": "rotation"
+      }
+    ]
+  },
+  "PRIM_PROJECTOR": {
+    "values": [
+      {
+        "name": "texture",
+        "value-type": "string"
+      },
+      {
+        "name": "fov",
+        "value-type": "float"
+      },
+      {
+        "name": "focus",
+        "value-type": "float"
+      },
+      {
+        "name": "ambiance",
+        "value-type": "float"
+      }
+    ]
+  },
+  "PRIM_CLICK_ACTION": {
+    "value-type": "integer",
+    "enum": "ClickAction"
+  },
+  "PRIM_GLTF_BASE_COLOR": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "texture",
+        "value-type": "asset"
+      },
+      {
+        "name": "repeats",
+        "value-type": "vector",
+        "range": ["<-10000,-10000,0>", "<10000,10000,0>"]
+      },
+      {
+        "name": "offsets",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "rotation_in_radians",
+        "value-type": "float"
+      },
+      {
+        "name": "color",
+        "value-type": "vector"
+      },
+      {
+        "name": "alpha",
+        "value-type": "float",
+        "range": [0, 1]
+      },
+      {
+        "name": "gltf_alpha_mode",
+        "value-type": "integer",
+        "enum": "GLTFAlphaMode"
+      },
+      {
+        "name": "alpha_mask_cutoff",
+        "value-type": "float",
+        "range": [0, 1]
+      },
+      {
+        "name": "double_sided",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "PRIM_GLTF_NORMAL": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "texture",
+        "value-type": "asset"
+      },
+      {
+        "name": "repeats",
+        "value-type": "vector",
+        "range": ["<-10000,-10000,0>", "<10000,10000,0>"]
+      },
+      {
+        "name": "offsets",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "rotation_in_radians",
+        "value-type": "float"
+      }
+    ]
+  },
+  "PRIM_GLTF_METALLIC_ROUGHNESS": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "texture",
+        "value-type": "asset"
+      },
+      {
+        "name": "repeats",
+        "value-type": "vector",
+        "range": ["<-10000,-10000,0>", "<10000,10000,0>"]
+      },
+      {
+        "name": "offsets",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "rotation_in_radians",
+        "value-type": "float"
+      },
+      {
+        "name": "metallic_factor",
+        "value-type": "float",
+        "range": [0, 1]
+      },
+      {
+        "name": "roughness_factor",
+        "value-type": "float",
+        "range": [0, 1]
+      }
+    ]
+  },
+  "PRIM_GLTF_EMISSIVE": {
+    "values": [
+      {
+        "name": "face",
+        "value-type": "integer",
+        "enum": "Faces",
+        "access": "arg"
+      },
+      {
+        "name": "texture",
+        "value-type": "asset"
+      },
+      {
+        "name": "repeats",
+        "value-type": "vector",
+        "range": ["<-10000,-10000,0>", "<10000,10000,0>"]
+      },
+      {
+        "name": "offsets",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "rotation_in_radians",
+        "value-type": "float"
+      },
+      {
+        "name": "emissive_tint",
+        "value-type": "vector"
+      }
+    ]
+  },
+  "PRIM_SIT_FLAGS": {
+    "value-type": "integer",
+    "enum": "SitFlag"
+  },
+  "PRIM_DAMAGE": {
+    "values": [
+      {
+        "name": "damage",
+        "value-type": "float"
+      },
+      {
+        "name": "damage_type",
+        "value-type": "integer",
+        "enum": "DamageType"
+      }
+    ]
+  },
+  "PRIM_HEALTH": {
+    "value-type": "float"
+  },
+  "PRIM_COLLISION_SOUND": {
+    "values": [
+      {
+        "name": "sound",
+        "value-type": "asset"
+      },
+      {
+        "name": "volume",
+        "value-type": "float"
+      }
+    ]
+  },
+  "PRIM_TYPE_BOX": {
+    "values": [
+      {
+        "name": "hole_shape",
+        "value-type": "integer",
+        "enum": "PrimTypeHole"
+      },
+      {
+        "name": "cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hollow",
+        "value-type": "float",
+        "range": [0, 0.95]
+      },
+      {
+        "name": "twist",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "top_size",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<2,2,0>"]
+      },
+      {
+        "name": "top_shear",
+        "value-type": "vector",
+        "range": ["<-0.5,-0.5,0>", "<0.5,0.5,0>"]
+      }
+    ]
+  },
+  "PRIM_TYPE_CYLINDER": {
+    "values": [
+      {
+        "name": "hole_shape",
+        "value-type": "integer",
+        "enum": "PrimTypeHole"
+      },
+      {
+        "name": "cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hollow",
+        "value-type": "float",
+        "range": [0, 0.95]
+      },
+      {
+        "name": "twist",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "top_size",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<2,2,0>"]
+      },
+      {
+        "name": "top_shear",
+        "value-type": "vector",
+        "range": ["<-0.5,-0.5,0>", "<0.5,0.5,0>"]
+      }
+    ]
+  },
+  "PRIM_TYPE_PRISM": {
+    "values": [
+      {
+        "name": "hole_shape",
+        "value-type": "integer",
+        "enum": "PrimTypeHole"
+      },
+      {
+        "name": "cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hollow",
+        "value-type": "float",
+        "range": [0, 0.95]
+      },
+      {
+        "name": "twist",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "top_size",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<2,2,0>"]
+      },
+      {
+        "name": "top_shear",
+        "value-type": "vector",
+        "range": ["<-0.5,-0.5,0>", "<0.5,0.5,0>"]
+      }
+    ]
+  },
+  "PRIM_TYPE_SPHERE": {
+    "values": [
+      {
+        "name": "hole_shape",
+        "value-type": "integer",
+        "enum": "PrimTypeHole"
+      },
+      {
+        "name": "cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hollow",
+        "value-type": "float",
+        "range": [0, 0.95]
+      },
+      {
+        "name": "twist",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "dimple",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      }
+    ]
+  },
+  "PRIM_TYPE_TORUS": {
+    "values": [
+      {
+        "name": "hole_shape",
+        "value-type": "integer",
+        "enum": "PrimTypeHole"
+      },
+      {
+        "name": "cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hollow",
+        "value-type": "float",
+        "range": [0, 0.95]
+      },
+      {
+        "name": "twist",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hole_size",
+        "value-type": "vector",
+        "range": ["<0.05,0.05,0>", "<1,0.5,0>"]
+      },
+      {
+        "name": "top_shear",
+        "value-type": "vector",
+        "range": ["<-0.5,-0.5,0>", "<0.5,0.5,0>"]
+      },
+      {
+        "name": "advanced_cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "taper",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "revolutions",
+        "value-type": "float",
+        "range": [1, 4]
+      },
+      {
+        "name": "radius_offset",
+        "value-type": "float"
+      },
+      {
+        "name": "skew",
+        "value-type": "float",
+        "range": [-1, 1]
+      }
+    ]
+  },
+  "PRIM_TYPE_TUBE": {
+    "values": [
+      {
+        "name": "hole_shape",
+        "value-type": "integer",
+        "enum": "PrimTypeHole"
+      },
+      {
+        "name": "cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hollow",
+        "value-type": "float",
+        "range": [0, 0.95]
+      },
+      {
+        "name": "twist",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hole_size",
+        "value-type": "vector",
+        "range": ["<0.05,0.05,0>", "<1,0.5,0>"]
+      },
+      {
+        "name": "top_shear",
+        "value-type": "vector",
+        "range": ["<-0.5,-0.5,0>", "<0.5,0.5,0>"]
+      },
+      {
+        "name": "advanced_cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "taper",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "revolutions",
+        "value-type": "float",
+        "range": [1, 4]
+      },
+      {
+        "name": "radius_offset",
+        "value-type": "float"
+      },
+      {
+        "name": "skew",
+        "value-type": "float",
+        "range": [-1, 1]
+      }
+    ]
+  },
+  "PRIM_TYPE_RING": {
+    "values": [
+      {
+        "name": "hole_shape",
+        "value-type": "integer",
+        "enum": "PrimTypeHole"
+      },
+      {
+        "name": "cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hollow",
+        "value-type": "float",
+        "range": [0, 0.95]
+      },
+      {
+        "name": "twist",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "hole_size",
+        "value-type": "vector",
+        "range": ["<0.05,0.05,0>", "<1,0.5,0>"]
+      },
+      {
+        "name": "top_shear",
+        "value-type": "vector",
+        "range": ["<-0.5,-0.5,0>", "<0.5,0.5,0>"]
+      },
+      {
+        "name": "advanced_cut",
+        "value-type": "vector",
+        "range": ["<0,0,0>", "<1,1,0>"]
+      },
+      {
+        "name": "taper",
+        "value-type": "vector",
+        "range": ["<-1,-1,0>", "<1,1,0>"]
+      },
+      {
+        "name": "revolutions",
+        "value-type": "float",
+        "range": [1, 4]
+      },
+      {
+        "name": "radius_offset",
+        "value-type": "float"
+      },
+      {
+        "name": "skew",
+        "value-type": "float",
+        "range": [-1, 1]
+      }
+    ]
+  },
+  "PRIM_TYPE_SCULPT": {
+    "values": [
+      {
+        "name": "map",
+        "value-type": "asset"
+      },
+      {
+        "name": "type",
+        "value-type": "integer",
+        "enum": "PrimTypeSculpt"
+      }
+    ]
+  },
+  "OBJECT_NAME": {
+    "value-type": "string",
+    "details": "Local: llGetObjectName   Alternatives: llKey2Name / llDetectedName   Max.length: 63"
+  },
+  "OBJECT_DESC": {
+    "value-type": "string",
+    "details": "Local: llGetObjectDesc   Max.length: 127"
+  },
+  "OBJECT_POS": {
+    "value-type": "vector",
+    "details": "Local: llGetPos   Alternatives: llDetectedPos   Max.length: 37"
+  },
+  "OBJECT_ROT": {
+    "value-type": "rotation",
+    "details": "Local: llGetRot   Alternatives: llDetectedRot   Max.length: 48"
+  },
+  "OBJECT_VELOCITY": {
+    "value-type": "vector",
+    "details": "Local: llGetVel   Alternatives: llDetectedVel   Max.length: 36"
+  },
+  "OBJECT_OWNER": {
+    "value-type": "key",
+    "details": "Local: llGetOwner   Alternatives: llDetectedOwner / llGetOwnerKey   Max.length: 36"
+  },
+  "OBJECT_GROUP": {
+    "value-type": "key",
+    "details": "Alternatives: Group   Max.length: 36"
+  },
+  "OBJECT_CREATOR": {
+    "value-type": "key",
+    "details": "Local: llGetCreator   Alternatives: Creator   Max.length: 36"
+  },
+  "OBJECT_RUNNING_SCRIPT_COUNT": {
+    "value-type": "integer",
+    "details": "Local: llGetScriptState   Max.length: 11"
+  },
+  "OBJECT_TOTAL_SCRIPT_COUNT": {
+    "value-type": "integer",
+    "details": "Local: llGetInventoryNumber   Max.length: 11"
+  },
+  "OBJECT_SCRIPT_MEMORY": {
+    "value-type": "integer",
+    "details": "Max.length: 11"
+  },
+  "OBJECT_SCRIPT_TIME": {
+    "value-type": "float",
+    "details": "Alternatives: Top Scripts   Max.length: 15"
+  },
+  "OBJECT_PRIM_EQUIVALENCE": {
+    "value-type": "integer",
+    "details": "Alternatives: Calculating land impact   Max.length: 11"
+  },
+  "OBJECT_SERVER_COST": {
+    "value-type": "float",
+    "details": "Alternatives: Server cost   Max.length: 15"
+  },
+  "OBJECT_STREAMING_COST": {
+    "value-type": "float",
+    "details": "Alternatives: Streaming (download) cost   Max.length: 15"
+  },
+  "OBJECT_PHYSICS_COST": {
+    "value-type": "float",
+    "details": "Alternatives: Physics cost   Max.length: 15"
+  },
+  "OBJECT_CHARACTER_TIME": {
+    "value-type": "float",
+    "details": "Alternatives: Pathfinding characters   Max.length: 15"
+  },
+  "OBJECT_ROOT": {
+    "value-type": "key",
+    "details": "Local: llGetLinkKey   Max.length: 36"
+  },
+  "OBJECT_ATTACHED_POINT": {
+    "value-type": "integer",
+    "enum": "AttachPoint",
+    "details": "Local: llGetAttached   Max.length: 11"
+  },
+  "OBJECT_PATHFINDING_TYPE": {
+    "value-type": "integer",
+    "enum": "ObjectPathfindingType",
+    "details": "Alternatives: Pathfinding types   Max.length: 11"
+  },
+  "OBJECT_PHYSICS": {
+    "value-type": "boolean",
+    "details": "Local: llGetStatus PRIM_PHYSICS   Max.length: 1"
+  },
+  "OBJECT_PHANTOM": {
+    "value-type": "boolean",
+    "details": "Local: llGetStatus PRIM_PHANTOM   Max.length: 1"
+  },
+  "OBJECT_TEMP_ON_REZ": {
+    "value-type": "boolean",
+    "details": "Local: PRIM_TEMP_ON_REZ   Max.length: 1"
+  },
+  "OBJECT_RENDER_WEIGHT": {
+    "value-type": "integer",
+    "range": [0, 500000],
+    "details": "Alternatives: Avatar_Rendering_Cost   Max.length: 6"
+  },
+  "OBJECT_HOVER_HEIGHT": {
+    "value-type": "float",
+    "range": [-2, 2],
+    "details": "Max.length: 9"
+  },
+  "OBJECT_BODY_SHAPE_TYPE": {
+    "value-type": "float",
+    "range": [0, 1],
+    "details": "Max.length: 9"
+  },
+  "OBJECT_LAST_OWNER_ID": {
+    "value-type": "key",
+    "details": "Max.length: 36"
+  },
+  "OBJECT_CLICK_ACTION": {
+    "value-type": "integer",
+    "enum": "ClickAction",
+    "details": "Max.length: 3"
+  },
+  "OBJECT_OMEGA": {
+    "value-type": "vector",
+    "details": "Local: llGetOmega   Max.length: 36"
+  },
+  "OBJECT_PRIM_COUNT": {
+    "value-type": "integer",
+    "details": "Local: llGetNumberOfPrims   Alternatives: llGetObjectPrimCount   Max.length: 3"
+  },
+  "OBJECT_TOTAL_INVENTORY_COUNT": {
+    "value-type": "integer",
+    "details": "Local: llGetInventoryNumber(INVENTORY_ALL)   Max.length: 10"
+  },
+  "OBJECT_REZZER_KEY": {
+    "value-type": "key",
+    "details": "Max.length: 36"
+  },
+  "OBJECT_GROUP_TAG": {
+    "value-type": "string",
+    "details": "Max.length: 20"
+  },
+  "OBJECT_TEMP_ATTACHED": {
+    "value-type": "boolean",
+    "details": "Max.length: 1"
+  },
+  "OBJECT_ATTACHED_SLOTS_AVAILABLE": {
+    "value-type": "integer",
+    "details": "Max.length: 2"
+  },
+  "OBJECT_CREATION_TIME": {
+    "value-type": "string",
+    "details": "Max.length: 27"
+  },
+  "OBJECT_SELECT_COUNT": {
+    "value-type": "integer",
+    "details": "Max.length: 3"
+  },
+  "OBJECT_SIT_COUNT": {
+    "value-type": "integer",
+    "details": "Max.length: 3"
+  },
+  "OBJECT_ANIMATED_COUNT": {
+    "value-type": "integer",
+    "details": "Max.length: 1"
+  },
+  "OBJECT_ANIMATED_SLOTS_AVAILABLE": {
+    "value-type": "integer",
+    "details": "Max.length: 2"
+  },
+  "OBJECT_ACCOUNT_LEVEL": {
+    "value-type": "integer",
+    "details": "Max.length: 1"
+  },
+  "OBJECT_MATERIAL": {
+    "value-type": "integer",
+    "enum": "PhysicsMaterialPreset",
+    "details": "Local: llGetPrimitiveParams and PRIM_MATERIAL"
+  },
+  "OBJECT_MASS": {
+    "value-type": "float",
+    "details": "Local: llGetMassMKS"
+  },
+  "OBJECT_TEXT": {
+    "value-type": "string",
+    "details": "Local: llGetPrimitiveParams and PRIM_TEXT"
+  },
+  "OBJECT_REZ_TIME": {
+    "value-type": "string"
+  },
+  "OBJECT_LINK_NUMBER": {
+    "value-type": "integer",
+    "details": "Local: llGetLinkNumber"
+  },
+  "OBJECT_SCALE": {
+    "value-type": "vector",
+    "details": "Local: llGetScale"
+  },
+  "OBJECT_TEXT_COLOR": {
+    "value-type": "vector",
+    "details": "Local: llGetPrimitiveParams and PRIM_TEXT"
+  },
+  "OBJECT_TEXT_ALPHA": {
+    "value-type": "float",
+    "details": "Local: llGetPrimitiveParams and PRIM_TEXT"
+  },
+  "OBJECT_HEALTH": {
+    "value-type": "float",
+    "details": "Local: llGetPrimitiveParams and PRIM_HEALTH / llGetHealth"
+  },
+  "OBJECT_DAMAGE": {
+    "value-type": "float",
+    "details": "Local: llGetPrimitiveParams and PRIM_DAMAGE"
+  },
+  "OBJECT_DAMAGE_TYPE": {
+    "value-type": "integer",
+    "enum": "DamageType",
+    "details": "Local: llGetPrimitiveParams and PRIM_DAMAGE"
+  },
+  "OBJECT_PERMS": {
+    "values": [
+      {
+        "name": "base",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "owner",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "group",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "everyone",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "next_owner",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      }
+    ],
+    "details": "Local: llGetObjectPermMask"
+  },
+  "OBJECT_PERMS_COMBINED": {
+    "values": [
+      {
+        "name": "base",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "owner",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "group",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "everyone",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      },
+      {
+        "name": "next_owner",
+        "value-type": "integer",
+        "enum": "AssetPermission"
+      }
+    ],
+    "details": "Local: llGetObjectPermMask"
+  },
+  "OBJECT_LOCKED": {
+    "value-type": "boolean"
+  },
+  "OBJECT_VOLUME_DETECT": {
+    "value-type": "boolean"
+  },
+  "PARCEL_DETAILS_NAME": {
+    "value-type": "string"
+  },
+  "PARCEL_DETAILS_DESC": {
+    "value-type": "string"
+  },
+  "PARCEL_DETAILS_OWNER": {
+    "value-type": "key"
+  },
+  "PARCEL_DETAILS_GROUP": {
+    "value-type": "key"
+  },
+  "PARCEL_DETAILS_AREA": {
+    "value-type": "integer"
+  },
+  "PARCEL_DETAILS_ID": {
+    "value-type": "key"
+  },
+  "PARCEL_DETAILS_SEE_AVATARS": {
+    "value-type": "boolean"
+  },
+  "PARCEL_DETAILS_PRIM_CAPACITY": {
+    "value-type": "integer"
+  },
+  "PARCEL_DETAILS_PRIM_USED": {
+    "value-type": "integer"
+  },
+  "PARCEL_DETAILS_LANDING_POINT": {
+    "value-type": "vector"
+  },
+  "PARCEL_DETAILS_LANDING_LOOKAT": {
+    "value-type": "vector"
+  },
+  "PARCEL_DETAILS_TP_ROUTING": {
+    "value-type": "integer",
+    "enum": "ParcelTeleportRouting"
+  },
+  "PARCEL_DETAILS_FLAGS": {
+    "value-type": "integer",
+    "enum": "ParcelFlag"
+  },
+  "PARCEL_DETAILS_SCRIPT_DANGER": {
+    "value-type": "boolean"
+  },
+  "TRANSFER_DEST": {
+    "value-type": "string"
+  },
+  "TRANSFER_FLAGS": {
+    "value-type": "integer"
+  },
+  "HTTP_METHOD": {
+    "value-type": "string",
+    "default": "GET"
+  },
+  "HTTP_MIMETYPE": {
+    "value-type": "string",
+    "default": "text/plain;charset=utf-8"
+  },
+  "HTTP_BODY_MAXLENGTH": {
+    "value-type": "integer",
+    "default": 2048
+  },
+  "HTTP_VERIFY_CERT": {
+    "value-type": "boolean",
+    "default": true
+  },
+  "HTTP_VERBOSE_THROTTLE": {
+    "value-type": "boolean",
+    "default": true
+  },
+  "HTTP_CUSTOM_HEADER": {
+    "value-type": "string-map"
+  },
+  "HTTP_PRAGMA_NO_CACHE": {
+    "value-type": "boolean",
+    "default": true
+  },
+  "HTTP_USER_AGENT": {
+    "value-type": "string"
+  },
+  "HTTP_ACCEPT": {
+    "value-type": "string-multi",
+    "default": "text/plain;charset=utf-8"
+  },
+  "HTTP_EXTENDED_ERROR": {
+    "value-type": "boolean",
+    "default": false
+  },
+  "PSYS_PART_FLAGS": {
+    "value-type": "integer",
+    "enum": "ParticleFlag"
+  },
+  "PSYS_SRC_PATTERN": {
+    "value-type": "integer",
+    "enum": "ParticleSourcePattern"
+  },
+  "PSYS_SRC_BURST_RADIUS": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_ANGLE_BEGIN": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_ANGLE_END": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_INNERANGLE": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_OUTERANGLE": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_TARGET_KEY": {
+    "value-type": "key"
+  },
+  "PSYS_PART_START_COLOR": {
+    "value-type": "vector"
+  },
+  "PSYS_PART_END_COLOR": {
+    "value-type": "vector"
+  },
+  "PSYS_PART_START_ALPHA": {
+    "value-type": "float",
+    "range": [0, 1]
+  },
+  "PSYS_PART_END_ALPHA": {
+    "value-type": "float",
+    "range": [0, 1]
+  },
+  "PSYS_PART_START_SCALE": {
+    "value-type": "vector",
+    "range": ["<0.03125,0.03125,0>", "<4,4,0>"]
+  },
+  "PSYS_PART_END_SCALE": {
+    "value-type": "vector",
+    "range": ["<0.03125,0.03125,0>", "<4,4,0>"]
+  },
+  "PSYS_SRC_TEXTURE": {
+    "value-type": "asset"
+  },
+  "PSYS_PART_START_GLOW": {
+    "value-type": "float",
+    "range": [0, 1]
+  },
+  "PSYS_PART_END_GLOW": {
+    "value-type": "float",
+    "range": [0, 1]
+  },
+  "PSYS_PART_BLEND_FUNC_SOURCE": {
+    "value-type": "integer",
+    "enum": "ParticleBlendFunc",
+    "default": "PSYS_PART_BF_SOURCE_ALPHA"
+  },
+  "PSYS_PART_BLEND_FUNC_DEST": {
+    "value-type": "integer",
+    "enum": "ParticleBlendFunc",
+    "default": "PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA"
+  },
+  "PSYS_SRC_MAX_AGE": {
+    "value-type": "float"
+  },
+  "PSYS_PART_MAX_AGE": {
+    "value-type": "float",
+    "range": [0, 30]
+  },
+  "PSYS_SRC_BURST_RATE": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_BURST_PART_COUNT": {
+    "value-type": "integer"
+  },
+  "PSYS_SRC_ACCEL": {
+    "value-type": "vector",
+    "range": ["<-100,-100,-100>", "<100,100,100>"]
+  },
+  "PSYS_SRC_OMEGA": {
+    "value-type": "vector"
+  },
+  "PSYS_SRC_BURST_SPEED_MIN": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_BURST_SPEED_MAX": {
+    "value-type": "float"
+  },
+  "PSYS_SRC_OBJ_REL_MASK": {
+    "value-type": "integer"
+  },
+  "BEACON_MAP": {
+    "values": [
+      {
+        "name": "open_map",
+        "value-type": "boolean"
+      },
+      {
+        "name": "focus_map",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "FORCE_DIRECT_PATH": {
+    "value-type": "boolean",
+    "default": false
+  },
+  "NAVIGATE_TO_GOAL_REACHED_DIST": {
+    "value-type": "float",
+    "range": [0.1, 10]
+  },
+  "PARCEL_MEDIA_COMMAND_STOP": {
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_PAUSE": {
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_PLAY": {
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_LOOP": {
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_TEXTURE": {
+    "value-type": "asset"
+  },
+  "PARCEL_MEDIA_COMMAND_URL": {
+    "value-type": "string"
+  },
+  "PARCEL_MEDIA_COMMAND_TIME": {
+    "value-type": "float",
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_AGENT": {
+    "value-type": "key",
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_UNLOAD": {
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_AUTO_ALIGN": {
+    "value-type": "boolean",
+    "access": "write"
+  },
+  "PARCEL_MEDIA_COMMAND_TYPE": {
+    "value-type": "string"
+  },
+  "PARCEL_MEDIA_COMMAND_SIZE": {
+    "values": [
+      {
+        "name": "x",
+        "value-type": "integer"
+      },
+      {
+        "name": "y",
+        "value-type": "integer"
+      }
+    ]
+  },
+  "PARCEL_MEDIA_COMMAND_DESC": {
+    "value-type": "string"
+  },
+  "PARCEL_MEDIA_COMMAND_LOOP_SET": {
+    "value-type": "float"
+  },
+  "PATROL_PAUSE_AT_WAYPOINTS": {
+    "value-type": "boolean",
+    "default": false
+  },
+  "PURSUIT_OFFSET": {
+    "value-type": "vector",
+    "default": "ZERO_VECTOR"
+  },
+  "REQUIRE_LINE_OF_SIGHT": {
+    "value-type": "boolean",
+    "default": false
+  },
+  "PURSUIT_FUZZ_FACTOR": {
+    "value-type": "float",
+    "range": [0, 1],
+    "default": 0
+  },
+  "PURSUIT_INTERCEPT": {
+    "value-type": "boolean",
+    "default": false
+  },
+  "PURSUIT_GOAL_TOLERANCE": {
+    "value-type": "float",
+    "range": [0.25, 10]
+  },
+  "REZ_PARAM": {
+    "value-type": "integer"
+  },
+  "REZ_FLAGS": {
+    "value-type": "integer",
+    "enum": "RezFlag"
+  },
+  "REZ_POS": {
+    "values": [
+      {
+        "name": "pos",
+        "value-type": "vector"
+      },
+      {
+        "name": "relative",
+        "value-type": "boolean"
+      },
+      {
+        "name": "at_root",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "REZ_ROT": {
+    "values": [
+      {
+        "name": "rot",
+        "value-type": "rotation"
+      },
+      {
+        "name": "relative",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "REZ_VEL": {
+    "values": [
+      {
+        "name": "velocity",
+        "value-type": "vector"
+      },
+      {
+        "name": "local",
+        "value-type": "boolean"
+      },
+      {
+        "name": "inherit",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "REZ_ACCEL": {
+    "values": [
+      {
+        "name": "force",
+        "value-type": "vector"
+      },
+      {
+        "name": "local",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "REZ_OMEGA": {
+    "values": [
+      {
+        "name": "axis",
+        "value-type": "vector"
+      },
+      {
+        "name": "local",
+        "value-type": "boolean"
+      },
+      {
+        "name": "spin",
+        "value-type": "float"
+      },
+      {
+        "name": "gain",
+        "value-type": "float"
+      }
+    ]
+  },
+  "REZ_DAMAGE": {
+    "value-type": "float"
+  },
+  "REZ_SOUND": {
+    "values": [
+      {
+        "name": "sound",
+        "value-type": "asset"
+      },
+      {
+        "name": "volume",
+        "value-type": "float"
+      },
+      {
+        "name": "loop",
+        "value-type": "boolean"
+      }
+    ]
+  },
+  "REZ_SOUND_COLLIDE": {
+    "values": [
+      {
+        "name": "sound",
+        "value-type": "asset"
+      },
+      {
+        "name": "volume",
+        "value-type": "float"
+      }
+    ]
+  },
+  "REZ_LOCK_AXES": {
+    "value-type": "vector"
+  },
+  "REZ_DAMAGE_TYPE": {
+    "value-type": "integer",
+    "enum": "DamageType"
+  },
+  "REZ_PARAM_STRING": {
+    "value-type": "string"
+  },
+  "REZ_TORQUE": {
+    "value-type": "vector"
+  },
+  "CAMERA_ACTIVE": {
+    "values": [
+      {
+        "name": "isActive",
+        "value-type": "boolean",
+        "default": false
+      }
+    ]
+  },
+  "CAMERA_BEHINDNESS_ANGLE": {
+    "values": [
+      {
+        "name": "degrees",
+        "value-type": "float",
+        "range": [0, 180],
+        "default": 10
+      }
+    ]
+  },
+  "CAMERA_BEHINDNESS_LAG": {
+    "values": [
+      {
+        "name": "seconds",
+        "value-type": "float",
+        "range": [0, 3],
+        "default": 0
+      }
+    ]
+  },
+  "CAMERA_DISTANCE": {
+    "values": [
+      {
+        "name": "meters",
+        "value-type": "float",
+        "range": [0.5, 50],
+        "default": 3
+      }
+    ]
+  },
+  "CAMERA_FOCUS": {
+    "values": [
+      {
+        "name": "position",
+        "value-type": "vector"
+      }
+    ]
+  },
+  "CAMERA_FOCUS_LAG": {
+    "values": [
+      {
+        "name": "seconds",
+        "value-type": "float",
+        "range": [0, 3],
+        "default": 0.1
+      }
+    ]
+  },
+  "CAMERA_FOCUS_LOCKED": {
+    "values": [
+      {
+        "name": "isLocked",
+        "value-type": "boolean",
+        "default": false
+      }
+    ]
+  },
+  "CAMERA_FOCUS_OFFSET": {
+    "values": [
+      {
+        "name": "meters",
+        "value-type": "vector",
+        "range": ["<-10,-10,-10>", "<10,10,10>"],
+        "default": "<0,0,0>"
+      }
+    ]
+  },
+  "CAMERA_FOCUS_THRESHOLD": {
+    "values": [
+      {
+        "name": "meters",
+        "value-type": "float",
+        "range": [0, 4],
+        "default": 1
+      }
+    ]
+  },
+  "CAMERA_PITCH": {
+    "values": [
+      {
+        "name": "degrees",
+        "value-type": "float",
+        "range": [-45, 80],
+        "default": 0
+      }
+    ]
+  },
+  "CAMERA_POSITION": {
+    "values": [
+      {
+        "name": "position",
+        "value-type": "vector"
+      }
+    ]
+  },
+  "CAMERA_POSITION_LAG": {
+    "values": [
+      {
+        "name": "seconds",
+        "value-type": "float",
+        "range": [0, 3],
+        "default": 0.1
+      }
+    ]
+  },
+  "CAMERA_POSITION_LOCKED": {
+    "values": [
+      {
+        "name": "isLocked",
+        "value-type": "boolean",
+        "default": false
+      }
+    ]
+  },
+  "CAMERA_POSITION_THRESHOLD": {
+    "values": [
+      {
+        "name": "meters",
+        "value-type": "float",
+        "range": [0, 3],
+        "default": 1
+      }
+    ]
+  },
+  "TERRAIN_DETAIL_1": {
+    "value-type": "asset"
+  },
+  "TERRAIN_DETAIL_2": {
+    "value-type": "asset"
+  },
+  "TERRAIN_DETAIL_3": {
+    "value-type": "asset"
+  },
+  "TERRAIN_DETAIL_4": {
+    "value-type": "asset"
+  },
+  "TERRAIN_HEIGHT_RANGE_SW": {
+    "values": [
+      {
+        "name": "low",
+        "value-type": "float"
+      },
+      {
+        "name": "high",
+        "value-type": "float"
+      }
+    ]
+  },
+  "TERRAIN_HEIGHT_RANGE_SE": {
+    "values": [
+      {
+        "name": "low",
+        "value-type": "float"
+      },
+      {
+        "name": "high",
+        "value-type": "float"
+      }
+    ]
+  },
+  "TERRAIN_HEIGHT_RANGE_NW": {
+    "values": [
+      {
+        "name": "low",
+        "value-type": "float"
+      },
+      {
+        "name": "high",
+        "value-type": "float"
+      }
+    ]
+  },
+  "TERRAIN_HEIGHT_RANGE_NE": {
+    "values": [
+      {
+        "name": "low",
+        "value-type": "float"
+      },
+      {
+        "name": "high",
+        "value-type": "float"
+      }
+    ]
+  },
+  "TERRAIN_PBR_SCALE_1": {
+    "value-type": "vector"
+  },
+  "TERRAIN_PBR_SCALE_2": {
+    "value-type": "vector"
+  },
+  "TERRAIN_PBR_SCALE_3": {
+    "value-type": "vector"
+  },
+  "TERRAIN_PBR_SCALE_4": {
+    "value-type": "vector"
+  },
+  "TERRAIN_PBR_ROTATION_1": {
+    "value-type": "float"
+  },
+  "TERRAIN_PBR_ROTATION_2": {
+    "value-type": "float"
+  },
+  "TERRAIN_PBR_ROTATION_3": {
+    "value-type": "float"
+  },
+  "TERRAIN_PBR_ROTATION_4": {
+    "value-type": "float"
+  },
+  "TERRAIN_PBR_OFFSET_1": {
+    "value-type": "vector"
+  },
+  "TERRAIN_PBR_OFFSET_2": {
+    "value-type": "vector"
+  },
+  "TERRAIN_PBR_OFFSET_3": {
+    "value-type": "vector"
+  },
+  "TERRAIN_PBR_OFFSET_4": {
+    "value-type": "vector"
+  },
+  "KFM_COMMAND": {
+    "value-type": "integer",
+    "enum": "KeyframedMotionCommand"
+  },
+  "KFM_MODE": {
+    "value-type": "integer",
+    "enum": "KeyframedMotionMode",
+    "default": "KFM_FORWARD"
+  },
+  "KFM_DATA": {
+    "value-type": "integer",
+    "enum": "KeyframedMotionData",
+    "default": "KFM_ROTATION | KFM_TRANSLATION"
+  },
+  "OVERRIDE_GLTF_BASE_COLOR_FACTOR": {
+    "value-type": "vector"
+  },
+  "OVERRIDE_GLTF_BASE_ALPHA": {
+    "value-type": "float"
+  },
+  "OVERRIDE_GLTF_BASE_ALPHA_MODE": {
+    "value-type": "integer",
+    "enum": "GLTFAlphaMode"
+  },
+  "OVERRIDE_GLTF_BASE_ALPHA_MASK": {
+    "value-type": "float"
+  },
+  "OVERRIDE_GLTF_BASE_DOUBLE_SIDED": {
+    "value-type": "boolean"
+  },
+  "OVERRIDE_GLTF_METALLIC_FACTOR": {
+    "value-type": "float",
+    "range": [0, 1]
+  },
+  "OVERRIDE_GLTF_ROUGHNESS_FACTOR": {
+    "value-type": "float",
+    "range": [0, 1]
+  },
+  "OVERRIDE_GLTF_EMISSIVE_FACTOR": {
+    "value-type": "vector"
+  },
+  "PARCEL_SALE_AGENT": {
+    "value-type": "key"
+  },
+  "PARCEL_SALE_OBJECTS": {
+    "value-type": "boolean"
+  },
+  "PARCEL_SALE_PRICE": {
+    "value-type": "integer"
+  },
+  "WANDER_PAUSE_AT_WAYPOINTS": {
+    "value-type": "boolean",
+    "default": false
+  }
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                if (funcName.toLowerCase().includes(lowerCaseQuery)) {
+                    filteredData[funcName] = lslData[funcName];
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
