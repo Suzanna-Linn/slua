@@ -691,7 +691,7 @@ slua_beta: true
  * @param {string} filterMode - Mode of access filtering ('all', 'read', or 'write').
  * @returns {string} - The HTML string representing the table, or an empty string if no constants match.
  */
-function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
+function generateConstantsTable(categoryName, level = 0, filterMode = 'all', parentInfo = null) {
     if (!lslData || !lslData.constants) return '';
 
     // Retrieve global states from localStorage (fallback to 'expanded' if not set)
@@ -816,8 +816,8 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
         tableStyle += ' font-size: 0.85em; background: rgba(127, 140, 141, 0.01);';
         headerStyle = 'padding: 4px 6px; background: rgba(127, 140, 141, 0.04); font-size: 0.85em;';
         cellStyle = 'padding: 4px 6px; line-height: 1.35;';
-        nameColor = '#7f8c8d';    // Level 2: Neutral Muted Gray
-        branchColor = '#7f8c8d';  // Level 2: Neutral Muted Gray
+        nameColor = '#ec4899';    // Level 2: Visual Pink
+        branchColor = '#ec4899';  // Level 2: Visual Pink
     }
 
     // Determine table header based on enum type
@@ -826,8 +826,39 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
     let html = '';
     // Only display global control panel buttons at top-level
     if (level === 0) {
+        let contextText = '';
+        if (parentInfo) {
+            const returnCategory = parentInfo['enum-semantics'] || parentInfo['param-semantics'] || parentInfo['param-get-semantics'] || null;
+            const matchesReturn = (returnCategory === categoryName);
+            let matchingArgs = [];
+            if (parentInfo.arguments && Array.isArray(parentInfo.arguments)) {
+                parentInfo.arguments.forEach(argObj => {
+                    const argName = Object.keys(argObj)[0];
+                    const argDetails = argObj[argName];
+                    if (argDetails && (
+                        argDetails['enum-semantics'] === categoryName ||
+                        argDetails['param-semantics'] === categoryName ||
+                        argDetails['param-get-semantics'] === categoryName
+                    )) {
+                        matchingArgs.push(argName);
+                    }
+                });
+            }
+            if (matchesReturn || matchingArgs.length > 0) {
+                let target = '';
+                if (matchingArgs.length > 0 && matchesReturn) {
+                    target = `<strong>${escapeHtml(matchingArgs.join(', '))}</strong> and <strong>return</strong>`;
+                } else if (matchingArgs.length > 0) {
+                    target = `<strong>${escapeHtml(matchingArgs.join(', '))}</strong>`;
+                } else if (matchesReturn) {
+                    target = `<strong>return</strong>`;
+                }
+                contextText = `<span style="margin-right: auto; font-size: 1.05em; color: var(--text-color);">${nameHeader} for ${target}</span>`;
+            }
+        }
         html += `
             <div class="table-controls" style="display: flex; gap: 8px; margin-bottom: 12px; font-size: 0.85em; align-items: center; user-select: none;">
+                ${contextText}
                 <button type="button" class="nav-btn btn-toggle-values" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
                 <button type="button" class="nav-btn btn-toggle-enums" style="padding: 4px 10px; font-size: 0.82em; font-weight: bold; border-radius: 4px; cursor: pointer;"></button>
             </div>
@@ -901,7 +932,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
 
                 // If this specific associated value has an enum, render its nested table immediately below it
                 if (level < 2 && sub.enum) {
-                    const nestedTable = generateConstantsTable(sub.enum, level + 1, filterMode);
+                    const nestedTable = generateConstantsTable(sub.enum, level + 1, filterMode, parentInfo);
                     if (nestedTable) {
                         subHtml += nestedTable;
                     }
@@ -954,7 +985,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
 
                 // If this main specification has an enum, render its nested table immediately below it
                 if (level < 2 && c.enum) {
-                    const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode);
+                    const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode, parentInfo);
                     if (nestedTable) {
                         subHtml += nestedTable;
                     }
@@ -963,7 +994,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
                 subRowContent += subHtml;
             } else if (level < 2 && c.enum) {
                 // If there are no main optional fields, but it still has an enum definition
-                const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode);
+                const nestedTable = generateConstantsTable(c.enum, level + 1, filterMode, parentInfo);
                 if (nestedTable) {
                     subRowContent += nestedTable;
                 }
@@ -1317,7 +1348,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all') {
                       }
                   }
 
-                  const table = generateConstantsTable(category, 0, filterMode);
+                  const table = generateConstantsTable(category, 0, filterMode, info);
                   if (table) {
                       tablesHtml += `
                           <div class="constant-category-section" style="margin-top: 25px;">
