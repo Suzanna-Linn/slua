@@ -1012,7 +1012,32 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
 
         // Render Main Constant Row
         html += `<tr class="main-row" style="border-bottom: 1px solid var(--border-color);">`;
-        html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">${nameCellContent}</td>`;
+        html += `<td style="font-family: monospace; font-weight: bold; color: ${nameColor}; ${cellStyle}">`;
+        html += nameCellContent;
+        
+        if (c.private || c.deprecated) {
+            html += `<div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; user-select: none;">`;
+            if (c.private) {
+                html += `<span class="attr-label bg-godmode" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #f1c40f;">Private</span>`;
+            }
+            if (c.deprecated) {
+                html += `<span class="attr-label bg-deprecated" style="font-size: 0.65em; font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; white-space: nowrap; background: #c0392b;">Deprecated</span>`;
+                
+                let deprText = "Deprecated: ";
+                if (typeof c.deprecated === 'object' && c.deprecated !== null) {
+                    if (c.deprecated.use) {
+                        deprText += "use " + c.deprecated.use;
+                    }
+                    if (c.deprecated.reason) {
+                        deprText += (c.deprecated.use ? "   Reason: " : "") + c.deprecated.reason;
+                    }
+                }
+                html += `<span style="font-family: sans-serif; font-size: 0.75em; font-weight: normal; color: #c0392b; margin-left: 4px;">${escapeHtml(deprText)}</span>`;
+            }
+            html += `</div>`;
+        }
+        
+        html += `</td>`;
         html += `<td style="font-family: monospace; font-weight: bold; ${cellStyle}">${escapeHtml(String(c.value))}</td>`;
         html += `<td style="${cellStyle}">${escapeHtml(c.tooltip || '')}</td>`;
         html += `</tr>`;
