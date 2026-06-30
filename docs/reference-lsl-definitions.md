@@ -356,7 +356,7 @@ slua_beta: true
         <button type="button" class="nav-btn" data-search-type="functions">Functions</button>
         <button type="button" class="nav-btn" data-search-type="events">Events</button>
         <button type="button" class="nav-btn" data-search-type="constants">Constants</button>
-        <span class="lua-section"><button type="button" class="nav-btn" data-search-type="slua-changed">Lua changes</button></span>
+        <span class="lua-section"><button type="button" class="nav-btn" data-search-type="Lua-changed">Lua changes</button></span>
         <label><input type="checkbox" id="lsl-toggle" checked> LSL</label>
         <label><input type="checkbox" id="lua-toggle" checked> Lua</label>
     </nav>
@@ -498,7 +498,7 @@ slua_beta: true
         }
         
         function renderSluaChanged() {
-            currentViewState = { type: 'category-list', data: { searchType: 'slua-changed' } };
+            currentViewState = { type: 'category-list', data: { searchType: 'Lua-changed' } };
             
             const matchedFunctions = lslData.functions.filter(f => isSluaChanged(f, false));
             const matchedEvents = lslData.events.filter(e => isSluaChanged(e, false));
@@ -1161,8 +1161,8 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
                 return;
             }
 
-            const backButtonText = currentViewState.data && currentViewState.data.searchType === 'slua-changed'
-                ? "SLua Changed"
+            const backButtonText = currentViewState.data && currentViewState.data.searchType === 'Lua-changed'
+                ? "Lua Changed"
                 : (currentViewState.type === 'category-list' ? "Categories" : "Category");
             
             const backButtonHtml = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
@@ -1477,7 +1477,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
                 backBtn.addEventListener('click', () => {
                     const targetScrollY = currentViewState.scrollY || 0;
                     if (currentViewState.type === 'category-list') {
-                        if (currentViewState.data.searchType === 'slua-changed') {
+                        if (currentViewState.data.searchType === 'Lua-changed') {
                             renderSluaChanged();
                         } else {
                             renderCategories(currentViewState.data.searchType);
@@ -1503,7 +1503,7 @@ function generateConstantsTable(categoryName, level = 0, filterMode = 'all', par
                 e.currentTarget.classList.add('active');
         
                 searchInput.value = '';
-                if (searchType === 'slua-changed') {
+                if (searchType === 'Lua-changed') {
                     renderSluaChanged();
                 } else {
                     renderCategories(searchType);
