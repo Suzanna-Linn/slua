@@ -1,0 +1,44 @@
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+
+local questions = {}
+local answer = ""
+local count = 0
+
+local function askQuestion()
+    if #questions > 0 then
+        count += 1
+        local questionNumber = math.random(1, #questions)
+        local question = questions[questionNumber]
+        local text = `\nquestion number: {count}:\n{question.question}`
+        answer = question.answer
+        table.remove(questions, questionNumber)
+        ll.Say(0, text)
+    else
+        ll.Say(0, "All the questions asked. End of game.\n")
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        while data ~= EOF do
+            if data == NAK then
+                requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                return
+            else
+                local dataPieces = string.split(data, "|")
+                table.insert(questions, {
+                    question = dataPieces[1],
+                    answer = dataPieces[2],
+                })
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+            end
+        end
+        askQuestion()
+    end
+end
+
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
