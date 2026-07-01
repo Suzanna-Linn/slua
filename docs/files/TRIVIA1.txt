@@ -1,0 +1,29 @@
+
+local notecardName = "trivia questions"
+local notecardLine = 1
+local requestLineId = NULL_KEY
+local notecard = {}
+
+local function listNotecard()
+    for _, line in notecard do
+        ll.OwnerSay(line)
+    end
+end
+
+function LLEvents.dataserver(request, data)
+    if request == requestLineId then
+        while data ~= EOF do
+            if data == NAK then
+                requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
+                return
+            else
+                table.insert(notecard, data)
+                notecardLine += 1
+                data = ll.GetNotecardLineSync(notecardName, notecardLine)
+            end
+        end
+        listNotecard()
+    end
+end
+
+requestLineId = ll.GetNotecardLine(notecardName, notecardLine)
