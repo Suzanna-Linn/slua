@@ -837,7 +837,7 @@ slua_beta: true
                             target = `<span style="${badgeStyle}">return</span>`;
                         }
         
-                        contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}${otherValuesHtml}</span>`;
+                        contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}</span>`;
                     }
                 }
         
