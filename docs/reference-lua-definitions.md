@@ -901,7 +901,7 @@ slua_beta: true
             </div>
 
             <div class="main-menu-grid">
-                ${searchIndex.filter(x => x.type === "class").map(entry => {
+                ${searchIndex.filter(x => x.type === "module").map(entry => {
                     return `
                         <button type="button" class="menu-btn" data-module="${escapeHtml(entry.name)}">
                             <span>${escapeHtml(entry.name)}</span>
@@ -909,9 +909,9 @@ slua_beta: true
                     `;
                 }).join('')}
             </div>
-
+            
             <div class="main-menu-grid">
-                ${searchIndex.filter(x => x.type === "module").map(entry => {
+                ${searchIndex.filter(x => x.type === "class").map(entry => {
                     return `
                         <button type="button" class="menu-btn" data-module="${escapeHtml(entry.name)}">
                             <span>${escapeHtml(entry.name)}</span>
@@ -1055,7 +1055,7 @@ slua_beta: true
         return sig;
     }
 
-function renderParamsTable(func, isMethod) {
+    function renderParamsTable(func, isMethod) {
         if (!func.parameters || func.parameters.length === 0) return '';
         
         const displayParams = isMethod 
