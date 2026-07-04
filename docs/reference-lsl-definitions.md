@@ -1409,16 +1409,11 @@ slua_beta: true
               categoriesToRender = Array.from(catSet);
           }
 
-          if (categoriesToRender.length > 0) {
+if (categoriesToRender.length > 0) {
               let tablesHtml = '';
               categoriesToRender.forEach(category => {
-                  // Determine filterMode for this category
                   let filterMode = 'all';
-                  
-                  // Extract the function's return category
                   const returnCategory = info['enum-semantics'] || info['param-semantics'] || info['param-get-semantics'] || null;
-                  
-                  // Check if this category is used as an argument category
                   let isArgCategory = false;
                   if (info.arguments && Array.isArray(info.arguments)) {
                       info.arguments.forEach(argObj => {
@@ -1432,8 +1427,6 @@ slua_beta: true
                           }
                       });
                   }
-
-                  // Determine semantic read/write filters based on rules
                   if (isArgCategory) {
                       if (category === returnCategory) {
                           filterMode = 'read';
@@ -1441,7 +1434,6 @@ slua_beta: true
                           filterMode = 'write';
                       }
                   }
-
                   const table = generateConstantsTable(category, 0, filterMode, info);
                   if (table) {
                       tablesHtml += `
@@ -1453,12 +1445,52 @@ slua_beta: true
               });
               html += tablesHtml;
           }
-          
-            displayContainer.innerHTML = html;
 
-            applyGlobalCollapseStates();
-            
-            window.scrollTo(0, 0);
+          // Add Related Functions & Events section
+          let relatedHtml = '';
+          if (type === 'function' || type === 'event') {
+              const currentCategories = info.categories ? (Array.isArray(info.categories) ? info.categories : [info.categories]) : [];
+              if (currentCategories.length > 0) {
+                  const relatedFuncs = lslData.functions.filter(f => {
+                      if (type === 'function' && f.name === name) return false;
+                      if (!f.categories) return false;
+                      const fCats = Array.isArray(f.categories) ? f.categories : [f.categories];
+                      return fCats.some(cat => currentCategories.includes(cat));
+                  });
+                  const relatedEvents = lslData.events.filter(e => {
+                      if (type === 'event' && e.name === name) return false;
+                      if (!e.categories) return false;
+                      const eCats = Array.isArray(e.categories) ? e.categories : [e.categories];
+                      return eCats.some(cat => currentCategories.includes(cat));
+                  });
+
+                  relatedFuncs.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+                  relatedEvents.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+
+                  if (relatedFuncs.length > 0) {
+                      relatedHtml += `<h3 style="margin-top: 30px; margin-bottom: 15px; border-top: 1px solid var(--border-color); padding-top: 20px;">Related functions</h3>`;
+                      relatedHtml += `<div class="results-grid" style="margin-bottom: 20px;">`;
+                      relatedHtml += relatedFuncs.map(f => `<button type="button" class="result-btn" data-type="function" data-name="${escapeHtml(f.name)}">${escapeHtml(f.name)}</button>`).join('');
+                      relatedHtml += `</div>`;
+                  }
+
+                  if (relatedEvents.length > 0) {
+                      const borderStyle = relatedFuncs.length === 0 ? 'margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;' : '';
+                      relatedHtml += `<h3 style="${borderStyle} margin-bottom: 15px;">Related events</h3>`;
+                      relatedHtml += `<div class="results-grid">`;
+                      relatedHtml += relatedEvents.map(e => `<button type="button" class="result-btn" data-type="event" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`).join('');
+                      relatedHtml += `</div>`;
+                  }
+              }
+          }
+          html += relatedHtml;
+          
+          displayContainer.innerHTML = html;
+          bindResultBtnHandlers(); // Binds click handlers to newly generated related items
+
+          applyGlobalCollapseStates();
+          
+          window.scrollTo(0, 0);
             
             if (window.Prism) {
                 Prism.highlightAllUnder(displayContainer);
