@@ -1462,7 +1462,7 @@ slua_beta: true
               html += tablesHtml;
           }
 
-          // Add Related Functions & Events section
+          /// Add Related Functions & Events section
           let relatedHtml = '';
           if (type === 'function' || type === 'event') {
               const currentCategories = info.categories ? (Array.isArray(info.categories) ? info.categories : [info.categories]) : [];
@@ -1483,18 +1483,25 @@ slua_beta: true
                   relatedFuncs.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
                   relatedEvents.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
-                  if (relatedFuncs.length > 0) {
-                      relatedHtml += `<h3 style="margin-top: 30px; margin-bottom: 15px; border-top: 1px solid var(--border-color); padding-top: 20px;">Related functions</h3>`;
-                      relatedHtml += `<div class="results-grid" style="margin-bottom: 20px;">`;
-                      relatedHtml += relatedFuncs.map(f => `<button type="button" class="result-btn" data-type="function" data-name="${escapeHtml(f.name)}">${escapeHtml(f.name)}</button>`).join('');
-                      relatedHtml += `</div>`;
-                  }
+                  if (relatedFuncs.length > 0 || relatedEvents.length > 0) {
+                      // Wrap in .related-section so the event listener click logic detects the relation
+                      relatedHtml += `<div class="related-section">`;
 
-                  if (relatedEvents.length > 0) {
-                      const borderStyle = relatedFuncs.length === 0 ? 'margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;' : '';
-                      relatedHtml += `<h3 style="${borderStyle} margin-bottom: 15px;">Related events</h3>`;
-                      relatedHtml += `<div class="results-grid">`;
-                      relatedHtml += relatedEvents.map(e => `<button type="button" class="result-btn" data-type="event" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`).join('');
+                      if (relatedFuncs.length > 0) {
+                          relatedHtml += `<h3 style="margin-top: 30px; margin-bottom: 15px; border-top: 1px solid var(--border-color); padding-top: 20px;">Related functions</h3>`;
+                          relatedHtml += `<div class="results-grid" style="margin-bottom: 20px;">`;
+                          relatedHtml += relatedFuncs.map(f => `<button type="button" class="result-btn" data-type="function" data-name="${escapeHtml(f.name)}">${escapeHtml(f.name)}</button>`).join('');
+                          relatedHtml += `</div>`;
+                      }
+
+                      if (relatedEvents.length > 0) {
+                          const borderStyle = relatedFuncs.length === 0 ? 'margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;' : '';
+                          relatedHtml += `<h3 style="${borderStyle} margin-bottom: 15px;">Related events</h3>`;
+                          relatedHtml += `<div class="results-grid">`;
+                          relatedHtml += relatedEvents.map(e => `<button type="button" class="result-btn" data-type="event" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`).join('');
+                          relatedHtml += `</div>`;
+                      }
+
                       relatedHtml += `</div>`;
                   }
               }
