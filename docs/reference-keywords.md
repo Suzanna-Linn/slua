@@ -173,35 +173,5 @@ These keywords were added later and are recognized only in specific syntactical 
             <td>Inside loop blocks</td>
             <td>Skips the rest of the current loop iteration and moves to the next.</td>
         </tr>
-        <tr>
-            <td><code>const</code></td>
-            <td>Local declarations</td>
-            <td>Declares local variables whose bindings cannot be reassigned.</td>
-        </tr>
-        <tr>
-            <td><code>class</code></td>
-            <td>Top-level block declarations</td>
-            <td>Declares a native object-oriented class with defined fields and methods.</td>
-        </tr>
-        <tr>
-            <td><code>public</code></td>
-            <td>Class declarations</td>
-            <td>Declares a class field.</td>
-        </tr>
-        <tr>
-            <td><code>export</code></td>
-            <td>Type/Class declarations</td>
-            <td>Exposes defined types, classes, or values to other scripts requiring the module.</td>
-        </tr>
-        <tr>
-            <td><code>type</code></td>
-            <td>Type annotations</td>
-            <td>Declares custom type aliases in the type system.</td>
-        </tr>
-        <tr>
-            <td><code>typeof</code></td>
-            <td>Type annotations</td>
-            <td>Extracts the static type of a variable or expression without evaluating it at runtime.</td>
-        </tr>
     </tbody>
 </table>
