@@ -1045,43 +1045,6 @@ slua_beta: true
         });
     }
 
-    function renderSignatures(func, parentName, isSimp, isMethod, isCallable) {
-        isSimp = !!isSimp;
-        isCallable = !!isCallable;
-        const separator = isMethod ? ":" : ".";
-        const prefix = isCallable ? "" : (parentName ? (parentName + separator) : "");
-        
-        function buildSig(fObj) {
-            const nameToUse = isCallable ? parentName : (fObj.name || func.name);
-            let sig = prefix + nameToUse;
-            
-            let params = [];
-            if (fObj.parameters) {
-                fObj.parameters.forEach(p => {
-                    if (isMethod && p.name === "self") return;
-                    let pStr = p.name === "..." && isSimp ? "args" : p.name;
-                    if (p.type) {
-                        pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
-                    }
-                    params.push(pStr);
-                });
-            }
-            sig += "(" + params.join(", ") + ")";
-            if (fObj["return-type"]) {
-                sig += ": " + (isSimp ? simplifyLuauType(fObj["return-type"]) : fObj["return-type"]);
-            }
-            return sig;
-        }
-        
-        let sigs = [buildSig(func)];
-        if (func.overloads) {
-            func.overloads.forEach(ov => {
-                sigs.push(buildSig({ ...ov, name: func.name }));
-            });
-        }
-        return sigs;
-    }
-
     function renderPropertySignature(prop, parentName, isSimp) {
         isSimp = !!isSimp;
         let sig = parentName ? (parentName + "." + prop.name) : prop.name;
