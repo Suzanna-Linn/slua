@@ -1055,7 +1055,7 @@ slua_beta: true
         return sig;
     }
 
-    function renderParamsTable(func, isMethod) {
+function renderParamsTable(func, isMethod) {
         if (!func.parameters || func.parameters.length === 0) return '';
         
         const displayParams = isMethod 
@@ -1077,6 +1077,11 @@ slua_beta: true
         `;
         
         displayParams.forEach(p => {
+            let defaultValueText = "";
+            if (p["default-value"] !== undefined && p["default-value"] !== null) {
+                defaultValueText = ` Defaults to ${escapeHtml(String(p["default-value"]))}.`;
+            }
+
             html += `
                 <tr>
                     ${p.name === "..." ?
@@ -1088,7 +1093,7 @@ slua_beta: true
                         <span class="simple-type">${escapeHtml(simplifyLuauType(p.type || 'any'))}</span>
                     </td>
                     <td>
-                        ${escapeHtml(p.comment || '')}
+                        ${escapeHtml(p.comment || '')}${defaultValueText}
                         ${p.optional ? ' <span style="font-style: italic; opacity: 0.7;">(optional)</span>' : ''}
                         ${p.observes ? ` <span style="font-style: italic; opacity: 0.7;">(${p.observes})</span>` : ''}
                     </td>
