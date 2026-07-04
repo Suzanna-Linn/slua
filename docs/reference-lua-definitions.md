@@ -368,7 +368,7 @@ slua_beta: true
 <script type="module">
     import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
     // const API_URL = "https://api.github.com/repos/secondlife/lsl-definitions/contents/slua_definitions.yaml";
-    const API_URL = "https://raw.githubusercontent.com/Suzanna-Linn/lua/main/updated-slua.yaml";
+    const API_URL = "https://raw.githubusercontent.com/Suzanna-Linn/lua/main/updated-lua.yaml";
     
     let searchIndex = [];
     let currentViewState = { type: 'empty', data: {} };
