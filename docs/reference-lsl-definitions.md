@@ -1155,13 +1155,15 @@ slua_beta: true
 
             const backButtonText = detailsHistory.length > 0
                 ? `Back to ${detailsHistory[detailsHistory.length - 1].name}`
-                : (currentViewState.data && currentViewState.data.searchType === 'Lua-changed'
-                    ? "Lua Changed"
-                    : (currentViewState.type === 'category-list' ? "Categories" : "Category"));
+                : (currentViewState.type === 'search'
+                    ? "Back to Search"
+                    : (currentViewState.data && currentViewState.data.searchType === 'Lua-changed'
+                        ? "Lua Changed"
+                        : (currentViewState.type === 'category-list' ? "Categories" : "Category")));
             
             const smallBtnStyle = "padding: 0.25rem 0.6rem; font-size: 0.8rem; line-height: 1.25;";
 
-            const backButtonHtmlInner = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
+            const backButtonHtmlInner = (detailsHistory.length > 0 || currentViewState.type !== 'empty') ? `
                 <button type="button" id="details-back-btn" class="nav-btn" style="${smallBtnStyle}">
                     ${backButtonText}
                 </button>
@@ -1529,6 +1531,8 @@ slua_beta: true
                             }
                         } else if (currentViewState.type === 'category-items') {
                             renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
+                        } else if (currentViewState.type === 'search') {
+                            renderSearchResults(currentViewState.data.query);
                         } else {
                             displayContainer.innerHTML = '';
                         }
