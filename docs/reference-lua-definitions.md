@@ -367,7 +367,8 @@ slua_beta: true
 
 <script type="module">
     import jsyaml from 'https://esm.sh/js-yaml@4.1.0';
-    const API_URL = "https://api.github.com/repos/secondlife/lsl-definitions/contents/slua_definitions.yaml";
+    // const API_URL = "https://api.github.com/repos/secondlife/lsl-definitions/contents/slua_definitions.yaml";
+    const API_URL = "https://raw.githubusercontent.com/Suzanna-Linn/lua/main/updated-slua.yaml";
     
     let searchIndex = [];
     let currentViewState = { type: 'empty', data: {} };
@@ -860,14 +861,16 @@ slua_beta: true
 
     async function fetchDefinitions() {      
         const headers = {
-            "Accept": "application/vnd.github+json"
+            // "Accept": "application/vnd.github+json"
+            'Accept': 'text/yaml, text/plain, */*'
         };
 
         try {
             const response = await fetch(API_URL, { headers });
             if (response.status === 200) {
-                const apiResponse = await response.json();
-                const rawYamlText = decodeBase64Utf8(apiResponse.content);
+                // const apiResponse = await response.json();
+                // const rawYamlText = decodeBase64Utf8(apiResponse.content);
+                const rawYamlText = await response.text();
                 const rawYaml = jsyaml.load(rawYamlText); 
                 
                 buildSearchIndex(rawYaml);
