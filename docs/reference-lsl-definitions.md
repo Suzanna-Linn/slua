@@ -837,12 +837,6 @@ slua_beta: true
                             target = `<span style="${badgeStyle}">return</span>`;
                         }
         
-                        // Check if the enum category supports arbitrary values
-                        const otherValuesAllowed = enumInfo && enumInfo['other-values'] === true;
-                        const otherValuesHtml = otherValuesAllowed 
-                            ? `<span style="font-size: 0.7em; font-weight: normal; opacity: 0.75; font-style: italic; background: rgba(128,128,128,0.08); border: 1px dashed rgba(128,128,128,0.25); padding: 2px 6px; border-radius: 4px; margin-left: 6px;">other values allowed</span>` 
-                            : '';
-        
                         contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}${otherValuesHtml}</span>`;
                     }
                 }
@@ -916,7 +910,10 @@ slua_beta: true
             
             // Table Headers
             html += '<thead><tr>';
-            html += `<th style="width: 25%; ${headerStyle}">${escapeHtml(nameHeader)}</th>`;
+            const otherValuesBadge = (enumInfo && enumInfo['other-values'] === true)
+                ? ` <span class="attr-label bg-pure" style="font-size: 0.7em; padding: 2px 6px; text-transform: uppercase; border-radius: 4px; color: white; vertical-align: middle; margin-left: 6px; display: inline-block;">other values allowed</span>`
+                : '';
+            html += `<th style="width: 25%; ${headerStyle}">${escapeHtml(nameHeader)}${otherValuesBadge}</th>`;
             html += `<th style="width: 15%; ${headerStyle}">Value</th>`;
             html += `<th style="width: 60%; ${headerStyle}">Description</th>`;
             html += '</tr></thead>';
