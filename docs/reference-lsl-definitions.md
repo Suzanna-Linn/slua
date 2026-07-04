@@ -450,6 +450,8 @@ slua_beta: true
         const searchInput = document.getElementById('search-input');
         const searchButtons = document.querySelectorAll('.nav-btn');
         const displayContainer = document.getElementById('definitions-display');
+        let detailsHistory = [];
+        let currentDetailItem = null;
 
         let currentViewState = {
             type: 'empty', // 'search', 'category-list', 'category-items', 'empty'
@@ -1122,7 +1124,7 @@ slua_beta: true
             return html;
         }
 
-        function renderItemDetails(type, name) {
+        function renderItemDetails(type, name, navigationMode = 'clear') {
             let info = null;
 
             if (type === 'function') {
@@ -1138,14 +1140,27 @@ slua_beta: true
                 return;
             }
 
-            const backButtonText = currentViewState.data && currentViewState.data.searchType === 'Lua-changed'
-                ? "Lua Changed"
-                : (currentViewState.type === 'category-list' ? "Categories" : "Category");
+            // Track state transitions before changing the current view
+            if (navigationMode === 'push' && currentDetailItem) {
+                detailsHistory.push({
+                    type: currentDetailItem.type,
+                    name: currentDetailItem.name,
+                    scrollY: window.scrollY
+                });
+            } else if (navigationMode === 'clear') {
+                detailsHistory = [];
+            }
+
+            currentDetailItem = { type, name };
+
+            const backButtonText = detailsHistory.length > 0
+                ? `Back to ${detailsHistory[detailsHistory.length - 1].name}`
+                : (currentViewState.data && currentViewState.data.searchType === 'Lua-changed'
+                    ? "Lua Changed"
+                    : (currentViewState.type === 'category-list' ? "Categories" : "Category"));
             
-            // Define a unified smaller button style
             const smallBtnStyle = "padding: 0.25rem 0.6rem; font-size: 0.8rem; line-height: 1.25;";
 
-            // Apply the smaller button style to the Back button
             const backButtonHtmlInner = currentViewState.type !== 'empty' && currentViewState.type !== 'search' ? `
                 <button type="button" id="details-back-btn" class="nav-btn" style="${smallBtnStyle}">
                     ${backButtonText}
@@ -1155,7 +1170,6 @@ slua_beta: true
             const wikiName = name.charAt(0).toUpperCase() + name.slice(1);
             const wikiUrl = `https://wiki.secondlife.com/wiki/${wikiName}`;
 
-            // Right-align both buttons and pull the dashboard up by reducing margin-bottom to 0.75rem
             const topControlsHtml = `
                 <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 0.75rem; gap: 0.5rem; width: 100%;">
                     ${backButtonHtmlInner}
@@ -1409,7 +1423,7 @@ slua_beta: true
               categoriesToRender = Array.from(catSet);
           }
 
-if (categoriesToRender.length > 0) {
+            if (categoriesToRender.length > 0) {
               let tablesHtml = '';
               categoriesToRender.forEach(category => {
                   let filterMode = 'all';
@@ -1496,24 +1510,32 @@ if (categoriesToRender.length > 0) {
                 Prism.highlightAllUnder(displayContainer);
             }
 
-            const backBtn = document.getElementById('details-back-btn');
+        const backBtn = document.getElementById('details-back-btn');
             if (backBtn) {
                 backBtn.addEventListener('click', () => {
-                    const targetScrollY = currentViewState.scrollY || 0;
-                    if (currentViewState.type === 'category-list') {
-                        if (currentViewState.data.searchType === 'Lua-changed') {
-                            renderSluaChanged();
-                        } else {
-                            renderCategories(currentViewState.data.searchType);
-                        }
-                    } else if (currentViewState.type === 'category-items') {
-                        renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
+                    if (detailsHistory.length > 0) {
+                        const prev = detailsHistory.pop();
+                        renderItemDetails(prev.type, prev.name, 'pop');
+                        requestAnimationFrame(() => {
+                            window.scrollTo(0, prev.scrollY);
+                        });
                     } else {
-                        displayContainer.innerHTML = '';
+                        const targetScrollY = currentViewState.scrollY || 0;
+                        if (currentViewState.type === 'category-list') {
+                            if (currentViewState.data.searchType === 'Lua-changed') {
+                                renderSluaChanged();
+                            } else {
+                                renderCategories(currentViewState.data.searchType);
+                            }
+                        } else if (currentViewState.type === 'category-items') {
+                            renderCategoryItems(currentViewState.data.searchType, currentViewState.data.categoryName);
+                        } else {
+                            displayContainer.innerHTML = '';
+                        }
+                        requestAnimationFrame(() => {
+                            window.scrollTo(0, targetScrollY);
+                        });
                     }
-                    requestAnimationFrame(() => {
-                        window.scrollTo(0, targetScrollY);
-                    });
                 });
             }
 
@@ -1661,7 +1683,8 @@ if (categoriesToRender.length > 0) {
                     currentViewState.scrollY = window.scrollY;
                     const name = e.currentTarget.getAttribute('data-name');
                     const type = e.currentTarget.getAttribute('data-type');
-                    renderItemDetails(type, name);
+                    const isRelated = !!e.currentTarget.closest('.related-section');
+                    renderItemDetails(type, name, isRelated ? 'push' : 'clear');
                 });
             });
         }
