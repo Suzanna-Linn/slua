@@ -836,7 +836,14 @@ slua_beta: true
                         } else if (matchesReturn) {
                             target = `<span style="${badgeStyle}">return</span>`;
                         }
-                        contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}</span>`;
+        
+                        // Check if the enum category supports arbitrary values
+                        const otherValuesAllowed = enumInfo && enumInfo['other-values'] === true;
+                        const otherValuesHtml = otherValuesAllowed 
+                            ? `<span style="font-size: 0.7em; font-weight: normal; opacity: 0.75; font-style: italic; background: rgba(128,128,128,0.08); border: 1px dashed rgba(128,128,128,0.25); padding: 2px 6px; border-radius: 4px; margin-left: 6px;">other values allowed</span>` 
+                            : '';
+        
+                        contextText = `<span style="margin-right: auto; font-size: 1.2em; font-weight: 600; color: var(--text-color); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;">${nameHeader} for ${target}${otherValuesHtml}</span>`;
                     }
                 }
         
