@@ -1045,38 +1045,37 @@ slua_beta: true
         });
     }
 
-    function renderSignatures(func, parentName, isSimp, isMethod, isCallable) {
+    function renderSingleSignature(fObj, parentName, isSimp, isMethod, isCallable, baseName) {
         isSimp = !!isSimp;
         isCallable = !!isCallable;
         const separator = isMethod ? ":" : ".";
         const prefix = isCallable ? "" : (parentName ? (parentName + separator) : "");
-        
-        function buildSig(fObj) {
-            const nameToUse = isCallable ? parentName : (fObj.name || func.name);
-            let sig = prefix + nameToUse;
-            
-            let params = [];
-            if (fObj.parameters) {
-                fObj.parameters.forEach(p => {
-                    if (isMethod && p.name === "self") return;
-                    let pStr = p.name === "..." && isSimp ? "args" : p.name;
-                    if (p.type) {
-                        pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
-                    }
-                    params.push(pStr);
-                });
-            }
-            sig += "(" + params.join(", ") + ")";
-            if (fObj["return-type"]) {
-                sig += ": " + (isSimp ? simplifyLuauType(fObj["return-type"]) : fObj["return-type"]);
-            }
-            return sig;
+        const nameToUse = isCallable ? parentName : (baseName || fObj.name);
+        let sig = prefix + nameToUse;
+
+        let params = [];
+        if (fObj.parameters) {
+            fObj.parameters.forEach(p => {
+                if (isMethod && p.name === "self") return;
+                let pStr = p.name === "..." && isSimp ? "args" : p.name;
+                if (p.type) {
+                    pStr += ": " + (isSimp ? simplifyLuauType(p.type) : p.type);
+                }
+                params.push(pStr);
+            });
         }
-        
-        let sigs = [buildSig(func)];
+        sig += "(" + params.join(", ") + ")";
+        if (fObj["return-type"]) {
+            sig += ": " + (isSimp ? simplifyLuauType(fObj["return-type"]) : fObj["return-type"]);
+        }
+        return sig;
+    }
+
+    function renderSignatures(func, parentName, isSimp, isMethod, isCallable) {
+        let sigs = [renderSingleSignature(func, parentName, isSimp, isMethod, isCallable)];
         if (func.overloads) {
             func.overloads.forEach(ov => {
-                sigs.push(buildSig({ ...ov, name: func.name }));
+                sigs.push(renderSingleSignature(ov, parentName, isSimp, isMethod, isCallable, func.name));
             });
         }
         return sigs;
@@ -1136,6 +1135,68 @@ slua_beta: true
         html += `</tbody></table>`;
         return html;
     }
+
+    function renderClassFunctionBlock(func, parentName, isMethod) {
+        const hasVariants = func.variants && func.variants.length > 0;
+        let html = "";
+
+        if (hasVariants) {
+            // Full type container
+            html += `<div class="full-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">`;
+            if (func.comment) {
+                html += `<p style="margin: 0 0 1rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>`;
+            }
+            func.variants.forEach((variant, index) => {
+                const varSigFull = renderSingleSignature(variant, parentName, false, isMethod, false, func.name);
+                const showBorder = index < func.variants.length - 1;
+                html += `
+                    <div style="margin-bottom: ${showBorder ? '1.5rem' : '0'}; padding-bottom: ${showBorder ? '1.5rem' : '0'}; border-bottom: ${showBorder ? '1px dashed var(--border-color)' : 'none'};">
+                        <code class="language-sluab">${escapeHtml(varSigFull)}</code>
+                        ${variant.comment ? `<p style="margin: 0.5rem 0 0.5rem 0; font-size: 0.9rem; opacity: 0.8;">${escapeHtml(variant.comment)}</p>` : ''}
+                        ${renderParamsTable(variant, isMethod)}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+
+            // Simple type container
+            html += `<div class="simple-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">`;
+            if (func.comment) {
+                html += `<p style="margin: 0 0 1rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>`;
+            }
+            func.variants.forEach((variant, index) => {
+                const varSigSimple = renderSingleSignature(variant, parentName, true, isMethod, false, func.name);
+                const showBorder = index < func.variants.length - 1;
+                html += `
+                    <div style="margin-bottom: ${showBorder ? '1.5rem' : '0'}; padding-bottom: ${showBorder ? '1.5rem' : '0'}; border-bottom: ${showBorder ? '1px dashed var(--border-color)' : 'none'};">
+                        <code class="language-sluab">${escapeHtml(varSigSimple)}</code>
+                        ${variant.comment ? `<p style="margin: 0.5rem 0 0.5rem 0; font-size: 0.9rem; opacity: 0.8;">${escapeHtml(variant.comment)}</p>` : ''}
+                        ${renderParamsTable(variant, isMethod)}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        } else {
+            // Normal function block
+            let signatures = renderSignatures(func, parentName, false, isMethod);
+            html += `
+                <div class="full-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
+                    ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
+                    ${renderParamsTable(func, isMethod)}
+                </div>
+            `;
+            signatures = renderSignatures(func, parentName, true, isMethod);
+            html += `
+                <div class="simple-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
+                    ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
+                    ${renderParamsTable(func, isMethod)}
+                </div>
+            `;
+        }
+        return html;
+    }
     
     function renderClassDetails(cls) {
         let html = `
@@ -1179,44 +1240,14 @@ slua_beta: true
         if (cls.methods && cls.methods.length > 0) {
             html += `<h3 class="dash-section-title">Methods</h3>`;
             cls.methods.forEach(method => {
-                let signatures = renderSignatures(method, cls.name, false, true);
-                html += `
-                    <div class="full-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
-                        ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
-                        ${renderParamsTable(method, true)}
-                    </div>
-                `;
-                signatures = renderSignatures(method, cls.name, true, true);
-                html += `
-                    <div class="simple-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
-                        ${method.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(method.comment)}</p>` : ''}
-                        ${renderParamsTable(method, true)}
-                    </div>
-                `;
+                html += renderClassFunctionBlock(method, cls.name, true);
             });
         }
 
         if (cls.functions && cls.functions.length > 0) {
             html += `<h3 class="dash-section-title">Static Functions</h3>`;
             cls.functions.forEach(func => {
-                let signatures = renderSignatures(func, cls.name, false, false);
-                html += `
-                    <div class="full-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
-                        ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
-                        ${renderParamsTable(func, false)}
-                    </div>
-                `;
-                signatures = renderSignatures(func, cls.name, true, false);
-                html += `
-                    <div class="simple-type" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        ${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}
-                        ${func.comment ? `<p style="margin: 0.75rem 0 0.5rem 0; font-size: 0.95rem; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
-                        ${renderParamsTable(func, false)}
-                    </div>
-                `;
+                html += renderClassFunctionBlock(func, cls.name, false);
             });
         }
 
@@ -1234,8 +1265,7 @@ slua_beta: true
         const isMethod = entry.type === 'class-method';
         const isCallable = entry.id && entry.id.startsWith('module-callable:');
         
-        const signatures = renderSignatures(func, parentName, false, isMethod, isCallable);
-        const signaturesB = renderSignatures(func, parentName, true, isMethod, isCallable);
+        const hasVariants = func.variants && func.variants.length > 0;
 
         let depr = "";
         if (func.deprecated) {
@@ -1247,19 +1277,66 @@ slua_beta: true
                 depr += (func.deprecated.use ? "   Reason: " : "") + func.deprecated.reason;
             }
         }
+
+        let headerHtml = "";
+        let bodyHtml = "";
+
+        if (hasVariants) {
+            const separator = isMethod ? ":" : ".";
+            const prefix = isCallable ? "" : (parentName ? (parentName + separator) : "");
+            headerHtml = `<h2 style="margin: 0;">${escapeHtml(prefix + func.name)}</h2>`;
+
+            bodyHtml = `
+                <div class="dash-col">
+                    ${depr ? `<p class="deprecated-text">${depr}</p>` : ''}
+                    ${func.comment ? `<p class="description-text" style="margin-bottom: 2rem; font-style: italic; opacity: 0.85;">${escapeHtml(func.comment)}</p>` : ''}
+            `;
+
+            func.variants.forEach((variant, index) => {
+                const varSigFull = renderSingleSignature(variant, parentName, false, isMethod, isCallable, func.name);
+                const varSigSimple = renderSingleSignature(variant, parentName, true, isMethod, isCallable, func.name);
+                const showBorder = index < func.variants.length - 1;
+
+                bodyHtml += `
+                    <div style="margin-bottom: ${showBorder ? '2.5rem' : '0'}; padding-bottom: ${showBorder ? '2rem' : '0'}; border-bottom: ${showBorder ? '1px dashed var(--border-color)' : 'none'};">
+                        <div class="full-type" style="margin-bottom: 0.5rem;">
+                            <code class="language-sluab">${escapeHtml(varSigFull)}</code>
+                        </div>
+                        <div class="simple-type" style="margin-bottom: 0.5rem;">
+                            <code class="language-sluab">${escapeHtml(varSigSimple)}</code>
+                        </div>
+                        ${variant.comment ? `<p class="description-text" style="margin-top: 0.75rem; margin-bottom: 1rem;">${escapeHtml(variant.comment)}</p>` : ''}
+                        ${renderParamsTable(variant, isMethod)}
+                    </div>
+                `;
+            });
+
+            bodyHtml += `</div>`;
+        } else {
+            const signatures = renderSignatures(func, parentName, false, isMethod, isCallable);
+            const signaturesB = renderSignatures(func, parentName, true, isMethod, isCallable);
+
+            headerHtml = `
+                <span class="full-type">${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}</span>
+                <span class="simple-type">${signaturesB.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}</span>
+            `;
+
+            bodyHtml = `
+                <div class="dash-col">
+                    ${depr ? `<p class="deprecated-text">${depr}</p>` : ''}
+                    ${func.comment ? `<p class="description-text">${escapeHtml(func.comment)}</p>` : ''}
+                    ${renderParamsTable(func, isMethod)}
+                </div>
+            `;
+        }
         
         let html = `
             <div class="dashboard function-detail">
                 <div class="dashboard-header">
-                    <span class="full-type">${signatures.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}</span>
-                    <span class="simple-type">${signaturesB.map(signature => `<code class="language-sluab">${escapeHtml(signature)}</code>`).join('<br>')}</span>
+                    ${headerHtml}
                 </div>
                 <div class="dashboard-body">
-                    <div class="dash-col">
-                        ${depr ? `<p class="deprecated-text">${depr}</p>` : ''}
-                        ${func.comment ? `<p class="description-text">${escapeHtml(func.comment)}</p>` : ''}
-                        ${renderParamsTable(func, isMethod)}
-                    </div>
+                    ${bodyHtml}
                     <div class="dash-col">
                         <div class="dash-section-title">Specs</div>
         `;
