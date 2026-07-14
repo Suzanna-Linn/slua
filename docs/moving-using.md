@@ -4,7 +4,7 @@ These are the steps to follow before starting to script in SLua:
 
 - Install the "Second Life Project Lua Editor" viewer, from:  
   <https://releasenotes.secondlife.com/viewer/26.1.0.23768336784.html>  
-  This is a different viewer, with a different icon, than the "Second Life Viewer". We can keep our usual viewer for the main grid and use this one for the beta grid.
+  This is a different viewer, with a different icon, than the "Second Life Viewer". We can keep our usual viewer and use this one for SLua scripting only.
 
 - Teleport to one of the nine regions that have SLua activated. It doesn't work in the other regions:
   - [Lua Beta Landing](http://maps.secondlife.com/secondlife/Lua%20Beta%20Landing/128/128/23)
