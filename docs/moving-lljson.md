@@ -1119,7 +1119,7 @@ Encoding of data types, some of them change depending on wether they are used as
   <tbody>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">string (unsafe chars escaped)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">if it starts with "!" then "!" .. string</td>
     </tr>
     <tr> 
@@ -1160,7 +1160,7 @@ Encoding of data types, some of them change depending on wether they are used as
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">vector (tight)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!v" string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!v25,50,"</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!v25,50," (ZERO_VECTOR as "!v")</td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">rotation/quaternion</td>
@@ -1170,7 +1170,7 @@ Encoding of data types, some of them change depending on wether they are used as
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">rotation/quaternion (tight)</td>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!q" string</td>
-      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!q0.5,0.25,,1"</td>
+      <td style="border: 2px solid #999999; text-align: center; padding: 8px;">"!q0.5,0.25,,1" (ZERO_ROTATION as "!q")</td>
     </tr>
     <tr>
       <td style="border: 2px solid #999999; text-align: center; padding: 8px;">uuid</td>
