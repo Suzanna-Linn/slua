@@ -337,22 +337,20 @@
             for (const funcName in lslData) {
                 const nestedObject = lslData[funcName];
         
-                // Ensure the second-level item is an object before searching it
                 if (nestedObject && typeof nestedObject === 'object') {
-                    let matchFound = false;
+                    const matchedNested = {};
         
-                    // Iterate through the keys on the second level
+                    // Loop through the keys in the second level
                     for (const subKey in nestedObject) {
-        
-                        // Check if the value (converted to a string) contains the query
-                        if (subKey !== null && String(subKey).toLowerCase().includes(lowerCaseQuery)) {
-                            matchFound = true;
-                            break; // Stop checking other properties of this object once we find a match
+                        // Check if the second-level key contains the query
+                        if (subKey.toLowerCase().includes(lowerCaseQuery)) {
+                            matchedNested[subKey] = nestedObject[subKey];
                         }
                     }
         
-                    if (matchFound) {
-                        filteredData[funcName] = nestedObject;
+                    // Only add the higher-level key if there is at least one matching nested key
+                    if (Object.keys(matchedNested).length > 0) {
+                        filteredData[funcName] = matchedNested;
                     }
                 }
             }
