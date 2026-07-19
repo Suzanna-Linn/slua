@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions dataserver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Functions dataserver</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for constants, events and functions...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+  "constants" : {
+    "DATA_BORN": {
+      "dataserver-semantics": {
+        "value-type": "string",
+        "tooltip": "Account creation/\"born on\" date as a string in an ISO 8601 format of YYYY-MM-DD."
+      }
+    },
+    "DATA_NAME": {
+      "dataserver-semantics": {
+        "value-type": "string",
+        "tooltip": "Requested agent's legacy name."
+      }
+    },
+    "DATA_ONLINE": {
+      "dataserver-semantics": {
+        "value-type": "boolean",
+        "tooltip": "If the requested agent is online."
+      }
+    },
+    "DATA_PAYINFO": {
+      "dataserver-semantics": {
+        "value-type": "integer",
+        "enum": "AgentDataPaymentInfo",
+        "tooltip": "Mask flag for payment status."
+      }
+    },
+    "DATA_RATING": {
+      "deprecated": {
+        "reason": "Ratings were removed from SL."
+      },
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "tooltip": "Returns [0, 0, 0, 0, 0, 0]. Used to return: [pos_behavior, neg_behavior, pos_appearance, neg_appearance, pos_building, neg_building]."
+      }
+    },
+    "DATA_SIM_POS": {
+      "dataserver-semantics": {
+        "value-type": "vector",
+        "tooltip": "Region's global position."
+      }
+    },
+    "DATA_SIM_RATING": {
+      "dataserver-semantics": {
+        "value-type": "string",
+        "enum": "SimulatorDataRating",
+        "tooltip": "Simulator rating."
+      }
+    },
+    "DATA_SIM_STATUS": {
+      "dataserver-semantics": {
+        "value-type": "string",
+        "enum": "SimulatorDataStatus",
+        "tooltip": "Simulator status."
+      }
+    }
+  },
+  "functions": {
+    "llCreateKeyValue": {
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "error-semantics": true,
+        "values": {
+          "success": {
+            "value-type": "boolean",
+            "tooltip": "A boolean specifying if the transaction succeeded or not."
+          },
+          "value": {
+            "value-type": "string",
+            "tooltip": "Value for the key-value pair. Maximum 4095 characters, or 2047 if using LSO2. Note! This value may contain commas."
+          },
+          "error": {
+            "value-type": "ExperienceError",
+            "tooltip": "An XP_ERROR_* flag that describes why the operation failed."
+          }
+        }
+      }
+    },
+    "llDataSizeKeyValue": {
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "error-semantics": true,
+        "values": {
+          "success": {
+            "value-type": "boolean",
+            "tooltip": "A boolean specifying if the transaction succeeded or not."
+          },
+          "used": {
+            "value-type": "integer",
+            "tooltip": "Number of bytes used."
+          },
+          "quota": {
+            "value-type": "integer",
+            "tooltip": "Number of bytes the key-store can utilize."
+          },
+          "error": {
+            "value-type": "ExperienceError",
+            "tooltip": "An XP_ERROR_* flag that describes why the operation failed."
+          }
+        }
+      }
+    },
+    "llDeleteKeyValue": {
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "error-semantics": true,
+        "values": {
+          "success": {
+            "value-type": "boolean",
+            "tooltip": "A boolean specifying if the transaction succeeded or not."
+          },
+          "value": {
+            "value-type": "string",
+            "tooltip": "Value for the key-value pair. Maximum 4095 characters, or 2047 if using LSO2. Note! This value may contain commas."
+          },
+          "error": {
+            "value-type": "ExperienceError",
+            "tooltip": "An XP_ERROR_* flag that describes why the operation failed."
+          }
+        }
+      }
+    },
+    "llFindNotecardTextCount": {
+      "dataserver-semantics": {
+        "value-type": "integer",
+        "tooltip": "Number of matches found for the given pattern."
+      }
+    },
+    "llGetNotecardLine": {
+      "dataserver-semantics": {
+        "value-type": "string",
+        "tooltip": "Line in the requested notecard, limited to 255 bytes. If EOF the line requested is past the end of the notecard."
+      }
+    },
+    "llGetNumberOfNotecardLines": {
+      "dataserver-semantics": {
+        "value-type": "integer",
+        "tooltip": "Number of lines in the notecard requested."
+      }
+    },
+    "llKeyCountKeyValue": {
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "error-semantics": true,
+        "values": {
+          "success": {
+            "value-type": "boolean",
+            "tooltip": "A boolean specifying if the transaction succeeded or not."
+          },
+          "pairs": {
+            "value-type": "integer",
+            "tooltip": "Number of keys-value pairs in the key-value store."
+          },
+          "error": {
+            "value-type": "ExperienceError",
+            "tooltip": "An XP_ERROR_* flag that describes why the operation failed."
+          }
+        }
+      }
+    },
+    "llKeysKeyValue": {
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "error-semantics": true,
+        "values": {
+          "success": {
+            "value-type": "boolean",
+            "tooltip": "A boolean specifying if the transaction succeeded or not."
+          },
+          "keys": {
+            "value-type": "string-csv",
+            "tooltip": "A list of keys (strings) used in the key-value store."
+          },
+          "error": {
+            "value-type": "ExperienceError",
+            "tooltip": "An XP_ERROR_* flag that describes why the operation failed."
+          }
+        }
+      }
+    },
+    "llReadKeyValue": {
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "error-semantics": true,
+        "values": {
+          "success": {
+            "value-type": "boolean",
+            "tooltip": "A boolean specifying if the transaction succeeded or not."
+          },
+          "value": {
+            "value-type": "string",
+            "tooltip": "Value for the key-value pair. Maximum 4095 characters, or 2047 if using LSO2. Note! This value may contain commas."
+          },
+          "error": {
+            "value-type": "ExperienceError",
+            "tooltip": "An XP_ERROR_* flag that describes why the operation failed."
+          }
+        }
+      }
+    },
+    "llRequestAgentData": {
+      "dataserver-semantics": {
+        "value-type": "AgentData"
+      }
+    },
+    "llRequestDisplayName": {
+      "dataserver-semantics": {
+        "value-type": "string",
+        "tooltip": "Agent's display name."
+      }
+    },
+    "llRequestInventoryData": {
+      "dataserver-semantics": {
+        "value-type": "vector",
+        "tooltip": "A global position as an offset from the current region's origin (<0,0,0>). To obtain the absolute global position of a landmark, add llGetRegionCorner() to the vector."
+      }
+    },
+    "llRequestSimulatorData": {
+      "dataserver-semantics": {
+        "value-type": "SimulatorData"
+      }
+    },
+    "llRequestUserKey": {
+      "dataserver-semantics": {
+        "value-type": "key",
+        "tooltip": "Agent's unique ID."
+      }
+    },
+    "llRequestUsername": {
+      "dataserver-semantics": {
+        "value-type": "string",
+        "tooltip": "Agent's username (legacy format: \"first.last\")."
+      }
+    },
+    "llUpdateKeyValue": {
+      "dataserver-semantics": {
+        "value-type": "string-csv",
+        "error-semantics": true,
+        "values": {
+          "success": {
+            "value-type": "boolean",
+            "tooltip": "A boolean specifying if the transaction succeeded or not."
+          },
+          "value": {
+            "value-type": "string",
+            "tooltip": "Value for the key-value pair. Maximum 4095 characters, or 2047 if using LSO2. Note! This value may contain commas."
+          },
+          "error": {
+            "value-type": "ExperienceError",
+            "tooltip": "An XP_ERROR_* flag that describes why the operation failed."
+          }
+        }
+      }
+    }
+  }
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                const nestedObject = lslData[funcName];
+        
+                if (nestedObject && typeof nestedObject === 'object') {
+                    const matchedNested = {};
+        
+                    // Loop through the keys in the second level
+                    for (const subKey in nestedObject) {
+                        // Check if the second-level key contains the query
+                        if (subKey.toLowerCase().includes(lowerCaseQuery)) {
+                            matchedNested[subKey] = nestedObject[subKey];
+                        }
+                    }
+        
+                    // Only add the higher-level key if there is at least one matching nested key
+                    if (Object.keys(matchedNested).length > 0) {
+                        filteredData[funcName] = matchedNested;
+                    }
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
