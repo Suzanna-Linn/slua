@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constants and associated values</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #f4f4f9;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        
+        #output {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fcfcfc;
+            box-sizing: border-box;
+        }
+        
+        .no-results {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <link href="/slua/assets/theme-night.css" rel="stylesheet" id="theme-night" />
+    <link href="/slua/assets/theme-day.css" rel="stylesheet" id="theme-day" disabled />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+
+    <h1>Constants and associated values</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for constants...">
+
+    <div id="output"><pre><code id="jsonOutput" class="language-json"></code></pre></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    
+    <script>
+        const lslData = {
+    "events": {
+      "game_control": {
+        "uses-enum": "GameControlAxis"
+      }
+    },
+    "functions": {
+      "llAcos": {
+        "arguments": [
+          {
+            "val": {
+              "range": [-1.0, 1.0]
+            }
+          }
+        ]
+      },
+      "llAddToLandPassList": {
+        "arguments": [
+          {
+            "hours": {
+              "range": [0.0, 144.0]
+            }
+          }
+        ]
+      },
+      "llAsin": {
+        "arguments": [
+          {
+            "val": {
+              "range": [-1.0, 1.0]
+            }
+          }
+        ]
+      },
+      "llCastRay": {
+        "uses-enum": "RayCastError"
+      },
+      "llDetectedDamage": {
+        "uses-enum": "DamageType"
+      },
+      "llDetectedType": {
+        "other-values": true
+      },
+      "llGetAttached": {
+        "other-values": true
+      },
+      "llGetPhysicsMaterial": {
+        "uses-enum": "PhysicsMaterialPreset"
+      },
+      "llGetStaticPath": {
+        "uses-enum": "CharacterPathUpdateType",
+        "arguments": [
+          {
+            "radius": {
+              "range": [0.125, 5.0]
+            }
+          }
+        ]
+      },
+      "llJsonValueType": {
+        "uses-enum": [
+          "JSON_INVALID",
+          "JSON_OBJECT",
+          "JSON_ARRAY",
+          "JSON_NUMBER",
+          "JSON_STRING",
+          "JSON_NULL",
+          "JSON_TRUE",
+          "JSON_FALSE",
+          "JSON_DELETE"
+        ]
+      },
+      "llLinkPlaySound": {
+        "arguments": [
+          {
+            "volume": {
+              "range": [0.0, 1.0]
+            }
+          }
+        ]
+      },
+      "llLinkSitTarget": {
+        "arguments": [
+          {
+            "offset": {
+              "range": ["<-300,-300,-300>", "<300,300,300>"]
+            }
+          }
+        ]
+      },
+      "llList2Json": {
+        "uses-enum": [
+          "JSON_INVALID",
+          "JSON_OBJECT",
+          "JSON_ARRAY"
+        ]
+      },
+      "llOffsetTexture": {
+        "arguments": [
+          {
+            "u": {
+              "range": [-1.0, 1.0]
+            }
+          },
+          {
+            "v": {
+              "range": [-1.0, 1.0]
+            }
+          }
+        ]
+      },
+      "llPlaySound": {
+        "arguments": [
+          {
+            "volume": {
+              "range": [0.0, 1.0]
+            }
+          }
+        ]
+      },
+      "llScaleTexture": {
+        "arguments": [
+          {
+            "u": {
+              "range": [-100.0, 100.0]
+            }
+          },
+          {
+            "v": {
+              "range": [-100.0, 100.0]
+            }
+          }
+        ]
+      },
+      "llSensor": {
+        "uses-enum": [
+          "PI_BY_TWO",
+          "PI"
+        ],
+        "arguments": [
+          {
+            "radius": {
+              "range": [0.0, 96.0]
+            }
+          },
+          {
+            "arc": {
+              "range": [0.0, 3.141592]
+            }
+          }
+        ]
+      },
+      "llSensorRepeat": {
+        "uses-enum": [
+          "PI_BY_TWO",
+          "PI"
+        ],
+        "arguments": [
+          {
+            "radius": {
+              "range": [0.0, 96.0]
+            }
+          },
+          {
+            "arc": {
+              "range": [0.0, 3.141592]
+            }
+          }
+        ]
+      },
+      "llSetDamage": {
+        "arguments": [
+          {
+            "damage": {
+              "range": [-100.0, 100.0]
+            }
+          }
+        ]
+      },
+      "llSetLinkTextureAnim": {
+        "arguments": [
+          {
+            "sizex": {
+              "range": [0, 255]
+            }
+          },
+          {
+            "sizey": {
+              "range": [0, 255]
+            }
+          }
+        ]
+      },
+      "llSetPhysicsMaterial": {
+        "uses-enum": "PhysicsMaterialPreset",
+        "arguments": [
+          {
+            "gravity_multiplier": {
+              "range": [-1.0, 28.0]
+            }
+          },
+          {
+            "restitution": {
+              "range": [0.0, 1.0]
+            }
+          },
+          {
+            "friction": {
+              "range": [0.0, 255.0]
+            }
+          },
+          {
+            "density": {
+              "range": [1.0, 22587.0]
+            }
+          }
+        ]
+      },
+      "llSetRegionPos": {
+        "arguments": [
+          {
+            "position": {
+              "range": ["<-10,-10,0>", "<266,266,4096>"]
+            }
+          }
+        ]
+      },
+      "llSetScale": {
+        "arguments": [
+          {
+            "size": {
+              "range": ["<0.01,0.01,0.01>", "<64,64,64>"]
+            }
+          }
+        ]
+      },
+      "llSetTextureAnim": {
+        "arguments": [
+          {
+            "sizex": {
+              "range": [0, 255]
+            }
+          },
+          {
+            "sizey": {
+              "range": [0, 255]
+            }
+          }
+        ]
+      },
+      "llSitTarget": {
+        "arguments": [
+          {
+            "offset": {
+              "range": ["<-300,-300,-300>", "<300,300,300>"]
+            }
+          }
+        ]
+      }
+    }
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const jsonOutput = document.getElementById('jsonOutput');
+
+        function renderJSON(query = "") {
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+
+            for (const funcName in lslData) {
+                const nestedObject = lslData[funcName];
+        
+                // Ensure the second-level item is an object before searching it
+                if (nestedObject && typeof nestedObject === 'object') {
+                    let matchFound = false;
+        
+                    // Iterate through the keys on the second level
+                    for (const subKey in nestedObject) {
+                        const value = nestedObject[subKey];
+        
+                        // Check if the value (converted to a string) contains the query
+                        if (value !== null && String(value).toLowerCase().includes(lowerCaseQuery)) {
+                            matchFound = true;
+                            break; // Stop checking other properties of this object once we find a match
+                        }
+                    }
+        
+                    if (matchFound) {
+                        filteredData[funcName] = nestedObject;
+                    }
+                }
+            }
+
+            const jsonString = JSON.stringify(filteredData, null, 2);
+            jsonOutput.textContent = jsonString;
+            if (window.Prism) {
+                Prism.highlightElement(jsonOutput);
+            }
+        }
+
+        searchInput.addEventListener('input', (event) => {
+            renderJSON(event.target.value);
+        });
+
+        renderJSON();
+    </script>
+
+</body>
+</html>
