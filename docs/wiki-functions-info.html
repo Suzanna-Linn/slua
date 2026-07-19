@@ -343,10 +343,9 @@
         
                     // Iterate through the keys on the second level
                     for (const subKey in nestedObject) {
-                        const value = nestedObject[subKey];
         
                         // Check if the value (converted to a string) contains the query
-                        if (value !== null && String(value).toLowerCase().includes(lowerCaseQuery)) {
+                        if (subKey !== null && String(subKey).toLowerCase().includes(lowerCaseQuery)) {
                             matchFound = true;
                             break; // Stop checking other properties of this object once we find a match
                         }
