@@ -49,11 +49,57 @@ Scripts don't need changes neither to be recompiled to work with this release.
 
 ### LLTimers
 
+The behavior of **LLTimers** has changed: it no longer attempts to catch up on missed ticks when the delay is under 2 seconds.
 
+To prevent timing drift, **LLTimers** normally tries to preserve the scheduled cadence (calculated as previous schedule + interval). However, a timer event can be delayed if the script is executing other events, or if the script is paused and resumed (e.g., during teleports, region crossings, attachments/detachments, rez/derez events, or region restarts).
+
+When a delay occurs:
+- If the next scheduled run time is in the future (relative to the current time), the original cadence is preserved.
+- If the next scheduled run time is already in the past, the timer does not fire repeatedly in quick succession to catch up. Instead, it resets its cadence relative to the current time (now + interval).
+
+Next timer in the future, cadence preserved:
+<pre class="language-sluab"><code class="language-sluab">-- pause (a teleport)
+  
+LLTimers:every(5, function(expected, interval)
+    print(string.format("%18.15f%5.1f%20.15f", expected, interval, ll.GetTime()))
+end)
+--[[
+    expected time     int       current time
+   5.667029000003822  5.0   5.689430999977048
+  10.667029000003822  5.0  10.689374000008684
+  15.667029000003822  5.0  15.689446999982465
+( a teleport here )
+  20.667029000003822  5.0  22.911421999975573
+( next timer in the future, cadence preserved)
+  25.667029000003822  5.0  25.689406000019517
+  30.667029000003822  5.0  30.689406000019517
+]]</code></pre>
+
+Next timer in the past, cadence reset, no catch-up:
+<pre class="language-sluab"><code class="language-sluab">-- pause (a teleport)
+  
+LLTimers:every(1, function(expected, interval)
+    print(string.format("%18.15f%5.1f%20.15f", expected, interval, ll.GetTime()))
+end)
+--[[
+    expected time     int       current time
+   2.911445999983698  1.0   2.933622999989893
+   3.911445999983698  1.0   3.933587000006810
+   4.911445999983698  1.0   4.933663000003435
+( a teleport here )
+   5.911445999983698  1.0   8.111338999995496
+( next timer in the past, cadence reset)
+   9.111338999995496  1.0   9.111368999991100
+  10.111338999995496  1.0  10.133544999989681
+]]</code></pre>
 
 ### Metamethod __call
 
+The **__call** metamethod is never used as an iterator.
 
+While Luau maintains this behavior to preserve backwards compatibility with legacy custom iterators, it is not necessary in SLua.
+
+Previously, to use generalized iteration on a table that implemented a **__call** metamethod, we had to explicitly define an **__iter** metamethod (such as <code class="language-sluab">__iter = pairs</code>)
 
 ### llprim library
 
