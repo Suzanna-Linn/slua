@@ -107,15 +107,51 @@ Previously, to use generalized iteration on a table that implemented a **__call*
 
 #### llprim.ParamsSetter()
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- Simple use, apply params immediately
+llprim.ParamsSetter.new()
+  :targetLink(LINK_ROOT)
+  :color(ALL_SIDES, vector(0,0,1), 1)
+  :text("first", vector.one, 1)
+  :apply()</code></pre>
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+<pre class="language-sluab"><code class="language-sluab">-- But we can also collect rules to build upon and apply later
+-- Here we arrange the child links in a line above the root
+local rules = llprim.ParamsSetter.new()
+
+for i=2,ll.GetNumberOfPrims() do
+  -- The method calls really just append an SPP rule then return `self`
+  rules
+    :targetLink(i)
+    :pos(ll.GetPos() + vector(0,0,1 * i))
+end
+
+-- And we apply the changes atomically as one `ll.SetLinkPrimitiveParamsFast()` under the hood.
+rules:apply()</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- We can use `table.extend()` to mash rules onto it from other lists or builders
+table.extend(rules, {PRIM_PHYSICS, false})</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- Cloning is fine too
+local rules2 = table.clone(rules)
+rules2
+  :targetLink(LINK_THIS)
+  :text("We can tack rules onto the clone", vector.one, 1.0)
+  :apply()</code></pre>
+
+<pre class="language-sluab"><code class="language-sluab">-- The source table can come from anywhere, we can just give it the metatable to turn it into a builder.
+local someOtherTable: {any} = {PRIM_POSITION, ll.GetPos() + vector.one}
+
+setmetatable(someOtherTable, llprim.ParamsSetter)
+
+someOtherTable
+  :text("And now it's a ParamsSetter", vector.one, 1)
+  :apply()</code></pre>
 
 <table>
   <thead>
     <tr>
       <th>Constant Name</th>
-      <th>Key Name</th>
+      <th>Method Name</th>
       <th>Change</th>
     </tr>
   </thead>
@@ -365,26 +401,440 @@ Previously, to use generalized iteration on a table that implemented a **__call*
 
 #### llprim.setLinkMedia()
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+<pre class="language-sluab"><code class="language-sluab">local link = nil
+
+llprim.setMedia(0, {
+    current_url          = "https://example.com/",
+    home_url             = "https://example.com/",
+    auto_play            = true,
+    auto_loop            = false,
+    controls             = PRIM_MEDIA_CONTROLS_STANDARD,
+    width_pixels         = 1024,
+    height_pixels        = 768,
+    whitelist_enable     = true,
+    whitelist            = { "example.com", "*.example.com" },
+    perms_interact       = PRIM_MEDIA_PERM_ANYONE,
+    perms_control        = PRIM_MEDIA_PERM_OWNER,
+}, link)
+
+-- Note, the first parameter is the face.  The last parameter is the link number.  If link number is omitted 
+-- it defaults to LINK_THIS</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constant Name</th>
+      <th>Key Name</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PRIM_MEDIA_ALT_IMAGE_ENABLE</td>
+      <td>alt_image_enable</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_CONTROLS</td>
+      <td>controls</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_CURRENT_URL</td>
+      <td>current_url</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_HOME_URL</td>
+      <td>home_url</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_AUTO_LOOP</td>
+      <td>auto_loop</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_AUTO_PLAY</td>
+      <td>auto_play</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_AUTO_SCALE</td>
+      <td>auto_scale</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_AUTO_ZOOM</td>
+      <td>auto_zoom</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_FIRST_CLICK_INTERACT</td>
+      <td>first_click_interact</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_WIDTH_PIXELS</td>
+      <td>width</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_HEIGHT_PIXELS</td>
+      <td>height</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_WHITELIST_ENABLE</td>
+      <td>whitelist_enable</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_WHITELIST</td>
+      <td>whitelist</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_PERMS_INTERACT</td>
+      <td>perms_interact</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_MEDIA_PERMS_CONTROL</td>
+      <td>perms_control</td>
+      <td style="text-align: center;"></td>
+    </tr>
+  </tbody>
+</table>
 
 #### llprim.setParticleSystem()
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
- 
+<pre class="language-sluab"><code class="language-sluab">llprim.setParticleSystem({
+    pattern       = PSYS_SRC_PATTERN_ANGLE_CONE,
+    texture       = "da8e96f5-4ada-4f37-bd2c-cf3e68c49a42",
+    color_begin   = vector(1, 0.6, 0.1),
+    color_end     = vector(1, 0.1, 0),
+    alpha_begin   = 1.0,
+    alpha_end     = 0.0,
+    scale_begin   = vector(0.1, 0.1, 0),
+    scale_end     = vector(0.4, 0.4, 0),
+    glow_begin    = 0.5,
+    glow_end      = 0.0,
+    accel         = vector(0, 0, 0.5),
+    burst_speed_min = 0.5,
+    burst_speed_max = 1.5,
+    burst_rate    = 0.05,
+    burst_count   = 5,
+    burst_radius  = 0.1,
+    src_max_age   = 0,     -- 0 = continuous
+    part_max_age  = 3.0,
+    color_interp  = true,
+    scale_interp  = true,
+    emissive      = true,
+    wind          = false,
+}, link)
+
+-- note link is an optional parameter.  If missing it defaults to LINK_THIS</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constant Name</th>
+      <th>Key Name</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PSYS_PART_FLAGS</td>
+      <td>part_flags</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_PATTERN</td>
+      <td>src_pattern</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_BURST_RADIUS</td>
+      <td>src_burst_radius</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_ANGLE_BEGIN</td>
+      <td>src_angle_begin</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_ANGLE_END</td>
+      <td>src_angle_end</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_INNERANGLE</td>
+      <td>angle_inner</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_OUTERANGLE</td>
+      <td>angle_outer</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_TARGET_KEY</td>
+      <td>src_target_key</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_START_COLOR</td>
+      <td>color_begin</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_END_COLOR</td>
+      <td>color_end</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_START_ALPHA</td>
+      <td>alpha_begin</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_END_ALPHA</td>
+      <td>alpha_end</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_START_SCALE</td>
+      <td>scale_begin</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_END_SCALE</td>
+      <td>scale_end</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_TEXTURE</td>
+      <td>src_texture</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_START_GLOW</td>
+      <td>glow_begin</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_END_GLOW</td>
+      <td>glow_end</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_BLEND_FUNC_SOURCE</td>
+      <td>part_blend_func_source</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_BLEND_FUNC_DEST</td>
+      <td>part_blend_func_dest</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_MAX_AGE</td>
+      <td>src_max_age</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_PART_MAX_AGE</td>
+      <td>part_max_age</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_BURST_RATE</td>
+      <td>src_burst_rate</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_BURST_PART_COUNT</td>
+      <td>src_burst_part_count</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_ACCEL</td>
+      <td>src_accel</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_OMEGA</td>
+      <td>src_omega</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_BURST_SPEED_MIN</td>
+      <td>src_burst_speed_min</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PSYS_SRC_BURST_SPEED_MAX</td>
+      <td>src_burst_speed_max</td>
+      <td style="text-align: center;"></td>
+    </tr>
+  </tbody>
+</table>
+
 ### Parameters as dictionaries
 
 #### ll.SetPrimMediaParams() and ll.SetLinkMedia()
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+<pre class="language-sluab"><code class="language-sluab">ll.SetLinkMedia(0, 0, {
+    current_url          = "https://example.com/",
+    home_url             = "https://example.com/",
+    auto_play            = true,
+    auto_loop            = false,
+    controls             = PRIM_MEDIA_CONTROLS_STANDARD,
+    width                = 1024,
+    height               = 768,
+    whitelist_enable     = true,
+    whitelist            = { "example.com", "*.example.com" },
+    perms_interact       = PRIM_MEDIA_PERM_ANYONE,
+    perms_control        = PRIM_MEDIA_PERM_OWNER,
+})</code></pre>
 
 #### ll.ParticleSystem() and ll.LinkParticleSystem()
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+<pre class="language-sluab"><code class="language-sluab">ll.LinkParticleSystem(0, {
+    pattern       = PSYS_SRC_PATTERN_ANGLE_CONE,
+    texture       = "da8e96f5-4ada-4f37-bd2c-cf3e68c49a42",
+    color_begin   = vector(1, 0.6, 0.1),
+    color_end     = vector(1, 0.1, 0),
+    alpha_begin   = 1.0,
+    alpha_end     = 0.0,
+    scale_begin   = vector(0.1, 0.1, 0),
+    scale_end     = vector(0.4, 0.4, 0),
+    glow_begin    = 0.5,
+    glow_end      = 0.0,
+    accel         = vector(0, 0, 0.5),
+    burst_speed_min = 0.5,
+    burst_speed_max = 1.5,
+    burst_rate    = 0.05,
+    burst_count   = 5,
+    burst_radius  = 0.1,
+    src_max_age   = 0,     -- 0 = continuous
+    part_max_age  = 3.0,
+    color_interp  = true,
+    scale_interp  = true,
+    emissive      = true,
+    wind          = false,
+})</code></pre>
 
 #### ll.HTTPRequest()
 
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
+<pre class="language-sluab"><code class="language-sluab">local request_id =ll.HTTPRequest(
+    "https://api.example.com/data",
+    {
+        method          = "POST",
+        mimetype        = "application/json",
+        verify_cert     = true,
+        extended_error  = true,
+        custom_header   = {
+            ["X-Api-Key"]        = "my-secret-key",
+            ["X-Request-Source"] = "second-life",
+        },
+        accept          = { "application/json", "text/plain" },
+    },
+    '{"hello": "world"}'
+)
 
+print(request_id)</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constant Name</th>
+      <th>Key Name</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HTTP_METHOD</td>
+      <td>method</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_MIMETYPE</td>
+      <td>mimetype</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_BODY_MAXLENGTH</td>
+      <td>max_body_length</td>
+      <td style="text-align: center; vertical-align: middle;">
+        <span class="changed">Changed</span>
+      </td>
+    </tr>
+    <tr>
+      <td>HTTP_VERIFY_CERT</td>
+      <td>verify_cert</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_VERBOSE_THROTTLE</td>
+      <td>verbose_throttle</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_CUSTOM_HEADER</td>
+      <td>custom_header</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_PRAGMA_NO_CACHE</td>
+      <td>pragma_no_cache</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_USER_AGENT</td>
+      <td>user_agent</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_ACCEPT</td>
+      <td>accept</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>HTTP_EXTENDED_ERROR</td>
+      <td>extended_error</td>
+      <td style="text-align: center;"></td>
+    </tr>
+  </tbody>
+</table>
 
 
 
