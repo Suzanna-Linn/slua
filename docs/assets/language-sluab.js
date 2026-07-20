@@ -162,7 +162,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-libraries': {
-        pattern: /\b(?:bit32|buffer|coroutine|debug|os|string|table|utf8|vector|ll|llbase64|llcompat|llevents|lljson|lltimers)\b/,
+        pattern: /\b(?:bit32|buffer|coroutine|debug|os|string|table|utf8|vector|ll|llbase64|llcompat|llevents|lljson|llprim|lltimers)\b/,
         alias: 'builtin'
     },
     'builtin-metamethods': {
