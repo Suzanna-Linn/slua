@@ -10,7 +10,7 @@ There is a new SLua release in the SLua regions on the Beta Grid!
 
 I’ve gathered all the info I could find about the changes coming in this release.
 
-Scripts don't need changes neither to be recompiled to work with this release.
+Scripts don't need changes or to be recompiled to work with this release.
 
 *(this page updated on Monday, July 20th)*
 
