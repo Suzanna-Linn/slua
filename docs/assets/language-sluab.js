@@ -137,7 +137,7 @@ Prism.languages.sluab = {
         alias: 'builtin'
     },
     'builtin-llprim': {
-        pattern: /\bllprim\.(?:ParamsSetter|setLinkMedia|setParticleSystem)\b(?=\s*(?:[({]))/,
+        pattern: /\bllprim\.(?:(?:setMedia|setParticleSystem)\b(?=\s*(?:[({]))|ParamsSetter(?:\.(?:new|apply)\b(?=\s*(?:[({])))?(?!\.\w))/,
         alias: 'builtin'
     },
     'builtin-llevents': {
