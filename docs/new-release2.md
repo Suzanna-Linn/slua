@@ -103,9 +103,18 @@ Previously, to use generalized iteration on a table that implemented a **__call*
 
 ### llprim library
 
+The new library **llprim** is designed to improve the way to use LL functions with list of parameters.
 
+Currently it has:
+- llprim.ParamsSetter : wrapper of **ll.SetLinkPrimitiveParamsFast()** (and also **SetPrimitiveParams()** and **SetLinkPrimitiveParams()**)
+- llprim.setMedia : wrapper of **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
+- llprim.setParticleSystem : wrapper of **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
 
-#### llprim.ParamsSetter()
+The **llprim** library doesn't add new functionality but allows us to work in a more Lua way.
+
+#### llprim.ParamsSetter
+
+Wrapper of **ll.SetLinkPrimitiveParamsFast()** (and also **SetPrimitiveParams()** and **SetLinkPrimitiveParams()**)
 
 <pre class="language-sluab"><code class="language-sluab">-- Simple use, apply params immediately
 llprim.ParamsSetter.new()
@@ -147,6 +156,7 @@ someOtherTable
   :text("And now it's a ParamsSetter", vector.one, 1)
   :apply()</code></pre>
 
+The function used in **ParamsSetter*. Some have the same name (without PRIM_ and in lowercase), others have been changed (marked with "changed"):
 <table>
   <thead>
     <tr>
@@ -401,6 +411,8 @@ someOtherTable
 
 #### llprim.setLinkMedia()
 
+Wrapper of **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
+
 <pre class="language-sluab"><code class="language-sluab">local link = nil
 
 llprim.setMedia(0, {
@@ -420,6 +432,7 @@ llprim.setMedia(0, {
 -- Note, the first parameter is the face.  The last parameter is the link number.  If link number is omitted 
 -- it defaults to LINK_THIS</code></pre>
 
+The keys used in the dictionary table. Some have the same name (without PRIM_MEDIA_ and in lowercase), others have been changed (marked with "changed"). Keys not correctly written will be ignored without error:
 <table>
   <thead>
     <tr>
@@ -513,6 +526,8 @@ llprim.setMedia(0, {
 
 #### llprim.setParticleSystem()
 
+Wrapper of **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
+
 <pre class="language-sluab"><code class="language-sluab">llprim.setParticleSystem({
     pattern       = PSYS_SRC_PATTERN_ANGLE_CONE,
     texture       = "da8e96f5-4ada-4f37-bd2c-cf3e68c49a42",
@@ -540,6 +555,7 @@ llprim.setMedia(0, {
 
 -- note link is an optional parameter.  If missing it defaults to LINK_THIS</code></pre>
 
+The keys used in the dictionary table. Some have the same name (without PSYS_ and in lowercase), others have been changed (marked with "changed"). Keys not correctly written will be ignored without error:
 <table>
   <thead>
     <tr>
@@ -725,6 +741,8 @@ llprim.setMedia(0, {
     perms_control        = PRIM_MEDIA_PERM_OWNER,
 })</code></pre>
 
+The keys used in the dictionary table are the same as **llprim.setMedia()**.
+
 #### ll.ParticleSystem() and ll.LinkParticleSystem()
 
 <pre class="language-sluab"><code class="language-sluab">ll.LinkParticleSystem(0, {
@@ -752,6 +770,8 @@ llprim.setMedia(0, {
     wind          = false,
 })</code></pre>
 
+The keys used in the dictionary table are the same as **llprim.setParticleSystem()**.
+
 #### ll.HTTPRequest()
 
 <pre class="language-sluab"><code class="language-sluab">local request_id =ll.HTTPRequest(
@@ -772,6 +792,7 @@ llprim.setMedia(0, {
 
 print(request_id)</code></pre>
 
+The keys used in the dictionary table. Some have the same name (without HTTP_ and in lowercase), others have been changed (marked with "changed"). Keys not correctly written will be ignored without error:
 <table>
   <thead>
     <tr>
