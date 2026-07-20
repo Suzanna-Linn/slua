@@ -108,9 +108,9 @@ The new **llprim** library is designed to bridge the gap between LSL's flat, lis
 The **llprim** library introduces structured alternatives, such as a fluent builder interface and dictionary tables, which make script configurations cleaner, more readable, and easier to manipulate dynamically.
 
 Currently it has:
-- llprim.ParamsSetter : A builder class that wraps  **ll.SetLinkPrimitiveParamsFast()** (as well as **SetPrimitiveParams()** and **SetLinkPrimitiveParams()**), enabling method chaining.
-- llprim.setMedia : A dictionary-based wrapper for **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
-- llprim.setParticleSystem : A dictionary-based wrapper for **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
+- **llprim.ParamsSetter** : A builder class that wraps  **ll.SetLinkPrimitiveParamsFast()** (as well as **SetPrimitiveParams()** and **SetLinkPrimitiveParams()**), enabling method chaining.
+- **llprim.setMedia()** : A dictionary-based wrapper for **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
+- **llprim.setParticleSystem()** : A dictionary-based wrapper for **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
 
 The **llprim** library doesn't add new functionality but allows us to work in a more Lua way.
 
@@ -177,6 +177,7 @@ someOtherTable
   :apply()</code></pre>
 
 **Method Name Mapping**
+
 The methods available on **ParamsSetter** are derived from the standard **PRIM_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive. Unused or deprecated constants have been excluded:
 <table>
   <thead>
@@ -430,7 +431,7 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
   </tbody>
 </table>
 
-#### llprim.setLinkMedia()
+#### llprim.setMedia()
 
 Wrapper of **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
 
@@ -462,6 +463,8 @@ llprim.setMedia(0, {
 
 -- Note, the first parameter is the face.  The last parameter is the link number.  If link number is omitted 
 -- it defaults to LINK_THIS</code></pre>
+
+**Key Name Mapping**
 
 The configuration keys map directly to the native **PRIM_MEDIA_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive:
 <table>
@@ -594,6 +597,8 @@ Be aware that any unrecognized keys in the dictionary are silently ignored durin
 }, link)
 
 -- note link is an optional parameter.  If missing it defaults to LINK_THIS</code></pre>
+
+**Key Name Mapping**
 
 The configuration keys map directly to the native **PSYS_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive:
 <table>
@@ -844,6 +849,8 @@ Be aware that any unrecognized keys in the dictionary are silently ignored durin
 print(request_id)</code></pre>
 
 There is no new library function to wrap **ll.HTTPRequest()**.
+
+**Key Name Mapping**
 
 The configuration keys map directly to the native **HTTP_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive:
 <table>
