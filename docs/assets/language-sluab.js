@@ -136,6 +136,10 @@ Prism.languages.sluab = {
         pattern: /\blljson\.(?:_NAME|_VERSION|array_mt|empty_array|empty_array_mt|empty_object|null|object_mt|remove)\b/,
         alias: 'builtin'
     },
+    'builtin-llprim': {
+        pattern: /\bllprim\.(?:ParamsSetter|setLinkMedia|setParticleSystem)\b(?=\s*(?:[({]))/,
+        alias: 'builtin'
+    },
     'builtin-llevents': {
         pattern: /LLEvents:(?:on|once|off|eventNames|handlers|listeners)\b/,
         alias: 'builtin'
