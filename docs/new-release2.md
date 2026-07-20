@@ -103,12 +103,14 @@ Previously, to use generalized iteration on a table that implemented a **__call*
 
 ### llprim library
 
-The new library **llprim** is designed to improve the way to use LL functions with list of parameters.
+The new **llprim** library is designed to bridge the gap between LSL's flat, list-based parameter structures and Lua’s advamced data structures.
+
+The **llprim** library introduces structured alternatives, such as a fluent builder interface and dictionary tables, which make script configurations cleaner, more readable, and easier to manipulate dynamically.
 
 Currently it has:
-- llprim.ParamsSetter : wrapper of **ll.SetLinkPrimitiveParamsFast()** (and also **SetPrimitiveParams()** and **SetLinkPrimitiveParams()**)
-- llprim.setMedia : wrapper of **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
-- llprim.setParticleSystem : wrapper of **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
+- llprim.ParamsSetter : A builder class that wraps  **ll.SetLinkPrimitiveParamsFast()** (as well as **SetPrimitiveParams()** and **SetLinkPrimitiveParams()**), enabling method chaining.
+- llprim.setMedia : A dictionary-based wrapper for **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
+- llprim.setParticleSystem : A dictionary-based wrapper for **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
 
 The **llprim** library doesn't add new functionality but allows us to work in a more Lua way.
 
@@ -116,6 +118,13 @@ The **llprim** library doesn't add new functionality but allows us to work in a 
 
 Wrapper of **ll.SetLinkPrimitiveParamsFast()** (and also **SetPrimitiveParams()** and **SetLinkPrimitiveParams()**)
 
+**llprim.ParamsSetter** is a builder class that simplifies the construction of primitive parameter lists. Instead of manually assembling a flat table of **PRIM_** constants, we instantiate a helper object and chain descriptive methods together. 
+
+Each method call appends its corresponding rule to an internal table and returns the helper object itself (**self**), enabling a fluent interface. The accumulated changes are deferred and then sent to the simulator atomically in a single native call when we invoke the **:apply()** method.
+
+**Basic Usage and Immediate Application**
+
+For simple modifications, we can instantiate the builder, chain the desired property changes, and apply them immediately. Each method has the same parameters as the constants:
 <pre class="language-sluab"><code class="language-sluab">-- Simple use, apply params immediately
 llprim.ParamsSetter.new()
   :targetLink(LINK_ROOT)
@@ -123,12 +132,15 @@ llprim.ParamsSetter.new()
   :text("first", vector.one, 1)
   :apply()</code></pre>
 
+**Deferred and Batch Construction**
+
+Because the builder accumulates rules in an underlying table before execution, we do not have to apply changes immediately. We can define a builder, populate it dynamically inside loops or conditional blocks, and trigger the update atomically when ready. This is highly efficient, as it reduces the overhead of making multiple, separate LSL-style parameter calls:
 <pre class="language-sluab"><code class="language-sluab">-- But we can also collect rules to build upon and apply later
 -- Here we arrange the child links in a line above the root
 local rules = llprim.ParamsSetter.new()
 
 for i=2,ll.GetNumberOfPrims() do
-  -- The method calls really just append an SPP rule then return `self`
+  -- The method calls really just append an SPP rule then return **self**
   rules
     :targetLink(i)
     :pos(ll.GetPos() + vector(0,0,1 * i))
@@ -137,9 +149,15 @@ end
 -- And we apply the changes atomically as one `ll.SetLinkPrimitiveParamsFast()` under the hood.
 rules:apply()</code></pre>
 
+**Manipulating the Rule Set**
+
+Under the hood, a **ParamsSetter** instance is a standard Lua table array. This allows us to use library functions like **table.extend()** to merge rules from other sources, or to append raw LSL constants manually:
 <pre class="language-sluab"><code class="language-sluab">-- We can use `table.extend()` to mash rules onto it from other lists or builders
 table.extend(rules, {PRIM_PHYSICS, false})</code></pre>
 
+**Cloning Configurations**
+
+Since the builder is a table, we can duplicate an existing set of rules using **table.clone()**. This allows us to define a base template configuration and modify it for different target links or sides without rebuilding the entire parameter set from scratch:
 <pre class="language-sluab"><code class="language-sluab">-- Cloning is fine too
 local rules2 = table.clone(rules)
 rules2
@@ -147,6 +165,8 @@ rules2
   :text("We can tack rules onto the clone", vector.one, 1.0)
   :apply()</code></pre>
 
+**Coercing Tables into Builders**
+If we have an existing raw parameter list, we do not need to rewrite it to use the fluent interface. By setting its metatable to **llprim.ParamsSetter**, we upgrade the table into a builder, gaining access to all of its chaining methods and the **:apply()** function.
 <pre class="language-sluab"><code class="language-sluab">-- The source table can come from anywhere, we can just give it the metatable to turn it into a builder.
 local someOtherTable: {any} = {PRIM_POSITION, ll.GetPos() + vector.one}
 
@@ -156,7 +176,8 @@ someOtherTable
   :text("And now it's a ParamsSetter", vector.one, 1)
   :apply()</code></pre>
 
-The function used in **ParamsSetter*. Some have the same name (without PRIM_ and in lowercase), others have been changed (marked with "changed"):
+**Method Name Mapping**
+The methods available on **ParamsSetter** are derived from the standard **PRIM_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive. Unused or deprecated constants have been excluded:
 <table>
   <thead>
     <tr>
@@ -413,6 +434,16 @@ The function used in **ParamsSetter*. Some have the same name (without PRIM_ and
 
 Wrapper of **ll.SetLinkMedia()** and **ll.SetPrimMediaParams()**
 
+The **llprim.setMedia()** function wraps the configuration of face media (Shared Media). Instead of passing a flat array of alternating **PRIM_MEDIA_** constants and values, this wrapper allows us to define the configuration using a structured Lua dictionary (a table with key-value pairs).
+
+The function accepts three parameters:
+- The target face number.
+- A configuration dictionary table containing the media settings.
+- An optional link target, which defaults to **LINK_THIS** if omitted.
+
+This wrapper handles the necessary translation from dictionary keys to LSL media constants under the hood.
+
+Be aware that any unrecognized keys in the dictionary are silently ignored during execution. Because the runtime does not throw a script error for invalid keys, typographical errors can be difficult to detect. Always double-check your spelling against the reference table:
 <pre class="language-sluab"><code class="language-sluab">local link = nil
 
 llprim.setMedia(0, {
@@ -432,7 +463,7 @@ llprim.setMedia(0, {
 -- Note, the first parameter is the face.  The last parameter is the link number.  If link number is omitted 
 -- it defaults to LINK_THIS</code></pre>
 
-The keys used in the dictionary table. Some have the same name (without PRIM_MEDIA_ and in lowercase), others have been changed (marked with "changed"). Keys not correctly written will be ignored without error:
+The configuration keys map directly to the native **PRIM_MEDIA_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive:
 <table>
   <thead>
     <tr>
@@ -528,6 +559,15 @@ The keys used in the dictionary table. Some have the same name (without PRIM_MED
 
 Wrapper of **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
 
+The **llprim.setParticleSystem** function simplifies the creation and modification of particle effects. Instead of building the complex, flat list structure required by native particle functions, we pass a single dictionary of properties.
+
+The function takes two parameters:
+- A configuration dictionary table containing the particle rules.
+- An optional link target, which defaults to **LINK_THIS** if omitted.
+
+This wrapper handles the necessary translation from dictionary keys to LSL particle system constants under the hood.
+
+Be aware that any unrecognized keys in the dictionary are silently ignored during execution. Because the runtime does not throw a script error for invalid keys, typographical errors can be difficult to detect. Always double-check your spelling against the reference table:
 <pre class="language-sluab"><code class="language-sluab">llprim.setParticleSystem({
     pattern       = PSYS_SRC_PATTERN_ANGLE_CONE,
     texture       = "da8e96f5-4ada-4f37-bd2c-cf3e68c49a42",
@@ -555,7 +595,7 @@ Wrapper of **ll.LinkParticleSystem()** and **ll.ParticleSystem()**
 
 -- note link is an optional parameter.  If missing it defaults to LINK_THIS</code></pre>
 
-The keys used in the dictionary table. Some have the same name (without PSYS_ and in lowercase), others have been changed (marked with "changed"). Keys not correctly written will be ignored without error:
+The configuration keys map directly to the native **PSYS_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive:
 <table>
   <thead>
     <tr>
@@ -725,8 +765,11 @@ The keys used in the dictionary table. Some have the same name (without PSYS_ an
 
 ### Parameters as dictionaries
 
+To complement the helper functions in the **llprim** library, several native **LL** functions have been enhanced to natively accept dictionaries as parameters. This allows us to write clean, structured key-value tables directly inside standard LSL function calls, eliminating the need to construct or flatten arrays.
+
 #### ll.SetPrimMediaParams() and ll.SetLinkMedia()
 
+The  media functions **ll.SetPrimMediaParams()** and **ll.SetLinkMedia()** accept a dictionary as their configuration parameter. This dictionary uses the exact same keys as the **llprim.setMedia()** wrapper:
 <pre class="language-sluab"><code class="language-sluab">ll.SetLinkMedia(0, 0, {
     current_url          = "https://example.com/",
     home_url             = "https://example.com/",
@@ -745,6 +788,7 @@ The keys used in the dictionary table are the same as **llprim.setMedia()**.
 
 #### ll.ParticleSystem() and ll.LinkParticleSystem()
 
+**ll.ParticleSystem()** and **ll.LinkParticleSystem()**  accept a structured dictionary instead of a flat list. The keys and rules are identical to those defined for **llprim.setParticleSystem()**:
 <pre class="language-sluab"><code class="language-sluab">ll.LinkParticleSystem(0, {
     pattern       = PSYS_SRC_PATTERN_ANGLE_CONE,
     texture       = "da8e96f5-4ada-4f37-bd2c-cf3e68c49a42",
@@ -774,6 +818,13 @@ The keys used in the dictionary table are the same as **llprim.setParticleSystem
 
 #### ll.HTTPRequest()
 
+Constructing metadata, headers, and options for HTTP requests in LSL can be cumbersome due to the alternating parameter list format. In SLua, **ll.HTTPRequest()** accepts a structured dictionary for its options parameter. 
+
+This dictionary allows us to configure HTTP methods, custom headers, content types, and validation settings in an organized, readable block.
+
+CSV strings and key-value map strings can be written as Lua arrays and dictionaries.
+
+Be aware that any unrecognized keys in the dictionary are silently ignored during execution. Because the runtime does not throw a script error for invalid keys, typographical errors can be difficult to detect. Always double-check your spelling against the reference table:
 <pre class="language-sluab"><code class="language-sluab">local request_id =ll.HTTPRequest(
     "https://api.example.com/data",
     {
@@ -792,7 +843,9 @@ The keys used in the dictionary table are the same as **llprim.setParticleSystem
 
 print(request_id)</code></pre>
 
-The keys used in the dictionary table. Some have the same name (without HTTP_ and in lowercase), others have been changed (marked with "changed"). Keys not correctly written will be ignored without error:
+There is no new library function to wrap **ll.HTTPRequest()**.
+
+The configuration keys map directly to the native **HTTP_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive:
 <table>
   <thead>
     <tr>
@@ -856,7 +909,3 @@ The keys used in the dictionary table. Some have the same name (without HTTP_ an
     </tr>
   </tbody>
 </table>
-
-
-
-<pre class="language-sluab"><code class="language-sluab"></code></pre>
