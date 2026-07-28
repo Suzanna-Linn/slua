@@ -4,7 +4,7 @@ title: New Release
 slua_beta: true
 ---
 
-## What is new in the release 2026-07-16
+## What is new in the release 2026-07-24
 
 There is a new SLua release in the SLua regions on the Main Grid!
 
@@ -12,7 +12,7 @@ I’ve gathered all the info I could find about the changes coming in this relea
 
 Scripts don't need changes or to be recompiled to work with this release.
 
-*(this page updated on Monday, July 20th)*
+*(this page updated on Tuesday, July 26th)*
 
 <style>
     table {
