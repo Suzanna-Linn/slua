@@ -178,7 +178,7 @@ someOtherTable
 
 **Method Name Mapping**
 
-The methods available on **ParamsSetter** are derived from the standard **PRIM_** constants, with the prefix removed and in camelcase. Several have been shortened or updated to be more intuitive. Unused or deprecated constants have been excluded:
+The methods available on **ParamsSetter** are derived from the standard **PRIM_** constants, with the prefix removed and in camelCase. Several have been shortened or updated to be more intuitive. Unused or deprecated constants have been excluded:
 <table>
   <thead>
     <tr>
