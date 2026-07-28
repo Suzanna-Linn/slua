@@ -6,7 +6,7 @@ slua_beta: true
 
 ## What is new in the release 2026-07-16
 
-There is a new SLua release in the SLua regions on the Beta Grid!
+There is a new SLua release in the SLua regions on the Main Grid!
 
 I’ve gathered all the info I could find about the changes coming in this release.
 
@@ -212,7 +212,7 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_PHYSICS_SHAPE_TYPE</td>
-      <td>physics_shape_type</td>
+      <td>physicsShapeType</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -250,7 +250,7 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_POS_LOCAL</td>
-      <td>pos_local</td>
+      <td>posLocal</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -262,7 +262,7 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_ROT_LOCAL</td>
-      <td>rot_local</td>
+      <td>rotLocal</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -277,7 +277,7 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_RENDER_MATERIAL</td>
-      <td>render_material</td>
+      <td>renderMaterial</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -299,12 +299,12 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_POINT_LIGHT</td>
-      <td>point_light</td>
+      <td>pointLight</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
       <td>PRIM_REFLECTION_PROBE</td>
-      <td>reflection_probe</td>
+      <td>reflectionProbe</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -344,7 +344,7 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_ALPHA_MODE</td>
-      <td>alpha_mode</td>
+      <td>alphaMode</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -370,17 +370,17 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_ALLOW_UNSIT</td>
-      <td>allow_unsit</td>
+      <td>allowUnsit</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
       <td>PRIM_SCRIPTED_SIT_ONLY</td>
-      <td>scripted_sit_only</td>
+      <td>scriptedSitOnly</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
       <td>PRIM_SIT_TARGET</td>
-      <td>sit_target</td>
+      <td>sitTarget</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -390,27 +390,27 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_CLICK_ACTION</td>
-      <td>click_action</td>
+      <td>clickAction</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
       <td>PRIM_GLTF_BASE_COLOR</td>
-      <td>gltf_base_color</td>
+      <td>gltfBaseColor</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
       <td>PRIM_GLTF_NORMAL</td>
-      <td>gltf_normal</td>
+      <td>gltfNormal</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
       <td>PRIM_GLTF_EMISSIVE</td>
-      <td>gltf_emissive</td>
+      <td>gltfEmissive</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
       <td>PRIM_SIT_FLAGS</td>
-      <td>sit_flags</td>
+      <td>sitFlags</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
@@ -425,7 +425,7 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     </tr>
     <tr>
       <td>PRIM_COLLISION_SOUND</td>
-      <td>collision_sound</td>
+      <td>collisionSound</td>
       <td style="text-align: center;"></td>
     </tr>
   </tbody>
