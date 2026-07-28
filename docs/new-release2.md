@@ -178,7 +178,7 @@ someOtherTable
 
 **Method Name Mapping**
 
-The methods available on **ParamsSetter** are derived from the standard **PRIM_** constants, with the prefix removed and in lowercase. Several have been shortened or updated to be more intuitive. Unused or deprecated constants have been excluded:
+The methods available on **ParamsSetter** are derived from the standard **PRIM_** constants, with the prefix removed and in camelcase. Several have been shortened or updated to be more intuitive. Unused or deprecated constants have been excluded:
 <table>
   <thead>
     <tr>
@@ -401,6 +401,11 @@ The methods available on **ParamsSetter** are derived from the standard **PRIM_*
     <tr>
       <td>PRIM_GLTF_NORMAL</td>
       <td>gltfNormal</td>
+      <td style="text-align: center;"></td>
+    </tr>
+    <tr>
+      <td>PRIM_GLTF_METALLIC_ROUGHNESS</td>
+      <td>gltfMetallicRoughness</td>
       <td style="text-align: center;"></td>
     </tr>
     <tr>
