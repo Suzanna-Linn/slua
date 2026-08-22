@@ -34,8 +34,8 @@ title: Links
 
 ### SLua
 
-* <https://releasenotes.secondlife.com/viewer/26.3.0.30154945611.html> Page to download the "Second Life Project Lua Editor" viewer.
-* <https://github.com/secondlife/viewer/actions/runs/29592599566> Page to download SL Project Lua last pre-release, pending of QA.
+* <https://releasenotes.secondlife.com/viewer/26.3.0.32302693173.html> Page to download the "Second Life Project Lua Editor" viewer.
+* <https://github.com/secondlife/viewer/actions/runs/32302693173> Page to download SL Project Lua last pre-release, pending of QA.
 * <https://community.secondlife.com/forums/forum/373-slua> SLua forum in the Second Life Community forums
 * <https://feedback.secondlife.com/slua-alpha> General discussion and feedback on SLua, to post issues and suggestions.
 * <https://discord.com/channels/677442248157167619/1348710493656977488> SecondLife discord, channel scripting-lua.
