@@ -21,7 +21,7 @@ A variety of classes designed to expand your knowledge.
 ### SLua - from Zero to Advanced
 
 - **Dates:** Starting as soon as SLua goes grid-wide
-- **Day:** Mondays and Wednesdays
+- **Days:** Mondays and Wednesdays
 - **Time:** 11:00am - 12:30pm SLT
 - **Level:** basic programming skills (in LSL or another language), no prior SLua knowledge needed
 - **Teachers:** Suzanna (suzannalinn) & Ali (sungali)
