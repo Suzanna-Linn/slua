@@ -1,0 +1,90 @@
+local colors = {
+    NAVY = vector(0.000, 0.122, 0.247),
+    BLUE = vector(0.000, 0.455, 0.851),
+    AQUA = vector(0.498, 0.859, 1.000),
+    TEAL = vector(0.224, 0.800, 0.800),
+    OLIVE = vector(0.239, 0.600, 0.439),
+    GREEN = vector(0.180, 0.800, 0.251),
+    LIME = vector(0.004, 1.000, 0.439),
+    YELLOW = vector(1.000, 0.863, 0.000),
+    ORANGE = vector(1.000, 0.522, 0.106),
+    RED = vector(1.000, 0.255, 0.212),
+    MAROON = vector(0.522, 0.078, 0.294),
+    FUCHSIA = vector(0.941, 0.071, 0.745),
+    PURPLE = vector(0.694, 0.051, 0.788),
+    WHITE = vector(1.000, 1.000, 1.000),
+    SILVER = vector(0.867, 0.867, 0.867),
+    GRAY = vector(0.667, 0.667, 0.667),
+    BLACK = vector(0.067, 0.067, 0.067),
+}
+
+local CHANNEL_TIPJAR = 15
+local PUBLIC_THANKS = true
+
+local payButtons = {25, 50, 100, 250}  -- = { 150, PAY_HIDE, PAY_HIDE, PAY_HIDE}
+local payPrice = PAY_DEFAULT  -- = PAY_HIDE
+local myName = ll.GetDisplayName(ll.GetOwner())
+local lastAmount = 0
+local tipjarAmount = 0
+local totalAmount = 0
+
+local function showText()
+    local text = myName .. "'s tipjar"
+    text ..= "\n"
+    text ..= "\nTotal Amount: " .. totalAmount
+    text ..= "\nTipjar tips: " .. tipjarAmount
+    text ..= "\nLast tip: " .. lastAmount
+    text ..= "\n \n \n"
+    ll.SetText(text, colors.WHITE, 1)
+end
+
+local function sayThanks(tipperId)
+    local thanksMessage = "Thank you very much, " .. ll.GetDisplayName(tipperId) .. " for your splendorous tip!"
+    if PUBLIC_THANKS then
+        local tipperPos = ll.GetObjectDetails(tipperId, {OBJECT_POS})[1]
+        local tipjarPos = ll.GetPos()
+        local tipperDistance = ll.VecDist(tipjarPos, tipperPos)
+        if tipperDistance < 20 then
+            ll.Say(0, thanksMessage)
+        elseif tipperDistance < 100 then
+            ll.Shout(0, thanksMessage)
+        else
+            ll.Shout(0, thanksMessage)
+            ll.RegionSayTo(tipperId, 0, thanksMessage)
+        end
+    else
+        ll.RegionSayTo(tipperId, 0, thanksMessage)
+    end
+end
+
+function LLEvents.money(id, amount)
+    sayThanks(id)
+    lastAmount = amount
+    tipjarAmount += amount
+    totalAmount += amount
+    showText()
+    ll.Say(CHANNEL_TIPJAR, tostring(amount))
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == CHANNEL_TIPJAR then
+        totalAmount += tonumber(message)
+        showText()
+    end
+
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SetPayPrice(payPrice, payButtons)
+ll.SetClickAction(CLICK_ACTION_PAY)
+showText()
+ll.Listen(CHANNEL_TIPJAR, "", "", "")
