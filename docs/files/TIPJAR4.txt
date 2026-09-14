@@ -59,12 +59,6 @@ local function sayThanks(tipperId)
     end
 end
 
-function LLEvents.run_time_permissions(perm)
-    if bit32.btest(perm, PERMISSION_DEBIT) then
-        debitPerms = true
-    end
-end
-
 function LLEvents.money(id, amount)
     local SHARE_WITH_ID = uuid("")  -- add the uuid of the person to share
     local SHARE_PER_CENT = 50
@@ -102,6 +96,12 @@ end
 function LLEvents.changed(change)
     if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
+    end
+end
+
+function LLEvents.run_time_permissions(perm)
+    if bit32.btest(perm, PERMISSION_DEBIT) then
+        debitPerms = true
     end
 end
 
