@@ -1,0 +1,3 @@
+function LLEvents.money(id, amount)
+
+end
