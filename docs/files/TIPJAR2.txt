@@ -29,6 +29,7 @@ local function showText()
     text ..= "\n"
     text ..= "\nTipjar tips: " .. tipjarAmount
     text ..= "\nLast tip: " .. lastAmount
+    text ..= "\n \n \n"
     ll.SetText(text, colors.WHITE, 1)
 end
 
