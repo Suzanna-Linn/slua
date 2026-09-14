@@ -63,7 +63,7 @@ function LLEvents.money(id, amount)
     tipjarAmount += amount
     totalAmount += amount
     showText()
-    ll.Say(CHANNEL_TIPJAR, tostring(amount))
+    ll.RegionSay(CHANNEL_TIPJAR, tostring(amount))
 end
 
 function LLEvents.listen(channel, name, id, message)
