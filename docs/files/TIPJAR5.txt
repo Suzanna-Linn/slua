@@ -1,0 +1,78 @@
+
+local WHITE = vector(1.000, 1.000, 1.000)
+
+local CHANNEL_TIPJAR = -987654321
+local PUBLIC_THANKS = true
+
+local payButtons = {25, 50, 100, 250}
+local payPrice = PAY_DEFAULT
+local myName = ll.GetDisplayName(ll.GetOwner())
+local myGroup = ll.GetObjectDesc()
+local lastAmount = 0
+local tipjarAmount = 0
+local totalAmount = 0
+
+local function showText()
+    local text = myName .. "'s tipjar"
+    text ..= "\n"
+    text ..= "\nTotal Amount: " .. totalAmount
+    text ..= "\nTipjar tips: " .. tipjarAmount
+    text ..= "\nLast tip: " .. lastAmount
+    text ..= "\n \n \n"
+    ll.SetText(text, WHITE, 1)
+end
+
+local function sayThanks(tipperId)
+    local thanksMessage = "Thank you very much, " .. ll.GetDisplayName(tipperId) .. " for your splendorous tip!"
+    if PUBLIC_THANKS then
+        local tipperPos = ll.GetObjectDetails(tipperId, {OBJECT_POS})[1]
+        local tipjarPos = ll.GetPos()
+        local tipperDistance = ll.VecDist(tipjarPos, tipperPos)
+        if tipperDistance < 20 then
+            ll.Say(0, thanksMessage)
+        elseif tipperDistance < 100 then
+            ll.Shout(0, thanksMessage)
+        else
+            ll.Shout(0, thanksMessage)
+            ll.RegionSayTo(tipperId, 0, thanksMessage)
+        end
+    else
+        ll.RegionSayTo(tipperId, 0, thanksMessage)
+    end
+end
+
+function LLEvents.money(id, amount)
+    sayThanks(id)
+    lastAmount = amount
+    tipjarAmount += amount
+    totalAmount += amount
+    showText()
+    ll.Say(CHANNEL_TIPJAR, tostring(amount))
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == CHANNEL_TIPJAR then
+        if ll.GetOwnerKey(id) == ll.GetOwner() then
+            local group = ll.GetObjectDetails(id, {OBJECT_DESC})[1]
+            if group == myGroup then
+                totalAmount += tonumber(message)
+                showText()
+            end
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SetPayPrice(payPrice, payButtons)
+ll.SetClickAction(CLICK_ACTION_PAY)
+showText()
+ll.Listen(CHANNEL_TIPJAR, "", "", "")
