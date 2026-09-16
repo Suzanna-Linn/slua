@@ -1,0 +1,139 @@
+
+local WHITE = vector(1.000, 1.000, 1.000)
+
+local PUBLIC_THANKS = true
+
+local payButtons = {25, 50, 100, 250}
+local payPrice = PAY_DEFAULT
+
+local myName = ll.GetDisplayName(ll.GetOwner())
+local loggedId, loggedName = NULL_KEY, ""  -- uuid and name of the person who is using the tipjar
+local lastAmount, totalAmount = 0, 0
+local sharedAmount = 0  -- total amount received by the user
+local debitPerms = false
+
+local function showText()
+    local text = ""
+    if loggedName ~= "" then  -- if there is a user logged in
+        text = loggedName  -- show the name of the user
+    else
+        text = myName  -- else show the name of the owner
+    end
+    text ..= "'s tipjar"
+    text ..= "\n"
+    text ..= "\nTotal Amount: " .. totalAmount
+    text ..= "\nLast tip: " .. lastAmount
+    text ..= "\n \n \n"
+    ll.SetText(text, WHITE, 1)
+end
+
+local function sayThanks(tipperId)
+    local thanksMessage = "Thank you very much, " .. ll.GetDisplayName(tipperId) .. " for your splendorous tip!"
+    if PUBLIC_THANKS then
+        local tipperPos = ll.GetObjectDetails(tipperId, {OBJECT_POS})[1]
+        local tipjarPos = ll.GetPos()
+        local tipperDistance = ll.VecDist(tipjarPos, tipperPos)
+        if tipperDistance < 20 then
+            ll.Say(0, thanksMessage)
+        elseif tipperDistance < 100 then
+            ll.Shout(0, thanksMessage)
+        else
+            ll.Shout(0, thanksMessage)
+            ll.RegionSayTo(tipperId, 0, thanksMessage)
+        end
+    else
+        ll.RegionSayTo(tipperId, 0, thanksMessage)
+    end
+end
+
+local checkLogged
+
+-- log in a new user of the tipjar
+local function logIn(logId)
+    ll.RegionSayTo(logId, 0, "You have logged in.")  -- message to the new user
+    loggedId, loggedName = logId, ll.GetDisplayName(logId)  -- new user uuid and name
+    totalAmount, lastAmount, sharedAmount = 0, 0, 0  -- amounts to 0
+    showText()  -- show the text with the new info
+    LLTimers:every(checkLogged, 180)  -- start the timer that checks if the user is still in place
+    ll.SetClickAction(CLICK_ACTION_PAY)  -- set the click on the object to pay
+end
+
+-- log out the user of the tipjar
+local function logOut()
+    ll.RegionSayTo(loggedId, 0, "You have logged out. You have got a total amount of " .. sharedAmount .. ".")  -- message to the user
+    loggedId, loggedName = NULL_KEY, "" -- remove user uuid and name
+    totalAmount, lastAmount, sharedAmount = 0, 0, 0  -- amounts to 0
+    showText()  -- show the text with the new info
+    LLTimers:off(checkLogged)  -- stop the timer that checks if the user is still in place
+    ll.SetClickAction(CLICK_ACTION_TOUCH)  -- set the click on the object to touch
+end
+
+-- check if the tipjar user is still in the place (could have leave without login out, crashed, etc...)
+function checkLogged()
+    if loggedId.istruthy then  -- if there is someone logged...
+        if ll.GetAgentSize(loggedId) == ZERO_VECTOR then  -- we use ll.GetAgentSize() to know if the user is here, if not it returns ZERO_VECTOR
+            logOut()  -- login out the logged one
+        end
+    end
+end
+
+function LLEvents.run_time_permissions(perm)
+    if bit32.btest(perm, PERMISSION_DEBIT) then
+        debitPerms = true
+    end
+end
+
+function LLEvents.money(id, amount)
+    local SHARE_PER_CENT = 90  -- share 90% of the tips with the user of the tipjar, the owner keeps the 10%
+    local shareAmount = 0
+    if loggedId.istruthy then  -- if someone is logged let's share
+        if debitPerms then
+            shareAmount = math.round(amount * SHARE_PER_CENT / 100)
+             -- Assert that it doesn't give more that tipped, raise an error otherwise
+            assert(shareAmount <= amount, "It was going to give more than tipped!!!")
+            -- Asserted, let's give
+            sharedAmount += shareAmount  -- add to the total amount received by the user
+            ll.GiveMoney(loggedId, shareAmount)  -- give 90% to the user of the tipjar
+        end
+    end
+    sayThanks(id)
+    lastAmount = amount
+    totalAmount += amount
+    showText()
+end
+
+-- touch to log in or out
+-- a touch to log in (if there isn't anyone already logged)
+-- a touch to log out
+function LLEvents.touch_start(events)
+    local toucherId = events[1]:getKey()  -- get the first toucher UUID
+    if toucherId == loggedId then  -- if the uuid of the toucher is the same than the uuid of the user of the tipjar...
+        logOut()  -- ... it means that the user wants to log out, so login out
+    else  -- no one is using the tipjar, or the toucher is another person
+        if ll.SameGroup(toucherId) then  -- we only allow people with the same group tag than the tipjar to use the tipjar
+            checkLogged()  -- check if anyone is logged and is not in the place, to log out the user
+            if loggedId.istruthy then  -- there is already someone using the tipjar
+                ll.RegionSayTo(toucherId, 0, "You can't log in. " .. loggedName .. " is using the tipjar.")  -- message to the toucher
+            else  -- the tipjar is free
+                logIn(toucherId)  -- log in the toucher as new user
+            end
+        else  -- the toucher doesn't have the same group tag than the tipjar
+            ll.RegionSayTo(toucherId, 0, "You are not allowed to log in this tipjar.")  -- message to the toucher
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestPermissions(ll.GetOwner(), PERMISSION_DEBIT)
+ll.SetPayPrice(PAY_DEFAULT, payButtons)
+ll.SetClickAction(CLICK_ACTION_TOUCH)  -- no user logged in the topjar, set the click on the object to touch
+showText()
