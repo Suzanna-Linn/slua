@@ -1,0 +1,120 @@
+
+local TESTING = true  -- with true it doesn't give lindens, change to false to give
+
+local SECONDS = 60  -- time between gifts
+local WHITE = vector(1.000, 1.000, 1.000)
+local PUBLIC_THANKS = true
+
+local payButtons = {25, 50, 100, 250}
+local payPrice = PAY_DEFAULT
+local myName = ll.GetDisplayName(ll.GetOwner())
+local tipjarAmount = 0  -- tips accumulated to be given
+local debitPerms = false
+local chattingPeople = {}  -- table of people who have said something in public chat since the last gift
+
+local function showText()
+    local text = myName .. "'s generous tipjar"
+    text ..= "\n"
+    text ..= "\ntotal to share: " .. tipjarAmount
+    text ..= "\n \n \n"
+    ll.SetText(text, WHITE, 1)
+end
+
+local function sayThanks(tipperId)
+    local thanksMessage = "Thank you very much, " .. ll.GetDisplayName(tipperId) .. " for your splendorous tip!"
+    if PUBLIC_THANKS then
+        local tipperPos = ll.GetObjectDetails(tipperId, {OBJECT_POS})[1]
+        local tipjarPos = ll.GetPos()
+        local tipperDistance = ll.VecDist(tipjarPos, tipperPos)
+        if tipperDistance < 20 then
+            ll.Say(0, thanksMessage)
+        elseif tipperDistance < 100 then
+            ll.Shout(0, thanksMessage)
+        else
+            ll.Shout(0, thanksMessage)
+            ll.RegionSayTo(tipperId, 0, thanksMessage)
+        end
+    else
+        ll.RegionSayTo(tipperId, 0, thanksMessage)
+    end
+end
+
+-- add a person who has said something in public chat to the list
+local function addChattingPerson(id)
+    -- llGetAgentSize() returns ZERO_VECTOR if id is an object, not an avatar
+    if ll.GetAgentSize(id) ~= ZERO_VECTOR then  -- add only avatars to the table, not chatting objects
+        -- llGetAgentInfo() returns an integer with each bit containing a different information about the avatar
+        -- AGENT_AUTOMATED means that the avatar is a bot
+        local isBot = bit32.test(ll.GetAgentInfo(id), AGENT_AUTOMATED)
+        if not isBot then  -- don't add bots to the list
+            if not table.find(chattingPeople, id) then  -- add avatars if they are not already in the table
+                chattingPeople = table.insert(chattingPeople, id)
+            end
+        end
+    end
+end
+
+-- share the tips with a random person
+local function shareTips()
+    local shareAmount = 1  -- amount to give
+    if tipjarAmount >= shareAmount and #chattingPeople ~= 0 then  -- if there are lindens to give and people in the list
+        local index = math.random(#chattingPeople)  -- chose a random person
+        local chatterId = chattingPeople[index]
+        if ll.GetAgentSize(chatterId) ~= ZERO_VECTOR then  -- if the person is still in the place
+            local chatterPos = ll.GetObjectDetails(chatterId, {OBJECT_POS})[1]
+            local tipjarPos = ll.GetPos()
+            local chatterDistance = ll.VecDist(tipjarPos, chatterPos)
+            if chatterDistance <= 20 then  -- if the person is not farther than 20 meters
+                if not TESTING then  -- if we are not in testing mode
+                    -- assert that there are lindens to give
+                    if tipjarAmount >= shareAmount then  -- security check, should always be true
+                        ll.GiveMoney(chatterId, shareAmount)  -- give the shared amount to the selected person
+                        ll.Say(0, ll.GetDisplayName(chatterId) .. " has won " .. shareAmount .. " linden")
+                    end
+                else
+                    ll.Say(0, "Testing: " .. ll.GetDisplayName(chatterId) .. " would have won " .. shareAmount.. " linden")
+                end
+                tipjarAmount = tipjarAmount - shareAmount  -- subtract the gift from the remaining lindens
+                showText()
+            end
+        end
+    end
+    chattingPeople = {}  -- clear the table, to start a new one for next gift
+end
+
+function LLEvents.run_time_permissions(perm)
+    if bit32.btest(perm, PERMISSION_DEBIT) then
+        debitPerms = true
+    end
+end
+
+function LLEvents.money(id, amount)
+    sayThanks(id)
+    tipjarAmount += amount  -- add the tip to the lindens to give
+    showText()
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 then  -- public channel
+        addChattingPerson(id)  -- adding the person to the table
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+if not TESTING then  -- request permission to give money if we are not in testing mode
+    ll.RequestPermissions(ll.GetOwner(), PERMISSION_DEBIT)
+end
+ll.SetPayPrice(PAY_DEFAULT, payButtons)
+ll.SetClickAction(CLICK_ACTION_PAY)
+showText()
+ll.Listen(0, "", "", "")  -- listening to public chat
+LLTimers:every(shareTips, SECONDS)  -- timer to give
