@@ -1,0 +1,46 @@
+
+local price = 10
+local payButtons = {price, PAY_HIDE, PAY_HIDE, PAY_HIDE}
+local payPrice = PAY_HIDE
+local debitPerms = false
+
+function LLEvents.run_time_permissions(perm)
+    if bit32.btest(perm, PERMISSION_DEBIT) then
+        debitPerms = true
+        ll.SetPayPrice(payPrice, payButtons)
+        ll.SetClickAction(CLICK_ACTION_PAY)
+    end
+end
+
+function LLEvents.money(id, amount)
+    if amount < price then
+        ll.RegionSayTo(id, 0, "You haven't paid enough, the price is " .. price)
+        if amount > 0 and debitPerms then
+            ll.RegionSayTo(id, 0, "Refunding your payment")
+            ll.GiveMoney(id, amount)
+        end
+    else
+        if amount > price then
+            ll.RegionSayTo(id, 0, "You have paid too much, the price is " .. price)
+            if debitPerms then
+                ll.RegionSayTo(id, 0, "Refunding the excess")
+                ll.GiveMoney(id, amount - price)
+            end
+        end
+        -- give the object to the buyer
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SetPayPrice(PAY_HIDE, {PAY_HIDE, PAY_HIDE, PAY_HIDE, PAY_HIDE})
+ll.SetClickAction(CLICK_ACTION_TOUCH)
+ll.RequestPermissions(ll.GetOwner(), PERMISSION_DEBIT)
