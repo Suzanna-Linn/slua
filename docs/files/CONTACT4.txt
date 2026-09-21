@@ -1,0 +1,202 @@
+-- profile
+local LINKED_PICTURE = 2
+local FACE_PICTURE = 4
+local DEFAULT_TEXTURE = TEXTURE_BLANK
+
+-- status
+local LINKED_STATUS = 3
+local FACE_STATUS = 4
+local STATUS_TEXTURE = "Contact Boards Status"
+local STATUS_TIME = 30
+local STATUS_DISTANCE_NEAR = 40
+local STATUS_ONLINE =  { vector(0.5, 0.5, 0), vector(-0.25, 0.25, 0),  0 }
+local STATUS_OFFLINE = { vector(0.5, 0.5, 0), vector(0.25, 0.25, 0),   0 }
+local STATUS_PLACE =   { vector(0.5, 0.5, 0), vector(-0.25, -0.25, 0), 0 }
+local STATUS_NEAR =    { vector(0.5, 0.5, 0), vector(0.25, -0.25, 0),  0 }
+
+-- text
+local LINKED_TEXT = {4, 5, 6, 7}
+local TEXT_COLOR = vector(1.000, 0.863, 0.000)  -- yellow
+
+-- profile
+local urlResident = "http://world.secondlife.com/resident/"
+local profilePicPrefix = '<meta name="imageid" content="'
+local profilePicId = NULL_KEY
+
+-- text
+local alphabet = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\n\n\n\n\n"
+local TEXTURE = "b2e7394f-5e54-aa12-6e1c-ef327b6bed9e"
+local SPACE32 = "                                "
+
+local userId = NULL_KEY
+local userDisplayName = ""
+local userKeyQueryId = NULL_KEY
+local userOnlineQueryId = NULL_KEY
+local userDisplayNameQueryId = NULL_KEY
+
+-- profile
+local function getProfilePicture(id)
+    profilePicId = ll.HTTPRequest(urlResident .. tostring(id), {HTTP_METHOD, "GET"}, "")
+end
+
+local function showProfilePicture(body)
+    local start = ll.SubStringIndex(body, profilePicPrefix)
+    local end_t
+    local pictureId = NULL_KEY
+    if start then
+        start += ll.StringLength(profilePicPrefix)
+        end_t = start + 35  -- uuid length is 36
+        pictureId = uuid(ll.GetSubString(body, start, end_t))
+    end
+    local texture = if pictureId.istruthy then pictureId else DEFAULT_TEXTURE
+    ll.SetLinkPrimitiveParamsFast(LINKED_PICTURE, {PRIM_TEXTURE, FACE_PICTURE, texture, vector(1, 1, 0), vector(0, 0, 0), 0})
+
+  -- ll.SetTexture(texture, FACE_PICTURE);
+  -- ll.ScaleTexture(1, 1, FACE_PICTURE);
+  -- ll.OffsetTexture(0, 0, FACE_PICTURE);
+  -- ll.RotateTexture(0, FACE_PICTURE);   -- PI_BY_TWO (90 degrees), PI (180 degrees), PI + PI_BY_TWO (270 degrees)
+end
+
+-- status
+local function showStatus(online)
+    local params = {}
+    if not online then
+        params = STATUS_OFFLINE
+    else
+        params = STATUS_ONLINE
+        if ll.GetAgentSize(userId) ~= ZERO_VECTOR then
+            params = STATUS_PLACE
+            local myPos = ll.GetPos()
+            local userPos = ll.GetObjectDetails(userId, {OBJECT_POS})[1]
+            local userDistance = ll.VecDist(myPos, userPos)
+            if userDistance < STATUS_DISTANCE_NEAR then
+                params = STATUS_NEAR
+            end
+        end
+    end
+    ll.SetLinkPrimitiveParamsFast(LINKED_STATUS, table.extend({PRIM_TEXTURE, FACE_STATUS, STATUS_TEXTURE}, params))
+end
+
+local function checkStatus()
+    if ll.GetRegionAgentCount() > 0 then
+        userOnlineQueryId = ll.RequestAgentData(userId, DATA_ONLINE)
+    end
+end
+
+-- text
+local function getOffset(pos)
+    local row = pos // 10
+    local col = pos % 10
+    return vector(-0.45 + (0.1 * col), 0.45 - (0.1 * row), 0.0)
+end
+
+local function setText(text, linked)
+    for faceText = 1, #text do
+        local letter = string.sub(text, faceText, faceText)
+        local index = string.find(alphabet, letter, 1, true)
+        local offset = getOffset(index - 1)
+        ll.SetLinkPrimitiveParamsFast(linked, {PRIM_TEXTURE, faceText - 1, TEXTURE, vector(0.08, 0.08, 0), vector(offset.x, offset.y, 0), 0, PRIM_COLOR, faceText, TEXT_COLOR, 1})
+    end
+end
+
+local function showText(text)
+    for textPanel = 1, 4 do
+        setText(string.sub(text, textPanel * 8 - 7, textPanel * 8), LINKED_TEXT[textPanel])
+    end
+end
+
+local function formatText(text)
+    local formated = ""
+    if #text < 17 then  -- if text needs only 1 line
+        while #text < 16 do  -- add spaces after
+            text ..= " "
+            if #text < 16 then  -- and before
+                text = " " .. text
+            end
+        end
+        formated = string.sub(text .. SPACE32, 1, 32)
+    else  -- if text needs 2 lines
+        local texts = string.split(text, " ")  -- break text into words, by spaces
+        local text1 = texts[1]
+        local i = 2
+        while #(text1 .. " " .. texts[i]) < 17 do  -- adds words to line 1 while possible
+            text1 ..= " " .. texts[i]
+            i += 1
+        end
+        if #text - #text1 - 1 < 17 then  -- if the rest of the text fits in line 2
+            local text2 = string.sub(text, #text1 + 1)
+            while #text1 < 16 do  -- add spaces after (line 1)
+                text1 ..= " "
+                if #text1 < 16 then  -- and before
+                    text1 = " " .. text1
+                end
+            end
+            while #text2 < 16 do  -- add spaces after (line 2)
+                text2 ..= " "
+                if #text2 < 16 then  -- and before
+                    text2 = " " .. text2
+                end
+            end
+            formated = text1 .. text2  -- text to return
+        else  -- if not possible to display nicely
+            formated = string.sub(text .. SPACE32, 1, 32)  -- text to return, spaces added, cut if longer than 32
+        end
+    end
+    return formated
+end
+
+function LLEvents.touch_start(events)
+    showText(SPACE32)
+    local names = ll.ParseString2List(ll.GetObjectDesc(), {"-"}, {})
+    local username = ll.StringTrim(names[1], STRING_TRIM)
+    userDisplayName = ll.StringTrim(names[2] or "", STRING_TRIM)
+    userKeyQueryId = ll.RequestUserKey(username)
+end
+
+function LLEvents.dataserver(queryid, data)
+    if queryid == userKeyQueryId then
+        userId = uuid(data)
+
+        -- profile
+        getProfilePicture(userId)
+
+        -- status
+        checkStatus()
+        LLTimers:every(STATUS_TIME, checkStatus)
+
+        -- text
+        if userDisplayName == "" then
+            userDisplayNameQueryId = ll.RequestDisplayName(userId)
+        else
+            showText(formatText(userDisplayName))
+        end
+    end
+
+    -- status
+    if queryid == userOnlineQueryId then
+        showStatus(data == "1")  -- data = 0, offline   data = 1, online
+    end
+
+    -- text
+    if queryid == userDisplayNameQueryId then
+        userDisplayName = data
+        showText(formatText(userDisplayName))
+    end
+end
+
+function LLEvents.http_response(request_id, status, metadata, body)
+    -- profile
+    if request_id == profilePicId then
+        showProfilePicture(body)
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
