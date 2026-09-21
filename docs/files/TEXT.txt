@@ -1,0 +1,29 @@
+
+local TEXT = "I'm text"
+local TEXT_COLOR = vector(1.000, 0.863, 0.000)  -- yellow
+
+local alphabet = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\n\n\n\n\n"
+local TEXTURE = "b2e7394f-5e54-aa12-6e1c-ef327b6bed9e"
+
+local function getOffset(pos)
+    local row = pos // 10
+    local col = pos % 10
+    return vector(-0.45 + (0.1 * col), 0.45 - (0.1 * row), 0.0)
+end
+
+local function setText(text, linked)
+    for faceText = 1, #text do
+        local letter = string.sub(text, faceText, faceText)
+        local index = string.find(alphabet, letter, 1, true)
+        local offset = getOffset(index - 1)
+        ll.SetPrimitiveParams({PRIM_TEXTURE, faceText - 1, TEXTURE, vector(0.08, 0.08, 0), vector(offset.x, offset.y, 0), 0, PRIM_COLOR, faceText, TEXT_COLOR, 1})
+    end
+end
+
+function LLEvents.listen(channel, name, id, message)
+    message = string.sub(message .. "        ", 1, 8)
+    setText(message)
+end
+
+setText(TEXT)
+ll.Listen(1, "", ll.GetOwner(), "")
