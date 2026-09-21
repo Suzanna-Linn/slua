@@ -1,0 +1,66 @@
+
+local LINKED_STATUS = 2
+local FACE_STATUS = 4
+
+local STATUS_TEXTURE = "Contact Boards Status"
+local STATUS_TIME = 30
+local STATUS_DISTANCE_NEAR = 40
+local STATUS_ONLINE =  { vector(0.5, 0.5, 0), vector(-0.25, 0.25, 0),  0 }
+local STATUS_OFFLINE = { vector(0.5, 0.5, 0), vector(0.25, 0.25, 0),   0 }
+local STATUS_PLACE =   { vector(0.5, 0.5, 0), vector(-0.25, -0.25, 0), 0 }
+local STATUS_NEAR =    { vector(0.5, 0.5, 0), vector(0.25, -0.25, 0),  0 }
+
+local userId = NULL_KEY
+local userKeyQueryId = NULL_KEY
+local userOnlineQueryId = NULL_KEY
+
+local function showStatus(online)
+    local params = {}
+    if not online then
+        params = STATUS_OFFLINE
+    else
+        params = STATUS_ONLINE
+        if ll.GetAgentSize(userId) ~= ZERO_VECTOR then
+            params = STATUS_PLACE
+            local myPos = ll.GetPos()
+            local userPos = ll.GetObjectDetails(userId, {OBJECT_POS})[1]
+            local userDistance = ll.VecDist(myPos, userPos)
+            if userDistance < STATUS_DISTANCE_NEAR then
+                params = STATUS_NEAR
+            end
+        end
+    end
+    ll.SetLinkPrimitiveParamsFast(LINKED_STATUS, table.extend({PRIM_TEXTURE, FACE_STATUS, STATUS_TEXTURE}, params))
+end
+
+local function checkStatus()
+    if ll.GetRegionAgentCount() > 0 then
+        userOnlineQueryId = ll.RequestAgentData(userId, DATA_ONLINE)
+    end
+end
+
+function LLEvents.touch_start(events)
+    local username = ll.GetObjectDesc()
+    userKeyQueryId = ll.RequestUserKey(username)
+end
+
+function LLEvents.dataserver(queryid, data)
+    if queryid == userKeyQueryId then
+        userId = uuid(data)
+        checkStatus()
+        LLTimers:every(STATUS_TIME, checkStatus)
+    end
+    if queryid == userOnlineQueryId then
+        showStatus(data == "1")  -- data = 0, offline   data = 1, online
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
