@@ -1,0 +1,108 @@
+
+local LINKED_TEXT = {2, 3, 4, 5}
+local TEXT_COLOR = vector(1.000, 0.863, 0.000)  -- yellow
+
+-- display text
+local alphabet = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\n\n\n\n\n"
+local TEXTURE = "b2e7394f-5e54-aa12-6e1c-ef327b6bed9e"
+local SPACE32 = "                                "
+
+local userId = NULL_KEY
+local userDisplayName = ""
+local userKeyQueryId = NULL_KEY
+local userDisplayNameQueryId = NULL_KEY
+
+-- text functions
+local function getOffset(pos)
+    local row = pos // 10
+    local col = pos % 10
+    return vector(-0.45 + (0.1 * col), 0.45 - (0.1 * row), 0.0)
+end
+
+local function setText(text, linked)
+    for faceText = 1, #text do
+        local letter = string.sub(text, faceText, faceText)
+        local index = string.find(alphabet, letter, 1, true)
+        local offset = getOffset(index - 1)
+        ll.SetLinkPrimitiveParamsFast(linked, {PRIM_TEXTURE, faceText - 1, TEXTURE, vector(0.08, 0.08, 0), vector(offset.x, offset.y, 0), 0, PRIM_COLOR, faceText, TEXT_COLOR, 1})
+    end
+end
+
+local function showText(text)
+    for textPanel = 1, 4 do
+        setText(string.sub(text, textPanel * 8 - 7, textPanel * 8), LINKED_TEXT[textPanel])
+    end
+end
+
+local function formatText(text)
+    local formated = ""
+    if #text < 17 then  -- if text needs only 1 line
+        while #text < 16 do  -- add spaces after
+            text ..= " "
+            if #text < 16 then  -- and before
+                text = " " .. text
+            end
+        end
+        formated = string.sub(text .. SPACE32, 1, 32)
+    else  -- if text needs 2 lines
+        local texts = string.split(text, " ")  -- break text into words, by spaces
+        local text1 = texts[1]
+        local i = 2
+        while #(text1 .. " " .. texts[i]) < 17 do  -- adds words to line 1 while possible
+            text1 ..= " " .. texts[i]
+            i += 1
+        end
+        if #text - #text1 - 1 < 17 then  -- if the rest of the text fits in line 2
+            local text2 = string.sub(text, #text1 + 1)
+            while #text1 < 16 do  -- add spaces after (line 1)
+                text1 ..= " "
+                if #text1 < 16 then  -- and before
+                    text1 = " " .. text1
+                end
+            end
+            while #text2 < 16 do  -- add spaces after (line 2)
+                text2 ..= " "
+                if #text2 < 16 then  -- and before
+                    text2 = " " .. text2
+                end
+            end
+            formated = text1 .. text2  -- text to return
+        else  -- if not possible to display nicely
+            formated = string.sub(text .. SPACE32, 1, 32)  -- text to return, spaces added, cut if longer than 32
+        end
+    end
+    return formated
+end
+
+function LLEvents.touch_start(events)
+    showText(SPACE32)
+    local names = string.split(ll.GetObjectDesc(), "-")
+    local username = ll.StringTrim(names[1], STRING_TRIM)
+    userDisplayName = ll.StringTrim(names[2] or "", STRING_TRIM)
+    userKeyQueryId = ll.RequestUserKey(username)
+end
+
+function LLEvents.dataserver(queryid, data)
+    if queryid == userKeyQueryId then
+        userId = uuid(data)
+        if userDisplayName == "" then
+            userDisplayNameQueryId = ll.RequestDisplayName(userId)
+        else
+            showText(formatText(userDisplayName))
+        end
+    end
+    if queryid == userDisplayNameQueryId then
+        userDisplayName = data
+        showText(formatText(userDisplayName))
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
