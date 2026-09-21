@@ -1,0 +1,63 @@
+
+local LINKED_PICTURE = 2
+local FACE_PICTURE = 4
+
+local DEFAULT_TEXTURE = TEXTURE_BLANK
+
+--call to profile picture
+local urlResident = "http://world.secondlife.com/resident/"
+local profilePicPrefix = '<meta name="imageid" content="'
+local profilePicId = NULL_KEY
+
+local userId = NULL_KEY
+local userKeyQueryId = NULL_KEY
+
+local function getProfilePicture(id)
+    profilePicId = ll.HTTPRequest(urlResident .. tostring(id), {HTTP_METHOD, "GET"}, "")
+end
+
+local function showProfilePicture(body)
+    local start = ll.SubStringIndex(body, profilePicPrefix)
+    local end_t
+    local pictureId = NULL_KEY
+    if start then
+        start += ll.StringLength(profilePicPrefix)
+        end_t = start + 35  -- uuid length is 36
+        pictureId = uuid(ll.GetSubString(body, start, end_t))
+    end
+    local texture = if pictureId.istruthy then pictureId else DEFAULT_TEXTURE
+    ll.SetLinkPrimitiveParamsFast(LINKED_PICTURE, {PRIM_TEXTURE, FACE_PICTURE, texture, vector(1, 1, 0), vector(0, 0, 0), 0})
+
+  -- ll.SetTexture(texture, FACE_PICTURE);
+  -- ll.ScaleTexture(1, 1, FACE_PICTURE);
+  -- ll.OffsetTexture(0, 0, FACE_PICTURE);
+  -- ll.RotateTexture(0, FACE_PICTURE);   -- PI_BY_TWO (90 degrees), PI (180 degrees), PI + PI_BY_TWO (270 degrees)
+end
+
+function LLEvents.touch_start(events)
+    local username = ll.GetObjectDesc()
+    userKeyQueryId = ll.RequestUserKey(username)
+end
+
+function LLEvents.dataserver(queryid, data)
+    if queryid == userKeyQueryId then
+        userId = uuid(data)
+        getProfilePicture(userId)
+    end
+end
+
+function LLEvents.http_response(request_id, status, metadata, body)
+    if request_id == profilePicId then
+        showProfilePicture(body)
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
