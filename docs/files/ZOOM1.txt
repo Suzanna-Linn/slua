@@ -1,0 +1,97 @@
+
+-- to zoom a part of the texture:
+--   touch on one vertex of the square to zoom
+--   touch on the opposite vertex of the square to zoom
+-- to zoom again, repeat the process
+-- to get the full texture back, hold-touch on the texture
+
+local FACE = 2  -- face to display texture
+local HOLD_SECONDS = 1  -- time for a touch to be a hold-touch
+local DEFAULT_TEXTURE = "14f0e601-1c16-fbd7-9b41-05ecc2b62733"  -- in case that there isn't a texture in the contents
+
+local texture = ""  -- texture to display
+local isHoldTouch = false  -- true if it is a hold-touch
+local touchTime = nil  -- time of touch start for the hold-touch
+local size = vector(1, 1, 0)  -- current displayed size of the texture
+local offset = ZERO_VECTOR  -- current displayed offset of the texture
+local startTouch = nil  -- first vertex of the square to zoom (a "endTouch" as global variable is not needed)
+
+local function fullTexture()  -- show all the texture
+    size = vector(1, 1, 0)  -- full size
+    offset = ZERO_VECTOR  -- centered
+    ll.SetPrimitiveParams({PRIM_TEXTURE, FACE, texture, size, offset, 0})  -- display the full texture
+    startTouch = nil  -- no first vertex selected
+end
+
+local function zoomTexture(start, end_t)  -- zoom and show the zoomed part of the texture
+    -- start and end_t are the two opposite vertex of the square selected to zoom, in any order
+    --
+    -- the size for the texture is the size of the square selected
+    -- it is the difference between the two vectors, without sign
+    -- math.abs() returns the absolute value (the value without sign) of a number
+    local newSize = vector(math.abs(start.x - end_t.x), math.abs(start.y - end_t.y), 0)  -- new size for calculations
+    --
+    -- the offset for the texture is the center of the square selected
+    -- it is the sum of the two vectors, divided by 2
+    -- the result is from 0 to 1, but we want from -0.5 to 0.5, so we subtract the vector <-0.5, -0.5, 0>
+    local newOffset = vector((start.x + end_t.x) / 2, (start.y + end_t.y) / 2, 0) - vector(0.5, 0.5, 0)  -- new offset for calculations
+    --
+    -- don't zoom if the selection is very small, it could be a user misclick when selecting, and it would show a piece of texture too small
+    if newSize.x > 0.05 and newSize.y > 0.05 then  -- if it is not too small
+        --
+        -- these calculations do nothing for the first zoom (dividing by 1 and adding to 0)
+        --
+        -- the new offset is relative to the current displayed size, we want the offset in the full texture
+        -- it is the new offset multiplied by the current size, and added to the current offset
+        offset = offset + vector(newOffset.x * size.x, newOffset.y * size.y, 0)
+        --
+        -- the new size is relative to the current displayed size, we want the size in the full texture
+        -- it is the new size multiplied by the current size
+        size = vector(newSize.x * size.x, newSize.y * size.y, 0)
+        --
+        ll.SetPrimitiveParams({PRIM_TEXTURE, FACE, texture, size, offset, 0})  -- display the zoomed texture
+    end
+    startTouch = nil  -- the first vertex to not set, to start a new selection
+end
+
+function LLEvents.touch_start(events)
+    touchTime = ll.GetTime()  -- start the time for the hold touch
+    isHoldTouch = false  -- it is not a hold-touch, until the time passes
+end
+
+function LLEvents.touch(events)
+    if ll.GetTime() - touchTime > HOLD_SECONDS and not isHoldTouch then  -- if the time for a hold-touch has passed, and it wasn't a hold-touch yet
+        isHoldTouch = true  -- it is a hold-touch, meaning that the user wants the full texture
+        fullTexture()  -- display the full texture
+    end
+end
+
+function LLEvents.touch_end(events)
+    local ev = events[1]
+    if not isHoldTouch then  -- if it is not a hold-touch, meaning that the user has selected one vertex of the square to zoom
+        local thisTouch = ev:getTouchST()  -- get the current vertex selected
+        if thisTouch ~= TOUCH_INVALID_TEXCOORD then  -- if the touch is on the texture
+            if not startTouch then  -- if the first vertex is not set
+                startTouch = thisTouch  -- set the first vertex to the current vertex
+            else  -- if the first vertex is already set
+                zoomTexture(startTouch, thisTouch)  -- zoom the texture, with the first vertex and the current vertex
+            end
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+texture = ll.GetInventoryName(INVENTORY_TEXTURE, 1)  -- first texture in the contents (by alphabetical order)
+if texture == "" then  -- if there isn't any texture in the contents
+    texture = DEFAULT_TEXTURE  -- use the default texture
+end
+fullTexture()  -- display the full texture
