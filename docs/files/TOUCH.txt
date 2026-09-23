@@ -1,0 +1,23 @@
+
+local HOLD_SECONDS = 1.5  -- time for a touch to be a hold-touch
+
+local isHoldTouch = false  -- true if it is a hold-touch
+local touchTime = nil  -- time of touch start for the hold-touch
+
+function LLEvents.touch_start(events)
+    touchTime = ll.GetTime()  -- start the time for the hold touch
+    isHoldTouch = false  -- it is not a hold-touch, until the time passes
+end
+
+function LLEvents.touch(events)
+    if ll.GetTime() - touchTime > HOLD_SECONDS and not isHoldTouch then  -- if the time for a hold-touch has passed, and it wasn't a hold-touch yet
+        isHoldTouch = true  -- it is a hold-touch
+        print("hold touch")
+    end
+end
+
+function LLEvents.touch_end(events)
+    if not isHoldTouch then  -- if it is not a hold-touch
+        print("single touch")
+    end
+end
