@@ -1,0 +1,88 @@
+
+local LINKED_BOARD = 1
+local LINKED_BAR = 2
+local LINKED_SLIDER = 3
+local FACE_LINK = 2
+
+local TEXTURE_BAR = "68009b6e-00bb-516f-36f5-a1d456889698"
+local COLOR_BAR = vector(0, 1, 1)
+
+local ARROW_LEN = 0.0625
+
+local minValue = 0
+local maxValue = 1
+local round = 0.01
+local step = 0.05
+local sliderLen = 0.0625
+local sliderLocalPos = ll.GetLinkPrimitiveParams(LINKED_SLIDER, {PRIM_POS_LOCAL})[1]
+local sliderSize = ll.GetLinkPrimitiveParams(LINKED_BAR, {PRIM_SIZE})[1]
+
+local sliderPos = 0
+local toucher = NULL_KEY
+local touchTime = nil
+
+local function setSliderPos(move)
+    sliderPos += move
+    if sliderPos < minValue then
+        sliderPos = minValue
+    end
+    if sliderPos > maxValue then
+        sliderPos = maxValue
+    end
+    sliderPos = math.round(sliderPos / round) * round
+    sliderLocalPos = vector(sliderLocalPos.x, ((sliderPos * (1 - (ARROW_LEN * 2) - sliderLen) + (ARROW_LEN + (sliderLen / 2))) * sliderSize.y) - (sliderSize.y / 2), sliderLocalPos.z)
+    ll.SetLinkPrimitiveParamsFast(LINKED_SLIDER, {PRIM_POS_LOCAL, sliderLocalPos})
+    ll.SetLinkPrimitiveParamsFast(LINKED_BOARD, {PRIM_COLOR, FACE_LINK, vector(sliderPos, 1 - sliderPos, sliderPos / 2), 1.0})
+end
+
+local function touched(link, face, pos)
+    if face == FACE_LINK and pos ~= TOUCH_INVALID_TEXCOORD then
+        local touchPos = pos.x
+        if link == LINKED_BAR then
+            if touchPos < ARROW_LEN then
+                setSliderPos(-step)
+            elseif touchPos > (1 - ARROW_LEN) then
+                setSliderPos(step)
+            else
+                setSliderPos((touchPos - (ARROW_LEN + (sliderLen / 2))) / (1 - (ARROW_LEN * 2) - sliderLen) - sliderPos)
+            end
+        end
+        if link == LINKED_SLIDER then
+            touchPos -= 0.5
+            setSliderPos(touchPos * sliderLen)
+        end
+    end
+    touchTime = ll.GetTime()
+end
+
+function LLEvents.touch_start(events)
+    if toucher == NULL_KEY then
+        local ev = events[1]
+        toucher = ev:getKey()
+        touched(ev:getLinkNumber(), ev:getTouchFace(), ev:getTouchST())
+        touchTime = ll.GetTime()
+    end
+end
+
+function LLEvents.touch(events)
+    local ev = events[1]
+    if toucher == ev:getKey() and ll.GetTime() - touchTime > 0.25 then
+        touched(ev:getLinkNumber(), ev:getTouchFace(), ev:getTouchST())
+    end
+end
+
+function LLEvents.touch_end(events)
+    if toucher == events[1]:getKey() then
+        toucher = NULL_KEY
+    end
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SetLinkPrimitiveParamsFast(LINKED_BAR, {PRIM_TEXTURE, FACE_LINK, TEXTURE_BAR, vector(1, 1, 0), vector(0, 0, 0), 0, PRIM_COLOR, FACE_LINK, COLOR_BAR, 1.0})
+ll.SetLinkPrimitiveParamsFast(LINKED_SLIDER, {PRIM_TEXTURE, FACE_LINK, TEXTURE_BAR, vector(0.01, 0.01, 0), vector(-0.49, 0, 0), 0, PRIM_COLOR, ALL_SIDES, COLOR_BAR, 1.0})
+setSliderPos(0)
