@@ -1,0 +1,156 @@
+
+local TEXTURE_BAR = "68009b6e-00bb-516f-36f5-a1d456889698"
+local ARROW_LEN = 0.0675
+local FACE_LINK = 2
+local NEW_SLIDER_BAR = 1001
+local NEW_SLIDER_LEN = 1002
+local NEW_SLIDER_POS = 1003
+local SET_SLIDER_POS = 1011
+
+local names = {}
+local links = {}
+
+local toucher = NULL_KEY
+local touchTime = nil
+
+local function setpos(link, move)
+    local slider = links[link]
+    if slider then
+        slider.pos = math.clamp(slider.pos + move, 0, 1)
+        slider.pos = math.round(slider.pos / slider.round) * slider.round
+        local aLen = slider.len * (1 - (ARROW_LEN * 2))
+        local aPos = slider.pos * (1 - (ARROW_LEN * 2) - aLen)
+        if slider.vertical then
+            slider.localPos = vector(slider.localPos.x, slider.localPos.y, ((aPos + ARROW_LEN + (aLen / 2)) * slider.barSize.z) - (slider.barSize.z / 2))
+            slider.size = vector(slider.size.x, slider.size.y, aLen * slider.barSize.z)
+        else
+            slider.localPos = vector(slider.localPos.x, ((aPos + ARROW_LEN + (aLen / 2)) * slider.barSize.y) - (slider.barSize.y / 2), slider.localPos.z)
+            slider.size = vector(slider.size.x, aLen * slider.barSize.y, slider.size.z)
+        end
+        ll.SetLinkPrimitiveParamsFast(slider.sliderLink, {PRIM_POS_LOCAL, slider.localPos, PRIM_SIZE, slider.size})
+        ll.MessageLinked(LINK_THIS, SET_SLIDER_POS, lljson.slencode({slider.name, slider.pos * (slider.maxValue - slider.minValue) + slider.minValue}), "")
+        links[slider.barLink] = slider
+        links[slider.sliderLink] = slider
+    end
+end
+
+local function touched(link, face, touchPosXY)
+    if face == FACE_LINK and touchPosXY ~= TOUCH_INVALID_TEXCOORD then
+        local slider = links[link]
+        local touchPos = if slider.vertical then touchPosXY.y else touchPosXY.x
+        if link == slider.barLink then
+            if touchPos < ARROW_LEN then
+                setpos(link, -slider.step)
+            elseif touchPos > (1 - ARROW_LEN) then
+                setpos(link, slider.step)
+            else
+                setpos(link, (touchPos - (ARROW_LEN + (slider.len / 2))) / (1 - (ARROW_LEN * 2) - slider.len) - slider.pos)
+            end
+        end
+        if link == slider.sliderLink then
+            touchPos -= 0.5
+            setpos(link, touchPos * slider.len)
+        end
+    end
+    touchTime = ll.GetTime()
+end
+
+local function newSliderBar(name, color, minValue, maxValue, round, step)
+    local barLink, sliderLink
+    for i = 0, ll.GetNumberOfPrims() do
+        if ll.GetLinkName(i):lower() == name:lower() .. " bar" then
+            barLink = i
+        end
+        if ll.GetLinkName(i):lower() == name:lower() .. " slider" then
+            sliderLink = i
+        end
+    end
+    if barLink and sliderLink then
+        slider = {
+            name = name,
+            barLink = barLink,
+            sliderLink = sliderLink,
+            color = color,
+            minValue = minValue,
+            maxValue = maxValue,
+            round = round / (maxValue - minValue),
+            step = step / (maxValue - minValue),
+            barSize = ll.GetLinkPrimitiveParams(barLink, {PRIM_SIZE})[1],
+            size = ll.GetLinkPrimitiveParams(sliderLink, {PRIM_SIZE})[1],
+            len = ARROW_LEN,
+            localPos = ll.GetLinkPrimitiveParams(sliderLink, {PRIM_POS_LOCAL})[1],
+            pos = 0,
+        }
+        slider.vertical = slider.barSize.z > slider.barSize.y
+        local rot = if slider.vertical then 90 * DEG_TO_RAD else 0
+        ll.SetLinkPrimitiveParamsFast(barLink, {PRIM_TEXTURE, FACE_LINK, TEXTURE_BAR, vector(1, 1, 0), vector(0, 0, 0), rot, PRIM_COLOR, FACE_LINK, color, 1.0})
+        ll.SetLinkPrimitiveParamsFast(sliderLink, {PRIM_TEXTURE, FACE_LINK, TEXTURE_BAR, vector(0.01, 0.01, 0), vector(-0.49, 0, 0), rot, PRIM_COLOR, ALL_SIDES, color, 1.0})
+        names[name] = barLink
+        links[barLink] = slider
+        links[sliderLink] = slider
+        setpos(barLink, 0)
+    else
+        print(`Prims for {name} not found`)
+    end
+end
+
+local function newLen(name, len)
+    local link = names[name]
+    if link then
+        links[link].len = math.clamp(len, ARROW_LEN, 1)
+        setpos(link, 0)
+    else
+        print(`Sliderbar {name} not found`)
+    end
+end
+
+local function newpos(name, pos)
+    local link = names[name]
+    if link then
+        links[link].pos = math.clamp(pos, 0, 1)
+        setpos(link, 0)
+    else
+        print(`Sliderbar {name} not found`)
+    end
+end
+
+function LLEvents.touch_start(events)
+    if toucher == NULL_KEY then
+        local ev = events[1]
+        if links[ev:getLinkNumber()] then
+            toucher = ev:getKey()
+            touched(ev:getLinkNumber(), ev:getTouchFace(), ev:getTouchST())
+            touchTime = ll.GetTime()
+        end
+    end
+end
+
+function LLEvents.touch(events)
+    local ev = events[1]
+    if toucher == ev:getKey() and ll.GetTime() - touchTime > 0.25 then
+        touched(ev:getLinkNumber(), ev:getTouchFace(), ev:getTouchST())
+    end
+end
+
+function LLEvents.touch_end(events)
+    if toucher == events[1]:getKey() then
+        toucher = NULL_KEY
+    end
+end
+
+function LLEvents.link_message(sender_num, num, str, id)
+    local params = lljson.sldecode(str)
+    if num == NEW_SLIDER_BAR then
+        newSliderBar(unpack(params))
+    elseif num == NEW_SLIDER_LEN then
+        newLen(unpack(params))
+    elseif num == NEW_SLIDER_POS then
+        newpos(unpack(params))
+    end
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
