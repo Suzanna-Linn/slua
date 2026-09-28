@@ -1,0 +1,75 @@
+
+local TEXTURE = "5fd00f56-5cf1-f8c8-46d4-7317d39a931b"
+local COLOR_MOVE_BAR = vector(1.000, 0.863, 0.000)
+local COLOR_SIZE_BAR = vector(0.694, 0.051, 0.788)
+local FACE_LINK = 2
+
+local horPos = 0
+local verPos = 0
+local sizePos = 1
+
+local NEW_SLIDER_BAR = 1001
+local NEW_SLIDER_LEN = 1002
+local NEW_SLIDER_POS = 1003
+local SET_SLIDER_POS = 1011
+
+local offSetPicture
+
+local function newSliderBar(name, color, minValue, maxValue, round, step)
+    local params = lljson.slencode({name, color, minValue, maxValue, round, step})
+    ll.MessageLinked(LINK_THIS, NEW_SLIDER_BAR, params, "")
+end
+
+local function newSliderLen(name, len)
+    local params = lljson.slencode({name, len})
+    ll.MessageLinked(LINK_THIS, NEW_SLIDER_LEN, params, "")
+end
+
+local function newSliderPos(name, pos)
+    local params = lljson.slencode({name, pos})
+    ll.MessageLinked(LINK_THIS, NEW_SLIDER_POS, params, "")
+end
+
+local function setSliderPos(name, pos)
+    if name == "HOR" then
+        horPos = pos
+        offSetPicture()
+    end
+    if name == "VER" then
+        verPos = pos
+        offSetPicture()
+    end
+    if name == "SIZE" then
+        sizePos = pos
+        ll.ScaleTexture(1 / pos, 1 / pos, FACE_LINK)
+        offSetPicture()
+        newSliderLen("HOR", 1 / pos)
+        newSliderLen("VER", 1 / pos)
+    end
+end
+
+function offSetPicture()
+    local horOff = (horPos - 0.5) * (1 - (1 / sizePos))
+    local verOff = (verPos - 0.5) * (1 - (1 / sizePos))
+    ll.OffsetTexture(horOff, verOff, FACE_LINK)
+end
+
+function LLEvents.link_message(sender_num, num, str, id)
+    if num == SET_SLIDER_POS then
+        local params = lljson.sldecode(str)
+        setSliderPos(unpack(params))
+    end
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.SetTexture(TEXTURE, FACE_LINK)
+newSliderBar("HOR", COLOR_MOVE_BAR, 0, 1, 0.01, 0.05)
+newSliderBar("VER", COLOR_MOVE_BAR, 0, 1, 0.01, 0.05)
+newSliderPos("HOR", 0.5)
+newSliderPos("VER", 0.5)
+newSliderBar("SIZE", COLOR_SIZE_BAR, 1, 10, 1, 1)
