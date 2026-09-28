@@ -1,0 +1,31 @@
+
+local NEW_SLIDER_BAR = 1001
+local NEW_SLIDER_LEN = 1002
+local NEW_SLIDER_POS = 1003
+local SET_SLIDER_POS = 1011
+
+local function newSliderBar(name, color, minValue, maxValue, round, step)
+    local params = lljson.slencode({name, color, minValue, maxValue, round, step})
+    ll.MessageLinked(LINK_THIS, NEW_SLIDER_BAR, params, "")
+end
+
+local function newSliderLen(name, len)
+    local params = lljson.slencode({name, len})
+    ll.MessageLinked(LINK_THIS, NEW_SLIDER_LEN, params, "")
+end
+
+local function newSliderPos(name, pos)
+    local params = lljson.slencode({name, pos})
+    ll.MessageLinked(LINK_THIS, NEW_SLIDER_POS, params, "")
+end
+
+local function setSliderPos(name, pos)
+
+end
+
+function LLEvents.link_message(sender_num, num, str, id)
+    if num == SET_SLIDER_POS then
+        local params = lljson.sldecode(str)
+        setSliderPos(unpack(params))
+    end
+end
