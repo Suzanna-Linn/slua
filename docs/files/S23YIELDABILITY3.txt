@@ -1,0 +1,11 @@
+
+local function funcWithError()
+    _()
+end
+
+local function errHandlerWithError(err)
+    ll.SetText(err, vector.one, 1)
+end
+
+print(xpcall(funcWithError, errHandlerWithError))
+-- > false    error in error handling
