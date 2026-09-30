@@ -1,0 +1,4 @@
+
+print(pcall(ll.GetNumberOfNotecardLines, "test"))
+--> true    3fdbb8cc-90da-111a-8e3e-03d6d9f71f9f  -- (query id for dataserver)
+-- debug window: Could not find notecard 'test'.
