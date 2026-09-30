@@ -1,0 +1,13 @@
+
+local function funcWithError()
+    _()
+end
+
+local function errHandlerWithError(err)
+    print(err)
+    _()
+end
+
+print(xpcall(funcWithError, errHandlerWithError))
+-- > lua_script:2: attempt to call a nil value
+-- > false    error in error handling
