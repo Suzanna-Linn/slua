@@ -1,0 +1,13 @@
+
+local t = setmetatable({}, {
+    __index = function()
+        print("yieldable: ", coroutine.isyieldable())
+        coroutine.yield()
+    end
+})
+
+print(coroutine.resume(coroutine.create(function()
+    print(t.test)
+end)))
+-- > yieldable: false
+-- > false    attempt to yield across metamethod/C-call boundary
