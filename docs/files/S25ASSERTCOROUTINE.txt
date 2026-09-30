@@ -1,0 +1,9 @@
+
+local function funcCoroError()
+    _()
+end
+
+local coro = coroutine.create(funcCoroError)
+
+assert(coroutine.resume(coro))
+--> lua_script:7: lua_script:2: attempt to call a nil value
