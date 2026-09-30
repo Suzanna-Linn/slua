@@ -1,0 +1,11 @@
+
+local function safeDivide(a, b)
+    if b == 0 then
+        local func, line = debug.info(2, "nl")
+        error(`Error in {if func ~= "" then "function ".. func else "main script"} at line {line}: Division by zero`,2)
+    end
+    return a / b
+end
+
+print(safeDivide(10, 2))  -- 5
+print(safeDivide(5, 0))   -- lua.Script:10: Error in main script at line 10: Division by zero
