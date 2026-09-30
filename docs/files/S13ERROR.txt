@@ -1,0 +1,9 @@
+local function safeDivide(a: number, b: number): number
+    if b == 0 then
+        error("Division by zero",2)
+    end
+    return a / b
+end
+
+print(safeDivide(10, 2))  -- 5
+print(safeDivide(5, 0))   -- lua.script:9: Division by zero
