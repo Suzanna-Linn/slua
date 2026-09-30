@@ -1,0 +1,26 @@
+local errors = {}
+
+local function risky()
+    local num = math.random(25)
+    if num == 13 then
+        table.insert(errors, debug.traceback("Bad luck!\n,"))
+        error("Bad luck!")
+    end
+end
+
+local function test()
+    math.randomseed(os.time())
+    for i = 1, 100 do
+        local success, result
+        repeat
+            success, result = pcall(risky)
+            -- do something with result
+        until success
+    end
+    for _, err in errors do
+        print("---------------")
+        print(err)
+    end
+end
+
+test()
