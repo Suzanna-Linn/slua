@@ -1,0 +1,7 @@
+
+local function funcError()
+    error(vector(1, 2, 3))
+end
+
+funcError()
+-- > runtime error: Unknown runtime error  -- (no traceback)
