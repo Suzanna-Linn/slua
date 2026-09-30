@@ -1,0 +1,15 @@
+
+local function formatError(message)
+    local func, line = debug.info(3,"nl")
+    message = `\nerror in {if func ~= "" then "function ".. func else "main script"} at line {line}:\n{message}\n`
+    return message
+end
+
+local function setHealth(playerName, health)
+    assert(type(playerName) == "string", formatError("Expected player name as string"))
+    assert(type(health) == "number" and health >= 0, formatError("Health must be a non-negative number"))
+    -- do something
+end
+
+setHealth("Suzanna", 100)        -- OK
+setHealth("Random Linden", -10)  -- Will trigger assert with debug info
