@@ -1,3 +1,4 @@
+
 local function safeDivide(a: number, b: number): number
     if b == 0 then
         error("Division by zero",2)
