@@ -1,0 +1,16 @@
+
+local function calculateSquareRoot(number)
+   return math.sqrt(number)
+end
+
+local function safeSquareRoot(input)
+   local success, result = pcall(calculateSquareRoot, input)
+   if success then
+       print("The square root is:", result)
+   else
+       print("Error in", result) 
+   end
+end
+
+safeSquareRoot(25) -- The square root is: 5.0
+safeSquareRoot("hello") -- Error in lua_Script:2: invalid argument #1 to 'sqrt' (number expected, got string)
