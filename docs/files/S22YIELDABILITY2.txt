@@ -1,0 +1,11 @@
+
+local t = setmetatable({}, {
+    __index = function()
+        print("yieldable: ", coroutine.isyieldable())
+        -- slow function that exceeds the time slice
+        ll.SetText("test", vector(1, 1, 1), 1)
+    end
+})
+print(t.test)
+-- > yieldable: false
+-- > runtime error: Failed to perform mandatory yield
