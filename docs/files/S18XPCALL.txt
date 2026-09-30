@@ -1,0 +1,36 @@
+
+local function err(message)
+    local errors = {
+        ["call a nil value"] = "CHECK TYPOS, OR MISSING . IN A LL FUNCTION, ON THE LEFT OF ()",
+        ["index nil with"] = "CHECK TYPOS ON THE LEFT OF []",
+        ["perform arithmetic (add) on string"] = "CHECK USE OF .. (NOT +) TO CONCATENATE STRINGS",
+        ["call a table value"] = "CHECK USE OF [] (NOT ()) TO INDEX A TABLE",
+        ["concatenate nil with string"] = "CHECK TYPOS ON THE LEFT OF ..",
+        ["concatenate string with nil"] = "CHECK TYPOS ON THE RIGHT OF ..",
+    }
+    local func, line = debug.info(2,"nl")
+    local suggest = ""
+    for msg in errors do
+        if message:find(msg, 1, true) then
+            suggest = `\n{errors[msg]} at line {line}\n\n`
+            break
+        end
+    end
+    message = `\nerror in {if func ~= "" then "function ".. func else "main script"} at line {line}:\n{message}\n{suggest}`
+    return message
+end
+
+local function runTimeError1()
+    _()
+end
+
+local function runTimeError2()
+    local a, b = "a", "b"
+    print(a+b)
+end
+
+-- local ok, result = xpcall(runTimeError1, err)
+-- if not ok then error(result) end
+
+local ok, result = xpcall(runTimeError2, err)
+if not ok then error(result) end
