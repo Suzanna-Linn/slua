@@ -1,0 +1,22 @@
+
+local function formatError(message)
+    local func, line = debug.info(3,"nl")
+    message = `\nerror in {if func ~= "" then "function ".. func else "main script"} at line {line}:\n{message}\n`
+    return message
+end
+
+local function process(param1, param2, callback)
+    assert(typeof(callback) == "function" and debug.info(callback, "a") == 2, formatError("Expected a callback function with 2 parameters"))
+    return callback(param1, param2)
+end
+
+local function sum(a, b)
+    return a + b
+end
+
+local function double(a)
+    return a * 2
+end
+
+print(process(3, 4, sum))
+print(process(10, 20, double))
