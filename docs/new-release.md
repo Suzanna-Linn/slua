@@ -590,7 +590,7 @@ In this release many of these cases has been solved. The following are now yield
 - lljson library functions and the *__tojson* metamethod
 
 Are not yieldable:
-- metamethods (except *__tojson*): we need to optimize the code and avoid using LL functions that call the simulator.
+- metamethods (except *__iter* and *__tojson*): we need to optimize the code and avoid using LL functions that call the simulator.
 
 Examples of yieldable:
 <pre class="language-sluab"><code class="language-sluab">-- yielding in an iterator
