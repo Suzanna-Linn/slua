@@ -1,0 +1,98 @@
+
+-- Configuration of options and their areas
+
+local OPTIONS = {
+    { name = "NORTH AMERICA", min = vector(0.024, 0.247, 0), max = vector(0.306, 0.651, 0), total = 0 },
+    { name = "SOUTH AMERICA", min = vector(0.166, 0.667, 0), max = vector(0.285, 0.989, 0), total = 0 },
+    { name = "EUROPE",        min = vector(0.318, 0.296, 0), max = vector(0.496, 0.552, 0), total = 0 },
+    { name = "AFRICA",        min = vector(0.331, 0.572, 0), max = vector(0.494, 0.899, 0), total = 0 },
+    { name = "ASIA",          min = vector(0.506, 0.355, 0), max = vector(0.787, 0.775, 0), total = 0 },
+    { name = "OCEANIA",       min = vector(0.795, 0.717, 0), max = vector(0.929, 0.956, 0), total = 0 },
+    { name = "EARTH",         min = vector(0.789, 0.000, 0), max = vector(1.000, 0.389, 0), total = 0 },
+}
+--
+
+local ME = ll.GetOwner()
+
+local function uuid2byteString(uuid)
+    return llbase64.encode(uuid.bytes):sub(1, 22)
+end
+
+local function byteString2uuid(byteString)
+    return uuid(llbase64.decode(byteString .. "==", true))
+end
+
+local function onReset()
+    for i = 1, ll.LinksetDataCountKeys(), 100 do
+        local linksetKeys = ll.LinksetDataListKeys(i, 100)
+        for j = 1, #linksetKeys do
+            option = tonumber(ll.LinksetDataRead(linksetKeys[j]))
+            OPTIONS[option].total += 1
+        end
+    end
+end
+
+local function infoOwner()
+    local message = "Here are the results of the poll:"
+    for _, option in OPTIONS do
+        message ..= `\n{option.name}: {option.total}`
+    end
+    print(message)
+end
+
+local function findOption(x, y)
+    local selIndex, selOption = nil, nil
+    local pos = vector(x, y, 0)
+    for index, option in OPTIONS do
+        if vector.clamp(pos, option.min, option.max) == pos then
+            selIndex, selOption = index, option
+            break
+        end
+    end
+    return selIndex, selOption
+    --[[ faster but ugliest alternative
+    for index, option in OPTIONS do
+        if x >= option.min.x and x <= option.max.x and y >= option.min.y and y <= option.max.y then
+            return index, option
+        end
+    end
+    return nil, nil
+    ]]
+end
+
+local function selectOption(toucher, x, y)
+    local message = ""
+    local byteStringToucher = uuid2byteString(toucher)
+    local lastIndex, lastOption = tonumber(ll.LinksetDataRead(byteStringToucher)), nil
+    if lastIndex then
+        lastOption = OPTIONS[lastIndex]
+        message = ` Previously you had selected {lastOption.name}.`
+    end
+    local index, option = findOption(x, y)
+    if option then
+        message = `You have selected {option.name}.{message}`
+        if lastOption then
+            lastOption.total -= 1
+        end
+        ll.LinksetDataWrite(byteStringToucher, tostring(index))
+        option.total += 1
+    else
+        if toucher ~= ME then
+            message = `You haven't selected any place, please touch on a continent or on the earth.{message}`
+        else
+            message = ""
+            infoOwner()
+        end
+    end
+    ll.RegionSayTo(toucher, 0, message)
+end
+
+function LLEvents.touch_start(events)
+    for _, ev in events do
+        local toucher = ev:getKey()
+        local touchIndex = ev:getTouchST()
+        selectOption(toucher, touchIndex.x, 1 - touchIndex.y)
+    end
+end
+
+onReset()
