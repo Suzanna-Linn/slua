@@ -1,0 +1,17 @@
+
+local EMAIL_ADDRESS = ""
+
+local SEND_MAIL = 1
+
+local function sendMail(message)
+    if EMAIL_ADDRESS ~= "" then
+        local subject = "Poll board info for " .. ll.LinksetDataCountKeys() .. " users"
+        ll.Email(EMAIL_ADDRESS, subject, message)
+    end
+end
+
+function LLEvents.link_message(sender_num, num, str, id)
+    if num == SEND_MAIL then
+        sendMail(str)
+    end
+end
