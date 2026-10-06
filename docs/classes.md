@@ -6,10 +6,10 @@ And going on with the Study Groups!
 
 **Starting on September 14th 2026**. For more information, contact the instructor **Suzanna (suzannalinn)** or the teaching assistant **Ali (sungali)**.
 
-### SLua - Intermediate
+### SLua - from Basic to Intermediate
 
 - **Dates:** Starting September 14th
-- **Days:** Mondays and Wednesdays
+- **Days:** Mondays
 - **Time:** 11:00am - 12:30pm SLT
 - **Level:** basic knowledge of SLua
 - **Teachers:** Suzanna (suzannalinn) & Ali (sungali)
@@ -17,6 +17,18 @@ And going on with the Study Groups!
 - **In-world Location:** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)
  
 A variety of classes designed to expand your knowledge.
+
+### SLua - MOAP (Media-on-a-prim), HTTP and HTML (with CSS and JavaScript)
+
+- **Dates:** Starting October 7th
+- **Days:** Wednesdays
+- **Time:** 11:00am - 12:30pm SLT
+- **Level:** intermediate knowledge of SLua
+- **Teachers:** Suzanna (suzannalinn) & Ali (sungali)
+- **Format:** Text-only
+- **In-world Location:** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)
+ 
+A series to learn how to dynamically control live web pages and create responsive interactive UIs directly on prim surfaces using Media-on-a-Prim (MOAP) with SLua scripting.
 
 ### SLua - from Zero to Advanced
 
