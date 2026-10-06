@@ -18,7 +18,7 @@ And going on with the Study Groups!
  
 A variety of classes designed to expand your knowledge.
 
-### SLua - MOAP (Media-on-a-prim), HTTP and HTML (with CSS and JavaScript)
+### SLua - MOAP
 
 - **Dates:** Starting October 7th
 - **Days:** Wednesdays
@@ -28,7 +28,7 @@ A variety of classes designed to expand your knowledge.
 - **Format:** Text-only
 - **In-world Location:** [Builders Brewery (Sky Classroom)](https://maps.secondlife.com/secondlife/Builders%20Brewery/59/73/607)
  
-A series to learn how to dynamically control live web pages and create responsive interactive UIs directly on prim surfaces using Media-on-a-Prim (MOAP) with SLua scripting.
+A series to learn how to dynamically control live web pages and create responsive interactive UIs directly on prim surfaces using Media-on-a-Prim (MOAP) with SLua scripting, using HTTP, HTML, CSS and JavaScript.
 
 ### SLua - from Zero to Advanced
 
