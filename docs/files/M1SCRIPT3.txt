@@ -1,18 +1,18 @@
 
 local SEND_MAIL = 1
 
-function link_message(sender_num, num, str, id)
+function LLEvents.link_message(sender_num, num, str, id)
     if num == SEND_MAIL then
         local mailing = lljson.sldecode(str)
         ll.Email(mailing.address, mailing.subject, mailing.message)
     end
 end
 
-function on_rez(start_param)
+function LLEvents.on_rez(start_param)
     ll.ResetScript()
 end
 
-function changed(change)
+function LLEvents.changed(change)
     if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
