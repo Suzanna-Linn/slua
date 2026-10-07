@@ -76,7 +76,7 @@ local function tableVisitors(html)
     return html
 end
 
-function http_request(id, method, body)
+function LLEvents.http_request(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         sayUrl(url)
@@ -94,11 +94,11 @@ function http_request(id, method, body)
     end
 end
 
-function on_rez(start_param)
+function LLEvents.on_rez(start_param)
     ll.ResetScript()
 end
 
-function changed(change)
+function LLEvents.changed(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
