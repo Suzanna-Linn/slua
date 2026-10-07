@@ -13,7 +13,7 @@ local function show(url)
     })
 end
 
-LLEvents.listen(channel, name, id, message)
+function LLEvents.listen(channel, name, id, message)
     if channel == 0 then
         if ll.GetSubString(message, 1, 7) == "http://" or ll.GetSubString(message, 1, 8) == "https://" then
             show(message)
