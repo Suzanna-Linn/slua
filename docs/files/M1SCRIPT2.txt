@@ -1,0 +1,107 @@
+
+local EMAIL = ""  -- your email
+
+local SEND_MAIL = 1
+local url = ""
+
+local htmlVisitorsList = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Table of Visitors</title>
+</head>
+<body>
+    <h1>Table of Visitors</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="2">Total Visitors: @TOTAL_VISITORS@</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            @TABLE@
+        </tbody>
+    </table>
+</body>
+</html>
+]=]
+
+local htmlVisitorsListTable = [=[
+            <tr>
+                <td>@NAME@</td>
+                <td>@USERNAME@</td>
+            </tr>
+]=]
+
+local function show(url)
+    ll.SetPrimMediaParams(2, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 1024,
+        PRIM_MEDIA_HEIGHT_PIXELS, 1024,
+    })
+end
+
+local function sayUrl(url)
+    print(url)
+    if EMAIL ~= "" then
+        local mailing = { address = EMAIL, subject = "New url", message = url }
+        ll.MessageLinked(LINK_THIS, SEND_MAIL, lljson.slencode(mailing), "")
+    end
+end
+
+local function tableVisitors(html)
+    local rows = {}
+    local visitors = ll.GetAgentList(AGENT_LIST_REGION, {})
+    for _, visitor in visitors do
+        local row = htmlVisitorsListTable
+        row = ll.ReplaceSubString(row, "@NAME@", ll.GetDisplayName(visitor), 0)
+        row = ll.ReplaceSubString(row, "@USERNAME@", ll.GetUsername(visitor), 0)
+        table.insert(rows, row)
+    end
+    html = ll.ReplaceSubString(html, "@TOTAL_VISITORS@", tostring(#visitors), 0)
+    html = ll.ReplaceSubString(html, "@TABLE@", table.concat(rows), 0)
+    return html
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body
+        sayUrl(url)
+        show(url)
+    else
+        if method == URL_REQUEST_DENIED then
+            print("Unable to get URL!")
+        else
+            if method == "GET" then
+                local html = tableVisitors(htmlVisitorsList)
+                ll.SetContentType(id, CONTENT_TYPE_XHTML)
+                ll.HTTPResponse(id, 200, html)
+            end
+        end
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestURL()
