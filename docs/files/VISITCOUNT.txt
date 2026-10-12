@@ -1,0 +1,310 @@
+
+--[[  MAP OF FUNCTIONS
+
+getOffset() : calculates the offsets for the text texture (line 139)
+              called by setText()
+
+setText() : writes the 8 characters text on a text panel (lin 146)
+            calls getOffset()
+            called by display()
+
+formatNumber() : formats the number before displaying it (line 161)
+                 called by display()
+
+display() : displays the counters on the board (line 200)
+            calls formatNumber(), setText()
+            called by initialization, scanPeople(), newDay()
+
+newDay() : calculates the stats when the day changes (line 226)
+           called by scanPeople()
+
+personInPlace() : checks if the visitor is inside the counting limits (line 246)
+                  called by scanPeople()
+
+scanPeople() : scans the people in the place (line 259)
+               calls newDay(), personInPlace(), display()
+               called by initialization, timer
+
+initialization : (line 306)
+                 calls display(), scanPeople()
+
+timer : (line 309)
+        calls scanPeople()
+]]
+
+local MIN_VERTEX = vector(0, 0, 0)
+local MAX_VERTEX = vector(256, 256, 4096)
+local MAX_DISTANCE = 4112
+
+-- a "box" space, inside which the visitors will be counted
+-- VERTEX_LOW has the lower valoes of the x,y,z coordinates, VERTEX_HIGH has the higher values
+-- for instance for the skyroom class at BB: VERTEX_LOW=<9,6,602> and VERTEX_HIGH=<53,56,622>
+local VERTEX_LOW = vector(9, 6, 602)
+local VERTEX_HIGH = vector(53, 56, 622)
+
+-- a distance from the object, nearer which the visitors will be counted
+local DISTANCE = MAX_DISTANCE
+
+-- space to scan for people:
+--     AGENT_LIST_PARCEL: the parcel where I am 
+--     AGENT_LIST_PARCEL_OWNER: the parcel where I am and other parcels with the same owner
+--     AGENT_LIST_REGION: all the sim
+local AGENT_SELECTION = AGENT_LIST_PARCEL
+
+-- time to wait between scannings
+local SCAN_SECONDS = 15
+
+-- constants for display options
+local DISPLAY_TODAY = false
+local DISPLAY_ALL = true
+
+-- text
+local alphabet = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\n\n\n\n\n"
+local TEXTURE = "b2e7394f-5e54-aa12-6e1c-ef327b6bed9e"
+
+-- colors used
+local RED = vector(1.000, 0.255, 0.212)
+local MAROON = vector(0.522, 0.078, 0.294)
+
+-- sizes used for each period
+local TEXT_SIZES = {
+    totalVisits     = { integerLength = 8, decimalLength = 0, thousands = true },
+    uniqueVisitors  = { integerLength = 8, decimalLength = 0, thousands = true },
+    averageVisitors = { integerLength = 5, decimalLength = 2, thousands = false },
+    averageMinutes  = { integerLength = 5, decimalLength = 2, thousands = false },
+}
+
+-- colors used for each period and its link in the linkset
+local TEXT_COLORS = {
+    today = {
+        totalVisits     = { color = RED,    link = 2 },
+        uniqueVisitors  = { color = RED,    link = 3 },
+        averageVisitors = { color = RED,    link = 4 },
+        averageMinutes  = { color = RED,    link = 5 },
+    },
+    yesterday = {
+        totalVisits     = { color = MAROON, link = 6 },
+        uniqueVisitors  = { color = MAROON, link = 7 },
+        averageVisitors = { color = MAROON, link = 8 },
+        averageMinutes  = { color = MAROON, link = 9 },
+    },
+    thisMonth = {
+        totalVisits     = { color = RED,    link = 10 },
+        uniqueVisitors  = { color = RED,    link = 11 },
+        averageVisitors = { color = RED,    link = 12 },
+        averageMinutes  = { color = RED,    link = 13 },
+    },
+    lastMonth = {
+        totalVisits     = { color = MAROON, link = 14 },
+        uniqueVisitors  = { color = MAROON, link = 15 },
+        averageVisitors = { color = MAROON, link = 16 },
+        averageMinutes  = { color = MAROON, link = 17 },
+    },
+    allTime = {
+        totalVisits     = { color = RED,    link = 18 },
+        uniqueVisitors  = { color = RED,    link = 19 },
+        averageVisitors = { color = RED,    link = 20 },
+        averageMinutes  = { color = RED,    link = 21 },
+    },
+}
+
+local myPos = ll.GetPos()
+local checkInPlace = VERTEX_LOW ~= MIN_VERTEX or VERTEX_HIGH ~= MAX_VERTEX or DISTANCE ~= MAX_DISTANCE  -- don't check the place if any value is set
+
+local people = {}  -- people in the previous scan (dictionary table)
+local totalPeople = 0  -- total of people
+
+-- times in seconds, since the start of the day, in slt time
+local time = 0  -- time of the previous scan of people
+local newTime = 0  -- time of the current scan of people
+
+-- UUIDs of the visitors, to know if they had come before in the day
+local todayVisitors = {}
+
+-- create a nested table for a period
+local function initStat()
+    return {totalVisits = 0, uniqueVisitors = 0, totalTime = 0, days = 0}
+end
+
+-- total stats
+local stats = {
+    today = initStat(),
+    yesterday = initStat(),
+    thisMonth = initStat(),
+    lastMonth = initStat(),
+    allTime = initStat(),
+}
+
+-- 
+
+local function getOffset(pos)  -- calculates the offsets for the text texture
+    pos -= 1
+    local row = pos // 10
+    local col = pos % 10
+    return vector(-0.45 + (0.1 * col), 0.45 - (0.1 * row), 0.0)
+end
+
+local function setText(text, format)  -- writes the 8 characters text on a text panel
+    local link = format.link
+    local color = format.color
+    for faceText = 1, #text do
+        local letter = text:sub(faceText, faceText)
+        local index = alphabet:find(letter, 1, true) or 1
+        local offset = getOffset(index)
+        ll.SetLinkPrimitiveParamsFast(link, {
+            PRIM_TEXTURE, faceText - 1,
+            TEXTURE, vector(0.08, 0.08, 0), vector(offset.x, offset.y, 0), 0,
+            PRIM_COLOR, faceText - 1, color, 1
+        })
+    end
+end
+
+local function formatNumber(number, format)  -- formats the number before displaying it
+    local intLen = format.integerLength
+    local decLen = format.decimalLength
+    local thousands = format.thousands
+    local isNegative = number < 0
+    local absNum = math.abs(number)
+    -- formatting decimals and rounding
+    -- "%.nnnf": formats a float ('f') with precision specified by nnn
+    local numStr = string.format("%." .. decLen .. "f", absNum)
+    local intPart, decPart
+    if decLen > 0 then
+        -- "^(%d+)%.(%d+)$": captures digits before the dot (%1) and digits after the escaped dot (%2) from start (^) to end ($)
+        intPart, decPart = string.match(numStr, "^(%d+)%.(%d+)$")
+    else
+        intPart = numStr
+    end
+    -- adding thousands separators
+    if thousands then
+        while true do
+            local replaced
+            -- "^(%d+)(%d%d%d)": captures leading digits (%1) and the rightmost group of 3 digits (%2), inserting a comma between them
+            intPart, replaced = string.gsub(intPart, "^(%d+)(%d%d%d)", "%1,%2")
+            if replaced == 0 then
+                break
+            end
+        end
+    end
+    -- prepending negative sign
+    if isNegative then
+        intPart = "-" .. intPart
+    end
+    -- left-padding the integer part with spaces if needed
+    if #intPart < intLen then
+        intPart = string.rep(" ", intLen - #intPart) .. intPart
+    end
+    -- combining integer and decimal parts
+    return intPart .. if decLen > 0 then "." .. decPart else ""
+end
+
+local function display(displayAll)  -- displays the counters on the board
+    for _, period in (if displayAll then {"today", "yesterday", "thisMonth", "lastMonth", "allTime"} else {"today"}) do
+        local periodStat = stats[period]
+        local total = periodStat.totalVisits
+        local unique = periodStat.uniqueVisitors
+        local seconds = periodStat.totalTime
+        local days = periodStat.days
+        local textColors = TEXT_COLORS[period]
+        if total > 0 and unique > 0 then
+            setText(formatNumber(total / days, TEXT_SIZES.totalVisits), textColors.totalVisits)
+            setText(formatNumber(unique / days, TEXT_SIZES.uniqueVisitors), textColors.uniqueVisitors)
+            if period == "today" then
+                setText(formatNumber(if time > 0 then seconds / days / time else 0, TEXT_SIZES.averageVisitors), textColors.averageVisitors)
+            else
+                setText(formatNumber(seconds / days / 86400, TEXT_SIZES.averageVisitors), textColors.averageVisitors)
+            end
+            setText(formatNumber(seconds / unique / 60, TEXT_SIZES.averageMinutes), textColors.averageMinutes)
+        else
+            setText(formatNumber(0, TEXT_SIZES.totalVisits), textColors.totalVisits)
+            setText(formatNumber(0, TEXT_SIZES.uniqueVisitors), textColors.uniqueVisitors)
+            setText(formatNumber(0, TEXT_SIZES.averageVisitors), textColors.averageVisitors)
+            setText(formatNumber(0, TEXT_SIZES.averageMinutes), textColors.averageMinutes)
+        end
+    end
+end
+
+local function newDay()  -- calculates the stats when the day changes
+    stats.today.totalTime += (86400 - time) * totalPeople
+    stats.yesterday = stats.today
+    for _, info in {"totalVisits", "uniqueVisitors", "totalTime", "days"} do
+        stats.thisMonth[info] += stats.today[info]
+        stats.allTime[info] += stats.today[info]
+    end
+    local day = os.date("!*t").day
+    if day == 1 then
+        stats.lastMonth = stats.thisMonth
+        stats.thisMonth = initStat()
+    end
+    stats.today = initStat()
+    stats.today.days = 1
+    todayVisitors = {}
+    people, totalPeople = {}, 0
+    time = 0
+    display(DISPLAY_ALL)
+end
+
+local function personInPlace(personId)  -- checks if the visitor is inside the counting limits
+    local inPlace = true
+    local pos = ll.GetObjectDetails(personId, {OBJECT_POS})[1]
+    if not pos or vector.clamp(pos, VERTEX_LOW, VERTEX_HIGH) ~= pos then
+        inPlace = false  -- out of the "box" space
+    else
+        if ll.VecDist(myPos, pos) > DISTANCE then
+            inPlace = false  -- out of distance
+        end
+    end
+    return inPlace
+end
+
+local function scanPeople()  -- scans the people in the place
+    local peopleRegion = {}
+    local peopleNow = {}
+    -- checking time and day
+    newTime = ll.GetWallclock()
+    if newTime < time then
+        newDay()
+    end
+    -- checking people in people, adding to stats
+    peopleRegion = ll.GetAgentList(AGENT_SELECTION, {})
+    totalPeople = 0
+    for _, personId in peopleRegion do
+        if not checkInPlace or personInPlace(personId) then  -- if in place, add to the table of people
+            peopleNow[personId] = true
+            totalPeople += 1
+            if not people[personId] then
+                stats.today.totalVisits += 1
+                if not todayVisitors[personId] then
+                    stats.today.uniqueVisitors += 1
+                    todayVisitors[personId] = ""
+                end
+            end
+        end
+    end
+    -- updating values and displaying
+    people = peopleNow
+    stats.today.totalTime += (newTime - time) * totalPeople
+    time = newTime
+    display(DISPLAY_TODAY)
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, CHANGED_OWNER) then
+        ll.ResetScript()
+    end
+end
+
+-- test values, delete this after testing:
+stats = {
+    today     = { totalVisits = 211,   uniqueVisitors = 132,   totalTime = 198157,   days = 1 },
+    yesterday = { totalVisits = 349,   uniqueVisitors = 203,   totalTime = 415892,   days = 1 },
+    thisMonth = { totalVisits = 1020,  uniqueVisitors = 658,   totalTime = 1011917,  days = 3 },
+    lastMonth = { totalVisits = 7135,  uniqueVisitors = 4891,  totalTime = 8088717,  days = 30 },
+    allTime   = { totalVisits = 68288, uniqueVisitors = 42540, totalTime = 57394408, days = 310 },
+}
+-- delete until here
+
+stats.today.days = 1
+time = ll.GetWallclock()
+display(DISPLAY_ALL)
+LLTimers:every(SCAN_SECONDS, scanPeople)()
