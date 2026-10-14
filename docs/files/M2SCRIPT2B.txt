@@ -1,0 +1,86 @@
+
+local url = ""
+
+local htmlQuote = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Quote of the Moment</title>
+</head>
+<body>
+    <h1 style="color: blue;">@QUOTE@</h1>
+    <h1 style="color: blue;">@AUTHOR@</h1>
+</body>
+</html>
+]=]
+
+local WEB_API = "https://zenquotes.io/api/random"
+local requests = {}
+
+local requestCount = 0
+
+local function show(url)
+    ll.SetPrimMediaParams(2, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 1024,
+        PRIM_MEDIA_HEIGHT_PIXELS, 256,
+    })
+end
+
+function touch_start(events)
+    if events[1]:getKey() == ll.GetOwner() then
+        requests = {}
+        if requestCount ~= 0 then
+            ll.Say(0, `{requestCount} requests to the previous page`)
+            requestCount = 0
+        end
+        show(`{url}/?time={os.time()}`)
+    end
+end
+
+function http_response(request_id, status, metadata, body)
+    if requests[request_id] then
+        local id = requests[request_id]
+        local json = lljson.decode(body)
+        local html = ll.ReplaceSubString(htmlQuote, "@QUOTE@", json[1].q, 0)
+        html = ll.ReplaceSubString(html, "@AUTHOR@", json[1].a, 0)
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, html)
+        requests[request_id] = nil
+    end
+end
+
+function http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body
+        ll.OwnerSay(url)
+    else
+        if method == URL_REQUEST_DENIED then
+            ll.OwnerSay("Unable to get URL!")
+        else
+            if method == "GET" then
+                requests[ll.HTTPRequest(WEB_API, {}, "")] = id
+                requestCount += 1
+            end
+        end
+    end
+end
+
+function on_rez(start_param)
+    ll.ResetScript()
+end
+
+function changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestURL()
