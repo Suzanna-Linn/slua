@@ -35,7 +35,7 @@ local function show(url)
     })
 end
 
-function touch_start(events)
+function LLEvents.touch_start(events)
     if events[1]:getKey() == ll.GetOwner() then
         if requestCount ~= 0 then
             ll.Say(0, `{requestCount} requests to the previous page`)
@@ -45,7 +45,7 @@ function touch_start(events)
     end
 end
 
-function http_response(request_id, status, metadata, body)
+function LLEvents.http_response(request_id, status, metadata, body)
     if httpRequestId == request_id then
         local json = lljson.decode(body)
         html = ll.ReplaceSubString(htmlQuote, "@QUOTE@", json[1].q, 0)
@@ -54,7 +54,7 @@ function http_response(request_id, status, metadata, body)
     end
 end
 
-function http_request(id, method, body)
+function LLEvents.http_request(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         print(url)
@@ -72,11 +72,11 @@ function http_request(id, method, body)
     end
 end
 
-function on_rez(start_param)
+function LLEvents.on_rez(start_param)
     ll.ResetScript()
 end
 
-function changed(change)
+function LLEvents.changed(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
