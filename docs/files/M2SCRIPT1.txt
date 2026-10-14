@@ -17,7 +17,7 @@ local htmlNotecard = [=[
 </body>
 </html>
 ]=]
-
+e
 local htmlNotecardLines = [=[
     <p>@NOTECARD_LINE@</p>
 ]=]
@@ -49,7 +49,7 @@ local function sayUrl(url)
     end
 end
 
-function dataserver(request, data)
+function LLEvents.dataserver(request, data)
     if request == requestLineId then
         repeat
             if data ~= EOF then
@@ -67,7 +67,7 @@ function dataserver(request, data)
     end
 end
 
-function http_request(id, method, body)
+function LLEvents.http_request(id, method, body)
     if method == URL_REQUEST_GRANTED then
         url = body
         sayUrl(url)
@@ -86,11 +86,11 @@ function http_request(id, method, body)
     end
 end
 
-function on_rez(start_param)
+function LLEvents.on_rez(start_param)
     ll.ResetScript()
 end
 
-function changed(change)
+function LLEvents.changed(change)
     if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
         ll.ResetScript()
     end
