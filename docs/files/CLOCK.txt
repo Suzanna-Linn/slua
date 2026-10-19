@@ -1,0 +1,196 @@
+
+local DEBUG = false
+
+-- texts
+local alphabet = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\n\n\n\n\n"
+local TEXTURE = "b2e7394f-5e54-aa12-6e1c-ef327b6bed9e"
+
+local LINKED_TEXT_TIME = 2
+local LINKED_TEXT_CITY = {3, 4}
+local LINKED_CLOCK_LONG = 5
+local LINKED_CLOCK_SHORT = 6
+local LINKED_CLOCK = 7
+local FACE_CLOCK = 4
+
+local CLOCK_TEXTURE = "1bca8031-76f2-2663-72c7-6c5652819171"
+
+local COLOR_TEXT_TIME = vector(0.000, 0.000, 1.000)
+local COLOR_TEXT_CITY = vector(1.000, 0.863, 0.000)
+
+local amPm = ""
+local clockAm = {PRIM_TEXTURE, FACE_CLOCK, CLOCK_TEXTURE, vector(0.5, 1, 0), vector(-0.255, 0, 0), 0}
+local clockPm = {PRIM_TEXTURE, FACE_CLOCK, CLOCK_TEXTURE, vector(0.5, 1, 0), vector(0.251, -0.005, 0), 0}
+
+local posClockLong = vector(-0.03, 0.0, 0.5125)
+local posClockShort = vector(-0.04, 0.0, 0.3625)
+local sizeClockLong = vector(0.02, 0.05, 0.9)
+local sizeClockShort = vector(0.02, 0.05, 0.6)
+
+local url = "https://timeapi.io/api/Time/current/zone?timeZone="
+local http_request_id = NULL_KEY
+
+local city = ""
+local timeZone = ""
+local utcOffset = 0
+
+local function Debug(message)
+    if DEBUG then
+        print("Debug: " .. message)
+    end
+end
+
+--
+-- text functions
+--
+
+local function getOffset(pos)
+    pos -= 1
+    local row = pos // 10
+    local col = pos % 10
+    return vector(-0.45 + (0.1 * col), 0.45 - (0.1 * row), 0.0)
+end
+
+local function setText(text, color, link)
+    for faceText = 1, #text do
+        local letter = text:sub(faceText, faceText)
+        local index = alphabet:find(letter, 1, true) or 1
+        local offset = getOffset(index)
+        ll.SetLinkPrimitiveParamsFast(link, {
+            PRIM_TEXTURE, faceText - 1, TEXTURE, vector(0.08, 0.08, 0), vector(offset.x, offset.y, 0), 0,
+            PRIM_COLOR, faceText - 1, color, 1
+        })
+    end
+end
+
+--
+
+local function time2Seconds(time)
+    local h, m, s = string.match(time, "(%d+):(%d+):(%d+)")
+    return h * 3600 + m * 60 + s
+end
+
+local function seconds2Time(seconds)
+    return string.format("%2d:%02d:%02d", seconds // 3600, (seconds // 60) % 60, seconds % 60)
+end
+
+local function getTimeZoneInfo()
+    http_request_id = ll.HTTPRequest(url .. timeZone, {}, "")
+    Debug(url .. timeZone)
+end
+
+local function getUtcOffset(data)
+    local info = lljson.decode(data)
+    local date = info.date
+    local time = info.time .. string.format(":%02d", info.seconds)
+    local utcDate = ll.GetDate()
+    local utcTime = ll.GetGMTclock()
+    if date < utcDate then
+        utcTime += 86400
+    elseif date > utcDate then
+        utcTime -= 86400
+    end
+    local seconds = time2Seconds(time)
+    local offset = seconds - utcTime
+    offset = math.round(offset / 300.0) * 300
+    return offset
+end
+
+local function setClock()
+    -- get the time in the clock timezone
+    local utcTime = ll.GetGMTclock()
+    local seconds = utcTime + utcOffset
+    if seconds < 0 then
+        seconds += 86400
+    elseif seconds > 86399 then
+        seconds -= 86400
+    end
+    local time = seconds2Time(seconds)
+
+    -- display the hour on the clock
+    setText(time, COLOR_TEXT_TIME, LINKED_TEXT_TIME)
+
+    -- choose the right clock texture for AM/PM
+    if seconds < 43200 then
+        if amPm ~= "am" then
+            ll.SetLinkPrimitiveParamsFast(LINKED_CLOCK, clockAm)
+            amPm = "am"
+        end
+    else
+        if amPm ~= "pm" then
+            ll.SetLinkPrimitiveParamsFast(LINKED_CLOCK, clockPm)
+            amPm = "pm"
+        end
+    end
+
+    local angle, rot, size, offset, pos
+
+    -- move the short clock hand
+    angle = 360.0 / 43200 * (seconds % 43200)
+    rot = ll.Euler2Rot(vector(angle, 0.0, 0.0) * DEG_TO_RAD)
+    size = ll.GetLinkPrimitiveParams(LINKED_CLOCK_SHORT, {PRIM_SIZE})[1]
+    offset = vector(0.0, 0.0, (size.z * -0.5))
+    pos = posClockShort * (size / sizeClockShort)
+    ll.SetLinkPrimitiveParamsFast(LINKED_CLOCK_SHORT, {PRIM_POS_LOCAL, pos + (offset - (offset * rot)), PRIM_ROT_LOCAL, rot})
+
+    -- move the long clock hand
+    angle = 360.0 / 3600 * (seconds % 3600)
+    rot = ll.Euler2Rot(vector(angle, 0.0, 0.0) * DEG_TO_RAD)
+    size = ll.GetLinkPrimitiveParams(LINKED_CLOCK_LONG, {PRIM_SIZE})[1]
+    offset = vector(0.0, 0.0, (size.z * -0.5))
+    pos = posClockLong * (size / sizeClockLong)
+    ll.SetLinkPrimitiveParamsFast(LINKED_CLOCK_LONG, {PRIM_POS_LOCAL, pos + (offset - (offset * rot)), PRIM_ROT_LOCAL, rot})
+
+    -- request the info from the website every hour
+    if seconds % 3600 == 0 then
+        getTimeZoneInfo()
+    end
+end
+
+local function setCity()
+    local displayCity = city
+    while #displayCity < 16 do
+        displayCity ..= " "
+        if #displayCity < 16 then
+            displayCity = " " .. displayCity
+        end
+    end
+    setText(displayCity:sub(1, 8), COLOR_TEXT_CITY, LINKED_TEXT_CITY[1])
+    setText(displayCity:sub(9, 16), COLOR_TEXT_CITY, LINKED_TEXT_CITY[2])
+end
+
+local function timerClock()
+    if ll.GetObjectName() ~= city then
+        city = ll.GetObjectName()
+        setCity()
+    end
+    if ll.GetObjectDesc() ~= timeZone then
+        timeZone = ll.GetObjectDesc()
+        getTimeZoneInfo()
+    else
+        setClock()
+    end
+end
+
+function LLEvents.http_response(request_id, status, metadata, body)
+    if request_id == http_request_id then
+        if status == 200 then
+            Debug("http body:\n" .. body)
+            utcOffset = getUtcOffset(body)
+            setClock()
+        else
+            Debug("http error " .. status .. ":\n" .. body)
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+LLTimers:every(1, timerClock)
