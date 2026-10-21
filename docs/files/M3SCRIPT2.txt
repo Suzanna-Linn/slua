@@ -1,0 +1,237 @@
+
+local url = ""
+
+local htmlHeader = [=[
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <title>@TITLE@</title>
+    <style type='text/css'>
+        @STYLE@
+    </style>
+</head>
+<body>
+    @BODY@
+</body>
+</html>
+]=]
+
+local htmlStyle = [=[
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        tfoot td {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        tfoot td:first-child {
+            text-align: right;
+        }
+]=]
+
+local htmlLinks = [=[
+    <h1>Links Page</h1>
+    <ul>
+        <li><a href='visitors' title='Go to the visitors list'>Visitors</a></li>
+        <li><a href='languages' title='Go to the languages list'>Languages</a></li>
+    </ul>
+]=]
+
+local htmlLinksTitle = "Links Page"
+
+local htmlVisitors = [=[
+    <h1>Table of Visitors</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan='2'>Total Visitors: @TOTAL_VISITORS@</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            @TABLE@
+        </tbody>
+    </table>
+    <a href='links' title='Go back to the links page'>Back</a>
+]=]
+
+local htmlVisitorsTable = [=[
+            <tr>
+                <td>@NAME@</td>
+                <td>@USERNAME@</td>
+            </tr>
+]=]
+
+local htmlVisitorsTitle = "Table of Visitors"
+
+local htmlLanguages = [=[
+    <h1>Table of Languages</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Language</th>
+                <th>Visitors</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan='2'>Total Languages: @TOTAL_LANGUAGES@</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            @TABLE@
+        </tbody>
+    </table>
+    <a href='links' title='Go back to the links page'>Back</a>
+]=]
+
+local htmlLanguagesTable = [=[
+            <tr>
+                <td>@LANGUAGE@</td>
+                <td>@VISITORS@</td>
+            </tr>
+]=]
+
+local htmlLanguagesTitle = "Table of Languages"
+
+local function show(url)
+    ll.SetPrimMediaParams(2, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_OWNER,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 1024,
+        PRIM_MEDIA_HEIGHT_PIXELS, 1024,
+    })
+end
+
+local function tableVisitors(html)
+    local rows = {}
+    local visitors = ll.GetAgentList(AGENT_LIST_REGION, {})
+    for _, visitor in visitors do
+        local row = htmlVisitorsTable
+        row = ll.ReplaceSubString(row, "@NAME@", ll.GetDisplayName(visitor), 0)
+        row = ll.ReplaceSubString(row, "@USERNAME@", ll.GetUsername(visitor), 0)
+        table.insert(rows, row)
+    end
+    html = ll.ReplaceSubString(html, "@TOTAL_VISITORS@", tostring(#visitors), 0)
+    html = ll.ReplaceSubString(html, "@TABLE@", table.concat(rows), 0)
+    return html
+end
+
+local LANGUAGES = {
+    en = "English",   da = "Danish",  de = "German",   es = "Spanish",    fr = "French",  it = "Italian",
+    hu = "Hungarian", nl = "Dutch",   pl = "Polish",   pt = "Portuguese", ru = "Russian", tr = "Turkish",
+    uk = "Ukrainian", zh = "Chinese", ja = "Japanese", ko = "Korean",     [""] = "unknown"
+}
+
+local function tableLanguages(html)
+    local rows = {}
+    local languages = {}
+    local visitors = {}
+    visitors = ll.GetAgentList(AGENT_LIST_REGION, {})
+    for _, visitor in visitors do
+        local language = ll.GetAgentLanguage(visitor):sub(1,2)
+        languages[language] = (languages[language] or 0) + 1
+    end
+    local lang = {}
+    for code, count in languages do
+        table.insert(lang, {code = code, count = count})
+    end
+    table.sort(lang, function(a, b)
+        return if a.count ~= b.count then
+            a.count > b.count
+        else
+            a.code < b.code
+    end)
+    for _, language in lang do
+        local languageName = LANGUAGES[language.code] or language.code
+        local row = htmlLanguagesTable
+        row = ll.ReplaceSubString(row, "@LANGUAGE@", languageName, 0)
+        row = ll.ReplaceSubString(row, "@VISITORS@", tostring(language.count), 0)
+        table.insert(rows, row)
+    end
+    html = ll.ReplaceSubString(html, "@TOTAL_LANGUAGES@", tostring(#lang - if languages[""] then 1 else 0), 0)
+    html = ll.ReplaceSubString(html, "@TABLE@", table.concat(rows), 0)
+    return html
+end
+
+function LLEvents.http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/links"
+        ll.Say(0, url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        print("Unable to get URL!")
+    elseif method == "GET" then
+        local html = ""
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        if path == "/links" then
+            html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+            html = ll.ReplaceSubString(html, "@TITLE@", htmlLinksTitle, 0)
+            html = ll.ReplaceSubString(html, "@BODY@", htmlLinks, 0)
+        elseif path == "/visitors" then
+            html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+            html = ll.ReplaceSubString(html, "@TITLE@", htmlVisitorsTitle, 0)
+            html = ll.ReplaceSubString(html, "@BODY@", tableVisitors(htmlVisitors), 0)
+        elseif path == "/languages" then
+            html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+            html = ll.ReplaceSubString(html, "@TITLE@", htmlLanguagesTitle, 0)
+            html = ll.ReplaceSubString(html, "@BODY@", tableLanguages(htmlLanguages), 0)
+        end
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, html)
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestURL()
