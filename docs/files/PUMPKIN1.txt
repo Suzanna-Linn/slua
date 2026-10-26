@@ -1,0 +1,54 @@
+
+local SECONDS_BETWEEN_MESSAGES = 60
+
+local messages = {
+    "Hey there, gourd-geous! Ready for a spook-tacular night?",
+    "Wishing you a boo-tiful Halloween filled with treats!",
+    "Just here to carve out some fun, let’s get this party started!",
+    "You’ve got the guts to join me for some Halloween mischief?",
+    "I’m all lit up and ready to shine, let’s light up this night!",
+    "Are you afraid of the dark? Don’t worry, I’ll keep you glowing!",
+    "Feeling orange-tastic this Halloween! Let’s make it a night to remember!",
+    "Let’s squash those fears and have a fang-tastic time!",
+    "Remember, if you carve me, I promise to always brighten your Halloween!",
+    "I’m not just a pumpkin; I’m a squash of fun!",
+    "I’m here for the boos… and maybe some candy!",
+    "Let’s make this a pumpkin-spice kind of night!",
+    "Feeling a little hollow? Just like me!",
+    "Keep calm and scare on! Just don’t carve me up!",
+    "I tried to be a ghost, but I just couldn't find my sheet!",
+    "I once dated a ghost… it didn’t work out because he was too transparent!",
+    "I’m the pumpkin whisperer, my best friend is a gourd!",
+    "Just hanging out here, waiting for the great pumpkin to show up… any day now!",
+    "I tried to join a band, but they said I was too pumpkin-y! What does that even mean?",
+    "Ever seen a pumpkin dance? Just wait until the full moon!",
+    "I put the ‘weird’ in ‘pumpkin spice latte’, care for a sip?",
+    "What if we’re all just pumpkins waiting to be carved into something amazing?",
+    "I have a confession… I’m secretly in love with a scarecrow!",
+    "I’m not just a pretty face! Let’s get cooking, how about some pumpkin pie?",
+    "Want to spice things up? I’ve got a gourd-eous recipe for pumpkin soup!",
+    "Let’s carve out some time to bake a pumpkin bread that’ll make you squash your fears!",
+    "If you think I’m cute now, just wait until you taste my pumpkin spice latte!",
+    "Ready to make some pulp-tastic pumpkin pancakes? They’re to die for!",
+    "Feeling a bit hollow? Let’s fill you up with some creamy pumpkin risotto!",
+    "Don’t let me go to waste! I’d make a slice of the best pumpkin pie you’ve ever tasted!",
+    "Pumpkin cookies are the way to my heart, just don’t get too baked!",
+    "I’m here to tell you that pumpkin cheesecake is the real reason for the season!",
+    "Did you know? Pumpkins are 90% water! Just like my puns, plentiful and a little soggy!",
+    "Fun fact: The largest pumpkin ever grown weighed over 2,600 pounds! That’s one heavy gourd!",
+    "Pumpkins are actually fruits! So when you call me cute, just know I’m a fruit salad waiting to happen!",
+    "Ever heard of pumpkin seeds? They can be roasted for a tasty snack, just don’t let me see you throw them away!",
+    "Did you know pumpkins were once used as a remedy for freckles? I guess I’m just a spooky beauty secret!",
+    "Here’s a weird one: Pumpkins can float! So if you ever need a boat, just grab a big one!",
+    "Pumpkins were first cultivated in Mexico over 7,500 years ago! Talk about a long-term relationship!",
+    "Want a fun Halloween fact? The word ‘pumpkin’ comes from the Greek word ‘pepon,’ meaning ‘large melon.’ I’m basically a melon on a mission!",
+    "Did you know pumpkins can be orange, yellow, white, and even green? Just like my personality, colorful and unpredictable!",
+    "Here’s a gourd-geous fact: Every pumpkin has a unique shape, just like every scary story!"
+}
+
+local function timedMessage()
+    local randomMessage = math.random(#messages)
+    ll.Say(0, messages[randomMessage])
+end
+
+LLTimers:every(SECONDS_BETWEEN_MESSAGES, timedMessage)
