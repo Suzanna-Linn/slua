@@ -1,0 +1,131 @@
+
+local MAX_DISTANCE = 50
+local SENSOR_RANGE = 5
+local SECONDS_REZZED = 300
+local TICK_RATE = 0.25
+
+local OBJECT_LOOK_AT = 0
+local OBJECT_POS_INIT = ll.GetPos()
+local followee = NULL_KEY
+
+local function inDistance(pos)
+    return pos ~= ZERO_VECTOR and ll.VecDist(OBJECT_POS_INIT, pos) <= MAX_DISTANCE
+end
+
+local function lookAtTarget(targetPos, currentPos)
+    local dx = targetPos.x - currentPos.x
+    local dy = targetPos.y - currentPos.y
+    if (dx * dx + dy * dy) < 0.0025 then
+        return ll.GetRot()
+    end
+    local yaw = math.atan2(dy, dx) + OBJECT_LOOK_AT
+    return ll.Euler2Rot(vector(0, 0, yaw))
+end
+
+local function clampToSim(pos)
+    if ll.VecDist(pos, OBJECT_POS_INIT) > MAX_DISTANCE then
+        pos = OBJECT_POS_INIT + (ll.VecNorm(pos - OBJECT_POS_INIT) * MAX_DISTANCE)
+    end
+    return vector(math.clamp(pos.x, 1, 255), math.clamp(pos.y, 1, 255), pos.z)
+end
+
+local function stepTowards(currentPos, targetPos, stopDist)
+    local toTarget = targetPos - currentPos
+    local dist = ll.VecMag(toTarget)
+    local distToMove = dist - stopDist
+    if distToMove <= 0.05 then
+        local hoverZ = math.sin(ll.GetTime() * 2) * 0.05
+        local nextZ = currentPos.z + ((targetPos.z + hoverZ - currentPos.z) * 0.2)
+        return clampToSim(vector(currentPos.x, currentPos.y, nextZ))
+    end
+    local stepSize = math.min(distToMove * 0.25, 1.5)
+    local dir = ll.VecNorm(toTarget)
+    local driftFactor = math.clamp(distToMove / 2, 0, 1)
+    local t = ll.GetTime() * 1.5
+    local drift = vector(math.sin(t) * 0.08, math.cos(t) * 0.08, 0) * driftFactor
+    local nextPos = currentPos + (dir * stepSize) + drift
+    return clampToSim(nextPos)
+end
+
+local function follow(ghostPos)
+    local followeePos = ll.GetObjectDetails(followee, {OBJECT_POS})[1]
+    if followeePos and inDistance(followeePos) then
+        local targetHover = vector(followeePos.x, followeePos.y, followeePos.z + 1)
+        local nextPos = stepTowards(ghostPos, targetHover, 1.2)
+        local nextRot = lookAtTarget(followeePos, nextPos)
+        ll.SetLinkPrimitiveParamsFast(LINK_THIS, {
+            PRIM_POSITION, nextPos,
+            PRIM_ROTATION, nextRot
+        })
+    else
+        followee = NULL_KEY
+    end
+end
+
+local function patrol(ghostPos)
+    local hoverZ = OBJECT_POS_INIT.z + 0.5 + (math.sin(ll.GetTime()) * 0.4)
+    local targetPos = vector(OBJECT_POS_INIT.x, OBJECT_POS_INIT.y, hoverZ)
+    local nextPos = stepTowards(ghostPos, targetPos, 0)
+    local nextRot = lookAtTarget(targetPos, nextPos)
+    ll.SetLinkPrimitiveParamsFast(LINK_THIS, {
+        PRIM_POSITION, nextPos,
+        PRIM_ROTATION, nextRot
+    })
+end
+
+local function timedGhost()
+    local ghostPos = ll.GetPos()
+    if followee.istruthy then
+        follow(ghostPos)
+    else
+        patrol(ghostPos)
+    end
+    if ll.GetTime() > SECONDS_REZZED then
+        ll.Die()
+    end
+end
+
+local function initialize()
+    local desc = ll.StringTrim(ll.GetObjectDesc():upper(), STRING_TRIM)
+    if desc == "X-" then
+        OBJECT_LOOK_AT = PI
+    elseif desc == "Y+" then
+        OBJECT_LOOK_AT = -PI_BY_TWO
+    elseif desc == "Y-" then
+        OBJECT_LOOK_AT = PI_BY_TWO
+    end
+    ll.SensorRepeat("", "", AGENT, SENSOR_RANGE, PI, 1)
+    LLTimers:every(TICK_RATE, timedGhost)
+end
+
+function LLEvents.sensor(events)
+    local person1 = events[1]:getKey()
+    if #events > 1 then
+        local person2 = events[2]:getKey()
+        if person1 == followee or person2 == followee then
+            if math.random(5) == 1 then
+                followee = if person1 == followee then person2 else person1
+            end
+        else
+            followee = person1
+        end
+    else
+        followee = person1
+    end
+end
+
+function LLEvents.no_sensor()
+    followee = NULL_KEY
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+initialize()
