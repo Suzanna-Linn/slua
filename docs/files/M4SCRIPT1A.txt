@@ -1,0 +1,165 @@
+
+local url = ""
+
+local htmlHeader = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>@TITLE@</title>
+    <style type="text/css">
+        @STYLE@
+    </style>
+</head>
+<body>
+    @BODY@
+</body>
+</html>
+]=]
+
+local htmlStyle = [=[
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+        label {
+            font-weight: bold;
+            color: #666;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        p {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+]=]
+
+local htmlFruits = [=[
+    <form action="fruits" method="post">
+        <h1>Select Your Favorite Fruit</h1>
+        <label for="name">Your name:</label>
+        <input type="text" id="name" name="name" />
+        <p>Please select your favorite fruit:</p>
+            <input type="radio" id="apple" name="fruit" value="apple" />
+            <label for="apple">Apple</label>
+        <br />
+            <input type="radio" id="banana" name="fruit" value="banana" />
+            <label for="banana">Banana</label>
+        <br />
+            <input type="radio" id="orange" name="fruit" value="orange" />
+            <label for="orange">Orange</label>
+        <br />
+            <input type="radio" id="grape" name="fruit" value="grape" />
+            <label for="grape">Grape</label>
+        <br /><br />
+        <input type="submit" value="Submit" />
+    </form>
+]=]
+
+local htmlFruitsTitle = "Fruit Selection Form"
+
+local function show(url)
+    ll.SetPrimMediaParams(2, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, false,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 512,
+        PRIM_MEDIA_HEIGHT_PIXELS, 512,
+    })
+end
+
+local function getPage(path)
+    local html = ""
+    if path == "/fruits" then
+        html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+        html = ll.ReplaceSubString(html, "@TITLE@", htmlFruitsTitle, 0)
+        html = ll.ReplaceSubString(html, "@BODY@", htmlFruits, 0)
+    end
+    return html
+end
+
+local function sayParams(params)
+    local paramList = params:split("&")
+    ll.Say(0, `Parameters: \n{table.concat(paramList, "\n")}`)
+end
+
+function LLEvents.http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/fruits"
+        ll.Say(0, url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        ll.OwnerSay("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path))
+    elseif method == "POST" then
+        sayParams(body)
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, getPage(path))
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestURL()
