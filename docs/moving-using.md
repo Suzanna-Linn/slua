@@ -2,9 +2,9 @@
 
 These are the steps to follow before starting to script in SLua:
 
-- Install the "Second Life Project Lua Editor" viewer, from:  
-  <https://releasenotes.secondlife.com/viewer/26.3.0.30154945611.html>  
-  This is a different viewer, with a different icon, than the "Second Life Viewer". We can keep our usual viewer and use this one for SLua scripting only.
+- Install the official LL "Second Life Viewer", from:  
+  <https://releasenotes.secondlife.com/viewer/26.5.0.40714792196.html>  
+  This viewer has the option to edit SLua scripts, most of the other viewers haven't got it yet.
 
 - Teleport to one of the nine regions that have SLua activated. It doesn't work in the other regions:
   - [Lua Beta Landing](http://maps.secondlife.com/secondlife/Lua%20Beta%20Landing/128/128/23)
@@ -17,11 +17,11 @@ These are the steps to follow before starting to script in SLua:
   - [Lua Beta Nicoise](http://maps.secondlife.com/secondlife/Lua%20Beta%20Nicoise/128/128/23)
   - [Lua Beta IsNeat](http://maps.secondlife.com/secondlife/Lua%20Beta%20IsNeat/128/128/23)
 
-- Rez an object and add a new script as usual. The script editor has a "compiler" drop-down list, at bottom center. Choose "SLua":
-  - LSL Legacy (LSO2) : LSL, with "Mono" unchecked.
-  - LSL Mono : LSL, with "Mono" checked (the usual one).
-  - LSL 2025 VM : LSL, but compiled into VM Luau instead of VM Mono.
-  - SLua
+- Rez an object and add a new script as usual. The script editor has a "compiler" drop-down list, at bottom center. Choose "Lua":
+  - LSL on Mono : LSL, with "Mono" checked (the usual one).
+  - LSL Legacy : LSL, with "Mono" unchecked.
+  - LSL on Lua : LSL, but compiled into VM Luau instead of VM Mono.
+  - Lua
  
 - All the LL functions exist in SLua with the same name, but with a "." added between "ll" and the name of the function:  
   - <code class="language-lsl">llSay(0, "Hello world") // LSL</code> is <code class="language-slua">ll.Say(0, "Hello world")  -- SLua</code>.
