@@ -1,0 +1,87 @@
+
+-- =========================================================================
+-- DOOR SCRIPT
+-- =========================================================================
+
+local DOORS_CHANNEL   = -775599
+local OPEN_ANGLE      = 90.0
+local TOTAL_STEPS     = 12
+local STEP_DELAY      = 0.025
+
+-- Set to  1 for Left / Single Door
+-- Set to -1 for Right Door of a double-door pair
+local DOOR_SWING_SIDE = 1
+
+local ME = ll.GetOwner()
+local doorsName = ll.GetObjectDesc()
+local basePos, baseRot, primSize = unpack(ll.GetPrimitiveParams({ PRIM_POS_LOCAL, PRIM_ROT_LOCAL, PRIM_SIZE }))
+local offsetVector = primSize * if primSize.x > primSize.y then
+        vector(-0.5 * DOOR_SWING_SIDE, 0.0, 0.0)
+    else
+        vector(0.0, -0.5 * DOOR_SWING_SIDE, 0.0)
+local hingePos = basePos + (offsetVector * baseRot)
+
+local isCurrentlyOpen = false
+
+local function animateDoor(opening, swingDir)
+    -- Mirror rotation based on visitor side and door side
+    local totalAngle = OPEN_ANGLE * swingDir * DOOR_SWING_SIDE
+    local swingRot   = ll.Euler2Rot(vector(0.0, 0.0, totalAngle) * DEG_TO_RAD)
+    local openRot    = swingRot * baseRot
+
+    local fromRot = if opening then baseRot else openRot
+    local toRot   = if opening then openRot else baseRot
+
+    for step = 1, TOTAL_STEPS do
+        local t = step / TOTAL_STEPS
+
+        -- 1. Rotation along spherical trajectory
+        local curRot = rotation.slerp(fromRot, toRot, t)
+
+        -- 2. Position pivoting around constant hinge anchor
+        local curPos = hingePos - (offsetVector * curRot)
+
+        ll.SetLinkPrimitiveParamsFast(LINK_THIS, {
+            PRIM_POS_LOCAL, curPos,
+            PRIM_ROT_LOCAL, curRot
+        })
+
+        ll.Sleep(STEP_DELAY)
+    end
+
+    -- Hard-snap to exact base values when closed to eliminate floating-point error
+    if not opening then
+        ll.SetLinkPrimitiveParamsFast(LINK_THIS, {
+            PRIM_POS_LOCAL, basePos,
+            PRIM_ROT_LOCAL, baseRot
+        })
+    end
+
+    isCurrentlyOpen = opening
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == DOORS_CHANNEL and ll.GetOwnerKey(id) == ME then
+        local data = lljson.sldecode(message)
+        if data and data.name == doorsName then
+            if data.open and not isCurrentlyOpen then
+                animateDoor(true, data.swingDir)
+            elseif not data.open and isCurrentlyOpen then
+                animateDoor(false, data.swingDir)
+            end
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    -- Recalculate anchor points if the build is moved, re-linked, or edited
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY, CHANGED_LINK)) then
+        ll.ResetScript()
+    end
+end
+
+ll.Listen(DOORS_CHANNEL, "", "", "")
