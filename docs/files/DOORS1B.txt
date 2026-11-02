@@ -1,0 +1,131 @@
+
+-- =========================================================================
+-- COLLIDER SCRIPT
+-- =========================================================================
+
+local DOORS_CHANNEL      = -775599
+local OPEN_TO_BOTH_SIDES = true   -- If true, doors push away from the visitor
+local FALLBACK_INTERVAL  = 5.0    -- Frequency to purge avatars who teleported away
+
+local ME = ll.GetOwner()
+local doorsName = ll.GetObjectDesc() -- Matches the Door prims' Description
+local peopleAtDoor = {}
+local isOpen = false
+local currentSwingDir = 1
+
+-- Broadcast open/close state to all doors on this channel
+local function sendDoorCommand(openState, swingDir)
+    ll.RegionSay(DOORS_CHANNEL, lljson.slencode({
+        name     = doorsName,
+        open     = openState,
+        swingDir = swingDir
+    }))
+end
+
+-- Checks if any tracked avatars are still physically inside the rotated prim
+local function isPeopleAtDoor()
+    local myPos = ll.GetPos()
+    local myRot = ll.GetRot()
+    local halfScale = ll.GetScale() * 0.5
+
+    for i = #peopleAtDoor, 1, -1 do
+        local id = peopleAtDoor[i]
+        local personPos = ll.GetObjectDetails(id, { OBJECT_POS })[1]
+
+        -- Remove if logged off, teleported away, or invalid
+        if not personPos or ll.GetAgentSize(id) == ZERO_VECTOR then
+            table.remove(peopleAtDoor, i)
+        else
+            -- Convert world coordinates into prim local coordinates
+            local localPos = (personPos - myPos) / myRot
+            if math.abs(localPos.x) > halfScale.x or
+               math.abs(localPos.y) > halfScale.y or
+               math.abs(localPos.z) > halfScale.z + 1 then
+                table.remove(peopleAtDoor, i)
+            end
+        end
+    end
+
+    return #peopleAtDoor > 0
+end
+
+-- Safety timer: Closes the door if avatars disconnected or left without collision_end
+local function timerCheck()
+    if not isPeopleAtDoor() then
+        if isOpen then
+            isOpen = false
+            sendDoorCommand(false, currentSwingDir)
+        end
+        LLTimers:off(timerCheck)
+    end
+end
+
+-- Touch to toggle visible/invisible during setup
+function LLEvents.touch_start(events)
+    if events[1]:getKey() == ME then
+        local alpha = ll.GetAlpha(ALL_SIDES)
+        ll.SetAlpha(if alpha == 0.0 then 0.25 else 0.0, ALL_SIDES)
+    end
+end
+
+function LLEvents.collision_start(events)
+    local myPos = ll.GetPos()
+    local myRot = ll.GetRot()
+
+    for _, ev in events do
+        if bit32.btest(ev:getType(), AGENT) then
+            local agentKey = ev:getKey()
+
+            -- Prevent duplicate entries from multi-point collisions
+            if not table.find(peopleAtDoor, agentKey) then
+                table.insert(peopleAtDoor, agentKey)
+            end
+
+            if not isOpen then
+                currentSwingDir = 1
+                if OPEN_TO_BOTH_SIDES then
+                    -- Local Y sign test: determines front (+) vs back (-) approach
+                    local localPos = (ev:getPos() - myPos) / myRot
+                    if localPos.y < 0.0 then
+                        currentSwingDir = -1
+                    end
+                end
+
+                isOpen = true
+                sendDoorCommand(true, currentSwingDir)
+                LLTimers:every(FALLBACK_INTERVAL, timerCheck)
+            end
+        end
+    end
+end
+
+function LLEvents.collision_end(events)
+    for _, ev in events do
+        if bit32.btest(ev:getType(), AGENT) then
+            local id = table.find(peopleAtDoor, ev:getKey())
+            if id then
+                table.remove(peopleAtDoor, id)
+            end
+        end
+    end
+
+    -- If all visitors left, close the door immediately
+    if #peopleAtDoor == 0 and isOpen then
+        isOpen = false
+        sendDoorCommand(false, currentSwingDir)
+        LLTimers:off(timerCheck)
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+-- Initialize as a phantom sensor volume
+ll.VolumeDetect(true)
