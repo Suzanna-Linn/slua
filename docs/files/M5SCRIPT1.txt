@@ -1,0 +1,224 @@
+
+local url = ""
+local sitters = {}
+local revision = 0
+
+local htmlPage = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Table of Sitters</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 85%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        tfoot td {
+            font-weight: bold;
+            background-color: #f9f9f9;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>Table of Sitters</h1>
+    <div id="errorMsg" style="color: red; margin-bottom: 10px;"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="2" id="totalSitters">Total Sitters: 0</td>
+            </tr>
+        </tfoot>
+        <tbody id="sittersBody">
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+      let currentRev = -1;
+
+      function renderSitters(data) {
+        currentRev = data.rev;
+        const tbody = document.getElementById("sittersBody");
+        const total = document.getElementById("totalSitters");
+        
+        total.textContent = `Total Sitters: ${data.sitters.length}`;
+
+        tbody.textContent = "";
+
+        if (data.sitters.length === 0) {
+          const row = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 2;
+          td.style.textAlign = "center";
+          td.style.color = "#777";
+          td.textContent = "No avatars currently sitting.";
+          row.appendChild(td);
+          tbody.appendChild(row);
+          return;
+        }
+
+        for (const sitter of data.sitters) {
+          const row = document.createElement("tr");
+          const tdName = document.createElement("td");
+          const tdUser = document.createElement("td");
+
+          tdName.textContent = sitter.name;
+          tdUser.textContent = sitter.username;
+
+          row.appendChild(tdName);
+          row.appendChild(tdUser);
+          tbody.appendChild(row);
+        }
+      }
+
+      async function pollSitters() {
+        const errorBox = document.getElementById("errorMsg");
+        try {
+            
+          const params = new URLSearchParams({
+            rev: currentRev,
+            t: Date.now()
+          });
+
+          const res = await fetch(`sittersdata?${params}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+          const data = await res.json();
+          if (data.changed) renderSitters(data);
+
+          errorBox.textContent = "";
+        } catch (err) {
+          errorBox.textContent = `Error: ${err.message || err}`;
+        } finally {
+          setTimeout(pollSitters, 3000);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", pollSitters);
+    </script>
+</body>
+</html>
+]=]
+
+local function show(url)
+    ll.SetPrimMediaParams(2, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 512,
+        PRIM_MEDIA_HEIGHT_PIXELS, 512,
+    })
+end
+
+local function getParam(params, paramName)
+    local paramValue = ("&" .. params):match("[?&]" .. paramName .. "=([^&#]*)")
+    return if paramValue then ll.UnescapeURL(paramValue:gsub("%+", " ")) else nil
+end
+
+local function getSitters()
+    local newSitters = {}
+    for _, visitor in ll.GetAgentList(AGENT_LIST_REGION, {}) do
+        if bit32.btest(ll.GetAgentInfo(visitor), AGENT_SITTING) then
+            table.insert(newSitters, visitor)
+        end
+    end
+    table.sort(newSitters)
+    if ll.DumpList2String(sitters, ",") ~= ll.DumpList2String(newSitters, ",") then
+        sitters = newSitters
+        revision += 1
+    end
+end
+
+function LLEvents.http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/sitters"
+        ll.Say(0, url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        print("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        if path == "/sitters" then
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, htmlPage)
+        elseif path == "/sittersdata" then
+            local clientRev = getParam(query, "rev") or -1
+            if clientRev == revision then
+                ll.SetContentType(id, CONTENT_TYPE_JSON)
+                ll.HTTPResponse(id, 200, '{"changed":false}')
+            else
+                getSitters()
+                local sittersList = {}
+                for _, sitter in sitters do
+                    table.insert(sittersList, {
+                        name = ll.GetDisplayName(sitter),
+                        username = ll.GetUsername(sitter)
+                    })
+                end
+                local payload = {
+                    changed = true,
+                    rev = revision,
+                    sitters = sittersList
+                }
+                ll.SetContentType(id, CONTENT_TYPE_JSON)
+                ll.HTTPResponse(id, 200, lljson.encode(payload))
+            end
+        else
+            ll.HTTPResponse(id, 404, "Not Found")
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestURL()
+LLTimers:every(2, getSitters)
