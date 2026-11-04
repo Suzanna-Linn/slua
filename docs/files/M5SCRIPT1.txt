@@ -162,7 +162,7 @@ local function getSitters()
             table.insert(newSitters, visitor)
         end
     end
-    table.sort(newSitters)
+    table.sort(newSitters, function(a, b) return tostring(a) < tostring(b) end)
     if ll.DumpList2String(sitters, ",") ~= ll.DumpList2String(newSitters, ",") then
         sitters = newSitters
         revision += 1
