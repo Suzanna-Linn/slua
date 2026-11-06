@@ -932,7 +932,7 @@ local tab = setmetatable({}, {
 
 ### Metafield __jsonhint for encode()
 
-The **__jsonhint** metamfield is a special directive used during serialization to resolve ambiguity in SLua tables. Because a SLua table can represent both a key-value map (object) and a sequential list (array), the encoder must guess the user's intent. The **__jsonhint** gives us explicit control over this process, hinting a table to be encoded as either a JSON object ({}) or a JSON array ([]).
+The **__jsonhint** metafield is a special directive used during serialization to resolve ambiguity in SLua tables. Because a SLua table can represent both a key-value map (object) and a sequential list (array), the encoder must guess the user's intent. The **__jsonhint** gives us explicit control over this process, hinting a table to be encoded as either a JSON object ({}) or a JSON array ([]).
 
 We set **__jsonhint** as a key within a table's metatable. The value must be one of the string values that "hint" at the desired JSON structure.
 
