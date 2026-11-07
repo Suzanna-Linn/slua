@@ -34,7 +34,7 @@ title: Links
 
 ### SLua
 
-* <https://releasenotes.secondlife.com/viewer/26.5.0.40714792196.html> Page to download the "Second Life Viewer (with Lua Editor)".
+* <https://releasenotes.secondlife.com/viewer/26.5.0.42122621216.html> Page to download the "Second Life Viewer (with Lua Editor)".
 * <https://community.secondlife.com/forums/forum/373-slua> SLua forum in the Second Life Community forums
 * <https://feedback.secondlife.com/slua-alpha> General discussion and feedback on SLua, to post issues and suggestions.
 * <https://discord.com/channels/677442248157167619/1348710493656977488> SecondLife discord, channel scripting-lua.
