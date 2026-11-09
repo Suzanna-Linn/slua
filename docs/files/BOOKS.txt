@@ -1,0 +1,123 @@
+
+local TURN_STEPS = 10
+
+local PAGE_LEFT = 1
+local PAGE_RIGHT = 2
+local PAGE_TURN = 3
+local FACE_FRONT = 2
+local FACE_BACK = 4
+local MIN_SIZE = vector(0.01, 0.01, 0.01)
+
+local pages = {}
+local currentPage = 0
+local stepAngle = 180 // TURN_STEPS
+local stepTurn = ll.Euler2Rot(vector(0.0, 0.0, stepAngle) * DEG_TO_RAD)
+
+local function getPages()
+    local numPages = {}
+    for texture = 1, ll.GetInventoryNumber(INVENTORY_TEXTURE) do
+        local name = ll.GetInventoryName(INVENTORY_TEXTURE, texture)
+        local pageNumber = tonumber(name:match("^%d+")) or 0
+        if pageNumber > 0 then
+            numPages[pageNumber] = ll.GetInventoryKey(name)
+        end
+    end
+    pages = {}
+    for _, texture in numPages do
+        table.insert(pages, texture)
+    end
+    if #pages % 2 == 1 then
+        table.insert(pages, TEXTURE_BLANK)
+    end
+end
+
+local function showPage(linkPage, numPageFront, numPageBack)
+    if numPageBack < 1 or numPageFront > #pages then
+        ll.SetLinkPrimitiveParamsFast(linkPage, {PRIM_TEXTURE, ALL_SIDES, TEXTURE_TRANSPARENT, vector(1, 1, 0), vector(0, 0, 0), 0, PRIM_SIZE, MIN_SIZE})
+    else
+        if ll.GetLinkPrimitiveParams(linkPage, {PRIM_SIZE})[1] == MIN_SIZE then
+            local pageSize = ll.GetLinkPrimitiveParams(PAGE_TURN, {PRIM_SIZE})[1]
+            pageSize = vector(pageSize.x * 5, pageSize.y, pageSize.z)
+            ll.SetLinkPrimitiveParamsFast(linkPage, {PRIM_TEXTURE, ALL_SIDES, TEXTURE_BLANK, vector(1, 1, 0), vector(0, 0, 0), 0, PRIM_SIZE, pageSize})
+        end
+        local frontTextureId = pages[numPageFront]
+        local backTextureId = pages[numPageBack]
+        ll.SetLinkPrimitiveParamsFast(linkPage, {PRIM_TEXTURE, FACE_FRONT, frontTextureId, vector(1, 1, 0), vector(0, 0, 0), 0, PRIM_TEXTURE, FACE_BACK, backTextureId, vector(1, 1, 0), vector(0, 0, 0), 0})
+    end
+end
+
+local function showTurnPage(linkPage, numPageFront, numPageBack)
+    local pagePos = ll.GetLinkPrimitiveParams(PAGE_RIGHT, {PRIM_POS_LOCAL})[1]
+    if linkPage == PAGE_LEFT then
+        pagePos = vector(pagePos.x, 0, pagePos.z)
+    end
+    if numPageBack < 1 or numPageFront > #pages then
+        ll.SetLinkPrimitiveParamsFast(PAGE_TURN, {PRIM_POS_LOCAL, pagePos, PRIM_TEXTURE, ALL_SIDES, TEXTURE_TRANSPARENT, vector(1, 1, 0), vector(0, 0, 0), 0})
+    else
+        local pageSize = ll.GetLinkPrimitiveParams(linkPage, {PRIM_SIZE})[1]
+        pagePos = vector(pagePos.x - pageSize.x / 2, pagePos.y, pagePos.z)
+        local pageRotation = ll.Euler2Rot(vector(0.0, 0.0, 0.0))
+        local textureRotation = 0
+        if linkPage == PAGE_RIGHT then
+            pageRotation = ll.Euler2Rot(vector(180.0, 0.0, 0.0) * DEG_TO_RAD)
+            textureRotation = 180 * DEG_TO_RAD
+        end
+        ll.SetLinkPrimitiveParamsFast(PAGE_TURN, {PRIM_POS_LOCAL, pagePos, PRIM_ROT_LOCAL, pageRotation})
+        ll.Sleep(0.5)
+        local frontTextureId = pages[numPageFront]
+        local backTextureId = pages[numPageBack]
+        ll.SetLinkPrimitiveParamsFast(PAGE_TURN, {PRIM_TEXTURE, ALL_SIDES, TEXTURE_BLANK, vector(1, 1, 0), vector(0, 0, 0), 0, PRIM_TEXTURE, FACE_FRONT, frontTextureId, vector(1, 1, 0), vector(0, 0, 0), textureRotation, PRIM_TEXTURE, FACE_BACK, backTextureId, vector(1, 1, 0), vector(0, 0, 0), textureRotation})
+    end
+end
+
+local function turnPage()
+    local basePos, baseRot, sizePage = unpack(ll.GetLinkPrimitiveParams(PAGE_TURN, {PRIM_POS_LOCAL, PRIM_ROT_LOCAL, PRIM_SIZE}))
+    local offset = vector(sizePage.x * -0.5, sizePage.y * -0.5, 0.0)
+    for i = 1, TURN_STEPS do
+        local currentStepRot = ll.Euler2Rot(vector(0.0, 0.0, stepAngle * i) * DEG_TO_RAD)
+        local targetRot = currentStepRot * baseRot
+        local targetPos = basePos + ((offset - (offset * currentStepRot)) * baseRot)
+        ll.SetLinkPrimitiveParamsFast(PAGE_TURN, {PRIM_POS_LOCAL, targetPos, PRIM_ROT_LOCAL, targetRot})
+        ll.Sleep(0.1)
+    end
+end
+
+local function turnLeft()
+    currentPage += 2
+    showTurnPage(PAGE_RIGHT, currentPage, currentPage - 1)
+    showPage(PAGE_RIGHT, currentPage + 1, #pages)
+    turnPage()
+    showPage(PAGE_LEFT, 1, currentPage)
+    ll.Sleep(0.33)
+    showTurnPage(PAGE_LEFT, 0, 0)
+end
+
+local function turnRight()
+    currentPage -= 2
+    showTurnPage(PAGE_LEFT, currentPage + 1, currentPage + 2)
+    showPage(PAGE_LEFT, 1, currentPage)
+    turnPage()
+    showPage(PAGE_RIGHT, currentPage + 1, #pages)
+    ll.Sleep(0.33)
+    showTurnPage(PAGE_RIGHT, 0, 0)
+end
+
+function LLEvents.touch_start(events)
+    local linkPage = events[1]:getLinkNumber()
+    if ll.GetLinkPrimitiveParams(linkPage, {PRIM_SIZE})[1] ~= MIN_SIZE then
+        if linkPage == PAGE_RIGHT then
+            turnLeft()
+        end
+        if linkPage == PAGE_LEFT then
+            turnRight()
+        end
+    end
+end
+
+if ll.GetLinkPrimitiveParams(PAGE_RIGHT, {PRIM_SIZE})[1] == MIN_SIZE then
+    ll.SetLinkPrimitiveParamsFast(PAGE_RIGHT, {PRIM_TEXTURE, ALL_SIDES, TEXTURE_BLANK, vector(1, 1, 0), vector(0, 0, 0), 0, PRIM_SIZE, ll.GetLinkPrimitiveParams(PAGE_LEFT, {PRIM_SIZE})[1]})
+end
+getPages()
+showPage(PAGE_LEFT, 0, 0)
+showPage(PAGE_RIGHT, 1, #pages)
+showTurnPage(PAGE_RIGHT, 0, 0)
