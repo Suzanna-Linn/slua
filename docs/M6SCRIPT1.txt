@@ -1,0 +1,62 @@
+
+local ME = ll.GetOwner()
+local MYNAME = ll.GetDisplayName(ME)
+local TEACHERS = {
+    [uuid("0f16c0e1-384e-4b5f-b7ce-886dda3bce41")] = "Suzanna",
+    [uuid("ebff743c-5e47-400a-8ea6-a3bdb417b457")] = "Ali",
+}
+
+local function isLinden(id)
+    local username = ll.GetUsername(id):lower()
+    return username:sub(-7) == ".linden" or username == "haroldcindy"
+end
+    
+local styles = {
+    function(id) return "t", TEACHERS[id] end,
+    function(id) return "m", if id == ME then MYNAME else nil end,
+    function(id) return "l", if isLinden(id) then ll.GetDisplayName(id) else nil end,
+    function(id) return "f", if ll.IsFriend(id) then ll.GetDisplayName(id) else nil end,
+    function(id) return "a", if ll.GetAgentSize(id) ~= ZERO_VECTOR then ll.GetDisplayName(id) else nil end,
+    function(id, name, owner) return "ot", if TEACHERS[owner] then name else nil end,
+    function(id, name, owner) return "om", if owner == ME then name else nil end,
+    function(id, name, owner) return "ol", if isLinden(owner) then name else nil end,
+    function(id, name, owner) return "of", if ll.IsFriend(owner) then name else nil end,
+    function(id, name, owner) return "oa", name end,
+}
+
+local counter = ll.LinksetDataCountKeys() + 1000
+
+local function storeMessage(name, id, message)
+    local time = ll.GetWallclock()
+    local hour = string.format("%02d:%02d", time // 3600, (time % 3600) // 60)
+    local owner = ll.GetOwnerKey(id)
+    local style, sname
+    for _, fstyle in styles do
+        style, sname = fstyle(id, name, owner)
+        if sname then break end
+    end
+    if not sname then
+        style = "u"
+        sname = name
+    end
+    counter += 1
+    ll.LinksetDataWrite(tostring(counter), lljson.slencode({style, hour, sname, message}))
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == 0 then
+        storeMessage(name, id, message)
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.Listen(0, "", "", "")
