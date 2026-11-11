@@ -1,0 +1,548 @@
+
+local html = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%231E88E5' d='M32 6C16.5 6 4 16.5 4 29.5c0 6.5 3.1 12.4 8.2 16.6L8 58l13.6-5.5c3.3 1 6.8 1.5 10.4 1.5 15.5 0 28-10.5 28-23.5S47.5 6 32 6z'/%3E%3Ccircle cx='20' cy='29.5' r='3.5' fill='%23FFFFFF'/%3E%3Ccircle cx='32' cy='29.5' r='3.5' fill='%23FFFFFF'/%3E%3Ccircle cx='44' cy='29.5' r='3.5' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      /* Base / UI (Light Mode) */
+      --bg: #FAFAFA;
+      --header-bg: #FAFAFA;
+      --border: #E0E0E0;
+      --btn-bg: #FFFFFF;
+      --btn-border: #BDBDBD;
+      --btn-text: #222222;
+      --title-color: #0D47A1;
+      --hour-color: #888888;
+      --status-color: #E65100;
+      --badge-bg: #0D47A1;
+      --badge-text: #FFFFFF;
+    
+      /* Avatar Names (Light) */
+      --name-m:  #6A1B9A; /* Me: Deep Violet */
+      --name-t:  #E65100; /* Teacher: Deep Orange */
+      --name-l:  #0D47A1; /* Linden: Deep Navy */
+      --name-f:  #2E7D32; /* Friend: Forest Green */
+      --name-a:  #111111; /* Avatar: Crisp Black */
+    
+      /* Object Names (Light) */
+      --name-om: #5E4975; /* My Object: Muted Plum */
+      --name-ot: #795548; /* Teacher Object: Warm Brown */
+      --name-ol: #455A64; /* Linden Object: Slate */
+      --name-of: #558B2F; /* Friend Object: Olive */
+      --name-oa: #757575; /* Other Object: Gray */
+      --name-u:  #9E9E9E; /* Unknown */
+    
+      /* Avatar Messages (Light) */
+      --text-m:  #4A148C; /* Me: Deep Eggplant */
+      --text-t:  #7C2D12; /* Teacher: Deep Rust */
+      --text-l:  #0A3578; /* Linden: Midnight Navy */
+      --text-f:  #14532D; /* Friend: Deep Pine */
+      --text-a:  #222222; /* Avatar: Charcoal */
+    
+      /* Object Messages (Light) */
+      --text-om: #4E3D52; /* My Object Message: Dark Muted Violet */
+      --text-ot: #5D4037;
+      --text-ol: #37474F;
+      --text-of: #3E522D;
+      --text-oa: #595959;
+      --text-u:  #666666;
+    }
+    
+    body.dark {
+      /* Base / UI (Dark Mode) */
+      --bg: #121212;
+      --header-bg: #121212;
+      --border: #2D2D2D;
+      --btn-bg: #242424;
+      --btn-border: #444444;
+      --btn-text: #E0E0E0;
+      --title-color: #64B5F6;
+      --hour-color: #757575;
+      --status-color: #FFA726;
+      --badge-bg: #1E88E5;
+      --badge-text: #FFFFFF;
+    
+      /* Avatar Names (Dark - High Contrast) */
+      --name-m:  #BA68C8; /* Me: Bright Orchid */
+      --name-t:  #FF9800; /* Teacher: Bright Amber */
+      --name-l:  #42A5F5; /* Linden: Bright Blue */
+      --name-f:  #66BB6A; /* Friend: Bright Emerald */
+      --name-a:  #FFFFFF; /* Avatar: Crisp White */
+    
+      /* Object Names (Dark - Muted) */
+      --name-om: #B39DDB; /* My Object: Soft Lilac */
+      --name-ot: #BCAAA4; /* Teacher Object: Soft Brown */
+      --name-ol: #90A4AE; /* Linden Object: Slate */
+      --name-of: #AED581; /* Friend Object: Sage */
+      --name-oa: #9E9E9E; /* Other Object: Medium Gray */
+      --name-u:  #757575; /* Unknown */
+    
+      /* Avatar Messages (Dark - Soft Light Tones) */
+      --text-m:  #E1BEE7; /* Me: Soft Lavender */
+      --text-t:  #FFCC80; /* Teacher: Soft Warm Amber */
+      --text-l:  #90CAF9; /* Linden: Soft Ice Blue */
+      --text-f:  #A5D6A7; /* Friend: Soft Mint Green */
+      --text-a:  #E0E0E0; /* Avatar: Off-White */
+    
+      /* Object Messages (Dark - Muted Grays) */
+      --text-om: #B8A9C9; /* My Object Message: Muted Lavender Gray */
+      --text-ot: #B0A09A;
+      --text-ol: #94A3B8;
+      --text-of: #A3B18A;
+      --text-oa: #8E8E93;
+      --text-u:  #737373;
+    }
+
+    html, body {
+      background-color: var(--bg);
+      color: var(--text-a);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0 20px 20px 20px;
+      transition: background-color 0.2s ease;
+    }
+
+    .classname {
+      font-style: italic;
+      margin: 0;
+      font-size: 1.5em;
+      color: var(--title-color);
+    }
+
+    .line {
+      margin-bottom: 6px;
+      line-height: 1.4;
+      font-family: "Cascadia Code", "Cascadia Mono", Consolas, monospace;
+      font-size: 13px;
+    }
+    .line span {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .hour {
+      color: var(--hour-color);
+      font-size: 0.9em;
+    }
+
+    /* Name Classes */
+    .name-m  { color: var(--name-m);  font-weight: bold; }
+    .name-t  { color: var(--name-t);  font-weight: bold; }
+    .name-l  { color: var(--name-l);  font-weight: bold; }
+    .name-f  { color: var(--name-f);  font-weight: bold; }
+    .name-a  { color: var(--name-a);  font-weight: bold; }
+    .name-om { color: var(--name-om); font-weight: normal; }
+    .name-ot { color: var(--name-ot); font-weight: normal; }
+    .name-ol { color: var(--name-ol); font-weight: normal; }
+    .name-of { color: var(--name-of); font-weight: normal; }
+    .name-oa { color: var(--name-oa); font-weight: normal; }
+    .name-u  { color: var(--name-u);  font-weight: normal; }
+
+    /* Message Text Classes */
+    .text-m  { color: var(--text-m); }
+    .text-t  { color: var(--text-t); }
+    .text-l  { color: var(--text-l); }
+    .text-f  { color: var(--text-f); }
+    .text-a  { color: var(--text-a); }
+
+    .text-om, .text-ot, .text-ol, .text-of, .text-oa, .text-u {
+      font-style: italic;
+    }
+    .text-om { color: var(--text-om); }
+    .text-ot { color: var(--text-ot); }
+    .text-ol { color: var(--text-ol); }
+    .text-of { color: var(--text-of); }
+    .text-oa { color: var(--text-oa); }
+    .text-u  { color: var(--text-u); }
+
+    .header-bar {
+      position: sticky;
+      top: 0;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--header-bg);
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+    }
+    .buttons {
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      padding: 6px 12px;
+      font-size: 13px;
+      border: 1px solid var(--btn-border);
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      transition: background-color 0.2s ease;
+    }
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .status-indicator {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--status-color);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulse 1.2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .unread-pill {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--badge-bg);
+      color: var(--badge-text);
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 2000;
+      display: none; /* hidden by default */
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .unread-pill:hover {
+      transform: translateX(-50%) translateY(-2px);
+      opacity: 0.92;
+    }
+
+    @media print {
+      /* Force print engine to retain exact light or dark background */
+      html, body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background-color: var(--bg) !important;
+      }
+      .buttons {
+        display: none !important;
+      }
+      .header-bar {
+        position: static !important;
+        border-bottom: 1px solid var(--border) !important;
+        background: transparent !important;
+      }
+      .status-indicator {
+        display: none !important;
+      }
+      .unread-pill {
+        display: none !important;
+      }
+      div.line {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }          
+    }
+  </style>
+</head>
+<body>
+<div class="header-bar">
+  <h1 class="classname">@TITLE@</h1>
+  <div id="status" class="status-indicator">Loading chat...</div>
+  <div class="buttons">
+    <button onclick="scrollToLatest()">↓ Latest</button>
+    <button onclick="window.scrollTo(0, 0)">↑ Top</button>
+    <button onclick="copyPlainText()">Copy to clipboard</button>
+    <button onclick="scrollTopAndPrint()">Save to PDF</button>
+    <button id="themeToggleBtn" onclick="toggleTheme()">🌙 Dark</button>
+  </div>
+</div>
+
+<button id="unreadBadge" class="unread-pill" onclick="scrollToLatest()">
+  ↓ <span id="unreadCount">0</span> new message(s)
+</button>
+
+<div id="content"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+const container = document.getElementById("content");
+const statusEl = document.getElementById("status");
+const unreadBadge = document.getElementById("unreadBadge");
+const unreadCountEl = document.getElementById("unreadCount");
+const POLL_INTERVAL = 15000; // 15 seconds
+let pollTimer = null;
+let unreadCount = 0;
+let latestNextKey = 0;
+
+function updateThemeButton() {
+  const isDark = document.body.classList.contains("dark");
+  const btn = document.getElementById("themeToggleBtn");
+  if (btn) {
+    btn.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+  }
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle("dark");
+  try {
+    localStorage.setItem("chat_theme", isDark ? "dark" : "light");
+  } catch (e) {}
+  updateThemeButton();
+}
+
+(function initTheme() {
+  try {
+    if (localStorage.getItem("chat_theme") === "dark") {
+      document.body.classList.add("dark");
+    }
+  } catch (e) {}
+})();
+
+function showUnreadBadge(count) {
+  if (!unreadBadge || !unreadCountEl) return;
+  unreadCountEl.textContent = count;
+  unreadBadge.style.display = "flex";
+}
+
+function hideUnreadBadge() {
+  unreadCount = 0;
+  if (unreadBadge) {
+    unreadBadge.style.display = "none";
+  }
+}
+
+function scrollToLatest() {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  hideUnreadBadge();
+}
+
+function scrollTopAndPrint() {
+  window.scrollTo(0, 0);
+  setTimeout(() => {
+    window.print();
+  }, 200);
+}
+
+function copyPlainText() {
+  const text = container.innerText || container.textContent;
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Text copied to clipboard.");
+    }).catch(err => {
+      alert("Failed to copy: " + err);
+    });
+  } else {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try {
+      const success = document.execCommand("copy");
+      alert(success ? "Text copied to clipboard." : "Failed to copy text.");
+    } catch (err) {
+      alert("Copy failed: " + err);
+    }
+    document.body.removeChild(textarea);
+  }
+}
+
+window.addEventListener("scroll", () => {
+  const isAtBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 50);
+  if (isAtBottom && unreadCount > 0) {
+    hideUnreadBadge();
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    if (pollTimer) {
+      clearTimeout(pollTimer);
+      pollTimer = null;
+    }
+  } else {
+    if (!pollTimer) {
+      loadData(latestNextKey);
+    }
+  }
+});
+
+async function loadData(nextMessage) {
+  if (pollTimer) {
+    clearTimeout(pollTimer);
+    pollTimer = null;
+  }
+
+  try {
+    const params = new URLSearchParams({
+      numKey: nextMessage,
+      _t: Date.now()
+    });
+
+    const response = await fetch("messages?" + params.toString(), { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("HTTP error " + response.status);
+    }
+    const data = await response.json();
+    latestNextKey = data.nextKey;
+
+    if (statusEl) {
+      statusEl.style.color = "var(--status-color)";
+      statusEl.style.animation = "pulse 1.2s infinite ease-in-out";
+    }
+
+    if (data.messages && data.messages.length > 0) {
+      for (const message of data.messages) {
+        const typeStr = message[0];
+        const hour = message[1];
+        let name = String(message[2]);
+        let text = String(message[3]);
+
+        if (text.startsWith("/me ")) {
+          text = text.substring(3);
+        } else {
+          name += ": ";
+        }
+
+        const lineDiv = document.createElement("div");
+        lineDiv.className = "line";
+
+        const hourSpan = document.createElement("span");
+        hourSpan.className = "hour";
+        hourSpan.textContent = "[" + hour + "] ";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "name-" + typeStr;
+        nameSpan.textContent = name;
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "text-" + typeStr;
+        textSpan.textContent = text;
+
+        lineDiv.appendChild(hourSpan);
+        lineDiv.appendChild(nameSpan);
+        lineDiv.appendChild(textSpan);
+
+        container.appendChild(lineDiv);
+      }
+
+      unreadCount += data.messages.length;
+      showUnreadBadge(unreadCount);
+    }
+
+    if (!data.done) {
+      if (statusEl) {
+        statusEl.style.display = "flex";
+        statusEl.textContent = "Loading chat (" + container.children.length + " lines)...";
+      }
+      loadData(latestNextKey);
+    } else {
+      if (statusEl) {
+        statusEl.style.display = "none";
+      }
+      if (!document.hidden) {
+        pollTimer = setTimeout(() => loadData(latestNextKey), POLL_INTERVAL);
+      }
+    }
+  } catch (err) {
+    console.error("Fetch error:", err);
+    if (statusEl) {
+      statusEl.style.display = "flex";
+      statusEl.style.animation = "none";
+      statusEl.style.color = "#E53935";
+      statusEl.textContent = `Connection issue. Retrying in ${Math.round(POLL_INTERVAL / 1000)}s...`;
+    }
+    if (!document.hidden) {
+      pollTimer = setTimeout(() => loadData(nextMessage), POLL_INTERVAL);
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateThemeButton();
+  loadData(0);
+});
+//]]>
+</script>
+</body>
+</html>
+]=]
+
+local url = ""
+
+local function escapeXml(str)
+    str = ll.ReplaceSubString(str, "&", "&amp;", 0)
+    str = ll.ReplaceSubString(str, "<", "&lt;", 0)
+    str = ll.ReplaceSubString(str, ">", "&gt;", 0)
+    str = ll.ReplaceSubString(str, '"', "&quot;", 0)
+    return str
+end
+
+function LLEvents.http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body
+        print(url .. "/chat")
+    elseif method == URL_REQUEST_DENIED then
+        print("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.ToLower(ll.GetHTTPHeader(id, "x-query-string"))
+        if path == "/chat" then
+            local title = escapeXml(ll.GetObjectDesc())
+            if title == "" then title = "Chat Log" end
+            local page = ll.ReplaceSubString(html, "@TITLE@", title, 0)
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, page)
+        elseif path == "/messages" then
+            local numKey = (tonumber(query:match("numkey=(%d+)")) or 0) + 1
+            local totalKeys = ll.LinksetDataCountKeys()
+            local messages = {}
+            local length = 0
+            while numKey <= totalKeys and length < 30000 do
+                local lKey = tostring(numKey + 1000)
+                local lValue = ll.LinksetDataRead(lKey)
+                if #lValue > 0 then
+                    table.insert(messages, lljson.decode(lValue))
+                    length += #lValue
+                end
+                numKey += 1
+            end
+            local payload = {
+                messages = messages,
+                done = (numKey > totalKeys),
+                nextKey = numKey - 1
+            }
+            ll.SetContentType(id, CONTENT_TYPE_JSON)
+            ll.HTTPResponse(id, 200, lljson.encode(payload))
+        else
+            ll.HTTPResponse(id, 404, "Not Found")
+        end
+    else
+        ll.HTTPResponse(id, 405, "Method Not Allowed")
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_REGION, CHANGED_TELEPORT, CHANGED_OWNER)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestURL()
