@@ -1,0 +1,143 @@
+
+local INFO = {
+    Sun = {
+        orbiting = "", diameter = 1392700, distance = 0,
+        rotate = 25, orbit = 0, axis = 7.25,
+    },
+    Mercury = {
+        orbiting = "Sun", diameter = 4880, distance = 57.91,
+        rotate = 58.6, orbit = 88, axis = 0.03,
+    },
+    Venus = {
+        orbiting = "Sun", diameter = 12104, distance = 108.21,
+        rotate = -243, orbit = 225, axis = 177.36,
+    },
+    Earth = {
+        orbiting = "Sun", diameter = 12742, distance = 149.6,
+        rotate = 1, orbit = 365.25, axis = 23.44,
+    },
+    Moon = {
+        orbiting = "Earth", diameter = 3474, distance = 0.38,
+        rotate = 27.3, orbit = 27.3, axis = 6.68,
+    },
+    Mars = {
+        orbiting = "Sun", diameter = 6779, distance = 227.92,
+        rotate = 1.03, orbit = 687, axis = 25.19,
+    },
+    Jupiter = {
+        orbiting = "Sun", diameter = 139820, distance = 778.57,
+        rotate = 0.41, orbit = 4332.6, axis = 3.13,
+    },
+    Saturn = {
+        orbiting = "Sun", diameter = 116460, distance = 1433.53,
+        rotate = 0.44, orbit = 10759, axis = 26.73,
+    },
+    Uranus = {
+        orbiting = "Sun", diameter = 50724, distance = 2872.46,
+        rotate = -0.72, orbit = 30687, axis = 97.77,
+    },
+    Neptune = {
+        orbiting = "Sun", diameter = 49244, distance = 4495.06,
+        rotate = 0.67, orbit = 60190, axis = 28.32,
+    }
+}
+
+local CHANNEL_DIE = 1111
+local ORBIT_SPEED = 5.0
+
+local orbiting = ""
+local distance = 0
+local orbit = 0
+
+local orbitingId = NULL_KEY
+local orbitingAngle = 0
+local lastTime = 0
+
+local function findParent()
+    if orbiting ~= "" then
+        ll.Sensor(orbiting, "", bit32.bor(PASSIVE, SCRIPTED), 96, PI)
+    end
+end
+
+local function getInfo()
+    local name = ll.GetObjectName()
+    local info = INFO[name]
+    if info then
+        orbiting = info.orbiting
+        local diameter = math.sqrt(info.diameter) / 250
+        distance = math.sqrt(info.distance) / 2
+
+        if orbiting ~= "" and INFO[orbiting] then
+            local parentRadius = (math.sqrt(INFO[orbiting].diameter) / 250) / 2
+            distance = math.max(distance, parentRadius + (diameter / 2) + 0.1)
+        end
+
+        local rotate = info.rotate
+        if rotate < 0 then
+            rotate = (1 / math.sqrt(-rotate)) / 5
+        else
+            rotate = -(1 / math.sqrt(rotate)) / 5
+        end
+
+        if info.orbit > 0 then
+            orbit = (1 / math.sqrt(info.orbit)) * ORBIT_SPEED
+        end
+
+        local rot = ll.Euler2Rot(vector(0, 90, 0) * DEG_TO_RAD)
+                  * ll.Euler2Rot(vector(-info.axis, 0, 0) * DEG_TO_RAD)
+
+        ll.SetRegionPos(ll.GetPos() + vector(0, 0, diameter / 2))
+        ll.SetLinkPrimitiveParamsFast(LINK_THIS, {
+            PRIM_SIZE, vector(diameter, diameter, diameter),
+            PRIM_ROTATION, rot,
+        })
+        ll.TargetOmega(vector(1.0, 0.0, 0.0) * rot, rotate, 1)
+    
+        findParent()
+    end
+end
+
+local function timerOrbit()
+    local now = ll.GetTime()
+    local dt = now - lastTime
+    lastTime = now
+
+    local centerPos = ll.GetObjectDetails(orbitingId, {OBJECT_POS})[1]
+    if centerPos then
+        local newPos = centerPos + vector(distance * math.cos(orbitingAngle), distance * math.sin(orbitingAngle), 0)
+        ll.SetRegionPos(newPos)
+        orbitingAngle = (orbitingAngle + orbit * dt) % TWO_PI
+    end
+end
+
+function LLEvents.sensor(events)
+    for _, ev in events do
+        if ev:getOwner() == ll.GetOwner() then
+            orbitingId = ev:getKey()
+            orbitingAngle = 0
+            lastTime = ll.GetTime()
+            LLTimers:every(0.1, timerOrbit)
+            break
+        end
+    end
+end
+
+function LLEvents.no_sensor()
+    LLTimers:once(2, findParent)
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == CHANNEL_DIE and (id == ll.GetOwner() or ll.GetOwnerKey(id) == ll.GetOwner()) then
+        if id == ll.GetOwner() then
+            ll.RegionSay(CHANNEL_DIE, message)
+        end
+        ll.Die()
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+getInfo()
+ll.Listen(CHANNEL_DIE, "", "", "")
