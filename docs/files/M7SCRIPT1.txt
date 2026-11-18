@@ -1,0 +1,753 @@
+
+local url = ""
+
+local htmlHeader = [=[
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta http-equiv='refresh' content='15' />
+    <title>Suzanna's Class - Visitor Counters</title>
+    <style type='text/css'>
+        @STYLE@
+    </style>
+</head>
+<body>
+    @BODY@
+</body>
+</html>
+]=]
+
+local htmlStyle = [=[
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    min-height: 100%;
+    overflow: auto;
+    background: #070b14;
+    background-image:
+        radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.16), transparent 42%),
+        radial-gradient(circle at 85% 90%, rgba(236, 72, 153, 0.14), transparent 45%);
+    color: #f1f5f9;
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+.board {
+    width: 1024px;
+    height: 1024px;
+    margin: 0 auto;
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.board {
+    width: 1024px;
+    height: 1024px;
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 22px;
+    background: linear-gradient(135deg, #0f172a 0%, #162038 100%);
+    border: 1px solid #263554;
+    border-left: 6px solid #ec4899;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+.title-wrap h1 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    line-height: 1.1;
+}
+.title-wrap p {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #38bdf8;
+}
+.header-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+.live-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.16);
+    border: 1px solid rgba(52, 211, 153, 0.5);
+    color: #6ee7b7;
+    font-size: 16px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.live-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 10px #34d399;
+}
+.slt-time {
+    font-size: 13px;
+    color: #94a3b8;
+    font-variant-numeric: tabular-nums;
+}
+.card {
+    background: #0f172a;
+    border: 1px solid #22304d;
+    border-radius: 14px;
+    padding: 16px 20px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+.card-title span {
+    color: #64748b;
+    font-size: 12px;
+    letter-spacing: 0.8px;
+}
+table.stats {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 7px;
+}
+table.stats th {
+    padding: 4px 14px 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #38bdf8;
+    text-align: right;
+}
+table.stats th.col-period {
+    text-align: left;
+}
+table.stats td {
+    padding: 11px 14px;
+    background: #152036;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    border-top: 1px solid #1e2d4a;
+    border-bottom: 1px solid #1e2d4a;
+}
+table.stats td.period {
+    text-align: left;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #e2e8f0;
+    border-left: 4px solid #334155;
+    border-radius: 8px 0 0 8px;
+}
+table.stats td.last {
+    border-right: 1px solid #1e2d4a;
+    border-radius: 0 8px 8px 0;
+}
+table.stats tr.row-today td {
+    background: #162642;
+    border-color: #25426e;
+}
+table.stats tr.row-today td.period {
+    border-left-color: #38bdf8;
+    color: #7dd3fc;
+}
+table.stats tr.row-alltime td {
+    background: #1a2138;
+    border-color: #3b2d5e;
+}
+table.stats tr.row-alltime td.period {
+    border-left-color: #f472b6;
+    color: #f9a8d4;
+}
+.num-visits { color: #f8fafc; }
+.num-unique { color: #34d399; }
+.num-avg { color: #fbbf24; }
+.num-min { color: #f472b6; }
+
+.hourly-grid {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 196px;
+    gap: 5px;
+    padding-top: 8px;
+}
+.h-col {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+.h-val {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+}
+.h-track {
+    width: 100%;
+    height: 140px;
+    background: #152036;
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border: 1px solid #1e2d4a;
+}
+.h-fill {
+    width: 100%;
+    background: linear-gradient(180deg, #38bdf8 0%, #2563eb 100%);
+    border-radius: 5px 5px 0 0;
+}
+.h-lbl {
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+}
+.h-col.peak .h-val {
+    color: #fbbf24;
+}
+.h-col.peak .h-fill {
+    background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.45);
+}
+.h-col.peak .h-lbl {
+    color: #fbbf24;
+}
+
+.weekday-grid {
+    display: flex;
+    gap: 10px;
+}
+.w-card {
+    flex: 1;
+    background: #152036;
+    border: 1px solid #1e2d4a;
+    border-radius: 10px;
+    padding: 10px 10px 12px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.w-name {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+.w-val {
+    font-size: 24px;
+    font-weight: 800;
+    color: #f8fafc;
+    font-variant-numeric: tabular-nums;
+}
+.w-track {
+    width: 100%;
+    height: 8px;
+    background: #0b1120;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.w-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
+    border-radius: 999px;
+}
+.w-days {
+    font-size: 11px;
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+}
+.w-card.peak {
+    background: #1c2440;
+    border-color: #f472b6;
+}
+.w-card.peak .w-name,
+.w-card.peak .w-val {
+    color: #f9a8d4;
+}
+.w-card.peak .w-fill {
+    background: linear-gradient(90deg, #f472b6 0%, #ec4899 100%);
+}
+]=]
+
+local htmlVisitors = [=[
+<div class='board'>
+    <div class='header'>
+        <div class='title-wrap'>
+            <h1>Suzanna's Class</h1>
+            <p>Visitor Analytics Board</p>
+        </div>
+        <div class='header-meta'>
+            <div class='live-pill'>
+                <div class='live-dot'></div>
+                <span>@LIVE_COUNT@ IN CLASS NOW</span>
+            </div>
+            <div class='slt-time'>@SLT_TIME@</div>
+        </div>
+    </div>
+
+    <div class='card'>
+        <table class='stats'>
+            <thead>
+                <tr>
+                    <th class='col-period'>Period</th>
+                    <th>Total Visits</th>
+                    <th>Unique Visitors</th>
+                    <th>Avg Visitors</th>
+                    <th>Avg Minutes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @TABLE_ROWS@
+            </tbody>
+        </table>
+    </div>
+
+    <div class='card'>
+        <div class='card-title'>
+            All-Time Average Visitors by Hour (SLT)
+            <span>Peak hour highlighted</span>
+        </div>
+        <div class='hourly-grid'>
+            @HOURLY_BARS@
+        </div>
+    </div>
+
+    <div class='card'>
+        <div class='card-title'>
+            All-Time Average Visitors by Weekday
+            <span>Mon - Sun (SLT)</span>
+        </div>
+        <div class='weekday-grid'>
+            @WEEKDAY_CARDS@
+        </div>
+    </div>
+</div>
+]=]
+
+local function show(url)
+    ll.SetPrimMediaParams(2, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 1024,
+        PRIM_MEDIA_HEIGHT_PIXELS, 1024,
+    })
+end
+
+local MIN_VERTEX = vector(0, 0, 0)
+local MAX_VERTEX = vector(256, 256, 4096)
+local MAX_DISTANCE = 4112
+
+local VERTEX_LOW = vector(9, 6, 602)
+local VERTEX_HIGH = vector(53, 56, 622)
+local DISTANCE = MAX_DISTANCE
+local AGENT_SELECTION = AGENT_LIST_PARCEL
+
+local SCAN_SECONDS = 15
+
+local WEEKDAY_NAMES = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}
+local WEEKDAY_ORDER = {2, 3, 4, 5, 6, 7, 1} -- Mon to Sun
+
+local PERIOD_LABELS = {
+    {key = "today", label = "TODAY", rowClass = "row-today"},
+    {key = "yesterday", label = "YESTERDAY", rowClass = ""},
+    {key = "thisMonth", label = "THIS MONTH", rowClass = ""},
+    {key = "lastMonth", label = "LAST MONTH", rowClass = ""},
+    {key = "allTime", label = "ALL TIME", rowClass = "row-alltime"},
+}
+
+local checkBounds = VERTEX_LOW ~= MIN_VERTEX or VERTEX_HIGH ~= MAX_VERTEX
+local checkDistance = DISTANCE ~= MAX_DISTANCE
+local checkInPlace = checkBounds or checkDistance
+
+local people = {}
+local totalPeople = 0
+local todayVisitors = {}
+
+local function getSltOffset()
+    local diff = ll.GetWallclock() - ll.GetGMTclock()
+    if diff > 0 then
+        diff -= 86400
+    end
+    return math.round(diff / 3600) * 3600
+end
+
+local lastTimestamp = os.time()
+local todayStartTimestamp = lastTimestamp
+local lastSltOffset = getSltOffset()
+local lastSltDay = (lastTimestamp + lastSltOffset) // 86400
+local lastSltDate = os.date("!*t", lastTimestamp + lastSltOffset)
+
+local function initStat()
+    local hourlyTime = {}
+    for hour = 0, 23 do
+        hourlyTime[hour] = 0
+    end
+    return {
+        totalVisits = 0,
+        uniqueVisitors = 0,
+        totalTime = 0,
+        days = 0,
+        hourlyTime = hourlyTime,
+    }
+end
+
+local stats = {
+    today = initStat(),
+    yesterday = initStat(),
+    thisMonth = initStat(),
+    lastMonth = initStat(),
+    allTime = initStat(),
+}
+
+local allTimeWeekdays = {}
+for wday = 1, 7 do
+    allTimeWeekdays[wday] = {totalTime = 0, days = 0}
+end
+
+local function addTime(fromTs, toTs, sltOffset, count)
+    if toTs <= fromTs or count <= 0 then
+        return
+    end
+    stats.today.totalTime += (toTs - fromTs) * count
+    local cursor = fromTs
+    while cursor < toTs do
+        local sltHourIndex = (cursor + sltOffset) // 3600
+        local hour = sltHourIndex % 24
+        local nextHourUtc = (sltHourIndex + 1) * 3600 - sltOffset
+        local sliceEnd = math.min(toTs, nextHourUtc)
+        stats.today.hourlyTime[hour] += (sliceEnd - cursor) * count
+        cursor = sliceEnd
+    end
+end
+
+local function newDay(nowTimestamp, nowSltOffset, nowSltDay, nowSltDate)
+    local endOfLastDayUtc = (lastSltDay + 1) * 86400 - lastSltOffset
+    addTime(lastTimestamp, endOfLastDayUtc, lastSltOffset, totalPeople)
+    local wday = lastSltDate.wday
+    allTimeWeekdays[wday].totalTime += stats.today.totalTime
+    allTimeWeekdays[wday].days += 1
+    stats.yesterday = stats.today
+    for _, info in {"totalVisits", "uniqueVisitors", "totalTime", "days"} do
+        stats.thisMonth[info] += stats.today[info]
+        stats.allTime[info] += stats.today[info]
+    end
+    for hour = 0, 23 do
+        stats.thisMonth.hourlyTime[hour] += stats.today.hourlyTime[hour]
+        stats.allTime.hourlyTime[hour] += stats.today.hourlyTime[hour]
+    end
+    if nowSltDate.month ~= lastSltDate.month or nowSltDate.year ~= lastSltDate.year then
+        stats.lastMonth = stats.thisMonth
+        stats.thisMonth = initStat()
+    end
+    stats.today = initStat()
+    stats.today.days = 1
+    todayVisitors = {}
+    people, totalPeople = {}, 0
+    lastSltOffset = nowSltOffset
+    lastSltDay = nowSltDay
+    lastSltDate = nowSltDate
+    local startOfTodayUtc = nowSltDay * 86400 - nowSltOffset
+    if nowTimestamp - startOfTodayUtc <= SCAN_SECONDS * 2 then
+        lastTimestamp = startOfTodayUtc
+    else
+        lastTimestamp = nowTimestamp
+    end
+    todayStartTimestamp = lastTimestamp
+end
+
+local function personInPlace(personId, myPos)
+    local pos = ll.GetObjectDetails(personId, {OBJECT_POS})[1]
+    if not pos then
+        return false
+    end
+    if checkBounds and vector.clamp(pos, VERTEX_LOW, VERTEX_HIGH) ~= pos then
+        return false
+    end
+    if checkDistance and ll.VecDist(myPos, pos) > DISTANCE then
+        return false
+    end
+    return true
+end
+
+local function scanPeople()
+    local nowTimestamp = os.time()
+    local nowSltOffset = getSltOffset()
+    local nowSltDay = (nowTimestamp + nowSltOffset) // 86400
+    if nowSltDay > lastSltDay then
+        local nowSltDate = os.date("!*t", nowTimestamp + nowSltOffset)
+        newDay(nowTimestamp, nowSltOffset, nowSltDay, nowSltDate)
+    else
+        lastSltOffset = nowSltOffset
+    end
+    local myPos = if checkDistance then ll.GetPos() else nil
+    local peopleRegion = ll.GetAgentList(AGENT_SELECTION, {})
+    local peopleNow = {}
+    totalPeople = 0
+    for _, personId in peopleRegion do
+        if not checkInPlace or personInPlace(personId, myPos) then
+            peopleNow[personId] = true
+            totalPeople += 1
+            if not people[personId] then
+                stats.today.totalVisits += 1
+                if not todayVisitors[personId] then
+                    stats.today.uniqueVisitors += 1
+                    todayVisitors[personId] = true
+                end
+            end
+        end
+    end
+    people = peopleNow
+    addTime(lastTimestamp, nowTimestamp, lastSltOffset, totalPeople)
+    lastTimestamp = nowTimestamp
+end
+
+local function renderVisitorsHtml()
+    local rows = {}
+    for _, item in PERIOD_LABELS do
+        local p = stats[item.key]
+        local total = p.totalVisits
+        local unique = p.uniqueVisitors
+        local seconds = p.totalTime
+        local days = p.days
+        local visitsPerDay = 0
+        local uniquePerDay = 0
+        local avgVisitors = 0
+        local avgMinutes = 0
+        if total > 0 and unique > 0 and days > 0 then
+            visitsPerDay = total / days
+            uniquePerDay = unique / days
+            if item.key == "today" then
+                local elapsed = lastTimestamp - todayStartTimestamp
+                avgVisitors = if elapsed > 0 then seconds / days / elapsed else 0
+            else
+                avgVisitors = seconds / days / 86400
+            end
+            avgMinutes = seconds / unique / 60
+        end
+        table.insert(rows, string.format(
+            "<tr class='%s'>" ..
+            "<td class='period'>%s</td>" ..
+            "<td class='num-visits'>%.0f</td>" ..
+            "<td class='num-unique'>%.0f</td>" ..
+            "<td class='num-avg'>%.2f</td>" ..
+            "<td class='num-min last'>%.2f</td>" ..
+            "</tr>",
+            item.rowClass,
+            item.label,
+            visitsPerDay,
+            uniquePerDay,
+            avgVisitors,
+            avgMinutes
+        ))
+    end
+    local allDays = stats.allTime.days
+    local hourlyAvgs = {}
+    local maxHourly = 0
+    for hour = 0, 23 do
+        local avg = if allDays > 0 then stats.allTime.hourlyTime[hour] / allDays / 3600 else 0
+        hourlyAvgs[hour] = avg
+        if avg > maxHourly then
+            maxHourly = avg
+        end
+    end
+    local hourlyBars = {}
+    for hour = 0, 23 do
+        local avg = hourlyAvgs[hour]
+        local pct = if maxHourly > 0 then math.round((avg / maxHourly) * 100) else 0
+        if avg > 0 and pct < 4 then
+            pct = 4
+        end
+        local isPeak = maxHourly > 0 and avg == maxHourly
+        local colClass = if isPeak then "h-col peak" else "h-col"
+        table.insert(hourlyBars, string.format(
+            "<div class='%s'>" ..
+            "<div class='h-val'>%.1f</div>" ..
+            "<div class='h-track'><div class='h-fill' style='height:%d%%'></div></div>" ..
+            "<div class='h-lbl'>%02d</div>" ..
+            "</div>",
+            colClass,
+            avg,
+            pct,
+            hour
+        ))
+    end
+    local weekdayAvgs = {}
+    local maxWeekday = 0
+    for _, wday in WEEKDAY_ORDER do
+        local wd = allTimeWeekdays[wday]
+        local avg = if wd.days > 0 then wd.totalTime / wd.days / 86400 else 0
+        weekdayAvgs[wday] = avg
+        if avg > maxWeekday then
+            maxWeekday = avg
+        end
+    end
+    local weekdayCards = {}
+    for _, wday in WEEKDAY_ORDER do
+        local wd = allTimeWeekdays[wday]
+        local avg = weekdayAvgs[wday]
+        local pct = if maxWeekday > 0 then math.round((avg / maxWeekday) * 100) else 0
+        if avg > 0 and pct < 5 then
+            pct = 5
+        end
+        local isPeak = maxWeekday > 0 and avg == maxWeekday
+        local cardClass = if isPeak then "w-card peak" else "w-card"
+        table.insert(weekdayCards, string.format(
+            "<div class='%s'>" ..
+            "<div class='w-name'>%s</div>" ..
+            "<div class='w-val'>%.2f</div>" ..
+            "<div class='w-track'><div class='w-fill' style='width:%d%%'></div></div>" ..
+            "<div class='w-days'>%d d</div>" ..
+            "</div>",
+            cardClass,
+            WEEKDAY_NAMES[wday],
+            avg,
+            pct,
+            wd.days
+        ))
+    end
+    local body = htmlVisitors
+    body = ll.ReplaceSubString(body, "@LIVE_COUNT@", tostring(totalPeople), 0)
+    body = ll.ReplaceSubString(body, "@SLT_TIME@", os.date("!%Y-%m-%d %H:%M SLT", lastTimestamp + lastSltOffset), 0)
+    body = ll.ReplaceSubString(body, "@TABLE_ROWS@", table.concat(rows), 0)
+    body = ll.ReplaceSubString(body, "@HOURLY_BARS@", table.concat(hourlyBars), 0)
+    body = ll.ReplaceSubString(body, "@WEEKDAY_CARDS@", table.concat(weekdayCards), 0)
+    local html = ll.ReplaceSubString(htmlHeader, "@STYLE@", htmlStyle, 0)
+    html = ll.ReplaceSubString(html, "@BODY@", body, 0)
+    return html
+end
+
+local function loadDemoData()
+    local nowTs = os.time()
+    local sltOffset = getSltOffset()
+    lastTimestamp = nowTs
+    lastSltOffset = sltOffset
+    lastSltDay = (nowTs + sltOffset) // 86400
+    lastSltDate = os.date("!*t", nowTs + sltOffset)
+    local elapsedToday = math.max(3600, (nowTs + sltOffset) % 86400)
+    local dayFraction = elapsedToday / 86400
+    todayStartTimestamp = nowTs - elapsedToday
+    totalPeople = 4
+    people = {}
+    todayVisitors = {}
+    stats.today = initStat()
+    stats.today.days = 1
+    stats.today.totalVisits = math.max(12, math.round(210 * dayFraction))
+    stats.today.uniqueVisitors = math.max(8, math.round(135 * dayFraction))
+    stats.today.totalTime = math.round(1.92 * elapsedToday)
+    stats.yesterday = initStat()
+    stats.yesterday.days = 1
+    stats.yesterday.totalVisits = 211
+    stats.yesterday.uniqueVisitors = 132
+    stats.yesterday.totalTime = math.round(2.29 * 86400)
+    stats.thisMonth = initStat()
+    stats.thisMonth.days = 17
+    stats.thisMonth.totalVisits = 308 * 17
+    stats.thisMonth.uniqueVisitors = 198 * 17
+    stats.thisMonth.totalTime = math.round(3.50 * 17 * 86400)
+    stats.lastMonth = initStat()
+    stats.lastMonth.days = 31
+    stats.lastMonth.totalVisits = 238 * 31
+    stats.lastMonth.uniqueVisitors = 163 * 31
+    stats.lastMonth.totalTime = math.round(3.12 * 31 * 86400)
+    local hourlyCurve = {
+        0.25, 0.15, 0.10, 0.08, 0.10, 0.15, -- 00..05
+        0.35, 0.70, 1.20, 1.80, 2.60, 3.40, -- 06..11
+        3.90, 3.50, 2.80, 2.30, 2.70, 3.60, -- 12..17
+        4.40, 4.85, 4.20, 3.10, 1.60, 0.70, -- 18..23
+    }
+    stats.allTime = initStat()
+    stats.allTime.days = 120
+    stats.allTime.totalVisits = 220 * 120
+    stats.allTime.uniqueVisitors = 137 * 120
+    local allTimeSeconds = 0
+    for hour = 0, 23 do
+        local sec = math.round(hourlyCurve[hour + 1] * 120 * 3600)
+        stats.allTime.hourlyTime[hour] = sec
+        allTimeSeconds += sec
+    end
+    stats.allTime.totalTime = allTimeSeconds
+    local weekdayAvg = {2.65, 1.75, 1.95, 2.15, 2.30, 2.85, 3.15}
+    local weekdayDays = {17, 17, 17, 17, 17, 17, 18}
+    for wday = 1, 7 do
+        allTimeWeekdays[wday].days = weekdayDays[wday]
+        allTimeWeekdays[wday].totalTime = math.round(weekdayAvg[wday] * weekdayDays[wday] * 86400)
+    end
+end
+
+function LLEvents.http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body .. "/visitors"
+        ll.Say(0, url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        print("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        if path == "/visitors" or path == "" or path == "/" then
+            ll.SetContentType(id, CONTENT_TYPE_XHTML)
+            ll.HTTPResponse(id, 200, renderVisitorsHtml())
+        else
+            ll.HTTPResponse(id, 404, "Not found")
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, CHANGED_OWNER) then
+        ll.ResetScript()
+    elseif bit32.btest(change, CHANGED_REGION_START) then
+        ll.RequestURL()
+    end
+end
+
+ll.RequestURL()
+stats.today.days = 1
+loadDemoData()  -- comment out for real use
+LLTimers:every(SCAN_SECONDS, scanPeople)
+scanPeople()
