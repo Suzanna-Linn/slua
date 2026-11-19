@@ -1,0 +1,105 @@
+
+local url = ""
+
+local items = {
+    { label = "Apples",   value = 12, color = "#ef476f" },
+    { label = "Bananas",  value = 19, color = "#ffd166" },
+    { label = "Cherries", value = 7,  color = "#06d6a0" },
+    { label = "Dates",    value = 15, color = "#118ab2" },
+}
+
+local htmlTemplate = [=[
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bar Chart</title>
+  <style>
+    .bar-chart { display: flex; align-items: flex-end; width: 960px; height: 960px; font-family: sans-serif; }
+    .bar-col { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+    .value { font-size: 24px; font-weight: bold; margin-bottom: 12px; }
+    .bar { width: 60%; height: calc(var(--v) / var(--max) * 600px); background: var(--c); border-radius: 18px 18px 0 0; }
+    .label { width: 100%; text-align: center; font-size: 24px; border-top: 6px solid #ccc; padding-top: 18px; }
+  </style>
+</head>
+<body>
+
+  <div id="barChart" class="bar-chart"></div>
+
+  <script>
+  //<![CDATA[
+    const items = @ITEMS@;
+
+    const chart = document.getElementById('barChart');
+    const max = Math.max(...items.map(item => item.value)) || 1;
+    chart.style.setProperty('--max', max);
+
+    items.forEach(item => {
+      const col = document.createElement('div');
+      col.className = 'bar-col';
+
+      const val = document.createElement('div');
+      val.className = 'value';
+      val.textContent = item.value;
+
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.setProperty('--v', item.value);
+      bar.style.setProperty('--c', item.color);
+
+      const lbl = document.createElement('div');
+      lbl.className = 'label';
+      lbl.textContent = item.label;
+
+      col.append(val, bar, lbl);
+      chart.appendChild(col);
+    });
+  //]]>
+  </script>
+
+</body>
+</html>
+]=]
+
+local function show(mediaUrl)
+    ll.SetPrimMediaParams(2, {
+        PRIM_MEDIA_CURRENT_URL, mediaUrl,
+        PRIM_MEDIA_HOME_URL, mediaUrl,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 1024,
+        PRIM_MEDIA_HEIGHT_PIXELS, 1024,
+    })
+end
+
+function LLEvents.http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body
+        print(url)
+        show(url)
+    elseif method == URL_REQUEST_DENIED then
+        print("Unable to get URL!")
+    elseif method == "GET" then
+        local html = string.gsub(htmlTemplate, "@ITEMS@", function()
+            return lljson.encode(items)
+        end)
+        ll.SetContentType(id, CONTENT_TYPE_XHTML)
+        ll.HTTPResponse(id, 200, html)
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.RequestURL()
