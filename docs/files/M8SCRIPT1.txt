@@ -1,1 +1,362 @@
 
+local html = [=[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>@TITLE@</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%231E88E5' d='M16 6H38L52 20V54Q52 58 48 58H16Q12 58 12 54V10Q12 6 16 6Z'/%3E%3Cpath fill='%2390CAF9' d='M38 6V16Q38 20 42 20H52Z'/%3E%3Crect x='20' y='26' width='24' height='4' rx='2' fill='%23FFFFFF'/%3E%3Crect x='20' y='35' width='24' height='4' rx='2' fill='%23FFFFFF'/%3E%3Crect x='20' y='44' width='16' height='4' rx='2' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+  <style id="notecard-styles" type="text/css"></style>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+</head>
+<body>
+
+<div id="content"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+async function fetchNotecard(name) {
+  const params = new URLSearchParams({
+    name,
+    _t: Date.now()
+  });
+
+  const response = await fetch("notecard?" + params.toString(), { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status} loading "${name}"`);
+  }
+
+  const lines = await response.json();
+  if (!Array.isArray(lines)) {
+    throw new Error(`Expected JSON array for "${name}"`);
+  }
+
+  return lines.map(line => line ?? "").join("\n");
+}
+
+async function initPage() {
+  try {
+    const [cssText, mdText] = await Promise.all([
+      fetchNotecard("@STYLES_NOTECARD@").catch(() => ""),
+      fetchNotecard("@NOTECARD@")
+    ]);
+
+    if (cssText) {
+      document.getElementById("notecard-styles").textContent = cssText;
+    }
+
+    const md = window.markdownit({
+      html: true,    // Enable HTML tags in source
+      linkify: true,   // Autoconvert URL-like text to links
+      typographer: true  // Enable smartquotes and other typographic replacements
+    });
+
+    const defaultValidateLink = md.validateLink;
+    md.validateLink = function (url) {
+      if (/^notecard:/i.test(url)) return true;
+      return defaultValidateLink(url);
+    };
+
+    const htmlString = md.render(mdText);
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, "text/html");
+    const container = document.getElementById("content");
+    container.replaceChildren(...doc.body.childNodes);
+  } catch (err) {
+    console.error("Error loading notecard:", err);
+  }
+}
+
+document.getElementById("content").addEventListener("click", async (event) => {
+  const link = event.target.closest("a[href]");
+  if (!link) return;
+
+  const href = link.getAttribute("href");
+  if (!/^notecard:/i.test(href)) return;
+
+  event.preventDefault();
+
+  let rawName = href.slice("notecard:".length);
+  try {
+    rawName = decodeURIComponent(rawName);
+  } catch {
+    // Keep rawName if it contains an unescaped '%' (e.g. "100% Guide")
+  }
+
+  const targetName = rawName.trim();
+  if (!targetName) return;
+
+  const params = new URLSearchParams({ name: targetName });
+  try {
+    await fetch("select?" + params.toString(), { cache: "no-store" });
+  } catch (err) {
+    console.error("Error selecting notecard:", err);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", initPage);
+//]]>
+</script>
+</body>
+</html>
+]=]
+
+local FACE_MEDIA = 2
+local CHANNEL_SCRIPT = 8
+local NOTECARD_STYLES = "styles.css"
+local PERMS = {
+    ANYONE = PRIM_MEDIA_PERM_ANYONE,
+    GROUP = PRIM_MEDIA_PERM_GROUP,
+    OWNER = PRIM_MEDIA_PERM_OWNER,
+}
+
+local url = ""
+local viewVersion = 0
+local notecardNames = {}
+local activeNotecard = nil
+local activePerm = "OWNER"
+local hasIndexNotecard = false
+
+local function show(url)
+    ll.SetPrimMediaParams(FACE_MEDIA, {
+        PRIM_MEDIA_CURRENT_URL, url,
+        PRIM_MEDIA_HOME_URL, url,
+        PRIM_MEDIA_AUTO_ZOOM, false,
+        PRIM_MEDIA_FIRST_CLICK_INTERACT, true,
+        PRIM_MEDIA_PERMS_INTERACT, PERMS[activePerm],
+        PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
+        PRIM_MEDIA_AUTO_PLAY, true,
+        PRIM_MEDIA_WIDTH_PIXELS, 2048,
+        PRIM_MEDIA_HEIGHT_PIXELS, 1024
+    })
+end
+
+local function trim(s)
+    return if s then ll.StringTrim(s, STRING_TRIM) else ""
+end
+
+local function getNotecardNames()
+    notecardNames = {}
+    for i = 1, ll.GetInventoryNumber(INVENTORY_NOTECARD) do
+        local name = ll.GetInventoryName(INVENTORY_NOTECARD, i)
+        if name ~= NOTECARD_STYLES then
+            table.insert(notecardNames, name)
+        end
+    end
+    hasIndexNotecard = table.find(notecardNames, "index") ~= nil
+end
+
+local function showNotecard()
+    if activeNotecard then
+        viewVersion += 1
+        show(`{url}/init?v={viewVersion}`)
+    end
+end
+
+local function selectNotecard(prefix)
+    local target = prefix:upper()
+    if target == "" then
+        return false
+    end
+    for _, name in notecardNames do
+        if name:sub(1, #target):upper() == target then
+            activeNotecard = name
+            return true
+        end
+    end
+    if not hasIndexNotecard and ("INDEX"):sub(1, #target) == target then
+        activeNotecard = "index"
+        return true
+    end
+    return false
+end
+
+local function notecardToJson(notecardName)
+
+    local function awaitDataserver(f, ...): string
+        local thread = coroutine.running()
+        local queryId
+        local function onDataserver(id, data)
+            if id == queryId then
+                LLEvents:off("dataserver", onDataserver)
+                assert(coroutine.resume(thread, data))
+            end
+        end
+        LLEvents:on("dataserver", onDataserver)
+        queryId = f(...)
+        return coroutine.yield()
+    end
+
+    local numLines = tonumber(awaitDataserver(ll.GetNumberOfNotecardLines, notecardName)) or 0
+    if numLines == 0 then return "[]" end
+    local t = { [numLines] = true }
+
+    return lljson.encode(t, { allow_sparse = true, replacer = function(key, value, parent)
+        if parent then
+            local data = ll.GetNotecardLineSync(notecardName, key)
+            if data == NAK then
+                data = awaitDataserver(ll.GetNotecardLine, notecardName, key)
+            end
+            if data == EOF then data = "" end
+            return data
+        else
+            return value
+        end
+    end })
+end
+
+local function readNotecard(id, notecardName)
+    local notecardJson = notecardToJson(notecardName)
+    ll.SetContentType(id, CONTENT_TYPE_JSON)
+    ll.HTTPResponse(id, 200, notecardJson)
+end
+
+local function generateIndex(id)
+    local lines = {
+        "# Index of Notecards",
+        "",
+        "| Notecard |",
+        "| --- |",
+    }
+    for _, name in notecardNames do
+        table.insert(lines, `| [{name:gsub("([\\|%[%]])", "\\%1")}](notecard:{ll.EscapeURL(name)}) |`)
+    end
+    local indexJson = lljson.encode(lines)
+    ll.SetContentType(id, CONTENT_TYPE_JSON)
+    ll.HTTPResponse(id, 200, indexJson)
+end
+
+local function getParam(params, paramName)
+    local paramValue = ("&" .. params):match("[?&]" .. paramName .. "=([^&#]*)")
+    return if paramValue then ll.UnescapeURL(paramValue:gsub("%+", " ")) else nil
+end
+
+function LLEvents.http_request(id, method, body)
+    if method == URL_REQUEST_GRANTED then
+        url = body
+        print(`{url}/init`)
+        showNotecard()
+    elseif method == URL_REQUEST_DENIED then
+        print("Unable to get URL!")
+    elseif method == "GET" then
+        local path = ll.ToLower(ll.GetHTTPHeader(id, "x-path-info"))
+        local query = ll.GetHTTPHeader(id, "x-query-string") or ""
+
+        if path == "/init" then
+            if activeNotecard then
+                local htmlNotecard = ll.ReplaceSubString(html, "@NOTECARD@", activeNotecard, 0)
+                ll.SetContentType(id, CONTENT_TYPE_XHTML)
+                ll.HTTPResponse(id, 200, htmlNotecard)
+            else
+                ll.HTTPResponse(id, 404, "No active notecard")
+            end
+
+        elseif path == "/notecard" then
+            local name = getParam(query, "name")
+            if name then
+                if name == "index" and not hasIndexNotecard then
+                    generateIndex(id)
+                else
+                    assert(coroutine.resume(coroutine.create(readNotecard), id, name))
+                end
+            else
+                ll.HTTPResponse(id, 400, "Missing name")
+            end
+
+        elseif path == "/select" then
+            local name = trim(getParam(query, "name"))
+            if name then
+                if name == "index" and not hasIndexNotecard then
+                    activeNotecard = "index"
+                    showNotecard()
+                elseif selectNotecard(name) then
+                    showNotecard()
+                end
+            end
+            ll.HTTPResponse(id, 204, "")
+
+        else
+            ll.HTTPResponse(id, 404, "Not found")
+        end
+    end
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if channel == CHANNEL_SCRIPT then
+
+        if message:sub(1,7) == "http://" or message:sub(1,8) == "https://" then
+            if activePerm == "ANYONE" or id == ll.GetOwner() or (ll.SameGroup(id) and activePerm ~= "OWNER") then 
+                activeNotecard = nil
+                show(message)
+            end
+            return
+        end
+
+        local pieces = message:split(",")
+        local command = trim(pieces[1]):upper()
+        local arg1 = trim(pieces[2]):upper()
+
+        if command == "NOTECARD" or command == "N" then
+            if activePerm == "ANYONE" or id == ll.GetOwner() or (ll.SameGroup(id) and activePerm ~= "OWNER") then
+                local notecardPrefix = arg1
+                if selectNotecard(notecardPrefix) then
+                    showNotecard()
+                else
+                    ll.RegionSayTo(id, 0, `Notecard starting with '{notecardPrefix}' doesn't exist`)
+                end
+            else
+                ll.RegionSayTo(id, 0, "You can't change notecards")
+            end
+
+        elseif command == "PERMS" or command == "P" then
+            if id == ll.GetOwner() or (ll.SameGroup(id) and activePerm ~= "OWNER") then
+                local perm = arg1
+                if PERMS[perm] then
+                    if id == ll.GetOwner() then
+                        activePerm = perm
+                        showNotecard()
+                    else
+                        if perm ~= "OWNER" then
+                            activePerm = perm
+                            showNotecard()
+                        else
+                            ll.RegionSayTo(id, 0, "You can't change the permission to OWNER")
+                        end
+                    end
+                    ll.AllowInventoryDrop(activePerm == "ANYONE")
+                else
+                    ll.RegionSayTo(id, 0, `Perms for '{perm}' doesn't exist`)
+                end
+            else
+                ll.RegionSayTo(id, 0, "You can't change permissions")
+            end
+        end
+    end
+end
+
+function LLEvents.on_rez(start_param)
+    ll.ResetScript()
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, bit32.bor(CHANGED_REGION_START, CHANGED_OWNER, CHANGED_INVENTORY)) then
+        ll.ResetScript()
+    end
+end
+
+ll.ClearPrimMedia(FACE_MEDIA)
+ll.AllowInventoryDrop(activePerm == "ANYONE")
+ll.Listen(CHANNEL_SCRIPT, "", "", "")
+getNotecardNames()
+
+ll.RequestURL()
+html = ll.ReplaceSubString(html, "@TITLE@", ll.GetObjectDesc(), 0)
+html = ll.ReplaceSubString(html, "@STYLES_NOTECARD@", NOTECARD_STYLES, 0)
+
+if #notecardNames > 0 then
+    activeNotecard = "index"
+else
+    print("No notecard to show")
+end
+
