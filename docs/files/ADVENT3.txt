@@ -1,0 +1,113 @@
+
+local LAYOUT_KEY = "!layout"
+
+local requestIds = {}
+local visitors = {}
+local visitorsList = {}
+
+local totalKeys = 0
+local start = 0
+local totalRequests = 0
+
+local function uuid2byteString(id)
+    return llbase64.encode(id.bytes):sub(1, 22)
+end
+
+local function byteString2uuid(byteString)
+    return uuid(llbase64.decode(byteString .. "==", true))
+end
+
+local function countDailyGifts(mask)
+    local count = 0
+    for i = 0, 23 do
+        if bit32.btest(mask, bit32.lshift(1, i)) then
+            count += 1
+        end
+    end
+    return count
+end
+
+local function readVisitors()
+    local bitMask = bit32.lshift(1, 24)
+    local keys = ll.LinksetDataListKeys(start, 15)
+    for _, key in keys do
+        local data = tonumber(ll.LinksetDataRead(key))
+        local visitorId = byteString2uuid(key)
+        visitors[visitorId] = { data = countDailyGifts(data) .. if bit32.btest(data, bitMask) then "+" else "" }
+        requestIds[ll.RequestUsername(visitorId)] = { visitorId = visitorId, name = "user" }
+        requestIds[ll.RequestDisplayName(visitorId)] = { visitorId = visitorId, name = "display" }
+        totalRequests += 2
+    end
+    start += #keys
+end
+
+local function visitorName(visitorId)
+
+    local function normalizeName(name)
+        local name = ll.ToLower(name)
+        name = string.gsub(name, "[%s%.]resident$", "")
+        name = string.gsub(name, "[%s%p]+", "")
+        return name
+    end
+
+    local visitor = visitors[visitorId]
+    local name = visitor.display
+    local username = visitor.user
+    if normalizeName(name) ~= normalizeName(username) then
+        name ..= ` ({username})`
+    end
+    table.insert(visitorsList, `"{name:gsub('"', '""')}",{visitor.data}`)
+    visitors[visitorId] = nil
+end
+
+local function sendEmail()
+    ll.TargetedEmail(TARGETED_EMAIL_OBJECT_OWNER, "Advent Calendar Report", table.concat(visitorsList, "\n"))
+end
+
+function LLEvents.dataserver(queryId, data)
+    local request = requestIds[queryId]
+    if request then
+        visitors[request.visitorId][request.name] = data
+        local visitor = visitors[request.visitorId]
+        if visitor.user and visitor.display then
+            visitorName(request.visitorId)
+        end
+        requestIds[queryId] = nil
+        totalRequests -= 1
+        if totalRequests == 0 then
+            sendEmail()
+        elseif totalRequests < 31 and start <= totalKeys then
+            readVisitors()
+        end
+    end
+end
+
+function LLEvents.listen(channel, name, id, message)
+    if message:upper() == "REPORT" then
+        requestIds = {}
+        visitors = {}
+        visitorsList = {}
+        totalKeys = ll.LinksetDataCountKeys()
+        start = if ll.LinksetDataRead(LAYOUT_KEY) ~= "" then 2 else 1
+        totalRequests = 0
+
+        if start <= totalKeys then
+            readVisitors()
+            if start <= totalKeys then
+                readVisitors()
+            end
+        else
+            print("there is no visitors information")
+        end
+    else
+        print("unknown message")
+    end
+end
+
+function LLEvents.changed(change)
+    if bit32.btest(change, CHANGED_OWNER) then
+        ll.ResetScript()
+    end
+end
+
+ll.Listen(999, "", ll.GetOwner(), "")
